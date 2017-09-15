@@ -18,7 +18,7 @@ from lms.djangoapps.grades.new.course_grade import CourseGradeFactory
 from cms.djangoapps.models.settings.course_grading import CourseGradingModel
 from xmodule.modulestore.django import modulestore
 from course_api.blocks.api import get_blocks
-from discussion_tma.views import get_section_list
+#from discussion_tma.views import get_section_list
 %>
 
 <%
@@ -127,7 +127,7 @@ for dashboard_index, enrollment in enumerate(course_enrollments):
   if len(course_enrollments) == 1:
     course_tma = str(enrollment.course_id)
     user_tma = user.id
-    forum_tma = get_section_list(request,course_tma,user_tma)
+    #forum_tma = get_section_list(request,course_tma,user_tma)
     forum_tma= false
     course_mono_id = enrollment.course_id
     course_module = modulestore().get_course(enrollment.course_id, depth=0)
