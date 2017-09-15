@@ -1,0 +1,8 @@
+.course-info{
+  background-image: tma_background_image_font;
+  background-size: cover;
+  background-position: center;
+}
+#content{
+  background-image:none !important;
+}

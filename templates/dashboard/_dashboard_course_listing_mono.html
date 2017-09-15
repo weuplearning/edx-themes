@@ -1,0 +1,97 @@
+<%page args="course_overview, enrollment, show_courseware_link, cert_status, can_unenroll, credit_status, show_email_settings, course_mode_info, show_refund_option, is_paid_course, is_course_blocked, verification_status, course_requirements, dashboard_index, share_settings, related_programs, display_course_modes_on_dashboard" expression_filter="h"/>
+
+<%!
+import urllib
+
+from django.utils.translation import ugettext as _
+from django.utils.translation import ungettext
+from django.core.urlresolvers import reverse
+from course_modes.models import CourseMode
+from course_modes.helpers import enrollment_mode_display
+from openedx.core.djangolib.js_utils import dump_js_escaped_json
+from openedx.core.djangolib.markup import HTML, Text
+from student.helpers import (
+  VERIFY_STATUS_NEED_TO_VERIFY,
+  VERIFY_STATUS_SUBMITTED,
+  VERIFY_STATUS_RESUBMITTED,
+  VERIFY_STATUS_APPROVED,
+  VERIFY_STATUS_MISSED_DEADLINE,
+  VERIFY_STATUS_NEED_TO_REVERIFY,
+  DISABLE_UNENROLL_CERT_STATES,
+)
+#TMA DASHBOARD
+from course_api.blocks.api import get_blocks
+from opaque_keys.edx.keys import CourseKey
+from opaque_keys.edx.locations import SlashSeparatedCourseKey
+from xmodule.modulestore.django import modulestore
+%>
+
+<%
+  reverify_link = reverse('verify_student_reverify')
+  cert_name_short = course_overview.cert_name_short
+  if cert_name_short == "":
+    cert_name_short = settings.CERT_NAME_SHORT
+
+  cert_name_long = course_overview.cert_name_long
+  if cert_name_long == "":
+    cert_name_long = settings.CERT_NAME_LONG
+  billing_email = settings.PAYMENT_SUPPORT_EMAIL
+%>
+
+<%
+org_static = static.get_value('domain_prefix')
+%>
+
+<%namespace name='static' file='../static_content.html'/>
+<div id="title_dashboard_course">
+  <h1>${course_overview.display_name_with_default}</h1>
+</div>
+<div id="course_nav">
+  <a href="/courses/${enrollment.course_id}/courseware/" id="course_start"><img class="svg" src="${static.url(org_static+'/images/play_blanc.svg')}"/><span>${_('Start')}</span><span style="display:block;clear:left;width:0;height: 0;padding:0;margin:0;"></span></a>
+  <a href="/courses/${enrollment.course_id}/discussion/forum/" class="course_nav"><img class="svg" src="${static.url(org_static+'/images/forum_blanc.svg')}"/><span>${_('forum')}</span></a>
+  <a href="/courses/${enrollment.course_id}/about" class="course_nav"><img class="svg" src="${static.url(org_static+'/images/info_blanc.svg')}"/><span>${_('info')}</span></a>
+  <a href="https://twitter.com/hashtag/MOOCExperienceGaz?src=hash" class="course_nav" target="_blank"><img class="svg" src="${static.url(org_static+'/images/Twitter_Bird.svg')}"/><span>Twitter</span></a>
+  <a href="/courses/${enrollment.course_id}/courseware/19ff273099ab49bb8636860fdf8bb36f/?tma_display_favorites=yes" class="course_nav"><img class="svg" src="${static.url(org_static+'/images/favori_blanc.svg')}"/><span>${_('Favoris')}</span></a>
+  <span style="clear:left;display:block;"></span>
+</div>
+<div id="course_dashboard_border"></div>
+<div id="courses_cells">
+<%
+course_usage_key = modulestore().make_course_usage_key(course_overview.id)
+blocks = get_blocks(request,course_usage_key,depth='all',requested_fields=['display_name','children'])
+root = blocks['root']
+children = blocks['blocks'][root]['children']
+%>
+% for n in children:
+    <div class="course_cell" style="">
+      <div class="course_cells_title">
+<h2>
+<!--${blocks['blocks'][n]['display_name'].replace("-","-")}-->
+%if len(blocks['blocks'][n]['display_name'].split('-',1)) > 1:
+${blocks['blocks'][n]['display_name'].split('-',1)[0]}<br/><br/>${blocks['blocks'][n]['display_name'].split('-',1)[1]}
+%else:
+${blocks['blocks'][n]['display_name'].split('-',1)[0]}
+%endif
+</h2>
+      </div>
+      <div class="course_cells_action">
+        <a href="/courses/${enrollment.course_id}/courseware/${blocks['blocks'][n]['block_id']}">${_("Start")}</a>
+      </div>
+    </div>
+% endfor
+<span style="display:block;clear:left;"></span>
+</div>
+<script>
+           $( document ).ready(function() {
+
+               if("${is_course_blocked | n, dump_js_escaped_json}" == 'true'){
+                   $( "#unregister_block_course" ).click(function() {
+                       $('.disable-look-unregister').click();
+                   });
+               }
+           });
+</script>
+
+<%static:require_module_async module_name="js/dateutil_factory" class_name="DateUtilFactory">
+    DateUtilFactory.transform(iterationKey=".localized-datetime");
+</%static:require_module_async>
