@@ -108,8 +108,6 @@ from openedx.core.lib.courses import course_image_url
 
 <%block name="pagetitle">${course.display_name_with_default_escaped}</%block>
 
-PreviewFactory(${preview_options | n, dump_js_escaped_json});
-
 <%
 org_static = static.get_value('domain_prefix')
 css = org_static+'/css/course_about.css'
