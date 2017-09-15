@@ -360,11 +360,17 @@ h2.header-courses{
     float:left;
     text-align:left;
 }
+/*
 .logo img{
     top:0px;
     height:80px;
     margin-top:-18px;
     float:left;
+}
+*/
+.header-global h1.logo img.ec-logo-size { 
+ height: 40px!important;
+ width: auto;
 }
 .header-global{
     height:80px;
