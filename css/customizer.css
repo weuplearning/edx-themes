@@ -253,7 +253,7 @@ input[type="submit"]:hover:not(:disabled), input[type="button"]:hover:not(:disab
 
 /*HEADER Logo*/
 .logo img{
- content:url("/media/hp/assets/images/logo_only.png");
+ /*content:url("/media/hp/assets/images/logo_only.png");*/
 }
 
 /*HEADER Connexion*/
