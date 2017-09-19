@@ -1,6 +1,6 @@
 body.view-in-course .wrapper-course-material .course-material .course-tabs {
-  float:left;
-  width: 70%;
+  float:none;
+  width: 100%;
 }
 body.view-in-course .wrapper-course-material .course-material,.course-index,.course-index .accordion .course-navigation .button-chapter,.course-index .accordion .course-navigation .button-chapter.active .group-heading,.course-index .accordion .course-navigation .button-chapter .group-heading {
   /* primary color */
