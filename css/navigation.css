@@ -1,6 +1,6 @@
 .header-global h1.logo img.ec-logo-size {
  width: auto !important;
- height:56px !important;
+ height:56px;
 }
 .header-global.slim .wrapper-header .logo img {
   margin-top: 4px;
