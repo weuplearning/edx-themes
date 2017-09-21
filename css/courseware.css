@@ -85,7 +85,7 @@ p a,p a:visited {
 
 
 .content-wrapper{
-  background-image:tma_background_image_font;
+  background-color: transparent !mportant;
   background-size: cover;
   background-position: center;
 }
