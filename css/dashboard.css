@@ -849,7 +849,7 @@ fill: rgba(191, 191, 191, 1);
   padding: 4px;
   transform: rotate(45deg);
 }
-#dashboard_profile_middle_bottom a {
+#dashboard_profile_middle_bottom a,#dashboard_profile_middle_up a {
  text-transform: none;
  color: #636363 !important;
 }
