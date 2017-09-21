@@ -19,3 +19,14 @@
 body {
  background: transparent !important;
 }
+#content {
+ background: transparent !important;
+ min-height: calc(100vh - 277px) !important;
+ height: auto !important;
+}
+.content-wrapper {
+ background: transparent !important;
+}
+.course-info .container {
+ background-color: transparent !important;
+}
