@@ -1,7 +1,7 @@
 
 div.footer-about-openedx, div.wrapper-logo, p.copyright, nav.nav-legal {
-  display:none;
+  display:block;
 }
-div.footer-about-openedx{
+.copyright,.nav-legal,.wrapper-logo{
  display:none !important;
 }
