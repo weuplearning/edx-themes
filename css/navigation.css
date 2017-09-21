@@ -2,3 +2,7 @@
  width: auto !important;
  height:56px !important;
 }
+.header-global.slim .wrapper-header .logo img {
+  margin-top: 4px;
+  height: 30px;
+}
