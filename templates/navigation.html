@@ -239,9 +239,10 @@ site_status_msg = get_site_status_msg(course_id)
 <%
 org_static = static.get_value('domain_prefix')
 css = org_static+'/css/course_navigation.css'
+js = org_static+'/js/translate.js'
 %>
 <link rel="stylesheet" type="text/css" href="${static.url(css)}" />
-
+<script src="${static.url(js)}"></script>
 
 <style>
 body.view-in-course .wrapper-course-material .course-material .course-tabs {
