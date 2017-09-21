@@ -298,9 +298,6 @@ body.view-in-course .wrapper-course-material .course-material,.course-index,.cou
   background-color:#9F9F9F !important;
   box-shadow: 0 3px 12px 3px rgba(0,0,0,0.15);
 }
-.xmodule_display.xmodule_SequenceModule nav.sequence-bottom {
-  display: none;
-}
 .xmodule_display.xmodule_SequenceModule .sequence-nav-button:hover,.xmodule_display.xmodule_SequenceModule .sequence-nav button:hover {
   border-bottom: none;
 }
