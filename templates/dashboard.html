@@ -156,7 +156,7 @@ endfor
         % if False:
           <img src="${static.url(org_static+'/images/like_couleur.svg')}" class="svg svg_passed"/><span style="margin-left:50px;">${_("Training validated")}</span>
         % else:
-          <img src="${static.url(org_static+'/images/like_couleur.svg')}" class="svg not_svg_passed"/><span style="margin-left:50px;"><a href="/courses/${course_mono_id}/discussion/forum/">${_("Post your first message ! ")}</a></span>
+          <img src="${static.url(org_static+'/images/like_couleur.svg')}" class="svg not_svg_passed"/><span style="margin-left:50px;"><a href="/courses/${course_mono_id}/progress">${_("Training not validated")}</a></span>
         % endif
       </div>
       <!-- border middle -->
@@ -167,7 +167,7 @@ endfor
         % if forum_tma:
           <img src="${static.url(org_static+'/images/chat_couleur.svg')}" class="svg svg_passed"/><span style="margin-left: 50px;">${_("You are active on the forum")}</span>
         % else:
-          <img src="${static.url(org_static+'/images/chat_couleur.svg')}" class="svg not_svg_passed"/><span style="margin-left:50px;">${_("You are not active on the forum")}</span>
+          <img src="${static.url(org_static+'/images/chat_couleur.svg')}" class="svg not_svg_passed"/><span style="margin-left:50px;"><a href="/courses/${course_mono_id}/discussion/forum/">${_("Post your first message ! ")}</a></span>
         % endif
       </div>
     </div>
