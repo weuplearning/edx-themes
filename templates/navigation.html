@@ -28,8 +28,12 @@ from status.status import get_site_status_msg
     </%static:require_module>
     </%block>
 % endif
-
+<%
+org_static = static.get_value('domain_prefix')
+css = org_static+'/css/navigation.css'
+%>
 <%block>
+<link rel="stylesheet" type="text/css" href="${static.url(css)}" />
 <%
 try:
     course_id = course.id
