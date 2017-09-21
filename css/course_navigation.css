@@ -53,5 +53,5 @@ body.view-in-course .wrapper-course-material .course-material,.course-index,.cou
 }
 .tabs .tab a:hover, .tabs .tab a:focus, .tabs .tab a:visited:hover, .tabs .tab a:visited:focus {
   color: #fff !important;
-  border-bottom-color: #0075b4 !important;
+  border-bottom-color: #fff !important;
 }
