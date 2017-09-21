@@ -850,7 +850,7 @@ fill: rgba(191, 191, 191, 1);
   transform: rotate(45deg);
 }
 #dashboard_profile_middle_bottom a,#dashboard_profile_middle_up a {
- text-transform: none;
+ text-decoration: none;
  color: #636363 !important;
 }
 @media(max-width:1298px) {
