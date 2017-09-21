@@ -6,3 +6,12 @@
   margin-top: 4px;
   height: 30px;
 }
+#tma_background_font {
+ position: fixed;
+ display: block;
+ width: 100vw;
+ height: 100vh;
+ background-image: tma_background_image_font;
+ background-size: cover;
+ background-position: center;
+}
