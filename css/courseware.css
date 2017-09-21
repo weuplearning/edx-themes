@@ -367,3 +367,8 @@ body.view-in-course .wrapper-course-material .course-material,.course-index,.cou
 
 
 }
+
+.xmodule_display.xmodule_SequenceModule nav.sequence-bottom .sequence-nav-button {
+  margin-left: 5px !important;
+  margin-right: 5px !important;
+}
