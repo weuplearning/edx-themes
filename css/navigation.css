@@ -34,13 +34,13 @@ body {
  background-color: transparent !important; 
 }
 
-.discussion-module .btn, .wmd-prompt-dialog .btn {
+.discussion-module .btn, .wmd-prompt-dialog .btn,.btn  {
  color: tma_primary_color !important;
  border: 1px solid tma_primary_color !important;
 }
-.discussion-module .btn:hover, .wmd-prompt-dialog .btn:hover,.discussion-module .btn:focus, .wmd-prompt-dialog .btn:focus {
+.discussion-module .btn:hover, .wmd-prompt-dialog .btn:hover,.discussion-module .btn:focus, .wmd-prompt-dialog .btn:focus,.btn:hover, .is-hovered.btn, .btn:focus, .is-focused.btn {
  border-color: tma_primary_hover_color !important;
- ackground-color: tma_primary_hover_color !important;
+ background-color: tma_primary_hover_color !important;
 }
 .forum-new-post-form .post-type-input:checked+.post-type-label, .edit-post-form .post-type-input:checked+.post-type-label {
  background-color: tma_primary_color !important;
