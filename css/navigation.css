@@ -16,3 +16,6 @@
  background-position: center;
  z-index: -1;
 }
+body {
+ background: transparent !important;
+}
