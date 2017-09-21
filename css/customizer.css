@@ -276,7 +276,7 @@ input[type="submit"]:hover:not(:disabled), input[type="button"]:hover:not(:disab
  max-width:none;
  -webkit-background-size: cover; /* pour anciens Chrome et Safari */
  background-size: cover; /* version standardisée */
- background-image:tma_background_image_font;
+ background-color: transparent !mportant;
 }
 
 
