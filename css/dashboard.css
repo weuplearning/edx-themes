@@ -849,6 +849,10 @@ fill: rgba(191, 191, 191, 1);
   padding: 4px;
   transform: rotate(45deg);
 }
+#dashboard_profile_middle_bottom a {
+ text-transform: none;
+ color: #636363 !important;
+}
 @media(max-width:1298px) {
   #dashboard_course_info {
     display: none;
