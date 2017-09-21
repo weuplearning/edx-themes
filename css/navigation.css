@@ -53,3 +53,10 @@ body {
 .has-breadcrumbs .breadcrumbs .all-topics {
  color: tma_primary_color !important; 
 }
+.discussion-module .btn-brand, .wmd-prompt-dialog .btn-brand,.forum-new-post-form .post-type-input:checked+.post-type-label, .edit-post-form .post-type-input:checked+.post-type-label {
+ background-color: tma_primary_color !important;
+}
+.discussion-module .btn, .wmd-prompt-dialog .btn { 
+ color: tma_primary_color !important; 
+ border: 1px solid tma_primary_color !important;
+}
