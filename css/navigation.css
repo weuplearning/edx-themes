@@ -30,3 +30,6 @@ body {
 .course-info .container {
  background-color: transparent !important;
 }
+.window-wrap {
+ background-color: transparent !important; 
+}
