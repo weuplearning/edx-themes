@@ -97,7 +97,17 @@ import calendar
     }
   </script>
 </%block>
-
+<style>
+.content {
+ margin-left: auto !important;
+ margin-right: auto !important;
+ display: block !important;
+ float: none !important;
+}
+#content {
+ min-height: calc(100vh - 139px) !important;
+}
+</style>
 <section class="introduction">
   <header>
     <h1 class="title">
@@ -117,7 +127,7 @@ import calendar
       <%include file="${registration_form}" />
     </form>
   </section>
-
+<!--
   <aside role="complementary">
 
 <%
@@ -128,4 +138,5 @@ import calendar
     <%include file="${sidebar_file}" />
 
   </aside>
+-->
 </section>
