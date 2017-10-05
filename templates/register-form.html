@@ -6,7 +6,7 @@ from django_countries import countries
 from student.models import UserProfile
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 extra_form = configuration_helpers.get_value('FORM_EXTRA')
-if extra_form is NONE:
+if extra_form is None:
     extra_form = []
 import datetime
 %>
