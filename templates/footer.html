@@ -11,79 +11,77 @@
 org = static.get_value('domain_prefix')
 css = org+'/css/footer.css'
 %>
-<link rel="stylesheet" type="text/css" href="${static.url(css)}" />
-<div class="wrapper wrapper-footer">
-  <footer id="footer-openedx" class="grid-container"
-    ## When rendering the footer through the branding API,
-    ## the direction may not be set on the parent element,
-    ## so we set it here.
-    % if bidi:
-      dir=${bidi}
-    % endif
-  >
-    <div class="colophon">
-      <nav class="nav-colophon" aria-label="${_('About')}">
-        <ol>
-            % for item_num, link in enumerate(footer['navigation_links'], start=1):
-            <li class="nav-colophon-0${item_num}">
-              <a id="${link['name']}" href="${link['url']}">${link['title']}</a>
-            </li>
-            % endfor
-        </ol>
-      </nav>
 
-      <div class="wrapper-logo">
-        <p>
-          <a href="/">
-            ## The default logo is a placeholder.
-            ## You can either replace this link entirely or update
-            ## the FOOTER_ORGANIZATION_IMAGE in Django settings.
-            ## If you customize FOOTER_ORGANIZATION_IMAGE, then the image
-            ## can be included in the footer on other sites
-            ## (e.g. a blog or marketing front-end) to provide a consistent
-            ## user experience.  See the branding app for details.
-<!--            <img alt="organization logo" src="${footer['logo_image']}">-->
-          </a>
-        </p>
-      </div>
-
-      ## Site operators: Please do not remove this paragraph! This attributes back to edX and makes your acknowledgement of edX's trademarks clear.
-      <p class="copyright">${footer['copyright']}</p>
-
-      <nav class="nav-legal" aria-label="${_('Legal')}">
-        <ul>
-          % for item_num, link in enumerate(footer['legal_links'], start=1):
-            <li class="nav-legal-0${item_num}">
-              <a href="${link['url']}">${link['title']}</a>
-            </li>
-          % endfor
-        </ul>
-      </nav>
+<style>
+body footer.global {
+  background-color: #67B134;
+  font-size: .9em;
+  color: #f7f7f7;
+  padding: 20px 0;
+  overflow: hidden;
+}
+body footer.global .footer-container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1170px;
+}
+footer.global ul.links {
+    padding-left: 0;
+    list-style: none;
+    margin: 0;
+}
+body footer.global ul.links {
+    padding-left: 0;
+    list-style: none;
+    margin: 0;
+}
+body footer.global ul.links li {
+    display: inline-block;
+    margin: 0 5px 0 0;
+}
+body footer.global ul.links li a, body footer.global ul.links li a:hover {
+  color: #f7f7f7;
+}
+body footer.global .by-ionisx img {
+    margin-top: -20px;
+    height: 76px;
+}
+body footer.global .by-ionisx {
+    position: absolute;
+    top: -8px;
+    right: 0;
+}
+body footer.global .copyright {
+  margin: 0;
+}
+body footer.global .footer-container {
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+    position: relative;
+}
+</style>
+<footer class="global">
+  <div class="footer-container">
+    <ul class="links">
+      <li>
+        <a href="${marketing_link('HONOR')}">Conditions générales</a>
+      </li>
+      <li>
+        <a href="${marketing_link('FAQ')}">FAQ</a>
+      </li>
+	  <li>
+        <a href="/about">Cr&eacute;dits</a>
+      </li>
+    </ul>
+    <p class="copyright">Une r&eacute;alisation <a href="http://themoocagency.com">The MOOC Agency</a></p>
+    <div class="by-ionisx">
+	<!--modif on text and image-->
+      <a href="/">
+        <img src="/media/microsite/afpa/images/logotma.png" alt="Bonshommes AFPA">
+      </a>
     </div>
-
-    ## Please leave this link and use one of the logos provided
-    ## The OpenEdX link may be hidden when this view is served
-    ## through an API to partner sites (such as marketing sites or blogs),
-    ## which are not technically powered by OpenEdX.
-    % if not hide_openedx_link:
-    <div class="footer-about-openedx">
-      <p>
-        <a href="http://themoocagency.com/">
-          <img src="${static.url(org+'/images/logo_tma.png')}" alt="" width="140" />
-        </a>
-      </p>
-    </div>
-    % endif
-  </footer>
-</div>
-% if include_dependencies:
-  <%static:js group='base_vendor'/>
-  <%static:css group='style-vendor'/>
-  <%include file="widgets/segment-io.html" />
-  <%include file="widgets/segment-io-footer.html" />
-% endif
-% if footer_css_urls:
-  % for url in footer_css_urls:
-    <link rel="stylesheet" type="text/css" href="${url}"></link>
-  % endfor
-% endif
+  </div>
+</footer>
