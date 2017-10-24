@@ -36,7 +36,9 @@ cours_ouv = ''
 if course_overview.enrollment_start is None:
   insc_ouv = False
 else:
-  if int(course_overview.enrollment_start.strftime("%s")) < _current and (_current < int(course_overview.enrollment_end.strftime("%s")) or course_overview.enrollment_end is None):
+  if course_overview.enrollment_end is None:
+    insc_ouv = True
+  elif int(course_overview.enrollment_start.strftime("%s")) < _current and _current < int(course_overview.enrollment_end.strftime("%s")):
     insc_ouv = True
   else:
     insc_ouv = False
@@ -45,7 +47,9 @@ else:
 if course_overview.start is None:
   cours_ouv = False
 else:
-  if int(course_overview.start.strftime("%s")) < _current and (_current < int(course_overview.end.strftime("%s")) or course_overview.end is None):
+  if course_overview.end is None:
+    cours_ouv = True
+  elif int(course_overview.start.strftime("%s")) < _current and _current < int(course_overview.end.strftime("%s")):
     cours_ouv = True
   else:
     cours_ouv = False

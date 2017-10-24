@@ -10,6 +10,10 @@ from context_processors import doc_url
 from lms.djangoapps.ccx.overrides import get_current_ccx
 from openedx.core.djangolib.markup import HTML, Text
 
+#maj TMA
+from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+from student.views import get_course_enrollments
+
 # App that handles subdomain specific branding
 from branding import api as branding_api
 # app that handles site status messages
@@ -243,13 +247,36 @@ js = org_static+'/js/translate.js'
 %>
 <link rel="stylesheet" type="text/css" href="${static.url(css)}" />
 <script src="${static.url(js)}"></script>
+<!-- superglobale js username and course_enrollment -->
+% if user.is_authenticated():
+  <%
+  course_org_filter = configuration_helpers.get_value('course_org_filter')
+  org_filter_out_set = configuration_helpers.get_all_orgs()
+  current_path = request.path
+  course_id = ''
+  course_length = ''
+  if '/courses/course-v1' in current_path:
+    if course_org_filter:
+        org_filter_out_set.remove(course_org_filter)
+    course_length = len(list(get_course_enrollments(request.user, course_org_filter, org_filter_out_set)))
+    course_id = current_path.split('/')[2]
+  %>
+  <script>
+    var username_pid = "${user.username}";
+    var course_id_nav = '${course_id}';
+    var course_length_nav = '${course_length}';
 
-<style>
-body.view-in-course .wrapper-course-material .course-material .course-tabs {
-  width: 100% !important;
-}
-#content {
- min-height: calc(100vh - 153px) !important;
-}
-</style>
+    function course_navigation_change(course_id,num_courses) {
+      if(course_id != '') {
+          if(num_courses > 1) {
+            $('.tab').eq(0).find('a').attr('href','/dashboard/'+course_id+'/');
+          }
+      }
+    }
+
+    $(document).ready(function(){
+      course_navigation_change(course_id_nav,course_length_nav);
+    })
+  </script>
+% endif
 <%include file="help_modal.html"/>
