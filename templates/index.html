@@ -7,33 +7,11 @@ from django.core.urlresolvers import reverse
 
 from openedx.core.djangolib.markup import HTML, Text
 %>
-<style>
-.btn-login ,.btn-login:hover,.btn-login:focus,.btn-login:visited{
-  color: #fff !important;
-}
-.home {
-  background-color: #fff;
-}
-.home>header {
-    background: #67B134 none repeat scroll 0 center;
-    background-image: url('/media/microsite/afpa/images/index.jpg');
-    background-position: center;
-    height: 361px;
-}
-#tma_background_font {
-  background-image: none;
-}
-.home>header .outer-wrapper {
-  display: none !important;
-}
-.courses-container .courses .course .course-image .cover-image .learn-more {
-  border-color: rgba(103,177,52,1) !important;
-  background: rgba(103,177,52,1) !important;
-}
-.courses-container .courses .course {
-  border-bottom: 3px solid rgba(103,177,52,1) !important;
-}
-</style>
+<%
+org = static.get_value('domain_prefix')
+css = org+'/css/index.css'
+%>
+<link rel="stylesheet" type="text/css" href="${static.url(css)}" />
 <main id="main" aria-label="Content" tabindex="-1">
     <section class="home">
       <header>
