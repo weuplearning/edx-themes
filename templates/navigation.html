@@ -297,7 +297,7 @@ return originalTimeout;
 this.setVisitorCookieTimeout( getOriginalVisitorCookieTimeout() );
 }]);
 % if user.is_authenticated():
-_paq.push(['setUserId', '${user.email}']);
+_paq.push(['setUserId', '${user.id}']);
 % endif
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
