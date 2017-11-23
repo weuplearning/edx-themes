@@ -1,6 +1,6 @@
 .home>header {
     background: transparent none repeat scroll 0 center;
-    background-image: url('/static/master/images/duck.jpg');
+    background-image: tma_background_image_font;
     background-position: center;
     height: 361px;
 }
