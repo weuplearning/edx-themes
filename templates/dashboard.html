@@ -29,8 +29,8 @@ import time
 
 <%
 org_static = static.get_value('domain_prefix')
-css = org_static+'/css/dashboard.css'
-css_bis = org_static+'/css/dashboard_multi.css'
+css = '/media/microsite/{}/css/dashboard.css'.format(org_static)
+css = '/media/microsite/{}/css/dashboard_multi.css'.format(org_static)
 %>
 
 <%block name="pagetitle">${_("Dashboard")}</%block>
@@ -75,7 +75,7 @@ css_bis = org_static+'/css/dashboard_multi.css'
     </%static:require_module>
   % endif
 </%block>
-<link rel="stylesheet" type="text/css" href="${static.url(css_bis)}" />
+<link rel="stylesheet" type="text/css" href="${css_bis}" />
 <div class="dashboard-notifications" tabindex="-1">
     %if message:
         <div class="dashboard-banner">
@@ -94,7 +94,7 @@ css_bis = org_static+'/css/dashboard_multi.css'
 <!--
 <link rel="stylesheet" type="text/css" href="/media/css/dashboard.css">
 -->
-<link rel="stylesheet" type="text/css" href="${static.url(css)}" />
+<link rel="stylesheet" type="text/css" href="${css}" />
 
 <!-- DASHBOARD MONO -->
 <!-- DASHBOARD MONO -->
