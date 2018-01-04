@@ -114,9 +114,9 @@ ${HTML(fragment.foot_html())}
 </%block>
 <%
 org_static = static.get_value('domain_prefix')
-css = org_static+'/css/courseware.css'
+css = '/media/microsite/{}/css/courseware.css'.format(org_static)
 %>
-<link rel="stylesheet" type="text/css" href="${static.url(css)}" />
+<link rel="stylesheet" type="text/css" href="${css}" />
 <div class="message-banner" aria-live="polite"></div>
 
 % if default_tab:
