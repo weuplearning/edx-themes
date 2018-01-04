@@ -253,7 +253,6 @@ input[type="submit"]:hover:not(:disabled), input[type="button"]:hover:not(:disab
 
 /*HEADER Logo*/
 .logo img{
- /*content:url("/media/hp/assets/images/logo_only.png");*/
 }
 
 /*HEADER Connexion*/
@@ -274,8 +273,8 @@ input[type="submit"]:hover:not(:disabled), input[type="button"]:hover:not(:disab
 
 #login-and-registration-container{
  max-width:none;
- -webkit-background-size: cover; /* pour anciens Chrome et Safari */
- background-size: cover; /* version standardisée */
+ -webkit-background-size: cover; 
+ background-size: cover; 
  background-color: transparent !mportant;
 }
 
@@ -287,9 +286,6 @@ input[type="submit"]:hover:not(:disabled), input[type="button"]:hover:not(:disab
     background-image: -webkit-linear-gradient(top, rgba(116,184,127,0.7) 0%,tma_primary_hover_color 50%,tma_primary_color 50%,tma_primary_color 100%);
     background-image: linear-gradient(to bottom,rgba(116,184,127,0.7) 0%,tma_primary_hover_color 50%,tma_primary_color 50%,tma_primary_color 100%);
     color:white;
-/*background-color: #0066a2;
-    background-image: -webkit-linear-gradient(top, #0066a2 0%,#003781 50%,#002072 50%,#002575 100%);
-    background-image: linear-gradient(to bottom,#0066a2 0%,#003781 50%,#002072 50%,#002575 100%);*/
 }
 .course-info header.course-profile{
     background-image: url(/media/hp/assets/images/bg/hpbg4.jpg);
@@ -309,7 +305,6 @@ input[type="submit"]:hover:not(:disabled), input[type="button"]:hover:not(:disab
 /*DASHBOARD
 Profile*/
 #profile-sidebar{
-    background-image: url('/media/assets/Kakemono_Bateau_Methanier.png');
     height: 500px;
     background-size: contain;
     background-repeat: no-repeat;
@@ -360,14 +355,7 @@ h2.header-courses{
     float:left;
     text-align:left;
 }
-/*
-.logo img{
-    top:0px;
-    height:80px;
-    margin-top:-18px;
-    float:left;
-}
-*/
+
 .header-global h1.logo img.ec-logo-size { 
  height: 40px!important;
  width: auto;
