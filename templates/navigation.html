@@ -34,10 +34,10 @@ from status.status import get_site_status_msg
 % endif
 <%
 org_static = static.get_value('domain_prefix')
-css = org_static+'/css/navigation.css'
+css = '/media/microsite/{}/css/navigation.css'.format(org_static)
 %>
 <%block>
-<link rel="stylesheet" type="text/css" href="${static.url(css)}" />
+<link rel="stylesheet" type="text/css" href="${css}" />
 <%
 try:
     course_id = course.id
