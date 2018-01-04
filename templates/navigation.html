@@ -245,7 +245,7 @@ org_static = static.get_value('domain_prefix')
 css = '/media/microsite/{}/css/course_navigation.css'.format(org_static)
 js = org_static+'/js/translate.js'
 %>
-<link rel="stylesheet" type="text/css" href="${static.url(css)}" />
+<link rel="stylesheet" type="text/css" href="${css}" />
 <script src="${static.url(js)}"></script>
 <!-- superglobale js username and course_enrollment -->
 % if user.is_authenticated():
