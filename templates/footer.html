@@ -9,10 +9,10 @@
 <%namespace name='static' file='static_content.html'/>
 <%
 org = static.get_value('domain_prefix')
-css = org+'/css/footer.css'
+css = '/media/microsite/{}/css/footer.css'.format(org_static)
 %>
 
-<link rel="stylesheet" type="text/css" href="${static.url(css)}" />
+<link rel="stylesheet" type="text/css" href="${css}" />
 <footer class="global">
   <div class="footer-container">
     <ul class="links">
