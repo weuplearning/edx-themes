@@ -21,11 +21,11 @@ from openedx.core.djangolib.markup import HTML, Text
 </%block>
 <%
 org_static = static.get_value('domain_prefix')
-css = org_static+'/css/course_navigation.css'
-css_bis = org_static+'/css/courseware.css'
+css = '/media/microsite/{}/css/course_navigation.css'.format(org_static)
+css_bis = '/media/microsite/{}/css/courseware.css'.format(org_static)
 %>
-<link rel="stylesheet" type="text/css" href="${static.url(css)}" />
-<link rel="stylesheet" type="text/css" href="${static.url(css_bis)}" />
+<link rel="stylesheet" type="text/css" href="${css}" />
+<link rel="stylesheet" type="text/css" href="${css_bis}" />
 % if show_enroll_banner:
 <div class="wrapper-msg urgency-low" id="failed-verification-banner">
   <div class="msg msg-reverify is-dismissable">
