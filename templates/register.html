@@ -11,12 +11,6 @@ from datetime import date
 import third_party_auth
 from third_party_auth import pipeline, provider
 import calendar
-register_course_id = static.get_value('course_id')
-_register_url = '/register'
-_login_url = '/login'
-if register_course_id is not None:
-  _register_url = '/register?course_id=${register_course_id}&enrollment_action=enroll'
-  _login_url = '/login?course_id=${register_course_id}&enrollment_action=enroll'
 %>
 
 <%block name="pagetitle">${_("Register for {platform_name}").format(platform_name=platform_name)}</%block>

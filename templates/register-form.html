@@ -1,3 +1,4 @@
+<%namespace name='static' file='static_content.html'/>
 <%!
 import third_party_auth
 from third_party_auth import pipeline, provider
@@ -10,12 +11,6 @@ extra_form = configuration_helpers.get_value('FORM_EXTRA')
 if extra_form is None:
     extra_form = []
 import datetime
-register_course_id = static.get_value('course_id')
-_register_url = '/register'
-_login_url = '/login'
-if register_course_id is not None:
-  _register_url = '/register?course_id=${register_course_id}&enrollment_action=enroll'
-  _login_url = '/login?course_id={register_course_id}&enrollment_action=enroll'
 %>
 
 <input type="hidden" name="csrfmiddlewaretoken" value="${ csrf_token }">
@@ -368,5 +363,9 @@ $('#first_name,#last_name').change(function(){
 })
 </script>
 <div class="form-actions" id="login_link_up">
-  <a id="login_link" href="${_login_url}"> Deja un compte ? connectez vous</a>
+% if static.get_value('course_id') is not None:
+  <a id="login_link" href="/login?course_id=${static.get_value('course_id')}&enrollment_action=enroll"> Deja un compte ? connectez vous</a>
+% else:
+  <a id="login_link" href="/login"> Deja un compte ? connectez vous</a>
+% endif
 </div>

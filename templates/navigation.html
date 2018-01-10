@@ -35,12 +35,7 @@ from status.status import get_site_status_msg
 <%
 org_static = static.get_value('domain_prefix')
 css = '/media/microsite/{}/css/navigation.css'.format(org_static)
-register_course_id = static.get_value('course_id')
-_register_url = '/register'
-_login_url = '/login'
-if register_course_id is not None:
-  _register_url = '/register?course_id=${register_course_id}&enrollment_action=enroll'
-  _login_url = '/login?course_id=${register_course_id}&enrollment_action=enroll'
+
 %>
 <%block>
 <link rel="stylesheet" type="text/css" href="${css}" />
@@ -185,13 +180,16 @@ site_status_msg = get_site_status_msg(course_id)
               </li>
             % else:
               <li class="item nav-global-04">
-                <a class="btn-neutral" href="${_register_url}">${_("Register")}</a>
+                % if static.get_value('course_id') is not None:
+                <a class="btn-neutral" href="/register?course_id=${static.get_value('course_id')}&enrollment_action=enroll">${_("Register")}</a>
+                % else:
+                <a class="btn-neutral" href="/register">${_("Register")}</a>
+                % endif
               </li>
             % endif
           % endif
         </%block>
       </ol>
-
       <ol class="right nav-courseware list-inline">
         <%block name="navigation_sign_in">
           <li class="item nav-courseware-01">
@@ -199,7 +197,11 @@ site_status_msg = get_site_status_msg(course_id)
               % if course and settings.FEATURES.get('RESTRICT_ENROLL_BY_REG_METHOD') and course.enrollment_domain:
                 <a class="btn btn-login" href="${reverse('course-specific-login', args=[course.id.to_deprecated_string()])}${login_query()}">${_("Sign in")}</a>
               % else:
-                <a class="btn btn-login" href="_login_url">${_("Sign in")}</a>
+                % if static.get_value('course_id') is not None:
+                <a class="btn btn-login" href="/login?course_id=${static.get_value('course_id')}&enrollment_action=enroll">${_("Sign in")}</a>
+                % else:
+                <a class="btn btn-login" href="/login">${_("Sign in")}</a>
+                % endif
               % endif
             % endif
           </li>
