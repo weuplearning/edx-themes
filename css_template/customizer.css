@@ -273,8 +273,8 @@ input[type="submit"]:hover:not(:disabled), input[type="button"]:hover:not(:disab
 
 #login-and-registration-container{
  max-width:none;
- -webkit-background-size: cover; 
- background-size: cover; 
+ -webkit-background-size: cover;
+ background-size: cover;
  background-color: transparent !mportant;
 }
 
@@ -356,7 +356,7 @@ h2.header-courses{
     text-align:left;
 }
 
-.header-global h1.logo img.ec-logo-size { 
+.header-global h1.logo img.ec-logo-size {
  height: 40px!important;
  width: auto;
 }
@@ -512,7 +512,7 @@ height: 100%;
 
 /*Items of progress*/
 a:hover, div.info-wrapper section.handouts ol li div.hitarea:hover+h4, div.info-wrapper section.handouts ol li div.hitarea:focus+h4, a:focus, a:visited:hover, div.info-wrapper section.handouts ol li div.hitarea:hover+h4:visited, div.info-wrapper section.handouts ol li div.hitarea:focus+h4:visited, a:visited:focus {
- color: tma_primary_color !important;
+ color: #fff !important;
 }
 a, a:visited{
  color: tma_primary_color;

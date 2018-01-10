@@ -8,6 +8,7 @@ from django.core.urlresolvers import reverse
 from openedx.core.djangolib.markup import HTML, Text
 %>
 <%
+register_course_id = static.get_value('course_id')
 org = static.get_value('domain_prefix')
 css = org+'/css/index.css'
 %>
@@ -83,13 +84,14 @@ css = org+'/css/index.css'
 </script>
 % endif
 
-
+% if register_course_id is not None:
 <script>
 $(".btn-neutral").each(function(){
- $(this).attr('href','/register?course_id=course-v1%3Aafpa%2BLes101techniquesdebase%2BMOOCCUISINEAFPA_S3&enrollment_action=enroll');
+ $(this).attr('href','/register?course_id=${register_course_id}&enrollment_action=enroll');
 });
 $(".btn-login").each(function(){
- $(this).attr('href','login?next=%2Faccount%2Ffinish_auth%3Fcourse_id%3Dcourse-v1%253Aafpa%252BLes101techniquesdebase%252BMOOCCUISINEAFPA_S3%26enrollment_action%3Denroll%26next%3D%252Fdashboard');
+ $(this).attr('href','login?next=%2Faccount%2Ffinish_auth%3F${register_course_id}%26enrollment_action%3Denroll%26next%3D%252Fdashboard');
 });
 
 </script>
+% endif

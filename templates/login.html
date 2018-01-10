@@ -11,7 +11,14 @@ from third_party_auth import provider, pipeline
 <%block name="pagetitle">${_("Log into your {platform_name} Account").format(platform_name=platform_name)}</%block>
 
 <%block name="bodyclass">view-login</%block>
-
+<%
+register_course_id = static.get_value('course_id')
+_register_url = '/register'
+_login_url = '/login'
+if register_course_id is not None:
+  _register_url = '/register?course_id=${register_course_id}&enrollment_action=enroll'
+  _login_url = '/login?course_id=${register_course_id}&enrollment_action=enroll'
+%>
 <%block name="js_extra">
   <script type="text/javascript">
     $(function() {
