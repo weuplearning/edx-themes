@@ -162,11 +162,11 @@ endfor
       <!-- formation validé -->
       <div id="dashboard_profile_middle_up">
         % if False:
-          <img src="${static.url(org_static+'/images/like_couleur.svg')}" class="svg svg_passed"/><span style="margin-left:50px;">{_("Training not validated")}</span>
+          <img src="${static.url('images/like_couleur.svg')}" class="svg svg_passed"/><span style="margin-left:50px;">{_("Training not validated")}</span>
         % elif cours_ouv:
-          <img src="${static.url(org_static+'/images/like_couleur.svg')}" class="svg not_svg_passed"/><span style="margin-left:50px;"><a href="/courses/${course_mono_id}/progress">${_("Training not validated")}</a></span>
+          <img src="${static.url('images/like_couleur.svg')}" class="svg not_svg_passed"/><span style="margin-left:50px;"><a href="/courses/${course_mono_id}/progress">${_("Training not validated")}</a></span>
         % else:
-          <img src="${static.url(org_static+'/images/like_couleur.svg')}" class="svg not_svg_passed"/><span style="margin-left:50px;">Poursuivez votre progression</span>
+          <img src="${static.url('images/like_couleur.svg')}" class="svg not_svg_passed"/><span style="margin-left:50px;">Poursuivez votre progression</span>
         % endif
       </div>
       <!-- border middle -->
@@ -175,11 +175,11 @@ endfor
       <!-- actif forum -->
       <div id="dashboard_profile_middle_bottom">
         % if forum_tma:
-          <img src="${static.url(org_static+'/images/chat_couleur.svg')}" class="svg svg_passed"/><span style="margin-left: 50px;">${_("You are active on the forum")}</span>
+          <img src="${static.url('images/chat_couleur.svg')}" class="svg svg_passed"/><span style="margin-left: 50px;">${_("You are active on the forum")}</span>
         % elif cours_ouv:
-          <img src="${static.url(org_static+'/images/chat_couleur.svg')}" class="svg not_svg_passed"/><span style="margin-left:50px;"><a href="/courses/${course_mono_id}/discussion/forum/">${_("Post your first message ! ")}</a></span>
+          <img src="${static.url('images/chat_couleur.svg')}" class="svg not_svg_passed"/><span style="margin-left:50px;"><a href="/courses/${course_mono_id}/discussion/forum/">${_("Post your first message ! ")}</a></span>
         % else:
-          <img src="${static.url(org_static+'/images/chat_couleur.svg')}" class="svg not_svg_passed"/><span style="margin-left:50px;">${_("Post your first message ! ")}</span>
+          <img src="${static.url('images/chat_couleur.svg')}" class="svg not_svg_passed"/><span style="margin-left:50px;">${_("Post your first message ! ")}</span>
         % endif
       </div>
     </div>
@@ -197,7 +197,7 @@ endfor
     <% mark = mark + 1 %>
     <!-- assignement type -->
     <div class="dashboard_profile_bottom_middle">
-      <img class="svg" src="${static.url(org_static+'/images/badge_blanc.svg')}" id="badge_${mark}"/><span>${n.get('type')} (
+      <img class="svg" src="${static.url('images/badge_blanc.svg')}" id="badge_${mark}"/><span>${n.get('type')} (
        %if n.get('weight')==0:
           optionnel
        %else:
@@ -231,7 +231,7 @@ for (var i = 0; i < grade_summary['section_breakdown'].length; i++){
   $("#assignment_grade_"+j.toString()).html(grade_to_show+"%");
   //TODO : Improve to get the 70 from the back
   if(grade_to_show>=70){
-    $("#badge_"+j.toString()).attr("src","${static.url(org_static+'/images/badge_couleur.svg')}");
+    $("#badge_"+j.toString()).attr("src","${static.url('images/badge_couleur.svg')}");
   }
   j=j+1;
  }
@@ -247,7 +247,7 @@ $("#score_tma").html(grade_summary['percent']*100+" %");
     % endif
     % for n in course_name:
         <div class="course_name_profile_list">
-          <img src="${static.url(org_static+'/images/like_couleur.svg')}" class="svg svg_passed"/><span>${n}</span>
+          <img src="${static.url('images/like_couleur.svg')}" class="svg svg_passed"/><span>${n}</span>
         </div>
     % endfor
   </div>

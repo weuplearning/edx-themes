@@ -1,12 +1,35 @@
 <%page expression_filter="h"/>
-<%! from django.utils.translation import ugettext as _ %>
+<%!
+from django.utils.translation import ugettext as _
+from django.core.urlresolvers import reverse
+from openedx.core.djangolib.markup import HTML
+%>
 <%inherit file="../main.html" />
-
+<%namespace name='static' file='../static_content.html'/>
+<%
+from cms.djangoapps.microsite_manager.mongo_model import staticFiles
+from cms.djangoapps.microsite_manager.models import Microsite
+_key = static.get_value('domain_prefix')
+_microsite_id = Microsite.objects.get(key=_key).id
+_collection = 'cgu'
+_values = {
+  "microsite_id":_microsite_id
+}
+_template = staticFiles().return_template(_values,_collection).get('template')
+if _template is None:
+  _template = "<p>Cgu</p>"
+%>
 <%block name="pagetitle">${_("Terms of Service")}</%block>
-
+<%
+static.get_value('domain_prefix')
+%>
+<style>
+main {
+ background-color: #fff;
+}
+</style>
 <main id="main" aria-label="Content" tabindex="-1">
     <section class="container about">
-        <h1>${_("Terms of Service")}</h1>
-        <p>${_("This page left intentionally blank. Feel free to add your own content.")}</p>
+      ${_template | n}
     </section>
 </main>

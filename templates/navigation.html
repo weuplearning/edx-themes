@@ -243,10 +243,9 @@ site_status_msg = get_site_status_msg(course_id)
 <%
 org_static = static.get_value('domain_prefix')
 css = '/media/microsite/{}/css/course_navigation.css'.format(org_static)
-js = org_static+'/js/translate.js'
 %>
 <link rel="stylesheet" type="text/css" href="${css}" />
-<script src="${static.url(js)}"></script>
+<script src="${static.url('js/translate.js')}"></script>
 <!-- superglobale js username and course_enrollment -->
 % if user.is_authenticated():
   <%
