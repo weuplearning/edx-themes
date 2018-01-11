@@ -34,7 +34,7 @@ from status.status import get_site_status_msg
 % endif
 <%
 org_static = static.get_value('domain_prefix')
-css = '/media/microsite/{}/css/navigation.css'.format(org_static)
+css = '/media/microsite/{}/auto/css/navigation.css'.format(org_static)
 
 %>
 <%block>
@@ -250,7 +250,7 @@ site_status_msg = get_site_status_msg(course_id)
 % endif
 <%
 org_static = static.get_value('domain_prefix')
-css = '/media/microsite/{}/css/course_navigation.css'.format(org_static)
+css = '/media/microsite/{}/auto/css/course_navigation.css'.format(org_static)
 %>
 <link rel="stylesheet" type="text/css" href="${css}" />
 <script src="${static.url('js/translate.js')}"></script>
