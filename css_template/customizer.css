@@ -514,7 +514,7 @@ height: 100%;
 a:hover, div.info-wrapper section.handouts ol li div.hitarea:hover+h4, div.info-wrapper section.handouts ol li div.hitarea:focus+h4, a:focus, a:visited:hover, div.info-wrapper section.handouts ol li div.hitarea:hover+h4:visited, div.info-wrapper section.handouts ol li div.hitarea:focus+h4:visited, a:visited:focus {
  color: #fff !important;
 }
-.header-global .user .dropdown-menu li > a {
+.header-global .user .dropdown-menu li > a,.header-global .user .user-link .label-username,.header-global .user .user-link .label-username:hover {
  color: #3c3c3c !important;
 }
 a, a:visited{
