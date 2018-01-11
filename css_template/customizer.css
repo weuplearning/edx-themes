@@ -520,3 +520,6 @@ a:hover, div.info-wrapper section.handouts ol li div.hitarea:hover+h4, div.info-
 a, a:visited{
  color: tma_primary_color;
 }
+.header-global .nav-global li a,.header-global .nav-global li a:hover{
+ color: rgba(0,0,0,1) !important;
+}
