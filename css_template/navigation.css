@@ -81,3 +81,7 @@ div.forum-search button.search-btn, .content-wrapper .page-header.has-secondary 
   background-color: tma_primary_color !important;
   border-color: tma_primary_color !important;
 }
+
+.discussion-module button.discussion-show{
+  color:white!important;
+}
