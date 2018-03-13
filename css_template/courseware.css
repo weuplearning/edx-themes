@@ -372,3 +372,14 @@ body.view-in-course .wrapper-course-material .course-material,.course-index,.cou
   margin-left: 5px !important;
   margin-right: 5px !important;
 }
+
+.btn.btn-link.bookmark-button{
+  color: tma_primary_color !important;
+  padding: 5px;
+}
+.btn.btn-link.bookmark-button:hover{
+  color: white!important;
+}
+.submit-attempt-container button.btn-brand:hover span.submit-label{
+  color:white!important;
+}
