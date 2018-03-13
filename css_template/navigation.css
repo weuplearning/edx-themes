@@ -85,3 +85,11 @@ div.forum-search button.search-btn, .content-wrapper .page-header.has-secondary 
 .discussion-module button.discussion-show{
   color:white!important;
 }
+
+section.login a:hover{
+  color: tma_primary_color !important;
+  border-color:tma_primary_color !important;
+}
+section.login a{
+  color: tma_primary_color !important;
+}
