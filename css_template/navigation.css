@@ -66,3 +66,18 @@ body.view-in-course .wrapper-course-material .course-material .course-tabs {
 #content {
  min-height: calc(100vh - 137px) !important;
 }
+
+div.forum-search button.search-btn, .content-wrapper .page-header.has-secondary .page-header-secondary .form-actions button.new-post-btn{
+  background-color: tma_primary_color !important;
+}
+
+.forum-new-post-form button.cancel, .discussion-reply-new button.discussion-submit-post{
+  color: tma_primary_color !important;
+}
+.forum-new-post-form button.cancel:hover, .discussion-reply-new button.discussion-submit-post:hover{
+  color: white!important;
+}
+.forum-new-post-form button.btn-brand{
+  background-color: tma_primary_color !important;
+  border-color: tma_primary_color !important;
+}
