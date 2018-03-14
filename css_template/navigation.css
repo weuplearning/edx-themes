@@ -97,5 +97,4 @@ section.login a:hover, section.register a.new-vp:hover, section.register #login_
 section.login a, section.register a.new-vp, section.register #login_link{
   color: tma_primary_color !important;
 }
-.btn-default{
-  background-color: tma_primary_color !important;
+
