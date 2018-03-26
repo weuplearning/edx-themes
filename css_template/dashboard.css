@@ -41,7 +41,7 @@
 @-moz-document url-prefix() {
 #dashboard_profile {
   width: 364px;
-  margin-left: calc((100% - 1600px) /2);
+ /* margin-left: calc((100% - 1600px) /2);*/
 }
 }
 #dashboard_course_info {
