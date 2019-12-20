@@ -236,7 +236,7 @@ for (var i = 0; i < grade_summary['section_breakdown'].length; i++){
   j=j+1;
  }
 }
-$("#score_tma").html(grade_summary['percent']*100+" %");
+$("#score_tma").html(Math.round(grade_summary['percent']*100)+" %");
 </script>
 % elif len(course_enrollments) > 1:
   <div class="dashboard_profile" id="profile_bottom_multi">
