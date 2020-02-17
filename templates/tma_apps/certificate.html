@@ -131,10 +131,11 @@ font-weight: 600;
         <h3>${first_name} ${last_name}</h3>
         % if request.path[slice(10, 50)] == 'course-v1:mooc-forem-sfc+Forem03+2020_T1':
           <p>A suivi et réussi la troisième session du MOOC</p>
+          <h3>"Les Savoir-Faire Comportementaux"</h3>
         % else:
           <p>A suivi et réussi le MOOC</p>
+          <h3>"${course_name}"</h3>
         % endif:
-        <h3>"${course_name}"</h3>
         <p id="mention">Mention Parcours Avancé</p>
       </div>
       <div class="col-sm-3">
