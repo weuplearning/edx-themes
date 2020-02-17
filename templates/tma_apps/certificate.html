@@ -11,7 +11,7 @@ from openedx.core.djangolib.js_utils import js_escaped_string, dump_js_escaped_j
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 from datetime import datetime, date
 import json
-
+from tma_apps.tma_support_functions import tma_verify_access
 %>
 
 
@@ -112,7 +112,7 @@ font-weight: 600;
 <!--IMPORT FONT-->
 <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 
-% if grades.get('passed'):
+% if grades.get('passed') or  tma_verify_access(request.user).is_tma_team():
 
 <div id="main">
   <div class="container">
@@ -129,7 +129,11 @@ font-weight: 600;
       <div class="col-sm-9" style="padding:10px;padding-top:15px">
         <!--<h3>Fraissinet & Associés atteste que:</h3>-->
         <h3>${first_name} ${last_name}</h3>
-        <p>A suivi et réussi le MOOC</p>
+        % if request.path[slice(10, 50)] == 'course-v1:mooc-forem-sfc+Forem03+2020_T1':
+          <p>A suivi et réussi la troisième session du MOOC</p>
+        % else:
+          <p>A suivi et réussi le MOOC</p>
+        % endif:
         <h3>"${course_name}"</h3>
         <p id="mention">Mention Parcours Avancé</p>
       </div>
