@@ -1,7 +1,7 @@
 # .gitignore for edx-platform.
 
-lms/static/css/
-lms/static/certificates/css/
-cms/static/css/
-common/static/common/js/vendor/
-common/static/common/css/vendor/
+lms/static/css/*
+lms/static/certificates/css/*
+cms/static/css/*
+common/static/common/js/vendor/*
+common/static/common/css/vendor/*
