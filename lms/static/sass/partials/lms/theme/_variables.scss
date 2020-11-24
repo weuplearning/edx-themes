@@ -1,16 +1,19 @@
-// Default bootstrap theming
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+// Theme colors
+$primary:  rgb(255, 153, 0);
+$secondary:  #343a40;
+
+// Theme fonts
+$font-family-sans-serif: 'Roboto';
+
+$action-primary-bg: $secondary !default;
+$action-primary-shadow: $secondary !default;
+$action-primary-focused-bg: $secondary !default;
+$action-primary-active-bg: $secondary !default;
+$action-primary-active-fg: $secondary !default;
+$action-primary-active-shadow: $secondary !default;
+$action-primary-active-focused-fg: $secondary !default;
+$action-primary-active-focused-shadow: $secondary !default;
 
 @import 'edx-bootstrap/sass/open-edx/theme';
-
-$theme-colors: (
-  'primary': #343a40,
-  'secondary':  rgb(255, 153, 0),
-);
-$action-primary-bg: theme-color('secondary');
-$action-primary-shadow: theme-color('secondary');
-$action-primary-focused-bg: theme-color('secondary');
-$action-primary-active-bg: theme-color('secondary');
-$action-primary-active-fg: theme-color('secondary');
-$action-primary-active-shadow: theme-color('secondary');
-$action-primary-active-focused-fg: theme-color('secondary');
-$action-primary-active-focused-shadow: theme-color('secondary');
