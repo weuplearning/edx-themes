@@ -1,0 +1,16 @@
+// Default bootstrap theming
+
+@import 'edx-bootstrap/sass/open-edx/theme';
+
+$theme-colors: (
+  'primary': #343a40,
+  'secondary':  rgb(255, 153, 0),
+);
+$action-primary-bg: theme-color('secondary');
+$action-primary-shadow: theme-color('secondary');
+$action-primary-focused-bg: theme-color('secondary');
+$action-primary-active-bg: theme-color('secondary');
+$action-primary-active-fg: theme-color('secondary');
+$action-primary-active-shadow: theme-color('secondary');
+$action-primary-active-focused-fg: theme-color('secondary');
+$action-primary-active-focused-shadow: theme-color('secondary');
