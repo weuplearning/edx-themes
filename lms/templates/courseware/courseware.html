@@ -59,6 +59,11 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
 body.view-in-course .container{
        max-width: 65vw;
 }
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+  body.view-in-course .container{
+    max-width: 100vw;
+  }
+}
 .window-wrap {
     background: url('/media/microsites/amazon/bg.png');
 }
