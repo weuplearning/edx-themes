@@ -55,6 +55,17 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
   % endfor
 % endif
 
+<style>
+body.view-in-course .container{
+       max-width: 65vw;
+}
+.window-wrap {
+    background: url('/media/microsites/amazon/bg.png');
+}
+.wrapper-preview-menu,.course-header{
+    display:none !important;
+}
+</style>
 </%block>
 
 <%block name="headextra">
