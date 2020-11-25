@@ -10,163 +10,69 @@
 <% icp_license_info = getattr(settings, 'ICP_LICENSE_INFO', {})%>
 <%namespace name='static' file='static_content.html'/>
 
+<link rel="stylesheet" href="https://amazon.the-mooc-agency.com/media/microsite/amazon/css/style.css?v=25nov">
+
 % if uses_bootstrap:
-  <div class="container-fluid wrapper-footer">
-    <footer>
-      <div class="row">
-        <div class="col-md-9">
-          <nav class="navbar site-nav navbar-expand-sm" aria-label="${_('About')}">
-            <ul class="navbar-nav">
-              % for item_num, link in enumerate(footer['navigation_links'], start=1):
-                <li class="nav-item">
-                  <a class="nav-link" href="${link['url']}">${link['title']}</a>
-                </li>
-              % endfor
-            </ul>
-          </nav>
-
-          <div class="wrapper-logo">
-            <p>
-              <a href="/">
-                ## The default logo is a placeholder.
-                ## You can either replace this link entirely or update
-                ## the FOOTER_ORGANIZATION_IMAGE in Django settings.
-                ## If you customize FOOTER_ORGANIZATION_IMAGE, then the image
-                ## can be included in the footer on other sites
-                ## (e.g. a blog or marketing front-end) to provide a consistent
-                ## user experience.  See the branding app for details.
-                <img alt="${_('organization logo')}" src="${footer['logo_image']}">
-              </a>
-            </p>
-          </div>
-
-          ## Site operators: Please do not remove this paragraph! This attributes back to edX and makes your acknowledgement of edX's trademarks clear.
-          <p class="copyright">${footer['copyright']}
-               % if icp_license_info.get('icp_license'):
-                ${u" | {text}".format(text=icp_license_info.get('text'))}
-                <a href="${icp_license_info.get('icp_license_link', '#')}">
-                    ${u" {icp}".format(icp=icp_license_info.get('icp_license'))}
-                </a>
-              % endif
-          </p>
-
-          <nav class="navbar legal-nav navbar-expand-sm" aria-label="${_('Legal')}">
-            <ul class="navbar-nav">
-              % for item_num, link in enumerate(footer['legal_links'], start=1):
-                <li class="nav-item">
-                  <a class="nav-link" href="${link['url']}">${link['title']}</a>
-                </li>
-              % endfor
-              <li class="nav-item">
-                <a class="nav-link" href="${footer['edx_org_link']['url']}">${footer['edx_org_link']['text']}</a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-        <div class="col-md-3">
-          ## Please leave this link and use one of the logos provided
-          ## The OpenEdX link may be hidden when this view is served
-          ## through an API to partner sites (such as marketing sites or blogs),
-          ## which are not technically powered by Open edX.
-          % if not hide_openedx_link:
-            <div class="footer-about-openedx">
-              <p>
-                <a href="${footer['openedx_link']['url']}">
-                  <img src="${footer['openedx_link']['image']}" alt="${footer['openedx_link']['title']}" width="140" />
-                </a>
-              </p>
+    <footer id="footer">
+      <div class="container">
+         <div class="row">
+            <div class="footer-column" >
+               <div class="footer-block-padd">
+                  <ul class="list-unstyled">
+                  <li class="text-center">SUIVEZ-NOUS</li>
+                  </ul>
+                  <ul class="list-inline flex">
+                  <li>
+                  <a target="_blank" href="" title="Twitter"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>
+                  </li>
+                  <li>
+                  <a target="_blank" href="" title="Facebook"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
+                  </li>
+                  <li>
+                  <a target="_blank" href="" title="Instagram"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                  </li>
+                  <li>
+                  <a target="_blank" href="" title="LinkedIn"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                  </li>
+                  <li>
+                  <a target="_blank" href="" title="YouTube"><i class="fa fa-youtube-square" aria-hidden="true"></i></a>
+                  </li>
+                  </ul>
+               </div>
             </div>
-          % endif
-        </div>
+            <div class="footer-column" >
+               <div class="footer-block-padd">
+                  <ul class="list-unstyled">
+                     <li class="text-center">UN PROGRAMME INITIÉ PAR</li>
+                     <a href="https://services.amazon.fr/" target="_blank"><img src="https://amazon.the-mooc-agency.com/media/microsite/amazon/assets/logo.png" class="logoFooter" alt="logo BPI France"></a>
+                  </ul>
+                  <br><br>
+               </div>
+            </div>
+            <div class="footer-column" >
+               <div class="footer-block-padd">
+                  <ul class="list-unstyled">
+                  <li class="text-center">EN PARTENARIAT AVEC</li>
+                  <a href="https://www.bpifrance.fr/" target="_blank"><img src="https://amazon.the-mooc-agency.com/media/microsite/amazon/assets/bpi-france-logo.png" class="logoFooter" alt="logo BPI France" style="height:55px"></a>
+                  </ul>
+                  <br><br>
+               </div>
+            </div>
+         </div>
+         <div class="row footerBottom" >
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 footer-column" >
+
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 footer-column" >
+               <!-- <div class="footer-block-padd">
+                  <a href="#">Mentions légales</a> &nbsp; | &nbsp;
+                  <a href="#">Politique de confidentialité</a>
+               </div> -->
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 footer-column" >
+
+            </div>
+         </div>
       </div>
-    </footer>
-  </div>
-% else:
-  <div class="wrapper wrapper-footer">
-    <footer id="footer-openedx" class="grid-container"
-      ## When rendering the footer through the branding API,
-      ## the direction may not be set on the parent element,
-      ## so we set it here.
-      % if bidi:
-        dir=${bidi}
-      % endif
-    >
-      <div class="colophon">
-        <nav class="nav-colophon" aria-label="${_('About')}">
-          <ol>
-              % for item_num, link in enumerate(footer['navigation_links'], start=1):
-              <li class="nav-colophon-0${item_num}">
-                <a id="${link['name']}" href="${link['url']}">${link['title']}</a>
-              </li>
-              % endfor
-          </ol>
-        </nav>
-
-        % if context.get('include_language_selector', footer_language_selector_is_enabled()):
-            <%include file="${static.get_template_path('widgets/footer-language-selector.html')}"/>
-        % endif
-
-        <div class="wrapper-logo">
-          <p>
-            <a href="/">
-              ## The default logo is a placeholder.
-              ## You can either replace this link entirely or update
-              ## the FOOTER_ORGANIZATION_IMAGE in Django settings.
-              ## If you customize FOOTER_ORGANIZATION_IMAGE, then the image
-              ## can be included in the footer on other sites
-              ## (e.g. a blog or marketing front-end) to provide a consistent
-              ## user experience.  See the branding app for details.
-              <img alt="${_('organization logo')}" src="${footer['logo_image']}">
-            </a>
-          </p>
-        </div>
-
-        ## Site operators: Please do not remove this paragraph! This attributes back to edX and makes your acknowledgement of edX's trademarks clear.
-          <p class="copyright">${footer['copyright']}
-              % if icp_license_info.get('icp_license'):
-                ${u" | {text}".format(text=icp_license_info.get('text'))}
-                <a href="${icp_license_info.get('icp_license_link', '#')}">
-                    ${u" {icp}".format(icp=icp_license_info.get('icp_license'))}
-                </a>
-              % endif
-          </p>
-
-        <nav class="nav-legal" aria-label="${_('Legal')}">
-          <ul>
-            % for item_num, link in enumerate(footer['legal_links'], start=1):
-              <li class="nav-legal-0${item_num}">
-                <a href="${link['url']}">${link['title']}</a>
-              </li>
-            % endfor
-            <li><a href="${footer['edx_org_link']['url']}">${footer['edx_org_link']['text']}</a></li>
-          </ul>
-        </nav>
-      </div>
-
-      ## Please leave this link and use one of the logos provided
-      ## The OpenEdX link may be hidden when this view is served
-      ## through an API to partner sites (such as marketing sites or blogs),
-      ## which are not technically powered by OpenEdX.
-      % if not hide_openedx_link:
-      <div class="footer-about-openedx">
-        <p>
-          <a href="${footer['openedx_link']['url']}">
-            <img src="${footer['openedx_link']['image']}" alt="${footer['openedx_link']['title']}" width="140" />
-          </a>
-        </p>
-      </div>
-      % endif
-    </footer>
-  </div>
-% endif
-% if include_dependencies:
-  <%static:js group='base_vendor'/>
-  <%static:css group='style-vendor'/>
-  <%include file="widgets/segment-io.html" />
-  <%include file="widgets/segment-io-footer.html" />
-% endif
-% if footer_css_urls:
-  % for url in footer_css_urls:
-    <link rel="stylesheet" type="text/css" href="${url}"></link>
-  % endfor
+   </footer>
 % endif
