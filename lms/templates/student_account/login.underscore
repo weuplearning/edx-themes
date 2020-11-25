@@ -9,6 +9,13 @@ a.field-link{
   display:none !important;
   visibility: hidden;
 }
+.login-register-content{
+  background: transparent !important;
+}
+.window-wrap {
+    background: url(/media/microsites/amazon/bg.png) !important;
+    min-height: 100vh !important;
+}
 </style>
 
 <div class="js-form-feedback" aria-live="assertive" tabindex="-1">
