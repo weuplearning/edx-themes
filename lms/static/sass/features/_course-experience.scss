@@ -337,7 +337,7 @@
       cursor: pointer;
 
       .fa {
-        color: $blue;
+        color: $yellow;
       }
 
       .prerequisites-icon {
@@ -345,11 +345,11 @@
       }
 
       .complete-checkmark {
-        border: 1px solid $green;
+        border: 1px solid $yellow;
         margin-right: $baseline / 2;
         border-radius: 100px;
         color: white;
-        background-color: $green;
+        background-color: $yellow;
         float: right;
       }
     }
