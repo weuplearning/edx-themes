@@ -24,7 +24,6 @@ button[type=submit]{
 <% } %>
 
 <form id="register" class="register-form" autocomplete="off" tabindex="-1" method="POST">
-
     <% if (!context.currentProvider) { %>
         <% if (context.providers.length > 0 || context.hasSecondaryProviders) { %>
             <div class="login-providers">
@@ -82,6 +81,8 @@ button[type=submit]{
     </button>
 </form>
 <script>
+
+
 setInterval(function(){
   $("label[for=register-honor_code] span.label-text").html("J'accepte d'être contacté par Amazon dans le cadre de l'Accélérateur du Numérique");
   $("label[for=register-company] span.label-text").html("Entreprise/SIRET");
@@ -89,5 +90,10 @@ setInterval(function(){
 //  $(".form-field.checkbox-optional_fields_toggle").hide();
 //  $("#toggle_optional_fields").prop( "checked", true );
   $("div.optional-fields").first().removeClass( "hidden" );
+  $('.focus-out').css('position', 'relative');
+  $('.focus-out').css('padding-top', 0);
+  $('.focus-out').css('padding-left', 0);
+  $('.focus-out').css('opacity', 1);
 },50);
+
 </script>
