@@ -75,7 +75,7 @@ button[type=submit]{
             </span>
         </label>
     </div>
-    <p style="text-align:justify"><br/>Vos données personnelles sont protégées. Amazon et BPI France s’engagent à ne pas diffuser vos informations personnelles à des tiers. Vos données ne seront pas utilisées à des fins de prospection commerciale.</br></p>
+    <p style="text-align:justify"><br/>Vos données personnelles sont protégées. Amazon s’engage à ne pas diffuser vos informations personnelles à des tiers. Vos données ne seront pas utilisées à des fins de prospection commerciale.</br></p>
     <button type="submit" class="action action-primary action-update js-register register-button">
     	<% if ( context.registerFormSubmitButtonText ) { %><%- context.registerFormSubmitButtonText %><% } else { %><%- gettext("Create Account") %><% } %>
     </button>
