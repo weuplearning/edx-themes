@@ -13,8 +13,6 @@
   .course-material {
     @extend %inner-wrapper;
 
-    display: none;
-
     @include media-breakpoint-down(md) {
       overflow-x: scroll;
       overflow-y: hidden;
