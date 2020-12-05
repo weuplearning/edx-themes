@@ -45,6 +45,88 @@
   height: 100%;
 }
     </style>
+<style>
+/*FAQ section, where the accordion is kept, including section specific css*/
+#faq{
+  display: flex;
+  align-items: center;
+        justify-content: center;
+        width: 100%;
+   padding-bottom:0px;
+}
+
+#faq .add{ /*Add is the name for the plus icon*/
+        display: block;
+}
+
+#faq .remove{ /*Remove is the name for the less icon*/
+        display: none;
+}
+
+#faq i{
+        font-size: 18px;
+}
+
+#faq p, #faq h4{
+        text-align: justify;
+}
+/*Accordion container and each item*/
+.accordion{
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+}
+
+.accordion-item{
+        background-color: transparent;
+  border-bottom: 3px solid #f90;
+
+        margin-bottom: 10px;
+        padding: 10px;
+}
+
+/*Styles for the question*/
+
+.accordion-title{
+  display: flex;
+
+  align-items: center;
+        justify-content: space-around;
+
+        color: #343a40;
+        font-size: 16px;
+  font-weight: 600;
+
+        width: 100%;
+        cursor: pointer;
+  transition-duration: 0.5s;
+}
+
+.accordion-title:hover{
+  color: #f90;
+}
+
+.accordion-title h4{
+        width: 80%;
+}
+
+/*Styles for the answer*/
+
+.accordion-content{
+  max-height: 0;
+  overflow: hidden;
+        position: relative;
+        background-color: #f90;
+  transition: max-height 0.6s;
+  font-weight: 400;
+}
+
+.accordion-content p{
+  padding: 20px;
+        color: white;
+}
+</style>
+
       </head>
 
    <body>
@@ -138,32 +220,160 @@
             </div>
          </div>
       </section >
-<!--
-      <section id="se5" class="container">
+
+      <section id="se5" class="container text-center">
          <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter">
                <div class="row">
                   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-centered marAuto" >
-                     <h2 class="sectionTitle title-secondary">Qu'est-ce que l'Accélérateur du Numérique d'Amazon ?</h2>
+                     <h2 class="sectionTitle title-secondary">F.A.Q.</h2>
                   </div>
                </div>
                <div class="row">
-                  <div class="col-sm-12 m--space-30"></div>
-                  </div>
-               <div class="row">
-                  <div class="col-md-7 col-lg-5">
-                     <h3 class="h4">Inscrivez-vous à l'Accélérateur du Numérique d'Amazon.</h3>
-                     <p class="lead-md">Accèdez à nos contenus de digital learning créez avec nos experts. Inscrivez-vous gratuitement dès aujourd'hui.</p>
-                     <div class="m--space-30 d-block d-md-none"></div>
-                  </div>
-                  <div class="col-md-5 col-lg-6 offset-lg-1">
-                     <img src="/media/microsite/amazon/assets/computer.png" alt="Sign up to the small business accelerator" style="height:250px">
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-centered marAuto">
+  <section id="faq">
+    <div class="accordion">
+      <div class="accordion-item">
+        <div class="accordion-title">
+          <h4>Qu’est-ce que l’Accélérateur du Numérique ?</h4>
+          <i class="fas fa-plus-circle add"></i>
+          <i class="fas fa-minus-circle remove"></i>
+        </div>
+         <div class="accordion-content">
+            <p>L’Accélérateur du Numérique est un programme éducatif en ligne, gratuit, pour toute personne souhaitant créer une entreprise ou développer une entreprise existante grâce au numérique. Le programme de formation s’adapte à votre niveau d’expérience et à vos besoins, avec un tronc commun généraliste et des formations plus spécialisées dédiées à la vente sur internet.</p>
+         </div>
+       </div>
+       <div class="accordion-item">
+        <div class="accordion-title">
+          <h4>Quels sont les différents formats éducatifs ?</h4>
+          <i class="fas fa-plus-circle add"></i>
+          <i class="fas fa-minus-circle remove"></i>
+        </div>
+        <div class="accordion-content">
+          <p>L’Accélérateur du Numérique propose trois formats éducatifs: la formation en ligne, les webinaires et les bootcamps.</p>
+        </div>
+       </div>
+       <div class="accordion-item">
+         <div class="accordion-title">
+            <h4>Qu’est-ce que la formation en ligne ?</h4>
+            <i class="fas fa-plus-circle add"></i>
+            <i class="fas fa-minus-circle remove"></i>
+          </div>
+          <div class="accordion-content">
+             <p>La formation en ligne est un cursus éducatif de plusieurs heures divisé en différents modules. Chaque module aborde un sujet spécifique et est découpé en vidéos de quelques minutes. En fin de module, un quizz rapide vous permettra de vérifier vos connaissances et de gagner un badge. Lorsqu’un nouveau module ou une nouvelle vidéo est ajoutée au programme, un message électronique vous en tiendra informé.</p>
+          </div>
+        </div>
+                       <div class="accordion-item">
+        <div class="accordion-title">
+          <h4>Qu’est-ce qu’un webinaire ?</h4>
+          <i class="fas fa-plus-circle add"></i>
+          <i class="fas fa-minus-circle remove"></i>
+        </div>
+        <div class="accordion-content">
+          <p>Un webinaire est une formation en direct animée par un expert, à qui vous pourrez poser des questions en fin de session. Vous recevrez le programme des webinaires par messagerie électronique.</p>
+        </div>
+       </div>
+                  <div class="accordion-item">
+        <div class="accordion-title">
+          <h4>Qu’est-ce qu’un bootcamp ?</h4>
+          <i class="fas fa-plus-circle add"></i>
+          <i class="fas fa-minus-circle remove"></i>
+        </div>
+        <div class="accordion-content">
+          <p>Un bootcamp est un programme intensif de cinq jours afin d’apprendre comment vendre ses produits en ligne. Chaque bootcamp peut accueillir jusqu’à 100 participants. Les bootcamps seront lancés en 2021. Vous recevrez les informations concernant les prochaines sessions par messagerie électronique.</p>
+        </div>
+       </div>
+                  <div class="accordion-item">
+        <div class="accordion-title">
+          <h4>A qui s’adresse L’Accélérateur du Numérique ?</h4>
+          <i class="fas fa-plus-circle add"></i>
+          <i class="fas fa-minus-circle remove"></i>
+        </div>
+        <div class="accordion-content">
+          <p>A tout type d’entreprises, à toute étape de son développement. Le programme s’adresse aussi bien aux entrepreneurs en cours de création d’entreprise, aux gérants d’entreprises en recherche des meilleurs outils pour développer leur activité, ou aux entreprises déjà bien établies cherchant à aller encore plus loin.</p>
+        </div>
+       </div>
+                  <div class="accordion-item">
+        <div class="accordion-title">
+          <h4>Qui organise ce programme ?</h4>
+          <i class="fas fa-plus-circle add"></i>
+          <i class="fas fa-minus-circle remove"></i>
+        </div>
+        <div class="accordion-content">
+          <p>L’Accélérateur du Numérique est construit et développé par Amazon. Bpifrance soutient le programme généraliste et gratuit et l’encourage auprès des entrepreneurs français.</p>
+        </div>
+       </div>
+                  <div class="accordion-item">
+        <div class="accordion-title">
+          <h4>Quel est le prix du programme ?</h4>
+          <i class="fas fa-plus-circle add"></i>
+          <i class="fas fa-minus-circle remove"></i>
+        </div>
+        <div class="accordion-content">
+          <p>Le programme est gratuit.</p>
+        </div>
+       </div>
+                  <div class="accordion-item">
+        <div class="accordion-title">
+          <h4>Comment s’inscrire au programme ?</h4>
+          <i class="fas fa-plus-circle add"></i>
+          <i class="fas fa-minus-circle remove"></i>
+        </div>
+        <div class="accordion-content">
+          <p>Vous pourrez vous enregistrer à partir du 8 décembre. Vous recevrez ensuite un message électronique confirmant votre inscription.</p>
+        </div>
+       </div>
+    </div>
+    </section>
+    <script>
+        const questions = document.getElementsByClassName('accordion-title')//Gets all the questions (plus icon)
+
+for (const question of questions) {
+  const answer = question.parentElement.querySelector('.accordion-content')
+  const remove = question.parentElement.querySelector(".remove")
+  const add = question.parentElement.querySelector(".add")
+  let open = false //Variable to check if the answer is visible or not
+
+  function openAnswer() {
+    if (open == true) { //If you click the question while the answer is visible it will stop being visible and open will change it's value to false
+      add.style.display = "block";
+      remove.style.display = "none";
+      answer.style.overflow = "hidden";
+      answer.style.maxHeight = '0';
+      open = false;
+    } else { //If you click the question while the answer is not visible it will start being visible and open will change it's value to true
+      add.style.display = "none";
+      remove.style.display = "block";
+      answer.style.maxHeight = "450px";
+      answer.style.overflow = "visible";
+      open = true;
+    }
+  }
+
+  question.addEventListener('click', openAnswer)
+}
+        </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
                   </div>
                </div>
             </div>
          </div>
       </section >
--->
+
+
+
       <footer id="footer">
          <div class="container">
             <div class="row">
