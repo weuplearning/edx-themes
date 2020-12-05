@@ -75,7 +75,10 @@ button[type=submit]{
             </span>
         </label>
     </div>
-    <p style="text-align:justify"><br/>Vos données personnelles sont protégées. Amazon s’engage à ne pas diffuser vos informations personnelles à des tiers. Vos données ne seront pas utilisées à des fins de prospection commerciale.</br></p>
+    <p style="text-align:justify"><br/>
+    Les données personnelles renseignées via ce formulaire seront traitées par Amazon Europe Core SARL et ses sociétés affiliées pour les finalités décrites dans notre 
+    <a href="/privacy" target="_blank">Politique de confidentialité</a> qui vous permet également d’exercer vos droits.
+    </br></p>
     <button type="submit" class="action action-primary action-update js-register register-button">
     	<% if ( context.registerFormSubmitButtonText ) { %><%- context.registerFormSubmitButtonText %><% } else { %><%- gettext("Create Account") %><% } %>
     </button>
