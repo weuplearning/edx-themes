@@ -37,17 +37,14 @@ window.addEventListener("load", function(){
     },
     "content": {
       "message": "Amazon Europe Core SARL et ses sociétés affiliées utilisent des cookies sur ce site pour mesurer son audience, analyser les contenus consultés et l’optimiser.",
-      "deny": "Je refuse",
-      "dismiss": "J\'accepte",
+      "dismiss": "Je refuse",
+      "allow": "J'accepte",
       "link": "${_('Learn more')}",
-      "href": "/privacy",
+      "href": "/cookies",
     },
     theme: "classic",
-/*    "elements": {
-        "allow": '<a aria-label="allow cookie" id="allow" role=button tabindex="2" class="cc-btn cc-allow:focus">{{allow}}</a>',
-    },*/
     "position": "floating",
-    "type": "opt-out"
+    "type": "opt-in"
 
   },
   function(popup){
