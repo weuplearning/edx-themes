@@ -146,6 +146,16 @@ a.register-btn{
 }
 </style>
 
+<script>
+var $buoop = {required:{e:12,f:31,o:-3,s:10},reminder:0,reminderClosed:120,api:2020.12};
+function $buo_f(){
+ var e = document.createElement("script");
+ e.src = "//browser-update.org/update.min.js";
+ document.body.appendChild(e);
+};
+try {document.addEventListener("DOMContentLoaded", $buo_f,false)}
+catch(e){window.attachEvent("onload", $buo_f)}
+</script>
 
 <% ga_acct = configuration_helpers.get_value('GOOGLE_ANALYTICS_ACCOUNT',static.get_value("GOOGLE_ANALYTICS_ACCOUNT", settings.GOOGLE_ANALYTICS_ACCOUNT)) %>
 % if ga_acct:
