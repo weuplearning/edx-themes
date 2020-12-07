@@ -82,10 +82,13 @@ button.show.problem-action-btn.btn-default.btn-small{
 #amazonfreetextcomment button.sequence-nav-button{
    color: #f90 !important;
 }
+div.problem-progress{
+    display:none !important;
+}
 </style>
 <script>
 setInterval(function(){
-  $("div.detailed-solution > p").eq(0).html("Explication");
+  $("div.detailed-solution > p:first-child").each(function(){$(this).html("Explication")});
 },10);
 </script>
 </%block>
