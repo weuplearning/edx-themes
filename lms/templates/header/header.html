@@ -22,6 +22,18 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 ## Provide a hook for themes to inject branding on top.
 <%block name="navigation_top" />
 
+
+<script> 
+var $buoop = {required:{e:12,f:31,o:-3,s:10},api:2020.12 }; 
+function $buo_f(){ 
+ var e = document.createElement("script"); 
+ e.src = "//browser-update.org/update.min.js"; 
+ document.body.appendChild(e);
+};
+try {document.addEventListener("DOMContentLoaded", $buo_f,false)}
+catch(e){window.attachEvent("onload", $buo_f)}
+</script>
+
 <%
   unsupported_browser_alert_versions = configuration_helpers.get_value('UNSUPPORTED_BROWSER_ALERT_VERSIONS', settings.FEATURES.get('UNSUPPORTED_BROWSER_ALERT_VERSIONS'))
   
