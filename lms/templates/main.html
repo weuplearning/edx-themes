@@ -160,6 +160,20 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    analytics_storage: 'denied',
+    wait_for_update: 1000,
+  });
+
+  if($.cookie("cookieconsent_status")=="allow"){
+    gtag('consent', 'update', {
+      ad_storage: 'denied',
+      analytics_storage: 'granted',
+    });
+  }
+
   gtag('js', new Date());
   gtag('config', '${ga_acct}');
 </script>

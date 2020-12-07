@@ -42,10 +42,20 @@ window.addEventListener("load", function(){
       "link": "${_('Learn more')}",
       "href": "/cookies",
     },
+    elements: {
+      allow: '<a aria-label="allow cookies" tabindex="0" class="cc-btn cc-allow" id="allow">{{allow}}</a>',
+    },
     theme: "classic",
     "position": "floating",
-    "type": "opt-in"
-
+    "type": "opt-in",
+    onStatusChange: function(status) {
+      if(this.hasConsented()){
+        gtag('consent', 'update', {
+          ad_storage: 'denied',
+          analytics_storage: 'granted',
+        });
+      }
+    }
   },
   function(popup){
     $(".cc-window").on('keydown', function(event) {
