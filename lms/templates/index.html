@@ -1,0 +1,117 @@
+<%page expression_filter="h"/>
+<%namespace name='static' file='static_content.html'/>
+<%inherit file="main.html" />
+<%!
+from django.utils.translation import ugettext as _
+from django.urls import reverse
+
+from openedx.core.djangolib.markup import HTML, Text
+%>
+
+<style>
+  .global-header {
+    display: none;
+  }
+
+  .wrapper-footer {
+    display: none;
+  }
+
+  .main-container {
+    background-image: url("${static.url('bmd/images/home_bg.jpg')}");
+    background-size: cover;
+    background-position: center;
+    margin-top: 0;
+  }
+
+  .home {
+    width: calc(100% - 60px);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+  }
+   
+  #bmd-logo, #partners-logos {
+    width: 550px;
+  }
+
+  #input[type="submit"], input[type="button"], button, .button {
+    background-color: #00C18B !important;
+    width: 180px;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 50px 0;
+    padding: 15px 0;
+    background-image: none !important;
+    text-shadow: none !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  #welcome-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 50px;
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    #bmd-logo, #partners-logos {
+      width: 250px;
+    }
+
+    #welcome-title {
+      font-size: 20px;
+    }
+  }
+
+  @media (max-width: 500) {
+    #bmd-logo, #partners-logos {
+      width: 200px;
+    }
+
+    #welcome-title {
+      font-size: 14px;
+    }
+
+    #input[type="submit"], input[type="button"], button, .button {
+      width: 120px;
+    }
+  }
+</style>
+
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="home">
+      <div id="welcome-title" >Bienvenue dans la formation</div>
+      <img src="${static.url('bmd/images/bmd_white_logo.png')}" alt="Becoming More Digital logo" id="bmd-logo"/>
+      <img src="${static.url('bmd/images/partners_logos.png')}" alt="Logos partenaires" id="partners-logos"/>
+      <a href="/login?next=/dashboard">
+        <button id="home-login" >
+          Connexion
+        </button>
+      </a>
+
+    </section>
+</main>
+
+<%block name="js_extra">
+   <script type="text/javascript">
+      $(window).load(function() {
+         if(getParameterByName('next')) {
+              $('#login').trigger("click");
+         }
+      })
+   </script>
+</%block>
+
+% if show_signup_immediately is not UNDEFINED:
+  ## NOTE: This won't work in production, because anonymous views are cached, so it will
+  ## show either with or without this extra js for 3 minutes at a time.
+<script type="text/javascript">
+  $(window).load(function() {$('#signup_action').trigger("click");});
+</script>
+% endif

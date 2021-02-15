@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+// Theme colors
+$primary:  #060E9F;
+$secondary:  #00C18B;
+
+$theme-colors: (
+  "tertiary": #778692
+);
+
+// Theme fonts
+$font-family-sans-serif: 'PT Sans';
+
+$action-primary-bg: $secondary !default;
+$action-primary-shadow: $secondary !default;
+$action-primary-focused-bg: $secondary !default;
+$action-primary-active-bg: $secondary !default;
+$action-primary-active-fg: $secondary !default;
+$action-primary-active-shadow: $secondary !default;
+$action-primary-active-focused-fg: $secondary !default;
+$action-primary-active-focused-shadow: $secondary !default;
+
+@import 'edx-bootstrap/sass/open-edx/theme';
