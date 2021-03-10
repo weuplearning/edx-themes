@@ -135,7 +135,7 @@ from lms.djangoapps.grades.course_grade import ZeroCourseGrade
         animation-duration: 0.5s;
     }
     .wrapper-preview-menu{
-       //display:none;
+       display:none;
     }
 .wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary{
     display:none !important;
@@ -517,4 +517,10 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
       });
 
 </%static:require_module_async> 
+<script>
+    var length = $("div.grade-block").length
+    $("div.grade-block").eq(length - 1).hide()
+    $("div.grade-block").eq(length - 2).hide()
+    $("div.grade-block").eq(length - 3).hide()
+</script>
 
