@@ -5,6 +5,7 @@
 
 <%!
 import json
+import six
 
 from django.conf import settings
 from django.utils.translation import ugettext as _
@@ -16,8 +17,11 @@ from openedx.core.djangolib.js_utils import dump_js_escaped_json, js_escaped_str
 from openedx.core.djangolib.markup import Text, HTML
 from openedx.features.course_experience import DISABLE_UNIFIED_COURSE_TAB_FLAG, SHOW_REVIEWS_TOOL_FLAG
 from openedx.features.course_experience.course_tools import HttpMethod
+from openedx.features.course_experience.utils import get_course_outline_block_tree
 
 from lms.djangoapps.grades.course_grade import ZeroCourseGrade
+
+from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 %>
 
 <%block name="header_extras">
@@ -416,6 +420,54 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
                         </div>                    
                     </div>
                     
+
+
+                 %if configuration_helpers.get_value('COMPLETION_BASED_DASHBOARD_MONO', False):
+
+                    <%
+                      from pprint import pformat
+                      pformat(request)
+                      pformat(six.text_type(course.id))
+                      pformat(request.user)
+
+                      course_block_tree = get_course_outline_block_tree(request, six.text_type(course.id), request.user)
+                    %>
+
+                    % for section in course_block_tree.get('children', []):
+                      <%
+                      total_blocks = 1
+                      completed_blocks = 1
+                      if not section.get('complete'):
+                        total_blocks = 0
+                        completed_blocks = 0
+                        for subsection in section.get('children', []):
+                          for unitchild in subsection.get('children', []):
+                            for blockchild in unitchild.get('children', []):
+                              total_blocks += 1
+                              if blockchild.get('complete'):
+                                completed_blocks += 1
+                      completion_ratio = completed_blocks / total_blocks
+                      %>
+                        <div class="grade-block">
+                            <div class="grade-section-title">
+                                %if completion_ratio >= 1:
+                                    <img src="${static.url('images/medal_on.svg')}" class="small-badge"/>
+                                %else:
+                                    <img src="${static.url('images/medal_off.svg')}" class="small-badge"/>
+                                %endif
+                                <div class="chapter-title" >${section['display_name']}</div>
+                                <div class="grade-value">${int(completion_ratio * 100)}%</div>
+                            </div>
+                            <div class="progress-bar-full">
+                                <div style="width:${completion_ratio * 100}%;" class="progress-bar-grade"></div>
+                            </div>
+                        </div>
+
+                    %endfor
+                 %else:
+
+
+
                     %for index, chapter in enumerate(user_grade.chapter_grades.keys()):
                         <div class="grade-block">
                             <div class="grade-section-title">
@@ -432,6 +484,9 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
                             </div>                    
                         </div>
                     %endfor
+
+                 %endif
+
             </div>
         </aside>
     </div>
