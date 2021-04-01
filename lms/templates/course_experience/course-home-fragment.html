@@ -195,7 +195,7 @@ from pprint import pformat
     }
 
     .progress-bar-grade {
-        background-color:var(--green);
+        background-color:var(--secondary);
         position: absolute;
         height: 100%;
         top:0;
@@ -531,7 +531,6 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
                                 %if section.get("scored"):
                                     <!--recup note-->
                                     %if int(user_grade.chapter_percentage(chapter_key) * 100) > 70:
-                                        <img src="${static.url('images/medal_on.svg')}" class="small-badge"/>
                                         <script>
                                               tippy('#grade-badge-${section.get('id').rsplit('@',1)[1]}', {
                                                       content: 'Vous avez validé les activités notées de cette section.',
@@ -539,7 +538,6 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
                                                     });
                                         </script>
                                     %else:
-                                        <img src="${static.url('images/medal_off.svg')}" class="small-badge"/>
                                         <script>
                                               tippy('#grade-badge-${section.get('id').rsplit('@',1)[1]}', {
                                                       content: 'Vous n\'avez pas validé les activités notées de cette section.',
@@ -570,11 +568,6 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
                     %for index, chapter in enumerate(user_grade.chapter_grades.keys()):
                         <div class="grade-block">
                             <div class="grade-section-title">
-                                %if user_grade.chapter_percentage(chapter) >= 0.7:
-                                    <img src="${static.url('images/medal_on.svg')}" class="small-badge"/>
-                                %else: 
-                                    <img src="${static.url('images/medal_off.svg')}" class="small-badge"/>
-                                %endif
                                 <div class="chapter-title" >${user_grade.chapter_grades[chapter]['display_name']}</div>
                                 <div class="grade-value">${int(user_grade.chapter_percentage(chapter) * 100)}%</div>
                             </div>
