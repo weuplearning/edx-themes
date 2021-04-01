@@ -22,11 +22,21 @@ from openedx.features.course_experience.utils import get_course_outline_block_tr
 from lms.djangoapps.grades.course_grade import ZeroCourseGrade
 
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+from opaque_keys.edx.locator import BlockUsageLocator
+
+import logging
+log = logging.getLogger(__name__)
+from pprint import pformat
+
 %>
 
 <%block name="header_extras">
   <link rel="stylesheet" type="text/css" href="${static.url('paragon/static/paragon.min.css')}" />
   <link rel="stylesheet" type="text/css" href="${static.url('weup/css/animate-4.1.1.min.css')}" />
+
+  <script src="https://unpkg.com/@popperjs/core@2"></script>
+  <script src="https://unpkg.com/tippy.js@6"></script>
+
   <style>
     header.page-header.has-secondary{
         background-color: var(--primary);
@@ -332,7 +342,6 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
             font-size: 14px;
         }
     }
-
   </style>
   <script>
 document.title = "Cours | ${HTML(course.display_name_with_default)}";
@@ -404,69 +413,159 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
             <h4>Suivi de votre progression</h4>
             <div class="section" id="badges">
                     
-                    <div class="grade-block">       
-                        <div class="grade-section-title">
-                            %if user_grade.passed:
-                                <img src="${static.url('images/medal_on.svg')}" class="main-badge"/>
-                            %else: 
-                                <img src="${static.url('images/medal_off.svg')}" class="main-badge"/>
-                            %endif
-                            <div style="text-transform: uppercase;">${course.display_name_with_default}</div>
-                            <div class="grade-value">${int(user_grade.percent * 100)}%</div>
-                        </div>
-                        <div class="progress-bar-full" id="final-grade-progress">
-                            <div style="width:${int(user_grade.percent * 100)}%;" class="progress-bar-grade" ></div>
-                            
-                        </div>                    
-                    </div>
-                    
-
 
                  %if configuration_helpers.get_value('COMPLETION_BASED_DASHBOARD_MONO', False):
-
-                    <%
-                      from pprint import pformat
-                      pformat(request)
-                      pformat(six.text_type(course.id))
-                      pformat(request.user)
+                      <%
 
                       course_block_tree = get_course_outline_block_tree(request, six.text_type(course.id), request.user)
-                    %>
+                      progress_percentage = 0
+                      total_blocks = 0
+                      completed_blocks = 0
 
-                    % for section in course_block_tree.get('children', []):
-                      <%
-                      total_blocks = 1
-                      completed_blocks = 1
-                      if not section.get('complete'):
-                        total_blocks = 0
-                        completed_blocks = 0
+                      for section in course_block_tree.get('children', []):
+                        chapter_key = BlockUsageLocator.from_string(section.get("id"))
                         for subsection in section.get('children', []):
                           for unitchild in subsection.get('children', []):
                             for blockchild in unitchild.get('children', []):
                               total_blocks += 1
                               if blockchild.get('complete'):
                                 completed_blocks += 1
+                      progress_percentage = completed_blocks / total_blocks
+                      %>
+
+
+                    <div class="grade-block">
+                        <div class="grade-section-title">
+                            %if progress_percentage >=1:
+                                <img src="${static.url('images/medal_on.svg')}" class="main-badge" id="coursesuccess_badge"/>
+                                <script>
+                                              tippy('#coursesuccess_badge', {
+                                                      content: 'Vous avez consulté toutes les activités du cours.',
+                                                      placement: 'left-start'
+                                                    });
+                                </script>
+                            %else:
+                                <img src="${static.url('images/medal_off.svg')}" class="main-badge" id="coursenotsuccess_badge"/>
+                                <script>
+                                              tippy('#coursenotsuccess_badge', {
+                                                      content: 'Vous n\'avez pas encore consulté toutes les activités du cours.',
+                                                      placement: 'left-start'
+                                                    });
+                                </script>
+                            %endif
+                            <div style="text-transform: uppercase;">${course.display_name_with_default}</div>
+                            <div class="grade-value">${int(progress_percentage * 100)}%</div>
+                        </div>
+                        <div class="progress-bar-full" id="final-grade-progress">
+                            <div style="width:${int(progress_percentage * 100)}%;" class="progress-bar-grade" ></div>
+                            <script>
+                                    tippy('#final-grade-progress', {
+                                          content: 'Votre progression gobale est de ${int(progress_percentage * 100)}%.',
+                                          placement: 'top'
+                                    });
+                            </script>
+                        </div>
+                    </div>
+
+                 %else:
+                    <div class="grade-block">       
+                        <div class="grade-section-title">
+                            %if user_grade.passed:
+                                <img src="${static.url('images/medal_on.svg')}" class="main-badge" id="coursesuccess_badge"/>
+                                <script>
+                                              tippy('#coursesuccess_badge', {
+                                                      content: 'Vous avez validé les activités notées du cours.',
+                                                      placement: 'left-start'
+                                                    });
+                                </script>
+                            %else: 
+                                <img src="${static.url('images/medal_off.svg')}" class="main-badge" id="coursenotsuccess_badge"/>
+                                <script>
+                                              tippy('#coursenotsuccess_badge', {
+                                                      content: 'Vous n\'avez pas encore validé les activités notées du cours.',
+                                                      placement: 'left-start'
+                                                    });
+                                </script>
+                            %endif
+                            <div style="text-transform: uppercase;">${course.display_name_with_default}</div>
+                            <div class="grade-value">${int(user_grade.percent * 100)} / 100</div>
+                        </div>
+                        <div class="progress-bar-full" id="final-grade-progress">
+                            <div style="width:${int(user_grade.percent * 100)}%;" class="progress-bar-grade" ></div>
+                            <script>
+                                    tippy('#final-grade-progress', {
+                                          content: 'Votre note totale est de ${int(user_grade.percent * 100)}/100.',
+                                          placement: 'top'
+                                    });
+                            </script>
+                        </div>                    
+                    </div>
+                 %endif
+
+
+                 %if configuration_helpers.get_value('COMPLETION_BASED_DASHBOARD_MONO', False):
+
+                    <%
+                      course_block_tree = get_course_outline_block_tree(request, six.text_type(course.id), request.user)
+                    %>
+
+                    % for section in course_block_tree.get('children', []):
+                      <%
+                      chapter_key = BlockUsageLocator.from_string(section.get("id"))
+                      total_blocks = 1
+                      completed_blocks = 1
+                      total_blocks = 0
+                      completed_blocks = 0
+                      for subsection in section.get('children', []):
+                        for unitchild in subsection.get('children', []):
+                          for blockchild in unitchild.get('children', []):
+                            total_blocks += 1
+                            if blockchild.get('complete'):
+                              completed_blocks += 1
+                              if str(blockchild.get('id')) == "block-v1:bmd+FR+2021+type@html+block@63a8eb9da88a4939a3e06f0ae803b722" or str(blockchild.get('id')) == "block-v1:bmd+FR+2021+type@html+block@e48fa4ce34b7483cbc697ee63b885ffe":
+                                completed_blocks -= 1
                       completion_ratio = completed_blocks / total_blocks
                       %>
                         <div class="grade-block">
-                            <div class="grade-section-title">
-                                %if completion_ratio >= 1:
-                                    <img src="${static.url('images/medal_on.svg')}" class="small-badge"/>
-                                %else:
-                                    <img src="${static.url('images/medal_off.svg')}" class="small-badge"/>
+                            <div class="grade-section-title" id="grade-badge-${section.get('id').rsplit('@',1)[1]}">
+                                %if section.get("scored"):
+                                    <!--recup note-->
+                                    %if int(user_grade.chapter_percentage(chapter_key) * 100) > 70:
+                                        <img src="${static.url('images/medal_on.svg')}" class="small-badge"/>
+                                        <script>
+                                              tippy('#grade-badge-${section.get('id').rsplit('@',1)[1]}', {
+                                                      content: 'Vous avez validé les activités notées de cette section.',
+                                                      placement: 'left-start'
+                                                    });
+                                        </script>
+                                    %else:
+                                        <img src="${static.url('images/medal_off.svg')}" class="small-badge"/>
+                                        <script>
+                                              tippy('#grade-badge-${section.get('id').rsplit('@',1)[1]}', {
+                                                      content: 'Vous n\'avez pas validé les activités notées de cette section.',
+                                                      placement: 'left-start'
+                                                    });
+                                        </script>
+                                    %endif
                                 %endif
                                 <div class="chapter-title" >${section['display_name']}</div>
                                 <div class="grade-value">${int(completion_ratio * 100)}%</div>
                             </div>
-                            <div class="progress-bar-full">
+                            <div class="progress-bar-full" id="progress-bar-${section.get('id').rsplit('@',1)[1]}">
                                 <div style="width:${completion_ratio * 100}%;" class="progress-bar-grade"></div>
                             </div>
+                                        <script>
+                                              tippy('#progress-bar-${section.get('id').rsplit('@',1)[1]}', {
+                                                      content: 'Vous avez consulté ${int(completion_ratio * 100)}% des contenus de cette section.',
+                                                      placement: 'top'
+                                                    });
+                                        </script>
+
                         </div>
 
                     %endfor
+
                  %else:
-
-
 
                     %for index, chapter in enumerate(user_grade.chapter_grades.keys()):
                         <div class="grade-block">
