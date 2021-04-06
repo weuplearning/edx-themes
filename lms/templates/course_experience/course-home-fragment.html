@@ -410,7 +410,11 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
             % endif
         </div>
         <aside class="page-content-secondary course-sidebar">
-            <h4>Suivi de votre progression</h4>
+	    %if request.path == "/courses/course-v1:bmd+EN+2021/course/":
+            	<h4>Progress Tracking</h4>
+	    %else:
+		<h4>Suivi de votre progression</h4>
+	    %endif
             <div class="section" id="badges">
                     
 
@@ -438,32 +442,41 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
                         <div class="grade-section-title">
                             %if progress_percentage >=1:
                                 <img src="${static.url('images/medal_on.svg')}" class="main-badge" id="coursesuccess_badge"/>
-                                <script>
+                              <!--  <script>
                                               tippy('#coursesuccess_badge', {
                                                       content: 'Vous avez consulté toutes les activités du cours.',
                                                       placement: 'left-start'
                                                     });
-                                </script>
+                                </script> -->
                             %else:
                                 <img src="${static.url('images/medal_off.svg')}" class="main-badge" id="coursenotsuccess_badge"/>
-                                <script>
+                              <!--  <script>
                                               tippy('#coursenotsuccess_badge', {
                                                       content: 'Vous n\'avez pas encore consulté toutes les activités du cours.',
                                                       placement: 'left-start'
                                                     });
-                                </script>
+                                </script> -->
                             %endif
                             <div style="text-transform: uppercase;">${course.display_name_with_default}</div>
                             <div class="grade-value">${int(progress_percentage * 100)}%</div>
                         </div>
                         <div class="progress-bar-full" id="final-grade-progress">
                             <div style="width:${int(progress_percentage * 100)}%;" class="progress-bar-grade" ></div>
-                            <script>
-                                    tippy('#final-grade-progress', {
-                                          content: 'Votre progression gobale est de ${int(progress_percentage * 100)}%.',
-                                          placement: 'top'
-                                    });
-                            </script>
+			    %if request.path == "/courses/course-v1:bmd+EN+2021/course/":
+                           	 <script>
+                                    	tippy('#final-grade-progress', {
+                                          	content: 'Your overall progress is ${int(progress_percentage * 100)}%.',
+                                          	placement: 'top'
+                                    	});
+                            	</script>
+			    %else:
+			        <script>
+        				tippy('#final-grade-progress', {
+            					content: 'Votre progression gobale est de ${int(progress_percentage * 100)}%.',
+            					placement: 'top'
+        				});
+    				</script>
+			    %endif
                         </div>
                     </div>
 
@@ -531,19 +544,38 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
                                 %if section.get("scored"):
                                     <!--recup note-->
                                     %if int(user_grade.chapter_percentage(chapter_key) * 100) > 70:
-                                        <script>
-                                              tippy('#grade-badge-${section.get('id').rsplit('@',1)[1]}', {
-                                                      content: 'Vous avez validé les activités notées de cette section.',
-                                                      placement: 'left-start'
-                                                    });
-                                        </script>
+                                        %if request.path == "/course/course-v1:bmd+EN+2021/course/" :
+                                            <script>
+                                                tippy('#grade-badge-${section.get('id').rsplit('@',1)[1]}', {
+                                                        content: 'You have validated the activities noted in this sequence.',
+                                                        placement: 'left-start'
+                                                        });
+                                            </script>
+                                        %else:
+                                            <script>
+                                                tippy('#grade-badge-${section.get('id').rsplit('@',1)[1]}', {
+                                                        content: 'Vous avez validé les activités notées de cette section.',
+                                                        placement: 'left-start'
+                                                        });
+                                            </script>
+                                        %endif    
                                     %else:
-                                        <script>
-                                              tippy('#grade-badge-${section.get('id').rsplit('@',1)[1]}', {
-                                                      content: 'Vous n\'avez pas validé les activités notées de cette section.',
-                                                      placement: 'left-start'
-                                                    });
-                                        </script>
+                                        %if request.path == "/courses/course-v1:bmd+EN+2021/course/":
+					    <script>
+       						 tippy('#grade-badge-${section.get('id').rsplit('@',1)[1]}', {
+      					        	 content: 'You have not validated the graded activities in this sequence.',
+               						 placement: 'left-start'
+           						 });
+   					    </script>
+			                %else :
+   					    <script>
+       						 tippy('#grade-badge-${section.get('id').rsplit('@',1)[1]}', {
+               					       content: 'Vous n\'avez pas validé les activités notées de cette section',
+         					       placement: 'left-start'
+           					       });
+   					    </script>
+					%endif            
+                                       
                                     %endif
                                 %endif
                                 <div class="chapter-title" >${section['display_name']}</div>
@@ -552,12 +584,22 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
                             <div class="progress-bar-full" id="progress-bar-${section.get('id').rsplit('@',1)[1]}">
                                 <div style="width:${completion_ratio * 100}%;" class="progress-bar-grade"></div>
                             </div>
+                            
+			    %if request.path == "/courses/course-v1:bmd+EN+2021/course/":
                                         <script>
                                               tippy('#progress-bar-${section.get('id').rsplit('@',1)[1]}', {
-                                                      content: 'Vous avez consulté ${int(completion_ratio * 100)}% des contenus de cette section.',
+                                                      content: 'You have consulted  ${int(completion_ratio * 100)}% of the content of this sequence.',
                                                       placement: 'top'
                                                     });
                                         </script>
+                            %else:
+                                        <script>
+                                            tippy('#progress-bar-${section.get('id').rsplit('@',1)[1]}', {
+                                                    content: 'Vous avez consulté ${int(completion_ratio * 100)}% des contenus de cette section.',
+                                                    placement: 'top'
+                                                });
+                                        </script>
+                            %endif
 
                         </div>
 
@@ -674,4 +716,8 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
     $( document ).ready(function() {
         document.title = "Becoming More Digital";
     });
+</script>
+<script>
+console.log(${user_grade.passed})
+console.log("test")
 </script>
