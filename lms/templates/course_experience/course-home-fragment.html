@@ -27,7 +27,6 @@ from opaque_keys.edx.locator import BlockUsageLocator
 import logging
 log = logging.getLogger(__name__)
 from pprint import pformat
-
 %>
 
 <%block name="header_extras">
@@ -344,7 +343,9 @@ from pprint import pformat
     }
   </style>
   <script>
-document.title = "Cours | ${HTML(course.display_name_with_default)}";
+
+    document.title = "Cours | ${HTML(course.display_name_with_default)}";
+
   </script>
 
 </%block>
@@ -356,6 +357,7 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
         <div class="page-header-main">
             <img id="logo_banner" src="${static.url('{}/images/logo_secondary.png'.format(course.org))}" alt="banner logo">
         </div>
+
         <div class="page-header-secondary">
             % if show_search:
                 <div class="page-header-search">
@@ -535,8 +537,11 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
                             total_blocks += 1
                             if blockchild.get('complete'):
                               completed_blocks += 1
-                              if str(blockchild.get('id')) == "block-v1:bmd+FR+2021+type@html+block@63a8eb9da88a4939a3e06f0ae803b722" or str(blockchild.get('id')) == "block-v1:bmd+FR+2021+type@html+block@e48fa4ce34b7483cbc697ee63b885ffe":
-                                completed_blocks -= 1
+                              try :
+                                if (str(blockchild.get('id')) == "block-v1:bmd+FR+2021+type@html+block@63a8eb9da88a4939a3e06f0ae803b722" and not json.loads(request.user.profile.custom_field)["virtual_class_1"]) or (str(blockchild.get('id')) == "block-v1:bmd+FR+2021+type@html+block@e48fa4ce34b7483cbc697ee63b885ffe" and not json.loads(request.user.profile.custom_field)["virtual_class_2"]) or (str(blockchild.get('id')) == "block-v1:bmd+EN+2021+type@html+block@63a8eb9da88a4939a3e06f0ae803b722" and not json.loads(request.user.profile.custom_field)["virtual_class_1"]) or (str(blockchild.get('id')) == "block-v1:bmd+EN+2021+type@html+block@e48fa4ce34b7483cbc697ee63b885ffe" and not json.loads(request.user.profile.custom_field)["virtual_class_2"]):
+                                    completed_blocks -= 1
+                              except:
+                                completed_blocks -=1
                       completion_ratio = completed_blocks / total_blocks
                       %>
                         <div class="grade-block">
@@ -711,13 +716,10 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
     $("div.grade-block").eq(length - 1).hide()
     $("div.grade-block").eq(length - 2).hide()
     $("div.grade-block").eq(length - 3).hide()
-</script>
-<script>
-    $( document ).ready(function() {
+
+
+    $(document).ready(function() {
         document.title = "Becoming More Digital";
     });
-</script>
-<script>
-console.log(${user_grade.passed})
-console.log("test")
+
 </script>
