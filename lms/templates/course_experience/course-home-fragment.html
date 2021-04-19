@@ -531,6 +531,7 @@ from pprint import pformat
                       completed_blocks = 1
                       total_blocks = 0
                       completed_blocks = 0
+
                       for subsection in section.get('children', []):
                         for unitchild in subsection.get('children', []):
                           for blockchild in unitchild.get('children', []):
@@ -538,10 +539,26 @@ from pprint import pformat
                             if blockchild.get('complete'):
                               completed_blocks += 1
                               try :
-                                if (str(blockchild.get('id')) == "block-v1:bmd+FR+2021+type@html+block@63a8eb9da88a4939a3e06f0ae803b722" and not json.loads(request.user.profile.custom_field)["virtual_class_1"]) or (str(blockchild.get('id')) == "block-v1:bmd+FR+2021+type@html+block@e48fa4ce34b7483cbc697ee63b885ffe" and not json.loads(request.user.profile.custom_field)["virtual_class_2"]) or (str(blockchild.get('id')) == "block-v1:bmd+EN+2021+type@html+block@63a8eb9da88a4939a3e06f0ae803b722" and not json.loads(request.user.profile.custom_field)["virtual_class_1"]) or (str(blockchild.get('id')) == "block-v1:bmd+EN+2021+type@html+block@e48fa4ce34b7483cbc697ee63b885ffe" and not json.loads(request.user.profile.custom_field)["virtual_class_2"]):
+                                if (str(blockchild.get('id')) == "block-v1:bmd+FR+2021+type@html+block@63a8eb9da88a4939a3e06f0ae803b722") or (str(blockchild.get('id')) == "block-v1:bmd+FR+2021+type@html+block@e48fa4ce34b7483cbc697ee63b885ffe") or (str(blockchild.get('id')) == "block-v1:bmd+EN+2021+type@html+block@63a8eb9da88a4939a3e06f0ae803b722") or (str(blockchild.get('id')) == "block-v1:bmd+EN+2021+type@html+block@e48fa4ce34b7483cbc697ee63b885ffe") or (str(blockchild.get('id')) == "block-v1:bmd+bmd001+SP+type@html+block@63a8eb9da88a4939a3e06f0ae803b722") :
                                     completed_blocks -= 1
                               except:
-                                completed_blocks -=1
+                                pass
+                            
+                            if (str(blockchild.get('id')) == "block-v1:bmd+FR+2021+type@html+block@63a8eb9da88a4939a3e06f0ae803b722") or (str(blockchild.get('id')) == "block-v1:bmd+EN+2021+type@html+block@63a8eb9da88a4939a3e06f0ae803b722") or (str(blockchild.get('id')) == "block-v1:bmd+bmd001+SP+type@html+block@63a8eb9da88a4939a3e06f0ae803b722"): 
+                              try :
+                                if (json.loads(request.user.profile.custom_field)["virtual_class_1"] == True) or (json.loads(request.user.profile.custom_field)["virtual_class_1"] == "true"):
+                                  completed_blocks += 1
+                              except :
+                                pass
+                            elif (str(blockchild.get('id')) == "block-v1:bmd+FR+2021+type@html+block@e48fa4ce34b7483cbc697ee63b885ffe") or (str(blockchild.get('id')) == "block-v1:bmd+EN+2021+type@html+block@e48fa4ce34b7483cbc697ee63b885ffe") or (str(blockchild.get('id')) == "block-v1:bmd+bmd001+SP+type@html+block@e48fa4ce34b7483cbc697ee63b885ffe"):
+                              try :
+                                if (json.loads(request.user.profile.custom_field)["virtual_class_2"] == True) or (json.loads(request.user.profile.custom_field)["virtual_class_2"] == "true"):
+                                  completed_blocks += 1
+                              except :
+                                pass
+                            else:
+                              pass
+
                       completion_ratio = completed_blocks / total_blocks
                       %>
                         <div class="grade-block">
@@ -586,9 +603,11 @@ from pprint import pformat
                                 <div class="chapter-title" >${section['display_name']}</div>
                                 <div class="grade-value">${int(completion_ratio * 100)}%</div>
                             </div>
+
                             <div class="progress-bar-full" id="progress-bar-${section.get('id').rsplit('@',1)[1]}">
                                 <div style="width:${completion_ratio * 100}%;" class="progress-bar-grade"></div>
                             </div>
+                                
                             
 			    %if request.path == "/courses/course-v1:bmd+EN+2021/course/":
                                         <script>
