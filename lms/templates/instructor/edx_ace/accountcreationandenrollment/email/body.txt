@@ -1,4 +1,4 @@
-{% if course_key == 'course-v1:bmd+bmd001+SP'%}
+{% if course_key == 'course-v1:bmd+FR+2021'%}
 
 Bonjour,
 
