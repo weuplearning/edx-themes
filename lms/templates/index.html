@@ -1,0 +1,179 @@
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.urls import reverse
+
+from openedx.core.djangolib.markup import HTML, Text
+%>
+
+<style>
+  .global-header {
+    display: none;
+  }
+
+  .wrapper-footer {
+    display: none;
+  }
+
+  .main-container {
+    background-image: url("${static.url('linkingcities/images/Photo_Linking_Cities.jpg')}");
+    background-size: cover;
+    background-position: center;
+    margin-top: 0;
+    position: relative;
+    z-index: 0;
+  }
+
+  .main-container::before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.3);
+    top:0;
+    left:0;
+    position: absolute;
+    z-index: -1;
+  }
+
+  .home {
+    width: calc(100% - 60px);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    margin-bottom: 80px;
+  }
+   
+  #linkingcities-logo, #partners-logos {
+    width: 550px;
+
+  }
+  #linkingcities-logo {
+    margin-bottom: 50px;
+  }
+
+  #input[type="submit"], input[type="button"], button, .button {
+    background-color: #E68D23 !important;
+    width: 180px;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 50px 0;
+    padding: 15px 0;
+    background-image: none !important;
+    text-shadow: none !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  #welcome-title {
+    font-family:  Helvetica, Arial, sans-serif;
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 50px;
+    text-align: center;
+  }
+
+  .top-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    margin-bottom: 50px;
+  }
+  .secondary-logos-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .secondary-logos{
+    width: 100px;
+    margin: 30px;
+  }
+
+  @media (max-width: 768px) {
+    #linkingcities-logo, #partners-logos {
+      width: 250px;
+    }
+
+    #welcome-title {
+      font-size: 20px;
+    }
+  }
+
+  @media (max-width: 500) {
+    #linkingcities-logo {
+      width: 200px;
+    }
+
+    .secondary-logos {
+      width: 100px;
+    }
+
+    #welcome-title {
+      font-size: 14px;
+    }
+
+    #input[type="submit"], input[type="button"], button, .button {
+      width: 120px;
+    }
+  }
+</style>
+
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="home">
+      <div class="top-area">
+        <img src="${static.url('linkingcities/images/Logo_Netexplo_Noir.png')}" alt="Netexplo logo" class="secondary-logos"/>
+        <img src="${static.url('linkingcities/images/ESCP_LOGO_CMJN.png')}" alt="ESCP logo" class="secondary-logos"/>
+      </div>
+
+      <div id="welcome-title" >Welcome to</div>
+
+      <img src="${static.url('linkingcities/images/logo.png')}" alt="Linking Cities logo" id="linkingcities-logo"/>
+
+      <div class="secondary-logos-area">
+        <img src="${static.url('linkingcities/images/Logo_Télécom.png')}" alt="Logos Télécom Paris" class="secondary-logos"/>
+        <img src="${static.url('linkingcities/images/1200px-Peking_University_seal.svg.png')}" alt="Logos Peking University" class="secondary-logos"/>
+        <img src="${static.url('linkingcities/images/Université_Jiao_Tong.gif')}" alt="Logos Shanghai Jia Tong University" class="secondary-logos"/>
+        <img src="${static.url('linkingcities/images/HEC Montréal.gif')}" alt="Logos HEC Montréal" class="secondary-logos"/>
+        <img src="${static.url('linkingcities/images/National_University_of_Singapore_logo_NUS_logotype.png')}" alt="Logos NUS" class="secondary-logos"/>
+      </div>
+
+      <a href="/login?next=/dashboard">
+        <button id="home-login" >
+          Connection
+        </button>
+      </a>
+
+    </section>
+</main>
+
+% if show_homepage_promo_video:
+  <section id="video-modal" class="modal home-page-video-modal video-modal">
+    <div class="inner-wrapper">
+      <iframe title="YouTube Video" width="640" height="360" src="//www.youtube.com/embed/${homepage_promo_video_youtube_id}?showinfo=0" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </section>
+% endif
+
+<%block name="js_extra">
+   <script type="text/javascript">
+      $(window).load(function() {
+         if(getParameterByName('next')) {
+              $('#login').trigger("click");
+         }
+      })
+   </script>
+</%block>
+
+% if show_signup_immediately is not UNDEFINED:
+  ## NOTE: This won't work in production, because anonymous views are cached, so it will
+  ## show either with or without this extra js for 3 minutes at a time.
+<script type="text/javascript">
+  $(window).load(function() {$('#signup_action').trigger("click");});
+</script>
+% endif

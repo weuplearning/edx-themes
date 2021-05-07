@@ -1,0 +1,22 @@
+
+// Theme colors
+$primary:  #E68D23;
+$secondary:  #778692;
+
+$theme-colors: (
+  "tertiary": #119FBF
+);
+
+// Theme fonts
+$font-family-sans-serif: Helvetica;
+
+$action-primary-bg: $secondary !default;
+$action-primary-shadow: $secondary !default;
+$action-primary-focused-bg: $secondary !default;
+$action-primary-active-bg: $secondary !default;
+$action-primary-active-fg: $secondary !default;
+$action-primary-active-shadow: $secondary !default;
+$action-primary-active-focused-fg: $secondary !default;
+$action-primary-active-focused-shadow: $secondary !default;
+
+@import 'edx-bootstrap/sass/open-edx/theme';
