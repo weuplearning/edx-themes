@@ -9,6 +9,10 @@ from openedx.core.djangolib.markup import HTML, Text
 %>
 
 <style>
+  .content-wrapper {
+    max-width: none;
+  }
+  
   .global-header {
     display: none;
   }
@@ -42,10 +46,11 @@ from openedx.core.djangolib.markup import HTML, Text
     height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
+    /* justify-content: center; */
     align-items: center;
-    padding: 30px;
-    margin-bottom: 80px;
+    /* padding: 30px;
+    margin-bottom: 80px; */
   }
    
   #linkingcities-logo, #partners-logos {
@@ -53,7 +58,7 @@ from openedx.core.djangolib.markup import HTML, Text
 
   }
   #linkingcities-logo {
-    margin-bottom: 50px;
+    margin-bottom: 100px;
   }
 
   #input[type="submit"], input[type="button"], button, .button {
@@ -73,7 +78,7 @@ from openedx.core.djangolib.markup import HTML, Text
     font-family:  Helvetica, Arial, sans-serif;
     font-size: 28px;
     font-weight: bold;
-    color: white;
+    color: #1E1D1C;
     margin-bottom: 50px;
     text-align: center;
   }
@@ -83,7 +88,7 @@ from openedx.core.djangolib.markup import HTML, Text
     justify-content: space-between;
     align-items: center;
     width: 80%;
-    margin-bottom: 50px;
+    margin-bottom: 100px;
   }
   .secondary-logos-area {
     display: flex;
