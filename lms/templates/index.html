@@ -20,16 +20,23 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
          <meta charset='utf-8'>
          <meta name='viewport' content='width=device-width, initial-scale=1.0'>
          <link rel="icon" type="image/png" href="https://amazon.the-mooc-agency.com/media/microsite/amazon/auto/images/favicon_adn.png" />
-         <title id='masterTitle'>L'accélérateur du numérique</title>
+         <title id='masterTitle'>L'accélérateur du Numérique</title>
          <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm">
          <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
          <script src="https://kit.fontawesome.com/6ec0f48ece.js" crossorigin="anonymous"></script>
          <link rel="stylesheet" href="https://amazon.the-mooc-agency.com/media/microsite/amazon/css/style.css?v=25nov">
 
-    <meta name=description content="Un programme de formation gratuit qui accompagne les entrepreneurs français étape par étape dans leur transition numérique."/>
-    <meta property="og:site_name" content="L'accélérateur du numérique"/>
-    <meta property="og:title" content="L'accélérateur du numérique"/>
-    <meta property="og:description" content="Un programme de formation gratuit qui accompagne les entrepreneurs français étape par étape dans leur transition numérique."/>
+
+  <script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA==" crossorigin="anonymous"></script>
+
+    <meta name=description content="Un programme de formation gratuit, initié par Amazon, qui accompagne les entrepreneurs français étape par étape dans leur transition numérique."/>
+    <meta property="og:site_name" content="L'accélérateur du Numérique"/>
+    <meta property="og:title" content="L'accélérateur du Numérique"/>
+    <meta property="og:description" content="Un programme de formation gratuit, initié par Amazon, qui accompagne les entrepreneurs français étape par étape dans leur transition numérique."/>
     <meta property="og:image" content="https://amazon.the-mooc-agency.com/media/microsite/amazon/auto/images/favicon_adn.png">
     <meta property="og:url" content="https://www.accelerateur-du-numerique.fr/">
     <meta property="og:type" content="website"/>
@@ -59,6 +66,20 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
   width: 100%;
   height: 100%;
 }
+.asba_en_logo.asba_logo_big {
+  margin-top: 0px;
+}
+.footerBottom > .footer-block-padd {
+    width: 234px;
+    margin: auto;
+}
+h1.text-dark {
+ font-size: 1.75em;
+}
+#footer {
+ background-image: none;
+ padding-bottom: 70px;
+}
     </style>
 <style>
 /*FAQ section, where the accordion is kept, including section specific css*/
@@ -85,6 +106,12 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 #faq p, #faq h4{
         text-align: justify;
 }
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+  #faq h4{
+    text-align: left;
+  }
+}
+
 /*Accordion container and each item*/
 .accordion{
         max-width: 800px;
@@ -136,13 +163,78 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
   font-weight: 400;
 }
 
-.accordion-content p{
-  padding: 20px;
-        color: white;
+.accordion-content p {
+ padding: 20px;
+ color: white;
+}
+
+@media screen and (max-width: 600px) {
+ #se1 {
+  background-image: none;
+ }
+ .accordion {
+  padding: 0;
+ }
+ .accordion-content {
+  background-color: white;
+ }
+ .accordion-content p {
+  color: #f90
+ }
 }
 
 a.register-btn{
   margin-top:20px;
+}
+.footer-column .footer-block-padd a{
+  color:#989898 !important;
+  display: block;
+  text-align: center;
+}
+.teaser{
+  padding-top:50px;
+}
+h1{
+font-size: 1.75em;
+    margin-bottom: .56em;
+}
+.webinar_mooc{
+    padding-bottom: 5rem;
+}
+.title-row{
+    padding: 5rem 0 2rem 0;
+}
+.title-secondary.forced-to-ink{
+    color:rgb(52, 58, 64) !important;
+}
+#joinFree ul {
+  list-style: none;
+  min-width: 353px;
+}
+#joinFree li:before {
+  font-family: FontAwesome;
+  content: "\f138";
+  position: absolute;
+  left : -5px;
+  color: #fc9901;
+}
+#joinFree li {
+ text-align: left;
+ color: rgb(103, 108, 123);
+}
+@media screen and (max-width : 570px) {
+  #joinFree li:before {
+    left : 15px;
+  }
+  #joinFree li {
+    padding-left: 20px;
+  }
+}
+.login-link{
+  color:#ff9900;
+}
+.login-link:hover{
+  color:#ff9900;
 }
 </style>
 
@@ -194,7 +286,8 @@ catch(e){window.attachEvent("onload", $buo_f)}
     });
 
 //Linkedin BPI
-_linkedin_partner_id = "341164";
+/*
+linkedin_partner_id = "341164";
 window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
 window._linkedin_data_partner_ids.push(_linkedin_partner_id);
 (function(){var s = document.getElementsByTagName("script")[0];
@@ -202,6 +295,7 @@ var b = document.createElement("script");
 b.type = "text/javascript";b.async = true;
 b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
 s.parentNode.insertBefore(b, s);})();
+*/
 
 //Facebook Pixel BPI
 /*
@@ -218,18 +312,69 @@ s.parentNode.insertBefore(b, s);})();
 */
 
 //Twitter BPI
+/*
 !function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
 },s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
 a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
 // Insert Twitter Pixel ID and Standard Event data below
 twq('init','nuo2e');
 twq('track','PageView');
+*/
+
+//Facebook Pixel Amazon - 1st feb 2021
+<!-- Facebook Pixel Code -->
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '727182344599978');
+  fbq('track', 'PageView');
+<!-- End Facebook Pixel Code -->
+
+
+//LinkedIn Amazon - 1st feb 2021
+_linkedin_partner_id = "2919596";
+window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+(function(){var s = document.getElementsByTagName("script")[0];
+var b = document.createElement("script");
+b.type = "text/javascript";b.async = true;
+b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+s.parentNode.insertBefore(b, s);})();
 
 
   }
 
   gtag('js', new Date());
   gtag('config', '${ga_acct}');
+</script>
+
+<!-- Global site tag (gtag.js) - Google Ads: 880903564 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-880903564"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    analytics_storage: 'denied',
+    wait_for_update: 1000,
+  });
+
+  if($.cookie("cookieconsent_status")=="allow"){
+    gtag('consent', 'update', {
+      ad_storage: 'granted',
+      analytics_storage: 'granted',
+    });
+  }
+
+  gtag('js', new Date());
+
+  gtag('config', 'AW-880903564');
 </script>
 % endif
 
@@ -238,19 +383,25 @@ twq('track','PageView');
    <body>
       <%include file="widgets/cookie-consent.html" />
       <section id="se1" class="text-center">
-      <nav id = "nav"class="navbar navbar-default">
+<!--      <nav id = "nav"class="navbar navbar-default">-->
       </nav>
       <div>
          <div class="container">
             <div class="slide-content main-content-slide content-left content-center">
             <div class="asba_en_logo dark asba_logo_big"></div>
-            <h2 class="text-dark">Un programme de formation gratuit qui accompagne les entrepreneurs français<br/>étape par étape dans leur transition numérique.</h2>
+            <h1 class="text-dark">Un programme de formation gratuit qui accompagne les entrepreneurs français<br/>étape par étape dans leur transition numérique.</h1>
             </div>
          </div>
       </div>
       </section>
       <section id="se2" class="container text-center">
-         <div class="row">
+        <div class="row" style="margin-bottom: 25px;">
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 textCenter"></div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 textCenter"><a class="en--btn btn-secondary register-btn" href="/register?next=%2Fabout" style=""><span class="text-big">M'inscrire</span></a>
+                <a class="login-link" href="/login">Me connecter</a>
+            </div>
+        </div>    
+        <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter">
                <div class="row">
                   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter col-centered marAuto" >
@@ -258,25 +409,102 @@ twq('track','PageView');
                   </div>
                </div>
                <div class="row">
-
                   <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 textCenter marAuto" >
-                     <img height=100 src="https://amazon.the-mooc-agency.com/media/microsite/amazon/assets/learning.png">
+                     <img height=100 alt"picto learning" src="https://amazon.the-mooc-agency.com/media/microsite/amazon/assets/learning.png">
                   </div>
 
                   <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 textCenter marAuto" >
                      <p class="edito">
-                     L’Accélérateur du Numérique est un <strong>programme de formation au numérique</strong> initié par Amazon<!--, en partenariat avec BPI France-->. Il est destiné à accompagner pas à pas l’ensemble des entrepreneurs français dans leur transformation numérique et les aider ainsi à développer leur activité en ligne. Le programme couvre une large variété de sujets, du marketing à la logistique en passant par le choix de la stratégie de vente. L’accès au programme est gratuit, sur simple inscription.
+                     L’Accélérateur du Numérique est un <strong>programme de formation au numérique</strong>. Il est destiné à accompagner pas à pas l’ensemble des entrepreneurs français dans leur transformation numérique et les aider ainsi à développer leur activité en ligne. Le programme couvre une large variété de sujets, du marketing à la logistique en passant par le choix de la stratégie de vente. L’accès au programme est gratuit, sur simple inscription.
+                     <br/><br/>
+                     L’Accélérateur du Numérique s’adresse à tout type d’entreprises, à toute étape de son développement. Le programme est destiné aussi bien aux entrepreneurs en cours de création d’entreprise, aux gérants d’entreprises en recherche des meilleurs outils pour développer leur activité, ou aux entreprises déjà bien établies cherchant à aller encore plus loin.
                      </p>
                   </div>
                </div>
+<!--
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter title-row">
+      <h2 class="sectionTitle textCenter title-secondary">
+        Découvrez les différents formats pédagogiques
+      </h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 textCenter webinar_mooc">
+      <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 textCenter">
+          <h2 class="sectionTitle textCenter title-secondary forced-to-ink">Cours en ligne</h2>
+          <p class="edito">Des modules vidéos courts et autonomes pour démarrer la vente en ligne.</p>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 textCenter">
+          <img height=100 alt"picto cours en ligne" src="https://amazon.the-mooc-agency.com/media/microsite/amazon/assets/mooc.png">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter">
+          <a class="en--btn btn-secondary register-btn last-btn-of-row" href="/register" style=""><span class="text-big">M'inscrire</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 textCenter webinar_mooc">
+      <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 textCenter">
+          <h2 class="sectionTitle textCenter title-secondary forced-to-ink">Webinaires</h2>
+          <p class="edito">Des formations en direct animées par des experts.<br/>&nbsp;</p>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 textCenter">
+          <img height=100 alt"picto webinar" src="https://amazon.the-mooc-agency.com/media/microsite/amazon/assets/webinar.png">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter">
+          <a class="en--btn btn-secondary register-btn" href="/register?next=%2Fcourses%2Fcourse-v1%3Aamazon%2Bamazon001%2BSP%2Fc35c81be41c34ad3814a6ffae7515b0f%2F" style=""><span class="text-big">M'inscrire à la session de janvier</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+-->
 
 <div class="row">
-    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 textCenter"></div>
-    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 textCenter"><a class="en--btn btn-secondary register-btn" href="/register" style=""><span class="text-big">M'inscrire</span></a></div>
+  <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 textCenter">
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 textCenter">
+    <div class="iframe-container">
+      <iframe class="responsive-iframe teaser" src="https://www.youtube.com/embed/Xi5fAFvJjRw" width="640" height="480" frameborder="0" allow="autoplay; fullscreen" allowfullscreen=""></iframe>
+    </div>
+  </div>
 </div>
-
-            </div>
-         </div>
+          </div>
+      </div>
+      <div class="row" id="joinFree">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter col-centered marAuto" style="margin-top: 120px;">
+              <h2 class="sectionTitle textCenter title-secondary">Quels sont les différents thèmes abordés lors des cours en ligne ?</h2>            
+          </div>
+          <div class="row" style="margin: auto;">
+                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 textCenter marAuto" >
+                        <p class="edito">
+                        Les cours en ligne vous permettront d’en savoir plus sur comment…
+                        </p>
+                     </div>
+          </div>
+          <div class="row" style="margin: auto;">
+              <ul class="col-xs-12 col-sm-6 col-md-6 col-lg-6 textCenter col-centered marAuto">
+                  <li>Démarrer votre activité</li>
+                  <li>Préparer votre transition numérique</li>
+                  <li>Ouvrir votre propre site marchand</li>
+                  <li>Vendre sur une place de marché</li>
+                  <li>Construire votre image de marque</li>
+              </ul>
+              <ul class="col-xs-12 col-sm-6 col-md-6 col-lg-6 textcente col-centered marauto">
+                  <li>Augmenter votre trafic</li>
+                  <li>Préparer votre logistique</li>
+                  <li>Accélérer vos ventes</li>
+                  <li>Gérer et utiliser vos bases de données</li>
+                  <li>Comprendre les clefs de la vente sur Amazon</li>
+              </ul>
+          </div>
+      </div>
       </section >
       <div class="bgGrey">
          <section id="se3" class="container text-center">
@@ -297,11 +525,14 @@ twq('track','PageView');
                </div>
                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 textCenter">
                   <div class="iframe-container">
-                        <iframe class="responsive-iframe" src="https://player.vimeo.com/video/485020188" width="640" height="480" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+                        <iframe class="responsive-iframe" src="https://www.youtube.com/embed/TVga5tynQTM" width="640" height="480" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
                   </div>
                </div>
             </div>
          </section >
+
+
+
       </div>
       <section id="se4" class="container text-center">
          <div class="row">
@@ -311,15 +542,18 @@ twq('track','PageView');
                      <h2 class="sectionTitle title-secondary">Découvrez l’Accélérateur du Numérique !</h2>
                   </div>
                </div>
+<!--
                <div class="row">
                   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  marAuto" >
                      <p class="edito">Inscrivez-vous à <a class="link-orange" href="https://amazon-academy.fr/session/201970af-992d-eb11-9fb4-0003ff1d3cc2">l’Amazon Academy</a> pour assister à la présentation détaillée de ce nouveau programme le 8 décembre.</p>
                   </div>
                </div>
-
+-->
 <div class="row">
     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 textCenter"></div>
-    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 textCenter"><a class="en--btn btn-secondary register-btn" href="/register" style=""><span class="text-big">M'inscrire</span></a></div>
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 textCenter"><a class="en--btn btn-secondary register-btn" href="/register?next=%2Fabout" style=""><span class="text-big">M'inscrire</span></a>
+        <a class="login-link" href="/login">Me connecter</a>
+    </div>
 </div>
 
                <!-- <div class="row">
@@ -411,6 +645,7 @@ twq('track','PageView');
           <p>A tout type d’entreprises, à toute étape de son développement. Le programme s’adresse aussi bien aux entrepreneurs en cours de création d’entreprise, aux gérants d’entreprises en recherche des meilleurs outils pour développer leur activité, ou aux entreprises déjà bien établies cherchant à aller encore plus loin.</p>
         </div>
        </div>
+<!--
                   <div class="accordion-item">
         <div class="accordion-title">
           <h4>Qui organise ce programme ?</h4>
@@ -418,9 +653,10 @@ twq('track','PageView');
           <i class="fas fa-minus-circle remove"></i>
         </div>
         <div class="accordion-content">
-          <p>L’Accélérateur du Numérique est construit et développé par Amazon. Bpifrance soutient le programme généraliste et gratuit et l’encourage auprès des entrepreneurs français.</p>
+          <p>L’Accélérateur du Numérique est initié par Amazon et soutenu par Bpifrance.</p>
         </div>
        </div>
+-->
                   <div class="accordion-item">
         <div class="accordion-title">
           <h4>Quel est le prix du programme ?</h4>
@@ -451,38 +687,52 @@ twq('track','PageView');
           <p>Vous pouvez nous écrire à l'adresse <a href="mailto:accelerateur-du-numerique@amazon.fr">accelerateur-du-numerique@amazon.fr</a>.</p>
         </div>
        </div>
-  
+
 
   </div>
     </section>
     <script>
-        const questions = document.getElementsByClassName('accordion-title')//Gets all the questions (plus icon)
+// const questions = document.getElementsByClassName('accordion-title')//Gets all the questions (plus icon)
 
-for (const question of questions) {
-  const answer = question.parentElement.querySelector('.accordion-content')
-  const remove = question.parentElement.querySelector(".remove")
-  const add = question.parentElement.querySelector(".add")
-  let open = false //Variable to check if the answer is visible or not
+//  for (const question of questions) {
+//  const answer = question.parentElement.querySelector('.accordion-content')
+//  const remove = question.parentElement.querySelector(".remove")
+//  const add = question.parentElement.querySelector(".add")
+//  var open = false //Variable to check if the answer is visible or not
 
-  function openAnswer() {
-    if (open == true) { //If you click the question while the answer is visible it will stop being visible and open will change it's value to false
-      add.style.display = "block";
-      remove.style.display = "none";
-      answer.style.overflow = "hidden";
-      answer.style.maxHeight = '0';
-      open = false;
-    } else { //If you click the question while the answer is not visible it will start being visible and open will change it's value to true
-      add.style.display = "none";
-      remove.style.display = "block";
-      answer.style.maxHeight = "450px";
-      answer.style.overflow = "visible";
-      open = true;
+//  function openAnswer() {
+//    if (open == true) { //If you click the question while the answer is visible it will stop being visible and open will change it's value to false
+//      add.style.display = "block";
+//      remove.style.display = "none";
+//      answer.style.overflow = "hidden";
+//      answer.style.maxHeight = '0';
+//      open = false;
+//    } else { //If you click the question while the answer is not visible it will start being visible and open will change it's value to true
+//      add.style.display = "none";
+//      remove.style.display = "block";
+//      answer.style.maxHeight = "450px";
+//      answer.style.overflow = "visible";
+//      open = true;
+//    }
+//  }
+
+//  question.addEventListener('click', openAnswer)
+//  }
+
+$('.accordion-title').click(function() {
+    if ($(this).parent().find('.add').is(':visible')) {
+        $(this).parent().find('.add').hide()
+        $(this).parent().find('.remove').show()
+        $(this).parent().find('.accordion-content').css( "overflow", "visible" )
+        $(this).parent().find('.accordion-content').css( "maxHeight", "450px" )
+    } else {
+        $(this).parent().find('.add').show()
+        $(this).parent().find('.remove').hide()
+        $(this).parent().find('.accordion-content').css( "overflow", "hidden" )
+        $(this).parent().find('.accordion-content').css( "maxHeight", "0" )
     }
-  }
-
-  question.addEventListener('click', openAnswer)
-}
-        </script>
+})
+</script>
 
 
 
@@ -542,31 +792,32 @@ for (const question of questions) {
                      <br><br>
                   </div>
                </div>
-               <div class="footer-column" style="visibility:hidden !important;display:none !important;">
+<!--
+               <div class="footer-column">
                   <div class="footer-block-padd">
                      <ul class="list-unstyled">
-                     <li class="text-center">EN PARTENARIAT AVEC</li>
+                     <li class="text-center">SOUTENU PAR</li>
                      <a href="https://www.bpifrance.fr/" target="_blank"><img src="https://amazon.the-mooc-agency.com/media/microsite/amazon/assets/BPI.png" class="logoFooter" alt="logo BPI France" style="height:55px"></a>
                      </ul>
                      <br><br>
                   </div>
                </div>
+-->
             </div>
             <div class="row footerBottom" >
-               <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 footer-column" >
-
-               </div>
-               <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 footer-column" >
-                  <!-- <div class="footer-block-padd">
-                     <a href="#">Mentions légales</a> &nbsp; | &nbsp;
-                     <a href="#">Politique de confidentialité</a>
-                  </div> -->
-               </div>
-               <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 footer-column" >
-
+               <div class="footer-column" style="width: 300px; margin: auto;">
+                  <div class="footer-block-padd">
+                     <a href="/tos">Mentions légales</a> &nbsp; | &nbsp;
+                     <a href="/privacy">Politique de confidentialité</a>
+                  </div>
                </div>
             </div>
          </div>
       </footer>
+
+<noscript>
+<img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=2919596&fmt=gif" />
+</noscript>
+
    </body>
 </html>

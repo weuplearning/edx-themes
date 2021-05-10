@@ -36,11 +36,12 @@ window.addEventListener("load", function(){
       button: {background: "#f90", text: "#ffffff"},
     },
     "content": {
-      "message": "Amazon Europe Core SARL et ses sociétés affiliées utilisent des cookies sur ce site pour mesurer son audience, analyser les contenus consultés et l’optimiser.",
-      "dismiss": "Je refuse",
-      "allow": "J'accepte",
+      "message": "Amazon Europe Core SARL utilise des cookies sur ce site pour mesurer son audience, analyser les contenus consultés, l’optimiser et pour mesurer la performance des campagnes pour le site effectuées sur les réseaux sociaux.",
+      "dismiss": "Refuser",
+      "allow": "Accepter",
       "link": "${_('Learn more')}",
       "href": "/cookies",
+      "policy": "Politique cookies",
     },
     elements: {
       allow: '<a aria-label="allow cookies" tabindex="0" class="cc-btn cc-allow" id="allow">{{allow}}</a>',
@@ -49,45 +50,38 @@ window.addEventListener("load", function(){
     "position": "floating",
     "type": "opt-in",
     onStatusChange: function(status) {
-      if(this.hasConsented()){
-        gtag('consent', 'update', {
-          ad_storage: 'denied',
-          analytics_storage: 'granted',
-        });
+	  if(status == "allow"){
+		gtag('consent', 'update', {
+		  ad_storage: 'granted',
+		  analytics_storage: 'granted',
+		});
 
-//Linkedin BPI
-_linkedin_partner_id = "341164";
-window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
-window._linkedin_data_partner_ids.push(_linkedin_partner_id);
-(function(){var s = document.getElementsByTagName("script")[0];
-var b = document.createElement("script");
-b.type = "text/javascript";b.async = true;
-b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
-s.parentNode.insertBefore(b, s);})();
+		//Facebook Pixel Amazon - 1st feb 2021
+		  !function(f,b,e,v,n,t,s)
+		  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+		  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+		  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+		  n.queue=[];t=b.createElement(e);t.async=!0;
+		  t.src=v;s=b.getElementsByTagName(e)[0];
+		  s.parentNode.insertBefore(t,s)}(window, document,'script',
+		  'https://connect.facebook.net/en_US/fbevents.js');
+		  fbq('init', '727182344599978');
+		  fbq('track', 'PageView');
 
-//Facebook Pixel BPI
-/*
-!function(f,b,e,v,n,t,s)
-{​​if(f.fbq)return;n=f.fbq=function(){​​n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)}​​;
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}​​(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1474314826152924');
-fbq('track', 'PageView');
-*/
-
-//Twitter BPI
-!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
-},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
-a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
-// Insert Twitter Pixel ID and Standard Event data below
-twq('init','nuo2e');
-twq('track','PageView');
-
-
-      }
+		//LinkedIn Amazon - 1st feb 2021
+		_linkedin_partner_id = "2919596";
+		window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+		window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+		(function(){var s = document.getElementsByTagName("script")[0];
+		var b = document.createElement("script");
+		b.type = "text/javascript";b.async = true;
+		b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+		s.parentNode.insertBefore(b, s);})();
+		
+		$.ajax({url:"https://services.themoocagency.com/rating/record_vote.php?name=amazon_acceptcookie&user_vote=5"});
+	  }else{
+	    $.ajax({url:"https://services.themoocagency.com/rating/record_vote.php?name=amazon_declinecookie&user_vote=5"});
+	  }
     }
   },
   function(popup){
