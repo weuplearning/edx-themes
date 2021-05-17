@@ -138,7 +138,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         animation-duration: 0.5s;
     }
     .wrapper-preview-menu{
-       //display:none;
+       display:none;
     }
 
     .wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary{
@@ -345,8 +345,7 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
 <div class="course-view page-content-container" id="course-container">
     <header class="page-header has-secondary">
         <div class="page-header-main">
-            <img id="logo_banner" src="${static.url('{}/images/Linking Cities by Netexplo BLANC.png'.format(course.org))}" alt="banner logo">
-            <img id="logo_banner2" src="${static.url('{}/images/ESCP_LOGO_BLANC.png'.format(course.org))}" alt="banner logo 2">
+            <img id="logo_banner" src="${static.url('{}/images/logo_secondary.png'.format(course.org))}" alt="banner logo">
         </div>
         <div class="page-header-secondary">
             % if show_search:
