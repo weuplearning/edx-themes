@@ -11,20 +11,27 @@
 <%namespace name='static' file='static_content.html'/>
 
 <style>
-  .wrapper-footer {
+  /* .wrapper-footer {
     background-color: var(--primary);
   }
 
   body.view-in-course .wrapper-footer {
     background-color: gray;
+  } */
+  .wrapper-footer, body.view-in-course .wrapper-footer {
+    background-color: #E68D23 !important;
+    bottom: 0;
+    width: 100%;
   }
-
+  
+  
   .wrapper-footer .site-nav, .wrapper-footer footer#footer-openedx .colophon .nav-colophon {
     margin: 0 !important;
   }
-
+  
   .wrapper-footer .site-nav .nav-link, .wrapper-footer footer#footer-openedx .colophon .nav-colophon li a {
     color: white !important;
+    background-color: #E68D23 !important;    
   }
 </style>
 
@@ -42,10 +49,10 @@
                 <a class="nav-link" href="/tos">Legal</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/privacy">Confidentiality policy</a>
+                <a class="nav-link" href="/privacy">Privacy</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/about">Crédits</a>
+                <a class="nav-link" href="/about">Credits</a>
               </li>
             </ul>
           </nav>
@@ -74,10 +81,10 @@
                 <a class="nav-link" href="/tos">Legal</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/privacy">Confidentiality policy</a>
+                <a class="nav-link" href="/privacy">Privacy</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/about">Crédits</a>
+                <a class="nav-link" href="/about">Credits</a>
               </li>
           </ol>
         </nav>
