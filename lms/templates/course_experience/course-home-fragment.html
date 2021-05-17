@@ -140,9 +140,10 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     .wrapper-preview-menu{
        //display:none;
     }
-.wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary{
-    display:none !important;
-}
+
+    .wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary{
+        display:none !important;
+    }
 
 
     .section-title{
@@ -254,9 +255,9 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         overflow: hidden;
     }
 
-    #logo_banner #logo_banner2 {
+    #logo_banner, #logo_banner2 {
         margin: auto 30px;
-        height: 40px !important;
+        height: 40px;
     }
 
     
@@ -344,8 +345,8 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
 <div class="course-view page-content-container" id="course-container">
     <header class="page-header has-secondary">
         <div class="page-header-main">
-            <img id="logo_banner" src="${static.url('{}/images/Linking Cities by Netexplo BLANC.png'.format(course.org))}" alt="banner logo" style="height: 40px; margin: auto 30px;">
-            <img id="logo_banner2" src="${static.url('{}/images/ESCP_LOGO_BLANC.png'.format(course.org))}" alt="banner logo 2" style="height: 40px; margin: auto 30px;">
+            <img id="logo_banner" src="${static.url('{}/images/Linking Cities by Netexplo BLANC.png'.format(course.org))}" alt="banner logo">
+            <img id="logo_banner2" src="${static.url('{}/images/ESCP_LOGO_BLANC.png'.format(course.org))}" alt="banner logo 2">
         </div>
         <div class="page-header-secondary">
             % if show_search:
