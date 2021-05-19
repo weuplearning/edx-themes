@@ -21,6 +21,7 @@ from openedx.features.course_experience.course_tools import HttpMethod
 from lms.djangoapps.grades.course_grade import ZeroCourseGrade
 
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+
 %>
 
 <%block name="header_extras">
@@ -335,8 +336,12 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
   </style>
   <script>
-document.title = "Cours | ${HTML(course.display_name_with_default)}";
+    document.title = "Cours | ${HTML(course.display_name_with_default)}";
+    console.log("linkingcities html fragment");
+    console.log("linkingcities html fragment");
+    console.log("linkingcities html fragment");
   </script>
+
 
 </%block>
 
@@ -346,6 +351,7 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
     <header class="page-header has-secondary">
         <div class="page-header-main">
             <img id="logo_banner" src="${static.url('{}/images/logo_secondary.png'.format(course.org))}" alt="banner logo">
+            <p>fragment html linkingcities</p>
         </div>
         <div class="page-header-secondary">
             % if show_search:
@@ -402,6 +408,7 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
         </div>
         <aside class="page-content-secondary course-sidebar">
             <h4>Avez-vous bien retenu ?</h4>
+            <h1>TEMPLATE LINKIN CITIES</h1>
             <div class="section" id="badges">
                     <div class="grade-block">       
                         <div class="grade-section-title">
