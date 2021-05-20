@@ -1,0 +1,18 @@
+Hello,
+
+You are now registered for the Linking Cities distance learning program.
+
+To start the program please click the link below:
+
+URL: https://distancelearning.netexplolinkingcities.com/
+
+Then type in your email address and the following password:
+
+Login: {{ email_address }}
+Password: {{ password }}
+
+If you encounter any issues, please contact Marie-Jo Cousin at mjcousin@netexplo.org.
+
+Best regards,
+
+Netexplo/ESCP Business School
