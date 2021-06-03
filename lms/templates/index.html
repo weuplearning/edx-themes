@@ -9,6 +9,10 @@ from openedx.core.djangolib.markup import HTML, Text
 %>
 
 <style>
+  html, body, window-wrap {
+    height: 100vh;
+  }
+
   .content-wrapper {
     max-width: none;
   }
@@ -29,6 +33,7 @@ from openedx.core.djangolib.markup import HTML, Text
     margin-top: 0;
     position: relative;
     z-index: 0;
+    height: calc( 100vh - 80px );
   }
 
   /* .main-container::before {
