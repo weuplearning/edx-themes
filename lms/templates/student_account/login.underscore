@@ -62,3 +62,8 @@
     <% } %>
 </form>
 
+<script>
+if (window.location.href== 'https://formationadistance.becomingmoredigital.com/login?next=/login') {
+   window.location.href = 'https://formationadistance.becomingmoredigital.com/login?next=/dashboard'; 
+}
+</script>
