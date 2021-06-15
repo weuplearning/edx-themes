@@ -608,7 +608,16 @@ a:hover{
                           aria-controls="${ section['id'] }_contents_tablet"
                           id="${ section['id'] }_tablet">
                           <div class="button_subsection">
-                            <span class="fa fa-chevron-right ${ 'fa-rotate-90' if section_is_auto_opened else '' }" aria-hidden="true"></span>
+                            <span id="arrow_rotate_${ section['block_id'] }" class="fa fa-chevron-right ${ 'fa-rotate-90' if section_is_auto_opened else '' }" aria-hidden="true"></span>
+
+                            <script>                                
+
+                              $(document.getElementById("${ section['id'] }_tablet")).on('click', function(e) {
+                                $(document.getElementById("arrow_rotate_${ section['block_id'] }")).toggleClass("fa-rotate-90"); 
+                                e.preventDefault();
+                              });
+
+                          </script>
                             <h3 class="section-title">${ section['display_name']}</h3>
                           </div>
 
@@ -822,9 +831,18 @@ a:hover{
                           aria-controls="${ section['id'] }_contents_mobile"
                           id="${ section['id'] }_mobile">
                           <div class="button_subsection">
-                            <span class="fa fa-chevron-right ${ 'fa-rotate-90' if section_is_auto_opened else '' }" aria-hidden="true"></span>
+                            <span id="arrow_rotate_${ section['block_id'] }_mobile" class="fa fa-chevron-right ${ 'fa-rotate-90' if section_is_auto_opened else '' }" aria-hidden="true"></span>
                             <h3 class="section-title">${ section['display_name']}</h3>
                           </div>
+
+                          <script>                                
+
+                            $(document.getElementById("${ section['id'] }_mobile")).on('click', function(e) {
+                              $(document.getElementById("arrow_rotate_${ section['block_id'] }_mobile")).toggleClass("fa-rotate-90"); 
+                              e.preventDefault();
+                            });
+
+                        </script>
 
                       %for index, chapter in enumerate(user_grade.chapter_grades.keys()):
                           %if section['display_name'] == user_grade.chapter_grades[chapter]['display_name']:
