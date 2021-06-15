@@ -277,13 +277,39 @@ padding: 6px;
     display: none !important;
 }
 
+.tablet_device{
+    display: none !important;
+}
 
-@media screen and (max-width: 1240px) {
+
+
+
+@media screen and (max-width: 1440px) {
   .desktop_device {
     display:none !important;
   }
-  .mobile_device{
+  .tablet_device{
     display: block !important;
+}
+
+.progress_bar_and_score {
+  width: 100%;
+}
+.flex-button{
+  flex-direction: column;
+}
+}
+
+@media screen and (max-width: 800px) {
+  .desktop_device {
+    display:none !important;
+  }
+  .tablet_device{
+    display: none !important;
+}
+
+.mobile_device{
+  display: block !important;
 }
 
 .progress_bar_and_score {
@@ -556,6 +582,218 @@ a:hover{
 
 
 
+<!-- tablet version  -->
+<main role="main" class=" tablet_device course-outline" id="main" tabindex="-1">
+  <%include file="/dates_banner.html" />
+  % if course_sections is not None:
+      <button class="btn btn-primary "
+              id="expand-collapse-outline-all-button"
+              aria-expanded="false"
+              aria-controls="course-outline-block-tree"
+              >
+          <span class="expand-collapse-outline-all-extra-padding" id="expand-collapse-outline-all-span">${_("Expand All")}</span>
+      </button>
+      <ol class=" block-tree accordion"
+          id="course-outline-block-tree"
+          aria-labelledby="expand-collapse-outline-all-button">
+          % for section in course_sections:
+          <%
+          section_is_auto_opened = section.get('resume_block') is True
+          scored = 'scored' if section.get('scored', False) else ''
+          %>
+              <li class=" outline-item section ${scored}">
+
+                  <button class="section-name accordion-trigger outline-button flex-button"
+                          aria-expanded="${ 'true' if section_is_auto_opened else 'false' }"
+                          aria-controls="${ section['id'] }_contents_tablet"
+                          id="${ section['id'] }_tablet">
+                          <div class="button_subsection">
+                            <span class="fa fa-chevron-right ${ 'fa-rotate-90' if section_is_auto_opened else '' }" aria-hidden="true"></span>
+                            <h3 class="section-title">${ section['display_name']}</h3>
+                          </div>
+
+                      %for index, chapter in enumerate(user_grade.chapter_grades.keys()):
+                          %if section['display_name'] == user_grade.chapter_grades[chapter]['display_name']:
+                              <div class="progress_bar_and_score">
+                                  <div class="progress-bar-full">
+                                      <div style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade"></div>
+                                  </div>        
+                                  <h2 class="completed_percent"> ${int(user_grade.chapter_percentage(chapter) * 100)} %</h2>     
+                              </div>  
+                          %endif
+                      %endfor
+          % if section.get('complete'):
+                          <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
+                          <span class="sr">${_("Completed")}</span>
+          % endif
+                  </button>
+                  <ol class=" outline-item accordion-panel ${ '' if section_is_auto_opened else 'is-hidden' }"
+                      id="${ section['id'] }_contents_tablet"
+                      aria-labelledby="${ section['id'] }_tablet">
+
+                      <section class="carousel" aria-label="Gallery">
+                        <%
+                        course_list = section.get('children', [])
+                        %>
+                          <ol class="carousel__viewport">
+                            % if len(course_list) <= 2:
+                            <li id="carousel__slide1_${ section['id'] }_tablet"
+                                    tabindex="0"
+                                    class="carousel__slide">
+                                  <div class="carousel__snapper">
+                                      <div class=carousel__snapper__container>
+                                    % for subsection in section.get('children', []):
+                                      <%
+                                      course_name = subsection['display_name']
+                                      slug_img_name = re.sub(r'\W+', '_', course_name).lower()
+                                      %>
+                                      <a class="bloc_course_vignet"
+                                      % if enable_links:
+                                          href="${ subsection['lms_web_url'] }"
+                                      % else:
+                                          aria-disabled="true"
+                                      % endif
+                                      >
+                                          <div class ="course_logo" style="background: url('/media/microsites/amazon/courses/${slug_img_name}.png')">
+                                          <p class="course_logo_name">${course_name}</p>
+                                          % if subsection.get('complete'):
+                                          <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
+                                          <span class="sr">${_("Completed")}</span>
+                                          %endif
+                                        </div>
+                                    </a>
+                                    % endfor
+                                  </div>
+                                </div>
+                              </li>
+                            %else:
+
+                            <%
+                            lenght_course_list = len(course_list)
+                            rounded_course_list = ceil((len(course_list) / 2))
+                            course_list_list =[]
+                            %>
+                            <%
+                            course_name = subsection['display_name']
+                            slug_img_name = re.sub(r'\W+', '_', course_name).lower()
+                            %>
+                            % for subsection in course_list:
+
+                              % if len(course_list) > 2 and len(course_list) < 5:
+                              <% 
+                              course_list_list = [course_list[0:2],course_list[2:len(course_list)] ]
+                              %>
+                              %elif len(course_list) > 4 and len(course_list) < 7:
+                              <% 
+                              course_list_list = [course_list[0:2],course_list[2:4],course_list[4:len(course_list)] ]
+                              %>
+                              %elif len(course_list) > 6 and len(course_list) < 9:
+                              <% 
+                              course_list_list = [course_list[0:2],course_list[2:4],course_list[4:6],course_list[6:len(course_list)] ]
+                              %>
+                              %elif len(course_list) > 8 and len(course_list) < 11:
+                              <% 
+                              course_list_list = [course_list[0:2],course_list[2:4],course_list[4:6],course_list[6:8],course_list[8:len(course_list)] ]
+                              %>
+                              %elif len(course_list) > 10 and len(course_list) < 13:
+                              <% 
+                              course_list_list = [course_list[0:2],course_list[2:4],course_list[4:6],course_list[6:8],course_list[8:10],course_list[10:len(course_list)] ]
+                              %>
+                              %elif len(course_list) > 12 and len(course_list) < 15:
+                              <% 
+                              course_list_list = [course_list[0:2],course_list[2:4],course_list[4:6],course_list[6:8],course_list[8:10],course_list[10:12],course_list[12:len(course_list)] ]
+                              %>
+                              %elif len(course_list) > 14 and len(course_list) < 17:
+                              <% 
+                              course_list_list = [course_list[0:2],course_list[2:4],course_list[4:6],course_list[6:8],course_list[8:10],course_list[10:12],course_list[12:14],course_list[14:len(course_list)] ]
+                              %>
+                              %elif len(course_list) > 16 and len(course_list) < 19:
+                              <% 
+                              course_list_list = [course_list[0:2],course_list[2:4],course_list[4:6],course_list[6:8],course_list[8:10],course_list[10:12],course_list[12:14],course_list[14:16],course_list[16:len(course_list)] ]
+                              %>
+                              %elif len(course_list) > 18 and len(course_list) < 21:
+                              <% 
+                              course_list_list = [course_list[0:2],course_list[2:4],course_list[4:6],course_list[6:8],course_list[8:10],course_list[10:12],course_list[12:14],course_list[14:16],course_list[16:18],course_list[18:len(course_list)] ]
+                              %>
+
+                              %endif
+
+                            % endfor
+
+                            % for index in range(rounded_course_list):
+                          <li id="carousel__slide${index}_${ section['id'] }_tablet"
+                          tabindex="0"
+                          class="carousel__slide">
+                          <span class="anchor" id="carousel__slide${index + 1}_${ section['id'] }_tablet_anchor"></span>
+                        <div class="carousel__snapper">
+                            <div class=carousel__snapper__container>
+                              %if len(course_list_list) > 0:
+                              % for subsection in course_list_list[index]:
+                            <%
+                            course_name = subsection['display_name']
+                            slug_img_name = re.sub(r'\W+', '_', course_name).lower()
+                            %>
+                            <a class="bloc_course_vignet"
+                            % if enable_links:
+                                href="${ subsection['lms_web_url'] }"
+                            % else:
+                                aria-disabled="true"
+                            % endif
+                            >
+                                <div class ="course_logo" style="background: url('/media/microsites/amazon/courses/${slug_img_name}.png')">
+                                <p class="course_logo_name">${course_name}</p>
+                                % if subsection.get('complete'):
+                                <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
+                                <span class="sr">${_("Completed")}</span>
+                                %endif
+                              </div>
+                          </a>
+
+                          % endfor
+                          %endif
+                        </div>
+                      </div>
+
+                  <!-- <a href="#carousel__slide${index}_${ section['id'] }" -->
+                    <a href="#carousel__slide${index}_${ section['id'] }_tablet_anchor"
+                    class="carousel__prev"> <i class="material-icons" style="font-size:45px;">arrow_back_ios</i></a>     
+                    <!-- <a href="#carousel__slide${index + 2}_${ section['id'] }" -->
+                    <a href="#carousel__slide${index + 2}_${ section['id'] }_tablet_anchor"
+                    class="carousel__next"><i class="material-icons" style="font-size:45px;">arrow_forward_ios</i></a>
+                    </li>
+                    % endfor
+      
+                          </ol>
+                          <%
+                          course_list = section.get('children', [])
+                          number_of_subsections = len(course_list)
+                         
+                          %>
+
+                          <aside class="carousel__navigation">
+                            <ol class="carousel__navigation-list">
+                              % for index in range(rounded_course_list):
+                              <li class="carousel__navigation-item">
+                                <a 
+                                href="#carousel__slide${index + 1}_${ section['id'] }_tablet_anchor"
+                                  class="carousel__navigation-button">Go to slide 1</a>
+                              </li>
+                              %endfor
+                            </ol>
+                          </aside>
+
+                          % endif
+                        </section>
+                  </ol>
+
+              </li>
+      % endfor
+      </ol>
+
+  % endif
+</main>
+
+
 
 <!-- mobile version  -->
   
@@ -658,8 +896,6 @@ a:hover{
                           number_of_subsections = len(course_list)
                          
                           %>
-                          <script>console.log("${number_of_subsections}")</script>
-
 
                           <aside class="carousel__navigation">
                             <ol class="carousel__navigation-list">
