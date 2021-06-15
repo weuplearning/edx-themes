@@ -95,7 +95,7 @@ from lms.djangoapps.grades.course_grade import ZeroCourseGrade
 
     .page-content .page-content-main { 
         min-width: calc(50% - 15px);
-        max-width: calc(50% - 15px);
+        /* max-width: calc(50% - 15px); */
     }
 
     .page-content-container{
@@ -133,6 +133,7 @@ from lms.djangoapps.grades.course_grade import ZeroCourseGrade
     }
 
     .page-content-secondary {
+        display: none;
         margin-top:25px !important;
     }
     #expand-collapse-outline-all-button {
@@ -178,28 +179,28 @@ from lms.djangoapps.grades.course_grade import ZeroCourseGrade
     }
 
     .progress-bar-full {
-        width: 100%;
-        background-color: rgba(0, 0, 0, 0.2);
+        width: 80%;
+        background-color: lightgray;
         position: relative;
-        margin-bottom: 20px;
         display: flex;
         flex-direction:row;
         justify-content: center;
         align-items: center;
-        height: 10px;
+        height: 20px;
         overflow: hidden;
-        border-radius:5px;
+        border-radius:20px;
     }
 
     .progress-bar-grade {
-        background-color:var(--green);
+        background-color:var(--yellow);
         position: absolute;
         height: 100%;
-        top:0;
-        left:0;
-        border-radius: 5px;
+        top:3px;
+        left:3px;
+        border-radius: 20px;
         animation: fadeInLeft;
         animation-duration: 1.5s;
+        height: 70%;
     }
 
     .grade-value {
@@ -214,7 +215,7 @@ from lms.djangoapps.grades.course_grade import ZeroCourseGrade
     }
 
     #final-grade-progress .progress-bar-grade{
-        background-color: rgb(255, 153, 0) ;
+        background-color: #FF9900 ;
         border-radius: 7.5px;
     }
 
@@ -297,7 +298,7 @@ from lms.djangoapps.grades.course_grade import ZeroCourseGrade
 
         .page-content .page-content-main { 
             min-width: calc(50% - 15px);
-            max-width: calc(50% - 15px);
+            /* max-width: calc(50% - 15px); */
         }
     }
     @media screen and (max-width: 991px) {
@@ -308,7 +309,7 @@ from lms.djangoapps.grades.course_grade import ZeroCourseGrade
 
         .page-content .page-content-main { 
             min-width: calc(40% - 15px);
-            max-width: calc(40% - 15px);
+            /* max-width: calc(40% - 15px); */
         }
 
     }
