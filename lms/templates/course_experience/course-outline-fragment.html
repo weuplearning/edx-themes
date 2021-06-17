@@ -207,8 +207,8 @@ padding-top: 30px;
     }
 
   .course_logo {
-    height: 302px;
-  width: 302px;
+    height: 301px;
+  width: 301px;
   border-radius: 20px;
   display: flex;
 align-items: flex-end;
@@ -217,6 +217,7 @@ align-items: flex-end;
   .course_logo_name {
     margin: 1em;
     color: #fff;
+    font-size: 1.1em;
   }
 
     
@@ -369,6 +370,8 @@ a:hover{
 }
 
     </style>
+
+    
     
 <main role="main" class="desktop_device course-outline" id="main" tabindex="-1">
     <%include file="/dates_banner.html" />
@@ -527,7 +530,7 @@ a:hover{
                                         >
                                           <div class ="course_logo" style="background: url('/media/microsites/amazon/courses/${slug_img_name}.png')">
                                           <p class="course_logo_name">${course_name}</p>
-                                          <p class="course_logo_name" styl="color:black;">${slug_img_name}</p>
+                                          <!-- <script>console.log("${slug_img_name}")</script> -->
                                           % if subsection.get('complete'):
                                           <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
                                           <span class="sr">${_("Completed")}</span>
@@ -550,7 +553,7 @@ a:hover{
 
                             % endif 
                             </ol>
-                            % if len(course_list) >= 4:
+                            % if len(course_list) > 4:
      
                               <aside class="carousel__navigation">
                                 <ol class="carousel__navigation-list">

@@ -93,6 +93,20 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
   </style>
 
 
+<style>
+  @font-face {
+   font-family: 'AmazonEmber';
+   src: url("/media/microsites/amazon/fonts/AmazonEmberDisplay_W_Md.woff");
+   font-weight: normal;
+  }
+
+  /* div, span, section, h1, h2, h3, h4, h5, h6, p, header { */
+    h1, h2, h3, h4, h5, h6, p, div {
+   font-family:"AmazonEmber" !important;
+ }
+
+  </style>
+
   <%static:css group='style-vendor'/>
   % if '/' in self.attr.main_css:
     % if get_language_bidi():
