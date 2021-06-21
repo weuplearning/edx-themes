@@ -369,6 +369,10 @@ a:hover{
   text-decoration: none;
 }
 
+.carousel__navigation-item[data-active="active"] a {
+  background-color: #f90;
+  }
+
     </style>
 
     
@@ -874,8 +878,8 @@ a:hover{
                         % for index, subsection in enumerate(section.get('children', [])):
                           <li id="carousel__slide${index}_${ section['id'] }_mobile"
                           tabindex="0"
-                          class="carousel__slide">
-                          <span class="anchor" id="carousel__slide${index + 1}_${ section['id'] }_mobile_anchor"></span>
+                          class="carousel__slide carousel__slide_${ section['id'] }_mobile">
+                          <span class="anchor" id="carousel__slide${index}_${ section['id'] }_mobile_anchor"></span>
                         <div class="carousel__snapper">
                             <div class=carousel__snapper__container>
 
@@ -902,11 +906,9 @@ a:hover{
                         </div>
                       </div>
 
-                  <!-- <a href="#carousel__slide${index}_${ section['id'] }" -->
-                    <a href="#carousel__slide${index}_${ section['id'] }_mobile_anchor"
+                    <a href="#carousel__slide${index - 1}_${ section['id'] }_mobile_anchor"
                     class="carousel__prev"> <i class="material-icons" style="font-size:45px;">arrow_back_ios</i></a>     
-                    <!-- <a href="#carousel__slide${index + 2}_${ section['id'] }" -->
-                    <a href="#carousel__slide${index + 2}_${ section['id'] }_mobile_anchor"
+                    <a href="#carousel__slide${index + 1}_${ section['id'] }_mobile_anchor"
                     class="carousel__next"><i class="material-icons" style="font-size:45px;">arrow_forward_ios</i></a>
                     </li>
                     % endfor
@@ -915,15 +917,27 @@ a:hover{
                           <%
                           course_list = section.get('children', [])
                           number_of_subsections = len(course_list)
+                          section_id = section['id']
                          
                           %>
 
                           <aside class="carousel__navigation">
                             <ol class="carousel__navigation-list">
                               % for index in range(number_of_subsections):
-                              <li class="carousel__navigation-item">
+                                %if index == 0:
+                                <li class="carousel__navigation-item carousel__navigation-item_${ section['id'] }_mobile"
+                                id="carousel__navigation-item${index}_${ section['id'] }_mobile"
+                                data-active="active"
+                                onclick="navigate('${ section_id }', '${index}')"
+                                >
+                                %else :
+                                <li class="carousel__navigation-item carousel__navigation-item_${ section['id'] }_mobile"
+                                id="carousel__navigation-item${index}_${ section['id'] }_mobile"
+                                onclick="navigate('${ section_id }', '${index}')"
+                                >
+                                %endif
                                 <a 
-                                href="#carousel__slide${index + 1}_${ section['id'] }_mobile_anchor"
+                                href="#carousel__slide${index}_${ section['id'] }_mobile_anchor"
                                   class="carousel__navigation-button">Go to slide 1</a>
                               </li>
                               %endfor
@@ -949,3 +963,30 @@ a:hover{
 </%static:webpack>
 
 
+
+<script>
+  function navigate(sectionId, index) {
+    console.log("carousel__navigation-item_" + sectionId + "_mobile")
+      let listElement = document.getElementsByClassName("carousel__navigation-item_" + sectionId + "_mobile")
+      console.log(listElement)
+      for (let i = 0; i < listElement.length; i++) {
+          if (listElement[i].getAttribute("data-active") === "active") {
+              if (listElement[i].getAttribute("id") === "carousel__navigation-item_" + index + "_"+ sectionId + "_mobile") {
+                  break;
+              } else {
+                  listElement[i].removeAttribute("data-active")
+                  document.getElementById("carousel__navigation-item" + index + "_" + sectionId + "_mobile").setAttribute("data-active", "active")
+                  for (let i = 0; i < document.getElementsByClassName('carousel__slide_' + sectionId + '_mobile').length; i++) {
+                      if (document.getElementsByClassName('carousel__slide_' + sectionId + '_mobile')[i].getAttribute("data-active") === "active") {
+                          document.getElementsByClassName('carousel__slide_' + sectionId + '_mobile')[i].removeAttribute("data-active")
+                      }
+                  }
+                  document.getElementById('carousel__slide' + index + '_' + sectionId + '_mobile').setAttribute("data-active", "active")
+                  // window.location.href='#carousel__slide' + index + '_' + sectionId + '_mobile_anchor'
+                  break;
+              }
+
+          }
+      }
+  }
+</script>
