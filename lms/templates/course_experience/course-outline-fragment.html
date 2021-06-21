@@ -259,8 +259,9 @@ align-items: flex-end;
         font-size: 1.6em;
     }
     .course-outline .block-tree .section ol.outline-item {
-
+      display: flex;
     height: 400px;
+    align-items: center;
 }
 
 .complete-checkmark {
@@ -372,6 +373,9 @@ a:hover{
 .carousel__navigation-item[data-active="active"] a {
   background-color: #f90;
   }
+.arrow_navigation {
+  cursor: pointer;
+}
 
     </style>
 
@@ -830,6 +834,7 @@ a:hover{
           <%
           section_is_auto_opened = section.get('resume_block') is True
           scored = 'scored' if section.get('scored', False) else ''
+          section_id = section['id']
           %>
               <li class=" outline-item section ${scored}">
 
@@ -843,7 +848,6 @@ a:hover{
                           </div>
 
                           <script>                                
-
                             $(document.getElementById("${ section['id'] }_mobile")).on('click', function(e) {
                               $(document.getElementById("arrow_rotate_${ section['block_id'] }_mobile")).toggleClass("fa-rotate-90"); 
                               e.preventDefault();
@@ -869,16 +873,27 @@ a:hover{
                   <ol class=" outline-item accordion-panel ${ '' if section_is_auto_opened else 'is-hidden' }"
                       id="${ section['id'] }_contents_mobile"
                       aria-labelledby="${ section['id'] }_mobile">
-
+                        <a class=arrow_navigation onclick="navigatePrevious('${ section_id}')">
+                          <i class="material-icons" style="font-size:45px;">arrow_back_ios</i>
+                        </a>
+                
                       <section class="carousel" aria-label="Gallery">
+
                         <%
                         course_list = section.get('children', [])
                         %>
                           <ol class="carousel__viewport">
                         % for index, subsection in enumerate(section.get('children', [])):
-                          <li id="carousel__slide${index}_${ section['id'] }_mobile"
-                          tabindex="0"
-                          class="carousel__slide carousel__slide_${ section['id'] }_mobile">
+                          % if index == 0:
+                            <li id="carousel__slide${index}_${ section['id'] }_mobile"
+                            tabindex="0"
+                            data-active="active"
+                            class="carousel__slide carousel__slide_${ section['id'] }_mobile">
+                          % else : 
+                            <li id="carousel__slide${index}_${ section['id'] }_mobile"
+                            tabindex="0"
+                            class="carousel__slide carousel__slide_${ section['id'] }_mobile">
+                          % endif
                           <span class="anchor" id="carousel__slide${index}_${ section['id'] }_mobile_anchor"></span>
                         <div class="carousel__snapper">
                             <div class=carousel__snapper__container>
@@ -905,11 +920,6 @@ a:hover{
 
                         </div>
                       </div>
-
-                    <a href="#carousel__slide${index - 1}_${ section['id'] }_mobile_anchor"
-                    class="carousel__prev"> <i class="material-icons" style="font-size:45px;">arrow_back_ios</i></a>     
-                    <a href="#carousel__slide${index + 1}_${ section['id'] }_mobile_anchor"
-                    class="carousel__next"><i class="material-icons" style="font-size:45px;">arrow_forward_ios</i></a>
                     </li>
                     % endfor
       
@@ -917,7 +927,7 @@ a:hover{
                           <%
                           course_list = section.get('children', [])
                           number_of_subsections = len(course_list)
-                          section_id = section['id']
+
                          
                           %>
 
@@ -944,6 +954,9 @@ a:hover{
                             </ol>
                           </aside>
                         </section>
+                        <a class=arrow_navigation onclick="navigateNext('${ section_id}')">
+                          <i class="material-icons" style="font-size:45px;">arrow_forward_ios</i>
+                      </a>
                   </ol>
 
               </li>
@@ -966,7 +979,7 @@ a:hover{
 
 <script>
   function navigate(sectionId, index) {
-    console.log("carousel__navigation-item_" + sectionId + "_mobile")
+
       let listElement = document.getElementsByClassName("carousel__navigation-item_" + sectionId + "_mobile")
       console.log(listElement)
       for (let i = 0; i < listElement.length; i++) {
@@ -989,4 +1002,39 @@ a:hover{
           }
       }
   }
+
+
+  function navigateNext(sectionId) {
+    // console.log('carousel__slide_' + sectionId + '_mobile')
+        let listElement = document.getElementsByClassName('carousel__slide_' + sectionId + '_mobile')
+        console.log(sectionId)
+        console.log(listElement)
+
+        for (let i = 0; i < listElement.length; i++) {
+            if (listElement[i].getAttribute("data-active") === "active") {
+                listElement[i + 1].setAttribute("data-active", "active")
+                listElement[i].removeAttribute("data-active")
+                document.getElementById("carousel__navigation-item" + i + "_" + sectionId + "_mobile").removeAttribute("data-active")
+                document.getElementById("carousel__navigation-item" + (i + 1) + "_" + sectionId + "_mobile").setAttribute("data-active", "active")
+                window.location.href='#carousel__slide' + (i + 1) + '_' + sectionId + '_mobile_anchor'
+
+                break;
+            }
+        }
+    }
+
+    function navigatePrevious(sectionId) {
+        let listElement = document.getElementsByClassName('carousel__slide_' + sectionId + '_mobile')
+        for (let i = 0; i < listElement.length; i++) {
+            if (listElement[i].getAttribute("data-active") === "active") {
+                listElement[i - 1].setAttribute("data-active", "active")
+                listElement[i].removeAttribute("data-active")
+                document.getElementById("carousel__navigation-item" + i + "_" + sectionId + "_mobile").removeAttribute("data-active")
+                document.getElementById("carousel__navigation-item" + (i - 1) + "_" + sectionId + "_mobile").setAttribute("data-active", "active")
+                window.location.href='#carousel__slide' + (i - 1) + '_' + sectionId + '_mobile_anchor'
+                
+                break;
+            }
+        } 
+    }
 </script>
