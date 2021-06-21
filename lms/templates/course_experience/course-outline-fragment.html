@@ -346,6 +346,12 @@ padding: 6px;
   width: 250px;
   }
 
+  .arrow_navigation {
+
+    bottom: -140px;
+
+}
+
 }
 
 
@@ -460,19 +466,11 @@ a:hover{
                           %>
                             <ol class="carousel__viewport">
                             % if len(course_list) <= 4:
-                              % if index == 0:
                                 <li id="carousel__slide0_${ section['id'] }"
                                 tabindex="0"
                                 data-active="active"
                                 class="carousel__slide carousel__slide_${ section['id'] }">
-                              % else : 
-                                <li id="carousel__slide0_${ section['id'] }"
-                                tabindex="0"
-                                class="carousel__slide carousel__slide_${ section['id'] }">
-                              % endif
-                              <!-- <li id="carousel__slide0_${ section['id'] }"
-                                    tabindex="0"
-                                    class="carousel__slide"> -->
+
                                   <div class="carousel__snapper">
                                       <div class=carousel__snapper__container>
                                     % for subsection in section.get('children', []):
@@ -669,6 +667,7 @@ a:hover{
           <%
           section_is_auto_opened = section.get('resume_block') is True
           scored = 'scored' if section.get('scored', False) else ''
+          section_id = section['id']
           %>
               <li class=" outline-item section ${scored}">
 
@@ -708,6 +707,14 @@ a:hover{
                   <ol class=" outline-item accordion-panel ${ '' if section_is_auto_opened else 'is-hidden' }"
                       id="${ section['id'] }_contents_tablet"
                       aria-labelledby="${ section['id'] }_tablet">
+                      <div class="navigation_container">
+                        <a class="arrow_navigation arrow_navigation_left" onclick="navigatePrevious('${ section_id}', '_tablet')">
+                          <i class="material-icons" style="font-size:45px;">arrow_back_ios</i>
+                        </a>
+                        <a class="arrow_navigation arrow_navigation_right"  onclick="navigateNext('${ section_id}', '_tablet')">
+                          <i class="material-icons" style="font-size:45px;">arrow_forward_ios</i>
+                      </a>
+                    </div>
 
                       <section class="carousel" aria-label="Gallery">
                         <%
@@ -715,9 +722,10 @@ a:hover{
                         %>
                           <ol class="carousel__viewport">
                             % if len(course_list) <= 2:
-                            <li id="carousel__slide1_${ section['id'] }_tablet"
-                                    tabindex="0"
-                                    class="carousel__slide">
+                                <li id="carousel__slide${index}_${ section['id'] }_mobile"
+                                tabindex="0"
+                                data-active="active"
+                                class="carousel__slide carousel__slide_${ section['id'] }_mobile">
                                   <div class="carousel__snapper">
                                       <div class=carousel__snapper__container>
                                     % for subsection in section.get('children', []):
@@ -799,10 +807,19 @@ a:hover{
                             % endfor
 
                             % for index in range(rounded_course_list):
-                          <li id="carousel__slide${index}_${ section['id'] }_tablet"
-                          tabindex="0"
-                          class="carousel__slide">
-                          <span class="anchor" id="carousel__slide${index + 1}_${ section['id'] }_tablet_anchor"></span>
+
+                            % if index == 0:
+                              <li id="carousel__slide${index}_${ section['id'] }_tablet"
+                              tabindex="0"
+                              data-active="active"
+                              class="carousel__slide carousel__slide_${ section['id'] }_tablet">
+                            % else : 
+                              <li id="carousel__slide${index}_${ section['id'] }_tablet"
+                              tabindex="0"
+                              class="carousel__slide carousel__slide_${ section['id'] }_tablet">
+                            % endif
+
+                          <span class="anchor" id="carousel__slide${index}_${ section['id'] }_tablet_anchor"></span>
                         <div class="carousel__snapper">
                             <div class=carousel__snapper__container>
                               %if len(course_list_list) > 0:
@@ -832,12 +849,6 @@ a:hover{
                         </div>
                       </div>
 
-                  <!-- <a href="#carousel__slide${index}_${ section['id'] }" -->
-                    <a href="#carousel__slide${index}_${ section['id'] }_tablet_anchor"
-                    class="carousel__prev"> <i class="material-icons" style="font-size:45px;">arrow_back_ios</i></a>     
-                    <!-- <a href="#carousel__slide${index + 2}_${ section['id'] }" -->
-                    <a href="#carousel__slide${index + 2}_${ section['id'] }_tablet_anchor"
-                    class="carousel__next"><i class="material-icons" style="font-size:45px;">arrow_forward_ios</i></a>
                     </li>
                     % endfor
       
@@ -847,13 +858,24 @@ a:hover{
                           number_of_subsections = len(course_list)
                          
                           %>
-
                           <aside class="carousel__navigation">
                             <ol class="carousel__navigation-list">
                               % for index in range(rounded_course_list):
-                              <li class="carousel__navigation-item">
+                              <script>console.log("${subsection['display_name']}")</script>
+                                %if index == 0:
+                                <li class="carousel__navigation-item carousel__navigation-item_${ section['id'] }_tablet"
+                                id="carousel__navigation-item${index}_${ section['id'] }_tablet"
+                                data-active="active"
+                                onclick="navigate('${ section_id }', '${index}', '_tablet')"
+                                >
+                                %else :
+                                <li class="carousel__navigation-item carousel__navigation-item_${ section['id'] }_tablet"
+                                id="carousel__navigation-item${index}_${ section['id'] }_tablet"
+                                onclick="navigate('${ section_id }', '${index}', '_tablet')"
+                                >
+                                %endif
                                 <a 
-                                href="#carousel__slide${index + 1}_${ section['id'] }_tablet_anchor"
+                                href="#carousel__slide${index}_${ section['id'] }_tablet_anchor"
                                   class="carousel__navigation-button">Go to slide 1</a>
                               </li>
                               %endfor
