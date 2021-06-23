@@ -708,8 +708,8 @@ a:hover{
                           %endif
                       %endfor
           % if section.get('complete'):
-                          <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
-                          <span class="sr">${_("Completed")}</span>
+                          <!-- <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
+                          <span class="sr">${_("Completed")}</span> -->
           % endif
                   </button>
                   <ol class=" outline-item accordion-panel ${ '' if section_is_auto_opened else 'is-hidden' }"
@@ -751,8 +751,8 @@ a:hover{
                                           <div class ="course_logo" style="background: url('/media/microsites/amazon/courses/${slug_img_name}.png')">
                                           <p class="course_logo_name">${course_name}</p>
                                           % if subsection.get('complete'):
-                                          <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
-                                          <span class="sr">${_("Completed")}</span>
+                                          <!-- <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
+                                          <span class="sr">${_("Completed")}</span> -->
                                           %endif
                                         </div>
                                     </a>
@@ -846,8 +846,8 @@ a:hover{
                                 <div class ="course_logo" style="background: url('/media/microsites/amazon/courses/${slug_img_name}.png')">
                                 <p class="course_logo_name">${course_name}</p>
                                 % if subsection.get('complete'):
-                                <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
-                                <span class="sr">${_("Completed")}</span>
+                                <!-- <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
+                                <span class="sr">${_("Completed")}</span> -->
                                 %endif
                               </div>
                           </a>
