@@ -457,8 +457,8 @@ a:hover{
                             %endif
                         %endfor
             % if section.get('complete'):
-                            <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
-                            <span class="sr">${_("Completed")}</span>
+                            <!-- <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
+                            <span class="sr">${_("Completed")}</span> -->
             % endif
                     </button>
                     <ol class=" outline-item accordion-panel ${ '' if section_is_auto_opened else 'is-hidden' }"
@@ -597,7 +597,6 @@ a:hover{
                                         >
                                           <div class ="course_logo" style="background: url('/media/microsites/amazon/courses/${slug_img_name}.png')">
                                           <p class="course_logo_name">${course_name}</p>
-                                          <!-- <script>console.log("${slug_img_name}")</script> -->
                                           % if subsection.get('complete'):
                                           <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
                                           <span class="sr">${_("Completed")}</span>
@@ -713,8 +712,8 @@ a:hover{
                           %endif
                       %endfor
           % if section.get('complete'):
-                          <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
-                          <span class="sr">${_("Completed")}</span>
+                          <!-- <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
+                          <span class="sr">${_("Completed")}</span> -->
           % endif
                   </button>
                   <ol class=" outline-item accordion-panel ${ '' if section_is_auto_opened else 'is-hidden' }"
@@ -874,7 +873,6 @@ a:hover{
                           <aside class="carousel__navigation">
                             <ol class="carousel__navigation-list">
                               % for index in range(rounded_course_list):
-                              <script>console.log("${subsection['display_name']}")</script>
                                 %if index == 0:
                                 <li class="carousel__navigation-item carousel__navigation-item_${ section['id'] }_tablet"
                                 id="carousel__navigation-item${index}_${ section['id'] }_tablet"
@@ -959,8 +957,8 @@ a:hover{
                           %endif
                       %endfor
           % if section.get('complete'):
-                          <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
-                          <span class="sr">${_("Completed")}</span>
+                          <!-- <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
+                          <span class="sr">${_("Completed")}</span> -->
           % endif
                   </button>
                   <ol class=" outline-item accordion-panel ${ '' if section_is_auto_opened else 'is-hidden' }"
@@ -1077,7 +1075,6 @@ a:hover{
   function navigate(sectionId, index, device) {
     
       let listElement = document.getElementsByClassName("carousel__navigation-item_" + sectionId + device)
-      console.log(listElement)
       for (let i = 0; i < listElement.length; i++) {
           if (listElement[i].getAttribute("data-active") === "active") {
               if (listElement[i].getAttribute("id") === "carousel__navigation-item_" + index + "_"+ sectionId + device) {
@@ -1101,10 +1098,8 @@ a:hover{
 
 
   function navigateNext(sectionId, device) {
-      console.log({sectionId, device})
+
         let listElement = document.getElementsByClassName('carousel__slide_' + sectionId + device)
-        console.log('carousel__slide_' + sectionId + device)
-        console.log({listElement})
 
         for (let i = 0; i < listElement.length; i++) {
             if (listElement[i].getAttribute("data-active") === "active") {
