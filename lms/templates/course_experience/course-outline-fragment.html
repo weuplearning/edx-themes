@@ -267,14 +267,16 @@ align-items: flex-end;
 }
 
 .complete-checkmark {
-  position: relative;
+  /* position: relative;
 bottom: 260px;
-left: 25px;
+left: 25px; */
 background: #f90;
 border-radius: 100%;
 color: #fff;
 border: 1px solid #fff;
 padding: 6px;
+margin-bottom: 260px;
+margin-right: 10px;
 }
 
 .mobile_device{
@@ -358,6 +360,10 @@ padding: 6px;
 
     bottom: -140px;
 
+}
+.complete-checkmark {
+
+    margin-bottom: 209px;
 }
 
 }
@@ -708,8 +714,8 @@ a:hover{
                           %endif
                       %endfor
           % if section.get('complete'):
-                          <!-- <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
-                          <span class="sr">${_("Completed")}</span> -->
+                          <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
+                          <span class="sr">${_("Completed")}</span>
           % endif
                   </button>
                   <ol class=" outline-item accordion-panel ${ '' if section_is_auto_opened else 'is-hidden' }"
@@ -751,8 +757,8 @@ a:hover{
                                           <div class ="course_logo" style="background: url('/media/microsites/amazon/courses/${slug_img_name}.png')">
                                           <p class="course_logo_name">${course_name}</p>
                                           % if subsection.get('complete'):
-                                          <!-- <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
-                                          <span class="sr">${_("Completed")}</span> -->
+                                          <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
+                                          <span class="sr">${_("Completed")}</span>
                                           %endif
                                         </div>
                                     </a>
@@ -846,8 +852,8 @@ a:hover{
                                 <div class ="course_logo" style="background: url('/media/microsites/amazon/courses/${slug_img_name}.png')">
                                 <p class="course_logo_name">${course_name}</p>
                                 % if subsection.get('complete'):
-                                <!-- <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
-                                <span class="sr">${_("Completed")}</span> -->
+                                <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
+                                <span class="sr">${_("Completed")}</span>
                                 %endif
                               </div>
                           </a>
