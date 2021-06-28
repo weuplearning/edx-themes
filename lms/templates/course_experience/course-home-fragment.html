@@ -179,7 +179,7 @@ from lms.djangoapps.grades.course_grade import ZeroCourseGrade
     }
 
     .progress-bar-full {
-        width: 80%;
+        width: 76%;
         background-color: lightgray;
         position: relative;
         display: flex;
@@ -398,17 +398,16 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
 
 /* Modal Content/Box */
 .modal-content {
-  background-color: #fefefe;
+  background-color: #fab835;
   margin: 8% auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
   width: 80%; /* Could be more or less, depending on screen size */
-  height: 75%;
 }
 
 /* The Close Button */
 .close {
-  color: #aaa;
+  color: #000;
   float: right;
   font-size: 28px;
   font-weight: bold;
@@ -420,6 +419,11 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
   text-decoration: none;
   cursor: pointer;
 } 
+
+.modal__image{
+    width: 100%;
+    height: 100%;
+}
 </style>
 
 
@@ -437,16 +441,16 @@ share_image = "https://amazon.the-mooc-agency.com/media/microsite/amazon/auto/im
 
  <!-- The Modal -->
 <!-- get user's score -->
-<!-- #%if int(user_grade.percent * 100) < 50:
+%if int(user_grade.percent * 100) > 50:
 <script>
     $(function () {
-        // if (localStorage.getItem('popState') != 'shown') {
+        if (localStorage.getItem('popState') != 'shown') {
             $("#myModal1").fadeIn();
-        // }
+        }
     
         $('#popup-close').click(function (e) {
             $('#myModal1').fadeOut();
-            // localStorage.setItem('popState', 'shown');
+            localStorage.setItem('popState', 'shown');
         });
     });
     
@@ -454,20 +458,20 @@ share_image = "https://amazon.the-mooc-agency.com/media/microsite/amazon/auto/im
     $("body").click(function() {
         if ($("#myModal1").is(":visible")) {
             $("#myModal1").hide();
-            // localStorage.setItem('popState', 'shown');
+            localStorage.setItem('popState', 'shown');
         }
     });
     </script>
-#%else:
+%elif int(user_grade.percent * 100) == 100:
 <script>
     $(function () {
-        // if (localStorage.getItem('popState') != 'shown') {
+        if (localStorage.getItem('popState') != 'shown') {
             $("#myModal2").fadeIn();
-        // }
+        }
     
         $('#popup-close').click(function (e) {
             $('#myModal2').fadeOut();
-            // localStorage.setItem('popState', 'shown');
+            localStorage.setItem('popState', 'shown');
         });
     });
     
@@ -475,39 +479,33 @@ share_image = "https://amazon.the-mooc-agency.com/media/microsite/amazon/auto/im
     $("body").click(function() {
         if ($("#myModal2").is(":visible")) {
             $("#myModal2").hide();
-            // localStorage.setItem('popState', 'shown');
+            localStorage.setItem('popState', 'shown');
         }
     });
     </script>
-#%endif -->
+%endif
 
 
- <!-- <div id="myModal1" class="modal"> 
+ <div id="myModal1" class="modal"> 
    <div class="modal-content">
      <span id="popup-close" class="close">&times;</span>
-     <p>Bravo, vous avez déjà réalisé la moitié du parcours !</p>
-     <p>Que pensez-vous de cette formation ? Vous voulez partager votre expérience avec nous ?</p>
-     <p>Ecrivez-nous à <a href="accelerateur-du-numerique@amazon.fr">accelerateur-du-numerique@amazon.fr</a>et nous vous répondrons dans les plus courts délais.</p>
+     <img class="modal__image" src="/media/microsites/amazon/amazon-popup-1.gif" alt="mi parcours popup">
    </div>
  </div>
  
  <div id="myModal2" class="modal"> 
     <div class="modal-content">
       <span id="popup-close" class="close">&times;</span>
-      <p>Félicitations, vous avez terminé de visionner les vidéos !</p>
-      <p>Vous souhaitez approfondir vos connaissances ? RDV aux webinaires à l’occasion desquels vous pourrez interagir avec les présentateurs.</p>
-      <p>Vous souhaitez partager votre expérience avec de futurs utilisateurs ou avec l’équipe Amazon ? Ecrivez-nous à <a href="accelerateur-du-numerique@amazon.fr">accelerateur-du-numerique@amazon.fr</a>et nous prendrons contact avec vous dans les plus courts délais.</p>
+      <img class="modal__image" src="/media/microsites/amazon/amazon-popup-2.gif" alt="mi parcours popup">
     </div>
-  </div> -->
+  </div>
 
   <!--end modal test -->
 
 <div class="course-view page-content-container" id="course-container">
     <header class="page-header has-secondary">
-<!-- <img class="logo_banner" src="${static.url('amazon/images/logo.png')}" alt="L’Accélérateur du Numérique Accueil"> -->
         <div class="page-header-main">
             <nav aria-label="${_('Course Outline')}" class="sr-is-focusable" tabindex="-1">
-<!--                <h2 class="hd hd-3 page-title">${course.display_name_with_default}</h2>-->
             </nav>
         </div>
         <div class="page-header-secondary top-search-bar">
