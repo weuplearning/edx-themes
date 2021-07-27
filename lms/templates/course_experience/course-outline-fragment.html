@@ -409,6 +409,7 @@ a:hover{
 .navigation_container {
   display: flex;
   justify-content: space-between;
+  padding: 0 5px;
 }
 
 .arrow_navigation_right{
@@ -498,6 +499,7 @@ a:hover{
                                           aria-disabled="true"
                                       % endif
                                       >
+
                                           <div class ="course_logo" style="background: url('/media/microsites/amazon/courses/${slug_img_name}.png')">
                                           <p class="course_logo_name">${course_name}</p>
                                           % if subsection.get('complete'):
@@ -594,8 +596,12 @@ a:hover{
                                         % else:
                                             aria-disabled="true"
                                         % endif
-                                        >
+                                        > 
+                                        % if slug_img_name == 'vendre_via_le_drive':
+                                          <div class ="course_logo" style="background: url('/media/microsites/amazon/courses/vendre_via_le_drive.31ef70b80544.png')">
+                                        % else:
                                           <div class ="course_logo" style="background: url('/media/microsites/amazon/courses/${slug_img_name}.png')">
+                                        % endif
                                           <p class="course_logo_name">${course_name}</p>
                                           % if subsection.get('complete'):
                                           <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
@@ -847,7 +853,11 @@ a:hover{
                                 aria-disabled="true"
                             % endif
                             >
-                                <div class ="course_logo" style="background: url('/media/microsites/amazon/courses/${slug_img_name}.png')">
+                                % if slug_img_name == 'vendre_via_le_drive':
+                                <div class ="course_logo" style="background: url('/media/microsites/amazon/courses/vendre_via_le_drive.31ef70b80544.png')">
+                                % else:
+                                  <div class ="course_logo" style="background: url('/media/microsites/amazon/courses/${slug_img_name}.png')">
+                                % endif
                                 <p class="course_logo_name">${course_name}</p>
                                 % if subsection.get('complete'):
                                 <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
@@ -1005,7 +1015,11 @@ a:hover{
                                 aria-disabled="true"
                             % endif
                             >
+                              % if slug_img_name == 'vendre_via_le_drive':
+                              <div class ="course_logo" style="background: url('/media/microsites/amazon/courses/vendre_via_le_drive.31ef70b80544.png')">
+                              % else:
                                 <div class ="course_logo" style="background: url('/media/microsites/amazon/courses/${slug_img_name}.png')">
+                              % endif
                                 <p class="course_logo_name">${course_name}</p>
                                 % if subsection.get('complete'):
                                 <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
