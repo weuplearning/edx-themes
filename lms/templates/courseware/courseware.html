@@ -61,9 +61,29 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
     }
 
     .course-content{
-      width: 80% !important;
+      width: 78% !important;
     }
+.admin-menu{
+  width: 15%;
+}
 
+.admin-menu__list{
+  list-style: none;
+}
+.admin-menu__list--element{
+  margin-bottom: 2em;
+  text-transform: uppercase;
+  color: rgb(0,91,144);
+  font-weight: bold;
+}
+
+.button_admin{
+
+}
+
+.button_user{
+
+}
 </style>
 
 % if display_reset_dates_banner:
@@ -285,13 +305,15 @@ ${HTML(fragment.foot_html())}
 
   </div>
 <section class="admin-menu">
-<ul>
-  <li>Boite à outils</li>
-  <li>Comment ça marche</li>
-  <li>Forum</li>
-  <li>Espace administrateur</li>
-  <li>Espace utilisateurs</li>
+<ul class="admin-menu__list">
+  <li class="admin-menu__list--element">Boite à outils</li>
+  <li class="admin-menu__list--element">Comment ça marche</li>
+  <li class="admin-menu__list--element">Forum</li>
+  <li class="admin-menu__list--element button_admin">Espace administrateur</li>
+  <li class="admin-menu__list--element button_user">Espace utilisateurs</li>
 </ul>
+<img src="${static.url('bim/images/ICO_1.png')}" alt="logo boite à outils" id="toolbox-logo"/>
+
 </section>
   ${HTML(course_sock_fragment.body_html())}
 </div>
