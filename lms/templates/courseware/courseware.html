@@ -34,6 +34,36 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
     max-width: inherit;
 }
 
+.button-chapter-strong {
+        background-color: rgb(0,91,144) !important;
+        background-image: none !important;
+    }
+
+    .group-heading-strong{
+        color:#fff;
+        width: 100%;
+      text-align: center !important;
+    }
+
+    .accordion{
+      height: 100vh;
+    overflow: scroll;
+    scrollbar-color: rgb(0,91,144) #fff;
+
+    }
+
+    .sequence-nav,
+    .unit-title,
+    .bookmark-button-wrapper,
+    .course-tabs 
+    {
+      display: none !important;
+    }
+
+    .course-content{
+      width: 80% !important;
+    }
+
 </style>
 
 % if display_reset_dates_banner:
@@ -136,7 +166,35 @@ ${HTML(fragment.foot_html())}
 % else:
   <%include file="/courseware/course_navigation.html" args="active_page='courseware'" />
 % endif
-
+<header class="page-header has-secondary">
+  <div class="page-header-main">
+      <nav aria-label="${_('Course')}" class="sr-is-focusable" tabindex="-1">
+          <div class="has-breadcrumbs">
+              <div class="breadcrumbs">
+                  % if not DISABLE_COURSE_OUTLINE_PAGE_FLAG.is_enabled(course.id):
+                      <span class="nav-item nav-item-course">
+                          <a href="${course_url}">${course_home_page_title(course)}</a>
+                      </span>
+                      <span class="icon fa fa-angle-right" aria-hidden="true"></span>
+                  % endif
+                  % if chapter:
+                      <span class="nav-item nav-item-chapter" data-course-position="${course.position}" data-chapter-position="${chapter.position}">
+                          <a href="${course_url}#${six.text_type(chapter.location)}">${chapter.display_name_with_default}</a>
+                      </span>
+                      <span class="icon fa fa-angle-right" aria-hidden="true"></span>
+                  % endif
+                  % if section:
+                      <span class="nav-item nav-item-section">
+                          <a href="${course_url}#${six.text_type(section.location)}">${section.display_name_with_default}</a>
+                      </span>
+                      <span class="icon fa fa-angle-right" aria-hidden="true"></span>
+                  % endif
+                  <span class="nav-item nav-item-sequence">${sequence_title}</span>
+              </div>
+          </div>
+      </nav>
+  </div>
+</header>
 <div class="container"
   % if getattr(course, 'language'):
     lang="${course.language}"
@@ -150,26 +208,31 @@ ${HTML(fragment.foot_html())}
       <div class="accordion">
         <nav class="course-navigation" aria-label="${_('Course')}">
 
-          <a href="#" role="button" id="comment-ça-marche-parent" aria-controls="comment-ça-marche-child" aria-expanded="true" class="button-chapter chapter">
-            <span class="group-heading active" aria-label="comment-ça-marche">
-                <span class="icon fa fa-caret-down" aria-hidden="true"></span>
+          <a href="#" role="button" id="comment-ça-marche-parent" aria-controls="comment-ça-marche-child" aria-expanded="true" class="button-chapter button-chapter-strong chapter">
+            <span class="group-heading group-heading-strong active" aria-label="comment-ça-marche">
+                <!-- <span class="icon fa fa-caret-down" aria-hidden="true"></span> -->
                 Comment ça marche
             </span>
+            <a href="#" role="button" id="cahier-charge-parent" aria-controls="cahier-charge-child" aria-expanded="true" class="button-chapter button-chapter-strong chapter">
+              <span class="group-heading group-heading-strong active" aria-label="cahier-charge">
+                  <!-- <span class="icon fa fa-caret-down" aria-hidden="true"></span> -->
+                  Le cahier des charges BIM
+              </span>
           </a>
           % if accordion.strip():
             ${HTML(accordion)}
           % else:
             <div class="chapter">${_("No content has been added to this course")}</div>
           % endif
-          <a href="#" role="button" id="procedure-commande-parent" aria-controls="procedure-commande-child" aria-expanded="true" class="button-chapter chapter">
-            <span class="group-heading active" aria-label="procedure-commande">
-                <span class="icon fa fa-caret-down" aria-hidden="true"></span>
+          <a href="#" role="button" id="procedure-commande-parent" aria-controls="procedure-commande-child" aria-expanded="true" class="button-chapter button-chapter-strong chapter">
+            <span class="group-heading group-heading-strong active" aria-label="procedure-commande">
+                <!-- <span class="icon fa fa-caret-down" aria-hidden="true"></span> -->
                 Procédure de commande
             </span>
           </a>
-          <a href="#" role="button" id="cloture-accompagnement-parent" aria-controls="cloture-accompagnement-child" aria-expanded="true" class="button-chapter chapter">
-            <span class="group-heading active" aria-label="cloture-accompagnement">
-                <span class="icon fa fa-caret-down" aria-hidden="true"></span>
+          <a href="#" role="button" id="cloture-accompagnement-parent" aria-controls="cloture-accompagnement-child" aria-expanded="true" class="button-chapter button-chapter-strong chapter">
+            <span class="group-heading group-heading-strong active" aria-label="cloture-accompagnement">
+                <!-- <span class="icon fa fa-caret-down" aria-hidden="true"></span> -->
                 Clôture de l'accompagnement
             </span>
           </a>
@@ -179,35 +242,6 @@ ${HTML(fragment.foot_html())}
     </div>
 % endif
     <section class="course-content" id="course-content">
-        <header class="page-header has-secondary">
-            <div class="page-header-main">
-                <nav aria-label="${_('Course')}" class="sr-is-focusable" tabindex="-1">
-                    <div class="has-breadcrumbs">
-                        <div class="breadcrumbs">
-                            % if not DISABLE_COURSE_OUTLINE_PAGE_FLAG.is_enabled(course.id):
-                                <span class="nav-item nav-item-course">
-                                    <a href="${course_url}">${course_home_page_title(course)}</a>
-                                </span>
-                                <span class="icon fa fa-angle-right" aria-hidden="true"></span>
-                            % endif
-                            % if chapter:
-                                <span class="nav-item nav-item-chapter" data-course-position="${course.position}" data-chapter-position="${chapter.position}">
-                                    <a href="${course_url}#${six.text_type(chapter.location)}">${chapter.display_name_with_default}</a>
-                                </span>
-                                <span class="icon fa fa-angle-right" aria-hidden="true"></span>
-                            % endif
-                            % if section:
-                                <span class="nav-item nav-item-section">
-                                    <a href="${course_url}#${six.text_type(section.location)}">${section.display_name_with_default}</a>
-                                </span>
-                                <span class="icon fa fa-angle-right" aria-hidden="true"></span>
-                            % endif
-                            <span class="nav-item nav-item-sequence">${sequence_title}</span>
-                        </div>
-                    </div>
-                </nav>
-            </div>
-        </header>
 
         <main id="main" tabindex="-1" aria-label="Content">
             % if getattr(course, 'entrance_exam_enabled') and \
@@ -250,7 +284,15 @@ ${HTML(fragment.foot_html())}
     </section>
 
   </div>
-
+<section class="admin-menu">
+<ul>
+  <li>Boite à outils</li>
+  <li>Comment ça marche</li>
+  <li>Forum</li>
+  <li>Espace administrateur</li>
+  <li>Espace utilisateurs</li>
+</ul>
+</section>
   ${HTML(course_sock_fragment.body_html())}
 </div>
 <div class="container-footer">
