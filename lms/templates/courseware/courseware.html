@@ -69,20 +69,44 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
 
 .admin-menu__list{
   list-style: none;
+  display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
 }
 .admin-menu__list--element{
-  margin-bottom: 2em;
+  margin-bottom: 1.2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.admin-menu__list--element_text{
   text-transform: uppercase;
   color: rgb(0,91,144);
   font-weight: bold;
 }
 
-.button_admin{
+.admin-menu--img{
+  width: 30px;
+  margin-right: 5px;
+}
 
+.admin-menu__list--button_div{
+  display: flex;
+  align-items: center;
+  color: #fff;
+  width: 160px;
+  padding: 10px;
+  margin-bottom: 1.2em;
+}
+
+.button_admin{
+  background-color: rgb(0,91,144);
 }
 
 .button_user{
-
+  background-color: rgb(52,128,195);
 }
 </style>
 
@@ -231,7 +255,7 @@ ${HTML(fragment.foot_html())}
           <a href="#" role="button" id="comment-ça-marche-parent" aria-controls="comment-ça-marche-child" aria-expanded="true" class="button-chapter button-chapter-strong chapter">
             <span class="group-heading group-heading-strong active" aria-label="comment-ça-marche">
                 <!-- <span class="icon fa fa-caret-down" aria-hidden="true"></span> -->
-                Comment ça marche
+                Comment ça marche ?
             </span>
             <a href="#" role="button" id="cahier-charge-parent" aria-controls="cahier-charge-child" aria-expanded="true" class="button-chapter button-chapter-strong chapter">
               <span class="group-heading group-heading-strong active" aria-label="cahier-charge">
@@ -306,13 +330,32 @@ ${HTML(fragment.foot_html())}
   </div>
 <section class="admin-menu">
 <ul class="admin-menu__list">
-  <li class="admin-menu__list--element">Boite à outils</li>
-  <li class="admin-menu__list--element">Comment ça marche</li>
-  <li class="admin-menu__list--element">Forum</li>
-  <li class="admin-menu__list--element button_admin">Espace administrateur</li>
-  <li class="admin-menu__list--element button_user">Espace utilisateurs</li>
+  <li class="admin-menu__list--element">
+    <img class="admin-menu--img" src="${static.url('bim/images/ICO_1.png')}" alt="logo boite à outils" id="toolbox-logo"/>
+    <p class="admin-menu__list--element_text">Boite à outils</p>
+  </li>
+  <li class="admin-menu__list--element">
+    <img class="admin-menu--img" src="${static.url('bim/images/ICO_1.png')}" alt="logo boite à outils" id="toolbox-logo"/>
+    <p class="admin-menu__list--element_text">Comment ça marche</p>
+  </li>
+  <li class="admin-menu__list--element">
+    <img class="admin-menu--img" src="${static.url('bim/images/ICO_1.png')}" alt="logo boite à outils" id="toolbox-logo"/>
+    <p class="admin-menu__list--element_text">Forum</p>
+  </li>
+  <li>
+  <div class="admin-menu__list--button_div button_admin" >
+    <img class="admin-menu--img" src="${static.url('bim/images/ICO_1.png')}" alt="logo boite à outils" id="toolbox-logo"/>
+    <p class="admin-menu__list--button_text">Espace administrateur</p>
+  </div>
+  </li>
+  <li>
+    <div class="admin-menu__list--button_div button_user" >
+      <img class="admin-menu--img" src="${static.url('bim/images/ICO_1.png')}" alt="logo boite à outils" id="toolbox-logo"/>
+      <p class="admin-menu__list--button_text">Espace utilisateur</p>
+  </div>
+  </li>
 </ul>
-<img src="${static.url('bim/images/ICO_1.png')}" alt="logo boite à outils" id="toolbox-logo"/>
+
 
 </section>
   ${HTML(course_sock_fragment.body_html())}
