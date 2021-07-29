@@ -24,6 +24,13 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
 %>
 
 <style>
+
+  .page-header,
+  .container>div {
+    border: none;
+  }
+
+
   .window-wrap {
     background: url("${static.url('{}/images/bg_img.png'.format(course.org))}");
     background-size: contain;
@@ -49,7 +56,6 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
       height: 100vh;
     overflow: scroll;
     scrollbar-color: rgb(0,91,144) #fff;
-
     }
 
     .sequence-bottom,
@@ -98,6 +104,11 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
   color: #fff;
   width: 160px;
   padding: 10px;
+  margin-bottom: 1.2em;
+}
+
+.admin-menu__list--button_div{
+  width: 160px;
   margin-bottom: 1.2em;
 }
 
@@ -322,6 +333,8 @@ ${HTML(fragment.foot_html())}
         </main>
     </section>
 
+
+
     <section class="courseware-results-wrapper">
       <div id="loading-message" aria-live="polite" aria-relevant="all"></div>
       <div id="error-message" aria-live="polite"></div>
@@ -340,7 +353,7 @@ ${HTML(fragment.foot_html())}
     <p class="admin-menu__list--element_text">Comment ça marche</p>
   </li>
   <li class="admin-menu__list--element">
-    <img class="admin-menu--img" src="${static.url('bim/images/ICO_1.png')}" alt="logo boite à outils" id="toolbox-logo"/>
+    <img class="admin-menu--img" src="${static.url('bim/images/picto-forum.svg')}" alt="logo boite à outils" id="toolbox-logo"/>
     <p class="admin-menu__list--element_text">Forum</p>
   </li>
   <li>
