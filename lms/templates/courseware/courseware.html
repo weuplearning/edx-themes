@@ -25,6 +25,12 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
 
 <style>
 
+  .page-header{
+    width: 80%;
+    margin: auto;
+    padding-left: 0;
+  }
+
   .page-header,
   .container>div {
     border: none;
@@ -44,6 +50,9 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
 .button-chapter-strong {
         background-color: rgb(0,91,144) !important;
         background-image: none !important;
+        display: block;
+        height: 50px;
+        margin-bottom: 5px;
     }
 
     .group-heading-strong{
@@ -58,13 +67,13 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
     scrollbar-color: rgb(0,91,144) #fff;
     }
 
-    .sequence-bottom,
+    /* .sequence-bottom,
     .unit-title,
     .bookmark-button-wrapper,
     .course-tabs 
     {
       display: none !important;
-    }
+    } */
 
     .course-content{
       width: 78% !important;
@@ -263,13 +272,12 @@ ${HTML(fragment.foot_html())}
 
       <div class="accordion">
         <nav class="course-navigation" aria-label="${_('Course')}">
-
-          <a href="#" role="button" id="comment-ça-marche-parent" aria-controls="comment-ça-marche-child" aria-expanded="true" class="button-chapter button-chapter-strong chapter">
-            <span class="group-heading group-heading-strong active" aria-label="comment-ça-marche">
-                <!-- <span class="icon fa fa-caret-down" aria-hidden="true"></span> -->
+          <!-- <a href="https://bim.koa.qualif.dev/courses/course-v1:bim+test+test/c35c81be41c34ad3814a6ffae7515b0f/" role="button" id="comment-ça-marche-parent" aria-controls="comment-ça-marche-child" aria-expanded="true" class="button-chapter button-chapter-strong chapter"> -->
+          <a href="https://bim.koa.qualif.dev/courses/course-v1:bim+test+test/c35c81be41c34ad3814a6ffae7515b0f/"  class="button-chapter-strong chapter">
+            <span class="group-heading-strong">
                 Comment ça marche ?
             </span>
-            <a href="#" role="button" id="cahier-charge-parent" aria-controls="cahier-charge-child" aria-expanded="true" class="button-chapter button-chapter-strong chapter">
+            <a href="#" role="button" id="cahier-charge-parent" aria-controls="cahier-charge-child" aria-expanded="true" class="button-chapter-strong chapter">
               <span class="group-heading group-heading-strong active" aria-label="cahier-charge">
                   <!-- <span class="icon fa fa-caret-down" aria-hidden="true"></span> -->
                   Le cahier des charges BIM
@@ -280,13 +288,13 @@ ${HTML(fragment.foot_html())}
           % else:
             <div class="chapter">${_("No content has been added to this course")}</div>
           % endif
-          <a href="#" role="button" id="procedure-commande-parent" aria-controls="procedure-commande-child" aria-expanded="true" class="button-chapter button-chapter-strong chapter">
+          <a href="#" role="button" id="procedure-commande-parent" aria-controls="procedure-commande-child" aria-expanded="true" class="button-chapter-strong chapter">
             <span class="group-heading group-heading-strong active" aria-label="procedure-commande">
                 <!-- <span class="icon fa fa-caret-down" aria-hidden="true"></span> -->
                 Procédure de commande
             </span>
           </a>
-          <a href="#" role="button" id="cloture-accompagnement-parent" aria-controls="cloture-accompagnement-child" aria-expanded="true" class="button-chapter button-chapter-strong chapter">
+          <a href="#" role="button" id="cloture-accompagnement-parent" aria-controls="cloture-accompagnement-child" aria-expanded="true" class="button-chapter-strong chapter">
             <span class="group-heading group-heading-strong active" aria-label="cloture-accompagnement">
                 <!-- <span class="icon fa fa-caret-down" aria-hidden="true"></span> -->
                 Clôture de l'accompagnement
@@ -345,13 +353,15 @@ ${HTML(fragment.foot_html())}
 <section class="admin-menu">
 <ul class="admin-menu__list">
   <li class="admin-menu__list--element">
-    <img class="admin-menu--img" src="${static.url('bim/images/ICO_1.png')}" alt="logo boite à outils" id="toolbox-logo"/>
+    <img class="admin-menu--img" src="${static.url('bim/images/picto-boite-a-outils.svg')}" alt="logo boite à outils" id="toolbox-logo"/>
     <p class="admin-menu__list--element_text">Boite à outils</p>
   </li>
-  <li class="admin-menu__list--element">
-    <img class="admin-menu--img" src="${static.url('bim/images/ICO_1.png')}" alt="logo boite à outils" id="toolbox-logo"/>
-    <p class="admin-menu__list--element_text">Comment ça marche</p>
-  </li>
+  <a href="https://bim.koa.qualif.dev/courses/course-v1:bim+test+test/c35c81be41c34ad3814a6ffae7515b0f/">
+    <li class="admin-menu__list--element">
+      <img class="admin-menu--img" src="${static.url('bim/images/ICO_1.png')}" alt="logo boite à outils" id="toolbox-logo"/>
+      <p class="admin-menu__list--element_text">Comment ça marche</p>
+    </li>
+  </a>
   <li class="admin-menu__list--element">
     <img class="admin-menu--img" src="${static.url('bim/images/picto-forum.svg')}" alt="logo boite à outils" id="toolbox-logo"/>
     <p class="admin-menu__list--element_text">Forum</p>

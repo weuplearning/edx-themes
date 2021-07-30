@@ -25,6 +25,12 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 %>
 
 <%block name="header_extras">
+
+<script>
+    window.location.replace("https://bim.koa.qualif.dev/courses/course-v1:bim+test+test/courseware/0fe505ec4c564d7f83d0196f7ed4d4fa/5f9de51fff454ffd93a17962982a52d2/?activate_block_id=block-v1%3Abim%2Btest%2Btest%2Btype%40sequential%2Bblock%405f9de51fff454ffd93a17962982a52d2");
+  </script>
+
+  
   <link rel="stylesheet" type="text/css" href="${static.url('paragon/static/paragon.min.css')}" />
   <link rel="stylesheet" type="text/css" href="${static.url('weup/css/animate-4.1.1.min.css')}" />
   <style>
@@ -562,3 +568,4 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
       });
 
 </%static:require_module_async> 
+

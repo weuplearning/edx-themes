@@ -1,0 +1,196 @@
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.urls import reverse
+
+from openedx.core.djangolib.markup import HTML, Text
+%>
+
+
+<style>
+
+  .introduction__up--text{
+    display: flex;
+  }
+  .admin-menu--img{
+    width: 40px;
+  }
+
+  .introduction{
+    background-color: #E7EEF4;
+  }
+
+  .introduction__up{
+    display: flex;
+    justify-content: space-between;
+  }
+  .introduction__up--movie{
+    background-image: url("/static/bim/images/screen_bim.ea12be51b673.png");
+display: flex;
+justify-content: space-between;
+align-items: center;
+flex-direction: column;
+background-size: contain;
+width: 550px !important;
+height: 309px;
+  }
+
+  .video-extract__up-vid {
+  display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+background-size: contain;
+width: 550px !important;
+height: 309px;
+
+  }
+ .up__left{
+    background-image: url("${static.url('bim/images/screen_bim_2.png')}");
+  }
+
+  .up__right{
+    background-image: url("${static.url('bim/images/screen_bim_3.png')}");
+  }
+
+  .introduction__up--movie--play{
+    width: 40px;
+  }
+  .introduction__up--element{
+    width: 25%;
+  }
+  .introduction__up--login{
+    display: flex;
+background-color: blue;
+width: 200px;
+height: 60px;
+  
+  }
+
+  .introduction__up--text--picto{
+    width: 40px;
+  }
+
+.introduction__up--text--bracket{
+  width: 65px;
+  margin-right: 20px;
+}
+.introduction__title{
+  font-size: 2em;
+  line-height: 1em;
+  text-transform: uppercase;
+}
+
+
+.introduction__down {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.introduction__down--start-register{
+  display: flex;
+  align-items: center;
+}
+.logo{
+  width: 40px;
+}
+
+.videos-extract{
+  margin-top: 100px;
+display: flex;
+flex-direction: column;
+}
+.video-extract__up{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+</style>
+
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="introduction">
+      <div class="introduction__up">
+        <div class="introduction__up--element introduction__up--text">
+          <img class="introduction__up--text--bracket" src="${static.url('bim/images/crochet.svg')}" alt="crochet"/>
+          <div class="introduction__up--text--text">
+            <p class="introduction__title">Paragraphe introductif</p>
+            <p class="introduction__subtitle">Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi nulla aspernatur, ab facere sed iure. Facilis iure consequuntur id iste expedita doloremque. Sequi libero explicabo dolores voluptates non eum laboriosam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi nulla aspernatur, ab facere sed iure. Facilis iure consequuntur id iste expedita doloremque. Sequi libero explicabo dolores voluptates non eum laboriosam.</p>
+          </div>
+        </div>
+        <div class="introduction__up--element introduction__up--movie">
+          <img class="introduction__up--movie--play" src="${static.url('bim/images/picto-facebook.svg')}" alt="logo facebook"/>
+          <p class="introduction__up--movie--text">Objectif : définir les objectifs de l'outil, rassurer l'utilisateur, inciter l'utilisateur à débuter l'accompagnement</p>
+        </div>
+        <div class="introduction__up--element introduction__up--login">
+          <div class="introduction__up--login">
+            <img class="introduction__up--text--picto" src="${static.url('bim/images/picto-facebook.svg')}" alt="logo facebook"/>
+            <p class="introduction__login">Se connecter</p>
+          </div>
+
+        </div>
+      </div>
+      <div class="introduction__down">
+        <div class="introduction__down--start-register">
+          <img class="logo introduction__down--arrow" src="${static.url('bim/images/picto-plus.svg')}" alt="picto plus"/>
+          <p class="introduction__down-txt">Commencer</p>
+        </div>
+        <div class="introduction__down--start-register">
+          <img class="logo introduction__down--arrow" src="${static.url('bim/images/picto-plus.svg')}" alt="picto plus"/>
+          <p class="introduction__down-txt">S'inscrire</p>
+        </div>
+        <img class="logo introduction__down--arrow" src="${static.url('bim/images/picto-plus.svg')}" alt="logo facebook"/>
+      </div>
+
+    </section>
+
+    <section class="videos-extract">
+      <div class="video-extract__up">
+        <div class="video-extract-video">
+          <div class="video-extract__up-vid up__left">
+            <img class="logo video-extract__up__left--video" src="${static.url('bim/images/picto-facebook.svg')}" alt="logo facebook"/>
+          </div>
+          <p class="video-extract__up__left--text">Retour d'expérience d'un MOA sur <span class="span_strong">la rédaction d'un cachier des charges BIM</span></p>
+        </div>
+        <div class="video-extract-video">
+          <div class="video-extract__up-vid up__right">
+            <img class="logo ideo-extract__up__left--video" src="${static.url('bim/images/picto-facebook.svg')}" alt="logo facebook"/>
+          </div>
+          <p class="video-extract__up__right--text">Retour d'expérience d'un MOA sur <span class="span_strong">la rédaction d'un cachier des charges BIM</span></p>
+        </div>
+      </div>
+      <p class="video-extract__down">
+        Vous avez <span class="span_strong">déjà suivi</span>l'accompagnement et souhaitez en retrouver les <span class="span_strong">ressources documentaires</span>
+      </p>
+    </section>
+</main>
+
+% if show_homepage_promo_video:
+  <section id="video-modal" class="modal home-page-video-modal video-modal">
+    <div class="inner-wrapper">
+      <iframe title="YouTube Video" width="640" height="360" src="//www.youtube.com/embed/${homepage_promo_video_youtube_id}?showinfo=0" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </section>
+% endif
+
+<%block name="js_extra">
+   <script type="text/javascript">
+      $(window).load(function() {
+         if(getParameterByName('next')) {
+              $('#login').trigger("click");
+         }
+      })
+   </script>
+</%block>
+
+% if show_signup_immediately is not UNDEFINED:
+  ## NOTE: This won't work in production, because anonymous views are cached, so it will
+  ## show either with or without this extra js for 3 minutes at a time.
+<script type="text/javascript">
+  $(window).load(function() {$('#signup_action').trigger("click");});
+</script>
+% endif
