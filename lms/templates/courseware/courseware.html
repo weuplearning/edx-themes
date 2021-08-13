@@ -25,6 +25,8 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
 
 <style>
 
+
+
   .page-header{
     width: 80%;
     margin: auto;
@@ -53,6 +55,8 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
         display: block;
         height: 50px;
         margin-bottom: 5px;
+        display: flex;
+  align-items: center;
     }
 
     .group-heading-strong{
@@ -67,19 +71,26 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
     scrollbar-color: rgb(0,91,144) #fff;
     }
 
-    /* .sequence-bottom,
+    .sequence-bottom,
     .unit-title,
     .bookmark-button-wrapper,
-    .course-tabs 
+    .course-tabs
+    .amazonfreetextcomment
     {
       display: none !important;
-    } */
+    }
 
     .course-content{
       width: 78% !important;
     }
+
+
+
+
+/* admin menu right */
+
 .admin-menu{
-  width: 15%;
+  min-width: 15%;
 }
 
 .admin-menu__list{
@@ -104,7 +115,7 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
 
 .admin-menu--img{
   width: 30px;
-  margin-right: 5px;
+  margin-right: 10px;
 }
 
 .admin-menu__list--button_div{
@@ -128,6 +139,19 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
 .button_user{
   background-color: rgb(52,128,195);
 }
+
+.admin-menu--img_user{
+  width: 25px;
+  margin-right: 10px;
+}
+
+.how_it_works {
+    width: 37px;
+    margin-right: 10px;
+    margin-left: -4px;
+}
+
+
 
 </style>
 
@@ -350,38 +374,47 @@ ${HTML(fragment.foot_html())}
     </section>
 
   </div>
+
 <section class="admin-menu">
 <ul class="admin-menu__list">
-  <li class="admin-menu__list--element">
-    <img class="admin-menu--img" src="${static.url('bim/images/picto-boite-a-outils.svg')}" alt="logo boite à outils" id="toolbox-logo"/>
-    <p class="admin-menu__list--element_text">Boite à outils</p>
-  </li>
+  <a href="#">
+    <li class="admin-menu__list--element">
+      <img class="admin-menu--img" src="${static.url('bim/images/picto-boite-a-outils.svg')}" alt="logo boite à outils" id="toolbox-logo"/>
+      <p class="admin-menu__list--element_text">Boite à outils</p>
+    </li>
+  </a>
   <a href="https://bim.koa.qualif.dev/courses/course-v1:bim+test+test/c35c81be41c34ad3814a6ffae7515b0f/">
     <li class="admin-menu__list--element">
-      <img class="admin-menu--img" src="${static.url('bim/images/ICO_1.png')}" alt="logo boite à outils" id="toolbox-logo"/>
+      <img class="admin-menu--img how_it_works" src="${static.url('bim/images/ICO_1.png')}" alt="logo boite à outils" id="toolbox-logo"/>
       <p class="admin-menu__list--element_text">Comment ça marche</p>
     </li>
   </a>
-  <li class="admin-menu__list--element">
-    <img class="admin-menu--img" src="${static.url('bim/images/picto-forum.svg')}" alt="logo boite à outils" id="toolbox-logo"/>
-    <p class="admin-menu__list--element_text">Forum</p>
-  </li>
-  <li>
-  <div class="admin-menu__list--button_div button_admin" >
-    <img class="admin-menu--img" src="${static.url('bim/images/ICO_1.png')}" alt="logo boite à outils" id="toolbox-logo"/>
-    <p class="admin-menu__list--button_text">Espace administrateur</p>
+  <a href="https://bim.koa.qualif.dev/courses/course-v1:bim+test+test/discussion/forum/">
+    <li class="admin-menu__list--element">
+      <img class="admin-menu--img" src="${static.url('bim/images/picto-forum.svg')}" alt="logo boite à outils" id="toolbox-logo"/>
+      <p class="admin-menu__list--element_text">Forum</p>
+    </li>
+  </a>
+  <a href="https://bim.koa.qualif.dev/wul_apps/dashboard/home">
+    <li>
+      <div class="admin-menu__list--button_div button_admin " >
+        <img class="admin-menu--img_user" src="${static.url('bim/images/head.png')}" alt="logo boite à outils" id="toolbox-logo"/>
+        <p class="admin-menu__list--button_text">Espace administrateur</p>
+      </div>
+    </li>
+  </a>
+  <div id="user_menu_button" class="admin-menu__list--button_div button_user" >
+    <img class="admin-menu--img_user" src="${static.url('bim/images/head.png')}" alt="logo boite à outils" id="toolbox-logo"/>
+    <p class="admin-menu__list--button_text">Espace utilisateur</p>
   </div>
-  </li>
-  <li>
-    <div class="admin-menu__list--button_div button_user" >
-      <img class="admin-menu--img" src="${static.url('bim/images/ICO_1.png')}" alt="logo boite à outils" id="toolbox-logo"/>
-      <p class="admin-menu__list--button_text">Espace utilisateur</p>
+  <div id="user_menu_items" class="user_menu" style="display: none;" >
+    <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="${reverse('dashboard')}" role="menuitem">${_("Dashboard")}</a></div>
+    <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="${reverse('account_settings')}" role="menuitem">${_("Account")}</a></div>
+    <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="${reverse('logout')}" role="menuitem">${_("Sign Out")}</a></div>
   </div>
-  </li>
 </ul>
-
-
 </section>
+
   ${HTML(course_sock_fragment.body_html())}
 </div>
 <div class="container-footer">
@@ -443,3 +476,19 @@ ${HTML(fragment.foot_html())}
 
 </%static:require_module_async>
 
+<script>
+  function toggleMenu () {
+    let menu = document.getElementById("user_menu_items");
+    if (menu.style.display === "none") {
+      menu.style.display = "block";
+    } else {
+      menu.style.display = "none";
+    }
+  }
+  document.getElementById("user_menu_button").addEventListener("click", toggleMenu)
+</script>
+
+<script>
+  $('#amazonfreetextcomment').hide()
+  $('.wrapper-course-material').hide()
+</script>

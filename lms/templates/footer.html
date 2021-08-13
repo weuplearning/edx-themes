@@ -12,7 +12,8 @@
 
 <style>
   .wrapper-footer {
-    background-color: var(--primary);
+    /* background-color: var(--primary); */
+    background-color: #E7EEF4;
   }
 
   body.view-in-course .wrapper-footer {
@@ -30,6 +31,7 @@
   #footer-openedx{
     display: flex;
 justify-content: space-between;
+
   }
   .footer--element{
     display: flex;
@@ -37,7 +39,27 @@ justify-content: space-between;
     justify-content: center;
     width: 33%;
 }
-  }
+.footer-middle{
+  justify-content: space-evenly;
+}
+.img-plus{
+  margin-right: 15px;
+}
+.legal{
+  text-transform: uppercase;
+  color: rgb(0,91,144);
+  font-weight: bold;
+}
+
+.facebook{
+  width: 25px !important;
+}
+
+.admin-menu--img{
+  width: 30px;
+  margin-right: 10px;
+}
+
 </style>
 
 % if uses_bootstrap:
@@ -73,26 +95,21 @@ justify-content: space-between;
     </div>
 
     <div class="footer--element footer-middle">
-      <img class="admin-menu--img" src="${static.url('bim/images/picto-facebook.svg')}" alt="logo facebook"/>
-      <img class="admin-menu--img" src="${static.url('bim/images/twiter-logo.svg')}" alt="logo twitter"/>
-      <img class="admin-menu--img" src="${static.url('bim/images/picto-instagram.svg')}" alt="logo linkedin"/>
-
+      <a href="#">
+        <img class="admin-menu--img facebook" src="${static.url('bim/images/picto-facebook.svg')}" alt="logo facebook"/>
+      </a>
+      <a href="#">
+        <img class="admin-menu--img" src="${static.url('bim/images/twiter-logo.svg')}" alt="logo twitter"/>
+      </a>
+      <a href="#">
+        <img class="admin-menu--img" src="${static.url('bim/images/picto-instagram.svg')}" alt="logo linkedin"/>
+      </a>
     </div>
 
-    <div class="footer--element footer-right">
-      <img class="admin-menu--img" src="${static.url('bim/images/picto-plus.svg')}" alt="picto plus"/>
-      <p>Infos légales</p>
-
-    </div>
-      <!-- <div class="colophon">
-        <nav class="nav-colophon" aria-label="${_('CGU')}">
-          <ol>
-            <li class="nav-colophon-01">
-              <a id="cgu" href="/cgu">Conditions générales d'utilisation</a>
-            </li>
-          </ol>
-        </nav>
-      </div> -->
+    <a class="footer--element footer-right" href="#">
+        <img class="admin-menu--img img-plus" src="${static.url('bim/images/picto-plus.svg')}" alt="picto plus"/>
+        <p class="legal">Infos légales</p>
+    </a>
     </footer>
   </div>
 % endif

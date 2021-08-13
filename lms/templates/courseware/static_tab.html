@@ -1,0 +1,262 @@
+## mako
+
+<%page expression_filter="h"/>
+
+<%!
+from django.utils.translation import ugettext as _
+from openedx.core.djangolib.markup import HTML
+%>
+
+<%inherit file="/main.html" />
+<%block name="bodyclass">view-in-course view-statictab ${course.css_class or ''}</%block>
+<%namespace name='static' file='/static_content.html'/>
+
+<%block name="head_extra">
+<%static:css group='style-course-vendor'/>
+<%static:css group='style-course'/>
+${HTML(fragment.head_html())}
+</%block>
+
+<%block name="footer_extra">
+<%include file="/mathjax_include.html" args="disable_fast_preview=True"/>
+${HTML(fragment.foot_html())}
+</%block>
+
+<%block name="pagetitle">${_(tab['name'])} | ${course.display_number_with_default}</%block>
+
+<%include file="/courseware/course_navigation.html" args="active_page=active_page" />
+<%static:css group='style-student-notes'/>
+
+<%
+pages_without_accordion = [
+  "/courses/course-v1:bim+test+test/c9e5a3ba7c6747bb8bf6347c037d6eeb/"
+]
+url = request.path
+%>
+
+<style>
+  .global-container{
+    display: flex;
+    max-width: none;
+    min-width: none;
+  }
+
+  .container_middle {
+    width: 65% !important;
+  }
+
+  .button-chapter-strong {
+        background-color: rgb(0,91,144) !important;
+        background-image: none !important;
+        display: block;
+        height: 50px;
+        margin-bottom: 5px;
+        display: flex;
+  align-items: center;
+    }
+
+    .group-heading-strong{
+        color:#fff;
+        width: 100%;
+      text-align: center !important;
+    }
+
+  /* admin menu right */
+
+.admin-menu{
+  min-width: 15%;
+}
+
+.admin-menu__list{
+  list-style: none;
+  display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+.admin-menu__list--element{
+  margin-bottom: 1.2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.admin-menu__list--element_text{
+  text-transform: uppercase;
+  color: rgb(0,91,144);
+  font-weight: bold;
+}
+
+.admin-menu--img{
+  width: 30px;
+  margin-right: 10px;
+}
+
+.admin-menu__list--button_div{
+  display: flex;
+  align-items: center;
+  color: #fff;
+  width: 160px;
+  padding: 10px;
+  margin-bottom: 1.2em;
+}
+
+.admin-menu__list--button_div{
+  width: 160px;
+  margin-bottom: 1.2em;
+}
+
+.button_admin{
+  background-color: rgb(0,91,144);
+}
+
+.button_user{
+  background-color: rgb(52,128,195);
+}
+
+.admin-menu--img_user{
+  width: 25px;
+  margin-right: 10px;
+}
+
+.how_it_works {
+    width: 37px;
+    margin-right: 10px;
+    margin-left: -4px;
+}
+
+.course-index .accordion .course-navigation .chapter-content-container .chapter-menu .menu-item.active a {
+    background: none !important;
+}
+.course-index {
+  max-width: 360px !important;
+}
+
+
+body.view-in-course .container {
+  width: 100%;
+display: flex;
+max-width: inherit;
+
+}
+
+.container > div {
+    width: auto !important;
+    border: none !important;
+}
+
+</style>
+
+<main id="main" aria-label="Content" tabindex="-1">
+  
+  <section class="container global-container"
+  % if getattr(course, 'language'):
+    lang=${course.language}
+  % endif
+  >
+
+  <script>
+    console.log("${url}")
+    console.log("${type(url)}")
+    console.log("${pages_without_accordion[0]}")
+    console.log("${type(pages_without_accordion[0])}")
+  </script>
+
+% if url not in pages_without_accordion:
+    <div class="course-index">
+
+      <div class="accordion">
+        <nav class="course-navigation" aria-label="${_('Course')}">
+          <a href="https://bim.koa.qualif.dev/courses/course-v1:bim+test+test/c35c81be41c34ad3814a6ffae7515b0f/"  class="button-chapter-strong chapter">
+            <span class="group-heading-strong">
+                Comment ça marche ?
+            </span>
+            <a href="#" role="button" id="cahier-charge-parent" aria-controls="cahier-charge-child" aria-expanded="true" class="button-chapter-strong chapter">
+              <span class="group-heading group-heading-strong active" aria-label="cahier-charge">
+                  Le cahier des charges BIM
+              </span>
+          </a>
+          % if accordion.strip():
+            ${HTML(accordion)}
+          % else:
+            <div class="chapter">${_("No content has been added to this course")}</div>
+          % endif
+            <script>console.log("${accordion}")</script>
+            
+          <a href="#" role="button" id="procedure-commande-parent" aria-controls="procedure-commande-child" aria-expanded="true" class="button-chapter-strong chapter">
+            <span class="group-heading group-heading-strong active" aria-label="procedure-commande">
+                Procédure de commande
+            </span>
+          </a>
+          <a href="#" role="button" id="cloture-accompagnement-parent" aria-controls="cloture-accompagnement-child" aria-expanded="true" class="button-chapter-strong chapter">
+            <span class="group-heading group-heading-strong active" aria-label="cloture-accompagnement">
+                Clôture de l'accompagnement
+            </span>
+          </a>
+        </nav>
+    </div>
+
+    </div>
+    % endif
+
+    <section class="container container_middle">
+      <div class="static_tab_wrapper">
+        ${HTML(fragment.body_html())}
+      </div>
+    </section>
+
+    <section class="admin-menu">
+      <ul class="admin-menu__list">
+        <a href="#">
+          <li class="admin-menu__list--element">
+            <img class="admin-menu--img" src="${static.url('bim/images/picto-boite-a-outils.svg')}" alt="logo boite à outils" id="toolbox-logo"/>
+            <p class="admin-menu__list--element_text">Boite à outils</p>
+          </li>
+        </a>
+        <a href="https://bim.koa.qualif.dev/courses/course-v1:bim+test+test/c35c81be41c34ad3814a6ffae7515b0f/">
+          <li class="admin-menu__list--element">
+            <img class="admin-menu--img how_it_works" src="${static.url('bim/images/ICO_1.png')}" alt="logo boite à outils" id="toolbox-logo"/>
+            <p class="admin-menu__list--element_text">Comment ça marche</p>
+          </li>
+        </a>
+        <a href="https://bim.koa.qualif.dev/courses/course-v1:bim+test+test/discussion/forum/">
+          <li class="admin-menu__list--element">
+            <img class="admin-menu--img" src="${static.url('bim/images/picto-forum.svg')}" alt="logo boite à outils" id="toolbox-logo"/>
+            <p class="admin-menu__list--element_text">Forum</p>
+          </li>
+        </a>
+        <a href="https://bim.koa.qualif.dev/wul_apps/dashboard/home">
+          <li>
+            <div class="admin-menu__list--button_div button_admin " >
+              <img class="admin-menu--img_user" src="${static.url('bim/images/head.png')}" alt="logo boite à outils" id="toolbox-logo"/>
+              <p class="admin-menu__list--button_text">Espace administrateur</p>
+            </div>
+          </li>
+        </a>
+        <div id="user_menu_button" class="admin-menu__list--button_div button_user" >
+          <img class="admin-menu--img_user" src="${static.url('bim/images/head.png')}" alt="logo boite à outils" id="toolbox-logo"/>
+          <p class="admin-menu__list--button_text">Espace utilisateur</p>
+        </div>
+        <div id="user_menu_items" class="user_menu" style="display: none;" >
+          <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="/" role="menuitem">${_("Dashboard")}</a></div>
+          <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="/account/settings" role="menuitem">${_("Account")}</a></div>
+          <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="/logout" role="menuitem">${_("Sign Out")}</a></div>
+        </div>
+      </ul>
+      </section>
+      
+  </section>
+</main>
+
+
+<script>
+  function toggleMenu () {
+    let menu = document.getElementById("user_menu_items");
+    if (menu.style.display === "none") {
+      menu.style.display = "block";
+    } else {
+      menu.style.display = "none";
+    }
+  }
+  document.getElementById("user_menu_button").addEventListener("click", toggleMenu)
+</script>

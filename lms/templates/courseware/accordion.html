@@ -92,7 +92,11 @@ color:#FFD004;
                     ) if 'active' in section and section['active'] else ''}</p>
 
                 % if section['url_name'] in completed_subsections:
-                <i class="fas fa-check"></i>
+                  % if 'active' in section and section['active']:
+                    <i class="fas fa-check" style="color: #3480C3;"></i>
+                  % else :
+                    <i class="fas fa-check"></i>
+                  % endif
                 % endif
 
                 ## There are behavior differences between

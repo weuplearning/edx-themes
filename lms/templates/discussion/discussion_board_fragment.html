@@ -1,0 +1,171 @@
+## mako
+
+<%namespace name='static' file='../static_content.html'/>
+
+<%page expression_filter="h"/>
+
+<%!
+import json
+from django.utils.translation import ugettext as _
+from django.template.defaultfilters import escapejs
+from django.urls import reverse
+
+from lms.djangoapps.discussion.django_comment_client.permissions import has_permission
+from openedx.core.djangolib.js_utils import dump_js_escaped_json, js_escaped_string
+from openedx.core.djangolib.markup import HTML
+%>
+<style>
+    .thread-main-wrapper{
+        background-color: #E7EEF4;
+    }
+
+    .discussion-response{
+        background-color: #FEF1BA !important;
+    }
+    .container-fluid{
+        display: none;
+    }
+
+
+    /* footer */
+
+    .wrapper-footer {
+      background-color: #E7EEF4;
+    }
+  
+    body.view-in-course .wrapper-footer {
+      background-color: #E7EEF4;
+    }
+  
+    .wrapper-footer .site-nav, .wrapper-footer footer#footer-openedx .colophon .nav-colophon {
+      margin: 0 !important;
+    }
+  
+    .wrapper-footer .site-nav .nav-link, .wrapper-footer footer#footer-openedx .colophon .nav-colophon li a {
+      color: white !important;
+    }
+  
+    #footer-openedx{
+      display: flex;
+  justify-content: space-between;
+  
+    }
+    .footer--element{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 33%;
+  }
+  .footer-middle{
+    justify-content: space-evenly;
+  }
+  .img-plus{
+    margin-right: 15px;
+  }
+  .legal{
+    text-transform: uppercase;
+    color: rgb(0,91,144);
+    font-weight: bold;
+  }
+  
+  .facebook{
+    width: 25px;
+  }
+
+
+</style>
+
+<section class="discussion discussion-board page-content-container" id="discussion-container"
+         data-course-id="${course.id}"
+         data-user-create-comment="${json.dumps(can_create_comment)}"
+         data-user-create-subcomment="${json.dumps(can_create_subcomment)}"
+         data-read-only="false"
+         data-sort-preference="${sort_preference}"
+         data-flag-moderator="${json.dumps(flag_moderator)}"
+         data-user-group-id="${user_group_id}">
+    <header class="page-header has-secondary">
+        ## Breadcrumb navigation
+        <div class="page-header-main">
+            <nav aria-label="${_('Discussions')}" class="sr-is-focusable" tabindex="-1">
+                <div class="has-breadcrumbs"></div>
+            </nav>
+        </div>
+        <div class="page-header-secondary">
+            ## Add Post button
+            % if has_permission(user, 'create_thread', course.id):
+            <div class="forum-actions">
+                <button class="btn btn-outline-primary btn-small new-post-btn">${_("Add a Post")}</button>
+            </div>
+            % endif
+            ## Search box
+            <div class="forum-search"></div>
+        </div>
+    </header>
+    % if course_expiration_fragment:
+        ${HTML(course_expiration_fragment.content)}
+    % endif
+    <div class="page-content"
+      % if getattr(course, 'language'):
+        lang="${course.language}"
+      % endif
+    >
+        <div class="discussion-body">
+            <main id="main" class="discussion-column" aria-label="Content" tabindex="-1">
+                <article class="new-post-article is-hidden" style="display: none" tabindex="-1" aria-label="${_("New topic form")}"></article>
+                <div class="forum-content"></div>
+            </main>
+            <aside class="forum-nav" role="complementary" aria-label="${_("Discussion thread list")}">
+                <%include file="_filter_dropdown.html" />
+                <div class="discussion-thread-list-container"></div>
+            </aside>
+        </div>
+    </div>
+</section>
+
+<%include file="_underscore_templates.html" />
+<%include file="_thread_list_template.html" />
+
+<%static:require_module_async module_name="js/commerce/track_ecommerce_events" class_name="TrackECommerceEvents">
+
+  var fbeLink = $("#FBE_banner");
+
+  TrackECommerceEvents.trackUpsellClick(fbeLink, 'discussion_audit_access_expires', {
+      pageName: "discussion_tab",
+      linkType: "link",
+      linkCategory: "FBE_banner"
+  });
+
+</%static:require_module_async>
+
+<div class="wrapper wrapper-footer">
+    <footer id="footer-openedx" class="grid-container"
+      ## When rendering the footer through the branding API,
+      ## the direction may not be set on the parent element,
+      ## so we set it here.
+      % if bidi:
+        dir=${bidi}
+      % endif
+    >
+    <div class="footer--element footer-left">
+      <p>icone 1</p>
+      <p>icone 2</p>
+    </div>
+
+    <div class="footer--element footer-middle">
+      <a href="#">
+        <img class="admin-menu--img facebook" src="${static.url('bim/images/picto-facebook.svg')}" alt="logo facebook"/>
+      </a>
+      <a href="#">
+        <img class="admin-menu--img" src="${static.url('bim/images/twiter-logo.svg')}" alt="logo twitter"/>
+      </a>
+      <a href="#">
+        <img class="admin-menu--img" src="${static.url('bim/images/picto-instagram.svg')}" alt="logo linkedin"/>
+      </a>
+    </div>
+
+    <a class="footer--element footer-right" href="#">
+        <img class="admin-menu--img img-plus" src="${static.url('bim/images/picto-plus.svg')}" alt="picto plus"/>
+        <p class="legal">Infos légales</p>
+    </a>
+    </footer>
+  </div>

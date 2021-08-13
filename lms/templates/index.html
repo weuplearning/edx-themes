@@ -13,6 +13,8 @@ from openedx.core.djangolib.markup import HTML, Text
 
   .introduction__up--text{
     display: flex;
+    padding: 15px 0 0 30px;
+    align-items: flex-start;
   }
   .admin-menu--img{
     width: 40px;
@@ -20,6 +22,7 @@ from openedx.core.djangolib.markup import HTML, Text
 
   .introduction{
     background-color: #E7EEF4;
+    padding: 15px 15px 25px 15px;
   }
 
   .introduction__up{
@@ -34,7 +37,14 @@ align-items: center;
 flex-direction: column;
 background-size: contain;
 width: 550px !important;
-height: 309px;
+height: 300px;
+padding: 10px;
+  }
+
+  .introduction__up--movie--text{
+    color: rgb(0,91,144);
+    font-weight: bold;
+    text-shadow: 1px 1px 20px #000
   }
 
   .video-extract__up-vid {
@@ -56,21 +66,30 @@ height: 309px;
   }
 
   .introduction__up--movie--play{
-    width: 40px;
+    width: 70px;
+    margin-top: 100px;
   }
   .introduction__up--element{
     width: 25%;
   }
   .introduction__up--login{
     display: flex;
-background-color: blue;
+background-color: rgb(52,128,195);
 width: 200px;
 height: 60px;
+align-items: center;
+justify-content: center;
   
   }
 
   .introduction__up--text--picto{
-    width: 40px;
+    margin-right: 10px;
+    height: 35px;
+  }
+
+  .introduction__login{
+    color: #fff;
+    text-transform: uppercase;
   }
 
 .introduction__up--text--bracket{
@@ -78,9 +97,11 @@ height: 60px;
   margin-right: 20px;
 }
 .introduction__title{
-  font-size: 2em;
+  font-size: 1.8em;
   line-height: 1em;
   text-transform: uppercase;
+  color:rgb(0,91,144);
+  font-weight: bold;
 }
 
 
@@ -88,26 +109,76 @@ height: 60px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    /* align-items: flex-start; */
 }
 
 .introduction__down--start-register{
   display: flex;
   align-items: center;
+  margin-top: 15px;
 }
-.logo{
+.introduction_logo{
   width: 40px;
+  margin-right: 15px;
+}
+
+.introduction__down-txt{
+  font-size: 1.8em;
+  text-transform: uppercase;
+  color:rgb(0,91,144);
+  font-weight: bold;
 }
 
 .videos-extract{
-  margin-top: 100px;
+  margin-top: 60px;
 display: flex;
 flex-direction: column;
+margin-bottom: 30px;
 }
 .video-extract__up{
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
+}
+
+.arrow_back{
+  display: flex;
+}
+
+.introduction__down--arrow{  
+  margin: auto;
+  margin-top: -20px;
+}
+
+.introduction_down_logo{
+  width: 70px;
+}
+
+.video-extract__up__left_and_right--text{
+  color: rgb(52,128,195);
+    width: 80%;
+    margin: auto;
+    text-align: center;
+    margin-top: 25px;
+}
+
+.span_strong{
+  color:rgb(0,91,144);
+  font-weight: bold;
+}
+
+.video-extract__down{
+  color: rgb(52,128,195);
+    width: 50%;
+    margin: auto;
+    text-align: center;
+    margin-top: 45px;
+    font-size: 1.8em;
+    line-height: 1em;
+}
+
+a:not(.btn):hover, a:not(.btn):focus, a:visited:not(.btn):hover, a:visited:not(.btn):focus {
+    text-decoration: none;
 }
 
 </style>
@@ -122,49 +193,61 @@ flex-direction: column;
             <p class="introduction__subtitle">Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi nulla aspernatur, ab facere sed iure. Facilis iure consequuntur id iste expedita doloremque. Sequi libero explicabo dolores voluptates non eum laboriosam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi nulla aspernatur, ab facere sed iure. Facilis iure consequuntur id iste expedita doloremque. Sequi libero explicabo dolores voluptates non eum laboriosam.</p>
           </div>
         </div>
-        <div class="introduction__up--element introduction__up--movie">
-          <img class="introduction__up--movie--play" src="${static.url('bim/images/picto-facebook.svg')}" alt="logo facebook"/>
-          <p class="introduction__up--movie--text">Objectif : définir les objectifs de l'outil, rassurer l'utilisateur, inciter l'utilisateur à débuter l'accompagnement</p>
+        <div class=" introduction__up--elementintroduction_movie_and_down">
+          <a href="#">
+            <div class="introduction__up--movie">
+              <img class="introduction__up--movie--play" src="/static/bim/images/picto-play.6c9221bd028a.png" alt="logo facebook">
+              <p class="introduction__up--movie--text">Objectif : définir les objectifs de l'outil, rassurer l'utilisateur, inciter l'utilisateur à débuter l'accompagnement</p>
+            </div>
+          </a>
+        <div class="introduction__down">
+        <a href="/login">
+          <div class="introduction__down--start-register">
+            <img class="introduction_logo" src="/static/bim/images/picto-plus.954257fe054b.svg" alt="picto plus">
+            <p class="introduction__down-txt">Commencer</p>
+          </div>
+        </a>
+        <a href="/register">
+          <div class="introduction__down--start-register">
+            <img class="introduction_logo" src="/static/bim/images/picto-plus.954257fe054b.svg" alt="picto plus">
+            <p class="introduction__down-txt">S'inscrire</p>
+          </div>
+        </a>
+      </div>
         </div>
-        <div class="introduction__up--element introduction__up--login">
-          <div class="introduction__up--login">
-            <img class="introduction__up--text--picto" src="${static.url('bim/images/picto-facebook.svg')}" alt="logo facebook"/>
+        <a href="/login">
+          <div class="introduction__up--element introduction__up--login">
+            <img class="introduction__up--text--picto" src="${static.url('bim/images/head.png')}" alt="logo facebook"/>
             <p class="introduction__login">Se connecter</p>
           </div>
-
-        </div>
+        </a>
       </div>
-      <div class="introduction__down">
-        <div class="introduction__down--start-register">
-          <img class="logo introduction__down--arrow" src="${static.url('bim/images/picto-plus.svg')}" alt="picto plus"/>
-          <p class="introduction__down-txt">Commencer</p>
-        </div>
-        <div class="introduction__down--start-register">
-          <img class="logo introduction__down--arrow" src="${static.url('bim/images/picto-plus.svg')}" alt="picto plus"/>
-          <p class="introduction__down-txt">S'inscrire</p>
-        </div>
-        <img class="logo introduction__down--arrow" src="${static.url('bim/images/picto-plus.svg')}" alt="logo facebook"/>
-      </div>
-
     </section>
+    <div class="arrow_back">
+      <img class="introduction_logo introduction__down--arrow" src="${static.url('bim/images/picto-plus.svg')}" alt="logo facebook"/>
+    </div>
 
     <section class="videos-extract">
       <div class="video-extract__up">
         <div class="video-extract-video">
-          <div class="video-extract__up-vid up__left">
-            <img class="logo video-extract__up__left--video" src="${static.url('bim/images/picto-facebook.svg')}" alt="logo facebook"/>
-          </div>
-          <p class="video-extract__up__left--text">Retour d'expérience d'un MOA sur <span class="span_strong">la rédaction d'un cachier des charges BIM</span></p>
+          <a href="#">
+            <div class="video-extract__up-vid up__left">
+              <img class="introduction_down_logo video-extract__up__left--video" src="${static.url('bim/images/picto-play.png')}" alt="logo facebook"/>
+            </div>
+          </a>
+          <p class="video-extract__up__left_and_right--text">Retour d'expérience d'un MOA sur <span class="span_strong">la rédaction d'un cachier des charges BIM</span></p>
         </div>
         <div class="video-extract-video">
-          <div class="video-extract__up-vid up__right">
-            <img class="logo ideo-extract__up__left--video" src="${static.url('bim/images/picto-facebook.svg')}" alt="logo facebook"/>
-          </div>
-          <p class="video-extract__up__right--text">Retour d'expérience d'un MOA sur <span class="span_strong">la rédaction d'un cachier des charges BIM</span></p>
+          <a href="#">
+            <div class="video-extract__up-vid up__right">
+              <img class="introduction_down_logo video-extract__up__left--video" src="${static.url('bim/images/picto-play.png')}" alt="logo facebook"/>
+            </div>
+          </a>
+          <p class="video-extract__up__left_and_right--text">Retour d'expérience d'un MOA sur <span class="span_strong">la rédaction d'un cachier des charges BIM</span></p>
         </div>
       </div>
       <p class="video-extract__down">
-        Vous avez <span class="span_strong">déjà suivi</span>l'accompagnement et souhaitez en retrouver les <span class="span_strong">ressources documentaires</span>
+        Vous avez <span class="span_strong">déjà suivi </span>l'accompagnement et souhaitez en retrouver les <span class="span_strong">ressources documentaires</span>
       </p>
     </section>
 </main>
