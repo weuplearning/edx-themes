@@ -2,7 +2,7 @@
 
 Bonjour,
 
-Nous vous confirmons votre inscription à la formation Becoming More Digital de PSL.
+Nous vous confirmons votre inscription à la formation Becoming More Digital proposée par l'Université PSL et Netexplo.
 
 Pour accéder au programme et démarrer la formation, nous vous invitons à vous rendre sur le lien suivant avec vos identifiants ci-dessous.
 
@@ -16,11 +16,9 @@ En cas de difficulté de connexion, merci de contacter Esther à learning@netexp
 
 La formation prévoit deux sessions animées à distance :
 
-- une session de Q&A avec Nicolas Petit (facultative)
+- une session de Q&A avec Nicolas Petit
 
-- un atelier de co-développement (obligatoire)
-
-Nous allons prendre contact avec vous par email pour vous proposer des créneaux.
+- un atelier de co-développement
 
 Bien à vous,
 
@@ -30,7 +28,7 @@ L’équipe de formation Netexplo
 
 Hello,
 
-You have been registered to Becoming More Digital by PSL.
+You have been registered to Becoming More Digital by PSL University & Netexplo.
 
 To access the program and start the training, we invite you to go to the following link with your login and password below.
 
@@ -44,11 +42,9 @@ If you have any problems connecting, please contact Esther by email learning@net
 
 The training program also includes two remote live sessions:
 
-- a Q&A session with Nicolas Petit (optional)
+- a Q&A session with Nicolas Petit
 
-- a co-development workshop (mandatory)
-
-We will email you very soon to schedule these sessions.
+- a co-development workshop
 
 Best regards,
 
