@@ -11,6 +11,10 @@ from openedx.core.djangolib.markup import HTML, Text
 
 <style>
 
+.introduction__up--elementintroduction_movie_and_down{
+  margin-top: 60px;
+}
+
   .introduction__up--text{
     display: flex;
     padding: 15px 0 0 30px;
@@ -181,6 +185,10 @@ a:not(.btn):hover, a:not(.btn):focus, a:visited:not(.btn):hover, a:visited:not(.
     text-decoration: none;
 }
 
+.introduction__subtitle{
+  line-height: 18px !important;
+}
+
 </style>
 
 <main id="main" aria-label="Content" tabindex="-1">
@@ -224,7 +232,7 @@ a:not(.btn):hover, a:not(.btn):focus, a:visited:not(.btn):hover, a:visited:not(.
       </div>
     </section>
     <div class="arrow_back">
-      <img class="introduction_logo introduction__down--arrow" src="${static.url('bim/images/picto-plus.svg')}" alt="logo facebook"/>
+      <img class="introduction_logo introduction__down--arrow" src="${static.url('bim/images/downarrow.png')}" alt="logo facebook"/>
     </div>
 
     <section class="videos-extract">

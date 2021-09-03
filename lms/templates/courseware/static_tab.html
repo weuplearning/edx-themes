@@ -112,6 +112,7 @@ url = request.path
 
 .button_user{
   background-color: rgb(52,128,195);
+  cursor: pointer;
 }
 
 .admin-menu--img_user{
@@ -120,10 +121,24 @@ url = request.path
 }
 
 .how_it_works {
-    width: 37px;
-    margin-right: 10px;
-    margin-left: -4px;
+    width: 37px !important;
+    margin-right: 10px !important;
+    margin-left: -4px !important;
 }
+
+
+.user_menu{
+  border: 1px solid black;
+  padding: 10px;
+  margin-top: -15px;
+  padding-right: 47px;
+  padding-top: 16px;
+}
+
+.dropdown-nav-item{
+  margin-bottom: 10px;
+}
+
 
 .course-index .accordion .course-navigation .chapter-content-container .chapter-menu .menu-item.active a {
     background: none !important;
@@ -145,6 +160,10 @@ max-width: inherit;
     border: none !important;
 }
 
+.wrapper-course-material {
+    display: none;
+}
+
 </style>
 
 <main id="main" aria-label="Content" tabindex="-1">
@@ -155,12 +174,6 @@ max-width: inherit;
   % endif
   >
 
-  <script>
-    console.log("${url}")
-    console.log("${type(url)}")
-    console.log("${pages_without_accordion[0]}")
-    console.log("${type(pages_without_accordion[0])}")
-  </script>
 
 % if url not in pages_without_accordion:
     <div class="course-index">
@@ -181,7 +194,6 @@ max-width: inherit;
           % else:
             <div class="chapter">${_("No content has been added to this course")}</div>
           % endif
-            <script>console.log("${accordion}")</script>
             
           <a href="#" role="button" id="procedure-commande-parent" aria-controls="procedure-commande-child" aria-expanded="true" class="button-chapter-strong chapter">
             <span class="group-heading group-heading-strong active" aria-label="procedure-commande">
@@ -238,8 +250,8 @@ max-width: inherit;
           <p class="admin-menu__list--button_text">Espace utilisateur</p>
         </div>
         <div id="user_menu_items" class="user_menu" style="display: none;" >
-          <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="/" role="menuitem">${_("Dashboard")}</a></div>
-          <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="/account/settings" role="menuitem">${_("Account")}</a></div>
+          <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="/" role="menuitem">${_("Dashboard")}</a></div><hr>
+          <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="/account/settings" role="menuitem">${_("Account")}</a></div><hr>
           <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="/logout" role="menuitem">${_("Sign Out")}</a></div>
         </div>
       </ul>
