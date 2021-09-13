@@ -30,6 +30,30 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
     background: url("${static.url('{}/images/bg_img.png'.format(course.org))}");
     background-size: contain;
   }
+
+  .iframe-video-container {
+      position: relative;
+      height: 500px;
+  }
+  .iframe-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+  }
+  @media (max-width: 1440px) {
+      .iframe-video-container {
+          height: 360px;
+      }
+  }
+  
+  @media (max-width: 425px) {
+      .iframe-video-container {
+          height: 160px;
+      }
+  }
+
 </style>
 
 % if display_reset_dates_banner:
