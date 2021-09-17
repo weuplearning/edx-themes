@@ -63,6 +63,7 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
         color:#fff;
         width: 100%;
       text-align: center !important;
+      font-size: 18px;
     }
 
     .accordion{
@@ -75,13 +76,14 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
     .unit-title,
     .bookmark-button-wrapper,
     .course-tabs
-    .amazonfreetextcomment
+    .amazonfreetextcomment,
+    .page-header
     {
       display: none !important;
     }
 
     .course-content{
-      width: 78% !important;
+      width: 72% !important;
     }
 
 
@@ -105,16 +107,25 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-left: 15px;
+  margin-right: 15px;
+margin-top: 5px;
 }
 
 .admin-menu__list--element_text{
   text-transform: uppercase;
   color: rgb(0,91,144);
   font-weight: bold;
+  font-size: 1.4em;
+  padding-bottom: 5px;
+}
+
+.admin-menu__list--element_text:hover{
+  border-bottom: 1px solid rgb(0,91,144);
 }
 
 .admin-menu--img{
-  width: 30px;
+  width: 40px;
   margin-right: 10px;
 }
 
@@ -125,6 +136,7 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
   width: 160px;
   padding: 10px;
   margin-bottom: 1.2em;
+  margin-left: 15px;
 }
 
 .admin-menu__list--button_div{
@@ -159,11 +171,26 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
   margin-top: -15px;
   padding-right: 47px;
   padding-top: 16px;
+  margin-left: 15px;
+  position: absolute;
+  z-index: 10;
+  background: white 
 }
 
 .dropdown-nav-item{
   margin-bottom: 10px;
 }
+
+.header_admin-menu--container{
+  display: flex;
+  justify-content: space-between;
+}
+
+.header_admin-menu{
+  display: flex;
+  justify-content: center;
+}
+
 
 
 
@@ -269,7 +296,7 @@ ${HTML(fragment.foot_html())}
 % else:
   <%include file="/courseware/course_navigation.html" args="active_page='courseware'" />
 % endif
-<header class="page-header has-secondary">
+<!-- <header class="page-header has-secondary">
   <div class="page-header-main">
       <nav aria-label="${_('Course')}" class="sr-is-focusable" tabindex="-1">
           <div class="has-breadcrumbs">
@@ -296,6 +323,48 @@ ${HTML(fragment.foot_html())}
               </div>
           </div>
       </nav>
+  </div>
+</header> -->
+
+<header class="header_admin-menu--container">
+  <div class="header_admin-menu" style="width: 18%;">
+  </div>
+  <div class="header_admin-menu">
+    <a href="#">
+      <div class="admin-menu__list--element">
+        <img class="admin-menu--img" src="${static.url('bim/images/picto-boite-a-outils.svg')}" alt="logo boite à outils" id="toolbox-logo"/>
+        <p class="admin-menu__list--element_text">Boite à outils</p>
+      </div>
+    </a>
+    <a href="https://bim.koa.qualif.dev/courses/course-v1:bim+test+test/discussion/forum/">
+      <div class="admin-menu__list--element">
+        <img class="admin-menu--img" src="${static.url('bim/images/picto-forum.svg')}" alt="logo boite à outils" id="toolbox-logo"/>
+        <p class="admin-menu__list--element_text">Forum</p>
+      </div>
+    </a>
+  </div>
+  <div class="header_admin-menu">
+  %if staff_access:
+    <a href="https://bim.koa.qualif.dev/wul_apps/dashboard/home">
+      <div>
+        <div class="admin-menu__list--button_div button_admin " >
+          <img class="admin-menu--img_user" src="${static.url('bim/images/head.png')}" alt="logo boite à outils" id="toolbox-logo"/>
+          <p class="admin-menu__list--button_text">Espace administrateur</p>
+        </div>
+      </div>
+    </a>
+  %endif
+  <div>
+      <div id="user_menu_button" class="admin-menu__list--button_div button_user" >
+        <img class="admin-menu--img_user" src="${static.url('bim/images/head.png')}" alt="logo boite à outils" id="toolbox-logo"/>
+        <p class="admin-menu__list--button_text">Espace utilisateur</p>
+      </div>
+      <div id="user_menu_items" class="user_menu" style="display: none;" >
+        <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="${reverse('dashboard')}" role="menuitem">${_("Dashboard")}</a></div> <hr>
+        <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="${reverse('account_settings')}" role="menuitem">${_("Account")}</a></div> <hr>
+        <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="${reverse('logout')}" role="menuitem">${_("Sign Out")}</a></div>
+      </div>
+    </div>
   </div>
 </header>
 <div class="container"
@@ -389,7 +458,7 @@ ${HTML(fragment.foot_html())}
 
   </div>
 
-<section class="admin-menu">
+<!-- <section class="admin-menu">
 <ul class="admin-menu__list">
   <a href="#">
     <li class="admin-menu__list--element">
@@ -427,7 +496,7 @@ ${HTML(fragment.foot_html())}
     <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="${reverse('logout')}" role="menuitem">${_("Sign Out")}</a></div>
   </div>
 </ul>
-</section>
+</section> -->
 
   ${HTML(course_sock_fragment.body_html())}
 </div>

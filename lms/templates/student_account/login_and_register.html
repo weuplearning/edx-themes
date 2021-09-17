@@ -74,6 +74,32 @@
 .login-register-content {
     margin-top: 0;
 }
+
+/* register */
+.focus-out{
+    position: inherit !important;
+    padding: 0 !important;
+}
+
+.input-block {
+    border: 1px solid rgb(52,128,195) !important;
+    height: 38px !important;
+}
+
+.register-form{
+    display: flex;
+flex-direction: column;
+}
+
+.register-button{
+    width: 250px;
+margin: auto;
+}
+
+.checkbox-terms_of_service,
+.checkbox-honor_code{
+    display: flex;
+}
 </style>
 <%block name="js_extra">
     <%static:require_module module_name="js/student_account/logistration_factory" class_name="LogistrationFactory">

@@ -72,8 +72,143 @@ from openedx.core.djangolib.markup import HTML
     width: 25px;
   }
 
+  .footer--element--img_left{
+width: 45%;
+}
+
+.footer--element--img_right{
+width: 30%;
+}
+
+.header_admin-menu--container{
+  display: flex;
+  justify-content: space-between;
+}
+
+.header_admin-menu{
+  display: flex;
+  justify-content: center;
+}
+
+.admin-menu__list{
+  list-style: none;
+  display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+.admin-menu__list--element{
+  margin-bottom: 1.2em;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin-left: 15px;
+  margin-right: 15px;
+margin-top: 5px;
+}
+
+.admin-menu__list--element_text{
+  text-transform: uppercase;
+  color: rgb(0,91,144);
+  font-weight: bold;
+  font-size: 1.4em;
+  padding-bottom: 5px;
+}
+
+.admin-menu__list--element_text:hover{
+  border-bottom: 1px solid rgb(0,91,144);
+}
+
+.admin-menu--img{
+  width: 40px;
+  margin-right: 10px;
+}
+
+.admin-menu__list--button_div{
+  display: flex;
+  align-items: center;
+  color: #fff;
+  width: 170px;
+  padding: 10px;
+  margin-bottom: 1.2em;
+  margin-left: 15px;
+}
+
+.admin-menu__list--button_text{
+  margin-bottom: 0;
+  line-height: 16px;
+}
+
+.button_admin{
+  background-color: rgb(0,91,144);
+}
+
+.button_user{
+  background-color: rgb(52,128,195);
+  cursor: pointer;
+}
+
+.admin-menu--img_user{
+  width: 25px;
+  margin-right: 10px;
+}
+
+.user_menu{
+  border: 1px solid black;
+  padding: 10px;
+  margin-top: -15px;
+  padding-right: 0;
+  padding-top: 16px;
+  margin-left: 15px;
+  position: absolute;
+  z-index: 10;
+  background: white;
+  line-height: 16px;
+}
 
 </style>
+
+<header class="header_admin-menu--container">
+  <div class="header_admin-menu" style="width: 18%;">
+  </div>
+  <div class="header_admin-menu">
+    <a href="#">
+      <div class="admin-menu__list--element">
+        <img class="admin-menu--img" src="${static.url('bim/images/picto-boite-a-outils.svg')}" alt="logo boite à outils" id="toolbox-logo"/>
+        <p class="admin-menu__list--element_text">Boite à outils</p>
+      </div>
+    </a>
+    <a href="https://bim.koa.qualif.dev/courses/course-v1:bim+test+test/discussion/forum/">
+      <div class="admin-menu__list--element">
+        <img class="admin-menu--img" src="${static.url('bim/images/picto-forum.svg')}" alt="logo boite à outils" id="toolbox-logo"/>
+        <p class="admin-menu__list--element_text">Forum</p>
+      </div>
+    </a>
+  </div>
+  <div class="header_admin-menu">
+  %if staff_access:
+    <a href="https://bim.koa.qualif.dev/wul_apps/dashboard/home">
+      <div>
+        <div class="admin-menu__list--button_div button_admin " >
+          <img class="admin-menu--img_user" src="${static.url('bim/images/head.png')}" alt="logo boite à outils" id="toolbox-logo"/>
+          <p class="admin-menu__list--button_text">Espace administrateur</p>
+        </div>
+      </div>
+    </a>
+  %endif
+  <div>
+      <div id="user_menu_button" class="admin-menu__list--button_div button_user" >
+        <img class="admin-menu--img_user" src="${static.url('bim/images/head.png')}" alt="logo boite à outils" id="toolbox-logo"/>
+        <p class="admin-menu__list--button_text">Espace utilisateur</p>
+      </div>
+      <div id="user_menu_items" class="user_menu" style="display: none;" >
+        <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="${reverse('dashboard')}" role="menuitem">${_("Dashboard")}</a></div> <hr>
+        <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="${reverse('account_settings')}" role="menuitem">${_("Account")}</a></div> <hr>
+        <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="${reverse('logout')}" role="menuitem">${_("Sign Out")}</a></div>
+      </div>
+    </div>
+  </div>
+</header>
 
 <section class="discussion discussion-board page-content-container" id="discussion-container"
          data-course-id="${course.id}"
@@ -147,8 +282,8 @@ from openedx.core.djangolib.markup import HTML
       % endif
     >
     <div class="footer--element footer-left">
-      <p>icone 1</p>
-      <p>icone 2</p>
+      <img class="footer--element--img_left" src="${static.url('bim/images/logo_1_ADN.png')}" alt="logo ADN"/>
+      <img class="footer--element--img_right" src="${static.url('bim/images/logo_2_ministere.svg')}" alt="logo_ministere"/>
     </div>
 
     <div class="footer--element footer-middle">
@@ -169,3 +304,21 @@ from openedx.core.djangolib.markup import HTML
     </a>
     </footer>
   </div>
+
+
+  <script>
+    function toggleMenu () {
+      let menu = document.getElementById("user_menu_items");
+      if (menu.style.display === "none") {
+        menu.style.display = "block";
+      } else {
+        menu.style.display = "none";
+      }
+    }
+    document.getElementById("user_menu_button").addEventListener("click", toggleMenu)
+  </script>
+  
+  <script>
+    $('#amazonfreetextcomment').hide()
+    $('.wrapper-course-material').hide()
+  </script>

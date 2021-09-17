@@ -40,8 +40,8 @@ justify-content: space-between;
 align-items: center;
 flex-direction: column;
 background-size: contain;
-width: 550px !important;
-height: 300px;
+width: 650px !important;
+height: 356px;
 padding: 10px;
   }
 
@@ -57,8 +57,9 @@ justify-content: center;
 align-items: center;
 flex-direction: column;
 background-size: contain;
-width: 550px !important;
-height: 309px;
+width: 450px !important;
+height: 253px;
+margin: auto;
 
   }
  .up__left{
@@ -120,6 +121,7 @@ justify-content: center;
   display: flex;
   align-items: center;
   margin-top: 15px;
+  justify-content: center;
 }
 .introduction_logo{
   width: 40px;
@@ -189,6 +191,47 @@ a:not(.btn):hover, a:not(.btn):focus, a:visited:not(.btn):hover, a:visited:not(.
   line-height: 18px !important;
 }
 
+
+@media screen and (max-width: 1250px) {
+  .introduction__up {
+    display: block;
+}
+.introduction__up--element {
+    width: 100%;
+}
+.introduction__up--text {
+    padding: 0;
+}
+.introduction__up--text--bracket {
+  display: none;
+}
+.introduction__title {
+    text-align: center;
+}
+.introduction__up--elementintroduction_movie_and_down {
+    margin-top: 30px;
+}
+.introduction__up--login {
+        margin: auto;
+    margin-top: 1em;
+    width: 200px !important;
+}
+.video-extract__up__left_and_right--text {
+    margin-bottom: 1em;
+}
+.introduction__up--movie {
+    margin: auto !important;
+}
+}
+
+@media screen and (max-width: 750px) {
+  .introduction__up--movie {
+    width: 500px !important;
+    height: 272px !important;
+    margin: auto !important;
+}
+}
+
 </style>
 
 <main id="main" aria-label="Content" tabindex="-1">
@@ -204,35 +247,28 @@ a:not(.btn):hover, a:not(.btn):focus, a:visited:not(.btn):hover, a:visited:not(.
         <div class=" introduction__up--elementintroduction_movie_and_down">
           <a href="#">
             <div class="introduction__up--movie">
-              <img class="introduction__up--movie--play" src="/static/bim/images/picto-play.6c9221bd028a.png" alt="logo facebook">
-              <p class="introduction__up--movie--text">Objectif : définir les objectifs de l'outil, rassurer l'utilisateur, inciter l'utilisateur à débuter l'accompagnement</p>
+              <img class="introduction__up--movie--play" src="/static/bim/images/picto-play.6c9221bd028a.png" alt="logo play">
+              <!-- <p class="introduction__up--movie--text">Objectif : définir les objectifs de l'outil, rassurer l'utilisateur, inciter l'utilisateur à débuter l'accompagnement</p> -->
             </div>
           </a>
-        <div class="introduction__down">
-        <a href="/login">
-          <div class="introduction__down--start-register">
-            <img class="introduction_logo" src="/static/bim/images/picto-plus.954257fe054b.svg" alt="picto plus">
-            <p class="introduction__down-txt">Commencer</p>
-          </div>
-        </a>
-        <a href="/register">
-          <div class="introduction__down--start-register">
-            <img class="introduction_logo" src="/static/bim/images/picto-plus.954257fe054b.svg" alt="picto plus">
-            <p class="introduction__down-txt">S'inscrire</p>
-          </div>
-        </a>
-      </div>
         </div>
         <a href="/login">
-          <div class="introduction__up--element introduction__up--login">
-            <img class="introduction__up--text--picto" src="${static.url('bim/images/head.png')}" alt="logo facebook"/>
+          <div class="introduction__up--element introduction__up--login" style="width: 200px;">
+            <img class="introduction__up--text--picto" src="${static.url('bim/images/head.png')}" alt="logo connexion"/>
             <p class="introduction__login">Se connecter</p>
           </div>
         </a>
       </div>
+      <a href="/register">
+        <div class="introduction__down--start-register">
+          <img class="introduction_logo" src="/static/bim/images/picto-plus.954257fe054b.svg" alt="picto plus">
+          <p class="introduction__down-txt">Commencer</p>
+        </div>
+      </a>
     </section>
+
     <div class="arrow_back">
-      <img class="introduction_logo introduction__down--arrow" src="${static.url('bim/images/downarrow.png')}" alt="logo facebook"/>
+      <img class="introduction_logo introduction__down--arrow" src="${static.url('bim/images/downarrow.png')}" alt="logo fleche bas"/>
     </div>
 
     <section class="videos-extract">
@@ -240,7 +276,7 @@ a:not(.btn):hover, a:not(.btn):focus, a:visited:not(.btn):hover, a:visited:not(.
         <div class="video-extract-video">
           <a href="#">
             <div class="video-extract__up-vid up__left">
-              <img class="introduction_down_logo video-extract__up__left--video" src="${static.url('bim/images/picto-play.png')}" alt="logo facebook"/>
+              <img class="introduction_down_logo video-extract__up__left--video" src="${static.url('bim/images/picto-play.png')}" alt="logo play"/>
             </div>
           </a>
           <p class="video-extract__up__left_and_right--text">Retour d'expérience d'un MOA sur <span class="span_strong">la rédaction d'un cachier des charges BIM</span></p>
@@ -248,15 +284,12 @@ a:not(.btn):hover, a:not(.btn):focus, a:visited:not(.btn):hover, a:visited:not(.
         <div class="video-extract-video">
           <a href="#">
             <div class="video-extract__up-vid up__right">
-              <img class="introduction_down_logo video-extract__up__left--video" src="${static.url('bim/images/picto-play.png')}" alt="logo facebook"/>
+              <img class="introduction_down_logo video-extract__up__left--video" src="${static.url('bim/images/picto-play.png')}" alt="logo play"/>
             </div>
           </a>
           <p class="video-extract__up__left_and_right--text">Retour d'expérience d'un MOA sur <span class="span_strong">la rédaction d'un cachier des charges BIM</span></p>
         </div>
       </div>
-      <p class="video-extract__down">
-        Vous avez <span class="span_strong">déjà suivi </span>l'accompagnement et souhaitez en retrouver les <span class="span_strong">ressources documentaires</span>
-      </p>
     </section>
 </main>
 
