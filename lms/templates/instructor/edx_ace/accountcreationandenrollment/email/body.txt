@@ -1,0 +1,43 @@
+{% if course_key == 'course-v1:deeptechforbusiness+FR+2021'%}
+
+Bonjour,
+
+Nous vous confirmons votre inscription à la formation DeepTech for Business.
+
+Pour accéder au programme et démarrer la formation, nous vous invitons à vous rendre sur le lien suivant avec vos identifiants ci-dessous,
+
+lien URL https://formationadistance.deeptechforbusiness.com/: 
+
+Pour vous connecter, renseignez votre identifiant, ainsi que votre mot de passe.
+
+Identifiant: {{ email_address }}
+Mot de passe: {{ password }}
+
+En cas de difficulté de connexion, merci de contacter learning@netexplo.org
+
+Bien à vous,
+
+Netexplo
+
+{% else %}
+
+Hello,
+
+You are now registered to DeepTech for Business.
+
+To start the program please follow the link below:
+
+URL: https://formationadistance.deeptechforbusiness.com/
+
+Then type in your email address and the following password:
+
+Login: {{ email_address }}
+Password: {{ password }}
+
+If you encounter any issues please contact learning@netexplo.org
+
+Best regards,
+
+Netexplo
+
+{% endif%}

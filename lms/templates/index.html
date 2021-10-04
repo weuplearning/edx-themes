@@ -1,0 +1,369 @@
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.urls import reverse
+
+from openedx.core.djangolib.markup import HTML, Text
+%>
+
+<style>
+
+.global-header {
+    display: none;
+}
+
+.image_flex{
+    align-self: center;
+}
+
+.main-container{
+    padding: 0;
+    margin: 0;
+}
+
+.body_section{
+    background-image: url("/static/deeptechforbusiness/images/photo_homepage.487110380807.png");
+    height: 1080px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.section_up{
+    background: rgba(255, 255, 255, 0.7);
+    padding: 40px 170px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.section_up--up{
+    margin-bottom: 30px;
+}
+.section_up--middle{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+.section_up--middle--middle{
+    margin: 0 40px;
+}
+
+.section_up--down{
+    background: rgb(42,125,226);
+    background: linear-gradient(0deg, rgba(42,125,226,1) 30%, rgba(0,161,225,1) 100%);
+    padding: 20px;
+    width: 200px;
+    text-align: center;
+    text-transform: uppercase;
+    color: #fff;
+    font-size: 1.4em;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* .section_down{
+    background-image: url("${static.url('deeptechforbusiness/images/rectangle_b.png')}");
+    width: 1485px;
+    height: 276px;
+    margin-top: 40px;
+} */
+
+.container_div{
+display: flex;
+justify-content: center;
+flex-direction: row;
+padding-top: 30px;
+}
+
+.div1,
+.div2, 
+.div3{
+    border: #fff 3px solid;
+    height: 20px; 
+    width: 500px;
+    border-bottom: none;
+}
+
+.div1{
+    border-right: none;
+}
+
+.div2{
+    border-top: 1px transparent solid;
+    border-left: none;
+    border-right: none;
+}
+
+.div3{
+    border-left: none;
+}
+
+.container_element{
+    border: 3px solid #fff;
+    border-top: none;
+    height: 300px; 
+    width: 1500px;
+}
+.section_down_border{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    padding-top: 30px;
+}
+.border-bottom-down {
+    padding: 0;
+}
+
+
+
+.section_down_text {
+    position: relative;
+    top: 37px;
+    left: 529px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 19px;
+}
+
+.section_down_border--up,
+.section_down_border--down{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.images_down{
+    margin: 0 15px;
+}
+
+.wrapper-footer{
+    display: none !important;
+}
+
+
+@media screen and (max-width: 1530px) {
+    .container_element {
+    width: 1200px;
+}
+.div1,
+.div2, 
+.div3{
+    width: 400px;
+}
+
+.section_down_text {
+    left: 415px;
+    font-size: 16px;
+}
+}
+
+@media screen and (max-width: 1210px) {
+    .container_element {
+    width: 750px;
+    }
+    .div1,
+    .div2, 
+    .div3{
+        width: 250px;
+    }
+
+    .section_down_text {
+        position: initial;
+        font-size: 18px;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .section_down_border--down {
+        flex-wrap: wrap;
+    }
+
+    .images_down {
+        margin: 0px 15px 20px;
+    }
+
+    .container_element {
+        height: 350px;
+    }
+}
+
+@media screen and (max-width: 920px) {
+    .section_up--up--middle{
+        width: 60%;
+    }
+    .section_up--up{
+        text-align: center;
+    }
+    .section_up {
+    padding: 40px 15px;
+    }
+}
+@media screen and (max-width: 750px) {
+    .container_element {
+    width: 360px;
+    }
+    .div1,
+    .div2, 
+    .div3{
+        width: 120px;
+    }
+
+    .section_up {
+    padding: 20px 0px;
+    width: 90%;
+    }
+
+    .section_down_text {
+        position: initial;
+        font-size: 18px;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .section_down_border--down {
+        flex-wrap: wrap;
+    }
+
+    .images_down {
+        margin: 0px 15px 20px;
+    }
+
+    .container_element {
+        height: 500px;
+    }
+
+    .section_up--up--middle {
+    width: 45%;
+    }
+    .section_up--middle {
+    margin-bottom: 10px;
+    }
+
+    .section_up--middle--middle {
+    margin: 0 15px;
+    }
+    .section_up--down {
+    padding: 18px;
+    width: 130px;
+    font-size: 1.2em;
+    }
+
+    .section_up--middle--left{
+        width: 25%;
+    }
+    .section_up--middle--right{
+        width: 40%;
+    }
+    .section_down_border--up {
+    flex-wrap: wrap;
+    }
+
+    .section_down_border--up--left{
+        width: 50%;
+    }
+
+    .images_down {
+    margin: 0px 10px 10px;
+    }
+
+    .section_down_border--down--two{
+        width: 40%;
+    }
+}
+
+
+
+
+</style>
+
+
+
+
+<section class="body_section">
+
+    <div class="section_up">
+        <div class="section_up--up">
+            <img class="image_flex section_up--up--middle" src="${static.url('deeptechforbusiness/images/logo_deeptech_n.png')}" alt="logo deeptech"/>
+        </div>
+        <div class="section_up--middle">
+            <img class="image_flex section_up--middle--left" src="${static.url('deeptechforbusiness/images/logo_telecom_n.png')}" alt="logo telecom Paris"/>
+            <img class="section_up--middle--middle" src="${static.url('deeptechforbusiness/images/separateur_n.png')}" alt="separateur"/>
+            <img class="image_flex section_up--middle--right" src="${static.url('deeptechforbusiness/images/logo_netexplo_n.png')}" alt="logo netexplo"/>
+        </div>
+        <div class="section_up--down" onclick="window.open('/login', '_self')">
+                Connexion
+        </div>
+    </div>
+
+    <!-- <div class="section_down">
+        <div class="section_down_container">
+            <p class="section_down_text">
+                Observatoire Technologies & Souveraineté numérique
+            </p>
+            <div class="section_down_border">
+                <div class="section_down_border--up">
+                    <img class="image_flex images_down section_down_border--up--left" src="${static.url('deeptechforbusiness/images/logo_secretariat.png')}" alt="logo secretariat d'état"/>
+                    <img class="image_flex images_down section_down_border--up--middle" src="${static.url('deeptechforbusiness/images/logo_telecom_b.png')}" alt="logo telecom"/>
+                    <img class="image_flex images_down section_down_border--up--right" src="${static.url('deeptechforbusiness/images/logo_netexplo_b.png')}" alt="logo netexplo"/>
+                </div>
+                <div class="section_down_border--down">
+                    <img class="image_flex images_down section_down_border--down--one" src="${static.url('deeptechforbusiness/images/logo_capgemini_b.png')}" alt="logo capgemini"/>
+                    <img class="image_flex images_down section_down_border--down--two" src="${static.url('deeptechforbusiness/images/logo_edf_b.png')}" alt="logo edf"/>
+                    <img class="image_flex images_down section_down_border--down--three" src="${static.url('deeptechforbusiness/images/logo_orange_b.png')}" alt="logo orange"/>
+                    <img class="image_flex images_down section_down_border--down--four" src="${static.url('deeptechforbusiness/images/logo_renault_b.png')}" alt="logo renault"/>
+                    <img class="image_flex images_down section_down_border--down--five" src="${static.url('deeptechforbusiness/images/logo_thales_b.png')}" alt="logo thales"/>
+                    <img class="image_flex images_down section_down_border--down--six" src="${static.url('deeptechforbusiness/images/logo_village_b.png')}" alt="logo village"/>
+
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <div class="section_down">
+        <!-- <div class="section_down_container">
+            <p class="section_down_text">
+                Observatoire Technologies & Souveraineté numérique
+            </p> -->
+            <p class="section_down_text">
+                Observatoire Technologies & Souveraineté numérique
+            </p> 
+            <div class="section_down_border">
+                <div class="div1">
+            
+                </div>
+                <div class="div2">
+            
+                </div>
+                <div class="div3">
+            
+                </div>
+            </div>
+            <div class="section_down_border border-bottom-down">
+                <div class="container_element">
+                    <div class="section_down_border--up">
+                        <img class="image_flex images_down section_down_border--up--left" src="${static.url('deeptechforbusiness/images/logo_secretariat.png')}" alt="logo secretariat d'état"/>
+                        <img class="image_flex images_down section_down_border--up--middle" src="${static.url('deeptechforbusiness/images/logo_telecom_b.png')}" alt="logo telecom"/>
+                        <img class="image_flex images_down section_down_border--up--right" src="${static.url('deeptechforbusiness/images/logo_netexplo_b.png')}" alt="logo netexplo"/>
+                    </div>
+                    <div class="section_down_border--down">
+                        <img class="image_flex images_down section_down_border--down--one" src="${static.url('deeptechforbusiness/images/logo_capgemini_b.png')}" alt="logo capgemini"/>
+                        <img class="image_flex images_down section_down_border--down--two" src="${static.url('deeptechforbusiness/images/logo_edf_b.png')}" alt="logo edf"/>
+                        <img class="image_flex images_down section_down_border--down--three" src="${static.url('deeptechforbusiness/images/logo_orange_b.png')}" alt="logo orange"/>
+                        <img class="image_flex images_down section_down_border--down--four" src="${static.url('deeptechforbusiness/images/logo_renault_b.png')}" alt="logo renault"/>
+                        <img class="image_flex images_down section_down_border--down--five" src="${static.url('deeptechforbusiness/images/logo_thales_b.png')}" alt="logo thales"/>
+                        <img class="image_flex images_down section_down_border--down--six" src="${static.url('deeptechforbusiness/images/logo_village_b.png')}" alt="logo village"/>
+    
+                    </div>
+                </div>
+
+            </div>
+        <!-- </div> -->
+    </div>
+
+</section>
