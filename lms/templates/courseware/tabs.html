@@ -21,7 +21,14 @@ def url_class(is_active):
   <!-- NO FORUM FOR THIS MICROSITE -->
   % if tab.name != "Discussion" :
     <li class="tab">
-    <a href="${tab.link_func(course, reverse)}" class="${tab_class}">
+      % if tab.name == "Course" :
+      <%
+        tab.link = tab.link_func(course, reverse)[:-1] + 'ware/'
+      %>
+      <a href="${tab.link}" class="${tab_class}">
+      % else:
+      <a href="${tab.link_func(course, reverse)}" class="${tab_class}">
+      %endif
     ${_(tab.name)}
     % if tab_is_active:
         <span class="sr">, current location</span>

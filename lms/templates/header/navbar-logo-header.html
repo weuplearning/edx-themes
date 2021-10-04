@@ -26,10 +26,20 @@ enterprise_customer_link = get_enterprise_learner_portal(request)
   % else:
     <a href="${branding_api.get_home_url()}">
       <%block name="navigation_logo">
-        <img  class="logo" src="${branding_api.get_logo_url(is_secure)}" alt="${_('{platform_name} Home Page').format(platform_name=static.get_platform_name())}"/>
+<%
+paths_list = ["/tos", "/honor", "/privacy", "/faq"]
 
-        <img class="logo" src="${static.url('linkingcities/images/ESCP_LOGO_CMJN.png')}" alt="ESCP Business School" style="margin-left: 30px;"/>
-
+if request.path in paths_list:
+  white_logo = False
+else:
+  white_logo = True
+endif
+%>
+        % if not white_logo:
+        <img class="logo" src="${static.url('e-ferro/images/logo_ciffco.png')}" alt="logo CIFFCO" style="margin-left: 30px;"/>
+        %else:
+        <img class="logo" src="/media/microsites/e-ferro/homepage/images/logo-ciffco-blanc-700.png" alt="logo CIFFCO" style="margin-left: 30px;"/>
+        %endif
       </%block>
     </a>
   % endif

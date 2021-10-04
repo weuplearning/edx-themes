@@ -35,6 +35,8 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         box-shadow: 0 3px 6px rgba(0,0,0,0.16);
         display: flex;
         align-items: center;
+        height: 211px;
+        background-position-x: center;
     }
     .page-header-secondary{
         padding: 25px 0 !important;
@@ -51,8 +53,8 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         color: var(--secondary) !important;
     }
     .course-outline .block-tree .outline-button .complete-checkmark {
-        background-color: var(--secondary);
-        border-color: var(--secondary);
+        background-color: #114395;
+        border-color: #114395;
         color: white !important;
         padding: 2px;
     }
@@ -93,10 +95,11 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         border:none !important;
     }
     .global-header.global-header{
-        background: white !important; 
+        background: white !important;
     }
     h4.subsection-title{
         font-size: 1rem;
+        color:#114395;
     }
     button:focus {
         outline: none !important;
@@ -186,7 +189,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     }
 
     .progress-bar-grade {
-        background-color:var(--green);
+        background-color:#114395;
         position: absolute;
         height: 100%;
         top:0;
@@ -208,7 +211,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     }
 
     #final-grade-progress .progress-bar-grade{
-        background-color: var(--secondary);
+        background-color: #114395;
         border-radius: 7.5px;
     }
 
@@ -261,7 +264,15 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         height: 40px;
     }
 
-    
+    @media screen and (max-width: 1080px) {
+        .page-header-secondary { 
+            display: block !important;
+        }
+        .page-header-search{
+            margin-bottom: 10px;
+        }
+    }
+
     @media screen and (max-width: 1024px) {
         .page-content .page-content-secondary { 
             min-width: calc(50% - 15px);
@@ -335,12 +346,35 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     }
 
   </style>
-  <script>
-    document.title = "Cours | ${HTML(course.display_name_with_default)}";
- 
-  </script>
-
-
+    <script>
+        var imageSuffixesArray = ['.jpg','.JPG','.JPEG','.PNG','.png','.gif','.GIF','.svg','.SVG']
+        var courseId = "${course.id | n, js_escaped_string}";
+        var assetId = courseId.split(':')[1];
+        var assetIdUnderscored = assetId.replace(/\+/g,'_')
+        var imageUrlBase = '/asset-v1:'+assetId+'+type@asset+block@banniere_'+assetIdUnderscored
+        document.title = "Cours | ${HTML(course.display_name_with_default)}";
+        var updateBanner = function (i) {
+            var imageUrl = imageUrlBase+imageSuffixesArray[i]
+            $.get(imageUrl)
+            .done(function() {
+                // Image fund
+                $("header.page-header.has-secondary").css({"background-image": "url(" + imageUrl + ")", "background-size": "cover"});
+            }).fail(function() { 
+                // Image doesn't exist, set default image
+                if (i === imageSuffixesArray.length) {
+                    $("header.page-header.has-secondary").css({"background-image": "url('/media/microsites/e-ferro/homepage/images/dashboard_banner.jpg')","background-size": "cover"});
+                }
+                else {
+                    i++
+                    updateBanner(i)
+                }
+            })
+        }
+        $( document ).ready(function() {
+            var i=0
+            updateBanner(i)
+        })
+    </script>
 </%block>
 
 
@@ -348,8 +382,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 <div class="course-view page-content-container" id="course-container">
     <header class="page-header has-secondary">
         <div class="page-header-main">
-            <img id="logo_banner" src="${static.url('{}/images/logo_secondary.png'.format(course.org))}" alt="banner logo">
-
+            <!-- <img id="logo_banner" src="${static.url('{}/images/logo_secondary.png'.format(course.org))}" alt="banner logo"> -->
         </div>
         <div class="page-header-secondary">
             % if show_search:
@@ -363,9 +396,9 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                                 id="search"
                                 placeholder="${_('Search the course')}"
                         />
-                        <span class="input-group-btn">
+                        <!-- <span class="input-group-btn">
                             <button class="btn btn-outline-primary search-button" type="submit">${_('Search')}</button>
-                        </span>
+                        </span> -->
                     </form>
                 </div>
             % endif
@@ -405,7 +438,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
             % endif
         </div>
         <aside class="page-content-secondary course-sidebar">
-            <h4>Progress Tracking</h4>
+            <h4>Mes évaluations</h4>
             <div class="section" id="badges">
                     <div class="grade-block">       
                         <div class="grade-section-title">
@@ -422,7 +455,6 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                             
                         </div>                    
                     </div>
-
                  %if configuration_helpers.get_value('COMPLETION_BASED_DASHBOARD_MONO', False):
 
                     % for section in course_block_tree.get('children'):
@@ -460,6 +492,13 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
 
                     %for index, chapter in enumerate(user_grade.chapter_grades.keys()):
+                        <%
+                        possible = 0.0
+                        chapter_grade = user_grade.chapter_grades[chapter]
+                        for section in chapter_grade['sections']:
+                            possible += section.graded_total.possible
+                        %>
+                        %if possible > 0.0:
                         <div class="grade-block">
                             <div class="grade-section-title">
                                 %if user_grade.chapter_percentage(chapter) >= 0.7:
@@ -474,6 +513,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                                 <div style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade"></div>
                             </div>                    
                         </div>
+                        %endif
                     %endfor
 
                  %endif
