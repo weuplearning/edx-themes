@@ -425,7 +425,7 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
                       total_blocks = 1
                       completed_blocks = 1
                       if not section.get('complete'):
-                        total_blocks = 0
+                        total_blocks = 1
                         completed_blocks = 0
                         for subsection in section.get('children', []):
                           for unitchild in subsection.get('children', []):
