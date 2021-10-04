@@ -26,6 +26,14 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
 <% user_name = str(user_metadata['username']) %>
 
 <style>
+
+  body.view-in-course .container {
+      max-width: 70vw;
+  }
+
+  .wrapper-course-modes{
+    display: none;
+  }
   .window-wrap {
     background: url("${static.url('{}/images/bg_img.png'.format(course.org))}");
     background-size: contain;
