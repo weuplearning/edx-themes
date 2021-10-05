@@ -115,10 +115,6 @@ margin-top: 5px;
   padding-bottom: 5px;
 }
 
-.admin-menu__list--element_text:hover{
-  border-bottom: 1px solid rgb(0,91,144);
-}
-
 .admin-menu--img{
   width: 40px;
   margin-right: 10px;
@@ -165,8 +161,21 @@ margin-top: 5px;
   background: white;
   line-height: 16px;
 }
+.add_a_response{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.page-content-container {
+    border: none !important
+}
+
+.page-header {
+    border-bottom: none !important;
+}
 
 </style>
+
 
 <header class="header_admin-menu--container">
   <div class="header_admin-menu" style="width: 18%;">
@@ -322,3 +331,46 @@ margin-top: 5px;
     $('#amazonfreetextcomment').hide()
     $('.wrapper-course-material').hide()
   </script>
+
+<script>
+
+  // document.getElementById("main").onload = function() {      
+  //   let test = document.getElementsByClassName("discussion-response")
+
+  //   elt = document.createElement("div")
+  //   elt.innerHTML = "<p>Click</p>";
+
+
+  //   for (let i = 0; i < test.length; i++){
+  //   elt.setAttribute("id", i);
+  //   test[i].appendChild(elt.cloneNode(true))
+
+  //   alert("hey")
+  // }};
+
+
+  window.addEventListener("load", function(event) {
+      let test = document.getElementsByClassName("discussion-response")
+
+      elt = document.createElement("div")
+      elt.innerHTML = "<p>Click</p>";
+
+
+      for (let i = 0; i < test.length; i++){
+      elt.setAttribute("id", i);
+      elt.classList.add("add_a_response");
+      test[i].appendChild(elt.cloneNode(true))
+    }
+
+  });
+  // de base les input de reponse sont en display none
+  // onclick recup le data-id et on display celui qui est concerné => si possible mettre le curseur dans l'input
+
+
+  // for (const element of test) {
+  // elt.setAttribute("id", i);
+  // element.appendChild(elt)
+  // }
+  let responses = document.getElementsByClassName("forum-response")
+
+</script>
