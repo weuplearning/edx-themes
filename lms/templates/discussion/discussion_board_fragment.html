@@ -174,6 +174,116 @@ margin-top: 5px;
     border-bottom: none !important;
 }
 
+.new-comment{
+  display: none;
+}
+
+.response-btn-count-wrapper{
+  display: flex !important;
+  justify-content: flex-end !important;
+  margin-top: -60px !important;
+}
+
+.response-count{
+  display: none;
+}
+
+.wmd-input{
+  margin-top: 30px;
+}
+
+.forum-nav-browse-filter{
+  display: none;
+}
+
+.forum-nav-browse-menu-item{
+  background-color: #E7EEF4;
+}
+
+#all_discussions,
+#topic_search_bar,
+#add_new_message,
+#posts_following {
+  background-color: #fed016;
+}
+
+#all_discussions:first-child,
+#add_new_message{
+  text-align: center !important;
+}
+
+#all_discussions:first-child:hover{
+  background-color: #fef1ba !important;
+}
+
+
+
+.thread-responses-wrapper, .post-extended-content {
+    padding: 0;
+}
+
+.discussion-post .post-header-content .post-title {
+    font-size: 30px;
+}
+
+.thread-main-wrapper {
+    padding: 1em;
+}
+
+.post-title,
+.post-body,
+.response-body {
+  color: rgb(0,91,144);
+}
+
+.forum-nav-browse-title {
+    border-bottom: none !important;
+
+}
+
+
+.search-button{
+  width: 10px;
+  position: relative;
+  left: -30px;
+  color: transparent;
+  border: none;
+}
+
+.btn-outline-primary:hover {
+    background-color: inherit !important;
+    border-color: inherit !important;
+    border:none
+}
+
+.form-control {
+    border: 2px solid rgb(0,91,144);
+}
+
+.toggle_text {
+    margin-top: 15px;
+    margin-left: 10px;
+    text-transform: uppercase;
+    color: rgb(0,91,144);
+}
+
+.toggle_image {
+    width: 30px;
+    height: auto;
+}
+
+.toggle_button{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.add-response-btn{
+  border: none;
+  display: flex !important;
+}
+
+
 </style>
 
 
@@ -332,45 +442,83 @@ margin-top: 5px;
     $('.wrapper-course-material').hide()
   </script>
 
+
+
+
 <script>
-
-  // document.getElementById("main").onload = function() {      
-  //   let test = document.getElementsByClassName("discussion-response")
-
-  //   elt = document.createElement("div")
-  //   elt.innerHTML = "<p>Click</p>";
+  let attributes = document.getElementsByClassName("comment-form")
+  let responses = document.getElementsByClassName("discussion-response")
+  toggleButton = document.createElement("div")
+  toggleButton.innerHTML = "<div class='toggle_button'><img class='toggle_image' src =\"${static.url('bim/images/bouton-repondre.svg')}\" alt='picto valid'><p class='toggle_text'>Répondre</p></div>";
 
 
-  //   for (let i = 0; i < test.length; i++){
-  //   elt.setAttribute("id", i);
-  //   test[i].appendChild(elt.cloneNode(true))
-
-  //   alert("hey")
-  // }};
-
-
-  window.addEventListener("load", function(event) {
-      let test = document.getElementsByClassName("discussion-response")
-
-      elt = document.createElement("div")
-      elt.innerHTML = "<p>Click</p>";
-
-
-      for (let i = 0; i < test.length; i++){
-      elt.setAttribute("id", i);
-      elt.classList.add("add_a_response");
-      test[i].appendChild(elt.cloneNode(true))
+  function displayToggleButton () {
+      if (document.getElementsByClassName("add_a_response").length === 0) {
+     
+        for (let i = 0; i < responses.length; i++){
+          toggleButton.classList.add("add_a_response");
+          responses[i].appendChild(toggleButton.cloneNode(true))
+          responses[i].addEventListener("click", function(){
+            attributes[i].parentNode.style.display = "inherit"
+        });
+      }
     }
+  }
 
-  });
-  // de base les input de reponse sont en display none
-  // onclick recup le data-id et on display celui qui est concerné => si possible mettre le curseur dans l'input
+  function addLastAnswerButton(){
+    let responsesLenght = responses.length
+    let lastResponse = responses[responsesLenght - 1]
+
+    let attributesLenght = attributes.length
+    let lastAttribute = attributes[attributesLenght - 1]
+
+    toggleButton.classList.add("add_a_response");
+    lastResponse.appendChild(toggleButton)
+    lastResponse.addEventListener("click", function(){
+            lastAttribute.parentNode.style.display = "inherit"
+        });
+  }
+
+  function checkifButtonisDisplayed() {
+    if (document.getElementsByClassName("add_a_response").length === 0) {
+      displayToggleButton();
+    }
+    if (document.getElementsByClassName("new-main-button").length === 0) {
+      displayMainButton();
+    }
+    if (document.getElementsByClassName("discussion-response").length !== document.getElementsByClassName("add_a_response").length) {
+      addLastAnswerButton();
+    } 
+  }
+
+  function displayElements(){
+    document.getElementsByClassName("search-button")[0].textContent =""
+
+    let parentUl = document.getElementById("discussion_topics_listbox")
+
+    let searchBarLi = document.createElement("li")
+    searchBarLi.id = "topic_search_bar"
+    let searchBar = document.getElementsByClassName("forum-search")[0]
+    searchBarLi.appendChild(searchBar)
 
 
-  // for (const element of test) {
-  // elt.setAttribute("id", i);
-  // element.appendChild(elt)
-  // }
-  let responses = document.getElementsByClassName("forum-response")
+    let allDiscussions = document.getElementById("all_discussions")
+    let postsFollowing = document.getElementById("posts_following")
+
+    parentUl.insertBefore(searchBarLi, postsFollowing)
+  }
+
+  function displayMainButton () {
+    let mainResponse = document.getElementsByClassName("response-btn-count-wrapper")[0]
+    mainResponse.innerHTML = "<div class='new-main-button add-response btn btn-outline-primary btn-small add-response-btn'><img class='toggle_image' src =\"${static.url('bim/images/bouton-repondre.svg')}\" alt='picto valid'><p class='toggle_text'>Répondre</p></div>"
+  }
+
+  window.addEventListener("load", displayToggleButton)
+  window.addEventListener("load", displayElements)
+
+
+setInterval(function(){ checkifButtonisDisplayed(); }, 1500);
 
 </script>
+
+
