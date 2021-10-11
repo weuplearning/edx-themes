@@ -25,6 +25,20 @@ relative_dates_flag_is_enabled = RELATIVE_DATES_FLAG.is_enabled(str(course_key))
 is_course_staff = bool(user and course and has_access(user, 'staff', course, course.id))
 dates_banner_displayed = False
 %>
+
+<style>
+    .checkmarck-subtitle{
+        background-color: var(--tertiary) !important;
+        border-color: var(--tertiary) !important;
+        color: white !important;
+    }
+
+    .checkmark-title{
+        background-color: white !important;
+        border-color: white !important;
+        color: var(--tertiary) !important;
+    }
+</style>
 <main role="main" class="course-outline" id="main" tabindex="-1">
     <%include file="/dates_banner.html" />
     % if course_sections is not None:
@@ -51,7 +65,7 @@ dates_banner_displayed = False
                         <span class="fa fa-chevron-right ${ 'fa-rotate-90' if section_is_auto_opened else '' }" aria-hidden="true"></span>
                         <h3 class="section-title">${ section['display_name'] }</h3>
             % if section.get('complete'):
-                            <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
+                            <span style="color: var(--tertiary) !important;" class="complete-checkmark fa fa-check checkmark-title" aria-hidden="true"></span>
                             <span class="sr">${_("Completed")}</span>
             % endif
                     </button>
@@ -91,7 +105,7 @@ dates_banner_displayed = False
                                       </h4>
 
                             % if subsection.get('complete'):
-                                <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
+                                <span class="complete-checkmark fa fa-check checkmarck-subtitle" aria-hidden="true"></span>
                                 <span class="sr">${_("Completed")}</span>
 
                             % endif
