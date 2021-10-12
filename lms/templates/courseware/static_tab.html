@@ -147,12 +147,20 @@ margin-top: 5px;
   margin-bottom: 10px;
 }
 
+.accordion{
+  height: 100vh;
+overflow: scroll;
+scrollbar-color: #005b90 #e0e0e0;
+scrollbar-width: initial;
+}
+
 
 .course-index .accordion .course-navigation .chapter-content-container .chapter-menu .menu-item.active a {
     background: none !important;
 }
 .course-index {
-  max-width: 360px !important;
+  /* max-width: 360px !important; */
+  width: 30% !important;
 }
 
 
@@ -241,37 +249,37 @@ max-width: inherit;
 
 % if url not in pages_without_accordion:
     <div class="course-index">
-
+      <a href="/courses/course-v1:bim+FR+2021/638ecffb4afd43c8bfd73fa3746b1eb9/"  class="button-chapter-strong chapter">
+        <span class="group-heading-strong">
+            Comment ça marche ?
+        </span>
+        <a href="/courses/course-v1:bim+FR+2021/5d2904880c73474e89a98224aa4bff87/" role="button" id="cahier-charge-parent" aria-controls="cahier-charge-child" aria-expanded="true" class="button-chapter-strong chapter">
+          <span class="group-heading group-heading-strong active" aria-label="cahier-charge">
+              Le cahier des charges BIM
+          </span>
+      </a>
       <div class="accordion">
         <nav class="course-navigation" aria-label="${_('Course')}">
-          <a href="/courses/course-v1:bim+FR+2021/638ecffb4afd43c8bfd73fa3746b1eb9/"  class="button-chapter-strong chapter">
-            <span class="group-heading-strong">
-                Comment ça marche ?
-            </span>
-            <a href="/courses/course-v1:bim+FR+2021/5d2904880c73474e89a98224aa4bff87/" role="button" id="cahier-charge-parent" aria-controls="cahier-charge-child" aria-expanded="true" class="button-chapter-strong chapter">
-              <span class="group-heading group-heading-strong active" aria-label="cahier-charge">
-                  Le cahier des charges BIM
-              </span>
-          </a>
+
           % if accordion.strip():
             ${HTML(accordion)}
           % else:
             <div class="chapter">${_("No content has been added to this course")}</div>
           % endif
             
-          <a href="/courses/course-v1:bim+FR+2021/f480cb37c0964a4e9688ff964c007403/" role="button" id="procedure-commande-parent" aria-controls="procedure-commande-child" aria-expanded="true" class="button-chapter-strong chapter">
-            <span class="group-heading group-heading-strong active" aria-label="procedure-commande">
-                Procédure de commande
-            </span>
-          </a>
-          <a href="/courses/course-v1:bim+FR+2021/3625c869a38c40aa8ebb7f2bb341dc2f/" role="button" id="cloture-accompagnement-parent" aria-controls="cloture-accompagnement-child" aria-expanded="true" class="button-chapter-strong chapter">
-            <span class="group-heading group-heading-strong active" aria-label="cloture-accompagnement">
-                Clôture de l'accompagnement
-            </span>
-          </a>
+
         </nav>
     </div>
-
+    <a href="/courses/course-v1:bim+FR+2021/f480cb37c0964a4e9688ff964c007403/" role="button" id="procedure-commande-parent" aria-controls="procedure-commande-child" aria-expanded="true" class="button-chapter-strong chapter">
+      <span class="group-heading group-heading-strong active" aria-label="procedure-commande">
+          Procédure de commande
+      </span>
+    </a>
+    <a href="/courses/course-v1:bim+FR+2021/3625c869a38c40aa8ebb7f2bb341dc2f/" role="button" id="cloture-accompagnement-parent" aria-controls="cloture-accompagnement-child" aria-expanded="true" class="button-chapter-strong chapter">
+      <span class="group-heading group-heading-strong active" aria-label="cloture-accompagnement">
+          Clôture de l'accompagnement
+      </span>
+    </a>
     </div>
     % endif
 

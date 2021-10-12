@@ -492,7 +492,10 @@ margin-top: 5px;
     }
     if (document.getElementsByClassName("discussion-response").length !== document.getElementsByClassName("add_a_response").length) {
       addLastAnswerButton();
-    } 
+    }
+    if (!document.getElementById("topic_search_bar")) {
+      displayElements();
+    }
   }
 
   function displayElements(){
