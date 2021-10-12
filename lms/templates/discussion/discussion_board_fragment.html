@@ -248,6 +248,10 @@ margin-top: 5px;
   left: -30px;
   color: transparent;
   border: none;
+  background-image: url("/static/bim/images/loupe.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
 }
 
 .btn-outline-primary:hover {
@@ -493,7 +497,6 @@ margin-top: 5px;
 
   function displayElements(){
     document.getElementsByClassName("search-button")[0].textContent =""
-
     let parentUl = document.getElementById("discussion_topics_listbox")
 
     let searchBarLi = document.createElement("li")
