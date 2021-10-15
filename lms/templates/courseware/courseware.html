@@ -332,7 +332,7 @@ ${HTML(fragment.foot_html())}
   <div class="header_admin-menu" style="width: 18%;">
   </div>
   <div class="header_admin-menu">
-    <a href="#">
+    <a href="/courses/course-v1:bim+FR+2021/b21982c4a63e4667905f15529c7375c6/">
       <div class="admin-menu__list--element">
         <img style="width: 40px;" class="admin-menu--img" src="${static.url('bim/images/picto-boite-a-outils.svg')}" alt="logo boite à outils" id="toolbox-logo"/>
         <p class="admin-menu__list--element_text">Boite à outils</p>
@@ -351,7 +351,7 @@ ${HTML(fragment.foot_html())}
     <a href="/wul_apps/dashboard/home">
       <div>
         <div class="admin-menu__list--button_div button_admin " >
-          <img class="admin-menu--img_user" src="${static.url('bim/images/head.png')}" alt="logo boite à outils" id="toolbox-logo"/>
+          <img class="admin-menu--img_user" src="${static.url('bim/images/head.png')}" alt="logo admin" id="toolbox-logo"/>
           <p class="admin-menu__list--button_text">Espace administrateur</p>
         </div>
       </div>
@@ -359,7 +359,7 @@ ${HTML(fragment.foot_html())}
   %endif
   <div>
       <div id="user_menu_button" class="admin-menu__list--button_div button_user" >
-        <img class="admin-menu--img_user" src="${static.url('bim/images/head.png')}" alt="logo boite à outils" id="toolbox-logo"/>
+        <img class="admin-menu--img_user" src="${static.url('bim/images/head.png')}" alt="logo utilisateur" id="toolbox-logo"/>
         <p class="admin-menu__list--button_text">Espace utilisateur</p>
       </div>
       <div id="user_menu_items" class="user_menu" style="display: none;" >
@@ -461,45 +461,6 @@ ${HTML(fragment.foot_html())}
 
   </div>
 
-<!-- <section class="admin-menu">
-<ul class="admin-menu__list">
-  <a href="#">
-    <li class="admin-menu__list--element">
-      <img class="admin-menu--img" src="${static.url('bim/images/picto-boite-a-outils.svg')}" alt="logo boite à outils" id="toolbox-logo"/>
-      <p class="admin-menu__list--element_text">Boite à outils</p>
-    </li>
-  </a>
-  <a href="https://bim.koa.qualif.dev/courses/course-v1:bim+test+test/c35c81be41c34ad3814a6ffae7515b0f/">
-    <li class="admin-menu__list--element">
-      <img class="admin-menu--img how_it_works" src="${static.url('bim/images/ICO_1.png')}" alt="logo boite à outils" id="toolbox-logo"/>
-      <p class="admin-menu__list--element_text">Comment ça marche</p>
-    </li>
-  </a>
-  <a href="https://bim.koa.qualif.dev/courses/course-v1:bim+test+test/discussion/forum/">
-    <li class="admin-menu__list--element">
-      <img class="admin-menu--img" src="${static.url('bim/images/picto-forum.svg')}" alt="logo boite à outils" id="toolbox-logo"/>
-      <p class="admin-menu__list--element_text">Forum</p>
-    </li>
-  </a>
-  <a href="https://bim.koa.qualif.dev/wul_apps/dashboard/home">
-    <li>
-      <div class="admin-menu__list--button_div button_admin " >
-        <img class="admin-menu--img_user" src="${static.url('bim/images/head.png')}" alt="logo boite à outils" id="toolbox-logo"/>
-        <p class="admin-menu__list--button_text">Espace administrateur</p>
-      </div>
-    </li>
-  </a>
-  <div id="user_menu_button" class="admin-menu__list--button_div button_user" >
-    <img class="admin-menu--img_user" src="${static.url('bim/images/head.png')}" alt="logo boite à outils" id="toolbox-logo"/>
-    <p class="admin-menu__list--button_text">Espace utilisateur</p>
-  </div>
-  <div id="user_menu_items" class="user_menu" style="display: none;" >
-    <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="${reverse('dashboard')}" role="menuitem">${_("Dashboard")}</a></div> <hr>
-    <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="${reverse('account_settings')}" role="menuitem">${_("Account")}</a></div> <hr>
-    <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="${reverse('logout')}" role="menuitem">${_("Sign Out")}</a></div>
-  </div>
-</ul>
-</section> -->
 
   ${HTML(course_sock_fragment.body_html())}
 </div>
