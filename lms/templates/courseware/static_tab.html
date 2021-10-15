@@ -35,6 +35,14 @@ url = request.path
 %>
 
 <style>
+
+.responsive_menu{
+  display: none;
+}
+
+.responsive_accordion{
+  display: none;
+}
   .global-container{
     display: flex;
     max-width: none;
@@ -160,7 +168,7 @@ scrollbar-width: initial;
 }
 .course-index {
   /* max-width: 360px !important; */
-  width: 30% !important;
+  width: 28% !important;
 }
 
 
@@ -192,19 +200,102 @@ max-width: inherit;
   align-items: flex-end;
 }
 
+@media screen and (max-width: 1113px) {
+  .list-element-left {
+  width: 263px;
+  }
+}
+
+@media screen and (max-width: 865px) {
+  .header_admin-menu--container {
+  display: none;
+  }
+  .responsive_menu{
+  display: block;
+  float: right;
+  cursor: pointer;
+  margin-right: 1em;
+}
+
+.header_admin-menu{
+  flex-direction: column;
+  align-items: center;
+}
+.admin-menu-left{
+  margin-left: 51px;
+}
+.list-element-left{
+  width: inherit;
+}
+}
+
+@media screen and (max-width: 600px) {
+  .course-index{
+    display: none;
+    z-index: 10;
+    position: absolute;
+    width: 100% !important;
+  }
+
+  .responsive_accordion{
+  display: block;
+  cursor: pointer;
+  margin-left: 1em;
+}
+}
 </style>
+
+<!-- style for X menu -->
+<style>
+  .containerBAr {
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  .bar1, .bar2, .bar3 {
+    width: 35px;
+    height: 5px;
+    background-color: #333;
+    margin: 6px 0;
+    transition: 0.4s;
+  }
+
+  .change .bar1 {
+    -webkit-transform: rotate(-45deg) translate(-9px, 6px);
+    transform: rotate(-45deg) translate(-9px, 6px);
+  }
+
+  .change .bar2 {opacity: 0;}
+
+  .change .bar3 {
+    -webkit-transform: rotate(45deg) translate(-8px, -8px);
+    transform: rotate(45deg) translate(-8px, -8px);
+  }
+  </style>
 
 <main id="main" aria-label="Content" tabindex="-1">
   
 
-  <header class="header_admin-menu--container">
-    <div class="header_admin-menu" style="width: 18%;">
+  <div id="responsive_menu" class="containerBar responsive_menu" onclick="myFunction(this)">
+    <div class="bar1"></div>
+    <div class="bar2"></div>
+    <div class="bar3"></div>
+  </div>
+  
+  <div id="responsive_accordion" class="containerBar responsive_accordion" onclick="myFunction(this)">
+    <div class="bar1"></div>
+    <div class="bar2"></div>
+    <div class="bar3"></div>
+  </div>
+
+  <header id="header_admin-menu--container" class="header_admin-menu--container">
+    <div class="header_admin-menu admin-menu-left" style="width: 18%;">
     </div>
-    <div class="header_admin-menu">
+    <div class="header_admin-menu admin-menu-left">
       <a href="/courses/course-v1:bim+FR+2021/b21982c4a63e4667905f15529c7375c6/">
         <div class="admin-menu__list--element">
           <img style="width: 40px;" class="admin-menu--img" src="${static.url('bim/images/picto-boite-a-outils.svg')}" alt="logo boite à outils" id="toolbox-logo"/>
-          <p class="admin-menu__list--element_text">Boite à outils</p>
+          <p class="admin-menu__list--element_text list-element-left">Boite à outils</p>
         </div>
       </a>
       <a href="/courses/course-v1:bim+FR+2021/discussion/forum/">
@@ -238,7 +329,7 @@ max-width: inherit;
       </div>
     </div>
   </header>
-  <section class="container global-container"
+  <section class="container2 global-container"
   % if getattr(course, 'language'):
     lang=${course.language}
   % endif
@@ -248,7 +339,7 @@ max-width: inherit;
   
 
 % if url not in pages_without_accordion:
-    <div class="course-index">
+<div class="course-index" id="course-index">
       <a href="/courses/course-v1:bim+FR+2021/638ecffb4afd43c8bfd73fa3746b1eb9/"  class="button-chapter-strong chapter">
         <span class="group-heading-strong">
             Comment ça marche ?
@@ -294,13 +385,26 @@ max-width: inherit;
 
 
 <script>
-  function toggleMenu () {
-    let menu = document.getElementById("user_menu_items");
-    if (menu.style.display === "none") {
+ function toggleMenu (elementToDisplay) {
+    let menu = document.getElementById(elementToDisplay);
+    if (menu.style.display === "none" || !menu.style.display) {
       menu.style.display = "block";
     } else {
       menu.style.display = "none";
     }
   }
   document.getElementById("user_menu_button").addEventListener("click", toggleMenu)
+
+  function addClickEvent(parent, elementToDisplay) {
+    document.getElementById(parent).addEventListener("click", () => {toggleMenu(elementToDisplay)})
+  }
+
+  addClickEvent("user_menu_button", "user_menu_items")
+  addClickEvent("responsive_menu", "header_admin-menu--container")
+  addClickEvent("responsive_accordion", "course-index")
+
+  function myFunction(x) {
+  x.classList.toggle("change");
+}
+
 </script>
