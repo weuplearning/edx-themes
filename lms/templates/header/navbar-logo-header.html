@@ -19,9 +19,26 @@ enterprise_customer_link = get_enterprise_learner_portal(request)
 %>
 <style>
 .global-header .header-logo a .logo {
-  width: 120%;
+  width: 300px;
   height: auto;
 }
+
+@media screen and (max-width: 1260px) {
+  .global-header .header-logo a .logo {
+  width: 220px;
+}
+}
+
+@media screen and (max-width: 1260px) {
+  .global-header .header-logo a {
+    width: 100% !important;
+}
+
+.global-header .header-logo a .logo {
+    width: 90%;
+}
+}
+
 </style>
 
 
