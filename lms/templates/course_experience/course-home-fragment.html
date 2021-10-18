@@ -353,8 +353,10 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         var assetIdUnderscored = assetId.replace(/\+/g,'_')
         var imageUrlBase = '/asset-v1:'+assetId+'+type@asset+block@banniere_'+assetIdUnderscored
         document.title = "Cours | ${HTML(course.display_name_with_default)}";
+console.log('TEST')
         var updateBanner = function (i) {
             var imageUrl = imageUrlBase+imageSuffixesArray[i]
+console.log(imageUrl)
             $.get(imageUrl)
             .done(function() {
                 // Image fund
