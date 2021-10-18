@@ -27,6 +27,10 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
 
 <style>
 
+.responsive_accordion{
+  display: none;
+}
+
   .global-header {
     background-color: #fff !important;
   }
@@ -72,6 +76,48 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
 
   .bookmark-button-wrapper{
     display: none;
+  }
+
+  @media screen and (max-width: 600px) {
+  .course-index{
+    display: none;
+    z-index: 1001;
+    position: absolute;
+  }
+
+  .responsive_accordion{
+  display: block;
+  cursor: pointer;
+  float: right;
+  margin-right: 1em;
+}
+}
+
+/* style for X menu */
+
+.containerBAr {
+    display: inline-block;
+    cursor: pointer;
+  }
+  
+  .bar1, .bar2, .bar3 {
+    width: 35px;
+    height: 5px;
+    background-color: #333;
+    margin: 6px 0;
+    transition: 0.4s;
+  }
+  
+  .change .bar1 {
+    -webkit-transform: rotate(-45deg) translate(-9px, 6px);
+    transform: rotate(-45deg) translate(-9px, 6px);
+  }
+  
+  .change .bar2 {opacity: 0;}
+  
+  .change .bar3 {
+    -webkit-transform: rotate(45deg) translate(-8px, -8px);
+    transform: rotate(45deg) translate(-8px, -8px);
   }
 
 </style>
@@ -171,6 +217,13 @@ ${HTML(fragment.foot_html())}
 
 <div class="message-banner" aria-live="polite"></div>
 
+<div id="responsive_accordion" class="containerBar responsive_accordion" onclick="myFunction(this)">
+  <div class="bar1"></div>
+  <div class="bar2"></div>
+  <div class="bar3"></div>
+</div>
+
+
 % if default_tab:
   <%include file="/courseware/course_navigation.html" />
 % else:
@@ -185,7 +238,7 @@ ${HTML(fragment.foot_html())}
   <div class="course-wrapper" role="presentation">
 
 % if disable_accordion is UNDEFINED or not disable_accordion:
-    <div class="course-index">
+    <div id="course-index" class="course-index">
 
       <div class="wrapper-course-modes">
 
@@ -358,4 +411,39 @@ ${HTML(fragment.foot_html())}
 
 <script>
   const userName = "${user_name}"
+</script>
+
+<script>
+
+  function toggleMenu (elementToDisplay) {
+    let menu = document.getElementById(elementToDisplay);
+    if (menu.style.display === "none" || !menu.style.display) {
+      menu.style.display = "block";
+    } else {
+      menu.style.display = "none";
+    }
+  }
+
+
+  function adaptDisplayToSize () {
+    let windowSize = screen.width;
+    let accordion = document.getElementById("course-index");
+    if (windowSize > 600) {
+      if (accordion.style.display === "none") {
+        accordion.style.display = "block";
+      }
+    } 
+
+  }
+
+  function addClickEvent(parent, elementToDisplay) {
+    document.getElementById(parent).addEventListener("click", () => {toggleMenu(elementToDisplay)})
+  }
+
+  addClickEvent("responsive_accordion", "course-index")
+  window.addEventListener('resize', adaptDisplayToSize);
+  
+  function myFunction(x) {
+  x.classList.toggle("change");
+}
 </script>
