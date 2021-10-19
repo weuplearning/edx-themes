@@ -15,12 +15,17 @@ from openedx.core.djangolib.js_utils import dump_js_escaped_json, js_escaped_str
 from openedx.core.djangolib.markup import HTML
 %>
 <style>
+
+  .discussion_topics_listbox{
+    overflow-y: auto !important;
+  }
     .thread-main-wrapper{
         background-color: #E7EEF4;
     }
 
     .discussion-response{
         background-color: #FEF1BA !important;
+        padding-left: 60px !important;
     }
     .container-fluid{
         display: none;
@@ -226,6 +231,10 @@ margin-top: 5px;
     font-size: 30px;
 }
 
+.discussion-post {
+    padding: 0 10px 0 60px !important;
+}
+
 .thread-main-wrapper {
     padding: 1em;
 }
@@ -287,7 +296,30 @@ margin-top: 5px;
   display: flex !important;
 }
 
+.yellow_bullet{
+  position: absolute;
+left: 13px;
+width: 35px;
+top: 15px;
+}
 
+#blue_bullet {
+    position: absolute;
+    width: 35px;
+    top: 21px;
+}
+
+.forum-nav-thread .forum-nav-thread-link.is-active {
+    background-color: #e7eef4
+}
+
+.forum-nav-thread .forum-nav-thread-link:hover {
+  background-color: #e7eef4
+}
+.forum-nav-refine-bar {
+    background-color: #3280c2;
+
+}
 </style>
 
 
@@ -454,7 +486,28 @@ margin-top: 5px;
   let responses = document.getElementsByClassName("discussion-response")
   toggleButton = document.createElement("div")
   toggleButton.innerHTML = "<div class='toggle_button'><img class='toggle_image' src =\"${static.url('bim/images/bouton-repondre.svg')}\" alt='picto valid'><p class='toggle_text'>Répondre</p></div>";
+  let answerBlock = document.getElementsByClassName("thread-content-wrapper")
 
+  function displayBullet() {
+    let parentAnswer = document.getElementsByClassName("thread-main-wrapper")[0];
+    let postFollowingAnswer = document.getElementsByClassName("thread-content-wrapper")[0];
+    let blueBullet = document.createElement("div");
+    blueBullet.id="blue_bullet"
+    blueBullet.innerHTML = "<img src =\"${static.url('bim/images/picto-bulle-bleu.svg')}\" class='blue_bullet' alt='blue bullet'>"
+
+    parentAnswer.insertBefore(blueBullet, postFollowingAnswer)
+
+    // let parentAnswerArray = document.getElementsByClassName("forum-response")
+    let responsesArray = document.getElementsByClassName("discussion-response")
+
+    let yellowBullet = document.createElement("div");
+    yellowBullet.id="yellow_bullet"
+    yellowBullet.innerHTML = "<img src =\"${static.url('bim/images/picto-bulle-jaune.svg')}\" class='yellow_bullet' alt='yellow bullet'>"
+
+    for (let i = 0; i < responsesArray.length; i++){
+      responsesArray[i].appendChild(yellowBullet.cloneNode(true))
+        };
+  }
 
   function displayToggleButton () {
       if (document.getElementsByClassName("add_a_response").length === 0) {
@@ -483,6 +536,18 @@ margin-top: 5px;
         });
   }
 
+
+  function walkText(node) {
+  if (node.nodeType == 3) {
+    node.data = node.data.replace(/000r/g, "");
+  }
+  if (node.nodeType == 1 && node.nodeName != "SCRIPT") {
+    for (var i = 0; i < node.childNodes.length; i++) {
+      walkText(node.childNodes[i]);
+    }
+  }
+}
+
   function checkifButtonisDisplayed() {
     if (document.getElementsByClassName("add_a_response").length === 0) {
       displayToggleButton();
@@ -496,7 +561,13 @@ margin-top: 5px;
     if (!document.getElementById("topic_search_bar")) {
       displayElements();
     }
+    if (!document.getElementById("blue_bullet")) {
+      displayBullet();
+    }
+    walkText(document.body);
   }
+
+
 
   function displayElements(){
     document.getElementsByClassName("search-button")[0].textContent =""
@@ -521,9 +592,11 @@ margin-top: 5px;
 
   window.addEventListener("load", displayToggleButton)
   window.addEventListener("load", displayElements)
+  window.addEventListener("load", walkText(document.body))
 
-
+  
 setInterval(function(){ checkifButtonisDisplayed(); }, 1500);
+
 
 </script>
 

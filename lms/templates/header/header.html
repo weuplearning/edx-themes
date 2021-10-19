@@ -63,12 +63,44 @@ box-shadow: none !important;
     margin: auto;
     }
 
-.header__logo__2{
-    width: 65%;
-}
 
 .global-header .hamburger-menu {
 display: none;
+}
+
+
+
+.header_container{
+    display: flex;
+    align-items: center;
+margin-bottom: 1em;
+justify-content: flex-end;
+}
+.header_logo_bracket{
+    width: 40px;
+}
+.header_text {
+    font-size: 50%;
+    width: 66%;
+    text-align: center;
+    font-size: 2.4em;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: rgb(0,91,144);
+    line-height: 45px;
+margin: 0 10px;
+}
+
+
+@media screen and (max-width: 1350px) {
+    .header_text {
+    font-size: 2em;
+}
+
+.header_logo_bracket{
+    width: 35px;
+}
+
 }
 
 @media screen and (max-width: 995px) {
@@ -82,12 +114,24 @@ display: none;
     width: 50%;
 }
 
-.header__logo__2{
-    width: 85%;
+.header_text {
+    font-size: 1.4em;
+    line-height: 22px;
 }
+.header_logo_bracket {
+    width: 18px;
 }
 
+}
 
+@media screen and (max-width: 610px) {
+    .header_text {
+    font-size: 0.8em;
+    line-height: 12px;
+    margin: 0 5px;
+}
+
+}
 
 </style>
 <header class="global-header ${'slim' if course else ''}">
@@ -101,7 +145,13 @@ display: none;
     <div class="main-header">
         <%include file="navbar-logo-header.html" args="online_help_token=online_help_token"/>
 
-        <img class="header__logo__2" src="${static.url('bim/images/outil -d-accompagement-header.png')}" alt="logo outil-accompagnement"/>
+        <!-- <img class="header__logo__2" src="${static.url('bim/images/outil -d-accompagement-header.png')}" alt="logo outil-accompagnement"/> -->
+        <div class="header_container">
+            <img class="header_logo_bracket" src="${static.url('bim/images/crochet.svg')}" alt="logo crochet"/>
+            <p class="header_text"> Outil d'accompagnement à la rédaction d'un cachier des charges</p>
+            <img class="header_logo_bracket" src="${static.url('bim/images/crochet-inverse.svg')}" alt="logo crochet"/>
+
+        </div>
 
 
         <div class="hamburger-menu" role="button" aria-label=${_("Options Menu")} aria-expanded="false" aria-controls="mobile-menu" tabindex="0">
