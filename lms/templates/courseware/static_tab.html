@@ -30,6 +30,7 @@ ${HTML(fragment.foot_html())}
 <%
 pages_without_accordion = [
   "/courses/course-v1:bim+test+test/c9e5a3ba7c6747bb8bf6347c037d6eeb/",
+  "/courses/course-v1:bim+test+test/99d39244113f456bb428151cd859c9d5/",
   "/courses/course-v1:bim+test+test/f53f90922ccd4c11ae06871cd4028177/",
   "/courses/course-v1:bim+FR+2021/c9e5a3ba7c6747bb8bf6347c037d6eeb/",
   "/courses/course-v1:bim+FR+2021/b21982c4a63e4667905f15529c7375c6/",
@@ -57,7 +58,19 @@ pages_without_accordion = [
   "/courses/course-v1:bim+FR+2021/f5414e60e270410a8e824b860dfcf792/",
   "/courses/course-v1:bim+FR+2021/56fd9addc9ec4e4884d0948d8af7fe87/",
   "/courses/course-v1:bim+FR+2021/1018ecec34a74f54ab555eec41bc7b86/",
-  "/courses/course-v1:bim+FR+2021/45bb72c140224013afeaa9464fbe10c7/"
+  "/courses/course-v1:bim+FR+2021/45bb72c140224013afeaa9464fbe10c7/",
+  "/courses/course-v1:bim+FR+2021/f747f91607bd49ce9799553a7a0c615d/",
+  "/courses/course-v1:bim+FR+2021/310389c8425e4253a6f189e264f33537/",
+  "/courses/course-v1:bim+FR+2021/1c3a1a54244b493abe193167db6ee4b7/",
+  "/courses/course-v1:bim+FR+2021/b3f9b83185204410a0f3ee19f7e98d2c/",
+  "/courses/course-v1:bim+FR+2021/4e86b1b7d3934534a8dcb692556909d7/",
+  "/courses/course-v1:bim+FR+2021/ee61cbe55e82456bb204ca075931353c/",
+  "/courses/course-v1:bim+FR+2021/116258d7460d4cedacec5d8faaf4d6dc/",
+  "/courses/course-v1:bim+FR+2021/5d11df082ee746baaf27e0f09ba59bf0/",
+  "/courses/course-v1:bim+FR+2021/81fd04530aa94085bd3843f0488ec565/",
+  "/courses/course-v1:bim+FR+2021/16a5824affd04b12bb044ec2d1627a43/",
+  "/courses/course-v1:bim+FR+2021/3ba6255baae94747bb43cf7d19bd4b1b/",
+  "/courses/course-v1:bim+FR+2021/9af8853efbea4af09ca77749d288056d/"
 
 ]
 url = request.path
@@ -445,6 +458,20 @@ width: 300px;
       .ressources_generales_images{
     margin: 1em;
 }
+
+.retour {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 60px;
+    background: rgb(52,128,195);
+}
+
+.retour_link{
+  color: #fff !important;
+  font-size: 1.4em;
+}
   
   </style>
 
@@ -465,6 +492,9 @@ width: 300px;
 
   <header id="header_admin-menu--container" class="header_admin-menu--container">
     <div class="header_admin-menu admin-menu-left" style="width: 18%;">
+      % if url in pages_without_accordion:
+        <div class="retour"><a href="javascript:window.history.go(-1)" class="retour_link">Retour</a></div>
+      % endif
     </div>
     <div class="header_admin-menu admin-menu-left">
       <a href="/courses/course-v1:bim+FR+2021/b21982c4a63e4667905f15529c7375c6/">
