@@ -29,7 +29,36 @@ ${HTML(fragment.foot_html())}
 
 <%
 pages_without_accordion = [
-  "/courses/course-v1:bim+test+test/c9e5a3ba7c6747bb8bf6347c037d6eeb/"
+  "/courses/course-v1:bim+test+test/c9e5a3ba7c6747bb8bf6347c037d6eeb/",
+  "/courses/course-v1:bim+test+test/f53f90922ccd4c11ae06871cd4028177/",
+  "/courses/course-v1:bim+FR+2021/c9e5a3ba7c6747bb8bf6347c037d6eeb/",
+  "/courses/course-v1:bim+FR+2021/b21982c4a63e4667905f15529c7375c6/",
+  "/courses/course-v1:bim+FR+2021/a59bd8651b554f20afc226397e0d69c6/",
+  "/courses/course-v1:bim+FR+2021/a6b058d81c2e4080ad64a58c795f97ce/",
+  "/courses/course-v1:bim+FR+2021/f0057554d9c2468a8b70201fabb385ad/",
+  "/courses/course-v1:bim+FR+2021/7255e5a6cf5e45eba8bedd24745febac/",
+  "/courses/course-v1:bim+FR+2021/a33dbf37fc2c4481b08db98c13ef9569/",
+  "/courses/course-v1:bim+FR+2021/c8aebe86cac94570bcdfe3b6984d3956/",
+  "/courses/course-v1:bim+FR+2021/dc3f05831e124b9c904c8b94373ff35c/",
+  "/courses/course-v1:bim+FR+2021/885548e75125425b8f1e50d47eaf1b11/",
+  "/courses/course-v1:bim+FR+2021/d799a3b04f2f48c093f57e249cc2ce21/",
+  "/courses/course-v1:bim+FR+2021/ba5176fec0b64f3b91bf60e1e56658f1/",
+  "/courses/course-v1:bim+FR+2021/ac968990d5824173b987b09a3da6ef0d/",
+  "/courses/course-v1:bim+FR+2021/95663720ec6a4364885c23472dead9c2/",
+  "/courses/course-v1:bim+FR+2021/6580f3285f404c3da6d0ca5fe30bcbb7/",
+  "/courses/course-v1:bim+FR+2021/be98c0d9b14d4be183b43fadb18e7c76/",
+  "/courses/course-v1:bim+FR+2021/aad474d73bb04fcebd1eac09b58efeb7/",
+  "/courses/course-v1:bim+FR+2021/3a2068a835ad40c6845aae356e6c7172/",
+  "/courses/course-v1:bim+FR+2021/7a65347b267c4d739fe8a7225d632958/",
+  "/courses/course-v1:bim+FR+2021/9b4692ff565e44028d33993256ffc7da/",
+  "/courses/course-v1:bim+FR+2021/2330ef7142754270939173950bcb4ee9/",
+  "/courses/course-v1:bim+FR+2021/0816b7e6fb704d3d8ac31e5f49b9e4c7/",
+  "/courses/course-v1:bim+FR+2021/115ac09bf41c4126a22c5c1122f76622/",
+  "/courses/course-v1:bim+FR+2021/f5414e60e270410a8e824b860dfcf792/",
+  "/courses/course-v1:bim+FR+2021/56fd9addc9ec4e4884d0948d8af7fe87/",
+  "/courses/course-v1:bim+FR+2021/1018ecec34a74f54ab555eec41bc7b86/",
+  "/courses/course-v1:bim+FR+2021/45bb72c140224013afeaa9464fbe10c7/"
+
 ]
 url = request.path
 %>
@@ -287,7 +316,7 @@ max-width: inherit;
       margin: 0 !important;
       padding: 0 !important;
       border-bottom: none !important;
-      font-weight: bold;
+      font-weight: bold !important;
     }
 
 
@@ -355,6 +384,25 @@ margin-right: 6px;
 margin-right: 1em;
 }
 
+.preambule_container {
+    background: #035a90;
+width: 339px;
+height: 110px;
+display: flex;
+justify-content: center;
+align-items: center;
+margin: auto;
+margin-top: 2em;
+}
+
+.preambule_link {
+    color: #fff !important;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: bold !important;
+    font-size: 1.6em !important;
+}
+
 @media screen and (max-width: 1792px) {
   .container_image{
     margin-left: 18px;
@@ -365,6 +413,34 @@ margin-right: 6px;
 }
 
 </style>
+<style>
+
+  .container_toolbox_subsection {
+      display: flex;
+      justify-content: space-evenly;
+      flex-wrap: wrap;
+  }
+  
+      .container_toolbox__subsection_link{
+          background-color: #035a90;
+          height: 115px;
+          width: 320px;
+          display: flex;
+          justify-content: center;    
+        align-items: center;
+        margin: 1em;
+        text-decoration: none;
+        color: #fff !important;
+        text-transform: uppercase;
+        font-size: 1.6em !important;
+        font-weight: bold !important;
+      }
+  
+      .ressources_generales_images{
+    margin: 1em;
+}
+  
+  </style>
 
 <main id="main" aria-label="Content" tabindex="-1">
   
