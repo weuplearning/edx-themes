@@ -1,0 +1,11 @@
+Bonjour,
+
+Nous vous confirmons votre inscription à la plate-forme.
+
+Pour accéder au programme et démarrer la formation, nous vous invitons à vous rendre sur le lien suivant avec vos identifiants ci-dessous.
+
+Lien vers la plateforme : https://www.orelie-bim.fr 
+
+Pour vous connecter, renseignez votre identifiant, ainsi que votre mot de passe.
+Identifiant: {{ email_address }}
+Mot de passe: {{ password }}
