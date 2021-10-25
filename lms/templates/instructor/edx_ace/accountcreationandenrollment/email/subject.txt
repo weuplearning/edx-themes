@@ -1,4 +1,4 @@
 {% load i18n %}
 {% autoescape off %}
-{% blocktrans %}[Becoming More Digital / PSL]{% endblocktrans %}
+{% blocktrans %}[deeptechforbusiness]{% endblocktrans %}
 {% endautoescape %}
