@@ -79,6 +79,15 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
     scrollbar-color: #005b90 #e0e0e0;
     }
 
+    .accordion::-webkit-scrollbar {
+
+  background-color: #e0e0e0; /* or add it to the track */
+}
+/* Add a thumb */
+.accordion::-webkit-scrollbar-thumb {
+    background: #005b90;
+}
+
     .sequence-bottom,
     .unit-title,
     .bookmark-button-wrapper,
