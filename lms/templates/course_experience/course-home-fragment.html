@@ -17,6 +17,7 @@ from openedx.core.djangolib.js_utils import dump_js_escaped_json, js_escaped_str
 from openedx.core.djangolib.markup import Text, HTML
 from openedx.features.course_experience import DISABLE_UNIFIED_COURSE_TAB_FLAG, SHOW_REVIEWS_TOOL_FLAG
 from openedx.features.course_experience.course_tools import HttpMethod
+from opaque_keys.edx.locator import BlockUsageLocator
 
 from lms.djangoapps.grades.course_grade import ZeroCourseGrade
 
@@ -407,6 +408,25 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         <aside class="page-content-secondary course-sidebar">
             <h4>Progress Tracking</h4>
             <div class="section" id="badges">
+
+                %if configuration_helpers.get_value('COMPLETION_BASED_DASHBOARD_MONO', False):
+                <%
+
+                progress_percentage = 0
+                total_blocks = 0
+                completed_blocks = 0
+
+                for section in course_block_tree.get('children', []):
+                  chapter_key = BlockUsageLocator.from_string(section.get("id"))
+                  for subsection in section.get('children', []):
+                    for unitchild in subsection.get('children', []):
+                      for blockchild in unitchild.get('children', []):
+                        total_blocks += 1
+                        if blockchild.get('complete'):
+                          completed_blocks += 1
+                progress_percentage = completed_blocks / total_blocks
+                %>
+
                     <div class="grade-block">       
                         <div class="grade-section-title">
                             %if user_grade.passed:
@@ -415,13 +435,49 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                                 <img src="${static.url('images/medal_off.svg')}" class="main-badge"/>
                             %endif
                             <div style="text-transform: uppercase;">${course.display_name_with_default}</div>
-                            <div class="grade-value">${int(user_grade.percent * 100)}%</div>
+                            <div class="grade-value">${int(progress_percentage * 100)}%</div>
                         </div>
                         <div class="progress-bar-full" id="final-grade-progress">
-                            <div style="width:${int(user_grade.percent * 100)}%;" class="progress-bar-grade" ></div>
+                            <div style="width:${int(progress_percentage * 100)}%;" class="progress-bar-grade" ></div>
                             
                         </div>                    
                     </div>
+
+            
+                    %else:
+                    <div class="grade-block">       
+                        <div class="grade-section-title">
+                            %if user_grade.passed:
+                                <img src="${static.url('images/medal_on.svg')}" class="main-badge" id="coursesuccess_badge"/>
+                                <script>
+                                              tippy('#coursesuccess_badge', {
+                                                      content: 'Vous avez validé les activités notées du cours.',
+                                                      placement: 'left-start'
+                                                    });
+                                </script>
+                            %else: 
+                                <img src="${static.url('images/medal_off.svg')}" class="main-badge" id="coursenotsuccess_badge"/>
+                                <script>
+                                              tippy('#coursenotsuccess_badge', {
+                                                      content: 'Vous n\'avez pas encore validé les activités notées du cours.',
+                                                      placement: 'left-start'
+                                                    });
+                                </script>
+                            %endif
+                            <div style="text-transform: uppercase;">${course.display_name_with_default}</div>
+                            <div class="grade-value">${int(user_grade.percent * 100)} / 100</div>
+                        </div>
+                        <div class="progress-bar-full" id="final-grade-progress">
+                            <div style="width:${int(user_grade.percent * 100)}%;" class="progress-bar-grade" ></div>
+                            <script>
+                                    tippy('#final-grade-progress', {
+                                          content: 'Votre note totale est de ${int(user_grade.percent * 100)}/100.',
+                                          placement: 'top'
+                                    });
+                            </script>
+                        </div>                    
+                    </div>
+                 %endif
 
                  %if configuration_helpers.get_value('COMPLETION_BASED_DASHBOARD_MONO', False):
 
