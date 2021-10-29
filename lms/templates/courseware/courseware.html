@@ -58,6 +58,7 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
       width: 100%;
       height: 100%;
   }
+
   @media (max-width: 1440px) {
       .iframe-video-container {
           height: 360px;
@@ -90,9 +91,53 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
   cursor: pointer;
   margin-left: 1em;
 }
+
+.course-wrapper{
+  display: block !important;
 }
 
-/* style for X menu */
+.toggle_display{
+  display: block;
+  animation-duration: 1s;
+  animation-name: slidein;
+  width: 100%;
+
+}
+
+.toggle_hidden{
+  display: block;
+  animation-duration: 0.5s;
+  animation-name: slideoff;
+  visibility: hidden;
+
+}
+
+
+@keyframes slidein {
+  from {
+    margin-left: -100%;
+  }
+
+  to {
+    margin-left: 0%;
+  }
+}
+
+@keyframes slideoff {
+  from {
+    margin-left: 0%;
+  }
+
+  to {
+    margin-left: -100%;
+
+  }
+}
+}
+
+
+
+
 
 .containerBAr {
     display: inline-block;
@@ -237,7 +282,7 @@ ${HTML(fragment.foot_html())}
   <div class="course-wrapper" role="presentation">
 
 % if disable_accordion is UNDEFINED or not disable_accordion:
-    <div id="course-index" class="course-index">
+    <div id="course-index" class="course-index toggle_hidden">
 
       <div class="wrapper-course-modes">
 
@@ -416,11 +461,11 @@ ${HTML(fragment.foot_html())}
 
   function toggleMenu (elementToDisplay) {
     let menu = document.getElementById(elementToDisplay);
-    if (menu.style.display === "none" || !menu.style.display) {
-      menu.style.display = "block";
-    } else {
-      menu.style.display = "none";
-    }
+
+
+    menu.classList.toggle('toggle_display')
+    menu.classList.toggle('toggle_hidden')
+
   }
 
 
@@ -428,8 +473,9 @@ ${HTML(fragment.foot_html())}
     let windowSize = screen.width;
     let accordion = document.getElementById("course-index");
     if (windowSize > 600) {
-      if (accordion.style.display === "none") {
+      if (accordion.style.display === "none" || accordion.style.visibility ==="hidden" ) {
         accordion.style.display = "block";
+        accordion.style.visibility = "inherit";
       }
     } 
 
