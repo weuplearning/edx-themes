@@ -92,9 +92,7 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
   margin-left: 1em;
 }
 
-.course-wrapper{
-  display: block !important;
-}
+
 
 .toggle_display{
   display: block;
@@ -105,10 +103,7 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
 }
 
 .toggle_hidden{
-  display: block;
-  animation-duration: 0.5s;
-  animation-name: slideoff;
-  visibility: hidden;
+display: none;
 
 }
 
@@ -123,16 +118,7 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
   }
 }
 
-@keyframes slideoff {
-  from {
-    margin-left: 0%;
-  }
 
-  to {
-    margin-left: -100%;
-
-  }
-}
 }
 
 
