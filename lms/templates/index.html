@@ -8,11 +8,28 @@ from django.urls import reverse
 from openedx.core.djangolib.markup import HTML, Text
 %>
 
+
+<style>
+.outer-wrapper {
+  background-image: url("${static.url('BVT/images/banner.jpeg')}");
+  background-size: cover;
+  max-width: 100vw !important;
+  height: calc(100vw / 5);
+  margin: 0 !important;
+  background-color: var(--secondary);
+}
+
+.content-wrapper {
+  background-image: none;
+  height: auto;
+}
+
+</style>
 <main id="main" aria-label="Content" tabindex="-1">
     <section class="home">
       <header>
         <div class="outer-wrapper">
-          <div class="title">
+          <!-- <div class="title">
             <div class="heading-group">
               % if homepage_overlay_html:
                 ${homepage_overlay_html | n, decode.utf8}
@@ -34,7 +51,7 @@ from openedx.core.djangolib.markup import HTML, Text
             % endif
 
           </div>
-
+ -->
           <%include file="index_promo_video.html" />
         </div>
 
