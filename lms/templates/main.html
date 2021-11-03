@@ -130,6 +130,14 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
           baseUrl: window.baseUrl
       });
     }).call(this, require || RequireJS.require);
+
+    // dev Cyril
+    var hidePaperForm = setInterval(() => {
+      var paperFormDiv = document.querySelector('.checkbox-paper_form');
+      paperFormDiv.setAttribute('style', 'display: none !important')
+    }, 200);
+
+
   </script>
   <script type="text/javascript" src='${static.url("lms/js/require-config.js")}'></script>
   <%block name="js_overrides">
