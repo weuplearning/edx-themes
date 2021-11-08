@@ -27,6 +27,10 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
 
 <style>
 
+  .notification-show-answer{
+    display: none !important;
+  }
+
 .responsive_accordion{
   display: none;
 }
@@ -475,4 +479,23 @@ ${HTML(fragment.foot_html())}
   function myFunction(x) {
   x.classList.toggle("change");
 }
+</script>
+
+<script>
+  window.onload =function () {
+    document.getElementsByClassName("show-label")[0].textContent = "Lire l'explication"
+  document.getElementsByClassName("show-label")[0].style.color = "#00A1E1"
+  }
+
+  let allLinks = document.querySelectorAll("a")
+
+  for (link of allLinks) {
+    if (link.innerText == "Discussion") {
+      link.style.display = "none"
+    }
+  }
+  let allSubtitles = document.getElementsByClassName("subtitle-name")
+  for (subtitle of allSubtitles) {
+      subtitle.style.display = "none"
+  }
 </script>
