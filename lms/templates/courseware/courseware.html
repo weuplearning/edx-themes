@@ -483,16 +483,19 @@ ${HTML(fragment.foot_html())}
 
 <script>
   window.onload =function () {
-    document.getElementsByClassName("show-label")[0].textContent = "Lire l'explication"
-  document.getElementsByClassName("show-label")[0].style.color = "#00A1E1"
+    if(document.getElementsByClassName("show-label").length) {
+      document.getElementsByClassName("show-label")[0].textContent = "Lire l'explication"
+      document.getElementsByClassName("show-label")[0].style.color = "#00A1E1"
+    }
   }
 
   let allLinks = document.querySelectorAll("a")
 
   for (link of allLinks) {
-    if (link.innerText == "Discussion") {
+    if (link.innerText == "Discussion" || link.innerText == "Cours\n, current location"  ) {
       link.style.display = "none"
     }
+
   }
   let allSubtitles = document.getElementsByClassName("subtitle-name")
   for (subtitle of allSubtitles) {
