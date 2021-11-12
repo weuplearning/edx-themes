@@ -34,7 +34,7 @@ from openedx.core.djangolib.markup import HTML, Text
     justify-content: space-between;
   }
   .introduction__up--movie{
-    background-image: url("/static/bim/images/screen_bim.ea12be51b673.png");
+    /* background-image: url("/static/bim/images/screen_bim.ea12be51b673.png"); */
 display: flex;
 justify-content: space-between;
 align-items: center;
@@ -233,7 +233,12 @@ a:not(.btn):hover, a:not(.btn):focus, a:visited:not(.btn):hover, a:visited:not(.
 }
 }
 
+.iframe_video{
+  position: initial;
+}
 </style>
+
+
 
 <main id="main" aria-label="Content" tabindex="-1">
     <section class="introduction">
@@ -247,13 +252,15 @@ a:not(.btn):hover, a:not(.btn):focus, a:visited:not(.btn):hover, a:visited:not(.
             <p class="introduction__subtitle">Cliquez sur COMMENCER pour débuter votre accompagnement. </p>
           </div>
         </div>
-        <div class=" introduction__up--elementintroduction_movie_and_down">
-          <a href="#">
+
+        <div class="introduction__up--elementintroduction_movie_and_down">
             <div class="introduction__up--movie">
-              <img class="introduction__up--movie--play" src="/static/bim/images/picto-play.6c9221bd028a.png" alt="logo play">
-              <!-- <p class="introduction__up--movie--text">Objectif : définir les objectifs de l'outil, rassurer l'utilisateur, inciter l'utilisateur à débuter l'accompagnement</p> -->
+              <iframe class="iframe_video" src="https://player.vimeo.com/video/636321861?h=78ecd552ea&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen="" style="width:100%;height:100%;" title="TEASER" frameborder="0">
+                            <!-- <img class="introduction__up--movie--play" src="/static/bim/images/picto-play.6c9221bd028a.png" alt="logo play"> -->
+                </div>
+              </iframe>
             </div>
-          </a>
+          <script src="https://player.vimeo.com/api/player.js"></script>
         </div>
         <a href="/login">
           <div class="introduction__up--element introduction__up--login" style="width: 200px;">
@@ -277,19 +284,17 @@ a:not(.btn):hover, a:not(.btn):focus, a:visited:not(.btn):hover, a:visited:not(.
     <section class="videos-extract">
       <div class="video-extract__up">
         <div class="video-extract-video">
-          <a href="#">
             <div class="video-extract__up-vid up__left">
-              <img class="introduction_down_logo video-extract__up__left--video" src="${static.url('bim/images/picto-play.png')}" alt="logo play"/>
+              <iframe src="https://player.vimeo.com/video/642614135?h=071783fdd0&badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="width:100%;height:100%;" title="BIM 2022 - Interview 1"></iframe>
+              <!-- <img class="introduction_down_logo video-extract__up__left--video" src="${static.url('bim/images/picto-play.png')}" alt="logo play"/> -->
             </div>
-          </a>
           <p class="video-extract__up__left_and_right--text">Retour d'expérience d'un MOA sur <span class="span_strong">la rédaction d'un cachier des charges BIM</span></p>
         </div>
         <div class="video-extract-video">
-          <a href="#">
             <div class="video-extract__up-vid up__right">
-              <img class="introduction_down_logo video-extract__up__left--video" src="${static.url('bim/images/picto-play.png')}" alt="logo play"/>
+              <iframe src="https://player.vimeo.com/video/642226207?h=4a0c67ade5&badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="width:100%;height:100%;" title="BIM 2022 - Interview 2"></iframe>
+              <!-- <img class="introduction_down_logo video-extract__up__left--video" src="${static.url('bim/images/picto-play.png')}" alt="logo play"/> -->
             </div>
-          </a>
           <p class="video-extract__up__left_and_right--text">Retour d'expérience d'un MOA sur <span class="span_strong">la rédaction d'un cachier des charges BIM</span></p>
         </div>
       </div>
