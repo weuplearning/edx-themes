@@ -8,6 +8,7 @@
 from django.urls import reverse
 from django.utils.translation import ugettext as _
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+from lms.djangoapps.courseware.access import has_access
 %>
 
 <%
@@ -61,7 +62,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
   </div>
   <div class="secondary">
     <div class="mobile-nav-item hidden-mobile nav-item">
-      %if staff_access:
+      %if bool(staff_access):
       <a class="help-link" href="/wul_apps/dashboard/home" rel="noopener" target="_blank" style="margin-right:15px">Espace administrateur</a> 
       %endif
       <a class="help-link" href="${help_link}" rel="noopener" target="_blank">${_("Help")}</a>

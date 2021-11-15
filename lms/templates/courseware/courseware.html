@@ -28,6 +28,9 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
     background: url("${static.url('{}/images/bg_img.png'.format(course.org))}");
     background-size: contain;
   }
+  .openedxscorm_block > p{
+    display: none;
+  }
 </style>
 
 % if display_reset_dates_banner:
@@ -186,7 +189,7 @@ ${HTML(fragment.foot_html())}
                         <div class="breadcrumbs">
                             % if not DISABLE_COURSE_OUTLINE_PAGE_FLAG.is_enabled(course.id):
                                 <span class="nav-item nav-item-course">
-                                    <a href="${course_url}">${course_home_page_title(course)}</a>
+                                    <a href="${course_url}">${course.display_name_with_default}</a>
                                 </span>
                                 <span class="icon fa fa-angle-right" aria-hidden="true"></span>
                             % endif
@@ -311,3 +314,5 @@ ${HTML(fragment.foot_html())}
   });
 
 </%static:require_module_async>
+<!--WUL TIME TRACKING-->
+<%include file="/wul_apps/wul_time_tracking.html" />

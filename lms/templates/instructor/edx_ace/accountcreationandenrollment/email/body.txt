@@ -1,18 +1,17 @@
-Hello,
+Bonjour {{  full_name  }},
 
-You are now registered for the Linking Cities distance learning program.
+Vous avez été invité à rejoindre {{ course_name }} sur {{  site_name  }} par un membre de l'équipe pédagogique de ce cours.
 
-To start the program please click the link below:
+Pour rejoindre le cours veuillez utiliser le lien ci-dessous :
 
-URL: https://distancelearning.netexplolinkingcities.com/
+https://{{site_name}}
 
-Then type in your email address and the following password:
+Et renseignez votre email ainsi que votre mot de passe :
 
 Login: {{ email_address }}
 Password: {{ password }}
 
-If you encounter any issues, please contact Marie-Jo Cousin at mjcousin@netexplo.org.
+Pour toutes questions ou en cas de problème, n'hésitez pas à nous contacter à l'adresse : e-ferro@ciffco.com
 
-Best regards,
-
-Netexplo/ESCP Business School
+Cordialement,
+L'équipe e-ferro

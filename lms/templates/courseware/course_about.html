@@ -112,8 +112,6 @@ from six import string_types
             <a href="${course_target}">
           %endif
 
-          <span class="register disabled">${_("You are enrolled in this course")}</span>
-
           %if show_courseware_link:
             <strong id="buttonViewCourse">${_("View Course")}</strong>
             </a>
@@ -358,5 +356,8 @@ from six import string_types
   }
   .course-info .course-sidebar header .social-sharing {
     padding-top: 10px;
+  }
+  #buttonViewCourse {
+    margin-top: 0;
   }
 </style>

@@ -35,63 +35,36 @@
   }
 </style>
 
-% if uses_bootstrap:
   <div class="container-fluid wrapper-footer">
     <footer>
       <div class="row">
         <div class="col-md-9">
           <nav class="navbar site-nav navbar-expand-sm" aria-label="${_('CGU')}">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="/honor">Term of use</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/tos">Legal</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/privacy">Privacy</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/about">Credits</a>
-              </li>
-            </ul>
+              <div>
+                                <a href="https://www.ciffco.com/fr/accueil" target="_blank">
+                                        <img
+                                                src="/media/microsites/e-ferro/homepage/images/logo-ciffco-blanc-700.png" width="60" height="48"
+                                                alt="CIFFCO"/>
+                                </a>
+                        </div>
+                        <div style="text-align:center;"><a href="mailto:e-ferro@ciffco.com"><span>Contactez-nous</span></a></div>
+                        <div style="text-align:center;"><a href="/tos"><span>Conditions générales</span></a></div>
           </nav>
         </div>
         <div class="col-md-3"></div>
       </div>
     </footer>
   </div>
-% else:
-  <div class="wrapper wrapper-footer">
-    <footer id="footer-openedx" class="grid-container"
-      ## When rendering the footer through the branding API,
-      ## the direction may not be set on the parent element,
-      ## so we set it here.
-      % if bidi:
-        dir=${bidi}
-      % endif
-    >
-      <div class="colophon">
-        <nav class="nav-colophon" aria-label="${_('CGU')}">
-          <ol>
-              <li class="nav-item">
-                <a class="nav-link" href="/honor">Term of use</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/tos">Legal</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/privacy">Privacy</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/about">Credits</a>
-              </li>
-          </ol>
-        </nav>
-      </div>
-    </footer>
-  </div>
-% endif
+<style>
+.site-nav > div {
+    text-align: left;
+    display: inline-block;
+}
+.site-nav a {
+  color: white !important;
+  margin: 0 20px;
+}
+</style>
 % if include_dependencies:
   <%static:js group='base_vendor'/>
   <%static:css group='style-vendor'/>
