@@ -118,8 +118,9 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
       background-image: url("${static.url('bvt/images/Background.jpg')}");
       /* background-image: url("${static.url('BVT/images/Background.jpg')}"); */
       background-size: cover;
-      height: calc( 100vh - (75px + 72px) );
+      min-height: calc( 100vh - (100px + 72px) );
       margin-top: 0;
+      box-sizing: border-box;
     }
   </style>
 
@@ -130,13 +131,6 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
           baseUrl: window.baseUrl
       });
     }).call(this, require || RequireJS.require);
-
-    // dev Cyril
-    var hidePaperForm = setInterval(() => {
-      var paperFormDiv = document.querySelector('.checkbox-paper_form');
-      paperFormDiv.setAttribute('style', 'display: none !important')
-    }, 200);
-
 
   </script>
   <script type="text/javascript" src='${static.url("lms/js/require-config.js")}'></script>
