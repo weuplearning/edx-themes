@@ -483,9 +483,16 @@ ${HTML(fragment.foot_html())}
 
 <script>
   window.onload =function () {
-    if(document.getElementsByClassName("show-label").length) {
-      document.getElementsByClassName("show-label")[0].textContent = "Lire l'explication"
-      document.getElementsByClassName("show-label")[0].style.color = "#00A1E1"
+    for (let i = 0; i < document.getElementsByClassName("show-label").length; i++) {
+
+      if (document.getElementsByClassName("show-label")[i].textContent != 'Voir la réponse') {
+        document.getElementsByClassName("show-label")[i].textContent = "Read the explanation"
+        document.getElementsByClassName("show-label")[i].style.color = "#00A1E1"
+
+      } else {
+        document.getElementsByClassName("show-label")[i].textContent = "Lire l'explication"
+        document.getElementsByClassName("show-label")[i].style.color = "#00A1E1"
+      } 
     }
   }
 
