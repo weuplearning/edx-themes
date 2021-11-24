@@ -1,0 +1,4 @@
+{% load i18n %}
+{% autoescape off %}
+{% blocktrans %}[Becoming more digital] Votre accès à la plateforme de formation{% endblocktrans %}
+{% endautoescape %}
