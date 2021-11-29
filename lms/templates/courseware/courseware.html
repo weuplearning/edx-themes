@@ -25,6 +25,10 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
 
 <style>
 
+.wrapper-course-material{
+  display: none !important;
+}
+
 
 .responsive_menu{
   display: none;
@@ -71,6 +75,7 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
         width: 100%;
       text-align: center !important;
       font-size: 18px;
+      font-weight: bold !important;
     }
 
     .accordion{
@@ -128,11 +133,15 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
 margin-top: 5px;
 }
 
+.admin-menu__list--button_text{
+  font-weight: bold;
+}
+
 .admin-menu__list--element_text{
   text-transform: uppercase;
   color: rgb(0,91,144);
   font-weight: bold;
-  font-size: 1.8em;
+  font-size: 1.9em;
   padding-bottom: 5px;
 }
 
@@ -274,6 +283,28 @@ margin-top: 5px;
 }
 } */
 
+.openedxscorm_block{
+  margin: auto;
+  width: 88%;
+}
+.js-button-full-screen{
+  background: #005b90;
+    color: #fff;
+    box-shadow: none;
+    text-shadow: none;
+    border: none;
+
+}
+
+.sequence-nav{
+ top: 450px;
+}
+
+#couleur-fond-cours{
+  width: 88%;
+  margin: auto;
+}
+
 </style>
 
 <!-- style for X menu -->
@@ -303,6 +334,8 @@ margin-top: 5px;
     transform: rotate(45deg) translate(-8px, -8px);
   }
   </style>
+
+  
 
 % if display_reset_dates_banner:
     <script type="text/javascript">
@@ -459,8 +492,8 @@ ${HTML(fragment.foot_html())}
         <p class="admin-menu__list--button_text">Espace utilisateur</p>
       </div>
       <div id="user_menu_items" class="user_menu" style="display: none;" >
-        <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="${reverse('dashboard')}" role="menuitem">${_("Dashboard")}</a></div> <hr>
-        <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="${reverse('account_settings')}" role="menuitem">${_("Account")}</a></div> <hr>
+        <!-- <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="${reverse('dashboard')}" role="menuitem">${_("Dashboard")}</a></div> <hr> -->
+        <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="${reverse('account_settings')}" role="menuitem">Mon compte</a></div> <hr>
         <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="${reverse('logout')}" role="menuitem">${_("Sign Out")}</a></div>
       </div>
     </div>
@@ -664,4 +697,26 @@ ${HTML(fragment.foot_html())}
 <script>
   $('#amazonfreetextcomment').hide()
   $('.wrapper-course-material').hide()
+
+  let fullScreenButton = document.getElementsByClassName("full-screen-on")
+  // let fullScreenOffButton = document.getElementsByClassName("full-screen-on")
+
+  var checkExist = setInterval(function() {
+   if (fullScreenButton.length) {
+      fullScreenButton[0].textContent="Plein écran";
+      clearInterval(checkExist);
+   }
+}, 50);
+
+// let checkfullScreenExist = setInterval(function() {
+//    if (fullScreenOffButton.length) {
+//       fullScreenOffButton[0].textContent="Quitter le plein écran";
+//       clearInterval(checkExist);
+//    }
+// }, 50);
+
+// fullScreenButton[0].addEventListener("click", checkfullScreenExist)
+// fullScreenOffButton[0].addEventListener("click", checkExist)
+
+
 </script>

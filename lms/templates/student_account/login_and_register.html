@@ -11,6 +11,10 @@
 
 <%block name="pagetitle">${_("Sign in or Register")}</%block>
 <style>
+h2, .home > header .title > .heading-group p, section.outside-app h1 {
+    font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif !important;
+}
+
   input[type="submit"], input[type="button"], button, .button {
     box-shadow: none !important;
     background-color: var(--primary);
@@ -99,6 +103,10 @@ margin: auto;
 .checkbox-terms_of_service,
 .checkbox-honor_code{
     display: flex;
+}
+
+.register_link{
+    margin-top: 1em;
 }
 </style>
 <%block name="js_extra">

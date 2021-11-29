@@ -129,7 +129,8 @@ show_preview_menu = course and can_masquerade and supports_preview_menu
                                 'container',
                                 blockId,
                               ].join('/');
-                              url = "https://studio.weup.in/container/"+blockId
+                              alert(this.dataset.studioBaseUrl)
+                              alert(url)
                               window.location.href = url;
                               return false;
                           }

@@ -29,6 +29,7 @@ ${HTML(fragment.foot_html())}
 
 <%
 pages_without_accordion = [
+"/courses/course-v1:bim+test+test/b21982c4a63e4667905f15529c7375c6/",
   "/courses/course-v1:bim+test+test/c9e5a3ba7c6747bb8bf6347c037d6eeb/",
   "/courses/course-v1:bim+test+test/99d39244113f456bb428151cd859c9d5/",
   "/courses/course-v1:bim+test+test/f53f90922ccd4c11ae06871cd4028177/",
@@ -78,6 +79,10 @@ url = request.path
 
 <style>
 
+.wrapper-course-material{
+  display: none !important;
+}
+
 .responsive_menu{
   display: none;
 }
@@ -110,6 +115,7 @@ url = request.path
         width: 100%;
       text-align: center !important;
       font-size: 18px;
+      font-weight: bold !important;
     }
 
   /* admin menu right */
@@ -139,7 +145,7 @@ margin-top: 5px;
   text-transform: uppercase;
   color: rgb(0,91,144);
   font-weight: bold;
-  font-size: 1.8em;
+  font-size: 1.9em;
   padding-bottom: 5px;
 }
 
@@ -184,6 +190,10 @@ margin-top: 5px;
   border-bottom: 1px solid rgb(0,91,144);
 }
 
+.admin-menu__list--button_text{
+  font-weight: bold;
+}
+
 
 .user_menu{
   border: 1px solid black;
@@ -191,6 +201,10 @@ margin-top: 5px;
   margin-top: -15px;
   padding-right: 47px;
   padding-top: 16px;
+  margin-left: 15px;
+  position: absolute;
+  z-index: 10;
+  background: white 
 }
 
 .dropdown-nav-item{
@@ -231,7 +245,7 @@ max-width: inherit;
 }
 
 .container > div {
-    width: auto !important;
+    /* width: auto !important; */
     border: none !important;
 }
 
@@ -293,6 +307,9 @@ max-width: inherit;
   cursor: pointer;
   margin-left: 1em;
 }
+.container_middle {
+    width: 100% !important;
+}
 }
 </style>
 
@@ -332,6 +349,11 @@ max-width: inherit;
         color: rgb(0,91,144) !important;
         text-align: center;
         margin-bottom: 0 !important;
+    }
+
+    .subsection_title{
+      font-size: 1.6em !important;
+      font-weight: bold !important;
     }
 
     .section_title{
@@ -479,11 +501,35 @@ width: 300px;
 
 .retour_link{
   color: #fff !important;
-  font-size: 1.4em;
+  font-size: 1.4em !important;
+  font-weight: bold !important;
 }
+
+
+% if url not in pages_without_accordion:
+.static_tab_wrapper{
+    width: 86% !important;
+  }
+
+% endif
   
   </style>
 
+<!-- accordion comment ça marche -->
+<style>
+  .container_toggle_xscorm{
+      display: none;
+  }
+  
+  .title_toggle_xscorm{
+      cursor: pointer;
+  }
+  .show_content{
+      display: block;
+  }
+
+
+  </style>
 <main id="main" aria-label="Content" tabindex="-1">
   
 
@@ -506,12 +552,14 @@ width: 300px;
       % endif
     </div>
     <div class="header_admin-menu admin-menu-left">
+      % if url != "/courses/course-v1:bim+FR+2021/b21982c4a63e4667905f15529c7375c6/":
       <a href="/courses/course-v1:bim+FR+2021/b21982c4a63e4667905f15529c7375c6/">
         <div class="admin-menu__list--element">
           <img style="width: 40px;" class="admin-menu--img" src="${static.url('bim/images/picto-boite-a-outils.svg')}" alt="logo boite à outils" id="toolbox-logo"/>
           <p class="admin-menu__list--element_text list-element-left">Boite à outils</p>
         </div>
       </a>
+      % endif
       <a href="/courses/course-v1:bim+FR+2021/discussion/forum/">
         <div class="admin-menu__list--element">
           <img style="width: 40px;" class="admin-menu--img" src="${static.url('bim/images/picto-forum.svg')}" alt="logo forum" id="toolbox-logo"/>
@@ -536,8 +584,8 @@ width: 300px;
           <p class="admin-menu__list--button_text">Espace utilisateur</p>
         </div>
         <div id="user_menu_items" class="user_menu" style="display: none;" >
-          <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="/home" role="menuitem">${_("Dashboard")}</a></div> <hr>
-          <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="/account/settings" role="menuitem">${_("Account")}</a></div> <hr>
+          <!-- <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="/home" role="menuitem">${_("Dashboard")}</a></div> <hr> -->
+          <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="/account/settings" role="menuitem">Mon compte</a></div> <hr>
           <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="/logout" role="menuitem">${_("Sign Out")}</a></div>
         </div>
       </div>
@@ -622,3 +670,19 @@ width: 300px;
 }
 
 </script>
+
+<!-- accordion comment ça marche -->
+<script>
+
+  window.addEventListener("load", function(event) {
+      let toggleTitle = document.getElementsByClassName("title_toggle_xscorm")
+          let toggleContainer  = document.getElementsByClassName("container_toggle_xscorm")
+
+          for (let i =0; i < toggleTitle.length; i++){
+              toggleTitle[i].addEventListener("click", function(){
+                  toggleContainer[i].classList.toggle("show_content")
+              });
+          }
+  });
+
+  </script>

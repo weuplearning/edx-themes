@@ -10,6 +10,9 @@ from openedx.core.djangolib.markup import HTML, Text
 
 
 <style>
+p{
+  color: #000;
+}
 
 .introduction__up--elementintroduction_movie_and_down{
   margin-top: 60px;
@@ -18,7 +21,7 @@ from openedx.core.djangolib.markup import HTML, Text
   .introduction__up--text{
     display: flex;
     padding: 15px 0 0 30px;
-    align-items: flex-start;
+    align-items: center;
   }
   .admin-menu--img{
     width: 40px;
@@ -157,13 +160,16 @@ margin-bottom: 30px;
   margin-top: -20px;
 }
 
+body {
+    font-size: 1.05rem !important;
+}
 .introduction_down_logo{
   width: 70px;
 }
 
 .video-extract__up__left_and_right--text{
   color: rgb(52,128,195);
-    width: 80%;
+    width:78%;
     margin: auto;
     text-align: center;
     margin-top: 25px;
@@ -236,6 +242,11 @@ a:not(.btn):hover, a:not(.btn):focus, a:visited:not(.btn):hover, a:visited:not(.
 .iframe_video{
   position: initial;
 }
+
+.introduction_bold{
+  font-size: 20px;
+  font-weight: bold;
+}
 </style>
 
 
@@ -246,10 +257,9 @@ a:not(.btn):hover, a:not(.btn):focus, a:visited:not(.btn):hover, a:visited:not(.
         <div class="introduction__up--element introduction__up--text">
           <img class="introduction__up--text--bracket" src="${static.url('bim/images/crochet.svg')}" alt="crochet"/>
           <div class="introduction__up--text--text">
-            <p class="introduction__title">Paragraphe introductif</p>
             <p class="introduction__subtitle">Vous souhaitez cadrer votre démarche et vos exigences BIM ? Comprendre et définir des usages clairs pour vos livrables et maquettes numériques ? Prenez en main la rédaction de votre cahier des charges BIM grâce à ORELIE.</p>
             <p class="introduction__subtitle">Pensé pour toutes les maîtrises d’ouvrage, cet outil va au-delà d’un simple guide numérique. Vidéos et présentations interactives, ORELIE vous permet d’avoir des indications de rédaction claires pour chaque partie de votre document.</p>
-            <p class="introduction__subtitle">Cliquez sur COMMENCER pour débuter votre accompagnement. </p>
+            <p class="introduction__subtitle introduction_bold">Cliquez sur COMMENCER pour débuter votre accompagnement. </p>
           </div>
         </div>
 
@@ -288,14 +298,14 @@ a:not(.btn):hover, a:not(.btn):focus, a:visited:not(.btn):hover, a:visited:not(.
               <iframe src="https://player.vimeo.com/video/642614135?h=071783fdd0&badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="width:100%;height:100%;" title="BIM 2022 - Interview 1"></iframe>
               <!-- <img class="introduction_down_logo video-extract__up__left--video" src="${static.url('bim/images/picto-play.png')}" alt="logo play"/> -->
             </div>
-          <p class="video-extract__up__left_and_right--text">Retour d'expérience d'un MOA sur <span class="span_strong">la rédaction d'un cachier des charges BIM</span></p>
+          <p class="video-extract__up__left_and_right--text">Entretien avec Christophe LHEUREUX, directeur délégué à l'innovation chez immobilier 3f</p>
         </div>
         <div class="video-extract-video">
             <div class="video-extract__up-vid up__right">
               <iframe src="https://player.vimeo.com/video/642226207?h=4a0c67ade5&badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="width:100%;height:100%;" title="BIM 2022 - Interview 2"></iframe>
               <!-- <img class="introduction_down_logo video-extract__up__left--video" src="${static.url('bim/images/picto-play.png')}" alt="logo play"/> -->
             </div>
-          <p class="video-extract__up__left_and_right--text">Retour d'expérience d'un MOA sur <span class="span_strong">la rédaction d'un cachier des charges BIM</span></p>
+          <p class="video-extract__up__left_and_right--text">Entretien avec Eymeric Viguié, chargé de mission sur le BIM à la direction de l'immobilier de l'état</span></p>
         </div>
       </div>
     </section>
