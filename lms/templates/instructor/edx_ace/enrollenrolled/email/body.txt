@@ -1,0 +1,25 @@
+{% if course_key == 'course-v1:bmd+FR+2021'%}
+
+Bonjour,
+
+Nous vous confirmons votre inscription à la formation Becoming More Digital du 2 et 3 décembre 2021 proposée par l'Université PSL et Netexplo.
+
+Pour accéder au programme et démarrer la formation, rendez-vous sur https://formationadistance.becomingmoredigital.com puis cliquez sur le bouton "connexion" et entrez votre adresse email et votre mot de passe.
+En cas d'oubli de mot de passe vous pouvez cliquer sur "Mot de passe oublié".
+
+Pour toutes questions, n'hésitez pas à contacter Esther à learning@netexplo.org.
+
+Bien à vous,
+
+L’équipe de formation Netexplo
+
+{% else %}
+
+You have been enrolled in {{ course_name }} at {{ site_name }} by a member of the course staff. This course will now appear on your {{ site_name }} dashboard.
+
+To start accessing course materials, please visit {{ course_url }}
+
+----
+This email was automatically sent from {{ site_name }} to {{ full_name }}
+
+{% endif %}
