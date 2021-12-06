@@ -24,6 +24,13 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
 %>
 
 <style>
+.course-index{
+  display: none;
+}
+
+.class-accordion-display {
+  display: block;
+}
 
 .wrapper-course-material{
   display: none !important;
@@ -695,28 +702,50 @@ ${HTML(fragment.foot_html())}
 </script>
 
 <script>
+    let accordion = document.getElementById("course-index");
+var checkExistAccordion = setInterval(function() {
+   if (accordion) {
+    accordion.classList.add("class-accordion-display");
+      clearInterval(checkExistAccordion);
+   }
+  }, 10);
+
   $('#amazonfreetextcomment').hide()
   $('.wrapper-course-material').hide()
 
+  let buttonFullExist = false
+  let buttonFullOffExist = false
+
   let fullScreenButton = document.getElementsByClassName("full-screen-on")
-  // let fullScreenOffButton = document.getElementsByClassName("full-screen-on")
+  let fullScreenOffButton = document.getElementsByClassName("full-screen-off")
 
   var checkExist = setInterval(function() {
    if (fullScreenButton.length) {
       fullScreenButton[0].textContent="Plein écran";
+      buttonFullExist = true
+      buttonFullOffExist = true
       clearInterval(checkExist);
    }
 }, 50);
 
-// let checkfullScreenExist = setInterval(function() {
-//    if (fullScreenOffButton.length) {
-//       fullScreenOffButton[0].textContent="Quitter le plein écran";
-//       clearInterval(checkExist);
-//    }
-// }, 50);
 
-// fullScreenButton[0].addEventListener("click", checkfullScreenExist)
-// fullScreenOffButton[0].addEventListener("click", checkExist)
+let checkfullScreenExist = setInterval(function() {
+   if (fullScreenOffButton.length) {
+      fullScreenOffButton[0].textContent="Quitter le plein écran";
+      clearInterval(checkExist);
+   }
+}, 50);
+
+var checkButtonExist = setInterval(function() {
+   if (buttonFullExist) {
+    fullScreenButton[0].addEventListener("click", checkExist)
+   }
+   if (buttonFullOffExist) {
+    fullScreenButton[0].addEventListener("click", checkfullScreenExist)
+   }
+
+}, 50);
+
 
 
 </script>
