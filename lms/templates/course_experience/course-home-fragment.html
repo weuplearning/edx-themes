@@ -493,7 +493,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                                     <div class="grade-section-title">
                                             <img src="${static.url('images/medal_off.svg')}" class="small-badge"/>
                                         <div class="chapter-title" >${section['display_name']}</div>
-                                        <!-- <div class="grade-value">${int(user_grade.percent * 100)}%</div> -->
+                                        <div class="grade-value">${int(user_grade.percent * 100)}%</div>
                                     </div>
                                     <div class="progress-bar-full">
                                         <div style="width:${int(user_grade.percent * 100)}%;" class="progress-bar-grade"></div>
