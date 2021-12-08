@@ -4,6 +4,8 @@
 
 {% blocktrans %}To start accessing course materials, please visit {{ course_url }}{% endblocktrans %}
 
+{% blocktrans %}Pour toutes questions ou en cas de problème, n'hésitez pas à nous contacter à l'adresse : e-ferro@ciffco.com {% endblocktrans %}
+
 ----
 {% blocktrans %}This email was automatically sent from {{ site_name }} to {{ full_name }}{% endblocktrans %}
 {% endautoescape %}

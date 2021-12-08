@@ -472,7 +472,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
                     % for section in course_block_tree.get('children'):
                       <%
-                      total_blocks = 1
+                      total_blocks = 0
                       completed_blocks = 1
                       if not section.get('complete'):
                         total_blocks = 1
