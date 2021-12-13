@@ -460,7 +460,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
                     <div class="grade-block">    
                         <div class="grade-section-title">
-                                <img src="${static.url('images/medal_off.svg')}" class="main-badge"/>
+                                <!-- <img src="${static.url('images/medal_off.svg')}" class="main-badge"/> -->
                             <div style="text-transform: uppercase;">${course.display_name_with_default}</div>
                             <!-- <div class="grade-value">${int(progress_percentage * 100)}%</div> -->
                         </div>
@@ -491,7 +491,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                             % if section.get("display_name") == "Evaluation":
                                 <div class="grade-block">
                                     <div class="grade-section-title">
-                                            <img src="${static.url('images/medal_off.svg')}" class="small-badge"/>
+                                            <!-- <img src="${static.url('images/medal_off.svg')}" class="small-badge"/> -->
                                         <div class="chapter-title" >${section['display_name']}</div>
                                         <div class="grade-value">${int(user_grade.percent * 100)}%</div>
                                     </div>
@@ -502,7 +502,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                             % else :
                                 <div class="grade-block">
                                     <div class="grade-section-title">
-                                            <img src="${static.url('images/medal_off.svg')}" class="small-badge"/>
+                                            <!-- <img src="${static.url('images/medal_off.svg')}" class="small-badge"/> -->
                                         <div class="chapter-title" >${section['display_name']}</div>
                                         <!-- <div class="grade-value">${int(completion_ratio * 100)}%</div> -->
                                     </div>
@@ -533,7 +533,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                         <script>console.log("${user_grade.chapter_percentage(chapter)}")</script>
                         <div class="grade-block">
                             <div class="grade-section-title">
-                                    <img src="${static.url('images/medal_off.svg')}" class="small-badge"/>
+                                    <!-- <img src="${static.url('images/medal_off.svg')}" class="small-badge"/> -->
                                 <div class="chapter-title" >${user_grade.chapter_grades[chapter]['display_name']}</div>
                                 <!-- <div class="grade-value">${int(user_grade.chapter_percentage(chapter) * 100)}%</div> -->
                             </div>
