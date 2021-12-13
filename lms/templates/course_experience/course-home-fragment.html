@@ -455,6 +455,8 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                             total_blocks += 1
                             if blockchild.get('complete'):
                               completed_blocks += 1
+                    if total_blocks == 0:
+                      total_blocks = 1
                     progress_percentage = completed_blocks / total_blocks
                  %>
 
