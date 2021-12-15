@@ -22,12 +22,19 @@ from lms.djangoapps.grades.course_grade import ZeroCourseGrade
 
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 
+courses_with_grades = []
+chapters_var = []
 %>
 
 <%block name="header_extras">
   <link rel="stylesheet" type="text/css" href="${static.url('paragon/static/paragon.min.css')}" />
   <link rel="stylesheet" type="text/css" href="${static.url('weup/css/animate-4.1.1.min.css')}" />
   <style>
+
+    .border-bottom{
+        border-bottom: 1px darkgray solid;
+        margin-bottom: 1em;
+    }
     header.page-header.has-secondary{
         background-color: var(--primary);
         padding-top: 10px !important;
@@ -440,9 +447,9 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
         <aside class="page-content-secondary course-sidebar">
             <h4>Ma progression</h4>
+
             <div class="section" id="badges">
 
-                 %if configuration_helpers.get_value('COMPLETION_BASED_DASHBOARD_MONO', False):
                  <%
                     progress_percentage = 0
                     total_blocks = 0
@@ -451,15 +458,28 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                     for section in course_block_tree.get('children', []):
                       for subsection in section.get('children', []):
                         for unitchild in subsection.get('children', []):
-                          for blockchild in unitchild.get('children', []): 
+                          for blockchild in unitchild.get('children', []):
                             total_blocks += 1
                             if blockchild.get('complete'):
                               completed_blocks += 1
                     if total_blocks == 0:
                       total_blocks = 1
                     progress_percentage = completed_blocks / total_blocks
-                 %>
+                    
 
+                    grades = []
+                    grades_sections = []
+                    section_graded = []
+                    for index, chapter in enumerate(user_grade.chapter_grades.keys()):
+                      possible = 0.0
+                      chapter_grade = user_grade.chapter_grades[chapter]
+                      grades.append(chapter_grade)
+                      for section in chapter_grade['sections']:
+                        grades_sections.append(section)
+                        possible += section.graded_total.possible
+                        section_graded.append(section.graded_total)
+                 %>
+    
                     <div class="grade-block">    
                         <div class="grade-section-title">
                                 <!-- <img src="${static.url('images/medal_off.svg')}" class="main-badge"/> -->
@@ -489,19 +509,9 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                        total_blocks = 1
                       completion_ratio = completed_blocks / total_blocks                      
                       %>
+
+
                         % if section.get("display_name") != "Introduction":
-                            % if section.get("display_name") == "Evaluation":
-                                <div class="grade-block">
-                                    <div class="grade-section-title">
-                                            <!-- <img src="${static.url('images/medal_off.svg')}" class="small-badge"/> -->
-                                        <div class="chapter-title" >${section['display_name']}</div>
-                                        <div class="grade-value">${int(user_grade.percent * 100)}%</div>
-                                    </div>
-                                    <div class="progress-bar-full">
-                                        <div style="width:${int(user_grade.percent * 100)}%;" class="progress-bar-grade"></div>
-                                    </div>                    
-                                </div>
-                            % else :
                                 <div class="grade-block">
                                     <div class="grade-section-title">
                                             <!-- <img src="${static.url('images/medal_off.svg')}" class="small-badge"/> -->
@@ -512,15 +522,12 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                                         <div style="width:${completion_ratio * 100}%;" class="progress-bar-grade"></div>
                                     </div>
                                 </div>
-                            % endif
 
                         %endif
-
                     %endfor
 
-
-                 %else:
-
+                    <h4>Mes scores</h4>
+                    
                     %for index, chapter in enumerate(user_grade.chapter_grades.keys()):
                         <%
                         possible = 0.0
@@ -529,24 +536,15 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                             possible += section.graded_total.possible
                         %>
                         %if possible > 0.0:
-                        <script>console.log("${user_grade}")</script>
-                        <script>console.log("${chapter_grade}")</script>
-                        <script>console.log("${user_grade.chapter_grades[chapter]['sections']}")</script>
-                        <script>console.log("${user_grade.chapter_percentage(chapter)}")</script>
                         <div class="grade-block">
-                            <div class="grade-section-title">
-                                    <!-- <img src="${static.url('images/medal_off.svg')}" class="small-badge"/> -->
+                            <div class="grade-section-title border-bottom">
                                 <div class="chapter-title" >${user_grade.chapter_grades[chapter]['display_name']}</div>
-                                <!-- <div class="grade-value">${int(user_grade.chapter_percentage(chapter) * 100)}%</div> -->
-                            </div>
-                            <div class="progress-bar-full">
-                                <div style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade"></div>
-                            </div>                    
+                                <div class="grade-value">${int(user_grade.chapter_percentage(chapter) * 100)}%</div>
+                            </div>                   
                         </div>
                         %endif
                     %endfor
 
-                 %endif
             </div>
         </aside>
     </div>
