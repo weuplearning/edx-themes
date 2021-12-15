@@ -42,8 +42,11 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         margin-left: 5px;
         background: white !important;
     }
-    .global-header .header-logo .course-header, a.help-link{
+    .global-header .header-logo .course-header {
         display:none !important;
+    }
+    a.help-link {
+        margin-right: 15px;
     }
 
     .course-outline .block-tree .outline-button .fa {
@@ -368,9 +371,9 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
                 % if resume_course_url:
                     <a class="btn btn-secondary action-resume-course" href="${resume_course_url}">
                         % if has_visited_course:
-                            <span data-action-type="resume">${_("Resume Course")}</span>
+                            <span data-action-type="resume">Reprendre le test</span>
                         % else:
-                            <span data-action-type="start">${_("Start Course")}</span>
+                            <span data-action-type="start">Commencer le test</span>
                         % endif
                     </a>
                 % endif

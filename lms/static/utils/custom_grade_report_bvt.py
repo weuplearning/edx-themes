@@ -1,0 +1,286 @@
+
+import sys
+
+import json
+import six
+from collections import OrderedDict
+import time
+from io import BytesIO
+import os
+
+
+
+from opaque_keys.edx.locator import CourseLocator
+from common.djangoapps.student.models import CourseEnrollment
+from courseware.courses import get_course_by_id
+from lms.djangoapps.grades.context import grading_context_for_course
+from lms.djangoapps.courseware.user_state_client import DjangoXBlockUserStateClient
+
+from openpyxl import Workbook
+
+
+import smtplib
+
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+
+from email import encoders
+
+
+import logging
+log = logging.getLogger()
+
+
+
+# course_ids = ['course-v1:BVT+converted+2021']
+course_ids = ['course-v1:BVT+01+2021']
+emails =[ 'cyril.adolf@weuplearning.com']
+
+all_users_data = {}
+
+log.info('Begin fetching user data and answers')
+
+for course_id in course_ids:
+
+  course_key = CourseLocator.from_string(course_id)
+  log.info(course_key)
+  log.info(dir(course_key))
+
+  course = get_course_by_id(course_key)
+  log.info(course)
+  log.info(dir(course))
+  
+  course_enrollments = CourseEnrollment.objects.filter(course_id=course_key)
+
+  log.info(len(course_enrollments))
+  log.info(course_enrollments)
+
+  for i in range(len(course_enrollments)):
+    user = course_enrollments[i].user
+    log.info(user)
+    user_data = {}        
+
+    bugged = ['bvt10112_encRg','bvt1011_t9M4C', 'alex_staff']
+    if str(user) in bugged:
+      log.info('break')
+      continue
+    
+    # Update object with user data without grades
+    try:
+      user_data["username"] = user.username
+    except:
+      try:
+        user_data["username"] = json.loads(user.profile.custom_field)['username']
+      except:
+        user_data["username"] = 'n.a.'
+
+    try:
+      user_data["firstname"] = user.first_name.capitalize()
+    except:
+      try:
+        user_data["firstname"] = json.loads(user.profile.custom_field)['firstname'].capitalize()
+      except:
+        user_data["firstname"] = 'n.a.'
+
+    try:
+      user_data["lastname"] = user.last_name.capitalize()
+    except:
+      try:
+        user_data["lastname"] = json.loads(user.profile.custom_field)['lastname'].capitalize()
+      except:
+        user_data["lastname"] = 'n.a.'
+
+
+    # Access Section
+    scorable_block_titles = []
+    grading_context = grading_context_for_course(course)
+
+    for section in grading_context['all_graded_subsections_by_type']['Exam']:
+        for unit in section['scored_descendants']:
+            scorable_block_titles.append((unit.location))
+
+
+    user_state_client = DjangoXBlockUserStateClient()
+    list_question = []
+
+    for block_location in scorable_block_titles:
+
+      log.info('block_location')
+      log.info(block_location)
+      log.info('str(block_location)[47:56]')
+      log.info(str(block_location)[47:56])
+
+      question = {}
+      history_entries = list(user_state_client.get_history(user.username, block_location))
+      question['problem'] = str(block_location)[47:56]
+
+
+      if len(history_entries[0].state) ==3:
+        question['choice'] = 'n.a.'
+      else:
+        for key, value in history_entries[0].state['student_answers'].items():
+          question['choice'] = value
+
+      try:
+        question['time'] = history_entries[0].state['last_submission_time']
+      except:
+        question['time'] = 'n.a.'
+
+      try:
+        question['score'] = history_entries[0].state['score']['raw_earned']
+      except:
+        question['score'] = 'n.a.'
+
+      list_question.append(question)
+
+    data = { "general": user_data, 'list_question' : list_question }
+    all_users_data[str(user.id)]= data
+
+log.info('Finish fetching user data and answers')
+
+log.info('Begin Calculate grades and write xlsx report')
+# Grades need to be recalculate :
+# We need to generate un json when the course is converted. 
+# Then we can fetch it using the course name (value given when creating the tar.gz) 
+
+# UPDATE answer_list
+with open('/edx/var/edxapp/media/microsites/bvt/edx_converter/problem_source/list_corrected_answer_55.json') as json_file:
+  answer_list = json.load(json_file)
+
+
+def updateGrade(problemNum, choices, answer_list):
+  answered_true = 0
+
+  # translate
+  translated_list = []
+  for choice in choices:
+    index = choice.split('_')[1]
+    translated_list.append(index)
+
+  # for choice in choices :
+  for choice in translated_list :
+    problemRef = 'problem'+ problemNum 
+
+    if choice in answer_list[problemRef]:
+      answered_true += 1
+    else:
+      grade = 0
+      return grade
+
+  if answered_true == len(answer_list[problemRef]):
+    grade = 1
+  else:
+    grade = 0.5
+
+  return grade
+
+
+# WRITE XLS
+timestr = time.strftime("%Y_%m_%d")
+
+timesfr = time.strftime("%d.%m.%Y")
+timesfr = str(timesfr)
+wb = Workbook()
+# wb = Workbook(encoding='utf-8')
+sheet = wb.active
+sheet.title= 'Rapport'
+filename = '/home/edxtma/csv/{}_BVT_grade_report.xls'.format(timestr)
+
+headers = ['ID', 'Prénom', 'Nom']
+
+
+first = True
+
+j=2
+for i, header in enumerate(headers):
+  sheet.cell(1, i+1, header)
+
+for key, user in all_users_data.items():
+  i = 3 
+  # log.info(key)
+  # log.info(user)
+  sheet.cell(j, 1, user['general']['username'])
+  sheet.cell(j, 2, user['general']['firstname'])
+  sheet.cell(j, 3, user['general']['lastname'])
+
+  correctedExamGrade = 0
+
+  for question in user['list_question']:
+    correctedGrade = 0
+
+    if first:  
+      sheet.cell(1, i+1, question['problem'])
+      
+    sheet.cell(j, i+1, question['time'])
+
+
+    correctedGrade = updateGrade(question['problem'], question['choice'], answer_list)
+    choices = ''
+    for choice in question['choice'] :
+      choices += str(choice) + ' '
+
+
+    sheet.cell(j, i+2, correctedGrade)
+    sheet.cell(j, i+3, choices)
+
+    correctedExamGrade += correctedGrade
+    i += 3
+  sheet.cell(j, i+1, correctedExamGrade)
+  first = False
+  j += 1
+
+sheet.cell(1, i+1, 'Note finale')
+
+
+# SEND MAILS
+output = BytesIO()
+wb.save(output)
+_files_values = output.getvalue()
+
+course_names = []
+course_names_html = []
+for course_id in course_ids: 
+    course = get_course_by_id(CourseLocator.from_string(course_id)) 
+    course_names.append(course.display_name_with_default)
+    course_names_html.append("<li>"+ str(course.display_name_with_default)+"</li>")
+    # course_names_html.append("<li>"+ str(course.display_name_with_default.encode('ascii', errors='xmlcharrefreplace'))+"</li>")
+
+course_names_html = ''.join(course_names_html)
+
+html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous trouverez en pièce jointe le rapport de note : "+ course_names_html +"<br/><br/></p></body></html>"
+
+
+for email in emails:
+
+  part2 = MIMEText(html.encode('utf-8'), 'html', 'utf-8')
+  fromaddr = "ne-pas-repondre@themoocagency.com"
+  msg = MIMEMultipart()
+  msg['From'] = fromaddr
+  msg['To'] = email
+  msg['Subject'] = "BVT_grade_report"
+  attachment = _files_values
+  part = MIMEBase('application', 'octet-stream')
+  part.set_payload(attachment)
+  encoders.encode_base64(part)
+  part.add_header('Content-Disposition', "attachment; filename= %s" % os.path.basename(filename))
+  msg.attach(part)
+  server = smtplib.SMTP('mail3.themoocagency.com', 25)
+  server.starttls()
+  server.login('contact', 'waSwv6Eqer89')
+  msg.attach(part2)
+  text = msg.as_string()
+  server.sendmail(fromaddr, email, text)
+  server.quit()
+  log.info('Email sent to '+str(email))
+
+
+log.info('Finish calculate grades and write xlsx report')
+
+
+# exemple Koa
+# source /edx/app/edxapp/edxapp_env && /edx/app/edxapp/edx-platform/manage.py lms shell < /edx/app/edxapp/edx-themes/BVT/lms/static/utils/custom_grade_report_bvt.py 
+
+
+# Not working with this command
+# sudo -H -u edxapp /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/BVT/lms/static/utils/custom_grade_report_bvt.py 'hello1' 'hello2'
