@@ -14,12 +14,6 @@ Mot de passe: {{ password }}
 
 En cas de difficulté de connexion, merci de contacter Esther à learning@netexplo.org.
 
-La formation prévoit deux sessions animées à distance :
-
-- une session de Q&A avec Nicolas Petit
-
-- un atelier de co-développement
-
 Bien à vous,
 
 L’équipe de formation Netexplo
@@ -58,12 +52,6 @@ your email address: {{ email_address }}
 your password: {{ password }}
 
 If you have any problems connecting, please contact Esther by email learning@netexplo.org.
-
-The training program also includes two remote live sessions:
-
-- a Q&A session with Nicolas Petit
-
-- a co-development workshop
 
 Best regards,
 
