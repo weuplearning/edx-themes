@@ -14,15 +14,60 @@ from lms.djangoapps.edxnotes.helpers import is_feature_enabled as is_edxnotes_en
 from openedx.core.djangolib.js_utils import js_escaped_string
 from openedx.core.djangolib.markup import HTML
 from openedx.features.course_experience import course_home_page_title, DISABLE_COURSE_OUTLINE_PAGE_FLAG
+import json
+import time
 %>
 <%
-   include_special_exams = (
-   request.user.is_authenticated and
-   settings.FEATURES.get('ENABLE_SPECIAL_EXAMS', False) and
-   (course.enable_proctored_exams or course.enable_timed_exams)
-   )
+  include_special_exams = (
+  request.user.is_authenticated and
+  settings.FEATURES.get('ENABLE_SPECIAL_EXAMS', False) and
+  (course.enable_proctored_exams or course.enable_timed_exams)
+  )
 %>
 <% user_name = str(user_metadata['username']) %>
+
+<!-- Cyril - Limit test time to 1hr -->
+<!-- Start -->
+<%
+custom_fields = {}
+custom_fields = json.loads(user.profile.custom_field)
+timestamp = int(round(time.time() * 1000))
+%>
+
+<% 
+if str(course.id) in custom_fields.keys()  :
+  closing_time = int(custom_fields[str(course.id)]) + 1000*60*60
+
+  if closing_time + 1000*60*60*2 < timestamp:
+    custom_fields[str(course.id)] = timestamp
+    user.profile.custom_field = json.dumps(custom_fields)
+    user.profile.save()
+
+else :
+  custom_fields[str(course.id)] = timestamp
+  user.profile.custom_field = json.dumps(custom_fields)
+  user.profile.save()
+
+  closing_time = int(custom_fields[str(course.id)]) + 1000*60*60
+%>
+
+<script>
+  const closingTime = "${closing_time}"
+  let currentTime 
+  var checkTime = setInterval(() => {
+
+    currentTime = Date.now();
+    if (closingTime < currentTime) {
+      clearInterval(checkTime)
+      alert("\nVotre session d'examen est expirée. Vous avez dépassé la limite de temps allouée.\n\nToutes vos réponses ont cependant bien été enregistrées.\nNous reviendront prochainement vers vous pour vous communiquer vos résultats.\n\nCordialement, \nl'Équipe BVT\n\n")
+      window.location.replace("/courses/"+$$course_id+"/course/");
+    }
+
+  }, 5000);
+</script>
+<!-- END -->
+<!-- Cyril - Limit test time to 1hr -->
+
 
 <style>
   .window-wrap {

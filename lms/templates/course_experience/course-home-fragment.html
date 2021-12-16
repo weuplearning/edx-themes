@@ -6,6 +6,7 @@
 <%!
 import json
 import six
+import time
 
 from django.conf import settings
 from django.utils.translation import ugettext as _
@@ -22,6 +23,8 @@ from lms.djangoapps.grades.course_grade import ZeroCourseGrade
 
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 %>
+
+
 
 <%block name="header_extras">
   <link rel="stylesheet" type="text/css" href="${static.url('paragon/static/paragon.min.css')}" />
@@ -140,12 +143,12 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     	animation: fadeInLeft;
         animation-duration: 0.5s;
     }
-    .wrapper-preview-menu{
-       //display:none;
+    /* .wrapper-preview-menu{
+       display:none;
+    } */
+    .wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary{
+        display:none !important;
     }
-.wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary{
-    display:none !important;
-}
 
 
     .section-title{
