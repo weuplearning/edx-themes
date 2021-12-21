@@ -1,14 +1,8 @@
 
-import sys
-
-import json
-import six
-from collections import OrderedDict
-import time
-from io import BytesIO
 import os
-
-
+from io import BytesIO
+import json
+import time
 
 from opaque_keys.edx.locator import CourseLocator
 from common.djangoapps.student.models import CourseEnrollment
@@ -18,43 +12,31 @@ from lms.djangoapps.courseware.user_state_client import DjangoXBlockUserStateCli
 
 from openpyxl import Workbook
 
-
 import smtplib
-
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
-
 from email import encoders
-
 
 import logging
 log = logging.getLogger()
 
 
-
-# course_ids = ['course-v1:BVT+converted+2021']
+# Can not manage to pass var as arguments in command line
 course_ids = ['course-v1:BVT+01+2021']
-emails =[ 'cyril.adolf@weuplearning.com']
+emails =['cyril.adolf@weuplearning.com']
+
+
 
 all_users_data = {}
-
-log.info('Begin fetching user data and answers')
+log.info('------------> Begin fetching user data and answers')
 
 for course_id in course_ids:
 
   course_key = CourseLocator.from_string(course_id)
-  log.info(course_key)
-  log.info(dir(course_key))
-
   course = get_course_by_id(course_key)
-  log.info(course)
-  log.info(dir(course))
   
   course_enrollments = CourseEnrollment.objects.filter(course_id=course_key)
-
-  log.info(len(course_enrollments))
-  log.info(course_enrollments)
 
   for i in range(len(course_enrollments)):
     user = course_enrollments[i].user
@@ -63,7 +45,7 @@ for course_id in course_ids:
 
     bugged = ['bvt10112_encRg','bvt1011_t9M4C', 'alex_staff']
     if str(user) in bugged:
-      log.info('break')
+      log.info('pass user ' + str(user))
       continue
     
     # Update object with user data without grades
@@ -106,14 +88,10 @@ for course_id in course_ids:
 
     for block_location in scorable_block_titles:
 
-      log.info('block_location')
-      log.info(block_location)
-      log.info('str(block_location)[47:56]')
-      log.info(str(block_location)[47:56])
 
       question = {}
       history_entries = list(user_state_client.get_history(user.username, block_location))
-      question['problem'] = str(block_location)[47:56]
+      question['problem'] = str(block_location)[-2:]
 
 
       if len(history_entries[0].state) ==3:
@@ -137,20 +115,34 @@ for course_id in course_ids:
     data = { "general": user_data, 'list_question' : list_question }
     all_users_data[str(user.id)]= data
 
-log.info('Finish fetching user data and answers')
+log.info('------------> Finish fetching user data and answers')
 
-log.info('Begin Calculate grades and write xlsx report')
+log.info('------------> Begin Calculate grades and write xlsx report')
 # Grades need to be recalculate :
 # We need to generate un json when the course is converted. 
 # Then we can fetch it using the course name (value given when creating the tar.gz) 
 
+course_names = []
+course_names_html = []
+for course_id in course_ids: 
+    course = get_course_by_id(CourseLocator.from_string(course_id)) 
+    course_names.append(course.display_name_with_default)
+    course_names_html.append("<li>"+ str(course.display_name_with_default)+"</li>")
+    # course_names_html.append("<li>"+ str(course.display_name_with_default.encode('ascii', errors='xmlcharrefreplace'))+"</li>")
+
+
+json_file_name = 'list_corrected_answer_' + str(course_names[0]).replace(' ', '_') +'.json'
 # UPDATE answer_list
-with open('/edx/var/edxapp/media/microsites/bvt/edx_converter/problem_source/list_corrected_answer_55.json') as json_file:
+with open('/edx/var/edxapp/media/microsites/bvt/answers_lists_files/'+json_file_name) as json_file:
   answer_list = json.load(json_file)
 
 
 def updateGrade(problemNum, choices, answer_list):
   answered_true = 0
+
+  if choices == 'n.a.':
+    grade = 0
+    return grade
 
   # translate
   translated_list = []
@@ -178,9 +170,6 @@ def updateGrade(problemNum, choices, answer_list):
 
 # WRITE XLS
 timestr = time.strftime("%Y_%m_%d")
-
-timesfr = time.strftime("%d.%m.%Y")
-timesfr = str(timesfr)
 wb = Workbook()
 # wb = Workbook(encoding='utf-8')
 sheet = wb.active
@@ -198,8 +187,6 @@ for i, header in enumerate(headers):
 
 for key, user in all_users_data.items():
   i = 3 
-  # log.info(key)
-  # log.info(user)
   sheet.cell(j, 1, user['general']['username'])
   sheet.cell(j, 2, user['general']['firstname'])
   sheet.cell(j, 3, user['general']['lastname'])
@@ -211,6 +198,8 @@ for key, user in all_users_data.items():
 
     if first:  
       sheet.cell(1, i+1, question['problem'])
+      sheet.cell(1, i+2, 'Score')
+      sheet.cell(1, i+3, 'Réponses choisies')
       
     sheet.cell(j, i+1, question['time'])
 
@@ -238,13 +227,6 @@ output = BytesIO()
 wb.save(output)
 _files_values = output.getvalue()
 
-course_names = []
-course_names_html = []
-for course_id in course_ids: 
-    course = get_course_by_id(CourseLocator.from_string(course_id)) 
-    course_names.append(course.display_name_with_default)
-    course_names_html.append("<li>"+ str(course.display_name_with_default)+"</li>")
-    # course_names_html.append("<li>"+ str(course.display_name_with_default.encode('ascii', errors='xmlcharrefreplace'))+"</li>")
 
 course_names_html = ''.join(course_names_html)
 
@@ -275,11 +257,12 @@ for email in emails:
   log.info('Email sent to '+str(email))
 
 
-log.info('Finish calculate grades and write xlsx report')
+log.info('------------> Finish calculate grades and write xlsx report')
 
 
 # exemple Koa
-# source /edx/app/edxapp/edxapp_env && /edx/app/edxapp/edx-platform/manage.py lms shell < /edx/app/edxapp/edx-themes/BVT/lms/static/utils/custom_grade_report_bvt.py 
+# source /edx/app/edxapp/edxapp_env && /edx/app/edxapp/edx-platform/manage.py lms shell < /edx/app/edxapp/edx-themes/BVT/lms/static/utils/custom_grade_report_bvt.py
+
 
 
 # Not working with this command
