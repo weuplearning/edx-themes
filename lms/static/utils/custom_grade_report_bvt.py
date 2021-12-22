@@ -23,7 +23,7 @@ log = logging.getLogger()
 
 
 # Can not manage to pass var as arguments in command line
-course_ids = ['course-v1:BVT+01+2021']
+course_ids = ['course-v1:bvt+course_02+2021']
 emails =['cyril.adolf@weuplearning.com']
 
 
@@ -38,14 +38,15 @@ for course_id in course_ids:
 
   for i in range(len(course_enrollments)):
     user = course_enrollments[i].user
+    log.info('user')
     log.info(user)
-    user_data = {}        
+    user_data = {}
 
-    bugged = ['bvt10112_encRg','bvt1011_t9M4C', 'alex_staff']
+    bugged = ['bvt10112_encRg','bvt1011_t9M4C', 'alex_staff', 'fchavanne_kEYhX','ldarolles_feNjK']
     if str(user) in bugged:
       log.info('pass user ' + str(user))
       continue
-    
+
     # Update object with user data without grades
     try:
       user_data["username"] = user.username
@@ -91,7 +92,13 @@ for course_id in course_ids:
         question['choice'] = 'n.a.'
       else:
         for key, value in history_entries[0].state['student_answers'].items():
-          question['choice'] = value
+
+          if isinstance(value, list):
+            question['choice'] = value
+          else:
+            liste = []
+            liste.append(value)
+            question['choice'] = liste
 
       try:
         question['time'] = history_entries[0].state['last_submission_time']
@@ -133,7 +140,7 @@ with open('/edx/var/edxapp/media/microsites/bvt/answers_lists_files/'+json_file_
 def updateGrade(problemNum, choices, answer_list):
   answered_true = 0
 
-  if choices == 'n.a.':
+  if choices == 'n.a.' :
     grade = 0
     return grade
 
@@ -143,7 +150,7 @@ def updateGrade(problemNum, choices, answer_list):
     translated_list.append(index)
 
   for choice in translated_list :
-    problemRef = 'problem'+ problemNum 
+    problemRef = 'problem'+ problemNum
 
     if choice in answer_list[problemRef]:
       answered_true += 1
