@@ -32,10 +32,8 @@ all_users_data = {}
 log.info('------------> Begin fetching user data and answers')
 
 for course_id in course_ids:
-
   course_key = CourseLocator.from_string(course_id)
   course = get_course_by_id(course_key)
-  
   course_enrollments = CourseEnrollment.objects.filter(course_id=course_key)
 
   for i in range(len(course_enrollments)):
@@ -73,26 +71,21 @@ for course_id in course_ids:
       except:
         user_data["lastname"] = 'n.a.'
 
-
     # Access Section
     scorable_block_titles = []
     grading_context = grading_context_for_course(course)
+    user_state_client = DjangoXBlockUserStateClient()
+    list_question = []
 
     for section in grading_context['all_graded_subsections_by_type']['Exam']:
         for unit in section['scored_descendants']:
             scorable_block_titles.append((unit.location))
 
-
-    user_state_client = DjangoXBlockUserStateClient()
-    list_question = []
-
     for block_location in scorable_block_titles:
-
 
       question = {}
       history_entries = list(user_state_client.get_history(user.username, block_location))
       question['problem'] = str(block_location)[-2:]
-
 
       if len(history_entries[0].state) ==3:
         question['choice'] = 'n.a.'
@@ -144,13 +137,11 @@ def updateGrade(problemNum, choices, answer_list):
     grade = 0
     return grade
 
-  # translate
   translated_list = []
   for choice in choices:
     index = choice.split('_')[1]
     translated_list.append(index)
 
-  # for choice in choices :
   for choice in translated_list :
     problemRef = 'problem'+ problemNum 
 
@@ -175,10 +166,7 @@ wb = Workbook()
 sheet = wb.active
 sheet.title= 'Rapport'
 filename = '/home/edxtma/csv/{}_BVT_grade_report.xls'.format(timestr)
-
 headers = ['ID', 'Prénom', 'Nom']
-
-
 first = True
 
 j=2
@@ -192,7 +180,6 @@ for key, user in all_users_data.items():
   sheet.cell(j, 3, user['general']['lastname'])
 
   correctedExamGrade = 0
-
   for question in user['list_question']:
     correctedGrade = 0
 
@@ -200,15 +187,12 @@ for key, user in all_users_data.items():
       sheet.cell(1, i+1, question['problem'])
       sheet.cell(1, i+2, 'Score')
       sheet.cell(1, i+3, 'Réponses choisies')
-      
     sheet.cell(j, i+1, question['time'])
-
 
     correctedGrade = updateGrade(question['problem'], question['choice'], answer_list)
     choices = ''
     for choice in question['choice'] :
       choices += str(choice) + ' '
-
 
     sheet.cell(j, i+2, correctedGrade)
     sheet.cell(j, i+3, choices)
@@ -221,20 +205,15 @@ for key, user in all_users_data.items():
 
 sheet.cell(1, i+1, 'Note finale')
 
-
 # SEND MAILS
 output = BytesIO()
 wb.save(output)
 _files_values = output.getvalue()
-
-
 course_names_html = ''.join(course_names_html)
 
 html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous trouverez en pièce jointe le rapport de note : "+ course_names_html +"<br/><br/></p></body></html>"
 
-
 for email in emails:
-
   part2 = MIMEText(html.encode('utf-8'), 'html', 'utf-8')
   fromaddr = "ne-pas-repondre@themoocagency.com"
   msg = MIMEMultipart()
@@ -262,8 +241,3 @@ log.info('------------> Finish calculate grades and write xlsx report')
 
 # exemple Koa
 # source /edx/app/edxapp/edxapp_env && /edx/app/edxapp/edx-platform/manage.py lms shell < /edx/app/edxapp/edx-themes/BVT/lms/static/utils/custom_grade_report_bvt.py
-
-
-
-# Not working with this command
-# sudo -H -u edxapp /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/BVT/lms/static/utils/custom_grade_report_bvt.py 'hello1' 'hello2'
