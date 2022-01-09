@@ -1,0 +1,110 @@
+## mako
+<%page expression_filter="h"/>
+<%!
+  from django.urls import reverse
+  from django.utils.translation import ugettext as _
+  from lms.djangoapps.branding.api import get_footer
+  from openedx.core.djangoapps.lang_pref.api import footer_language_selector_is_enabled
+%>
+<% footer = get_footer(is_secure=is_secure) %>
+<% icp_license_info = getattr(settings, 'ICP_LICENSE_INFO', {})%>
+<%namespace name='static' file='static_content.html'/>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  .wrapper-footer {
+    background-color: var(--primary);
+    margin-top: 50px;
+  }
+
+  body.view-in-course .wrapper-footer {
+    background-color: gray;
+  }
+
+  .wrapper-footer .site-nav, .wrapper-footer footer#footer-openedx .colophon .nav-colophon {
+    margin: 0 !important;
+  }
+
+  .wrapper-footer .site-nav .nav-link, .wrapper-footer footer#footer-openedx .colophon .nav-colophon li a {
+    color: white !important;
+  }
+
+  .wrapper-footer {
+    background-color: #0c6296;
+    padding: 5px 5px 0 0;
+  }
+
+  #footer-openedx img {
+    max-height: 80px;
+    width: auto;
+    margin-bottom: 0;
+    margin-top: 10px;
+  }
+
+  #footer-openedx p {
+    font-family: quicksand !important;
+    color: white;
+    font-weight: 600;
+  }
+
+  #footer-openedx .container-xl {
+    max-width: 100%;
+  }
+
+  #footer-openedx .container {
+    padding: 0;
+  }
+</style>
+
+  <div class="wrapper wrapper-footer">
+    <footer id="footer-openedx" class="grid-container"
+      ## When rendering the footer through the branding API,
+      ## the direction may not be set on the parent element,
+      ## so we set it here.
+      % if bidi:
+        dir=${bidi}
+      % endif
+    >
+      <div class="container-xl">
+        <div class="row">
+          <div class="col-md-12 col-lg-6">
+            <div style="display: inline-block;vertical-align: top;;">
+              <img style="max-height: 100px; margin-top: 0px" src="${static.url('/static/fhf/images/FHF_Logo-blanc.png')}" class="img-fluid img-logo" alt="mooc logo">
+            </div>
+            <div style="margin-top: 23px; display: inline-block;">
+              <p>FÉDÉRATION HOSPITALIERE DE FRANCE
+                <br />1bis, rue Cabanis 75014 Paris</p>
+            </div>
+          </div>
+          <div class="col-md-12 col-lg-6">
+            <div class="row">
+              <div class="col">
+                <p style="margin-top: 46px;font-size: 14px;;">EN PARTENARIAT AVEC</p>
+              </div>
+              <div class="col">
+                <img src="/static/fhf/images/FIPHFP.png" class="img-fluid img-logo" alt="mooc logo">
+              </div>
+              <div class="col">
+                <img src="/static/fhf/images/ANFH.png" class="img-fluid img-logo" alt="mooc logo" style="margin-top: 34px">
+              </div>
+              <div class="col">
+                <img src="/static/fhf/images/logo_footer1.png" class="img-fluid img-logo" alt="mooc logo">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+% if include_dependencies:
+  <%static:js group='base_vendor'/>
+  <%static:css group='style-vendor'/>
+  <%include file="widgets/segment-io.html" />
+  <%include file="widgets/segment-io-footer.html" />
+% endif
+% if footer_css_urls:
+  % for url in footer_css_urls:
+    <link rel="stylesheet" type="text/css" href="${url}"></link>
+  % endfor
+% endif
