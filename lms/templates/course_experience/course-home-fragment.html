@@ -26,6 +26,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
 
 
+
 <%block name="header_extras">
   <link rel="stylesheet" type="text/css" href="${static.url('paragon/static/paragon.min.css')}" />
   <link rel="stylesheet" type="text/css" href="${static.url('weup/css/animate-4.1.1.min.css')}" />
@@ -40,6 +41,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     }
     .page-header-secondary{
         padding: 25px 0 !important;
+        margin-left: -150px !important;
     }
     button.search-button{
         margin-left: 5px;
@@ -92,6 +94,13 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     .page-content .page-content-main { 
         min-width: calc(50% - 15px);
         max-width: calc(50% - 15px);
+        padding: 50px 25px;
+        animation: fadeInLeft;
+        animation-duration: 0.5s;
+        background-color: white;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.16);        
+        margin-top: 25px;
+        font-weight: 500;
     }
 
     .page-content-container{
@@ -216,6 +225,27 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         border-radius: 7.5px;
     }
 
+    /* BVT SPECIFICITY */
+    /* Hide global grade */
+    .page-content-secondary .section .grade-block:first-child{
+        display: none;
+    }
+    /* Hide completion section */
+    .accordion > .outline-item:last-child, .page-content-secondary .section .grade-block:last-child {
+        display: none;
+    }
+    /* highlight resume course button */
+    .page-header-secondary > .form-actions .btn {
+        /* margin-right: 15vw; */
+        font-size: 20px;
+        line-height: 1;
+        padding: 20px 10px;
+    }
+    .page-header-main {
+        flex-grow: 0.5 !important;
+    }
+    /* BVT SPECIFICITY */
+
     .grade-section-title {
         display: flex;
         flex-direction: row;
@@ -263,6 +293,9 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     #logo_banner {
         margin: auto 30px;
         height: 80px;
+    }
+    .bold {
+        font-weight: 900;
     }
 
     
@@ -339,8 +372,18 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     }
 
   </style>
+
   <script>
-document.title = "Cours | ${HTML(course.display_name_with_default)}";
+    document.title = "Cours | ${HTML(course.display_name_with_default)}";
+    const courseId = "${course.id | n, js_escaped_string}";
+    const userName = "${user.username}"
+
+    console.log("courseId")
+    console.log(courseId)
+    console.log("userName")
+    console.log(userName)
+
+
   </script>
 
 </%block>
@@ -354,7 +397,7 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
         </div>
         <div class="page-header-secondary">
             % if show_search:
-                <div class="page-header-search">
+                <!-- <div class="page-header-search">
                     <form class="search-form input-group" role="search" action="${reverse('openedx.course_search.course_search_results', args=[course_key])}">
                         <label class="field-label sr-only" for="search" id="search-hint">${_('Search the course')}</label>
                         <input
@@ -368,7 +411,7 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
                             <button class="btn btn-outline-primary search-button" type="submit">${_('Search')}</button>
                         </span>
                     </form>
-                </div>
+                </div> -->
             % endif
             <div class="form-actions">
                 % if resume_course_url:
@@ -385,25 +428,12 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
     </header>
     <div class="page-content">
         <div class="page-content-main">
-            % if offer_banner_fragment:
-                ${HTML(offer_banner_fragment.content)}
-            % endif
-            % if course_expiration_fragment:
-                ${HTML(course_expiration_fragment.content)}
-            % endif
-            % if course_home_message_fragment:
-                ${HTML(course_home_message_fragment.body_html())}
-            % endif
-
-            % if update_message_fragment and not DISABLE_UNIFIED_COURSE_TAB_FLAG.is_enabled(course.id):
-                <div class="section section-update-message">
-                    ${HTML(update_message_fragment.body_html())}
-                </div>
-            % endif
-
-            % if outline_fragment:
-                ${HTML(outline_fragment.body_html())}
-            % endif
+            <p>Vous voilà prêt à commencer l'examen.</p>
+            <p>Vous aurez <span class='bold'>1 heure</span > pour répondre à l'ensemble des questions.</p>
+            <p>Celles-ci seront réparties sur différentes pages à travers lesquelles vous pourrez naviguer en utilisant les boutons "Précédent" et "Suivant" présents au dessus et en dessous des questions.</p>
+            <p><span class='bold'>Attendez l'ordre de l'examinateur</span > pour commencer le test.</p>
+            <p>En fin de test une page vous indiquera la liste des questions non répondues sur lesquelles vous pourrez revenir plus tard.</p>
+            <p>Lorsque vous le pourrez, cliquez sur <span class='bold'>"Commencer le test"</span > pour démarrer.</p>
         </div>
         <aside class="page-content-secondary course-sidebar">
             <h4>Avez-vous bien retenu ?</h4>
@@ -448,7 +478,8 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
                                 %else:
                                     <img src="${static.url('images/medal_off.svg')}" class="small-badge"/>
                                 %endif
-                                <div class="chapter-title" >${section['display_name']}</div>
+                                <div class="chapter-title" >Votre progression</div>
+                                <!-- <div class="chapter-title" >${section['display_name']}</div> -->
                                 <div class="grade-value">${int(completion_ratio * 100)}%</div>
                             </div>
                             <div class="progress-bar-full">

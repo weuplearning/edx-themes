@@ -65,6 +65,17 @@ else :
       window.location.replace("/courses/"+$$course_id+"/course/");
     }
 
+    // Add timer here
+    let timer_delta = closingTime - currentTime
+    let timer = new Date(timer_delta);
+    let minutes = timer.getMinutes();
+    minutes = ("0"+minutes).slice(-2);
+    let seconds = timer.getSeconds();
+    seconds = ("0"+seconds).slice(-2);
+
+    document.getElementById('timer_digits').textContent = minutes + ':'+ seconds
+    // Add timer here
+
   }, 500);
 </script>
 <!-- END -->
@@ -79,6 +90,24 @@ else :
   .content-wrapper {
     background : white;
   }
+  #timer_bvt {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 5px;
+    width: 250px;
+    margin: auto;
+    border: black solid 2px;
+    border-radius: 15px;
+    background-color: white;
+    z-index: 99;
+    font-family: 'Roboto';
+    font-size: 1.5rem;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
 </style>
 
 % if display_reset_dates_banner:
@@ -260,6 +289,7 @@ ${HTML(fragment.foot_html())}
                 </nav>
             </div>
         </header>
+        <div id="timer_bvt" >Temps restant : <span id='timer_digits'>XX:XX</span></div>
 
         <main id="main" tabindex="-1" aria-label="Content">
             % if getattr(course, 'entrance_exam_enabled') and \
