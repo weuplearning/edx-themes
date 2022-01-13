@@ -29,6 +29,12 @@ from openedx.core.djangolib.markup import HTML, Text
     /*background: linear-gradient(180deg, #146caf 50%, whitesmoke 50%) !important;*/
     background-color: transparent !important;
   }
+
+  .background-split-color .text-center {
+    max-width: 1320px;
+    margin: auto;
+    padding-top: 70px;
+  }
   
   .window-wrap{
     background: transparent !important;
@@ -62,13 +68,8 @@ from openedx.core.djangolib.markup import HTML, Text
 
   .background-split-color{
     width: 100%;
-    height: 60vh;
     background-color: #146caf;
-    z-index: -1;
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding-top: 116px;
+    padding-bottom: 50px;
   }
 
   .container-fluid{
@@ -95,12 +96,40 @@ from openedx.core.djangolib.markup import HTML, Text
     background-color: #a9c1ee;
   }
 
-  @media all and (min-width: 992px) {
-    background-split-color {
-      height: calc(60vh + 116px);
+  .vignetteText {
+    border: 2px solid white;
+    padding: 17px;
+    font-size: 14px;
+    margin: auto;
+  }
+
+  @media all and (min-width: 768px) {
+    .vignetteText {
+      font-size: 12px;
     }
+  }
+
+  @media all and (min-width: 992px) {
+    .vignetteText {
+      font-size: 15px;
+    }
+  }
+
+  @media all and (min-width: 1200px) {
+    .vignetteText {
+      font-size: 19px;
+    }
+  }
+
+  @media all and (min-width: 1400px) {
+    .vignetteText {
+      font-size: 22px;
+    }
+  }
+
+  @media all and (min-width: 992px) {
     .main-page {
-      padding-top: 116px;
+      padding-top: 80px;
     }
     .global-header {
       position: fixed;
@@ -181,6 +210,10 @@ from openedx.core.djangolib.markup import HTML, Text
 
   .back-text-tiles{
 
+  }
+
+  .content-wrapper {
+    padding: 0;
   }
 
   .flipCardTextContent {
@@ -282,21 +315,33 @@ from openedx.core.djangolib.markup import HTML, Text
 <div class="main-page">
 
   <div class="background-split-color">
-    <div class="background-split-1"></div>
-    <div class="background-split-2"></div>
-  </div>
+    <div class="text-center">
+      <div class="col-md">
+        <img src="/static/fhf/images/mooc_handicap.png" class="img-fluid img-logo" alt="mooc logo">
+      </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <video controls width="100%">
 
-  <div class="container-fluid">
-    <div class="section1 container-xxl">
-      <div class="text-center">
-        <div class="col-md">
-          <img src="${static.url('/static/fhf/images/mooc_handicap.png')}" class="img-fluid img-logo" alt="mooc logo">
-        </div>
-        <div>
-          <p class="typo-quicksand-bold color-white">Vous êtes référent handicap d’établissement&nbsp;? Ou simplement un acteur de votre établissement concerné par le sujet&nbsp;? La Fédération Hospitalière de France, engagée dans l’inclusion des personnes en situation de handicap dans les établissements sanitaires, sociaux et médico-sociaux, vous propose via ce Mooc, formation interactive en ligne, d’acquérir un premier socle de connaissances théoriques et pratiques sur le handicap.</p>
+                <source src="/media/cc0-videos/flower.webm"
+                  type="video/webm">
+
+                <source src="/media/cc0-videos/flower.mp4"
+                   type="video/mp4">
+
+                  Sorry, your browser doesn't support embedded videos.
+                </video>
+              </div>
+           <div class="col-sm-12 col-md-6">
+             <p class="typo-quicksand-bold color-white vignetteText">Vous êtes référent handicap d’établissement&nbsp;? Ou simplement un acteur de votre établissement concerné par le sujet&nbsp;? La Fédération Hospitalière de France, engagée dans l’inclusion des personnes en situation de handicap dans les établissements sanitaires, sociaux et médico-sociaux, vous propose via ce Mooc, formation interactive en ligne, d’acquérir un premier socle de connaissances théoriques et pratiques sur le handicap.</p>
+           </div>
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="container-fluid">
     <div class="section2 container-xl">
       <div class="ligne1 row justify-content-center">
 
@@ -319,7 +364,7 @@ from openedx.core.djangolib.markup import HTML, Text
               </div>
             </div>
             <div class="flip-card-back">
-              <p class="color-darkest-blue typo-quicksand-light back-text-tiles">Découvrez les origines, le sens de la notion de « handicap » et ses formes multiples, notamment dans l’environnement de travail, avec une mise en perspective via les sciences humaines et la sociologie.</p>
+              <p class="color-darkest-blue typo-quicksand-light back-text-tiles">Découvrez les origines, le sens de la notion de «&nbsp;handicap&nbsp;» et ses formes multiples, notamment dans l’environnement de travail, avec une mise en perspective via les sciences humaines et la sociologie.</p>
             </div>
           </div>
         </div>
@@ -343,7 +388,7 @@ from openedx.core.djangolib.markup import HTML, Text
               </div>
             </div>
             <div class="flip-card-back">
-              <p class="color-darkest-blue typo-quicksand-light back-text-tiles">Découvrez les origines, le sens de la notion de « handicap » et ses formes multiples, notamment dans l’environnement de travail, avec une mise en perspective via les sciences humaines et la sociologie.</p>
+              <p class="color-darkest-blue typo-quicksand-light back-text-tiles">Découvrez les origines, le sens de la notion de «&nbsp;handicap&nbsp;» et ses formes multiples, notamment dans l’environnement de travail, avec une mise en perspective via les sciences humaines et la sociologie.</p>
             </div>
           </div>
         </div>
@@ -415,7 +460,7 @@ from openedx.core.djangolib.markup import HTML, Text
               </div>
             </div>
             <div class="flip-card-back">
-              <p class="color-darkest-blue typo-quicksand-light back-text-tiles">Qu’est-ce que l’établissement public FIPHFP ? Vous découvrirez les aides proposées dans son catalogue, et comment les mobiliser, ainsi que le fonctionnement du conventionnement d’un établissement avec le FIPHFP.</p>
+              <p class="color-darkest-blue typo-quicksand-light back-text-tiles">Qu’est-ce que l’établissement public FIPHFP&nbsp;? Vous découvrirez les aides proposées dans son catalogue, et comment les mobiliser, ainsi que le fonctionnement du conventionnement d’un établissement avec le FIPHFP.</p>
             </div>
           </div>
         </div>
@@ -487,7 +532,7 @@ from openedx.core.djangolib.markup import HTML, Text
               </div>
             </div>
             <div class="flip-card-back">
-              <p class="color-darkest-blue typo-quicksand-light back-text-tiles">Bibliographie, liens utiles, formations, glossaire… La bibliothèque du référent handicap, à consulter sans modération !</p>
+              <p class="color-darkest-blue typo-quicksand-light back-text-tiles">Bibliographie, liens utiles, formations, glossaire… La bibliothèque du référent handicap, à consulter sans modération&nbsp;!</p>
             </div>
           </div>
         </div>
