@@ -26,9 +26,8 @@ log = logging.getLogger()
 
 
 # Can not manage to pass var as arguments in command line
-# course_ids = ['course-v1:deeptechforbusiness+FR+2021']
-course_ids = ['course-v1:deeptechforbusiness+EN+2021']
-emails =['cyril.adolf@weuplearning.com']
+course_ids = ['course-v1:deeptechforbusiness+EN+2021', 'course-v1:deeptechforbusiness+FR+2021']
+emails =['eruch-ext@netexplo.org', 'learning@netexplo.org', 'melanie.zunino@weuplearning.com']
 
 
 
@@ -48,8 +47,8 @@ for course_id in course_ids:
     tma_enrollment,is_exist=WulCourseEnrollment.objects.get_or_create(course_enrollment_edx=course_enrollments[i])
 
     if user.email.find('@weuplearning') != 1 or user.email.find('@yopmail') != 1 or user.email.find('@the-mooc-agency') != 1:
-        log.info('test user')
-        continue
+      log.info('test user')
+      continue
 
     # Hide 
     # ONLY SAVE IF USER IS NEW (J-30) 
@@ -61,9 +60,9 @@ for course_id in course_ids:
 
 
     if test_substract > 31 :
-        log.info(user.email)
-        log.info(test_substract)
-        continue
+      log.info(user.email)
+      log.info(test_substract)
+      continue
     # Dev Cyril End
 
 
@@ -98,11 +97,11 @@ for course_id in course_ids:
 
     # Time tracking
     try:
-        seconds = tma_enrollment.global_time_tracking
-        minute = seconds // 60
-        time_tracking = int(minute)
+      seconds = tma_enrollment.global_time_tracking
+      minute = seconds // 60
+      time_tracking = int(minute)
     except:
-        time_tracking = int(0)
+      time_tracking = int(0)
 
     user_data['time_tracking'] = time_tracking
 
@@ -119,10 +118,10 @@ log.info('------------> Begin Calculate grades and write xlsx report')
 course_names = []
 course_names_html = []
 for course_id in course_ids: 
-    course = get_course_by_id(CourseLocator.from_string(course_id)) 
-    course_names.append(course.display_name_with_default)
-    course_names_html.append("<li>"+ str(course.display_name_with_default)+"</li>")
-    # course_names_html.append("<li>"+ str(course.display_name_with_default.encode('ascii', errors='xmlcharrefreplace'))+"</li>")
+  course = get_course_by_id(CourseLocator.from_string(course_id)) 
+  course_names.append(course.display_name_with_default)
+  course_names_html.append("<li>"+ str(course.display_name_with_default)+"</li>")
+  # course_names_html.append("<li>"+ str(course.display_name_with_default.encode('ascii', errors='xmlcharrefreplace'))+"</li>")
 
 # WRITE XLS
 timestr = time.strftime("%Y_%m_%d")
@@ -160,7 +159,7 @@ wb.save(output)
 _files_values = output.getvalue()
 course_names_html = ''.join(course_names_html)
 
-html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous trouverez en pièce jointe le rapport de note : "+ str(course_names_html) +"<br/><br/>Bonne r&eacute;ception<br>L'&eacute;quipe NETEXPLO<br></p></body></html>"
+html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous trouverez en pièce jointe le rapport de note : "+ str(course_names_html) +"  <br/>Pour la période des 30 derniers jours uniquement.<br/><br/>Bonne r&eacute;ception<br>L'&eacute;quipe NETEXPLO<br></p></body></html>"
 
 for email in emails:
   part2 = MIMEText(html.encode('utf-8'), 'html', 'utf-8')
@@ -168,7 +167,7 @@ for email in emails:
   msg = MIMEMultipart()
   msg['From'] = fromaddr
   msg['To'] = email
-  msg['Subject'] = "NETEXPLO - " + str(course.display_name_with_default.encode('ascii', errors='xmlcharrefreplace')) + ' - ' + str(time.strftime("%d.%m.%Y"))
+  msg['Subject'] = "NETEXPLO - " + str(course.display_name_with_default.encode('ascii', errors='xmlcharrefreplace')) + ' - last 30 days - ' + str(time.strftime("%d.%m.%Y"))
   attachment = _files_values
   part = MIMEBase('application', 'octet-stream')
   part.set_payload(attachment)
