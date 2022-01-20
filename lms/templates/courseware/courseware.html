@@ -51,35 +51,12 @@ else :
   closing_time = int(custom_fields[str(course.id)]) + 1000*60*60
 %>
 
-<script>
-
-  const userName = "${user_name}"
-  const closingTime = "${closing_time}"
-  let currentTime 
-  var checkTime = setInterval(() => {
-
-    currentTime = Date.now();
-    if (closingTime < currentTime) {
-      clearInterval(checkTime)
-      alert("\nVotre session d'examen est expirée. Vous avez dépassé la limite de temps allouée.\n\nToutes vos réponses ont cependant bien été enregistrées.\nNous reviendront prochainement vers vous pour vous communiquer vos résultats.\n\nCordialement, \nl'Équipe BVT\n\n")
-      window.location.replace("/courses/"+$$course_id+"/course/");
-    }
-
-    // Add timer here
-    let timer_delta = closingTime - currentTime
-    let timer = new Date(timer_delta);
-    let minutes = timer.getMinutes();
-    minutes = ("0"+minutes).slice(-2);
-    let seconds = timer.getSeconds();
-    seconds = ("0"+seconds).slice(-2);
-
-    document.getElementById('timer_digits').textContent = minutes + ':'+ seconds
-    // Add timer here
-
-  }, 500);
+<script type="text/javascript">
+  var $$course_id = "${course.id | n, js_escaped_string}";
+  var courseId = "${course.id}";
 </script>
-<!-- END -->
-<!-- Cyril - Limit test time to 1hr -->
+
+
 
 
 <style>
@@ -185,11 +162,6 @@ else :
   	<%include file="xqa_interface.html"/>
   % endif
 
-  <script type="text/javascript">
-    var $$course_id = "${course.id | n, js_escaped_string}";
-    var courseId = "${course.id}";
-  </script>
-
   % if not request.user.is_authenticated:
       <script type="text/javascript">
         // Disable discussions
@@ -289,7 +261,13 @@ ${HTML(fragment.foot_html())}
                 </nav>
             </div>
         </header>
-        <div id="timer_bvt" >Temps restant : <span id='timer_digits'>XX:XX</span></div>
+        <div id="timer_bvt" >Temps restant : <span id='timer_digits'>XX:XX</span>
+          <div>
+            <a id="link_progression" href="">
+              Ma Progression
+            </a>
+          </div>
+        </div>
 
         <main id="main" tabindex="-1" aria-label="Content">
             % if getattr(course, 'entrance_exam_enabled') and \
@@ -393,4 +371,38 @@ ${HTML(fragment.foot_html())}
   });
 
 </%static:require_module_async>
+
+<script>
+
+
+  let link_progression = '/courses/'+$$course_id+"/courseware/d4a9392d58cb49fba5afe41b33aa8f9e/310e3b2e46784b028a88a55034f35ce7/?child=first"
+  document.getElementById('link_progression').setAttribute('href', link_progression)
+
+  const userName = "${user_name}"
+  const closingTime = "${closing_time}"
+  let currentTime 
+  var checkTime = setInterval(() => {
+
+    currentTime = Date.now();
+    if (closingTime < currentTime) {
+      clearInterval(checkTime)
+      alert("\nVotre session d'examen est expirée. Vous avez dépassé la limite de temps allouée.\n\nToutes vos réponses ont cependant bien été enregistrées.\nNous reviendront prochainement vers vous pour vous communiquer vos résultats.\n\nCordialement, \nl'Équipe BVT\n\n")
+      window.location.replace("/courses/"+$$course_id+"/course/");
+    }
+
+    // Add timer here
+    let timer_delta = closingTime - currentTime
+    let timer = new Date(timer_delta);
+    let minutes = timer.getMinutes();
+    minutes = ("0"+minutes).slice(-2);
+    let seconds = timer.getSeconds();
+    seconds = ("0"+seconds).slice(-2);
+
+    document.getElementById('timer_digits').textContent = minutes + ':'+ seconds
+    // Add timer here
+
+  }, 500);
+</script>
+<!-- END -->
+<!-- Cyril - Limit test time to 1hr -->
 
