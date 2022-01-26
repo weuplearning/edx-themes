@@ -1,4 +1,4 @@
 {% load i18n %}
 {% autoescape off %}
-{% blocktrans %}[BVT] Votre accès à la plateforme de formation{% endblocktrans %}
+{% blocktrans %}[BVT] Votre accès à la plateforme d'examen{% endblocktrans %}
 {% endautoescape %}

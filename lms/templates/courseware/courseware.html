@@ -26,7 +26,7 @@ import time
 %>
 <% user_name = str(user_metadata['username']) %>
 
-<!-- Cyril - Limit test time to 1hr -->
+<!-- Cyril - Limit test time to 1hr15min -->
 <!-- Start -->
 <%
 custom_fields = {}
@@ -36,7 +36,7 @@ timestamp = int(round(time.time() * 1000))
 
 <% 
 if str(course.id) in custom_fields.keys()  :
-  closing_time = int(custom_fields[str(course.id)]) + 1000*60*60
+  closing_time = int(custom_fields[str(course.id)]) + 1000*60*60*1.25
 
   if closing_time + 1000*60*60*2 < timestamp:
     custom_fields[str(course.id)] = timestamp
@@ -48,7 +48,7 @@ else :
   user.profile.custom_field = json.dumps(custom_fields)
   user.profile.save()
 
-  closing_time = int(custom_fields[str(course.id)]) + 1000*60*60
+  closing_time = int(custom_fields[str(course.id)]) + 1000*60*60*1.25
 %>
 
 <script type="text/javascript">
@@ -83,6 +83,9 @@ else :
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+  .bookmark-button {
+    display: none;
   }
 
 </style>
@@ -393,12 +396,19 @@ ${HTML(fragment.foot_html())}
     // Add timer here
     let timer_delta = closingTime - currentTime
     let timer = new Date(timer_delta);
+    let hour = timer.getHours();
     let minutes = timer.getMinutes();
     minutes = ("0"+minutes).slice(-2);
     let seconds = timer.getSeconds();
     seconds = ("0"+seconds).slice(-2);
 
-    document.getElementById('timer_digits').textContent = minutes + ':'+ seconds
+    if (hour == 2) {
+      
+      document.getElementById('timer_digits').textContent = String(Number(minutes)+60) + ':'+ seconds
+    } else {
+      
+      document.getElementById('timer_digits').textContent = minutes + ':'+ seconds
+    }
     // Add timer here
 
   }, 500);

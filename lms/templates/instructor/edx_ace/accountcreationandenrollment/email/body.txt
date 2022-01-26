@@ -4,7 +4,7 @@ Nous vous confirmons votre inscription à la plate-forme BVT exam.
 
 Pour y accéder, nous vous invitons à vous rendre sur le lien suivant avec vos identifiants ci-dessous.
 
-Lien vers la plateforme : https://bvtexam.weup.in
+Lien vers la plateforme d'examen : https://bvtexam.weup.in
 Identifiant: {{ email_address }}
 Mot de passe: {{ password }}
 
