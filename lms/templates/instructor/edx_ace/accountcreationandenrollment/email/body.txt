@@ -37,6 +37,25 @@ Bien à vous,
 
 L’équipe de formation Netexplo
 
+{% elif course_key == 'course-v1:bmd+FR+2022-03_04-02'%}
+
+Bonjour,
+
+Nous vous confirmons votre inscription à la formation Becoming More Digital du 3 et 4 février 2022 proposée par l'Université PSL et Netexplo.
+
+Pour accéder au programme et démarrer la formation, nous vous invitons à vous rendre sur le lien suivant avec les identifiants ci-dessous.
+
+Lien vers la plateforme : https://formationadistance.becomingmoredigital.com
+
+Identifiant: {{ email_address }}
+Mot de passe: {{ password }}
+
+En cas de difficulté de connexion, merci de contacter Esther à learning@netexplo.org.
+
+Bien à vous,
+
+L’équipe de formation Netexplo
+
 {% else %}
 
 Hello,
