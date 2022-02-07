@@ -1,0 +1,82 @@
+<%page expression_filter="h"/>
+<%! from django.utils.translation import ugettext as _ %>
+<%inherit file="../main.html" />
+
+<%block name="pagetitle">${_("About")}</%block>
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="container about">
+        <h1>Un MOOC pour quoi faire ?</h1>
+        <div id="inerSection">
+            <img src="/static/fhf/images/pourquoi_faire.jpg" alt="A gauche trois médecins en salle d'opération, à droite une jeune femme dasant avec une vielle femme. Au centre le logo 'La FHF maison commune des établissements hospitaliers et médic-sociaux publics'" class="animate__animated animate__fadeInUp">
+            <h2>Xxxxxxxxxxxxxxx</h2>
+            <p>La loi de transformation de la fonction publique de 2019 a généralisé la mission de référent handicap dans l’ensemble des établissements.
+                <br />
+                <br />La FHF a souhaité, en réponse, accompagner et soutenir la prise de fonction des référents handicap dans la fonction publique hospitalière.
+                <br />
+                <br />A travers ce MOOC, les référents actuels et futurs, ainsi que les équipes RH, auront accès tant aux savoirs théoriques fondamentaux qu’à des ressources pratiques.</p>
+        </div>
+    </section>
+</main>
+
+<style>
+    #main * {
+        font-family: quicksand !important;
+    }
+    #main h1 {
+        background-color: #146caf;
+        color: white;
+        font-weight: bold;
+        padding: 10px;
+        margin-left: -50px;
+        margin-right: -50px;
+    }
+    #main h2 {
+        font-size: 24px;
+        font-weight: bold;
+        color: #124580;
+        margin: 50px 0 25px;
+    }
+    #main p, #main span, #main li {
+        font-size: 18px;
+        font-weight: bold;
+        line-height: 1.2;
+    }
+    #main p, #main li {
+        color: #146caf;
+    }
+    #main img {
+        max-width: 100%;;
+    }
+    #moreInfo {
+        background-color: #124580;
+        padding: 5px 20px;
+        cursor: pointer;
+        text-decoration: none;
+        color: white !important;
+        font-weight: 600;
+        font-family: 'Roboto', sans-serif !important;
+        font-size: 24px;
+        border-radius: 10px ;
+        display: inline-block;
+        line-height: 1.5;
+        text-align: center;
+        vertical-align: middle;
+        user-select: none;
+        transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        margin-left: calc(50% - 154px);
+        margin-top: 50px;
+    }
+    #moreInfo:hover {
+        background-color: #a9c1ee;
+    }
+    @media all and (min-width: 421px) {
+        #main #inerSection {
+            width: 70%;
+            margin: auto;
+        }
+    }
+</style>
