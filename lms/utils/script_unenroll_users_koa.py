@@ -17,7 +17,7 @@ import logging
 log = logging.getLogger()
 
 
-courses_list = ['course-v1:deeptechforbusiness+FR+2021', 'course-v1:deeptechforbusiness+EN+2021']
+courses_list = ['course-v1:deeptechforbusiness+FR+2021', 'course-v1:deeptechforbusiness+EN+2021', 'course-v1:linkingcities+01+2021']
 
 admin_list = ['fsegalen@netexplo.org', 'lnyadanu@netexplo.org', 'eruch-ext@netexplo.org', 'learning@netexplo.org']
 
@@ -31,8 +31,6 @@ for course_id in courses_list:
 
         string_data = str(enrollment)
         date_registration = datetime.strptime(string_data.split(' ')[3].replace('(',''), '%Y-%m-%d')
-        log.info('date_registration :')
-        log.info(date_registration)
         
         today = datetime.now()
         time_delta = (today - date_registration).days
@@ -45,10 +43,10 @@ for course_id in courses_list:
 
             if user.email not in admin_list and user.email.find("@weuplearning") == -1 and user.email.find("@themoocagency") == -1 : 
 
-                log.info(course_key)
-                log.info('will be delete :')
-                log.info(user.email)
                 CourseEnrollment.unenroll_by_email(user.email, course_key)
+                log.info(user.email)
+                log.info('has been deleted from :')
+                log.info(course_key)
 
 
 log.info('End')
