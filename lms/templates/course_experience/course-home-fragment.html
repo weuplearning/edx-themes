@@ -257,6 +257,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     #logo_banner {
         margin: auto 30px;
         height: 40px;
+        display: none;
     }
 
     
@@ -342,7 +343,7 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
 
 <%block name="content">
 <div class="course-view page-content-container" id="course-container">
-    <header class="page-header has-secondary">
+        <header class="page-header has-secondary" style="background-image: url('/static/fhf/images/logo_secondary.a97c273c4912.png');background-size: cover;height: 100px;background-position: center;">
         <div class="page-header-main">
             <img id="logo_banner" src="${static.url('{}/images/logo_secondary.png'.format(course.org))}" alt="banner logo">
         </div>
@@ -366,7 +367,7 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
             % endif
             <div class="form-actions">
                 % if resume_course_url:
-                    <a class="btn btn-secondary action-resume-course" href="${resume_course_url}">
+                    <a class="btn btn-secondary action-resume-course" href="${resume_course_url}" style="display:none;">
                         % if has_visited_course:
                             <span data-action-type="resume">${_("Resume Course")}</span>
                         % else:
