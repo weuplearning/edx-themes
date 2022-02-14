@@ -37,14 +37,14 @@ for course_id in courses_list:
         log.info('time_delta')
         log.info(time_delta)
 
-        if time_delta > 9 :
+        if time_delta > 90 :
 
             user = enrollment.user
 
             if user.email not in admin_list and user.email.find("@weuplearning") == -1 and user.email.find("@themoocagency") == -1 : 
 
                 CourseEnrollment.unenroll_by_email(user.email, course_key)
-                log.info(user.email)
+                log.info(user.username)
                 log.info('has been deleted from :')
                 log.info(course_key)
 
