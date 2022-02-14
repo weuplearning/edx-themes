@@ -34,18 +34,30 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta HTTP-EQUIV="Access-Control-Allow-Origin" CONTENT="http://www.youtube.com">
 
 ## Define a couple of helper functions to make life easier when
 ## embedding theme conditionals into templates. All inheriting
 ## templates have access to these functions, and we can import these
 ## into non-inheriting templates via the %namespace tag.
-
+<script>console.log("${request.path}")</script>
 ## this needs to be here to prevent the title from mysteriously appearing in the body, in one case
 <%def name="pagetitle()" />
   <%block name="title">
+
+    % if request.path == "/courses/course-v1:amazon+amazon001+SP/1a96e2a921634a8ca74c23670fc41cdf/":
+    <title>
+      Bootcamp
+     </title>
+    % elif request.path == "/courses/course-v1:amazon+amazon001+SP/c35c81be41c34ad3814a6ffae7515b0f/":
+    <title>
+      Webinaire
+     </title>
+    % else:
       <title>
        ${static.get_page_title_breadcrumbs(self.pagetitle())}
       </title>
+    %endif
   </%block>
 
   % if not allow_iframing:

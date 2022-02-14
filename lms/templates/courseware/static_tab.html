@@ -18,12 +18,13 @@ ${HTML(fragment.head_html())}
 
 <!-- WEBINAIRES AND REPLAYS-->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+
 <style>
 .static_tab_wrapper{
  padding-left:0px !important;
  padding-right:0px !important;
  border-left: 0px !important;
- border-rightt: 0px !important;
+ border-right: 0px !important;
 }
 @media screen and (max-width : 600px) {
   div.static_tab_wrapper{
@@ -90,6 +91,7 @@ div.window-wrap{
 }
 
 </style>
+
 </%block>
 
 <%block name="footer_extra">
@@ -99,9 +101,14 @@ ${HTML(fragment.foot_html())}
 
 <%block name="pagetitle">${_(tab['name'])} | ${course.display_number_with_default}</%block>
 
-<%include file="/courseware/course_navigation.html" args="active_page=active_page" />
+% if str(request.user) != "AnonymousUser":
+  <%include file="/courseware/course_navigation.html" args="active_page=active_page" />
+% endif
+
+
 <%static:css group='style-student-notes'/>
 
+% if str(request.user) != "AnonymousUser":
 <main id="main" aria-label="Content" tabindex="-1">
     <section class="container"
     % if getattr(course, 'language'):
@@ -114,3 +121,6 @@ ${HTML(fragment.foot_html())}
       </div>
     </section>
 </main>
+% endif
+
+
