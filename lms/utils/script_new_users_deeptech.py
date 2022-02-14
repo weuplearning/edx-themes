@@ -27,7 +27,7 @@ log = logging.getLogger()
 
 # Can not manage to pass var as arguments in command line
 course_ids = ['course-v1:deeptechforbusiness+EN+2021', 'course-v1:deeptechforbusiness+FR+2021']
-emails =['eruch-ext@netexplo.org', 'learning@netexplo.org', 'melanie.zunino@weuplearning.com']
+emails =['eruch-ext@netexplo.org', 'learning@netexplo.org', 'melanie.zunino@weuplearning.com', 'cyril.adolf@weuplearning.com']
 
 
 
