@@ -71,7 +71,9 @@ from openedx.core.djangolib.markup import HTML, Text
     background-color: #146caf;
     padding-bottom: 0px;
     margin-bottom: 65px;
-    background-image: url('/static/fhf/images/quadrillage.png');
+    background-image: url('/static/fhf/images/fond_geometrique.jpg');
+    background-size: contain;
+    background-size: 500px;
   }
 
   .container-fluid{
@@ -99,19 +101,48 @@ from openedx.core.djangolib.markup import HTML, Text
   }
 
   .vignetteText {
-    border: 2px solid white;
     padding: 17px;
     font-size: 14px;
     margin: auto;
   }
+  
+  .vignetteText, iframe {
+    border: 2px solid white;
+    background-color: #0c6296;
+  }
+
+  iframe {
+    height: 300px !important;
+  }
+
+  .background-split-color .col-sm-12.col-md-6 {
+    margin-bottom: 100px;
+  }
+
+  .background-split-color .text-center { 
+    margin-bottom : 0;
+  }
 
   @media all and (min-width: 768px) {
+    iframe {
+      height: 100%!important;
+      margin-bottom : 0px;
+    }
     .vignetteText {
       font-size: 12px;
+    }
+    
+    .background-split-color .col-sm-12.col-md-6 {
+      margin-bottom: 0px;
     }
   }
 
   @media all and (min-width: 992px) {
+    .background-split-color .text-center {
+      margin-bottom : 80px;
+      margin-top: 100px;
+    }
+
     .vignetteText {
       font-size: 15px;
     }
@@ -317,7 +348,7 @@ from openedx.core.djangolib.markup import HTML, Text
 <div class="main-page">
 
   <div class="background-split-color">
-    <div class="text-center" style="margin-top: 80px">
+    <div class="text-center">
       <div class="col-md">
         <img src="/static/fhf/images/mooc_handicap.png" class="img-fluid img-logo" alt="mooc logo">
       </div>
