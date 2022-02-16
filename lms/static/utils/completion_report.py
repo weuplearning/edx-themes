@@ -1,6 +1,7 @@
 import os
 from io import BytesIO
 import json
+from re import S
 import time
 
 from opaque_keys.edx.locator import CourseLocator
@@ -16,6 +17,7 @@ from lms.djangoapps.grades.api import (
 )
 from lms.djangoapps.courseware.user_state_client import DjangoXBlockUserStateClient
 
+from openedx.core.djangoapps.content.block_structure.api import get_course_in_cache
 
 
 from completion.models import BlockCompletion
@@ -35,8 +37,8 @@ log = logging.getLogger()
 
 
 # Can not manage to pass var as arguments in command line
-# course_ids = ['course-v1:bmd+test1609+2021']
-course_ids = ['course-v1:bmd+FR+2022_02_9-10']
+course_ids = ['course-v1:bmd+test1609+2021']
+#course_ids = ['course-v1:bmd+FR+2022_02_9-10']
 emails =['cyril.adolf@weuplearning.com']
 
 block_id_dict = {
@@ -44,13 +46,13 @@ block_id_dict = {
     'section_2': ['d5ee1dc882d24bdb81c4c788c50e35b9', 'e8c3ddb56659414fb22599bc2992fc82'],
     'section_3': ['7e3c1e62c66e40deba9965ce99bf3285', '851fa1f40c524c999e436d5cc5564195', 'f284429ed3104774ab5fc5cccb545fba', '33c5e98a754e42a5b7125ce37379dd35', 'f0f24c498381431cb666212462dba95e', 'fdbc23846d67473288ffc8d794f0f39a', 'e7c6890f6845492d812d6e3ecaa3061d'],
     'section_4': ['a1d1bb2266714c4288a4f28763e2557a', 'b46018c8ec054b7a8b1bbcdec8457c5f', 'd806976ad7024118b09c0c0a55c483ab', '50351b5977294d3298b75b034e37bee4', 'be542f6da88247baac812699d69b058d', '2082ce18e8564dc783ec02266ebdfe69', '2d295b138d57452f9bd0685b15d0e040', '0b95f04af2ab4d76b7514e140e2d60b6', '825e6ed9d6084539871b130509dbee71', '4157e8120b904db6969529f124aff668', '5ac00a4881c945f3b1b3b2aa20aca834', 'a080c87f6b9c4c84860095c83b50f66a', 'b32e955ac82c4ec3b159ada6b74b5fe2', '8d5451adce1a4b2883623e13ae3470e6', '9dabd516af38463a89adac7946cdb51d', '8742cec7465c4bedaf4e1f21acda203b', '7f7a0215c835403aac83351fe17990e6', 'c1df8d04fcbb499a8f2f63651fd54f9b', '8eec1b1fd20e497bbe21a6df928e679c', '4bc2baedba594231a01dd87aa9b2c51c', '43bf2af1981f432d9b5df43e6b3edd14', '76fc61283d8446b79d5f06dafacb3266', '497eb759b4554f5292d11ce76fb3d862', '9d52880e911d4c5d8fe56b8a0c04798a'],
-    'virtual_class_1': [],
+    'virtual_class_1': ['be1549097123480e86c31e77e515d5d6'],
     'section_6': ['d6f9f7457f7640daba223a43655e69a3', 'a5ec531c97b3412898feb5eeb882e62a', '203f241fe72d49fab784ff6bd37d07a0', 'd8cf1e113e6742e692e6cc0bbe0363df', '6cb2bc5b6a6b40eebf02cbcf7e2a19d9', '7a93a28411874834a57504defe5ade11', '11fb98e15a184628b75390a5e7c84e82'],
     'section_7': ['632cd05b4968489ba2c97def2b2355c6', '7b5411f0c1554cb8b155eb92e2e5a0da', 'ca78ed1ab53140f39c664900e4ad4fbb', 'c659c94cdc104c138019f6682fd5f6a1', 'f5e6c2707d804c85a2c1424ac095d824', '9156944eb362449598bd24d4847beb7b', '6493b71be5004a8bb73ee436518a0143', '82b3413e287d4cb48ef03aef79cba06c'],
-    'virtual_class_2': [],
+    'virtual_class_2': ['63a8eb9da88a4939a3e06f0ae803b722'],
     'section_9': ['15fd353d7c69424299cea7f1e56ed3a7', '2f855dc6b98240f7af0da14722a27187', 'acd8ea431c9342979b50a920013742d7', 'd38f6ca1a4884fb189468c554f3c152d', '2961fc5fe1ff49139cfce7874179f8d4', 'ad73a16e89584fe7bff6920217876280'],
     'section_10': ['7e1084d6acaa41b7a588cafc53c597ad', '569193fbaf154d2f9273ea5c1755cbe1', '1f84aee5c0994641ad9b18db0d949cef', '1d564771a52f4ff092723c3849798f1d', '52b06874f66043f88a39b68288f4da08', '37d893b231ea4259a56542ec450ec873', '13cacb8243e943688a536b086c10a844', '7de7488b8eb5410dbc03d48d784649da', '9ee65dbfd78c49abadcc7102a3af003c', 'eed1816bda854578bef8317161e343df', '181c8758c93444d4a9a31c6c2688c556', 'cf7738b4d7bc465ca9ed194018cb5b6b', 'd919a9d575d14be981cdf4a94f60f4d5', '65695548400747c9890b5d6150dc64f3', 'e6a39b736bc04e97938594f74fcfe723', '17e72f101d0648c4b2761ba363274fad', 'aeb706aa01f24210aee43f7a8461dc59', '7c7e3ff1dfd14bbcaea8101075031047', 'ea872f4dfe514b9aa347baea8b09f619', 'ab2cffdd73c84665ba0e752b7bfd1493', '51c48dfea377424c81cadcce75e432e8', 'f44d453b90d24c0ea12ab72f1ca57754', '385ef2f2548744049b235d834056a1f1', '6b19aa3cf21a44dc94306c771c29ed3c', 'a4fcb31fe1474b9186a6a1ba17dc438a', 'd1f21af087f44b379788b1d2400cc5e2', '13e1ea4e679c4055a17b70a0e247d38e', '98db593b38d244c6ab72d47ffc3ba184', '838df49cfe13439fb2aeb1fa6c33b7b5', '8fcf7cb6914b41b09cce4a137089ce46'],
-    'virtual_class_3': [],
+    'virtual_class_3': ['73e7489127364f7d9a5cc72d799dac2d'],
     'section_12': ['f83f87c4a111463883174e5a17055db4', 'd6f713b43e4e4ff591b9b83b0bcd2b1b', 'ba3bc242b64f4da391487390454ba588', '7ad57fc1d87d44eeb45f7093bb2e6411', '8d5a49e2d5ba4065a98710538f734294', 'a124614e7461458d9483f50259a00134'],
     'section_13': ['e48fa4ce34b7483cbc697ee63b885ffe'],
     'section_14': ['c7053bb878464c6080c67bc7cc3ffa23'],
@@ -73,6 +75,21 @@ for course_id in course_ids:
     course_names.append(course.display_name_with_default)
     course_names_html.append("<li>"+ str(course.display_name_with_default)+"</li>")
 
+    course_structure = get_course_in_cache(course.id)
+    log.info(course_structure)
+
+    # Create block_id_dict
+    # block_id_dict = {}
+    # for section in course_structure:
+    #     if section.index('chapter') != -1 :
+    #         block_id_dict
+    #     log.info(section)
+    #     log.info(dir(section))
+    #     log.info(section.html_id)
+    #     log.info(section.block_id)
+    #     log.info(section.name)
+        
+    # log.info(error)
     course_data = {}
 
     course_enrollments = CourseEnrollment.objects.filter(course_id=course_key)
@@ -84,7 +101,6 @@ for course_id in course_ids:
 
         # session
         session = course_id.split('+')[1]
-        log.info('-----> session: '+ str(session))
 
         user_data = {}
 
@@ -120,20 +136,20 @@ for course_id in course_ids:
             except:
                 user_data["lastname"] = 'n.a.'
 
-        try:
-            user_data["virtual_class_1"] = json.loads(user.profile.custom_field)['virtual_class_1']
-        except:
-            user_data["virtual_class_1"] = False
+        # try:
+        #     user_data["virtual_class_1"] = json.loads(user.profile.custom_field)['virtual_class_1']
+        # except:
+        #     user_data["virtual_class_1"] = False
 
-        try:
-            user_data["virtual_class_2"] = json.loads(user.profile.custom_field)['virtual_class_2']
-        except:
-            user_data["virtual_class_2"] = False
+        # try:
+        #     user_data["virtual_class_2"] = json.loads(user.profile.custom_field)['virtual_class_2']
+        # except:
+        #     user_data["virtual_class_2"] = False
 
-        try:
-            user_data["virtual_class_3"] = json.loads(user.profile.custom_field)['virtual_class_3']
-        except:
-            user_data["virtual_class_3"] = False
+        # try:
+        #     user_data["virtual_class_3"] = json.loads(user.profile.custom_field)['virtual_class_3']
+        # except:
+        #     user_data["virtual_class_3"] = False
 
         total_earned = 0
         total_possible = 0
@@ -143,9 +159,14 @@ for course_id in course_ids:
         grading_context = grading_context_for_course(course)
         user_state_client = DjangoXBlockUserStateClient()
         list_question = []
-        log.info(grading_context['all_graded_subsections_by_type'])
+            
         for section in grading_context['all_graded_subsections_by_type']['Auto evaluation']:
             for unit in section['scored_descendants']:
+                log.info('unit')
+                log.info(unit)
+                log.info(dir(unit))
+                log.info(unit.location)
+
                 scorable_block_titles.append((unit.location))
 
         for block_location in scorable_block_titles:
@@ -154,10 +175,10 @@ for course_id in course_ids:
             try:
                 history_entries = list(user_state_client.get_history(user.username, block_location))
             except: 
-                question['choice'] = 'n.a.'
-                question['correctedGrade'] = 0
-                question['time'] = 'n.a.'
-                question['score'] = 'n.a.'
+                # question['choice'] = 'n.a.'
+                # question['correctedGrade'] = 0
+                # question['time'] = 'n.a.'
+                # question['score'] = 'n.a.'
                 user_data["grade"] = 'n.a.'
                 continue
 
@@ -165,100 +186,12 @@ for course_id in course_ids:
             question['problem'] = problemNum
             choices = []
             
-
-            log.info('history_entries[0].state')
-            log.info(history_entries[0].state)
-            log.info(history_entries[0].state['score']['raw_earned'])
-            log.info(history_entries[0].state['score']['raw_possible'])
-
             total_earned += history_entries[0].state['score']['raw_earned']
             total_possible += history_entries[0].state['score']['raw_possible']
 
-            log.info("----------------------")
-
-
-            # if len(history_entries[0].state) ==3:
-            #     question['choice'] = 'n.a.'
-            # else:
-            #     for key, value in history_entries[0].state['student_answers'].items():
-            #         choices = value
-            #         question['choice'] = value
-
-            # # GRADE NEED TO BE RECALCULATE DUE TO BVT SCALE
-            # try:
-            #     question['correctedGrade'] = updateGrade( problemNum, choices, answer_list)
-            # except:
-            #     question['correctedGrade'] = 0
-
-            # try:
-            #     question['time'] = history_entries[0].state['last_submission_time']
-            # except:
-            #     question['time'] = 'n.a.'
-
-            # try:
-            #     question['score'] = history_entries[0].state['score']['raw_earned']
-            # except:
-            #     question['score'] = 'n.a.'
-
-            # list_question.append(question)
-
-
-
-
-        log.info('grading_context')
-        log.info(grading_context['all_graded_subsections_by_type']['Auto evaluation'])
-        for unit in grading_context['all_graded_subsections_by_type']['Auto evaluation']:
-            log.info(unit.values)
-            log.info(unit.items)
-            log.info(unit.keys)
-            log.info(dir(unit))
-
-        # for section in grading_context['all_graded_subsections_by_type']['Auto evaluation']:
-        #     for unit in section['scored_descendants']:
-        #         # log.info('unit')
-        #         # log.info(unit)
-        #         scorable_block_titles.append((unit.location))
-
-        # for block_location in scorable_block_titles:
-
-        #     question = {}
-        #     try:
-        #         history_entries = list(user_state_client.get_history(user.username, block_location))
-        #     except: 
-        #         question['choice'] = 'n.a.'
-        #         question['correctedGrade'] = 0
-        #         question['time'] = 'n.a.'
-        #         question['score'] = 'n.a.'
-        #         continue
-
-        #     problemNum = str(block_location)[-2:]
-        #     question['problem'] = problemNum
-        #     choices = []
-            
-
-        #     if len(history_entries[0].state) ==3:
-        #         question['choice'] = 'n.a.'
-        #     else:
-        #         for key, value in history_entries[0].state['student_answers'].items():
-        #             choices = value
-        #             question['choice'] = value
-
-        #     question['correctedGrade'] = 0
-
-        #     try:
-        #         question['time'] = history_entries[0].state['last_submission_time']
-        #     except:
-        #         question['time'] = 'n.a.'
-
-        #     try:
-        #         question['score'] = history_entries[0].state['score']['raw_earned']
-        #     except:
-        #         question['score'] = 'n.a.'
-
-        #     list_question.append(question)
-        grade = total_earned / total_possible
-
-        user_data["grade"] = round(grade, 2) *100
+        if total_possible != 0:
+            grade = total_earned / total_possible
+            user_data["grade"] = round(grade, 2) *100
 
         data = { "general": user_data }
         # data = { "general": user_data, 'list_question' : list_question }
@@ -277,22 +210,23 @@ sheet.title= 'Rapport'
 filename = '/home/edxtma/csv/{}_BMD_grade_report.xls'.format(timestr)
 
 headers = ['Adresse e-mail', 'Prénom', 'Nom', 'Session','Note (%)', 'Chapitre 1', 'Chapitre 2', 'Chapitre 3', 'Chapitre 4', 'Chapitre 5', 'Chapitre 6', 'Chapitre 7', 'Chapitre 8', 'Chapitre 9', 'Chapitre 10', 'Chapitre 11', 'Chapitre 12', 'Chapitre 13', 'Chapitre 14', 'Chapitre 15' ]
-first = True
 
 for i, header in enumerate(headers):
     sheet.cell(1, i+1, header)
 j=2
 for k, course_id in all_users_data.items():
+
     for key, user in course_id.items():
+        
         sheet.cell(j, 1, user['general']['email'])
         sheet.cell(j, 2, user['general']['firstname'])
         sheet.cell(j, 3, user['general']['lastname'])
         # Session
         sheet.cell(j, 4, user['general']['session'])
         sheet.cell(j, 5, user['general']['grade'])
-        sheet.cell(j, 10, int(1)) if user['general']['virtual_class_1'] else sheet.cell(j, 10, int(0)) 
-        sheet.cell(j, 13, int(1)) if user['general']['virtual_class_2'] else sheet.cell(j, 13, int(0)) 
-        sheet.cell(j, 16, int(1)) if user['general']['virtual_class_3'] else sheet.cell(j, 16, int(0)) 
+        # sheet.cell(j, 10, int(1)) if user['general']['virtual_class_1'] else sheet.cell(j, 10, int(0)) 
+        # sheet.cell(j, 13, int(1)) if user['general']['virtual_class_2'] else sheet.cell(j, 13, int(0)) 
+        # sheet.cell(j, 16, int(1)) if user['general']['virtual_class_3'] else sheet.cell(j, 16, int(0)) 
         
 
         correctedExamGrade = 0
@@ -312,7 +246,7 @@ for k, course_id in all_users_data.items():
                 sheet.cell(j, i+1, ratio)
             i += 1
             
-    j += 1
+        j += 1
 
 
 # SEND MAILS
