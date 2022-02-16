@@ -37,9 +37,9 @@ log = logging.getLogger()
 
 
 # Can not manage to pass var as arguments in command line
-course_ids = ['course-v1:bmd+test1609+2021']
-#course_ids = ['course-v1:bmd+FR+2022_02_9-10']
-emails =['cyril.adolf@weuplearning.com']
+#course_ids = ['course-v1:bmd+test1609+2021']
+course_ids = ['course-v1:bmd+FR+2022_02_9-10']
+emails =['cyril.adolf@weuplearning.com', 'melanie.zunino@weuplearning.com']
 
 block_id_dict = {
     'section_1': ['b8977b0d23b8451988f67810261cbaf4' ,'6abb25115bcc4ceabd920f42f02f911f', '6d477a377a39499da862232c088d1dd5', 'c3221290e0364e8ebc5a0d26ae274c7b', '175de0b46307493f9784e6d4c0227151', 'cf1dffbafe0e4336bc355b5f5064f514', '609840a6d3be4f489bda27df430d0f40', '6b76c1c82b9446ab812fc95c7b3a2f17', '5118756264874da5a854517357242cbf', '276dfbc7995e4c57810807d4cdc2f604', 'c34577726ffb4713ba13116bab0cb8c8' , '9562f9c2ee994be9bdd09d68ff1600ee', 'a3c2f665113745c3a39439f03360e6d3', '552419bae4d24fd98281628aa81280e1', '8125a2d6716d48108b0a695a64d662d6', 'c6ad12e09c734fcab7a55b5cdcf08304', 'afe0c87008da425d8837c1d7b565b0af', '2ace542ac2734e2c99aa195f293e1c2e', '60e5c2c3be104dacb36bfbaaafb269bc', '09537da71d1043a19bb8afa8a6e22476', '34ac173f97e840abb126f4b7f34a1579'],
@@ -65,7 +65,6 @@ log.info('------------> Begin fetching user data and answers')
 at_least_one_student = False
 course_names = []
 course_names_html = []
-completed_block = []
 
 
 for course_id in course_ids:
@@ -104,11 +103,14 @@ for course_id in course_ids:
 
         user_data = {}
 
+        completed_block = []
         course_block_completions = BlockCompletion.get_learning_context_completions(user, course_key)
 
         for e, value in course_block_completions.items():
             completed_block.append(e.block_id)
 
+        user_data["completion"] = completed_block
+        
         at_least_one_student = True
         user_data["session"] = session
 
@@ -232,13 +234,14 @@ for k, course_id in all_users_data.items():
         correctedExamGrade = 0
         i = 5 
         for section, units in block_id_dict.items(): 
+
             completion = 0
             block_in_section = 0
 
             for unit in units :
                 block_in_section += 1 
 
-                if unit in completed_block : 
+                if unit in user['general']['completion'] :
                     completion += 1
 
             if block_in_section != 0:
