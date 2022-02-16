@@ -7,10 +7,7 @@ import time
 from opaque_keys.edx.locator import CourseLocator
 from common.djangoapps.student.models import CourseEnrollment
 from courseware.courses import get_course_by_id
-
 from openedx.core.djangoapps.content.block_structure.api import get_course_in_cache
-
-
 from completion.models import BlockCompletion
 
 
@@ -103,6 +100,9 @@ for course_id in course_ids:
             except:
                 user_data["email"] = 'n.a.'
 
+        if user_data["email"].find('@yopmail') != -1 or user_data["email"].find('@weuplearning') != -1 or user_data["email"].find('@themoocagency') != -1 or user_data["email"].find('@netexplo') != -1 :
+            continue
+
         try:
             user_data["firstname"] = user.first_name.capitalize()
         except:
@@ -180,7 +180,7 @@ html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous trouverez en pièce j
 
 for email in emails:
     if not at_least_one_student :
-        log.info('at_least_one_student')
+        log.info('at_least_one_student :')
         log.info(at_least_one_student)
         break
 
