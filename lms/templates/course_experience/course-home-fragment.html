@@ -381,9 +381,9 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
 
 <%block name="content">
 <div class="course-view page-content-container" id="course-container">
-        <header class="page-header has-secondary" style="background-image: url(${static.url('/fhf/images/quadrillage.png')});height: 100px;background-size: 1500px;">
-        <img id="logo_banner" src="${static.url('/fhf/images/bandeau_texte.png')}" alt="banner logo">
-        <img id="logo_banner_small" src="${static.url('/fhf/images/mooc_handicap.png')}" alt="banner logo" style="height: 84px;">
+        <header class="page-header has-secondary" style="background-image: url(${static.url('fhf/images/quadrillage.png')});height: 100px;background-size: 1500px;">
+        <img id="logo_banner" src="${static.url('fhf/images/bandeau_texte.png')}" alt="banner logo">
+        <img id="logo_banner_small" src="${static.url('fhf/images/mooc_handicap.png')}" alt="banner logo" style="height: 84px;">
         <div class="page-header-secondary">
             % if show_search:
                 <div class="page-header-search">
