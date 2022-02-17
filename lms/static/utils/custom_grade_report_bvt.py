@@ -218,7 +218,7 @@ wb.save(output)
 _files_values = output.getvalue()
 course_names_html = ''.join(course_names_html)
 
-html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous trouverez en pièce jointe le rapport de note : "+ course_names_html +"<br/><br/></p></body></html>"
+html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous trouverez en pièce jointe le rapport de note : "+ course_names_html +"<br/><br/>Bonne r&eacute;ception<br/>L'&eacute;quipe WeUp Learning</p></body></html>"
 
 for email in emails:
   part2 = MIMEText(html.encode('utf-8'), 'html', 'utf-8')
