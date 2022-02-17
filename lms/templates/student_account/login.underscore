@@ -3,8 +3,8 @@
 
 <% if ( context.createAccountOption !== false && !context.syncLearnerProfileData && !(context.enterpriseName && context.currentProvider) ) { %>
 <div class="toggle-form">
-    <span class="text"><%- gettext("First time here?") %></span>
-    <a href="#login" class="form-toggle" data-type="register"><%- gettext("Create an Account.") %></a>
+    <span class="text">Vous souhaitez </span>
+    <a href="#" id="registerPopUp" data-type="register">vous inscrire ?</a>
 </div>
 <% } %>
 
@@ -75,4 +75,18 @@ console.log(hostName + '/login?next=/login')
 if (window.location.href == 'https://' + hostName + '/login?next=/login') {
    window.location.href = 'https://' + hostName + '/login?next=/dashboard'; 
 }
+
+$('#registerPopUp').click(function(){
+    Swal.fire({
+    icon: 'info',
+    html:
+        'Les formations proposées sur cette plateforme sont réservées aux salariés d’entreprises ferroviaires.'+
+        '<br />Vous êtes salarié d’une entreprise ferroviaire et disposez déjà d’un compte sur la plateforme e-ferro ? Cliquez sur le bouton connexion pour vous accéder à votre compte.'+
+        '<br />Vous pourrez alors réinitialiser votre mot de passe si nécessaire.'+
+        '<br />Si vous n’êtes pas inscrit, merci de contacter votre employeur ou adressez-nous un mail à l’adresse e-ferro@ciffco.com',
+    confirmButtonText: 'Fermer',
+    confirmButtonAriaLabel: 'Fermer!',
+    confirmButtonColor: '#353a40',
+    })
+})
 </script>
