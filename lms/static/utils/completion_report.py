@@ -26,8 +26,8 @@ log = logging.getLogger()
 
 # Can not manage to pass var as arguments in command line
 # course_ids = ['course-v1:bmd+test1609+2021']
-course_ids = ['course-v1:bmd+FR+2022_02_9-10']
 # emails =['cyril.adolf@weuplearning.com']
+course_ids = ['course-v1:bmd+FR+2022_02_9-10']
 emails =[ 'eruch-ext@netexplo.org', 'learning@netexplo.org', 'lnyadanu@netexplo.org', 'melanie.zunino@weuplearning.com']
 
 all_users_data = {}
@@ -53,8 +53,11 @@ for course_id in course_ids:
     # initialize chapter var
     first = True
     for section in course_structure:
+        log.info(section)
         if str(section).find('chapter') != -1 :
-
+            # remove last two sections :
+            if str(section).find('259c99b5c0ba46318ca4a22f1d276380') != -1 or str(section).find('457a89c72983492cb08fc3beb1cc232f') != -1 :
+                continue
             # update object and then create the next chapter
             if first :
                 chapter = str(section)
@@ -133,9 +136,9 @@ timestr = time.strftime("%Y_%m_%d")
 wb = Workbook()
 sheet = wb.active
 sheet.title= 'Rapport'
-filename = '/home/edxtma/csv/{}_BMD_grade_report.xls'.format(timestr)
+filename = '/home/edxtma/csv/{}_BMD_grade_report.xlsx'.format(timestr)
 
-headers = ['Adresse e-mail', 'Prénom', 'Nom', 'Session', 'Chapitre 1', 'Chapitre 2', 'Chapitre 3', 'Chapitre 4', 'Chapitre 5', 'Chapitre 6', 'Chapitre 7', 'Chapitre 8', 'Chapitre 9', 'Chapitre 10', 'Chapitre 11', 'Chapitre 12', 'Chapitre 13', 'Chapitre 14', 'Chapitre 15', 'Chapitre 16', 'Chapitre 17' ]
+headers = ['Adresse e-mail', 'Prénom', 'Nom', 'Session', 'Chapitre 1', 'Chapitre 2', 'Chapitre 3', 'Chapitre 4', 'Chapitre 5', 'Chapitre 6', 'Chapitre 7', 'Chapitre 8', 'Chapitre 9', 'Chapitre 10', 'Chapitre 11', 'Chapitre 12', 'Chapitre 13', 'Chapitre 14', 'Chapitre 15' ]
 
 for i, header in enumerate(headers):
     sheet.cell(1, i+1, header)
@@ -152,7 +155,9 @@ for k, course_id in all_users_data.items():
         correctedExamGrade = 0
         i = 4
         for section, units in block_id_dict.items(): 
-
+            log.info("---------------------------------")
+            log.info(section)
+            log.info(units)
             completion = 0
             block_in_section = 0
 
