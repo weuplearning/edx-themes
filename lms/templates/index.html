@@ -71,7 +71,7 @@ from openedx.core.djangolib.markup import HTML, Text
     background-color: #146caf;
     padding-bottom: 0px;
     margin-bottom: 65px;
-    background-image: url('/static/fhf/images/fond_geometrique.jpg');
+    background-image: url("${static.url('/fhf/images/fond_geometrique.jpg')}");
     background-size: contain;
     background-size: 500px;
   }
@@ -140,7 +140,7 @@ from openedx.core.djangolib.markup import HTML, Text
   @media all and (min-width: 992px) {
     .background-split-color .text-center {
       margin-bottom : 80px;
-      margin-top: 100px;
+      padding-top: 100px;
     }
 
     .vignetteText {
@@ -350,7 +350,7 @@ from openedx.core.djangolib.markup import HTML, Text
   <div class="background-split-color">
     <div class="text-center">
       <div class="col-md">
-        <img src="/static/fhf/images/mooc_handicap.png" class="img-fluid img-logo" alt="mooc logo">
+        <img src="${static.url('/fhf/images/mooc_handicap.png')}" class="img-fluid img-logo" alt="mooc logo">
       </div>
         <div class="container">
           <div class="row">
@@ -376,7 +376,7 @@ from openedx.core.djangolib.markup import HTML, Text
               <div class="leftUpBorder"></div>
               <div class="leftDownBorder"></div>
               <div class="row">
-                <img src="${static.url('/static/fhf/images/module1.jpg')}">
+                <img src="${static.url('/fhf/images/module1.jpg')}">
               </div>
               <div class="flipCardTextContent">
                 <div class="row">
@@ -400,7 +400,7 @@ from openedx.core.djangolib.markup import HTML, Text
               <div class="leftUpBorder"></div>
               <div class="leftDownBorder"></div>
               <div class="row">
-                <img src="${static.url('/static/fhf/images/module2.jpg')}">
+                <img src="${static.url('/fhf/images/module2.jpg')}">
               </div>
               <div class="flipCardTextContent">
                 <div class="row">
@@ -424,7 +424,7 @@ from openedx.core.djangolib.markup import HTML, Text
               <div class="leftUpBorder"></div>
               <div class="leftDownBorder"></div>
               <div class="row">
-                <img src="${static.url('/static/fhf/images/module3.jpg')}">
+                <img src="${static.url('/fhf/images/module3.jpg')}">
               </div>
               <div class="flipCardTextContent">
                 <div class="row">
@@ -448,7 +448,7 @@ from openedx.core.djangolib.markup import HTML, Text
               <div class="leftUpBorder"></div>
               <div class="leftDownBorder"></div>
               <div class="row">
-                <img src="${static.url('/static/fhf/images/module4.jpg')}">
+                <img src="${static.url('/fhf/images/module4.jpg')}">
               </div>
               <div class="flipCardTextContent">
                 <div class="row">
@@ -472,7 +472,7 @@ from openedx.core.djangolib.markup import HTML, Text
               <div class="leftUpBorder"></div>
               <div class="leftDownBorder"></div>
               <div class="row">
-                <img src="${static.url('/static/fhf/images/module5.jpg')}">
+                <img src="${static.url('/fhf/images/module5.jpg')}">
               </div>
               <div class="flipCardTextContent">
                 <div class="row">
@@ -496,7 +496,7 @@ from openedx.core.djangolib.markup import HTML, Text
               <div class="leftUpBorder"></div>
               <div class="leftDownBorder"></div>
               <div class="row">
-                <img src="${static.url('/static/fhf/images/module6.jpg')}">
+                <img src="${static.url('/fhf/images/module6.jpg')}">
               </div>
               <div class="flipCardTextContent">
                 <div class="row">
@@ -520,7 +520,7 @@ from openedx.core.djangolib.markup import HTML, Text
               <div class="leftUpBorder"></div>
               <div class="leftDownBorder"></div>
               <div class="row">
-                <img src="${static.url('/static/fhf/images/module7.jpg')}">
+                <img src="${static.url('/fhf/images/module7.jpg')}">
               </div>
               <div class="flipCardTextContent">
                 <div class="row">
@@ -544,7 +544,7 @@ from openedx.core.djangolib.markup import HTML, Text
               <div class="leftUpBorder"></div>
               <div class="leftDownBorder"></div>
               <div class="row">
-                <img src="${static.url('/static/fhf/images/module8.jpg')}">
+                <img src="${static.url('/fhf/images/module8.jpg')}">
               </div>
               <div class="flipCardTextContent">
                 <div class="row">
@@ -581,3 +581,6 @@ from openedx.core.djangolib.markup import HTML, Text
   $(window).load(function() {$('#signup_action').trigger("click");});
 </script>
 % endif
+<script type="text/javascript">
+  console.log('TEST TEST')
+</script>
