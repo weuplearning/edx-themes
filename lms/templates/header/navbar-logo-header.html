@@ -29,12 +29,12 @@ enterprise_customer_link = get_enterprise_learner_portal(request)
 <h1 class="header-logo">
   % if enterprise_customer_link:
     <a href="/">
-      <img class="logo" src="${static.url('/static/fhf/images/fhf_logo_rvb.jpg')}" alt="${_('{name} Dashboard').format(name=enterprise_customer_link.get('name'))}"/>
+      <img class="logo" src="/media/microsites/fhf/fhf_logo_rvb.jpg" alt="${_('{name} Dashboard').format(name=enterprise_customer_link.get('name'))}"/>
     </a>
   % else:
     <a href="/">
       <%block name="navigation_logo">
-        <img  class="logo" src="${static.url('/static/fhf/images/fhf_logo_rvb.jpg')}" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}"/>
+        <img  class="logo" src="/media/microsites/fhf/fhf_logo_rvb.jpg" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}"/>
       </%block>
     </a>
   % endif
