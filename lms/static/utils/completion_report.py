@@ -28,7 +28,7 @@ log = logging.getLogger()
 # course_ids = ['course-v1:bmd+test1609+2021']
 # emails =['cyril.adolf@weuplearning.com']
 course_ids = ['course-v1:bmd+FR+2022_02_9-10']
-emails =[ 'eruch-ext@netexplo.org', 'learning@netexplo.org', 'lnyadanu@netexplo.org', 'melanie.zunino@weuplearning.com']
+emails =[ 'eruch-ext@netexplo.org', 'lnyadanu@netexplo.org', 'melanie.zunino@weuplearning.com']
 
 all_users_data = {}
 log.info('------------> Begin fetching user data and answers')
