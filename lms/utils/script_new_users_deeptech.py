@@ -33,6 +33,8 @@ emails =['eruch-ext@netexplo.org', 'learning@netexplo.org', 'melanie.zunino@weup
 
 all_users_data = {}
 log.info('------------> Begin fetching user data and answers')
+at_least_one_student = False
+
 
 for course_id in course_ids:
   course_key = CourseLocator.from_string(course_id)
@@ -70,6 +72,7 @@ for course_id in course_ids:
     if str(user) in bugged:
       continue
     
+    at_least_one_student = True
     # Update object with user data without grades
     try:
       user_data["username"] = user.username
@@ -162,6 +165,12 @@ course_names_html = ''.join(course_names_html)
 html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous trouverez en pièce jointe le rapport de note : "+ str(course_names_html) +"  <br/>Pour la période des 30 derniers jours uniquement.<br/><br/>Bonne r&eacute;ception<br>L'&eacute;quipe NETEXPLO<br></p></body></html>"
 
 for email in emails:
+  
+  if not at_least_one_student :
+    log.info('at_least_one_student :')
+    log.info(at_least_one_student)
+    break
+
   part2 = MIMEText(html.encode('utf-8'), 'html', 'utf-8')
   fromaddr = "ne-pas-repondre@themoocagency.com"
   msg = MIMEMultipart()
