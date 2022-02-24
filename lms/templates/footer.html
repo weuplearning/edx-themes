@@ -18,7 +18,7 @@
   }
 
   body.view-in-course .wrapper-footer {
-    background-color: gray;
+    background-color: #0075b4;
   }
 
   .wrapper-footer .site-nav, .wrapper-footer footer#footer-openedx .colophon .nav-colophon {
@@ -69,7 +69,7 @@
         <div class="row">
           <div class="col-md-12 col-lg-6">
             <div style="display: inline-block;vertical-align: top;;">
-              <img style="max-height: 100px; margin-top: 0px" src="${static.url('fhf/images/FHF_Logo-blanc.png')}" class="img-fluid img-logo" alt="mooc logo">
+              <img style="max-height: 100px; margin-top: 0px" src="${static.url('/media/microsites/fhf/FHF_Logo-blanc.png')}" class="img-fluid img-logo" alt="mooc logo">
             </div>
             <div style="margin-top: 23px; display: inline-block;">
               <p>FÉDÉRATION HOSPITALIERE DE FRANCE
@@ -82,13 +82,13 @@
                 <p style="margin-top: 46px;font-size: 14px;;">EN PARTENARIAT AVEC</p>
               </div>
               <div class="col">
-                <img src="${static.url('fhf/images/FIPHFP.png')}" class="img-fluid img-logo" alt="mooc logo">
+                <img src="${static.url('/media/microsites/fhf/FIPHFP.png')}" class="img-fluid img-logo" alt="mooc logo">
               </div>
               <div class="col">
-                <img src="${static.url('fhf/images/ANFH.png')}" class="img-fluid img-logo" alt="mooc logo" style="margin-top: 34px">
+                <img src="${static.url('/media/microsites/fhf/ANFH.png')}" class="img-fluid img-logo" alt="mooc logo" style="margin-top: 34px">
               </div>
               <div class="col">
-                <img src="${static.url('fhf/images/logo_footer1.png')}" class="img-fluid img-logo" alt="mooc logo">
+                <img src="${static.url('/media/microsites/fhf/logo_footer1.png')}" class="img-fluid img-logo" alt="mooc logo">
               </div>
             </div>
           </div>
@@ -108,3 +108,18 @@
     <link rel="stylesheet" type="text/css" href="${url}"></link>
   % endfor
 % endif
+
+
+<style>
+    .icon_video::before {
+        content:"\f008"!important
+    }
+</style>
+
+<script>
+setInterval(function () {
+    if ($('.iframe_video').length > 0) {
+        $('.xmodule_display.xmodule_SequenceModule .sequence-nav ol li button.seq_other .icon').addClass('icon_video')
+    }
+}, 500);
+</script>

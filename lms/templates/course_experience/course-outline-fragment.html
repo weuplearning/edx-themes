@@ -48,7 +48,7 @@ dates_banner_displayed = False
                             aria-expanded="${ 'true' if section_is_auto_opened else 'false' }"
                             aria-controls="${ section['id'] }_contents"
                             id="${ section['id'] }">
-                        <span class="fa fa-chevron-right ${ 'fa-rotate-90' if section_is_auto_opened else '' }" aria-hidden="true"></span>
+                        <span class="fa fa-chevron-right ${ 'fa-rotate-90' if section_is_auto_opened else '' }" aria-hidden="true" style="color: #ffe8e8 !important;"></span>
                         <h3 class="section-title">${ section['display_name'] }</h3>
             % if section.get('complete'):
                             <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
