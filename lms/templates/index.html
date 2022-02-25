@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+
+    <!---------------------- liens externes ---------------------->
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    
+    <!-- swiper -->
+
+    <link rel="stylesheet"href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+    <!---------- google fonts ---------->
+
+    <!-- Barlow Condensed -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <!-- Barlow -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+</head>
+
+<style>
+
+    /* -------------------- header -------------------- */
+
+    .section-header{
+        /* border-bottom: 1rem solid #00B3DC;
+        z-index: 5; */
+    }
+    .section-header-img{
+        /* position: absolute; */
+        width: 100%;
+        overflow: hidden;
+    }
+    .section-header-elements{
+
+    }
+    .section-header-img-z1{
+        z-index: 1;
+    }
+    .section-header-img-z2{
+        z-index: 2;
+    }
+    .section-header-img-z3{
+        z-index: 3;
+    }
+    .section-header-img-z4{
+        z-index: 4;
+    }
+    .section-header-img-characters{
+        height: 7rem;
+        width: auto;
+        bottom: 36rem;
+    }
+    .section-header-img-houses{
+        height: 7rem;
+        width: auto;
+        bottom: 35.7rem;
+    }
+    .section-header-border{
+        border-bottom: 0.8rem solid #00B3DC;
+        z-index: 10;
+        margin-top: -0.4rem;
+    }
+
+    /* ----- modif on assets ----- */
+
+    /* -- z1 -- */
+
+    .asset-32{
+        height: auto;
+        width: 100%;
+        bottom: 36rem;
+    }
+
+    /* -- z2 -- */
+
+    .asset-35{
+        height: auto;
+        width: 24rem;
+        left: -1rem;
+    }
+    .asset-34{
+        height: auto;
+        width: 13rem;
+        left: 23rem;
+    }
+    .asset-59{
+        height: auto;
+        width: 29rem;
+        right: 17rem;
+    }
+    .asset-36{
+        overflow: hidden;
+        height: auto;
+        width: 10rem;
+        right: -5rem;
+    }
+
+    /* -- z3 -- */
+
+    .asset-44{
+        height: auto;
+        width: 10rem;
+        bottom: 36rem;
+        right: 3rem;
+    }
+
+    /* -- z4 -- */
+
+    .asset-37{
+        left: 22rem;
+    }
+    .asset-38{
+        left: 25rem;
+    }
+    .asset-39{
+        right: 24rem;
+    }
+    .asset-33{
+        right: 5rem;
+    }
+
+    /* -- */
+    
+    .asset-107{
+        margin-bottom: 25.6rem;
+    }
+    .asset-107-2{
+        width: 100%;
+    }
+
+    /* -------------------- section 1 -------------------- */
+
+    .section-1{
+        border-bottom: 1rem solid #FFD602;
+    }
+
+        /*----- buttons -----*/
+
+    .section-1-buttons{
+        margin: 5rem 0rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+    .section-1-buttons-left{
+        display: flex;
+        justify-content: right;
+        background: #005A7D;
+        clip-path: polygon(0% 0, 0% 0%, 100% 0%, 100% 83%, 0% 100%, 14% 0%);
+        filter: drop-shadow(0.5rem 0.5rem 1rem lightgrey);
+        margin: 0rem 1.5rem;
+        padding: 2rem 6rem;
+        height: 5rem;
+        padding-top: 1rem;
+        margin-left: 0rem;
+    }
+    .section-1-buttons-right{
+        display: flex;
+        background: #00B3DC;
+        clip-path: polygon(0% 0, 0% 0%, 97% 0%, 100% 71%, 0% 100%, 0% 0%);
+        filter: drop-shadow(0.5rem 0.5rem 1rem lightgrey);
+        margin: 0rem 1.5rem;
+        padding: 2rem 4rem;
+        height: 5rem;
+        padding-top: 1rem;
+    }
+    .section-1-buttons-left-button{
+        text-decoration: none;
+        text-align: center;
+    }
+    .section-1-buttons-right-button{
+        text-decoration: none;
+        text-align: center;
+    }
+    .section-1-buttons-right-button:hover{
+        color: white;
+    }
+    .section-1-buttons-left-button:hover{
+        color: white;
+    }
+
+        /*----- title -----*/
+
+    .section-1-title{
+        margin: 0rem 0rem;
+        background: #FFD602;
+        clip-path: polygon(0% 0, 0% 16%, 100% 0%, 100% 80%, 0% 70%, 0% 0%);
+        padding: 5rem 3rem;
+        padding-bottom: 7rem;
+    }
+    .section-1-title-bkgimg{
+        /* padding: 1rem 6rem 0rem 6rem; */
+        text-align: center;
+    }
+
+        /*----- text -----*/
+
+    .section-1-text{
+        padding: 0rem 4rem;
+    }
+    .section-1-text-elements{
+        padding-bottom: 2rem;
+    }
+    .section-1-text-bkgimg{
+        background: #ffd60247;
+        clip-path: polygon(0% 0, 0% 0%, 98% 0%, 100% 90%, 0% 100%, 2% 0%);
+        padding: 1rem 2rem;
+        padding-bottom: 2rem;
+    }
+    .section-1-text-imgbkg{
+        display: flex;
+        flex-direction: row;
+    }
+
+        /*----- img -----*/
+
+    .section-1-img2{
+        display: flex;
+        justify-content: right;
+        margin-top: -2rem;
+        overflow: hidden;
+    }
+    .section-1-img-elements{
+        bottom: 10rem;
+    }
+    .section-1-img-elements-z3{
+        z-index: 3;
+    }
+    .section-1-img-elements-z2{
+        z-index: 2;
+    }
+    .section-1-img-elements-z1{
+        z-index: 1;
+    }
+
+    /*----- modif on assets -----*/
+
+    .asset-95{
+
+    }
+    .asset-40{
+        height: 7rem;
+        float: left;
+        left: -2rem;
+        position: absolute;
+    }
+    .asset-100{
+        width: 18rem;
+    }
+    .asset-100-2{
+        max-height: 15rem;
+    }
+
+    /*----- media -----*/
+
+
+
+    /* -------------------- section 2 -------------------- */
+
+    .section-2{
+        background-color: #00B3DC;
+        min-height: 25rem;
+    }
+    .section-2-video{
+        width: 100%;
+        padding: 2rem;
+    }
+    .section-2-video-elements{
+        display: flex;
+        justify-content: center;
+        padding: 6rem;
+    }
+    .section-2-video-itself{
+        box-shadow: 0.2rem 0.2rem 1.7rem -0.5rem #363636;
+        border-radius: 0.7rem;
+        width: 30rem;
+        height: 16.9rem;
+    }
+    .section-2-video-overlay{
+        background-image: url(/static/coop-hlm/images/assets/assets-clean/asset-22.svg) ;
+
+    }
+
+    /* -------------------- section 3 -------------------- */
+
+    .section-3-title{
+        margin: 4rem 0rem;
+        display: flex;
+        justify-content: center;
+    }
+    .section-3-title-bkgimg{
+        background: #8270B3;
+        clip-path: polygon(3% 0, 26% 0%, 99% 8%, 100% 86%, 0% 100%, 3% 0%);
+        padding: 2rem;
+        /* margin: -1.5rem; */
+        text-align: center;
+    }
+    .section-3-tiles{
+        /* display: flex;
+        flex-direction: row; */
+    }
+    .section-3-tiles-buttons{
+        z-index: 1;
+        align-self: center;
+    }
+    .section-3-tiles-elements{
+        margin: -5rem;
+        padding: 5rem 0rem 5rem 6rem;
+        /* flex-direction: row;
+        display: flex; */
+        /* overflow-x: scroll; */
+    }
+    ::-webkit-scrollbar { /*----- <--masquer scrollbar pour scroll horizontal au dessus -----*/
+        width: 0;
+    }
+    .section-3-tiles-buttonRight{
+        background-image: url(/static/coop-hlm/images/assets/assets-clean/asset-58.svg);
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    .section-3-tiles-outside{
+        margin: 0rem;
+        /* margin-right: 2rem !important; */
+        box-shadow: 0.2rem 0.2rem 3rem -0.5rem lightgrey;
+        border-radius: 0.8rem;
+        /* width: 22rem !important; */
+        height: 38rem;
+    }
+    .section-3-tiles-inside{
+        padding: 2rem;
+        font-size: 1rem;
+    }
+    .section-3-tiles-sectionBottom{
+        flex-direction: row;
+        display: flex;
+    }
+    .section-3-tiles-sectionBottom-img{
+        margin-right: 1rem;
+    }
+    .section-3-tiles-number{
+        overflow: hidden;
+        border-radius: 0.8rem;
+    }
+    .section-3-tiles-number-img{
+        position: relative;
+        bottom: 1rem;
+        right: 1rem;
+    }
+    .section-3-tiles-link{
+        text-decoration: none;
+        width: 100%;
+    }
+    .section-3-tiles-link-img{
+        width: 100%;
+    }
+
+    /* ----- modif on assets ----- */
+
+    .asset-52{
+        width: auto;
+        height: 5rem;
+        margin-left: 2rem;
+    }
+    .asset-53{
+        width: auto;
+        margin-top: -3rem;
+        margin-left: -1rem;
+        margin-bottom: -12rem;
+        min-height: 3rem;
+        max-height: 20rem;
+        overflow: hidden;
+        z-index: -1;
+    }
+
+    /* -------------------- section 3 swiper -------------------- */
+
+    .swiper-button-next, .swiper-rtl .swiper-button-prev{
+        color: #8270B3 !important;
+        content: url(/static/coop-hlm/images/assets/assets-clean/asset-150.svg);
+        width: 6rem;
+        height: auto;
+    }
+    .swiper-button-prev, .swiper-rtl .swiper-button-next{
+        color: #8270B3 !important;
+        content: url(/static/coop-hlm/images/assets/assets-clean/asset-149.svg);
+        width: 6rem;
+        height: auto;
+    }
+    /* .swiper-button-next:active{
+        box-shadow: 0rem 0rem 0rem grey;
+    }
+    .swiper-button-prev:active{
+        box-shadow: 0rem 0rem 0rem grey;
+    } */
+    .swiper-button-next:hover{
+        transform: scale(1.2);
+    }
+    .swiper-button-prev:hover{
+        transform: scale(1.2);
+    }
+    .swiper-pagination-bullet-active {
+        background-color: #8270B3 !important;
+    }
+    .section-3-swiper{
+        position: relative;
+        height: 100%;
+        font-size: 14px;
+        color: #000;
+        margin: 0;
+        padding: 0;
+    }
+    .swiper {
+        width: 100%;
+        height: 100%;
+
+        /*modifs*/
+        padding: 5rem;
+    }
+
+    /* -------------------- section 4 -------------------- */
+    
+    .section-4{
+        margin: 7rem 0rem;
+    }
+    .section-4-title{
+        margin: 8rem 0rem 5rem 0rem;
+        overflow: hidden;
+    }
+    .section-4-title > h3{
+        text-align: center;
+        padding: 2.2rem;
+    }
+    .section-4-title-bkgimg{
+        background: #005A7D;
+        clip-path: polygon(0% 0, 0% 18%, 100% 0%, 100% 64%, 0% 100%, 0% 0%);
+    }
+    .section-4-faq{
+        margin: 4rem 10rem;
+    }
+    .section-4-elements-button-img{
+        float: right;
+        width: 1.5rem;
+    }
+    .section-4-elements-hidden{
+        
+    }
+    .section-4-elements-hidden-sectionTop{
+        margin-top: 1rem;
+    }
+    .section-4-elements-hidden-sectionTop-1{
+        background-image: url(/static/coop-hlm/images/assets/assets-clean/asset-146.svg);
+        background-repeat: no-repeat;
+        background-size: contain;
+        padding: 1rem 0rem 1rem 2rem;
+        margin-left: -2rem;
+    }
+    .section-4-elements-hidden-sectionTop-3{
+        background-image: url(/static/coop-hlm/images/assets/assets-clean/asset-145.svg);
+        background-repeat: no-repeat;
+        background-size: contain;
+        padding: 1rem 0rem 1rem 2rem;
+        margin-left: -2rem;
+    }
+    .section-4-elements-hidden-text{
+        background: #005a7d4a;
+        clip-path: polygon(3% 0, 26% 0%, 100% 0%, 100% 100%, 0% 88%, 4% 0%);
+        padding: 2rem 2rem 2rem 3.5rem;
+    }
+    .section-4-title-space{
+
+    }
+
+    /* ----- partie w3 ----- */
+
+    .accordion {
+        background-color: white !important;
+        color: #005A7D;
+        cursor: pointer;
+        padding: 1rem;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 1.3rem;
+        font-weight: bold;
+        border-bottom: 0.15rem solid #00b3dc5c;
+    }
+    .accordion:after{
+        content: url(/static/coop-hlm/images/assets/assets-clean/asset-82.svg);
+        float: right;
+        width: 2rem;
+        height: 1rem;
+    }
+    .accordion:hover::after{
+        /* transform: scale(1.2); */
+        transform: scale(1.2);
+        transition: 0.3s ease-in-out;
+    }
+    .active:after{
+        content: url(/static/coop-hlm/images/assets/assets-clean/asset-82-2.svg);
+        float: right;
+    }
+    .active, .accordion:hover {
+        background-color: #ccc;
+    }
+    .panel {
+        padding: 0 1rem;
+        background-color: white;
+        overflow: hidden;
+        /* opacity: 0; */
+        max-height: 0;
+        transition: max-height 0.3s ease-out;
+    }
+
+    /* -------------------- footer -------------------- */
+    
+    .section-footer{
+        background-color: #F2F2F2;
+        padding: 1.7rem;
+    }
+    .section-footer-cols{
+        padding: 1rem;
+    }
+    .footer-img-absolute{
+        position: absolute;
+        overflow: hidden;
+    }
+    .footer-img-absolute-col1{
+        height: 300px;
+        width: auto;
+    }
+    .footer-img-absolute-col4{
+        height: 200px;
+        width: auto;
+    }
+    .footer-img-col2{
+        width: auto;
+        height: 3rem;
+        margin: 0.25rem;
+    }
+    .footer-img-col3{
+        width: auto;
+        height: 2rem;
+        margin: 0.25rem;
+    }
+
+    /* ----- modif on assets ----- */
+    
+    .asset-27{
+        z-index: 1;
+        left: -10px;
+    }
+    .asset-28{
+        z-index: 2;
+        left: 40px;
+    }
+    .asset-55{
+        z-index: 1;
+        left: 110px;
+    }
+
+    .asset-29{
+        z-index: 3;
+        right: 0rem;
+    }
+    .asset-30{
+        z-index: 2;
+        right: 14rem;
+        width: auto;
+        height: 7rem;
+    }
+    .asset-31{
+        z-index: 1;
+        right: 22rem;
+        width: auto;
+        height: 4rem;
+    }
+    .asset-103-2{
+        max-height: 14rem;
+        float: left;
+        position: relative;
+        left: -4rem;
+        bottom: 0rem;
+        width: 20rem;
+    }
+    .asset-104-2{
+        width: 100%;
+        max-height: 7rem;
+        margin-top: 2rem;
+
+        width: 27rem;
+        max-height: 20rem;
+        float: right;
+        position: relative;
+        right: -1.9rem;
+        bottom: -3rem;
+    }
+    
+    /* -------------------- page globale -------------------- */
+
+    * {
+        font-family: Barlow Condensed, Barlow, Arial;
+        font-weight: 400;
+        font-style: normal;
+        font-size: 1.1rem;
+        transition: 0.3s;
+    }
+    .p-space{
+        margin: 1rem;
+    }
+    .horizontal-line{
+        width: 100%;
+    }
+    .bold-text{
+        font-weight: bold;
+    }
+    .light-text{
+        font-weight: 200;
+    }
+    .title-fontsize{
+        font-size: 2rem;
+    }
+    .darkblue-text{
+        color: #002D3F;
+    }
+    .white-text{
+        color: white;
+    }
+    .middleblue-text{
+        color: #005A7D;
+    }
+    .purple-text{
+        color: #8270B3;
+    }
+    .lightpurple-text{
+        color: #A8AFB7;
+    }
+    .light-blue{
+        color: #00B3DC;
+    }
+    a.link{
+        text-decoration: none;
+    }
+
+    /* -------------------- Media screen -------------------- */
+
+    @media screen and (min-width:1600px){
+        .section-1-text{
+            margin: 0rem 10rem;
+        }
+        .section-4-faq{
+            margin: 4rem 15rem;
+        }
+        .asset-40{
+            left: 6rem;
+        }
+        *{
+            font-size: 1.25rem;
+        }
+        .asset-104-2{
+            bottom: -4.3rem;
+        }
+    }
+    @media screen and (min-width:1200px){
+        .footer-img-col3:hover{
+            transform: scale(1.3);
+        }
+        .section-1-buttons-left:hover{
+            transform: scale(1.1);
+        }
+        .section-1-buttons-right:hover{
+            transform: scale(1.1);
+        }
+    }
+    @media screen and (min-width:551px) and (max-width:900px){
+        .section-4-faq{
+            margin: 4rem 4rem;
+        }
+        .swiper-button-next:hover{
+            transform: scale(1);
+        }
+        .swiper-button-prev:hover{
+            transform: scale(1);
+        }
+    }
+    @media screen and (min-width:554px) and (max-width:1384px){
+        .swiper{
+            padding: 5rem 3rem;
+        }
+    }
+    @media screen and (min-width:576px) and (max-width:930px){
+        .asset-104-2{
+            bottom: -8rem;
+            width: 16rem;
+        }
+        .asset-103-2{
+            max-height: 11rem;
+            width: 14rem;
+            bottom: -3rem;
+        }
+        
+        .asset-107-2{
+            width: 150%;
+        }
+    }
+    @media screen and (max-width:550px){
+        .section-1-buttons{
+            display: flex;
+            flex-direction: column;
+        }
+        .section-1-buttons-left{
+            margin: 0rem 1rem;
+        }
+        .section-1-buttons-right{
+            margin: 2.5rem 1rem;
+            padding: 1rem 3rem;
+        }
+        .section-1-text{
+            padding: 0rem 0rem;
+        }
+        .section-2-video{
+            padding: 2rem 0rem;
+        }
+        .asset-40{
+            display: none;
+        }
+        .asset-52{
+            display: none;
+        }
+        .section-3-title-bkgimg{
+            clip-path: polygon(0% 0, 0% 0%, 100% 8%, 100% 86%, 0% 100%, 0% 0%);
+        }
+        .asset-103-2{
+            left: 3rem;
+            width: 8rem;
+        }
+        .section-1-title-bkgimg{
+            margin-bottom: 2rem;
+        }
+        *{
+            font-size: 1.2rem;
+        }
+        .asset-107-2{
+            width: 250%;
+        }
+        .section-1-title{
+            padding: 7rem 1rem;
+            clip-path: polygon(0% 0, 0% 16%, 100% 0%, 100% 94%, 0% 80%, 0% 0%);
+        }
+        .section-1-text-bkgimg{
+            padding: 1rem;
+            padding-bottom: 3rem;
+        }
+        .section-1-text-elements{
+            padding-bottom: 3rem;
+        }
+        .section-4-elements-hidden-sectionTop-3{
+            padding: 0rem 0rem 1rem 2rem;
+        }
+        .section-4-elements-hidden-text{
+            padding: 2rem 1rem 2rem 1.5rem;
+            clip-path: polygon(3% 0, 26% 0%, 100% 0%, 100% 100%, 0% 97%, 4% 0%);
+        }
+        .panel{
+            padding: 1rem 0rem;
+            transition: max-height 0.5s ease-out;
+        }
+        .section-4-elements-hidden-sectionTop-1{
+            padding: 1rem 0rem 1rem 3rem;
+        }
+        .section-4-elements-hidden-sectionTop-3{
+            padding: 0.5rem 0rem 1rem 3rem;
+        }
+        .section-4-faq{
+            margin: 4rem 0rem;
+            padding: 0rem 1rem;
+        }
+        .swiper{
+            padding: 5rem 1rem;
+        }
+        .section-3-tiles-outside{
+            /* height: 36rem !important; */
+            /* width: 17rem !important; */
+            height: 100%;
+        }
+        .swiper-button-next:hover{
+            transform: scale(1);
+        }
+        .swiper-button-prev:hover{
+            transform: scale(1);
+        }
+        .swiper-button-next{
+            width: 4rem;
+        }
+        .swiper-button-prev{
+            width: 4rem;
+        }
+    }
+
+</style>
+
+<body>
+    <div>
+        <div class="section-header">
+            <div class="section-header-elements">
+
+                <div class="section-header-img">
+                    <img class="asset-107-2" src="/static/coop-hlm/images/assets/assets-clean/asset-107-2.svg">
+                </div>
+
+                <div class="section-header-border"></div>
+
+            </div>
+        </div>
+        <div class="section-1">
+            <div class="section-1-buttons">
+                <div class="section-1-buttons-left">
+                    <a href="" class="section-1-buttons-left-button white-text bold-text">M'inscrire</a>
+                </div>
+                <div class="section-1-buttons-right">
+                    <a href="" class="section-1-buttons-right-button white-text bold-text">Me connecter</a>
+                </div>
+            </div>
+            <div class="section-1-title">
+                <h1 class="section-1-title-bkgimg white-text title-fontsize">Suivez gratuitement le MOOC Culture Coop' pour tout comprendre sur le modèle coopératif et les activités des coopératives d'hlm&nbsp;!</h1>
+            </div>
+            <div class="section-1-text darkblue-text">
+                <div class="section-1-text-elements">
+                    <p class="p-space">
+                        Qu’est-ce qu’une coopérative ? Qu’a-t-elle de particulier par rapport à une entreprise privée ? Quels sont les avantages d’être client ET coopérateur d’une coopérative, et en particulier d’une coopérative d’hlm ? 
+                    </p>
+                    <div class="section-1-text-imgbkg">
+                        <img class="asset-40" src="/static/coop-hlm/images/assets/assets-clean/asset-40.svg">
+                        <p class="section-1-text-bkgimg p-space">
+                            Le MOOC Culture Coop’ est <span class="bold-text">un parcours d’initiation</span> qui répond à ces questions. <span class="bold-text">Que vous soyez curieux, coopérateurs, salariés, administrateurs d’une Coop’HLM</span>, ce MOOC vous permettra de mieux connaître ces acteurs de l’intérêt général, leurs valeurs, leurs activités et leur fonctionnement. 
+                        </p>
+                    </div>
+                    <p class="p-space">
+                        Aucun prérequis n’est nécessaire pour en comprendre le contenu, <span class="bold-text">tout le monde peut le suivre !</span>
+                    </p>
+                    <p class="p-space">
+                        Vidéos animées, témoignages, exercices et quiz… <span class="bold-text">Apprenez à votre rythme de manière ludique et active !</span> Suivez autant de modules que vous le désirez, et dans l’ordre qui vous plaira.
+                    </p>
+                </div>
+            </div>
+            <div class="section-1-img2">
+                <img class="asset-100-2" src="/static/coop-hlm/images/assets/assets-clean/asset-100-2.svg">
+            </div>
+        </div>
+        <div class="section-2">
+            <div class="section-2-video">
+                <div class="section-2-video-elements">
+                    <iframe class="section-2-video-itself" src="https://player.vimeo.com/video/640294547?h=7d1775a008&badge=0&autopause=0&player_id=0&app_id=58479" width="640" height="480" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                    <!-- <div style="padding:56.25% 0 0 0;position:relative;">
+                        <iframe class="colVideo-element-video" src="https://player.vimeo.com/video/640294547?h=7d1775a008&badge=0&autopause=0&player_id=0&app_id=58479" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <script src="https://player.vimeo.com/api/player.js"></script> -->
+                </div>
+            </div>
+        </div>
+        <div class="section-3">
+            <div class="section-3-title">
+                <h2 class="section-3-title-bkgimg title-fontsize white-text">Quels sont les différents thèmes abordés dans les modules&nbsp;?</h2>
+                <img class="asset-52" src="/static/coop-hlm/images/assets/assets-clean/asset-52.svg">
+            </div>
+
+            <!-- swiperjs -->
+
+            <div class="section-3-swiper">
+
+                <div class="swiper mySwiper">
+                    <div class="swiper-wrapper">
+    
+                        <div class="section-3-tiles-outside swiper-slide">
+                            <div class="section-3-tiles-number">
+                                <img class="section-3-tiles-number-img asset-108" src="/static/coop-hlm/images/assets/assets-clean/asset-108.svg">
+                            </div>
+                            <div class="section-3-tiles-inside">
+                                    <a class="section-3-tiles-link" href="blog#1">
+                                        <img class="section-3-tiles-link-img" src="/static/coop-hlm/images/assets/assets-clean/asset-46.svg">
+                                        <div class="bold-text purple-text">
+                                            <p>L'histoire des Coop'HLM</p>
+                                        </div>
+                                    </a>
+                                <div class="light-text">
+                                    <p>Organismes de logement social, les Coop’HLM occupent une place spécifique au sein du mouvement HLM. <span class="bold-text">[plus]</span></p>
+                                </div>
+                                <div class="section-3-tiles-sectionBottom">
+                                    <img class="section-3-tiles-sectionBottom-img" src="/static/coop-hlm/images/assets/assets-clean/asset-67.svg">
+                                    <p class="purple-text">35 min</p>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="section-3-tiles-outside swiper-slide">
+                            <div class="section-3-tiles-number">
+                                <img class="section-3-tiles-number-img asset-109" src="/static/coop-hlm/images/assets/assets-clean/asset-109.svg">
+                            </div>
+                            <div class="section-3-tiles-inside">
+                                <a class="section-3-tiles-link" href="blog#2">
+                                    <img class="section-3-tiles-link-img" src="/static/coop-hlm/images/assets/assets-clean/asset-47.svg">
+                                    <div class="bold-text purple-text">
+                                        <p>La gouvernance en Coop'HLM</p>
+                                    </div>
+                                </a>
+                                <div class="light-text">
+                                    <p>Les Coop’HLM ne sont pas des entreprises comme les autres. Leur statut coopératif <span class="bold-text">[plus]</span></p>
+                                </div>
+                                <div class="section-3-tiles-sectionBottom">
+                                    <img class="section-3-tiles-sectionBottom-img" src="/static/coop-hlm/images/assets/assets-clean/asset-67.svg">
+                                    <p class="purple-text">35 min</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-3-tiles-outside swiper-slide">
+                            <div class="section-3-tiles-number">
+                                <img class="section-3-tiles-number-img asset-110" src="/static/coop-hlm/images/assets/assets-clean/asset-110.svg">
+                            </div>
+                            <div class="section-3-tiles-inside">
+                                <a class="section-3-tiles-link" href="blog#3">
+                                    <img class="section-3-tiles-link-img" src="/static/coop-hlm/images/assets/assets-clean/asset-48.svg">
+                                    <div class="bold-text purple-text">
+                                        <p>L'accession sociale en Coop'HLM</p>
+                                    </div>
+                                </a>
+                                <div class="light-text">
+                                    <p>L’accession sociale à la propriété est l’activité historique des coopératives d’HLM <span class="bold-text">[plus]</span></p>
+                                </div>
+                                <div class="section-3-tiles-sectionBottom">
+                                    <img class="section-3-tiles-sectionBottom-img" src="/static/coop-hlm/images/assets/assets-clean/asset-67.svg">
+                                    <p class="purple-text">25 min</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-3-tiles-outside swiper-slide">
+                            <div class="section-3-tiles-number">
+                                <img class="section-3-tiles-number-img asset-111" src="/static/coop-hlm/images/assets/assets-clean/asset-111.svg">
+                            </div>
+                            <div class="section-3-tiles-inside">
+                                <a class="section-3-tiles-link" href="blog#4">
+                                    <img class="section-3-tiles-link-img" src="/static/coop-hlm/images/assets/assets-clean/asset-47.svg">
+                                    <div class="bold-text purple-text">
+                                        <p>La gestion de syndic en Coop’HLM</p>
+                                    </div>
+                                </a>
+                                <div class="light-text">
+                                    <p>Copropriétaire, conseil syndical, syndic de copropriété… Vous n’êtes jamais parvenus à savoir qui faisait quoi ? <span class="bold-text">[plus]</span></p>
+                                </div>
+                                <div class="section-3-tiles-sectionBottom">
+                                    <img class="section-3-tiles-sectionBottom-img" src="/static/coop-hlm/images/assets/assets-clean/asset-67.svg">
+                                    <p class="purple-text">25 min</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-3-tiles-outside swiper-slide">
+                            <div class="section-3-tiles-number">
+                                <img class="section-3-tiles-number-img asset-112" src="/static/coop-hlm/images/assets/assets-clean/asset-112.svg">
+                            </div>
+                            <div class="section-3-tiles-inside">
+                                <a class="section-3-tiles-link" href="blog#5">
+                                    <img class="section-3-tiles-link-img" src="/static/coop-hlm/images/assets/assets-clean/asset-46.svg">
+                                    <div class="bold-text purple-text">
+                                        <p>La gestion locative en Coop’HLM</p>
+                                    </div>
+                                </a>
+                                <div class="light-text">
+                                    <p>La gestion de logements locatifs sociaux est une activité historique des acteurs du mouvement hlm. <span class="bold-text">[plus]</span></p>
+                                </div>
+                                <div class="section-3-tiles-sectionBottom">
+                                    <img class="section-3-tiles-sectionBottom-img" src="/static/coop-hlm/images/assets/assets-clean/asset-67.svg">
+                                    <p class="purple-text">35 min</p>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="section-3-tiles-outside swiper-slide">
+                            <div class="section-3-tiles-number">
+                                <img class="section-3-tiles-number-img asset-113" src="/static/coop-hlm/images/assets/assets-clean/asset-113.svg">
+                            </div>
+                            <div class="section-3-tiles-inside">
+                                <a class="section-3-tiles-link" href="blog#6">
+                                    <img class="section-3-tiles-link-img" src="/static/coop-hlm/images/assets/assets-clean/asset-46.svg">
+                                    <div class="bold-text purple-text">
+                                        <p>Initiation à la fonction d’administrateur d’une Coop’HLM</p>
+                                    </div>
+                                </a>
+                                <div class="light-text">
+                                    <p>Être coopérateur d’une coopérative d’hlm, c’est aussi avoir la possibilité d’en devenir administrateur <span class="bold-text">[plus]</span></p>
+                                </div>
+                                <div class="section-3-tiles-sectionBottom">
+                                    <img class="section-3-tiles-sectionBottom-img" src="/static/coop-hlm/images/assets/assets-clean/asset-67.svg">
+                                    <p class="purple-text">25 min</p>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="section-3-tiles-outside swiper-slide">
+                            <div class="section-3-tiles-number">
+                                <img class="section-3-tiles-number-img asset-114" src="/static/coop-hlm/images/assets/assets-clean/asset-114.svg">
+                            </div>
+                            <div class="section-3-tiles-inside">
+                                <a class="section-3-tiles-link" href="blog#7">
+                                    <img class="section-3-tiles-link-img" src="/static/coop-hlm/images/assets/assets-clean/asset-46.svg">
+                                    <div class="bold-text purple-text">
+                                        <p>Devenir salarié d'une Coop'HLM</p>
+                                    </div>
+                                </a>
+                                <div class="light-text">
+                                    <p>Travailler au sein d'entreprises dynamiques, participer à des projets à forte dimension sociale <span class="bold-text">[plus]</span></p>
+                                </div>
+                                <div class="section-3-tiles-sectionBottom">
+                                    <img class="section-3-tiles-sectionBottom-img" src="/static/coop-hlm/images/assets/assets-clean/asset-67.svg">
+                                    <p class="purple-text">25 min</p>
+                                </div>
+                            </div>
+                        </div>
+    
+                    </div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-pagination"></div>
+                </div>
+    
+            </div>
+
+            <div class="section-3-img">
+                <img class="asset-53" src="/static/coop-hlm/images/assets/assets-clean/asset-53.svg">
+            </div>
+
+        </div>
+        <div class="section-4">
+            
+            <div class="section-4-title">
+                <h3 class="section-4-title-bkgimg title-fontsize white-text">F.A.Q</h3>
+            </div>
+
+            <div class="section-4-faq">
+
+                <div class="section-4-elements">
+                    <button class="accordion">Qu’est-ce qu'un MOOC ?</button>
+                    <div class="panel section-4-elements-hidden">
+                        <div class="section-4-elements-hidden-sectionTop bold-text">
+                            <p class="section-4-elements-hidden-sectionTop-1 white-text">Question</p>
+                            <p class="section-4-elements-hidden-sectionTop-2 darkblue-text">Qu'est-ce qu'un MOOC ?</p>
+                            <p class="section-4-elements-hidden-sectionTop-3 white-text">Réponse</p>
+                        </div>
+                        <div class="section-4-elements-hidden-text darkblue-text">
+                            <p>Un MOOC (Massive Open Online Course) est un format d’enseignement gratuit, diffusé uniquement en ligne, ouvert à tous et pouvant accueillir un grand nombre d’apprenants. Il est composé d’activités pédagogiques scénarisées et laisse une grande autonomie de navigation au participant.</p>
+                            <p>C’est un outil ludique, accessible à tous sans prérequis, conçu pour permettre à chacun de trouver l’information dont il a besoin, ici sur les valeurs et le fonctionnement des coopératives (mouvement coopératif, particularités de la gouvernance par rapport au modèle d’entreprise traditionnel...), les activités principales des Coop’HLM et la manière dont elles les réalisent ainsi que le rôle des différents acteurs des Coop’HLM : instances dirigeantes, coopérateurs, administrateurs, salariés.</p>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="section-4-elements">
+                    <button class="accordion">Qui sont les Coop'HLM ?</button>
+                    <div class="panel section-4-elements-hidden">
+                        <div class="section-4-elements-hidden-sectionTop bold-text">
+                            <p class="section-4-elements-hidden-sectionTop-1 white-text">Qui sont les Coop'HLM ?</p>
+                            <p class="section-4-elements-hidden-sectionTop-2 darkblue-text">Qu'est-ce qu'un MOOC ?</p>
+                            <p class="section-4-elements-hidden-sectionTop-3 white-text">Réponse</p>
+                        </div>
+                        <div class="section-4-elements-hidden-text darkblue-text">
+                            <p>Les sociétés coopératives d’Hlm œuvrent dans le domaine du logement social. Elles ont pour objectif premier de favoriser l’accès à un logement pour tous et le droit au libre choix de son habitat en assurant une accession sociale à la propriété sécurisée et en proposant des logements locatifs sociaux de qualité. Les 165 Coopératives d’Hlm, réparties sur tout le territoire français, produisent chaque année environ 8 000 logements neufs, dont 65% en accession sociale à la propriété.</p>
+                            <p><a href="https://www.hlm.coop/file/8283/download?token=CHJ_maNi">Découvrez la raison d’être des Coop’HLM</a></p>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="section-4-elements">
+                    <button class="accordion">Pourquoi s'inscrire au MOOC Culture Coop' ?</button>
+                    <div class="panel section-4-elements-hidden">
+                        <div class="section-4-elements-hidden-sectionTop bold-text">
+                            <p class="section-4-elements-hidden-sectionTop-1 white-text">Question</p>
+                            <p class="section-4-elements-hidden-sectionTop-2 darkblue-text">Pourquoi s'inscrire au MOOC Culture Coop' ?</p>
+                            <p class="section-4-elements-hidden-sectionTop-3 white-text">Réponse</p>
+                        </div>
+                        <div class="section-4-elements-hidden-text darkblue-text">
+                            <p>En vous inscrivant au MOOC Culture Coop’, vous pouvez suivre tous les modules dans l’ordre que vous souhaitez et suivre votre progression ! Vous pouvez quitter le MOOC et y revenir à tout moment sans que vos activités validées ne soient perdues.</p>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="section-4-elements">
+                    <button class="accordion">Comment s'inscrire au MOOC Culture Coop' ?</button>
+                    <div class="panel section-4-elements-hidden">
+                        <div class="section-4-elements-hidden-sectionTop bold-text">
+                            <p class="section-4-elements-hidden-sectionTop-1 white-text">Question</p>
+                            <p class="section-4-elements-hidden-sectionTop-2 darkblue-text">Comment s'inscrire au MOOC Culture Coop' ?</p>
+                            <p class="section-4-elements-hidden-sectionTop-3 white-text">Réponse</p>
+                        </div>
+                        <div class="section-4-elements-hidden-text darkblue-text">
+                            <p>Pour vous inscrire au MOOC, cliquez sur le bouton M’INSCRIRE et remplissez le formulaire qui suit.</p>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="section-4-elements">
+                    <button class="accordion">Que deviennent mes informations personnelles ?</button>
+                    <div class="panel section-4-elements-hidden">
+                        <div class="section-4-elements-hidden-sectionTop bold-text">
+                            <p class="section-4-elements-hidden-sectionTop-1 white-text">Question</p>
+                            <p class="section-4-elements-hidden-sectionTop-2 darkblue-text">Que deviennent mes informations personnelles ?</p>
+                            <p class="section-4-elements-hidden-sectionTop-3 white-text">Réponse</p>
+                        </div>
+                        <div class="section-4-elements-hidden-text darkblue-text">
+                            <p>Vos données de suivi permettent aux coopératives d’hlm de connaître le taux de participation au MOOC et les statistiques de réussite, afin d’améliorer les contenus au fur et à mesure. Ces informations n’ont pas vocation à être publiées et suivent scrupuleusement les conditions RGPD.</p>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="section-4-elements">
+                    <button class="accordion">Comment nous contacter ?</button>
+                    <div class="panel section-4-elements-hidden">
+                        <div class="section-4-elements-hidden-sectionTop bold-text">
+                            <p class="section-4-elements-hidden-sectionTop-1 white-text">Question</p>
+                            <p class="section-4-elements-hidden-sectionTop-2 darkblue-text">Comment nous contacter ?</p>
+                            <p class="section-4-elements-hidden-sectionTop-3 white-text">Réponse</p>
+                        </div>
+                        <div class="section-4-elements-hidden-text darkblue-text">
+                            <p class="section-4-elements-hidden-exception1">Pour toute question complémentaire ou pour apporter un commentaire, contactez Lucine Leclercq, chargée de mission Vie coopérative à la Fédération des Coop’HLM : lucine.leclercq@hlm.coop</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="section-footer container-fluid">
+            <div class="section-footer-elements row">
+                <div class="section-footer-elements-col1 section-footer-cols col-sm-3">
+                    <div class="section-footer-elements-col1-imgs">
+                        <img class="asset-103-2" src="/static/coop-hlm/images/assets/assets-clean/asset-103-2.svg">
+                    </div>
+                </div>
+                <div class="section-footer-elements-col2 section-footer-cols col-sm-3">
+                    <p class="bold-text darkblue-text">Découvrez-nous</p>
+                    <p class="light-blue">www.hlm.coop</p>
+                    <p class="light-blue">www.hlm.coop/coops</p>
+                    <p class="bold-text darkblue-text">Mooc réalisé par</p>
+                    <div class="row section-footer-elements-col2-imgs">
+                        <div class="col col-sm-6 col-xs-6 col-section-footer-elements-col2-img">
+                            <img class="footer-img-col2 asset-50" src="/static/coop-hlm/images/assets/assets-clean/asset-50.svg">
+                        </div>
+                        <div class="col col-sm-6 col-xs-6 col-section-footer-elements-col2-img">
+                            <img class="footer-img-col2 asset-51" src="/static/coop-hlm/images/assets/assets-clean/asset-51.svg">
+                        </div>
+                    </div>
+                </div>
+                <div class="section-footer-elements-col3 section-footer-cols col-sm-3">
+                    <p class="bold-text darkblue-text">Suivez-nous</p>
+                    <div class="row">
+                        <div class="col col-xs-2">
+                            <img class="section-footer-elements-col3-img footer-img-col3 asset-98" src="/static/coop-hlm/images/assets/assets-clean/asset-98.svg">
+                        </div>
+                        <div class="col col-xs-2">
+                            <img class="section-footer-elements-col3-img footer-img-col3 asset-24" src="/static/coop-hlm/images/assets/assets-clean/asset-24.svg">
+                        </div>
+                        <div class="col col-xs-2">
+                            <img class="section-footer-elements-col3-img footer-img-col3 asset-56" src="/static/coop-hlm/images/assets/assets-clean/asset-56.svg">
+                        </div>
+                        <div class="col col-xs-2">
+                            <img class="section-footer-elements-col3-img footer-img-col3 asset-57" src="/static/coop-hlm/images/assets/assets-clean/asset-57.svg">
+                        </div>
+                        <div class="col col-xs-2">
+                            <img class="section-footer-elements-col3-img footer-img-col3 asset-60" src="/static/coop-hlm/images/assets/assets-clean/asset-60.svg">
+                        </div>
+                    </div>
+                </div>
+                <div class="section-footer-elements-col4 section-footer-cols col-sm-3">
+                    <div class="section-footer-elements-col4-imgs">
+                        <img class="asset-104-2" src="/static/coop-hlm/images/assets/assets-clean/asset-104-2.svg">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        //-------- script caroussel section 3 --------//
+
+        // var swiper = new Swiper(".mySwiper", {
+        //     slidesPerView: 3,
+        //     spaceBetween: 30,
+        //     slidesPerGroup: 3,
+        //     loopFillGroupWithBlank: true,
+        //     pagination: {
+        //         el: ".swiper-pagination",
+        //         clickable: true,
+        //     },
+        //     navigation: {
+        //         nextEl: ".swiper-button-next",
+        //         prevEl: ".swiper-button-prev",
+        //     },
+        // });
+
+        var swiper = new Swiper(".mySwiper", {
+            slidesPerView: 1,
+            spaceBetween: 10,
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            breakpoints: {
+                "@0.00": {
+                    slidesPerView: 1,
+                    spaceBetween: 10,
+                },
+                "@0.75": {
+                    slidesPerView: 2,
+                    spaceBetween: 20,
+                },
+                "@1.00": {
+                    slidesPerView: 3,
+                    spaceBetween: 40,
+                },
+                "@1.50": {
+                    slidesPerView: 4,
+                    spaceBetween: 50,
+                },
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+        });
+        
+
+
+        //-------- script menu dépliant section 4 FAQ --------//
+
+        // var acc = document.getElementsByClassName("accordion");
+        // var i;
+
+        // for (i = 0; i < acc.length; i++) {
+        //     acc[i].addEventListener("click", function () {
+        //         this.classList.toggle("active");
+        //         var panel = this.nextElementSibling;
+        //         if (panel.style.display === "block") {
+        //             panel.style.display = "none";
+        //         }
+        //         else {
+        //             panel.style.display = "block";
+        //         }
+        //     });
+        // }
+
+
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                }
+                else {
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                } 
+            });
+        }
+
+
+        // var acc = document.getElementsByClassName("accordion");
+        // var i;
+
+        // for (i = 0; i < acc.length; i++) {
+        //     acc[i].addEventListener("click", function () {
+        //         this.classList.toggle("active");
+        //         var panel = this.nextElementSibling;
+        //         if (panel.style.height === 0+"rem") {
+        //             panel.style.height = 32+"rem";
+        //         }
+        //         else {
+        //             panel.style.display = "block";
+        //         }
+        //     });
+        // }
+
+
+        // var acc = document.getElementsByClassName("accordion");
+        // var i;
+
+        // for (i = 0; i < acc.length; i++) {
+        //     acc[i].addEventListener("click", function () {
+        //         this.classList.toggle("active");
+        //         var panel = this.nextElementSibling;
+        //         if (panel.style.opacity === 0) {
+        //             panel.style.opacity = 100;
+        //         }
+        //         else {
+        //             panel.style.opacity = 0;
+        //         }
+        //     });
+        // }
+
+    </script>
+
+</body>
+
+</html>

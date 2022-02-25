@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="29.58" height="29.58" viewBox="0 0 29.58 29.58">
+  <g id="horloge" transform="translate(-708.321 -189.457)">
+    <circle id="Ellipse_2" data-name="Ellipse 2" cx="13.79" cy="13.79" r="13.79" transform="translate(709.321 190.457)" fill="none" stroke="#005a7d" stroke-width="2"/>
+    <line id="Ligne_1" data-name="Ligne 1" y2="8.492" transform="translate(723.111 195.755)" fill="none" stroke="#005a7d" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <line id="Ligne_2" data-name="Ligne 2" x1="5.253" y2="1.17" transform="translate(723.111 203.077)" fill="none" stroke="#005a7d" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <line id="Ligne_3" data-name="Ligne 3" y2="1.878" transform="translate(723.111 216.119)" fill="none" stroke="#005a7d" stroke-linecap="round" stroke-width="2"/>
+    <line id="Ligne_4" data-name="Ligne 4" y2="2.095" transform="translate(723.111 190.457)" fill="none" stroke="#005a7d" stroke-linecap="round" stroke-width="2"/>
+    <line id="Ligne_5" data-name="Ligne 5" x1="1.878" transform="translate(709.341 204.335)" fill="none" stroke="#005a7d" stroke-linecap="round" stroke-width="2"/>
+    <line id="Ligne_6" data-name="Ligne 6" x1="2.095" transform="translate(734.786 204.335)" fill="none" stroke="#005a7d" stroke-linecap="round" stroke-width="2"/>
+  </g>
+</svg>

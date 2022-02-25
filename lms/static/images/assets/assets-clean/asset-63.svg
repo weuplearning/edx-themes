@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="428" height="568.5" viewBox="0 0 428 568.5">
+  <defs>
+    <filter id="Rectangle_808" x="-2.5" y="-1.5" width="443" height="583.5" filterUnits="userSpaceOnUse">
+      <feOffset dx="5" dy="6" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <clipPath id="clip-path">
+      <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#Rectangle_808)">
+        <rect id="Rectangle_808-2" data-name="Rectangle 808" width="428" height="568.5" rx="8" transform="translate(72.93 2420.5)" fill="#fff" stroke="#707070" stroke-width="1"/>
+      </g>
+    </clipPath>
+  </defs>
+  <g id="Groupe_de_masques_3" data-name="Groupe de masques 3" transform="translate(-72.934 -2420.5)" clip-path="url(#clip-path)">
+    <g id="Groupe_384" data-name="Groupe 384" transform="translate(535 -102)">
+      <circle id="Ellipse_41" data-name="Ellipse 41" cx="44" cy="44" r="44" transform="translate(-494 2497)" fill="#8270b3"/>
+      <text id="_3" data-name="3" transform="translate(-450 2563.928)" fill="#fff" font-size="39" font-family="SegoeUI-Bold, Segoe UI" font-weight="700"><tspan x="0" y="0">3</tspan></text>
+    </g>
+  </g>
+</svg>

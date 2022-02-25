@@ -1,0 +1,43 @@
+{% if course_key == 'course-v1:deeptechforbusiness+FR+2021'%}
+
+Bonjour,
+
+Nous vous confirmons votre inscription à la formation Deep Tech for Business proposée par Télécom Paris et Netexplo.
+
+Pour accéder au programme et démarrer la formation, nous vous invitons à vous rendre sur le lien suivant avec vos identifiants ci-dessous.
+
+Lien vers la plateforme : https://formationadistance.deeptechforbusiness.com/
+
+Pour vous connecter, renseignez votre identifiant, ainsi que votre mot de passe.
+
+Identifiant: {{ email_address }}
+Mot de passe: {{ password }}
+
+En cas de difficulté de connexion, merci de contacter Esther à learning@netexplo.org.
+
+Bien à vous,
+
+L’équipe de formation Netexplo
+
+{% else %}
+
+Hello,
+
+You have been registered to Deep Tech for Business by Telecom & Netexplo.
+
+To access the program and start the training, we invite you to go to the following link with your login and password below.
+
+URL link: https://formationadistance.deeptechforbusiness.com/
+
+To connect, please enter:
+
+Your email adress: {{ email_address }}
+Your password: {{ password }}
+
+If you have any problems connecting, please contact Esther by email learning@netexplo.org
+
+Best regards,
+
+The Netexplo training team
+
+{% endif%}
