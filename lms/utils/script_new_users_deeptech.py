@@ -48,7 +48,8 @@ for course_id in course_ids:
 
     tma_enrollment,is_exist=WulCourseEnrollment.objects.get_or_create(course_enrollment_edx=course_enrollments[i])
 
-    if user.email.find('@weuplearning') != 1 or user.email.find('@yopmail') != 1 or user.email.find('@the-mooc-agency') != 1:
+    if user.email.find('@weuplearning') != -1 or user.email.find('@yopmail') != -1 or user.email.find('@the-mooc-agency') != -1:
+      log.info(user.email)
       log.info('test user')
       continue
 
