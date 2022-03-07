@@ -383,6 +383,18 @@ from common.djangoapps.student.models import CourseEnrollment
 <style>
   .dashboard .side-container{
     padding: 0;
-    max-width: 100%;
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+  }
+  .dashboard {
+    flex-direction: column-reverse;
+  }
+  .status-verification .status-note {
+    font-size: 20px;
+    line-height: 1.2!important;
+  }
+  .status-verification.warning .status-title {
+    font-size: 24px;
   }
 </style>
