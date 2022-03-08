@@ -40,6 +40,7 @@ $fg-min-width: 810px !default;
 // ----------------------------
 // #COLORS
 // ----------------------------
+$black: #000;
 $transparent: rgba(0, 0, 0, 0) !default; // used when color value is needed for UI width/transitions but element is transparent
 
 $black-t0:  rgba($black, 0.125) !default;
