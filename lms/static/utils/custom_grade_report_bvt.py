@@ -18,49 +18,123 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
 
+from datetime import datetime, date, timedelta
+from django.utils import timezone
+
 import logging
 log = logging.getLogger()
 
 
 # Can not manage to pass var as arguments in command line
-course_ids = ['course-v1:bvt+course_02+2021']
+# UPDATE COURSE ID LIST
+# UPDATE COURSE ID LIST
+course_ids = [
+  'course-v1:bvt+base01+2022', 'course-v1:bvt+base02+2022', 'course-v1:bvt+base03+2022', 'course-v1:bvt+base04+2022', 'course-v1:bvt+base05+2022', 'course-v1:bvt+base06+2022', 'course-v1:bvt+base07+2022', 'course-v1:bvt+base08+2022', 'course-v1:bvt+base09+2022', 'course-v1:bvt+base10+2022', 'course-v1:bvt+base11+2022', 'course-v1:bvt+base12+2022', 'course-v1:bvt+base13+2022', 'course-v1:bvt+base14+2022', 'course-v1:bvt+base15+2022', 'course-v1:bvt+base16+2022', 'course-v1:bvt+base17+2022', 'course-v1:bvt+base18+2022', 'course-v1:bvt+base19+2022', 'course-v1:bvt+base20+2022', 'course-v1:bvt+citernes_01+2022', 'course-v1:bvt+citernes_02+2022', 'course-v1:bvt+citernes_03+2022', 'course-v1:bvt+citernes_04+2022', 'course-v1:bvt+citernes_05+2022', 'course-v1:bvt+citernes_06+2022', 'course-v1:bvt+citernes_07+2022', 'course-v1:bvt+citernes_08+2022', 'course-v1:bvt+citernes_09+2022', 'course-v1:bvt+citernes_10+2022', 'course-v1:bvt+citernes_11+2022', 'course-v1:bvt+citernes_12+2022', 'course-v1:bvt+citernes_13+2022', 'course-v1:bvt+citernes_14+2022', 'course-v1:bvt+citernes_15+2022', 'course-v1:bvt+citernes_16+2022', 'course-v1:bvt+citernes_17+2022', 'course-v1:bvt+citernes_18+2022', 'course-v1:bvt+citernes_19+2022', 'course-v1:bvt+citernes_20+2022', 'course-v1:bvt+gpl_01+2022', 'course-v1:bvt+gpl_02+2022', 'course-v1:bvt+gpl_03+2022', 'course-v1:bvt+gpl_04+2022', 'course-v1:bvt+gpl_05+2022', 'course-v1:bvt+gpl_06+2022', 'course-v1:bvt+gpl_07+2022', 'course-v1:bvt+gpl_08+2022', 'course-v1:bvt+gpl_09+2022', 'course-v1:bvt+gpl_10+2022', 'course-v1:bvt+gpl_11+2022', 'course-v1:bvt+gpl_12+2022', 'course-v1:bvt+gpl_13+2022', 'course-v1:bvt+gpl_14+2022', 'course-v1:bvt+gpl_15+2022', 'course-v1:bvt+gpl_16+2022', 'course-v1:bvt+gpl_17+2022', 'course-v1:bvt+gpl_18+2022', 'course-v1:bvt+gpl_19+2022', 'course-v1:bvt+gpl_20+2022', 
+  'course-v1:bvt+pp_01+2022', 'course-v1:bvt+pp_02+2022', 'course-v1:bvt+pp_03+2022', 'course-v1:bvt+pp_04+2022', 'course-v1:bvt+pp_05+2022', 'course-v1:bvt+pp_06+2022', 'course-v1:bvt+pp_07+2022', 'course-v1:bvt+pp_08+2022', 'course-v1:bvt+pp_09+2022', 'course-v1:bvt+pp_10+2022', 'course-v1:bvt+pp_11+2022', 'course-v1:bvt+pp_12+2022', 'course-v1:bvt+pp_13+2022', 'course-v1:bvt+pp_14+2022', 'course-v1:bvt+pp_15+2022', 'course-v1:bvt+pp_16+2022', 'course-v1:bvt+pp_17+2022', 'course-v1:bvt+pp_18+2022', 'course-v1:bvt+pp_19+2022', 'course-v1:bvt+pp_20+2022', 
+  ]
+# UPDATE EMAIL LIST
+# UPDATE EMAIL LIST
 emails =['cyril.adolf@weuplearning.com']
+
+# One report every day + one report each month and a report after a year. 
+daysLimit = 1
+# daysLimit = 31
+# daysLimit = 366
+# Est ce que l'on ajoute pas plutot une condition sur la date pour faire varier la valeur de 'daysLimit' ?? 
+
+def updateGrade(problemNum, choices, answer_list):
+  answered_true = 0
+  grade = 0
+
+  if choices == 'n.a.' or choices == []:
+    return grade
+
+  translated_list = []
+  for choice in choices:
+    index = choice.split('_')[1]
+    translated_list.append(index)
+  for choice in translated_list :
+    problemRef = 'problem'+ problemNum 
+
+    if choice in answer_list[problemRef]:
+      answered_true += 1
+    else:
+      return grade
+
+  if answered_true == len(answer_list[problemRef]):
+    grade = 1
+  else:
+    grade = 0.5
+
+  return grade
 
 
 
 all_users_data = {}
 log.info('------------> Begin fetching user data and answers')
 
+no_student = True
+
 for course_id in course_ids:
   course_key = CourseLocator.from_string(course_id)
   course = get_course_by_id(course_key)
   course_enrollments = CourseEnrollment.objects.filter(course_id=course_key)
+  course_name = course.display_name_with_default
+
+  course_data = {}
+
+  # DO NOT RENAME THE COURSE, IF NECESSARY, USE THE CONVERTER TO DO SO 
+  # DO NOT RENAME THE COURSE, IF NECESSARY, USE THE CONVERTER TO DO SO 
+  json_file_name = 'list_corrected_answer_' + str(course_name).replace(' ', '_') +'.json'
+  with open('/edx/var/edxapp/media/microsites/bvt/answers_lists_files/'+json_file_name) as json_file:
+    answer_list = json.load(json_file)
+
+  # session
+  session = course_id.split('+')[1]
+  log.info('-----> session: '+ str(session))
 
   for i in range(len(course_enrollments)):
     user = course_enrollments[i].user
-    log.info('user')
     log.info(user)
-    user_data = {}
+    user_data = {}        
 
-    bugged = ['bvt10112_encRg','bvt1011_t9M4C', 'alex_staff', 'fchavanne_kEYhX','ldarolles_feNjK']
-    if str(user) in bugged:
-      log.info('pass user ' + str(user))
+
+    if str(user.email).find('@yopmail') != -1 or str(user.email).find('@weuplearning') != -1 or str(user.email).find('@themoocagency') != -1 :
+      log.info('Yopmail account ' + str(user))
       continue
 
     # Update object with user data without grades
+
+    # FILTRER LES UTILISATEUR DU JOUR POUR RENDRE UN RAPPORT SANS ANCIENS UTILISATEURS : 
+    # now = timezone.now()
+
+    # try:
+    #   user_last_login = user.last_login
+    # except:
+    #   # pass user did not login
+    #   continue
+
+    # ONLY today's student
+    # if not (now >= user_last_login - timedelta(days=daysLimit)):
+    #   log.info('last_login est trop vieux')
+    #   continue
+    
+    no_student = False
+    user_data["session"] = session
+
     try:
-      user_data["username"] = user.username
+      user_data["email"] = user.email
     except:
       try:
-        user_data["username"] = json.loads(user.profile.custom_field)['username']
+        user_data["email"] = json.loads(user.profile.custom_field)['email']
       except:
-        user_data["username"] = 'n.a.'
+        user_data["email"] = 'n.a.'
 
     try:
       user_data["firstname"] = user.first_name.capitalize()
     except:
       try:
-        user_data["firstname"] = json.loads(user.profile.custom_field)['firstname'].capitalize()
+        user_data["firstname"] = json.loads(user.profile.custom_field)['first_name'].capitalize()
       except:
         user_data["firstname"] = 'n.a.'
 
@@ -68,7 +142,7 @@ for course_id in course_ids:
       user_data["lastname"] = user.last_name.capitalize()
     except:
       try:
-        user_data["lastname"] = json.loads(user.profile.custom_field)['lastname'].capitalize()
+        user_data["lastname"] = json.loads(user.profile.custom_field)['last_name'].capitalize()
       except:
         user_data["lastname"] = 'n.a.'
 
@@ -85,20 +159,37 @@ for course_id in course_ids:
     for block_location in scorable_block_titles:
 
       question = {}
-      history_entries = list(user_state_client.get_history(user.username, block_location))
-      question['problem'] = str(block_location)[-2:]
+      try:
+        history_entries = list(user_state_client.get_history(user.username, block_location))
+      except: 
+        question['choice'] = 'n.a.'
+        question['correctedGrade'] = 0
+        question['time'] = 'n.a.'
+        question['score'] = 'n.a.'
+        continue
+
+      problemNum = str(block_location)[-2:]
+      question['problem'] = problemNum
+      choices = []
+      
+
+      log.info('history_entries[0].state')
+      log.info(history_entries[0].state)
+      log.info("----------------------")
+
 
       if len(history_entries[0].state) ==3:
         question['choice'] = 'n.a.'
       else:
         for key, value in history_entries[0].state['student_answers'].items():
+          choices = value
+          question['choice'] = value
 
-          if isinstance(value, list):
-            question['choice'] = value
-          else:
-            liste = []
-            liste.append(value)
-            question['choice'] = liste
+      # GRADE NEED TO BE RECALCULATE DUE TO BVT SCALE
+      try:
+        question['correctedGrade'] = updateGrade( problemNum, choices, answer_list)
+      except:
+        question['correctedGrade'] = 0
 
       try:
         question['time'] = history_entries[0].state['last_submission_time']
@@ -113,7 +204,8 @@ for course_id in course_ids:
       list_question.append(question)
 
     data = { "general": user_data, 'list_question' : list_question }
-    all_users_data[str(user.id)]= data
+    course_data[str(user.id)]= data
+  all_users_data[course_id]= course_data
 
 log.info('------------> Finish fetching user data and answers')
 
@@ -130,87 +222,58 @@ for course_id in course_ids:
     course_names_html.append("<li>"+ str(course.display_name_with_default)+"</li>")
     # course_names_html.append("<li>"+ str(course.display_name_with_default.encode('ascii', errors='xmlcharrefreplace'))+"</li>")
 
-
-json_file_name = 'list_corrected_answer_' + str(course_names[0]).replace(' ', '_') +'.json'
-# UPDATE answer_list
-with open('/edx/var/edxapp/media/microsites/bvt/answers_lists_files/'+json_file_name) as json_file:
-  answer_list = json.load(json_file)
-
-
-def updateGrade(problemNum, choices, answer_list):
-  answered_true = 0
-
-  if choices == 'n.a.' :
-    grade = 0
-    return grade
-
-  translated_list = []
-  for choice in choices:
-    index = choice.split('_')[1]
-    translated_list.append(index)
-
-  for choice in translated_list :
-    problemRef = 'problem'+ problemNum
-
-    if choice in answer_list[problemRef]:
-      answered_true += 1
-    else:
-      grade = 0
-      return grade
-
-  if answered_true == len(answer_list[problemRef]):
-    grade = 1
-  else:
-    grade = 0.5
-
-  return grade
-
-
 # WRITE XLS
 timestr = time.strftime("%Y_%m_%d")
 wb = Workbook()
-# wb = Workbook(encoding='utf-8')
 sheet = wb.active
 sheet.title= 'Rapport'
 filename = '/home/edxtma/csv/{}_BVT_grade_report.xls'.format(timestr)
-headers = ['ID', 'Prénom', 'Nom']
+
+headers = ['Adresse e-mail', 'Prénom', 'Nom', 'Session', 'Score' ,'Validation']
 first = True
 
-j=2
 for i, header in enumerate(headers):
   sheet.cell(1, i+1, header)
+j=2
+for k, course_id in all_users_data.items():
+  for key, user in course_id.items():
+    sheet.cell(j, 1, user['general']['email'])
+    sheet.cell(j, 2, user['general']['firstname'])
+    sheet.cell(j, 3, user['general']['lastname'])
+    # Session
+    sheet.cell(j, 4, user['general']['session'])
 
-for key, user in all_users_data.items():
-  i = 3 
-  sheet.cell(j, 1, user['general']['username'])
-  sheet.cell(j, 2, user['general']['firstname'])
-  sheet.cell(j, 3, user['general']['lastname'])
+    correctedExamGrade = 0
+    i = 5 
+    for question in user['list_question']:
+      # correctedGrade = 0
 
-  correctedExamGrade = 0
-  for question in user['list_question']:
-    correctedGrade = 0
+      # if first:  
+      #   sheet.cell(1, i+1, question['problem'])
+      #   sheet.cell(1, i+2, 'Score')
+      #   sheet.cell(1, i+3, 'Réponses choisies')
+      # sheet.cell(j, i+1, question['time'])
 
-    if first:  
-      sheet.cell(1, i+1, question['problem'])
-      sheet.cell(1, i+2, 'Score')
-      sheet.cell(1, i+3, 'Réponses choisies')
-    sheet.cell(j, i+1, question['time'])
+      correctedGrade = question['correctedGrade']
+      choices = ''
+      for choice in question['choice'] :
+        choices += str(choice) + ' '
 
-    correctedGrade = updateGrade(question['problem'], question['choice'], answer_list)
-    choices = ''
-    for choice in question['choice'] :
-      choices += str(choice) + ' '
+      # sheet.cell(j, i+2, correctedGrade)
+      # sheet.cell(j, i+3, choices)
 
-    sheet.cell(j, i+2, correctedGrade)
-    sheet.cell(j, i+3, choices)
+      correctedExamGrade += int(correctedGrade)
+      # i += 3
+    sheet.cell(j, i, correctedExamGrade)
+    if correctedExamGrade >= 21: 
+      sheet.cell(j, i+1, 'oui')
+    else :
+      sheet.cell(j, i+1, 'non')
 
-    correctedExamGrade += correctedGrade
-    i += 3
-  sheet.cell(j, i+1, correctedExamGrade)
-  first = False
-  j += 1
-
+    # first = False
+    j += 1
 sheet.cell(1, i+1, 'Note finale')
+
 
 # SEND MAILS
 output = BytesIO()
@@ -221,6 +284,11 @@ course_names_html = ''.join(course_names_html)
 html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous trouverez en pièce jointe le rapport de note : "+ course_names_html +"<br/><br/>Bonne r&eacute;ception<br/>L'&eacute;quipe WeUp Learning</p></body></html>"
 
 for email in emails:
+  if no_student :
+    log.info('no_student')
+    log.info(no_student)
+    break
+
   part2 = MIMEText(html.encode('utf-8'), 'html', 'utf-8')
   fromaddr = "ne-pas-repondre@themoocagency.com"
   msg = MIMEMultipart()
@@ -246,5 +314,7 @@ for email in emails:
 log.info('------------> Finish calculate grades and write xlsx report')
 
 
-# exemple Koa
-# source /edx/app/edxapp/edxapp_env && /edx/app/edxapp/edx-platform/manage.py lms shell < /edx/app/edxapp/edx-themes/BVT/lms/static/utils/custom_grade_report_bvt.py
+# exemple Koa-qualif
+# source /edx/app/edxapp/edxapp_env && /edx/app/edxapp/edx-platform/manage.py lms shell < /edx/app/edxapp/edx-themes/bvt/lms/static/utils/custom_grade_report_bvt.py
+
+# Exams occur everyday, send grade report after todays exam. Choose the right time to send a grade report in crontab. 
