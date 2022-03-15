@@ -8,6 +8,7 @@ from django.urls import reverse
 from openedx.core.djangolib.markup import HTML, Text
 %>
 
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
@@ -71,7 +72,7 @@ from openedx.core.djangolib.markup import HTML, Text
     background-color: #146caf;
     padding-bottom: 0px;
     margin-bottom: 65px;
-    background-image: url("/media/microsites/fhf/fond_geometrique.jpg");
+    background-image: url("${static.url('fhf/images/fond_geometrique.jpg')}");
     background-size: contain;
     background-size: 500px;
   }
@@ -232,6 +233,7 @@ from openedx.core.djangolib.markup import HTML, Text
     font-size: 16px;
     font-weight: 700;
     line-height: 1.4;
+    text-align: center;
   }
 
   .front-title-tiles{
@@ -350,7 +352,7 @@ from openedx.core.djangolib.markup import HTML, Text
   <div class="background-split-color">
     <div class="text-center">
       <div class="col-md">
-        <img src="/media/microsites/fhf/mooc_handicap.png" class="img-fluid img-logo" alt="mooc logo">
+        <img src="${static.url('fhf/images/mooc_handicap.png')}" class="img-fluid img-logo" alt="mooc logo">
       </div>
         <div class="container">
           <div class="row">
@@ -376,7 +378,7 @@ from openedx.core.djangolib.markup import HTML, Text
               <div class="leftUpBorder"></div>
               <div class="leftDownBorder"></div>
               <div class="row">
-                <img src="/media/microsites/fhf/module1.jpg">
+                <img src="${static.url('fhf/images/module1.jpg')}">
               </div>
               <div class="flipCardTextContent">
                 <div class="row">
@@ -400,7 +402,7 @@ from openedx.core.djangolib.markup import HTML, Text
               <div class="leftUpBorder"></div>
               <div class="leftDownBorder"></div>
               <div class="row">
-                <img src="/media/microsites/fhf/module2.jpg">
+                <img src="${static.url('fhf/images/module2.jpg')}">
               </div>
               <div class="flipCardTextContent">
                 <div class="row">
@@ -412,7 +414,7 @@ from openedx.core.djangolib.markup import HTML, Text
               </div>
             </div>
             <div class="flip-card-back">
-              <p class="color-darkest-blue typo-quicksand-light back-text-tiles">Sur quels dispositifs réglementaires l’inclusion des personnes en situation de handicap s’appuie-t-elle ? Voici un court panorama des outils de la gestion des ressources humaines (GRH) et des bonnes pratiques à mettre en œuvre.</p>
+              <p class="color-darkest-blue typo-quicksand-light back-text-tiles">Sur quels dispositifs réglementaires l’inclusion des personnes en situation de handicap s’appuie-t-elle&nbsp;? Voici un court panorama des outils de la gestion des ressources humaines (GRH) et des bonnes pratiques à mettre en œuvre.</p>
             </div>
           </div>
         </div>
@@ -424,14 +426,14 @@ from openedx.core.djangolib.markup import HTML, Text
               <div class="leftUpBorder"></div>
               <div class="leftDownBorder"></div>
               <div class="row">
-                <img src="/media/microsites/fhf/module3.jpg">
+                <img src="${static.url('fhf/images/module3.jpg')}">
               </div>
               <div class="flipCardTextContent">
                 <div class="row">
                   <p class="color-light-blue typo-quicksand-bold front-title-tiles">MODULE 3</p>
                 </div>
                 <div class="row">
-                  <p class="color-darkest-blue typo-quicksand-medium front-text-tiles">LA PERSONNE ACCOMPAGNEE</p>
+                  <p class="color-darkest-blue typo-quicksand-medium front-text-tiles">LA PERSONNE ACCOMPAGNÉE</p>
                 </div>
               </div>
             </div>
@@ -448,14 +450,14 @@ from openedx.core.djangolib.markup import HTML, Text
               <div class="leftUpBorder"></div>
               <div class="leftDownBorder"></div>
               <div class="row">
-                <img src="/media/microsites/fhf/module4.jpg">
+                <img src="${static.url('fhf/images/module4.jpg')}">
               </div>
               <div class="flipCardTextContent">
                 <div class="row">
                   <p class="color-light-blue typo-quicksand-bold front-title-tiles">MODULE 4</p>
                 </div>
                 <div class="row">
-                  <p class="color-darkest-blue typo-quicksand-medium front-text-tiles">ENVIRONNEMENT DU REFERENT HANDICAP</p>
+                  <p class="color-darkest-blue typo-quicksand-medium front-text-tiles">ENVIRONNEMENT DU RÉFÉRENT HANDICAP</p>
                 </div>
               </div>
             </div>
@@ -472,7 +474,7 @@ from openedx.core.djangolib.markup import HTML, Text
               <div class="leftUpBorder"></div>
               <div class="leftDownBorder"></div>
               <div class="row">
-                <img src="/media/microsites/fhf/module5.jpg">
+                <img src="${static.url('fhf/images/module5.jpg')}">
               </div>
               <div class="flipCardTextContent">
                 <div class="row">
@@ -496,7 +498,7 @@ from openedx.core.djangolib.markup import HTML, Text
               <div class="leftUpBorder"></div>
               <div class="leftDownBorder"></div>
               <div class="row">
-                <img src="/media/microsites/fhf/module6.jpg">
+                <img src="${static.url('fhf/images/module6.jpg')}">
               </div>
               <div class="flipCardTextContent">
                 <div class="row">
@@ -520,14 +522,14 @@ from openedx.core.djangolib.markup import HTML, Text
               <div class="leftUpBorder"></div>
               <div class="leftDownBorder"></div>
               <div class="row">
-                <img src="/media/microsites/fhf/module7.jpg">
+                <img src="${static.url('fhf/images/module7.jpg')}">
               </div>
               <div class="flipCardTextContent">
                 <div class="row">
                   <p class="color-light-blue typo-quicksand-bold front-title-tiles">MODULE 7</p>
                 </div>
                 <div class="row">
-                  <p class="color-darkest-blue typo-quicksand-medium front-text-tiles">LE REFERENT HANDICAP, HEUREUX AU TRAVAIL</p>
+                  <p class="color-darkest-blue typo-quicksand-medium front-text-tiles">LE RÉFÉRENT HANDICAP, HEUREUX AU TRAVAIL</p>
                 </div>
               </div>
             </div>
@@ -544,7 +546,7 @@ from openedx.core.djangolib.markup import HTML, Text
               <div class="leftUpBorder"></div>
               <div class="leftDownBorder"></div>
               <div class="row">
-                <img src="/media/microsites/fhf/module8.jpg">
+                <img src="${static.url('fhf/images/module8.jpg')}">
               </div>
               <div class="flipCardTextContent">
                 <div class="row">
@@ -581,6 +583,7 @@ from openedx.core.djangolib.markup import HTML, Text
   $(window).load(function() {$('#signup_action').trigger("click");});
 </script>
 % endif
+
 <script type="text/javascript">
   console.log('TEST TEST')
 </script>

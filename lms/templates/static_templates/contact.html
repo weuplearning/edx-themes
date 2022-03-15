@@ -1,6 +1,8 @@
 <%page expression_filter="h"/>
 <%! from django.utils.translation import ugettext as _ %>
 <%inherit file="../main.html" />
+<%namespace name='static' file='../static_content.html'/>
+
 
 <%block name="pagetitle">${_("Contact")}</%block>
 <link
@@ -11,11 +13,11 @@
     <section class="container about">
         <h1>Qui sommes-nous ?</h1>
         <div id="inerSection">
-            <img src="/static/fhf/images/qui_sommes_nous.PNG" alt="A gauche trois médecins en salle d'opération, à droite une jeune femme dasant avec une vielle femme. Au centre le logo 'La FHF maison commune des établissements hospitaliers et médic-sociaux publics'" class="animate__animated animate__fadeInUp">
+            <img src="${static.url('fhf/images/qui_sommes_nous.PNG')}" alt="A gauche trois médecins en salle d'opération, à droite une jeune femme dasant avec une vielle femme. Au centre le logo 'La FHF maison commune des établissements hospitaliers et médic-sociaux publics'" class="animate__animated animate__fadeInUp">
             <h2>Fédération Hospitalière de France</h2>
             <p>« Maison commune » des hôpitaux et établissements médico-sociaux publics, la Fédération hospitalière 
     de France réunit des élus, des directeurs, des médecins et des usagers.
-            <br />En plaçant au 1er plan les besoins des patients et des résidents, la FHF contribue au débat public sur 
+            <br />En plaçant au 1<sup>er</sup> plan les besoins des patients et des résidents, la FHF contribue au débat public sur 
     la santé et défend une vision responsable et amitieuse du service public.
             <br />Aux côtés de ses 4800 adhérents, réunis dans 20 fédérations régionales, la FHF est force de proposition 
     pour simplifier et renforcer l’efficacité de notre système de santé, à partir des territoires.</p>

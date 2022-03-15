@@ -278,6 +278,14 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         display: none;
     }
 
+    /* #picture_fhf {
+        background-color: #00347d;
+        border: black solid 2px;
+        height: 100%;
+        width: 100%;
+
+    } */
+
     @media screen and (max-width: 1250px) {
         #logo_banner {
           height: 50px;
@@ -377,6 +385,11 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         }
     }
 
+    #header-fhf {
+        background-image: url("${static.url('fhf/images/quadrillage.png')}");
+        height: 100px;
+        background-size: 1500px;
+    }
   </style>
   <script>
 document.title = "Cours | ${HTML(course.display_name_with_default)}";
@@ -387,20 +400,20 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
 
 <%block name="content">
 <div class="course-view page-content-container" id="course-container">
-        <header class="page-header has-secondary" style="background-image: url(/media/microsites/fhf/quadrillage.png);height: 100px;background-size: 1500px;">
-        <img id="logo_banner" src="/media/microsites/fhf/bandeau_texte.png" alt="banner logo">
-        <img id="logo_banner_small" src="/media/microsites/fhf/mooc_handicap.png" alt="banner logo" style="height: 84px;">
+    <header class="page-header has-secondary" id="header-fhf" >
+        <img id="logo_banner" src="${static.url('fhf/images/bandeau_texte.png')}" alt="banner logo">
+        <img id="logo_banner_small" src="${static.url('fhf/images/mooc_handicap.png')}" alt="banner logo" style="height: 84px;">
         <div class="page-header-secondary">
             % if show_search:
                 <div class="page-header-search">
                     <form class="search-form input-group" role="search" action="${reverse('openedx.course_search.course_search_results', args=[course_key])}">
                         <label class="field-label sr-only" for="search" id="search-hint">${_('Search the course')}</label>
                         <input
-                                class="field-input input-text search-input form-control"
-                                type="search"
-                                name="query"
-                                id="search"
-                                placeholder="${_('Search the course')}"
+                            class="field-input input-text search-input form-control"
+                            type="search"
+                            name="query"
+                            id="search"
+                            placeholder="${_('Search the course')}"
                         />
                         <span class="input-group-btn">
                             <button class="btn btn-outline-primary search-button" type="submit">${_('Search')}</button>
@@ -444,7 +457,8 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
             % endif
         </div>
         <aside class="page-content-secondary course-sidebar">
-            <h4>Avez-vous bien retenu ?</h4>
+            <!-- <div id="picture_fhf"> ICI</div> -->
+            <h4>Votre score aux quiz</h4>
             <div class="section" id="badges">
                     <div class="grade-block">       
                         <div class="grade-section-title">
@@ -477,7 +491,10 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
                               total_blocks += 1
                               if blockchild.get('complete'):
                                 completed_blocks += 1
-                      completion_ratio = completed_blocks / total_blocks
+                      if total_blocks == 0:
+                        completion_ratio = 0
+                      else:  
+                        completion_ratio = completed_blocks / total_blocks
                       %>
                         <div class="grade-block">
                             <div class="grade-section-title">
@@ -499,20 +516,22 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
 
 
                     %for index, chapter in enumerate(user_grade.chapter_grades.keys()):
-                        <div class="grade-block">
-                            <div class="grade-section-title">
-                                %if user_grade.chapter_percentage(chapter) >= 0.7:
-                                    <img src="${static.url('images/medal_on.svg')}" class="small-badge"/>
-                                %else: 
-                                    <img src="${static.url('images/medal_off.svg')}" class="small-badge"/>
-                                %endif
-                                <div class="chapter-title" >${user_grade.chapter_grades[chapter]['display_name']}</div>
-                                <div class="grade-value">${int(user_grade.chapter_percentage(chapter) * 100)}%</div>
+                        %if user_grade.chapter_grades[chapter]['display_name'].find("Avant de démarrer") == -1 and user_grade.chapter_grades[chapter]['display_name'].find("Pour aller plus loin") == -1 and user_grade.chapter_grades[chapter]['display_name'].find("Attestation de réussite") == -1 and user_grade.chapter_grades[chapter]['display_name'].find("Remerciements") == -1  :
+                            <div class="grade-block">
+                                <div class="grade-section-title">
+                                    %if user_grade.chapter_percentage(chapter) >= 0.7:
+                                        <img src="${static.url('images/medal_on.svg')}" class="small-badge"/>
+                                    %else: 
+                                        <img src="${static.url('images/medal_off.svg')}" class="small-badge"/>
+                                    %endif
+                                    <div class="chapter-title" >${user_grade.chapter_grades[chapter]['display_name']}</div>
+                                    <div class="grade-value">${int(user_grade.chapter_percentage(chapter) * 100)}%</div>
+                                </div>
+                                <div class="progress-bar-full">
+                                    <div style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade"></div>
+                                </div>                    
                             </div>
-                            <div class="progress-bar-full">
-                                <div style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade"></div>
-                            </div>                    
-                        </div>
+                        %endif
                     %endfor
 
                  %endif
