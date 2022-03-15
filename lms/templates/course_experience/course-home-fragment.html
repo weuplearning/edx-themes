@@ -257,7 +257,36 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     #logo_banner {
         margin: auto 30px;
         height: 40px;
+        display: none;
     }
+
+    /* modification quentin */
+
+    *{
+        transition: 0.3s;
+    }
+    .page-header{
+        background: url(https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-107-2.svg);
+        background-position: bottom;
+        background-size: cover;
+        background-repeat: no-repeat;
+        height: 12.5rem !important;
+    }
+    /* @media screen and (min-width:1300) {
+        .page-header{
+            height: 20rem;
+        }
+    }
+    @media screen and (min-width:1000) and (max-width:1300) {
+        .page-header{
+            height: 14rem !important;
+        }
+    }
+    @media screen and (max-width:1000){
+        .page-header{
+            height: 10rem !important;
+        }
+    } */
 
     
     @media screen and (max-width: 1024px) {
@@ -344,7 +373,7 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
 <div class="course-view page-content-container" id="course-container">
     <header class="page-header has-secondary">
         <div class="page-header-main">
-            <img id="logo_banner" src="${static.url('{}/images/logo_secondary.png'.format(course.org))}" alt="banner logo">
+            <img id="logo_banner" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-107-2.svg" alt="banner logo">
         </div>
         <div class="page-header-secondary">
             % if show_search:
