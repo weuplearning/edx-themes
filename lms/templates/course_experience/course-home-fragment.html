@@ -143,12 +143,12 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     	animation: fadeInLeft;
         animation-duration: 0.5s;
     }
-    .wrapper-preview-menu{
+    /* .wrapper-preview-menu{
        //display:none;
+    } */
+    .wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary{
+        display:none !important;
     }
-.wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary{
-    display:none !important;
-}
 
 
     .section-title{
@@ -278,13 +278,12 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         display: none;
     }
 
-    /* #picture_fhf {
-        background-color: #00347d;
-        border: black solid 2px;
-        height: 100%;
-        width: 100%;
-
-    } */
+    #picture_fhf {
+        background-image: url("${static.url('images/bandeau_dashboard.png')}");
+        background-size: cover;
+        height: 76px;
+        margin-bottom: 20px;
+    }
 
     @media screen and (max-width: 1250px) {
         #logo_banner {
@@ -307,6 +306,10 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         #logo_banner {
           height: 34px;
           left: -10px;
+        }
+
+        #picture_fhf {
+            height: 81px;
         }
     }
     @media screen and (max-width: 991px) {
@@ -457,7 +460,7 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
             % endif
         </div>
         <aside class="page-content-secondary course-sidebar">
-            <!-- <div id="picture_fhf"> ICI</div> -->
+            <div id="picture_fhf"></div>
             <h4>Votre score aux quiz</h4>
             <div class="section" id="badges">
                     <div class="grade-block">       
