@@ -30,6 +30,126 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
   }
 </style>
 
+<style>
+  .section-footer{
+      margin-top: 16rem !important;
+  }
+  .section-footer-elements{
+      display: flex !important;
+      flex-wrap: wrap !important;
+  }
+
+  .section-footer-col3-icons{
+      display: flex !important;
+  }
+  .section-footer-elements-col3-img{
+      margin: 0.7rem !important;
+  }
+  .col-section-footer-elements-col2-img{
+      margin: 0.7rem !important;
+  }
+  .section-footer-elements-col2-imgs{
+      display: flex !important;
+  }
+  .asset-104-2{
+      overflow: hidden !important;
+      float: none !important;
+      /* position: unset !important; */
+      width: 100% !important;
+      right: 7rem !important;
+      position: unset !important;
+      margin-bottom: -2rem;
+  }
+  .asset-103-2{
+      overflow: hidden !important;
+      float: none !important;
+      position: unset !important;
+      width: 100% !important;
+  }
+
+/* -------------- media screen -------------- */
+
+  @media screen and (min-width: 1700px){
+      .section-footer-cols{
+          flex: 20%;
+      }
+  }
+  @media screen and (min-width: 1400px) and (max-width: 1699px){
+      .section-footer-elements-col1{
+          flex: 25%;
+      }
+      .section-footer-elements-col2{
+          flex: 15%;
+      }
+      .section-footer-elements-col3{
+          flex: 15%;
+      }
+      .section-footer-elements-col4{
+          flex: 25%;
+      }
+  }
+  @media screen and (min-width: 900px) and (max-width: 1399px){
+      .section-footer-elements-col1{
+          flex: 10%;
+      }
+      .section-footer-elements-col2{
+          flex: 10%;
+      }
+      .section-footer-elements-col3{
+          flex: 10%;
+      }
+      .section-footer-elements-col4{
+          flex: 15%;
+      }
+  }
+  @media screen and (min-width: 700px) and (max-width: 899px){
+      .section-footer-elements-col1{
+          flex: 5%;
+      }
+      .section-footer-elements-col2{
+          flex: 10%;
+      }
+      .section-footer-elements-col3{
+          flex: 10%;
+      }
+      .section-footer-elements-col4{
+          flex: 15%;
+      }
+      .footer-img-col2{
+          height: 2rem !important;
+      }
+      .footer-img-col3{
+          height: 1.3rem !important;
+      }
+  }
+  @media screen and (min-width:500px) and (max-width: 750px){
+      .section-footer-elements-col1{
+          display: none !important;
+      }
+      .section-footer-elements-col4{
+          display: none !important;
+      }
+      .footer-img-col2{
+          height: 2rem !important;
+      }
+  }
+  @media screen and (max-width: 600px){
+      .section-footer-elements-col1{
+          flex: 100%;
+      }
+      .section-footer-elements-col2{
+          flex: 100%;
+      }
+      .section-footer-elements-col3{
+          flex: 100%;
+      }
+      .section-footer-elements-col4{
+          flex: 100%;
+      }
+  }
+
+</style>
+
 % if display_reset_dates_banner:
     <script type="text/javascript">
         $('.reset-deadlines-banner').css('display', 'flex');
