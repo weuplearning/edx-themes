@@ -1,0 +1,350 @@
+## mako
+<%page expression_filter="h"/>
+<%!
+  from django.urls import reverse
+  from django.utils.translation import ugettext as _
+  from lms.djangoapps.branding.api import get_footer
+  from openedx.core.djangoapps.lang_pref.api import footer_language_selector_is_enabled
+%>
+<% footer = get_footer(is_secure=is_secure) %>
+<% icp_license_info = getattr(settings, 'ICP_LICENSE_INFO', {})%>
+<%namespace name='static' file='static_content.html'/>
+
+<style>
+  .wrapper-footer {
+    /* background-color: var(--primary); */
+	background: #F2F2F2;
+  }
+
+  body.view-in-course .wrapper-footer {
+    background-color: gray;
+  }
+
+  .wrapper-footer .site-nav, .wrapper-footer footer#footer-openedx .colophon .nav-colophon {
+    margin: 0 !important;
+  }
+
+  .wrapper-footer .site-nav .nav-link, .wrapper-footer footer#footer-openedx .colophon .nav-colophon li a {
+    /* color: white !important; */
+	color: #002D3F;
+  }
+
+
+  /* style repris */
+
+  /* ----------------- global --------------------- */
+
+  	.darkblue-text{
+        color: #002D3F;
+    }
+    .white-text{
+        color: white;
+    }
+    .middleblue-text{
+        color: #005A7D;
+    }
+    .purple-text{
+        color: #8270B3;
+    }
+    .lightpurple-text{
+        color: #A8AFB7;
+    }
+    .light-blue{
+        color: #00B3DC;
+    }
+
+
+  	.section-footer{
+        background-color: #F2F2F2;
+        padding: 1.7rem;
+    }
+    .section-footer-cols{
+        padding: 1rem;
+    }
+    .footer-img-absolute{
+        position: absolute;
+        overflow: hidden;
+    }
+    .footer-img-absolute-col1{
+        height: 300px;
+        width: auto;
+    }
+    .footer-img-absolute-col4{
+        height: 200px;
+        width: auto;
+    }
+    .footer-img-col2{
+        width: auto;
+        height: 3rem;
+        margin: 0.25rem;
+    }
+    .footer-img-col3{
+        width: auto;
+        height: 2rem;
+        margin: 0.25rem;
+    }
+
+    /* ----- modif on assets ----- */
+    
+    .asset-27{
+        z-index: 1;
+        left: -10px;
+    }
+    .asset-28{
+        z-index: 2;
+        left: 40px;
+    }
+    .asset-55{
+        z-index: 1;
+        left: 110px;
+    }
+
+    .asset-29{
+        z-index: 3;
+        right: 0rem;
+    }
+    .asset-30{
+        z-index: 2;
+        right: 14rem;
+        width: auto;
+        height: 7rem;
+    }
+    .asset-31{
+        z-index: 1;
+        right: 22rem;
+        width: auto;
+        height: 4rem;
+    }
+    .asset-103-2{
+        max-height: 14rem;
+        float: left;
+        position: relative;
+        left: -4rem;
+        bottom: 0rem;
+        width: 20rem;
+    }
+    .asset-104-2{
+        width: 100%;
+        max-height: 7rem;
+        margin-top: 2rem;
+
+        width: 27rem;
+        max-height: 20rem;
+        float: right;
+        position: relative;
+        right: -1.7rem;
+        bottom: -5.5rem;
+    }
+
+	/* -------------------------------- media screen -------------------------------- */
+
+	@media screen and (min-width:1600px){
+        .section-1-text{
+            margin: 0rem 10rem;
+        }
+        .section-4-faq{
+            margin: 4rem 15rem;
+        }
+        .asset-40{
+            left: 6rem;
+        }
+        .asset-104-2{
+            bottom: -2.9rem;
+        }
+    }
+    @media screen and (min-width:1200px){
+        .footer-img-col3:hover{
+            transform: scale(1.3);
+        }
+        .section-1-buttons-left:hover{
+            transform: scale(1.1);
+        }
+        .section-1-buttons-right:hover{
+            transform: scale(1.1);
+        }
+    }
+    @media screen and (min-width:576px) and (max-width:930px){
+        .asset-104-2{
+            bottom: -6.9rem;
+            width: 16rem;
+        }
+        .asset-103-2{
+            max-height: 11rem;
+            width: 14rem;
+            bottom: -3rem;
+        }
+        .asset-107-2{
+            width: 150%;
+        }
+        .footer-img-col2{
+            height: 2rem;
+        }
+        .footer-img-col3{
+            height: 1.5rem;
+        }
+    }
+    @media screen and (max-width:550px){
+        .section-1-buttons{
+            display: flex;
+            flex-direction: column;
+        }
+        .section-1-buttons-left{
+            margin: 0rem 1rem;
+        }
+        .section-1-buttons-right{
+            margin: 2.5rem 1rem;
+            padding: 1rem 3rem;
+        }
+        .section-1-text{
+            padding: 0rem 0rem;
+        }
+        .section-2-video{
+            padding: 2rem 0rem;
+        }
+        .asset-40{
+            display: none;
+        }
+        .asset-52{
+            display: none;
+        }
+        .section-3-title-bkgimg{
+            clip-path: polygon(0% 0, 0% 0%, 100% 8%, 100% 86%, 0% 100%, 0% 0%);
+        }
+        .asset-103-2{
+            left: 3rem;
+            width: 8rem;
+        }
+        .section-1-title-bkgimg{
+            margin-bottom: 2rem;
+        }
+        .asset-107-2{
+            width: 250%;
+        }
+        .section-1-title{
+            padding: 7rem 1rem;
+            clip-path: polygon(0% 0, 0% 16%, 100% 0%, 100% 94%, 0% 80%, 0% 0%);
+        }
+        .section-1-text-bkgimg{
+            padding: 1rem;
+            padding-bottom: 3rem;
+        }
+        .section-1-text-elements{
+            padding-bottom: 3rem;
+        }
+        .section-4-elements-hidden-sectionTop-3{
+            padding: 0rem 0rem 1rem 2rem;
+        }
+        .section-4-elements-hidden-text{
+            padding: 2rem 1rem 2rem 1.5rem;
+            clip-path: polygon(3% 0, 26% 0%, 100% 0%, 100% 100%, 0% 97%, 4% 0%);
+        }
+        .panel{
+            padding: 1rem 0rem;
+            transition: max-height 0.5s ease-out;
+        }
+        .section-4-elements-hidden-sectionTop-1{
+            padding: 1rem 0rem 1rem 3rem;
+        }
+        .section-4-elements-hidden-sectionTop-3{
+            padding: 0.5rem 0rem 1rem 3rem;
+        }
+        .section-4-faq{
+            margin: 4rem 0rem;
+            padding: 0rem 1rem;
+        }
+        .swiper{
+            padding: 5rem 1rem;
+        }
+        .section-3-tiles-outside{
+            /* height: 36rem !important; */
+            /* width: 17rem !important; */
+            height: 100%;
+        }
+        .swiper-button-next:hover{
+            transform: scale(1);
+        }
+        .swiper-button-prev:hover{
+            transform: scale(1);
+        }
+        .swiper-button-next{
+            width: 4rem;
+        }
+        .swiper-button-prev{
+            width: 4rem;
+        }
+    }
+
+</style>
+
+<div class="section-footer container-fluid wrapper-footer">
+	<footer>
+		<div class="section-footer-elements row">
+			<div class="section-footer-elements-col1 section-footer-cols col-sm-3">
+				<div class="section-footer-elements-col1-imgs">
+					<img class="asset-103-2" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-103-2.svg">
+				</div>
+			</div>
+			<div class="section-footer-elements-col2 section-footer-cols col-sm-3">
+				<p class="bold-text darkblue-text">Découvrez-nous</p>
+				<p><a class="light-blue link" href="https://www.hlm.coop/" target="_blank">www.hlm.coop</a></p>
+				<p><a class="light-blue link" href="https://www.hlm.coop/coops" target="_blank">www.hlm.coop/coops</a></p>
+				<p class="bold-text darkblue-text">Mooc réalisé par</p>
+				<div class="row section-footer-elements-col2-imgs">
+					<div class="col col-sm-6 col-xs-6 col-section-footer-elements-col2-img">
+						<img class="footer-img-col2 asset-50" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-50.svg">
+					</div>
+					<div class="col col-sm-6 col-xs-6 col-section-footer-elements-col2-img">
+						<img class="footer-img-col2 asset-51" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-51.svg">
+					</div>
+				</div>
+			</div>
+			<div class="section-footer-elements-col3 section-footer-cols col-sm-3">
+				<p class="bold-text darkblue-text">Suivez-nous</p>
+				<div class="row">
+					<div class="col col-xs-2">
+						<a href="https://twitter.com/LesCoopHlm" target="_blank">
+							<img class="section-footer-elements-col3-img footer-img-col3 asset-98" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-98.svg">
+						</a>
+					</div>
+					<div class="col col-xs-2">
+						<a href="https://fr-fr.facebook.com/lescoophlm" target="_blank">
+							<img class="section-footer-elements-col3-img footer-img-col3 asset-24" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-24.svg">
+						</a>
+					</div>
+					<div class="col col-xs-2">
+						<a href="https://www.youtube.com/user/coophlm" target="_blank">
+							<img class="section-footer-elements-col3-img footer-img-col3 asset-56" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-56.svg">
+						</a>
+					</div>
+					<div class="col col-xs-2">
+						<a href="https://www.linkedin.com/company/f-d-ration-nationale-des-soci-t-s-coop-ratives-d'hlm" target="_blank">
+							<img class="section-footer-elements-col3-img footer-img-col3 asset-57" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-57.svg">
+						</a>
+					</div>
+					<div class="col col-xs-2">
+						<a href="">
+							<img class="section-footer-elements-col3-img footer-img-col3 asset-60" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-60.svg">
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="section-footer-elements-col4 section-footer-cols col-sm-3">
+				<div class="section-footer-elements-col4-imgs">
+					<img class="asset-104-2" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-104-2.svg">
+				</div>
+			</div>
+		</div>
+	</footer>
+</div>
+
+% if include_dependencies:
+  <%static:js group='base_vendor'/>
+  <%static:css group='style-vendor'/>
+  <%include file="widgets/segment-io.html" />
+  <%include file="widgets/segment-io-footer.html" />
+% endif
+% if footer_css_urls:
+  % for url in footer_css_urls:
+    <link rel="stylesheet" type="text/css" href="${url}"></link>
+  % endfor
+% endif

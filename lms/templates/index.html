@@ -654,6 +654,14 @@
     a.link{
         text-decoration: none;
     }
+    .link:hover{
+        text-decoration: none;
+        color: #00B3DC;
+        text-decoration: underline;
+    }
+    .link:active{
+        text-decoration: none;
+    }
 
     /* -------------------- Media screen -------------------- */
 
@@ -671,7 +679,7 @@
             font-size: 1.25rem;
         }
         .asset-104-2{
-            bottom: -4.3rem;
+            bottom: -4.1rem;
         }
     }
     @media screen and (min-width:1200px){
@@ -703,7 +711,7 @@
     }
     @media screen and (min-width:576px) and (max-width:930px){
         .asset-104-2{
-            bottom: -8rem;
+            bottom: -6.9rem;
             width: 16rem;
         }
         .asset-103-2{
@@ -711,9 +719,14 @@
             width: 14rem;
             bottom: -3rem;
         }
-        
         .asset-107-2{
             width: 150%;
+        }
+        .footer-img-col2{
+            height: 2rem;
+        }
+        .footer-img-col3{
+            height: 1.5rem;
         }
     }
     @media screen and (max-width:550px){
@@ -1150,8 +1163,8 @@
                 </div>
                 <div class="section-footer-elements-col2 section-footer-cols col-sm-3">
                     <p class="bold-text darkblue-text">Découvrez-nous</p>
-                    <p class="light-blue">www.hlm.coop</p>
-                    <p class="light-blue">www.hlm.coop/coops</p>
+                    <p><a class="light-blue link" href="https://www.hlm.coop/" target="_blank">www.hlm.coop</a></p>
+                    <p><a class="light-blue link" href="https://www.hlm.coop/coops" target="_blank">www.hlm.coop/coops</a></p>
                     <p class="bold-text darkblue-text">Mooc réalisé par</p>
                     <div class="row section-footer-elements-col2-imgs">
                         <div class="col col-sm-6 col-xs-6 col-section-footer-elements-col2-img">
@@ -1166,19 +1179,29 @@
                     <p class="bold-text darkblue-text">Suivez-nous</p>
                     <div class="row">
                         <div class="col col-xs-2">
-                            <img class="section-footer-elements-col3-img footer-img-col3 asset-98" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-98.svg">
+                            <a href="https://twitter.com/LesCoopHlm" target="_blank">
+                                <img class="section-footer-elements-col3-img footer-img-col3 asset-98" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-98.svg">
+                            </a>
                         </div>
                         <div class="col col-xs-2">
-                            <img class="section-footer-elements-col3-img footer-img-col3 asset-24" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-24.svg">
+                            <a href="https://fr-fr.facebook.com/lescoophlm" target="_blank">
+                                <img class="section-footer-elements-col3-img footer-img-col3 asset-24" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-24.svg">
+                            </a>
                         </div>
                         <div class="col col-xs-2">
-                            <img class="section-footer-elements-col3-img footer-img-col3 asset-56" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-56.svg">
+                            <a href="https://www.youtube.com/user/coophlm" target="_blank">
+                                <img class="section-footer-elements-col3-img footer-img-col3 asset-56" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-56.svg">
+                            </a>
                         </div>
                         <div class="col col-xs-2">
-                            <img class="section-footer-elements-col3-img footer-img-col3 asset-57" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-57.svg">
+                            <a href="https://www.linkedin.com/company/f-d-ration-nationale-des-soci-t-s-coop-ratives-d'hlm" target="_blank">
+                                <img class="section-footer-elements-col3-img footer-img-col3 asset-57" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-57.svg">
+                            </a>
                         </div>
                         <div class="col col-xs-2">
-                            <img class="section-footer-elements-col3-img footer-img-col3 asset-60" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-60.svg">
+                            <a href="">
+                                <img class="section-footer-elements-col3-img footer-img-col3 asset-60" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-60.svg">
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -1193,22 +1216,7 @@
 
     <script>
 
-        //-------- script caroussel section 3 --------//
-
-        // var swiper = new Swiper(".mySwiper", {
-        //     slidesPerView: 3,
-        //     spaceBetween: 30,
-        //     slidesPerGroup: 3,
-        //     loopFillGroupWithBlank: true,
-        //     pagination: {
-        //         el: ".swiper-pagination",
-        //         clickable: true,
-        //     },
-        //     navigation: {
-        //         nextEl: ".swiper-button-next",
-        //         prevEl: ".swiper-button-prev",
-        //     },
-        // });
+        //script swipe section 3
 
         var swiper = new Swiper(".mySwiper", {
             slidesPerView: 1,
@@ -1245,23 +1253,6 @@
 
         //-------- script menu dépliant section 4 FAQ --------//
 
-        // var acc = document.getElementsByClassName("accordion");
-        // var i;
-
-        // for (i = 0; i < acc.length; i++) {
-        //     acc[i].addEventListener("click", function () {
-        //         this.classList.toggle("active");
-        //         var panel = this.nextElementSibling;
-        //         if (panel.style.display === "block") {
-        //             panel.style.display = "none";
-        //         }
-        //         else {
-        //             panel.style.display = "block";
-        //         }
-        //     });
-        // }
-
-
         var acc = document.getElementsByClassName("accordion");
         var i;
 
@@ -1277,40 +1268,6 @@
                 } 
             });
         }
-
-
-        // var acc = document.getElementsByClassName("accordion");
-        // var i;
-
-        // for (i = 0; i < acc.length; i++) {
-        //     acc[i].addEventListener("click", function () {
-        //         this.classList.toggle("active");
-        //         var panel = this.nextElementSibling;
-        //         if (panel.style.height === 0+"rem") {
-        //             panel.style.height = 32+"rem";
-        //         }
-        //         else {
-        //             panel.style.display = "block";
-        //         }
-        //     });
-        // }
-
-
-        // var acc = document.getElementsByClassName("accordion");
-        // var i;
-
-        // for (i = 0; i < acc.length; i++) {
-        //     acc[i].addEventListener("click", function () {
-        //         this.classList.toggle("active");
-        //         var panel = this.nextElementSibling;
-        //         if (panel.style.opacity === 0) {
-        //             panel.style.opacity = 100;
-        //         }
-        //         else {
-        //             panel.style.opacity = 0;
-        //         }
-        //     });
-        // }
 
     </script>
 

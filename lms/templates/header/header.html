@@ -76,6 +76,11 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     .global-header .header-logo a .logo{
         height: 80px !important;
     }
+    @media screen and (min-width:1000px) {
+        .global-header .header-logo a .logo:hover{
+            transform: scale(1.1);
+        }
+    }
 </style>
 
 <header class="global-header ${'slim' if course else ''}">

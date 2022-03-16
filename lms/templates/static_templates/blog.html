@@ -1,463 +1,455 @@
-<!-- <%page expression_filter="h"/>
+<%page expression_filter="h"/>
 <%! from django.utils.translation import ugettext as _ %>
 <%inherit file="../main.html" />
 
 <%block name="pagetitle">${_("Blog")}</%block>
 
 <main id="main" aria-label="Content" tabindex="-1">
-    <section class="container about">
-        <h1>
-            <%block name="pageheader">${page_header or _("Blog")}</%block>
-        </h1>
-        <p>
-            <%block name="pagecontent">${page_content or _("This page left intentionally blank. Feel free to add your own content.")}</%block>
-        </p>
-    </section>
-</main> -->
-
-
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
-    <!-- liens bootstrap -->
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
-
-     <!-- google fonts -->
-
-     <link rel="preconnect" href="https://fonts.googleapis.com">
-     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-
-    <style>
-        
-        .separator{
-            border-bottom: 0.1rem solid grey;
-            margin: 3rem 12rem;
-        }
-
-        /* --------------- page globale --------------- */
-
-        a{
-            text-decoration: none;
-        }
-        .darkBlue-text{
-            color: #005A7D;
-        }
-        .bold-text{
-            font-weight: bold !important;
-        }
-        .white-text{
-            color: white !important;
-        }
-        * {
-            font-family: Barlow Condensed, Barlow, Arial;
-            font-weight: 400;
-            font-size: 1.4rem;
-            transition: 0.3s;
-        }
-        .content-wrapper{
-            padding: 0rem !important;
-        }
-
-        /* --------------- colVideo --------------- */
-
-        .colVideo{
-            padding: 2rem;
-            width: 30rem;
-            margin-top: 4rem;
-        }
-        .colVideo-buttons-1{
-            margin: 0rem 1rem;
-            padding: 1rem 4.5rem;
-            padding-bottom: 1.5rem;
-            padding-left: 5.5rem;
-        }
-        .colVideo-buttons-2{
-            margin: 0rem 1rem;
-            padding: 1rem 3.5rem;
-            padding-bottom: 1.5rem;
-        }
-        .colVideo-element{
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    
+        <!-- liens bootstrap -->
+    
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    
+         <!-- google fonts -->
+    
+         <link rel="preconnect" href="https://fonts.googleapis.com">
+         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+         <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    
+        <style>
             
-        }
-        .colVideo-element-video{
-            border-radius: 1rem;
-            box-shadow: 0.7rem 0.7rem 1rem #cfcfcf;
-        }
-        .colVideo-buttons{
-            display: flex;
-            place-content: center;
-            padding: 2rem;
-        }
-
-        /* --------------- colText --------------- */
-
-        .colText-type1{
-            padding: 0rem;
-            margin: 6rem 0rem 2rem 10rem;
-        }
-        .colText-type2{
-            padding: 0rem;
-            margin: 6rem 10rem 2rem 0rem;
-        }
-        .colText-title-text{
-            color: white;
-            font-weight: bold;
-            padding: 1rem;
-            text-align: center;
-            font-size: 2.2rem;
-            padding-bottom: 2.2rem;
-        }
-        .colText-title-img{
-            float: left;
-        }
-        .colText-text{
-            padding: 3rem 7rem;
-        }
-        .colText-time{
-            display: flex;
-            margin-left: 9rem;
-        }
-        .colText-time-text{
-            margin-left: 1rem;
-        }
-
-        /* ---------- background shapes ---------- */
-
-        .bkgShapes-type1-button1{
-            background: #8270B3;
-            clip-path: polygon(0% 0, 0% 0%, 100% 0%, 100% 85%, 0% 100%, 27% 0%);
-        }
-        .bkgShapes-type1-button2{
-            background: #F06D50;
-            clip-path: polygon(0% 0, 0% 0%, 97% 0%, 100% 71%, 0% 100%, 0% 0%);
-        }
-        .bkgShapes-type2-button1{
-            background: #005A7D;
-            clip-path: polygon(0% 0, 0% 0%, 100% 0%, 100% 85%, 0% 100%, 27% 0%);
-        }
-        .bkgShapes-type2-button2{
-            background: #02B196;
-            clip-path: polygon(0% 0, 0% 0%, 97% 0%, 100% 71%, 0% 100%, 0% 0%);
-        }
-
-
-        .bkgShapes-type1-title{
-            background: #FFD602;
-            clip-path: polygon(0% 0, 0% 0%, 100% 15%, 100% 78%, 4% 95%, 4% 0%);
-        }
-        .bkgShapes-type1-text{
-            background: #ffd60259;
-            clip-path: polygon(0% 0, 0% 7%, 100% 0%, 100% 100%, 8% 90%, 0% 0%);
-        }
-        .bkgShapes-type2-title{
-            background: #00B3DC;
-            clip-path: polygon(0% 0, 0% 0%, 98% 15%, 100% 72%, 0% 90%, 0% 0%);
-        }
-        .bkgShapes-type2-text{
-            background: #00b3dc57;
-            clip-path: polygon(0% 0, 0% 8%, 95% 0%, 100% 98%, 0% 90%, 0% 0%);
-        }
-
-
-
-        /* --------------- media screen --------------- */
-
-        @media screen and (max-width:500px) {
-            .colText-type1{
-                margin: 0rem;
+            .separator{
+                border-bottom: 0.1rem solid grey;
+                margin: 3rem 12rem;
             }
-            .colText-type2{
-                margin: 0rem;
+    
+            /* --------------- page globale --------------- */
+    
+            a{
+                text-decoration: none;
             }
-            .colText-text{
-                padding: 4rem 3rem;
-                padding-right: 1rem;
+            .darkBlue-text{
+                color: #005A7D;
             }
-            .bkgShapes-type2-text{
-                clip-path: polygon(0% 0, 0% 8%, 100% 0%, 100% 98%, 0% 90%, 0% 0%);
+            .bold-text{
+                font-weight: bold !important;
             }
-            .bkgShapes-type2-title{
-                clip-path: polygon(0% 0, 0% 8%, 100% 0%, 100% 98%, 0% 91%, 0% 0%);
-                padding-bottom: 0rem;
-            }
-            .colVideo-buttons{
-                transform: scale(0.65);
+            .white-text{
+                color: white !important;
             }
             * {
-                font-size: 1.6rem;
+                font-family: Barlow Condensed, Barlow, Arial;
+                font-weight: 400;
+                font-size: 1.4rem;
+                transition: 0.3s;
             }
-            .separator{
-                margin: 6rem 2rem;
+            .content-wrapper{
+                padding: 0rem !important;
             }
-        }
-        @media screen and (min-width:1000px) and (max-width:1300px){
-            .colText-text{
-                padding: 2rem 1rem 2rem 6rem;
+    
+            /* --------------- colVideo --------------- */
+    
+            .colVideo{
+                padding: 2rem;
+                width: 30rem;
+                margin-top: 4rem;
             }
+            .colVideo-buttons-1{
+                margin: 0rem 1rem;
+                padding: 1rem 4.5rem;
+                padding-bottom: 1.5rem;
+                padding-left: 5.5rem;
+            }
+            .colVideo-buttons-2{
+                margin: 0rem 1rem;
+                padding: 1rem 3.5rem;
+                padding-bottom: 1.5rem;
+            }
+            .colVideo-element{
+                
+            }
+            .colVideo-element-video{
+                border-radius: 1rem;
+                box-shadow: 0.7rem 0.7rem 1rem #cfcfcf;
+            }
+            .colVideo-buttons{
+                display: flex;
+                place-content: center;
+                padding: 2rem;
+            }
+    
+            /* --------------- colText --------------- */
+    
             .colText-type1{
-                margin: 6rem 0rem 2rem 2rem;
+                padding: 0rem;
+                margin: 6rem 0rem 2rem 10rem;
             }
             .colText-type2{
-                margin: 6rem 2rem 2rem 0rem;
+                padding: 0rem;
+                margin: 6rem 10rem 2rem 0rem;
             }
-        }
-        @media screen and (min-width:500px) and (max-width:900px){
-            .separator{
-                margin: 3rem 7rem;
+            .colText-title-text{
+                color: white;
+                font-weight: bold;
+                padding: 1rem;
+                text-align: center;
+                font-size: 2.2rem;
+                padding-bottom: 2.2rem;
             }
-        }
+            .colText-title-img{
+                float: left;
+            }
+            .colText-text{
+                padding: 3rem 7rem;
+            }
+            .colText-time{
+                display: flex;
+                margin-left: 9rem;
+            }
+            .colText-time-text{
+                margin-left: 1rem;
+            }
+    
+            /* ---------- background shapes ---------- */
+    
+            .bkgShapes-type1-button1{
+                background: #8270B3;
+                clip-path: polygon(0% 0, 0% 0%, 100% 0%, 100% 85%, 0% 100%, 27% 0%);
+            }
+            .bkgShapes-type1-button2{
+                background: #F06D50;
+                clip-path: polygon(0% 0, 0% 0%, 97% 0%, 100% 71%, 0% 100%, 0% 0%);
+            }
+            .bkgShapes-type2-button1{
+                background: #005A7D;
+                clip-path: polygon(0% 0, 0% 0%, 100% 0%, 100% 85%, 0% 100%, 27% 0%);
+            }
+            .bkgShapes-type2-button2{
+                background: #02B196;
+                clip-path: polygon(0% 0, 0% 0%, 97% 0%, 100% 71%, 0% 100%, 0% 0%);
+            }
+    
+    
+            .bkgShapes-type1-title{
+                background: #FFD602;
+                clip-path: polygon(0% 0, 0% 0%, 100% 13%, 100% 78%, 0% 95%, 0% 0%);
+            }
+            .bkgShapes-type1-text{
+                background: #ffd60259;
+                clip-path: polygon(100% 0, 0% 0%, 100% 0%, 100% 100%, 10% 90%, 0% 7%);
+            }
+            .bkgShapes-type2-title{
+                background: #00B3DC;
+                clip-path: polygon(0% 0, 0% 0%, 98% 15%, 100% 72%, 0% 90%, 0% 0%);
+            }
+            .bkgShapes-type2-text{
+                background: #00b3dc57;
+                clip-path: polygon(0% 0, 0% 8%, 95% 0%, 100% 98%, 0% 90%, 0% 0%);
+            }
+    
+    
+    
+            /* --------------- media screen --------------- */
 
-    </style>
-
-</head>
-<body>
-    <div class="container-fluid">
-
-        <div id="1" class="section1 sections type1 row">
-            <div class="section1-colVideo colVideo col">
-                <div class="colVideo-element">
-                    <div style="padding:56.25% 0 0 0;position:relative;">
-                        <iframe class="colVideo-element-video" src="https://player.vimeo.com/video/562777418?h=f4ab9c182a&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+            @media screen and (min-width:1600px){
+                .asset-104-2{
+                    bottom: -5.6rem !important;
+                }
+            }
+            @media screen and (max-width:500px) {
+                .colText-type1{
+                    margin: 0rem;
+                }
+                .colText-type2{
+                    margin: 0rem;
+                }
+                .colText-text{
+                    padding: 4rem 3rem;
+                    padding-right: 1rem;
+                }
+                .bkgShapes-type2-text{
+                    clip-path: polygon(0% 0, 0% 8%, 100% 0%, 100% 98%, 0% 90%, 0% 0%);
+                }
+                .bkgShapes-type2-title{
+                    clip-path: polygon(0% 0, 0% 8%, 100% 0%, 100% 98%, 0% 91%, 0% 0%);
+                    padding-bottom: 0rem;
+                }
+                .colVideo-buttons{
+                    transform: scale(0.65);
+                }
+                * {
+                    font-size: 1.6rem;
+                }
+                .separator{
+                    margin: 6rem 2rem;
+                }
+            }
+            @media screen and (min-width:1000px) and (max-width:1300px){
+                .colText-text{
+                    padding: 2rem 1rem 2rem 6rem;
+                }
+                .colText-type1{
+                    margin: 6rem 0rem 2rem 2rem;
+                }
+                .colText-type2{
+                    margin: 6rem 2rem 2rem 0rem;
+                }
+            }
+            @media screen and (min-width:500px) and (max-width:900px){
+                .separator{
+                    margin: 3rem 7rem;
+                }
+            }
+    
+        </style>
+    
+    </head>
+    <body>
+        <div class="container-fluid">
+    
+            <div id="1" class="section1 sections type1 row">
+                <div class="section1-colVideo colVideo col">
+                    <div class="colVideo-element">
+                        <div style="padding:56.25% 0 0 0;position:relative;">
+                            <iframe class="colVideo-element-video" src="https://player.vimeo.com/video/562777418?h=f4ab9c182a&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <script src="https://player.vimeo.com/api/player.js"></script>
                     </div>
-                    <script src="https://player.vimeo.com/api/player.js"></script>
+                    <div class="colVideo-buttons">
+                        <div class="colVideo-buttons-1 bkgShapes-type1-button1">
+                            <a class="bold-text white-text buttons-inscription" href="/register?course_id=course-v1:coop-hlm+1+1&enrollment_action=enroll">M'inscrire</a>
+                        </div>
+                        <div class="colVideo-buttons-2 bkgShapes-type1-button2">
+                            <a class="bold-text white-text" href="/login">Me connecter</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="colVideo-buttons">
-                    <div class="colVideo-buttons-1 bkgShapes-type1-button1">
-                        <a class="bold-text white-text buttons-inscription" href="">M'inscrire</a>
+                <div class="section1-colText colText-type1 col">
+                    <div class="colText-title bkgShapes-type1-title">
+                        <p class="colText-title-text">L'histoire des Coop'HLM</p>
                     </div>
-                    <div class="colVideo-buttons-2 bkgShapes-type1-button2">
-                        <a class="bold-text white-text" href="">Me connecter</a>
+                    <img class="colText-title-img" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-115.svg">
+                    <div class="colText-text bkgShapes-type1-text">
+                        <p class="darkBlue-text">Organismes de logement social, les Coop’HLM occupent une place spécifique au sein du mouvement HLM du fait de leur statut coopératif et de leur spécialisation historique dans l’activité d’accession sociale à la propriété. Dans ce module, découvrez l’univers des Coop’HLM : leur naissance, leur histoire et celle du mouvement coopératif et du mouvement HLM auxquels elles appartiennent, et les valeurs qui les animent.</p>
+                    </div>
+                    <div class="colText-time">
+                        <img src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-130.svg" alt="hour">
+                        <p class="darkBlue-text bold-text colText-time-text">35 min</p>
                     </div>
                 </div>
             </div>
-            <div class="section1-colText colText-type1 col">
-                <div class="colText-title bkgShapes-type1-title">
-                    <p class="colText-title-text">L'histoire des Coop'HLM</p>
+    
+            <div class="separator"></div>
+    
+            <div id="2" class="section2 sections type2 row">
+                <div class="section2-colText colText-type2 col">
+                    <div class="colText-title bkgShapes-type2-title">
+                        <p class="colText-title-text">La gouvernance en Coop'HLM</p>
+                    </div>
+                    <img class="colText-title-img" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-115.svg">
+                    <div class="colText-text bkgShapes-type2-text">
+                        <p class="darkBlue-text">Les Coop’HLM ne sont pas des entreprises comme les autres. Leur statut coopératif les dote d’un mode d’organisation spécifique dans lequel les salariés et partenaires, mais également les bénéficiaires des services, accédants ou locataires, peuvent devenir associés et participer à la gouvernance. Plongez dans la vie des Coop’HLM pour comprendre leur mode de fonctionnement et découvrir le rôle du coopérateur.</p>
+                    </div>
+                    <div class="colText-time">
+                        <img src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-130.svg" alt="hour">
+                        <p class="darkBlue-text bold-text colText-time-text">35 min</p>
+                    </div>
                 </div>
-                <img class="colText-title-img" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-115.svg">
-                <div class="colText-text bkgShapes-type1-text">
-                    <p class="darkBlue-text">Organismes de logement social, les Coop’HLM occupent une place spécifique au sein du mouvement HLM du fait de leur statut coopératif et de leur spécialisation historique dans l’activité d’accession sociale à la propriété. Dans ce module, découvrez l’univers des Coop’HLM : leur naissance, leur histoire et celle du mouvement coopératif et du mouvement HLM auxquels elles appartiennent, et les valeurs qui les animent.</p>
-                </div>
-                <div class="colText-time">
-                    <img src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-130.svg" alt="hour">
-                    <p class="darkBlue-text bold-text colText-time-text">35 min</p>
+                <div class="section2-colVideo colVideo col">
+                    <div class="colVideo-element">
+                        <div style="padding:56.25% 0 0 0;position:relative;">
+                            <iframe class="colVideo-element-video" src="https://player.vimeo.com/video/560341381?h=6ac95689bb&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <script src="https://player.vimeo.com/api/player.js"></script>
+                    </div>
+                    <div class="colVideo-buttons">
+                        <div class="colVideo-buttons-1 bkgShapes-type2-button1">
+                            <a class="bold-text white-text buttons-inscription" href="/register?course_id=course-v1:coop-hlm+1+1&enrollment_action=enroll">M'inscrire</a>
+                        </div>
+                        <div class="colVideo-buttons-2 bkgShapes-type2-button2">
+                            <a class="bold-text white-text" href="/login">Me connecter</a>
+                        </div>
+                    </div>
                 </div>
             </div>
+    
+            <div class="separator"></div>
+    
+            <div id="3" class="section3 sections type1 row">
+                <div class="section3-colVideo colVideo col">
+                    <div class="colVideo-element">
+                        <div style="padding:56.25% 0 0 0;position:relative;">
+                            <iframe class="colVideo-element-video" src="https://player.vimeo.com/video/563302357?h=81240a9869&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <script src="https://player.vimeo.com/api/player.js"></script>
+                    </div>
+                    <div class="colVideo-buttons">
+                        <div class="colVideo-buttons-1 bkgShapes-type1-button1">
+                            <a class="bold-text white-text buttons-inscription" href="/register?course_id=course-v1:coop-hlm+1+1&enrollment_action=enroll">M'inscrire</a>
+                        </div>
+                        <div class="colVideo-buttons-2 bkgShapes-type1-button2">
+                            <a class="bold-text white-text" href="/login">Me connecter</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="section3-colText colText-type1 col">
+                    <div class="colText-title bkgShapes-type1-title">
+                        <p class="colText-title-text">L'accession sociale en Coop'HLM</p>
+                    </div>
+                    <img class="colText-title-img" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-115.svg">
+                    <div class="colText-text bkgShapes-type1-text">
+                        <p class="darkBlue-text">L’accession sociale à la propriété est l’activité historique des coopératives d’HLM, qui ont vocation à proposer des logements abordables et de qualité au plus grand nombre. Dans ce module, vous en apprendrez davantage sur cette mission et sur la manière dont elle est menée par les Coop’HLM. Vous prendrez connaissance les différents modes d’accession qu’elles mettent en place et les relations particulières qu’elles assurent avec leurs accédants coopérateurs.</p>
+                    </div>
+                    <div class="colText-time">
+                        <img src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-130.svg" alt="hour">
+                        <p class="darkBlue-text bold-text colText-time-text">25 min</p>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="separator"></div>
+    
+            <div id="4" class="section4 sections type2 row">
+                <div class="section4-colText colText-type2 col">
+                    <div class="colText-title bkgShapes-type2-title">
+                        <p class="colText-title-text">La gestion de syndic en Coop'HLM</p>
+                    </div>
+                    <img class="colText-title-img" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-115.svg">
+                    <div class="colText-text bkgShapes-type2-text">
+                        <p class="darkBlue-text">Copropriétaire, conseil syndical, syndic de copropriété… Vous n’êtes jamais parvenus à savoir qui faisait quoi ? Suivez ce module pour tout comprendre sur la gestion d’une copropriété, la répartition des missions et le rôle spécifique des coopératives d’HLM dans cette organisation !</p>
+                    </div>
+                    <div class="colText-time">
+                        <img src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-130.svg" alt="hour">
+                        <p class="darkBlue-text bold-text colText-time-text">25 min</p>
+                    </div>
+                </div>
+                <div class="section4-colVideo colVideo col">
+                    <div class="colVideo-element">
+                        <div style="padding:56.25% 0 0 0;position:relative;">
+                            <iframe class="colVideo-element-video" src="https://player.vimeo.com/video/566114717?h=178a6ee0a3&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <script src="https://player.vimeo.com/api/player.js"></script>
+                    </div>
+                    <div class="colVideo-buttons">
+                        <div class="colVideo-buttons-1 bkgShapes-type2-button1">
+                            <a class="bold-text white-text buttons-inscription" href="/register?course_id=course-v1:coop-hlm+1+1&enrollment_action=enroll">M'inscrire</a>
+                        </div>
+                        <div class="colVideo-buttons-2 bkgShapes-type2-button2">
+                            <a class="bold-text white-text" href="/login">Me connecter</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="separator"></div>
+    
+            <div id="5" class="section5 sections type1 row">
+                <div class="section5-colVideo colVideo col">
+                    <div class="colVideo-element">
+                        <div style="padding:56.25% 0 0 0;position:relative;">
+                            <iframe class="colVideo-element-video" src="https://player.vimeo.com/video/566021246?h=17d5d87c6f&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <script src="https://player.vimeo.com/api/player.js"></script>
+                    </div>
+                    <div class="colVideo-buttons">
+                        <div class="colVideo-buttons-1 bkgShapes-type1-button1">
+                            <a class="bold-text white-text buttons-inscription" href="/register?course_id=course-v1:coop-hlm+1+1&enrollment_action=enroll">M'inscrire</a>
+                        </div>
+                        <div class="colVideo-buttons-2 bkgShapes-type1-button2">
+                            <a class="bold-text white-text" href="/login">Me connecter</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="section5-colText colText-type1 col">
+                    <div class="colText-title bkgShapes-type1-title">
+                        <p class="colText-title-text">La gestion locative en Coop'HLM</p>
+                    </div>
+                    <img class="colText-title-img" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-115.svg">
+                    <div class="colText-text bkgShapes-type1-text">
+                        <p class="darkBlue-text">La gestion de logements locatifs sociaux est une activité historique des acteurs du mouvement hlm. Sa pratique a suivi de nombreuses évolutions pour s’adapter aux enjeux socio-économiques de chaque époque, mais elle pâtit encore aujourd’hui de nombreuses idées fausses. Découvrez l’histoire de ce métier et la manière dont les Coop’HLM le pratiquent !</p>
+                    </div>
+                    <div class="colText-time">
+                        <img src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-130.svg" alt="hour">
+                        <p class="darkBlue-text bold-text colText-time-text">35 min</p>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="separator"></div>
+    
+            <div id="6" class="section6 sections type2 row">
+                <div class="section6-colText colText-type2 col">
+                    <div class="colText-title bkgShapes-type2-title">
+                        <p class="colText-title-text">Initiation à la fonction d'administrateur d'une Coop'HLM</p>
+                    </div>
+                    <img class="colText-title-img" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-115.svg">
+                    <div class="colText-text bkgShapes-type2-text">
+                        <p class="darkBlue-text">Être coopérateur d’une coopérative d’hlm, c’est aussi avoir la possibilité d’en devenir administrateur pour participer à l’élaboration de sa stratégie d’entreprise. Mais qu’est-ce que le Conseil d’Administration ? Qu’y fait-on et quel est le rôle de l’administrateur ? Les réponses à toutes ces questions sont dans ce module.</p>
+                    </div>
+                    <div class="colText-time">
+                        <img src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-130.svg" alt="hour">
+                        <p class="darkBlue-text bold-text colText-time-text">25 min</p>
+                    </div>
+                </div>
+                <div class="section6-colVideo colVideo col">
+                    <div class="colVideo-element">
+                        <div style="padding:56.25% 0 0 0;position:relative;">
+                            <iframe class="colVideo-element-video" src="https://player.vimeo.com/video/566557164?h=4c8cb490f1&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=5847" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <script src="https://player.vimeo.com/api/player.js"></script>
+                    </div>
+                    <div class="colVideo-buttons">
+                        <div class="colVideo-buttons-1 bkgShapes-type2-button1">
+                            <a class="bold-text white-text buttons-inscription" href="/register?course_id=course-v1:coop-hlm+1+1&enrollment_action=enroll">M'inscrire</a>
+                        </div>
+                        <div class="colVideo-buttons-2 bkgShapes-type2-button2">
+                            <a class="bold-text white-text" href="/login">Me connecter</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="separator"></div>
+    
+            <div id="7" class="section7 sections type1 row">
+                <div class="section7-colVideo colVideo col">
+                    <div class="colVideo-element">
+                        <div style="padding:56.25% 0 0 0;position:relative;">
+                            <iframe class="colVideo-element-video" src="https://player.vimeo.com/video/569821700?h=b043555331&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <script src="https://player.vimeo.com/api/player.js"></script>
+                    </div>
+                    <div class="colVideo-buttons">
+                        <div class="colVideo-buttons-1 bkgShapes-type1-button1">
+                            <a class="bold-text white-text buttons-inscription" href="/register?course_id=course-v1:coop-hlm+1+1&enrollment_action=enroll">M'inscrire</a>
+                        </div>
+                        <div class="colVideo-buttons-2 bkgShapes-type1-button2">
+                            <a class="bold-text white-text" href="/login">Me connecter</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="section7-colText colText-type1 col">
+                    <div class="colText-title bkgShapes-type1-title">
+                        <p class="colText-title-text">Devenir salarié d'une Coop'HLM</p>
+                    </div>
+                    <img class="colText-title-img" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-115.svg">
+                    <div class="colText-text bkgShapes-type1-text">
+                        <p class="darkBlue-text">Travailler au sein d'entreprises dynamiques, participer à des projets à forte dimension sociale, assurer des métiers diversifiés et innovants… devenir salarié d’une Coop’HLM, c'est tout cela et bien plus encore !</p>
+                    </div>
+                    <div class="colText-time">
+                        <img src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-130.svg" alt="hour">
+                        <p class="darkBlue-text bold-text colText-time-text">25 min</p>
+                    </div>
+                </div>
+            </div>
+    
         </div>
-
-        <div class="separator"></div>
-
-        <div id="2" class="section2 sections type2 row">
-            <div class="section2-colText colText-type2 col">
-                <div class="colText-title bkgShapes-type2-title">
-                    <p class="colText-title-text">La gouvernance en Coop'HLM</p>
-                </div>
-                <img class="colText-title-img" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-115.svg">
-                <div class="colText-text bkgShapes-type2-text">
-                    <p class="darkBlue-text">Les Coop’HLM ne sont pas des entreprises comme les autres. Leur statut coopératif les dote d’un mode d’organisation spécifique dans lequel les salariés et partenaires, mais également les bénéficiaires des services, accédants ou locataires, peuvent devenir associés et participer à la gouvernance. Plongez dans la vie des Coop’HLM pour comprendre leur mode de fonctionnement et découvrir le rôle du coopérateur.</p>
-                </div>
-                <div class="colText-time">
-                    <img src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-130.svg" alt="hour">
-                    <p class="darkBlue-text bold-text colText-time-text">35 min</p>
-                </div>
-            </div>
-            <div class="section2-colVideo colVideo col">
-                <div class="colVideo-element">
-                    <div style="padding:56.25% 0 0 0;position:relative;">
-                        <iframe class="colVideo-element-video" src="https://player.vimeo.com/video/560341381?h=6ac95689bb&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                    <script src="https://player.vimeo.com/api/player.js"></script>
-                </div>
-                <div class="colVideo-buttons">
-                    <div class="colVideo-buttons-1 bkgShapes-type2-button1">
-                        <a class="bold-text white-text buttons-inscription" href="">M'inscrire</a>
-                    </div>
-                    <div class="colVideo-buttons-2 bkgShapes-type2-button2">
-                        <a class="bold-text white-text" href="">Me connecter</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="separator"></div>
-
-        <div id="3" class="section3 sections type1 row">
-            <div class="section3-colVideo colVideo col">
-                <div class="colVideo-element">
-                    <div style="padding:56.25% 0 0 0;position:relative;">
-                        <iframe class="colVideo-element-video" src="https://player.vimeo.com/video/563302357?h=81240a9869&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                    <script src="https://player.vimeo.com/api/player.js"></script>
-                </div>
-                <div class="colVideo-buttons">
-                    <div class="colVideo-buttons-1 bkgShapes-type1-button1">
-                        <a class="bold-text white-text buttons-inscription" href="">M'inscrire</a>
-                    </div>
-                    <div class="colVideo-buttons-2 bkgShapes-type1-button2">
-                        <a class="bold-text white-text" href="">Me connecter</a>
-                    </div>
-                </div>
-            </div>
-            <div class="section3-colText colText-type1 col">
-                <div class="colText-title bkgShapes-type1-title">
-                    <p class="colText-title-text">L'accession sociale en Coop'HLM</p>
-                </div>
-                <img class="colText-title-img" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-115.svg">
-                <div class="colText-text bkgShapes-type1-text">
-                    <p class="darkBlue-text">L’accession sociale à la propriété est l’activité historique des coopératives d’HLM, qui ont vocation à proposer des logements abordables et de qualité au plus grand nombre. Dans ce module, vous en apprendrez davantage sur cette mission et sur la manière dont elle est menée par les Coop’HLM. Vous prendrez connaissance les différents modes d’accession qu’elles mettent en place et les relations particulières qu’elles assurent avec leurs accédants coopérateurs.</p>
-                </div>
-                <div class="colText-time">
-                    <img src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-130.svg" alt="hour">
-                    <p class="darkBlue-text bold-text colText-time-text">25 min</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="separator"></div>
-
-        <div id="4" class="section4 sections type2 row">
-            <div class="section4-colText colText-type2 col">
-                <div class="colText-title bkgShapes-type2-title">
-                    <p class="colText-title-text">La gestion de syndic en Coop'HLM</p>
-                </div>
-                <img class="colText-title-img" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-115.svg">
-                <div class="colText-text bkgShapes-type2-text">
-                    <p class="darkBlue-text">Copropriétaire, conseil syndical, syndic de copropriété… Vous n’êtes jamais parvenus à savoir qui faisait quoi ? Suivez ce module pour tout comprendre sur la gestion d’une copropriété, la répartition des missions et le rôle spécifique des coopératives d’HLM dans cette organisation !</p>
-                </div>
-                <div class="colText-time">
-                    <img src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-130.svg" alt="hour">
-                    <p class="darkBlue-text bold-text colText-time-text">25 min</p>
-                </div>
-            </div>
-            <div class="section4-colVideo colVideo col">
-                <div class="colVideo-element">
-                    <div style="padding:56.25% 0 0 0;position:relative;">
-                        <iframe class="colVideo-element-video" src="https://player.vimeo.com/video/566114717?h=178a6ee0a3&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                    <script src="https://player.vimeo.com/api/player.js"></script>
-                </div>
-                <div class="colVideo-buttons">
-                    <div class="colVideo-buttons-1 bkgShapes-type2-button1">
-                        <a class="bold-text white-text buttons-inscription" href="">M'inscrire</a>
-                    </div>
-                    <div class="colVideo-buttons-2 bkgShapes-type2-button2">
-                        <a class="bold-text white-text" href="">Me connecter</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="separator"></div>
-
-        <div id="5" class="section5 sections type1 row">
-            <div class="section5-colVideo colVideo col">
-                <div class="colVideo-element">
-                    <div style="padding:56.25% 0 0 0;position:relative;">
-                        <iframe class="colVideo-element-video" src="https://player.vimeo.com/video/566021246?h=17d5d87c6f&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                    <script src="https://player.vimeo.com/api/player.js"></script>
-                </div>
-                <div class="colVideo-buttons">
-                    <div class="colVideo-buttons-1 bkgShapes-type1-button1">
-                        <a class="bold-text white-text buttons-inscription" href="">M'inscrire</a>
-                    </div>
-                    <div class="colVideo-buttons-2 bkgShapes-type1-button2">
-                        <a class="bold-text white-text" href="">Me connecter</a>
-                    </div>
-                </div>
-            </div>
-            <div class="section5-colText colText-type1 col">
-                <div class="colText-title bkgShapes-type1-title">
-                    <p class="colText-title-text">La gestion locative en Coop'HLM</p>
-                </div>
-                <img class="colText-title-img" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-115.svg">
-                <div class="colText-text bkgShapes-type1-text">
-                    <p class="darkBlue-text">La gestion de logements locatifs sociaux est une activité historique des acteurs du mouvement hlm. Sa pratique a suivi de nombreuses évolutions pour s’adapter aux enjeux socio-économiques de chaque époque, mais elle pâtit encore aujourd’hui de nombreuses idées fausses. Découvrez l’histoire de ce métier et la manière dont les Coop’HLM le pratiquent !</p>
-                </div>
-                <div class="colText-time">
-                    <img src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-130.svg" alt="hour">
-                    <p class="darkBlue-text bold-text colText-time-text">35 min</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="separator"></div>
-
-        <div id="6" class="section6 sections type2 row">
-            <div class="section6-colText colText-type2 col">
-                <div class="colText-title bkgShapes-type2-title">
-                    <p class="colText-title-text">Initiation à la fonction d'administrateur d'une Coop'HLM</p>
-                </div>
-                <img class="colText-title-img" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-115.svg">
-                <div class="colText-text bkgShapes-type2-text">
-                    <p class="darkBlue-text">Être coopérateur d’une coopérative d’hlm, c’est aussi avoir la possibilité d’en devenir administrateur pour participer à l’élaboration de sa stratégie d’entreprise. Mais qu’est-ce que le Conseil d’Administration ? Qu’y fait-on et quel est le rôle de l’administrateur ? Les réponses à toutes ces questions sont dans ce module.</p>
-                </div>
-                <div class="colText-time">
-                    <img src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-130.svg" alt="hour">
-                    <p class="darkBlue-text bold-text colText-time-text">25 min</p>
-                </div>
-            </div>
-            <div class="section6-colVideo colVideo col">
-                <div class="colVideo-element">
-                    <div style="padding:56.25% 0 0 0;position:relative;">
-                        <iframe class="colVideo-element-video" src="https://player.vimeo.com/video/566557164?h=4c8cb490f1&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=5847" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                    <script src="https://player.vimeo.com/api/player.js"></script>
-                </div>
-                <div class="colVideo-buttons">
-                    <div class="colVideo-buttons-1 bkgShapes-type2-button1">
-                        <a class="bold-text white-text buttons-inscription" href="">M'inscrire</a>
-                    </div>
-                    <div class="colVideo-buttons-2 bkgShapes-type2-button2">
-                        <a class="bold-text white-text" href="">Me connecter</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="separator"></div>
-
-        <div id="7" class="section7 sections type1 row">
-            <div class="section7-colVideo colVideo col">
-                <div class="colVideo-element">
-                    <div style="padding:56.25% 0 0 0;position:relative;">
-                        <iframe class="colVideo-element-video" src="https://player.vimeo.com/video/569821700?h=b043555331&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                    <script src="https://player.vimeo.com/api/player.js"></script>
-                </div>
-                <div class="colVideo-buttons">
-                    <div class="colVideo-buttons-1 bkgShapes-type1-button1">
-                        <a class="bold-text white-text buttons-inscription" href="">M'inscrire</a>
-                    </div>
-                    <div class="colVideo-buttons-2 bkgShapes-type1-button2">
-                        <a class="bold-text white-text" href="">Me connecter</a>
-                    </div>
-                </div>
-            </div>
-            <div class="section7-colText colText-type1 col">
-                <div class="colText-title bkgShapes-type1-title">
-                    <p class="colText-title-text">Devenir salarié d'une Coop'HLM</p>
-                </div>
-                <img class="colText-title-img" src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-115.svg">
-                <div class="colText-text bkgShapes-type1-text">
-                    <p class="darkBlue-text">Travailler au sein d'entreprises dynamiques, participer à des projets à forte dimension sociale, assurer des métiers diversifiés et innovants… devenir salarié d’une Coop’HLM, c'est tout cela et bien plus encore !</p>
-                </div>
-                <div class="colText-time">
-                    <img src="https://bvt.koa.qualif.dev/media/microsites/coop-hlm/asset-130.svg" alt="hour">
-                    <p class="darkBlue-text bold-text colText-time-text">25 min</p>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</body>
-</html>
+    </body>
+</main>
