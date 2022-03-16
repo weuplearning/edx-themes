@@ -1,8 +1,22 @@
+# -*- coding: utf-8 -*-
+#!/usr/bin/env python
+import importlib
+import sys
+importlib.reload(sys)
 import os
 from io import BytesIO
-import json
-import time
-from datetime import datetime 
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "lms.envs.production")
+os.environ.setdefault("LMS_CFG", "/edx/etc/lms.yml")
+os.environ.setdefault("lms.envs.production,SERVICE_VARIANT", "lms")
+os.environ.setdefault("PATH", "/edx/app/edxapp/venvs/edxapp/bin:/edx/app/edxapp/edx-platform/bin:/edx/app/edxapp/.rbenv/bin:/edx/app/edxapp/.rbenv/shims:/edx/app/edxapp/.gem/bin:/edx/app/edxapp/edx-platform/node_modules/.bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin")
+os.environ.setdefault("SERVICE_VARIANT", "lms")
+os.chdir("/edx/app/edxapp/edx-platform")
+from django.core.wsgi import get_wsgi_application
+application = get_wsgi_application()
+
+#         ^ SETUP ENVIRONNEMENT VARIABLE FOR KOA ^
+#                START BEYOND THIS LINE
+#############################################################################################################################
 
 
 from opaque_keys.edx.locator import CourseLocator
@@ -13,6 +27,8 @@ from lms.djangoapps.courseware.user_state_client import DjangoXBlockUserStateCli
 from lms.djangoapps.wul_apps.models import WulCourseEnrollment
 
 
+import json
+import time
 from openpyxl import Workbook
 
 import smtplib
@@ -25,9 +41,11 @@ import logging
 log = logging.getLogger()
 
 
-# Can not manage to pass var as arguments in command line
-course_ids = ['course-v1:deeptechforbusiness+EN+2021', 'course-v1:deeptechforbusiness+FR+2021']
-emails =['eruch-ext@netexplo.org', 'learning@netexplo.org', 'melanie.zunino@weuplearning.com', 'cyril.adolf@weuplearning.com']
+
+
+emails = sys.argv[1].split(";")
+course_ids = sys.argv[2].split(";")
+
 
 
 
