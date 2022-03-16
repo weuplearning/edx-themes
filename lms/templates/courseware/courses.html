@@ -1,0 +1,200 @@
+<%page expression_filter="h"/>
+<%!
+  import json
+  from django.utils.translation import ugettext as _
+  from openedx.core.djangolib.js_utils import js_escaped_string, dump_js_escaped_json
+%>
+<%inherit file="../main.html" />
+<%
+  course_discovery_enabled = settings.FEATURES.get('ENABLE_COURSE_DISCOVERY')
+%>
+
+<%namespace name='static' file='../static_content.html'/>
+
+% if course_discovery_enabled:
+<%block name="header_extras">
+  % for template_name in ["course_card", "filter_bar", "filter", "facet", "facet_option"]:
+  <script type="text/template" id="${template_name}-tpl">
+      <%static:include path="discovery/${template_name}.underscore" />
+  </script>
+  % endfor
+  <%static:require_module module_name="js/discovery/discovery_factory" class_name="DiscoveryFactory">
+    DiscoveryFactory(
+      ${course_discovery_meanings | n, dump_js_escaped_json},
+      getParameterByName('search_query'),
+      "${user_language | n, js_escaped_string}",
+      "${user_timezone | n, js_escaped_string}"
+    );
+  </%static:require_module>
+</%block>
+% endif
+
+<%block name="pagetitle">${_("Courses")}</%block>
+
+<style>
+    .section-footer{
+        margin-top: 16rem !important;
+    }
+    .section-footer-elements{
+        display: flex !important;
+        flex-wrap: wrap !important;
+    }
+
+    .section-footer-col3-icons{
+        display: flex !important;
+    }
+    .section-footer-elements-col3-img{
+        margin: 0.7rem !important;
+    }
+    .col-section-footer-elements-col2-img{
+        margin: 0.7rem !important;
+    }
+    .section-footer-elements-col2-imgs{
+        display: flex !important;
+    }
+    .asset-104-2{
+        overflow: hidden !important;
+        float: none !important;
+        /* position: unset !important; */
+        width: 100% !important;
+        right: 7rem !important;
+        position: unset !important;
+        margin-bottom: -2rem;
+    }
+    .asset-103-2{
+        overflow: hidden !important;
+        float: none !important;
+        position: unset !important;
+        width: 100% !important;
+    }
+
+  /* -------------- media screen -------------- */
+
+    @media screen and (min-width: 1700px){
+        .section-footer-cols{
+            flex: 20%;
+        }
+    }
+    @media screen and (min-width: 1400px) and (max-width: 1699px){
+        .section-footer-elements-col1{
+            flex: 25%;
+        }
+        .section-footer-elements-col2{
+            flex: 15%;
+        }
+        .section-footer-elements-col3{
+            flex: 15%;
+        }
+        .section-footer-elements-col4{
+            flex: 25%;
+        }
+    }
+    @media screen and (min-width: 900px) and (max-width: 1399px){
+        .section-footer-elements-col1{
+            flex: 10%;
+        }
+        .section-footer-elements-col2{
+            flex: 10%;
+        }
+        .section-footer-elements-col3{
+            flex: 10%;
+        }
+        .section-footer-elements-col4{
+            flex: 15%;
+        }
+    }
+    @media screen and (min-width: 700px) and (max-width: 899px){
+        .section-footer-elements-col1{
+            flex: 5%;
+        }
+        .section-footer-elements-col2{
+            flex: 10%;
+        }
+        .section-footer-elements-col3{
+            flex: 10%;
+        }
+        .section-footer-elements-col4{
+            flex: 15%;
+        }
+        .footer-img-col2{
+            height: 2rem !important;
+        }
+        .footer-img-col3{
+            height: 1.3rem !important;
+        }
+    }
+    @media screen and (min-width:500px) and (max-width: 750px){
+        .section-footer-elements-col1{
+            display: none !important;
+        }
+        .section-footer-elements-col4{
+            display: none !important;
+        }
+        .footer-img-col2{
+            height: 2rem !important;
+        }
+    }
+    @media screen and (max-width: 600px){
+        .section-footer-elements-col1{
+            flex: 100%;
+        }
+        .section-footer-elements-col2{
+            flex: 100%;
+        }
+        .section-footer-elements-col3{
+            flex: 100%;
+        }
+        .section-footer-elements-col4{
+            flex: 100%;
+        }
+    }
+
+</style>
+
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="find-courses">
+      <section class="courses-container">
+        % if course_discovery_enabled:
+        <div id="discovery-form" role="search" aria-label="course" class="wrapper-search-context">
+          <div id="discovery-message" class="search-status-label"></div>
+          <form class="wrapper-search-input">
+            <label for="discovery-input" class="sr">${_('Search for a course')}</label>
+            <input id="discovery-input" class="discovery-input" placeholder="${_('Search for a course')}" type="text"/>
+            <button type="submit" class="button postfix discovery-submit" title="${_('Search')}">
+              <span class="icon fa fa-search" aria-hidden="true"></span>
+              <div aria-live="polite" aria-relevant="all">
+                <div id="loading-indicator" class="loading-spinner hidden">
+                  <span class="icon fa fa-spinner fa-spin" aria-hidden="true"></span>
+                  <span class="sr">${_('Loading')}</span>
+                </div>
+              </div>
+            </button>
+          </form>
+        </div>
+
+        <div id="filter-bar" class="filters hide-phone is-collapsed">
+        </div>
+        % endif
+
+        <div class="courses${'' if course_discovery_enabled else ' no-course-discovery'}" role="region" aria-label="${_('List of Courses')}">
+          <ul class="courses-listing courses-list">
+            %for course in courses:
+            <li class="courses-listing-item">
+              <%include file="../course.html" args="course=course" />
+            </li>
+            %endfor
+          </ul>
+        </div>
+
+
+        % if course_discovery_enabled:
+        <aside aria-label="${_('Refine Your Search')}" class="search-facets phone-menu">
+          <h2 class="header-search-facets">${_('Refine Your Search')}</h2>
+          <section class="search-facets-lists">
+          </section>
+        </aside>
+        % endif
+
+      </section>
+    </section>
+</main>
