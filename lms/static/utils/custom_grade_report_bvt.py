@@ -1,8 +1,23 @@
-
+# -*- coding: utf-8 -*-
+#!/usr/bin/env python
+import importlib
+import sys
+importlib.reload(sys)
 import os
 from io import BytesIO
-import json
-import time
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "lms.envs.production")
+os.environ.setdefault("LMS_CFG", "/edx/etc/lms.yml")
+os.environ.setdefault("lms.envs.production,SERVICE_VARIANT", "lms")
+os.environ.setdefault("PATH", "/edx/app/edxapp/venvs/edxapp/bin:/edx/app/edxapp/edx-platform/bin:/edx/app/edxapp/.rbenv/bin:/edx/app/edxapp/.rbenv/shims:/edx/app/edxapp/.gem/bin:/edx/app/edxapp/edx-platform/node_modules/.bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin")
+os.environ.setdefault("SERVICE_VARIANT", "lms")
+os.chdir("/edx/app/edxapp/edx-platform")
+from django.core.wsgi import get_wsgi_application
+application = get_wsgi_application()
+
+#         ^ SETUP ENVIRONNEMENT VARIABLE FOR KOA ^
+#                START BEYOND THIS LINE
+#############################################################################################################################
+
 
 from opaque_keys.edx.locator import CourseLocator
 from common.djangoapps.student.models import CourseEnrollment
@@ -10,6 +25,8 @@ from courseware.courses import get_course_by_id
 from lms.djangoapps.grades.context import grading_context_for_course
 from lms.djangoapps.courseware.user_state_client import DjangoXBlockUserStateClient
 
+import json
+import time
 from openpyxl import Workbook
 
 import smtplib
@@ -18,23 +35,20 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
 
-from datetime import datetime, date, timedelta
-from django.utils import timezone
-
 import logging
 log = logging.getLogger()
 
-
-# Can not manage to pass var as arguments in command line
-# UPDATE COURSE ID LIST
-# UPDATE COURSE ID LIST
+# course_ids is too long , do not use sys.argv[]
 course_ids = [
-  'course-v1:bvt+base_01+2022', 'course-v1:bvt+base_02+2022', 'course-v1:bvt+base_03+2022', 'course-v1:bvt+base_04+2022', 'course-v1:bvt+base_05+2022', 'course-v1:bvt+base_06+2022', 'course-v1:bvt+base_07+2022', 'course-v1:bvt+base_08+2022', 'course-v1:bvt+base_09+2022', 'course-v1:bvt+base_10+2022', 'course-v1:bvt+base_11+2022', 'course-v1:bvt+base_12+2022', 'course-v1:bvt+base_13+2022', 'course-v1:bvt+base_14+2022', 'course-v1:bvt+base_15+2022', 'course-v1:bvt+base_16+2022', 'course-v1:bvt+base_17+2022', 'course-v1:bvt+base_18+2022', 'course-v1:bvt+base_19+2022', 'course-v1:bvt+base_20+2022', 'course-v1:bvt+citernes_01+2022', 'course-v1:bvt+citernes_02+2022', 'course-v1:bvt+citernes_03+2022', 'course-v1:bvt+citernes_04+2022', 'course-v1:bvt+citernes_05+2022', 'course-v1:bvt+citernes_06+2022', 'course-v1:bvt+citernes_07+2022', 'course-v1:bvt+citernes_08+2022', 'course-v1:bvt+citernes_09+2022', 'course-v1:bvt+citernes_10+2022', 'course-v1:bvt+citernes_11+2022', 'course-v1:bvt+citernes_12+2022', 'course-v1:bvt+citernes_13+2022', 'course-v1:bvt+citernes_14+2022', 'course-v1:bvt+citernes_15+2022', 'course-v1:bvt+citernes_16+2022', 'course-v1:bvt+citernes_17+2022', 'course-v1:bvt+citernes_18+2022', 'course-v1:bvt+citernes_19+2022', 'course-v1:bvt+citernes_20+2022', 'course-v1:bvt+gpl_01+2022', 'course-v1:bvt+gpl_02+2022', 'course-v1:bvt+gpl_03+2022', 'course-v1:bvt+gpl_04+2022', 'course-v1:bvt+gpl_05+2022', 'course-v1:bvt+gpl_06+2022', 'course-v1:bvt+gpl_07+2022', 'course-v1:bvt+gpl_08+2022', 'course-v1:bvt+gpl_09+2022', 'course-v1:bvt+gpl_10+2022', 'course-v1:bvt+gpl_11+2022', 'course-v1:bvt+gpl_12+2022', 'course-v1:bvt+gpl_13+2022', 'course-v1:bvt+gpl_14+2022', 'course-v1:bvt+gpl_15+2022', 'course-v1:bvt+gpl_16+2022', 'course-v1:bvt+gpl_17+2022', 'course-v1:bvt+gpl_18+2022', 'course-v1:bvt+gpl_19+2022', 'course-v1:bvt+gpl_20+2022', 
+  'course-v1:bvt+base_01+2022', 'course-v1:bvt+base_02+2022', 'course-v1:bvt+base_03+2022', 'course-v1:bvt+base_04+2022', 'course-v1:bvt+base_05+2022', 'course-v1:bvt+base_06+2022', 'course-v1:bvt+base_07+2022', 'course-v1:bvt+base_08+2022', 'course-v1:bvt+base_09+2022', 'course-v1:bvt+base_10+2022', 'course-v1:bvt+base_11+2022', 'course-v1:bvt+base_12+2022', 'course-v1:bvt+base_13+2022', 'course-v1:bvt+base_14+2022', 'course-v1:bvt+base_15+2022', 'course-v1:bvt+base_16+2022', 'course-v1:bvt+base_17+2022', 'course-v1:bvt+base_18+2022', 'course-v1:bvt+base_19+2022', 'course-v1:bvt+base_20+2022', 
+  'course-v1:bvt+citernes_01+2022', 'course-v1:bvt+citernes_02+2022', 'course-v1:bvt+citernes_03+2022', 'course-v1:bvt+citernes_04+2022', 'course-v1:bvt+citernes_05+2022', 'course-v1:bvt+citernes_06+2022', 'course-v1:bvt+citernes_07+2022', 'course-v1:bvt+citernes_08+2022', 'course-v1:bvt+citernes_09+2022', 'course-v1:bvt+citernes_10+2022', 'course-v1:bvt+citernes_11+2022', 'course-v1:bvt+citernes_12+2022', 'course-v1:bvt+citernes_13+2022', 'course-v1:bvt+citernes_14+2022', 'course-v1:bvt+citernes_15+2022', 'course-v1:bvt+citernes_16+2022', 'course-v1:bvt+citernes_17+2022', 'course-v1:bvt+citernes_18+2022', 'course-v1:bvt+citernes_19+2022', 'course-v1:bvt+citernes_20+2022', 
+  'course-v1:bvt+gpl_01+2022', 'course-v1:bvt+gpl_02+2022', 'course-v1:bvt+gpl_03+2022', 'course-v1:bvt+gpl_04+2022', 'course-v1:bvt+gpl_05+2022', 'course-v1:bvt+gpl_06+2022', 'course-v1:bvt+gpl_07+2022', 'course-v1:bvt+gpl_08+2022', 'course-v1:bvt+gpl_09+2022', 'course-v1:bvt+gpl_10+2022', 'course-v1:bvt+gpl_11+2022', 'course-v1:bvt+gpl_12+2022', 'course-v1:bvt+gpl_13+2022', 'course-v1:bvt+gpl_14+2022', 'course-v1:bvt+gpl_15+2022', 'course-v1:bvt+gpl_16+2022', 'course-v1:bvt+gpl_17+2022', 'course-v1:bvt+gpl_18+2022', 'course-v1:bvt+gpl_19+2022', 'course-v1:bvt+gpl_20+2022', 
   'course-v1:bvt+pp_01+2022', 'course-v1:bvt+pp_02+2022', 'course-v1:bvt+pp_03+2022', 'course-v1:bvt+pp_04+2022', 'course-v1:bvt+pp_05+2022', 'course-v1:bvt+pp_06+2022', 'course-v1:bvt+pp_07+2022', 'course-v1:bvt+pp_08+2022', 'course-v1:bvt+pp_09+2022', 'course-v1:bvt+pp_10+2022', 'course-v1:bvt+pp_11+2022', 'course-v1:bvt+pp_12+2022', 'course-v1:bvt+pp_13+2022', 'course-v1:bvt+pp_14+2022', 'course-v1:bvt+pp_15+2022', 'course-v1:bvt+pp_16+2022', 'course-v1:bvt+pp_17+2022', 'course-v1:bvt+pp_18+2022', 'course-v1:bvt+pp_19+2022', 'course-v1:bvt+pp_20+2022', 
   ]
-# UPDATE EMAIL LIST
-# UPDATE EMAIL LIST
-emails =['cyril.adolf@weuplearning.com']
+
+
+emails = sys.argv[1].split(";")
+
 
 # One report every day + one report each month and a report after a year. 
 daysLimit = 1
@@ -91,33 +105,30 @@ for course_id in course_ids:
 
   # session
   session = course_id.split('+')[1]
-  log.info('-----> session: '+ str(session))
 
   for i in range(len(course_enrollments)):
     user = course_enrollments[i].user
-    log.info(user)
+    # log.info(user)
     user_data = {}        
 
 
     if str(user.email).find('@yopmail') != -1 or str(user.email).find('@weuplearning') != -1 or str(user.email).find('@themoocagency') != -1 :
-      log.info('Yopmail account ' + str(user))
       continue
 
     # Update object with user data without grades
 
     # FILTRER LES UTILISATEUR DU JOUR POUR RENDRE UN RAPPORT SANS ANCIENS UTILISATEURS : 
-    # now = timezone.now()
+    now = timezone.now()
 
-    # try:
-    #   user_last_login = user.last_login
-    # except:
-    #   # pass user did not login
-    #   continue
+    try:
+      user_last_login = user.last_login
+    except:
+      # pass user did not login
+      continue
 
     # ONLY today's student
-    # if not (now >= user_last_login - timedelta(days=daysLimit)):
-    #   log.info('last_login est trop vieux')
-    #   continue
+    if not (now >= user_last_login - timedelta(days=daysLimit)):
+      continue
     
     no_student = False
     user_data["session"] = session
@@ -171,12 +182,6 @@ for course_id in course_ids:
       problemNum = str(block_location)[-2:]
       question['problem'] = problemNum
       choices = []
-      
-
-      log.info('history_entries[0].state')
-      log.info(history_entries[0].state)
-      log.info("----------------------")
-
 
       if len(history_entries[0].state) ==3:
         question['choice'] = 'n.a.'
@@ -314,10 +319,7 @@ for email in emails:
 log.info('------------> Finish calculate grades and write xlsx report')
 
 
-# exemple Koa-qualif
-# source /edx/app/edxapp/edxapp_env && /edx/app/edxapp/edx-platform/manage.py lms shell < /edx/app/edxapp/edx-themes/BVT/lms/static/utils/custom_grade_report_bvt.py
-
-# exemple Koa-prod
-# source /edx/app/edxapp/edxapp_env && /edx/app/edxapp/edx-platform/manage.py lms shell < /edx/app/edxapp/edx-themes/bvt/lms/static/utils/custom_grade_report_bvt.py
 
 # Exams occur everyday, send grade report after todays exam. Choose the right time to send a grade report in crontab. 
+
+# 0 6 * * * /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/bvt/lms/static/utils/custom_grade_report_bvt.py 'cyril.adol@weuplearning.com;alexandre.berteau@weuplearning.com'
