@@ -1,8 +1,24 @@
+# -*- coding: utf-8 -*-
+#!/usr/bin/env python
+import importlib
+import sys
+importlib.reload(sys)
 import os
 from io import BytesIO
-import json
-from re import S
-import time
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "lms.envs.production")
+os.environ.setdefault("LMS_CFG", "/edx/etc/lms.yml")
+os.environ.setdefault("lms.envs.production,SERVICE_VARIANT", "lms")
+os.environ.setdefault("PATH", "/edx/app/edxapp/venvs/edxapp/bin:/edx/app/edxapp/edx-platform/bin:/edx/app/edxapp/.rbenv/bin:/edx/app/edxapp/.rbenv/shims:/edx/app/edxapp/.gem/bin:/edx/app/edxapp/edx-platform/node_modules/.bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin")
+os.environ.setdefault("SERVICE_VARIANT", "lms")
+os.chdir("/edx/app/edxapp/edx-platform")
+from django.core.wsgi import get_wsgi_application
+application = get_wsgi_application()
+
+#         ^ SETUP ENVIRONNEMENT VARIABLE FOR KOA ^
+#                START BEYOND THIS LINE
+#############################################################################################################################
+
+
 
 from opaque_keys.edx.locator import CourseLocator
 from common.djangoapps.student.models import CourseEnrollment
@@ -10,7 +26,8 @@ from courseware.courses import get_course_by_id
 from openedx.core.djangoapps.content.block_structure.api import get_course_in_cache
 from completion.models import BlockCompletion
 
-
+import json
+import time
 from openpyxl import Workbook
 
 import smtplib
@@ -24,11 +41,8 @@ import logging
 log = logging.getLogger()
 
 
-# Can not manage to pass var as arguments in command line
-# course_ids = ['course-v1:bmd+test1609+2021']
-# emails =['cyril.adolf@weuplearning.com']
-course_ids = ['course-v1:bmd+FR+2022_02_9-10']
-emails =[ 'eruch-ext@netexplo.org', 'lnyadanu@netexplo.org', 'melanie.zunino@weuplearning.com']
+emails = sys.argv[1].split(";")
+course_ids = sys.argv[2].split(";")
 
 all_users_data = {}
 log.info('------------> Begin fetching user data and answers')
@@ -53,7 +67,7 @@ for course_id in course_ids:
     # initialize chapter var
     first = True
     for section in course_structure:
-        log.info(section)
+        # log.info(section)
         if str(section).find('chapter') != -1 :
             # remove last two sections :
             if str(section).find('259c99b5c0ba46318ca4a22f1d276380') != -1 or str(section).find('457a89c72983492cb08fc3beb1cc232f') != -1 :
