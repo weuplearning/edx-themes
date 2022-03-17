@@ -35,6 +35,9 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
 
+from datetime import datetime, date, timedelta
+from django.utils import timezone
+
 import logging
 log = logging.getLogger()
 
@@ -50,11 +53,10 @@ course_ids = [
 emails = sys.argv[1].split(";")
 
 
-# One report every day + one report each month and a report after a year. 
-daysLimit = 1
-# daysLimit = 31
-# daysLimit = 366
-# Est ce que l'on ajoute pas plutot une condition sur la date pour faire varier la valeur de 'daysLimit' ?? 
+daysLimit = int(sys.argv[2].split(";")[1])
+# One report every day + one report each month + a report after a year. 
+# argv[2] should look like 'timePeriodToCheck;31'
+
 
 def updateGrade(problemNum, choices, answer_list):
   answered_true = 0
@@ -108,28 +110,23 @@ for course_id in course_ids:
 
   for i in range(len(course_enrollments)):
     user = course_enrollments[i].user
-    # log.info(user)
     user_data = {}        
-
 
     if str(user.email).find('@yopmail') != -1 or str(user.email).find('@weuplearning') != -1 or str(user.email).find('@themoocagency') != -1 :
       continue
 
-    # Update object with user data without grades
-
     # FILTRER LES UTILISATEUR DU JOUR POUR RENDRE UN RAPPORT SANS ANCIENS UTILISATEURS : 
     now = timezone.now()
-
     try:
       user_last_login = user.last_login
     except:
       # pass user did not login
       continue
-
-    # ONLY today's student
     if not (now >= user_last_login - timedelta(days=daysLimit)):
       continue
-    
+
+
+    log.info('Treating --------> ' + str(user.email))
     no_student = False
     user_data["session"] = session
 
@@ -322,4 +319,10 @@ log.info('------------> Finish calculate grades and write xlsx report')
 
 # Exams occur everyday, send grade report after todays exam. Choose the right time to send a grade report in crontab. 
 
-# 0 6 * * * /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/bvt/lms/static/utils/custom_grade_report_bvt.py 'cyril.adol@weuplearning.com;alexandre.berteau@weuplearning.com'
+# 0 6 * * * /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/bvt/lms/static/utils/custom_grade_report_bvt.py 'cyril.adolf@weuplearning.com;alexandre.berteau@weuplearning.com' 'timePeriodToCheck;1'
+
+# first day of every month at 6
+# 0 6 1 * * /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/bvt/lms/static/utils/custom_grade_report_bvt.py 'cyril.adolf@weuplearning.com;alexandre.berteau@weuplearning.com' 'timePeriodToCheck;31'
+
+# once a year the 1st of january at 6
+# 0 6 1 1 * /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/bvt/lms/static/utils/custom_grade_report_bvt.py 'cyril.adolf@weuplearning.com;alexandre.berteau@weuplearning.com' 'timePeriodToCheck;365'
