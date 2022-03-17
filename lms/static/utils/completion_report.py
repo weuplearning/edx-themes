@@ -14,9 +14,10 @@ os.chdir("/edx/app/edxapp/edx-platform")
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
 
-#         ^ SETUP ENVIRONNEMENT VARIABLE FOR KOA ^
-#                START BEYOND THIS LINE
-#############################################################################################################################
+#############################################################
+#         ^ SETUP ENVIRONNEMENT VARIABLE FOR KOA ^          #
+#                START BEYOND THIS LINE                     #
+#############################################################
 
 
 
@@ -67,7 +68,7 @@ for course_id in course_ids:
     # initialize chapter var
     first = True
     for section in course_structure:
-        # log.info(section)
+        log.info(section)
         if str(section).find('chapter') != -1 :
             # remove last two sections :
             if str(section).find('259c99b5c0ba46318ca4a22f1d276380') != -1 or str(section).find('457a89c72983492cb08fc3beb1cc232f') != -1 :
@@ -228,9 +229,7 @@ for email in emails:
 log.info('------------> Finish calculate grades and write xlsx report')
 
 
-# exemple Koa-qualif
-# source /edx/app/edxapp/edxapp_env && /edx/app/edxapp/edx-platform/manage.py lms shell < /edx/app/edxapp/edx-themes/bmd/lms/static/utils/completion_report.py
 
 # exemple Koa-prod
-# source /edx/app/edxapp/edxapp_env && /edx/app/edxapp/edx-platform/manage.py lms shell < /edx/app/edxapp/edx-themes/bmd/lms/static/utils/completion_report.py
+# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/bmd/lms/static/utils/completion_report.py 'eruch-ext@netexplo.org;lnyadanu@netexplo.org;melanie.zunino@weuplearning.com;cyril.adolf@weuplearning.com' 'course-v1:bmd+FR+2022_02_9-10'
 
