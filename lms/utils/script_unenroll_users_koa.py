@@ -14,15 +14,19 @@ os.chdir("/edx/app/edxapp/edx-platform")
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
 
-#         ^ SETUP ENVIRONNEMENT VARIABLE FOR KOA ^
-#                START BEYOND THIS LINE
-#############################################################################################################################
+#############################################################
+#         ^ SETUP ENVIRONNEMENT VARIABLE FOR KOA ^          #
+#                START BEYOND THIS LINE                     #
+#############################################################
+
 
 
 from common.djangoapps.student.models import CourseEnrollment
 from opaque_keys.edx.keys import CourseKey
 
 import time
+from datetime import datetime, date, timedelta
+from django.utils import timezone
 
 import logging
 log = logging.getLogger()
@@ -64,4 +68,4 @@ log.info('End')
 
 
 # List of command to execute: 
-# source /edx/app/edxapp/edxapp_env && /edx/app/edxapp/edx-platform/manage.py lms shell < /edx/app/edxapp/edx-themes/deeptechforbusiness/lms/utils/script_unenroll_users_koa.py
+# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/deeptechforbusiness/lms/utils/script_unenroll_users_koa.py 'course-v1:deeptechforbusiness+FR+2021;course-v1:deeptechforbusiness+EN+2021;course-v1:linkingcities+01+2021'

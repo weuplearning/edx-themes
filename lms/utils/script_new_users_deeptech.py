@@ -14,9 +14,11 @@ os.chdir("/edx/app/edxapp/edx-platform")
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
 
-#         ^ SETUP ENVIRONNEMENT VARIABLE FOR KOA ^
-#                START BEYOND THIS LINE
-#############################################################################################################################
+#############################################################
+#         ^ SETUP ENVIRONNEMENT VARIABLE FOR KOA ^          #
+#                START BEYOND THIS LINE                     #
+#############################################################
+
 
 
 from opaque_keys.edx.locator import CourseLocator
@@ -41,12 +43,8 @@ import logging
 log = logging.getLogger()
 
 
-
-
 emails = sys.argv[1].split(";")
 course_ids = sys.argv[2].split(";")
-
-
 
 
 all_users_data = {}
@@ -214,8 +212,6 @@ for email in emails:
 
 
 
-
-
 # Command to execute: 
-# source /edx/app/edxapp/edxapp_env && /edx/app/edxapp/edx-platform/manage.py lms shell < /edx/app/edxapp/edx-themes/deeptechforbusiness/lms/utils/script_new_users_deeptech.py
+# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/deeptechforbusiness/lms/utils/script_new_users_deeptech.py 'eruch-ext@netexplo.org;learning@netexplo.org;melanie.zunino@weuplearning.com;cyril.adolf@weuplearning.com' 'course-v1:deeptechforbusiness+EN+2021;course-v1:deeptechforbusiness+FR+2021'
 
