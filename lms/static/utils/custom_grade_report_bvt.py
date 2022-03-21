@@ -14,9 +14,18 @@ os.chdir("/edx/app/edxapp/edx-platform")
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
 
-#         ^ SETUP ENVIRONNEMENT VARIABLE FOR KOA ^
-#                START BEYOND THIS LINE
-#############################################################################################################################
+
+#############################################################
+#         ^ SETUP ENVIRONNEMENT VARIABLE FOR KOA ^          #
+#                START BEYOND THIS LINE                     #
+#############################################################
+
+
+import json
+import time
+from openpyxl import Workbook
+from datetime import datetime, date, timedelta
+from django.utils import timezone
 
 
 from opaque_keys.edx.locator import CourseLocator
@@ -25,9 +34,6 @@ from courseware.courses import get_course_by_id
 from lms.djangoapps.grades.context import grading_context_for_course
 from lms.djangoapps.courseware.user_state_client import DjangoXBlockUserStateClient
 
-import json
-import time
-from openpyxl import Workbook
 
 import smtplib
 from email.mime.multipart import MIMEMultipart
@@ -35,27 +41,26 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
 
-from datetime import datetime, date, timedelta
-from django.utils import timezone
 
 import logging
 log = logging.getLogger()
+
 
 # course_ids is too long , do not use sys.argv[]
 course_ids = [
   'course-v1:bvt+base_01+2022', 'course-v1:bvt+base_02+2022', 'course-v1:bvt+base_03+2022', 'course-v1:bvt+base_04+2022', 'course-v1:bvt+base_05+2022', 'course-v1:bvt+base_06+2022', 'course-v1:bvt+base_07+2022', 'course-v1:bvt+base_08+2022', 'course-v1:bvt+base_09+2022', 'course-v1:bvt+base_10+2022', 'course-v1:bvt+base_11+2022', 'course-v1:bvt+base_12+2022', 'course-v1:bvt+base_13+2022', 'course-v1:bvt+base_14+2022', 'course-v1:bvt+base_15+2022', 'course-v1:bvt+base_16+2022', 'course-v1:bvt+base_17+2022', 'course-v1:bvt+base_18+2022', 'course-v1:bvt+base_19+2022', 'course-v1:bvt+base_20+2022', 
   'course-v1:bvt+citernes_01+2022', 'course-v1:bvt+citernes_02+2022', 'course-v1:bvt+citernes_03+2022', 'course-v1:bvt+citernes_04+2022', 'course-v1:bvt+citernes_05+2022', 'course-v1:bvt+citernes_06+2022', 'course-v1:bvt+citernes_07+2022', 'course-v1:bvt+citernes_08+2022', 'course-v1:bvt+citernes_09+2022', 'course-v1:bvt+citernes_10+2022', 'course-v1:bvt+citernes_11+2022', 'course-v1:bvt+citernes_12+2022', 'course-v1:bvt+citernes_13+2022', 'course-v1:bvt+citernes_14+2022', 'course-v1:bvt+citernes_15+2022', 'course-v1:bvt+citernes_16+2022', 'course-v1:bvt+citernes_17+2022', 'course-v1:bvt+citernes_18+2022', 'course-v1:bvt+citernes_19+2022', 'course-v1:bvt+citernes_20+2022', 
   'course-v1:bvt+gpl_01+2022', 'course-v1:bvt+gpl_02+2022', 'course-v1:bvt+gpl_03+2022', 'course-v1:bvt+gpl_04+2022', 'course-v1:bvt+gpl_05+2022', 'course-v1:bvt+gpl_06+2022', 'course-v1:bvt+gpl_07+2022', 'course-v1:bvt+gpl_08+2022', 'course-v1:bvt+gpl_09+2022', 'course-v1:bvt+gpl_10+2022', 'course-v1:bvt+gpl_11+2022', 'course-v1:bvt+gpl_12+2022', 'course-v1:bvt+gpl_13+2022', 'course-v1:bvt+gpl_14+2022', 'course-v1:bvt+gpl_15+2022', 'course-v1:bvt+gpl_16+2022', 'course-v1:bvt+gpl_17+2022', 'course-v1:bvt+gpl_18+2022', 'course-v1:bvt+gpl_19+2022', 'course-v1:bvt+gpl_20+2022', 
-  'course-v1:bvt+pp_01+2022', 'course-v1:bvt+pp_02+2022', 'course-v1:bvt+pp_03+2022', 'course-v1:bvt+pp_04+2022', 'course-v1:bvt+pp_05+2022', 'course-v1:bvt+pp_06+2022', 'course-v1:bvt+pp_07+2022', 'course-v1:bvt+pp_08+2022', 'course-v1:bvt+pp_09+2022', 'course-v1:bvt+pp_10+2022', 'course-v1:bvt+pp_11+2022', 'course-v1:bvt+pp_12+2022', 'course-v1:bvt+pp_13+2022', 'course-v1:bvt+pp_14+2022', 'course-v1:bvt+pp_15+2022', 'course-v1:bvt+pp_16+2022', 'course-v1:bvt+pp_17+2022', 'course-v1:bvt+pp_18+2022', 'course-v1:bvt+pp_19+2022', 'course-v1:bvt+pp_20+2022', 
-  ]
+  'course-v1:bvt+pp_01+2022', 'course-v1:bvt+pp_02+2022', 'course-v1:bvt+pp_03+2022', 'course-v1:bvt+pp_04+2022', 'course-v1:bvt+pp_05+2022', 'course-v1:bvt+pp_06+2022', 'course-v1:bvt+pp_07+2022', 'course-v1:bvt+pp_08+2022', 'course-v1:bvt+pp_09+2022', 'course-v1:bvt+pp_10+2022', 'course-v1:bvt+pp_11+2022', 'course-v1:bvt+pp_12+2022', 'course-v1:bvt+pp_13+2022', 'course-v1:bvt+pp_14+2022', 'course-v1:bvt+pp_15+2022', 'course-v1:bvt+pp_16+2022', 'course-v1:bvt+pp_17+2022', 'course-v1:bvt+pp_18+2022', 'course-v1:bvt+pp_19+2022', 'course-v1:bvt+pp_20+2022' 
+]
 
 
 emails = sys.argv[1].split(";")
 
 
-daysLimit = int(sys.argv[2].split(";")[1])
 # One report every day + one report each month + a report after a year. 
 # argv[2] should look like 'timePeriodToCheck;31'
+daysLimit = int(sys.argv[2].split(";")[1])
 
 
 def updateGrade(problemNum, choices, answer_list):
@@ -97,13 +102,17 @@ for course_id in course_ids:
   course_enrollments = CourseEnrollment.objects.filter(course_id=course_key)
   course_name = course.display_name_with_default
 
-  course_data = {}
 
   # DO NOT RENAME THE COURSE, IF NECESSARY, USE THE CONVERTER TO DO SO 
   # DO NOT RENAME THE COURSE, IF NECESSARY, USE THE CONVERTER TO DO SO 
   json_file_name = 'list_corrected_answer_' + str(course_name).replace(' ', '_') +'.json'
   with open('/edx/var/edxapp/media/microsites/bvt/answers_lists_files/'+json_file_name) as json_file:
     answer_list = json.load(json_file)
+  # DO NOT RENAME THE COURSE, IF NECESSARY, USE THE CONVERTER TO DO SO 
+  # DO NOT RENAME THE COURSE, IF NECESSARY, USE THE CONVERTER TO DO SO 
+
+
+  course_data = {}
 
   # session
   session = course_id.split('+')[1]
@@ -120,9 +129,9 @@ for course_id in course_ids:
     try:
       user_last_login = user.last_login
     except:
-      # pass user did not login
       continue
-    if not (now >= user_last_login - timedelta(days=daysLimit)):
+
+    if (now - timedelta(days=daysLimit) >= user_last_login ):
       continue
 
 
@@ -161,8 +170,8 @@ for course_id in course_ids:
     list_question = []
 
     for section in grading_context['all_graded_subsections_by_type']['Exam']:
-        for unit in section['scored_descendants']:
-            scorable_block_titles.append((unit.location))
+      for unit in section['scored_descendants']:
+        scorable_block_titles.append((unit.location))
 
     for block_location in scorable_block_titles:
 
@@ -180,7 +189,7 @@ for course_id in course_ids:
       question['problem'] = problemNum
       choices = []
 
-      if len(history_entries[0].state) ==3:
+      if len(history_entries[0].state) == 3 :
         question['choice'] = 'n.a.'
       else:
         for key, value in history_entries[0].state['student_answers'].items():
@@ -205,34 +214,23 @@ for course_id in course_ids:
 
       list_question.append(question)
 
-    data = { "general": user_data, 'list_question' : list_question }
+    data = { "general": user_data, 'list_question': list_question }
     course_data[str(user.id)]= data
+
   all_users_data[course_id]= course_data
 
 log.info('------------> Finish fetching user data and answers')
-
 log.info('------------> Begin Calculate grades and write xlsx report')
-# Grades need to be recalculate :
-# We need to generate un json when the course is converted. 
-# Then we can fetch it using the course name (value given when creating the tar.gz) 
 
-course_names = []
-course_names_html = []
-for course_id in course_ids: 
-    course = get_course_by_id(CourseLocator.from_string(course_id)) 
-    course_names.append(course.display_name_with_default)
-    course_names_html.append("<li>"+ str(course.display_name_with_default)+"</li>")
-    # course_names_html.append("<li>"+ str(course.display_name_with_default.encode('ascii', errors='xmlcharrefreplace'))+"</li>")
 
 # WRITE XLS
 timestr = time.strftime("%Y_%m_%d")
 wb = Workbook()
 sheet = wb.active
 sheet.title= 'Rapport'
-filename = '/home/edxtma/csv/{}_BVT_grade_report.xls'.format(timestr)
+filename = '/home/edxtma/csv/{}_BVT_grade_report.xlsx'.format(timestr)
 
 headers = ['Adresse e-mail', 'Prénom', 'Nom', 'Session', 'Score' ,'Validation']
-first = True
 
 for i, header in enumerate(headers):
   sheet.cell(1, i+1, header)
@@ -242,42 +240,36 @@ for k, course_id in all_users_data.items():
     sheet.cell(j, 1, user['general']['email'])
     sheet.cell(j, 2, user['general']['firstname'])
     sheet.cell(j, 3, user['general']['lastname'])
-    # Session
     sheet.cell(j, 4, user['general']['session'])
 
     correctedExamGrade = 0
     i = 5 
     for question in user['list_question']:
-      # correctedGrade = 0
-
-      # if first:  
-      #   sheet.cell(1, i+1, question['problem'])
-      #   sheet.cell(1, i+2, 'Score')
-      #   sheet.cell(1, i+3, 'Réponses choisies')
-      # sheet.cell(j, i+1, question['time'])
 
       correctedGrade = question['correctedGrade']
       choices = ''
       for choice in question['choice'] :
         choices += str(choice) + ' '
-
-      # sheet.cell(j, i+2, correctedGrade)
-      # sheet.cell(j, i+3, choices)
-
       correctedExamGrade += int(correctedGrade)
-      # i += 3
+
     sheet.cell(j, i, correctedExamGrade)
     if correctedExamGrade >= 21: 
       sheet.cell(j, i+1, 'oui')
     else :
       sheet.cell(j, i+1, 'non')
 
-    # first = False
     j += 1
 sheet.cell(1, i+1, 'Note finale')
 
 
 # SEND MAILS
+course_names = []
+course_names_html = []
+for course_id in course_ids: 
+  course = get_course_by_id(CourseLocator.from_string(course_id)) 
+  course_names.append(course.display_name_with_default)
+  course_names_html.append("<li>"+ str(course.display_name_with_default)+"</li>")
+
 output = BytesIO()
 wb.save(output)
 _files_values = output.getvalue()
