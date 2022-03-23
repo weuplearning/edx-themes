@@ -30,7 +30,7 @@ from django.utils import timezone
 
 from opaque_keys.edx.locator import CourseLocator
 from common.djangoapps.student.models import CourseEnrollment
-from courseware.courses import get_course_by_id
+from lms.djangoapps.courseware.courses import get_course_by_id
 from lms.djangoapps.grades.context import grading_context_for_course
 from lms.djangoapps.courseware.user_state_client import DjangoXBlockUserStateClient
 
@@ -119,7 +119,7 @@ for course_id in course_ids:
 
   for i in range(len(course_enrollments)):
     user = course_enrollments[i].user
-    user_data = {}        
+    user_data = {}
 
     if str(user.email).find('@yopmail') != -1 or str(user.email).find('@weuplearning') != -1 or str(user.email).find('@themoocagency') != -1 :
       continue
