@@ -91,9 +91,9 @@
               <div class="col">
                 <img src="${static.url('fhf/images/ANFH.png')}" class="img-fluid img-logo" alt="mooc logo" style="margin-top: 34px">
               </div>
-              <div class="col">
+              <!-- <div class="col">
                 <img src="${static.url('fhf/images/logo_footer1.png')}" class="img-fluid img-logo" alt="mooc logo">
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -138,5 +138,40 @@ var textAttempt = setInterval(function() {
       element.innerHTML = element.innerHTML.replace('essais', 'essai')      
     }
   }
-}, 1500)
+
+
+  var lang = "${LANGUAGE_CODE}"
+  if (lang == 'fr') {
+    var dragNDropDiv = document.getElementsByClassName('xblock--drag-and-drop')  
+    for (let i = 0; i < dragNDropDiv.length; i++) {
+      const element = dragNDropDiv[i];
+  
+      if (element.getElementsByClassName('submit-answer-button')) { 
+        var dragNDropSubmit = element.getElementsByClassName('submit-answer-button')
+        dragNDropSubmit[0].innerText = "Soumettre"
+      }
+
+      if (element.getElementsByClassName('attempts-used').length > 0) {
+        var dragNDropAttempt = element.getElementsByClassName('attempts-used')
+        var correctedText = dragNDropAttempt[0].innerText
+        correctedText = correctedText.replace('You have used','Vous avez utilisé')
+        correctedText = correctedText.replace('of','essai sur')
+        correctedText = correctedText.replace('attempts','')
+        dragNDropAttempt[0].innerText = correctedText
+      }
+
+      if (element.getElementsByClassName('reset-button').length > 0) {
+        var dragNDropReset = element.getElementsByClassName('reset-button')
+        dragNDropReset[0].innerHTML = '<span class="btn-icon fa fa-refresh" aria-hidden="true"></span>Recommencer'
+      }
+
+      if (element.getElementsByClassName('show-answer-button').length > 0) { 
+        var dragNDropAnswer = element.getElementsByClassName('show-answer-button')
+        dragNDropAnswer[0].innerHTML = '<span class="btn-icon fa fa-info-circle" aria-hidden="true"></span>Voir la réponse'
+      }
+
+    }
+  }
+}, 1000)
+
 </script>
