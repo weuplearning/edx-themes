@@ -80,7 +80,7 @@
                 <br />1bis, rue Cabanis 75014 Paris</p>
             </div>
           </div>
-          <div class="col-md-12 col-lg-6" style="padding-left: 12px;">
+          <div class="col-md-12 col-lg-6" style="padding-left: 200px;">
             <div class="row">
               <div class="col">
                 <p style="margin-top: 46px;font-size: 14px;;">EN PARTENARIAT AVEC</p>
@@ -180,14 +180,16 @@ var textAttempt = setInterval(function() {
         const element = feedBackContent[i];
         phrases = element.querySelectorAll('.message')
         phrases.forEach(function(phrase) {
-          phrase.innerText = phrase.innerText.replace('item', 'élément')
-          phrase.innerText = phrase.innerText.replace('items', 'éléments')
-          phrase.innerText = phrase.innerText.replace('Misplaced', 'Mal placé')
+          phrase.innerText = phrase.innerText.replace('Misplaced items were returned to item bank.', 'Ces éléments ont été replacés dans la zone initiale.')
           phrase.innerText = phrase.innerText.replace('Did not place', 'Il manque')
           phrase.innerText = phrase.innerText.replace('Final attempt was used', 'Dernier essai utilisé')
           phrase.innerText = phrase.innerText.replace('highest score is', 'meilleur score')
           phrase.innerText = phrase.innerText.replace('required', '')
-          phrase.innerText = phrase.innerText.replace('Correctly placed', 'Correctement placé')
+          phrase.innerText = phrase.innerText.replace('Correctly placed', 'Correctement placé :')
+          phrase.innerText = phrase.innerText.replace('Misplaced', 'Mal placé :')
+          phrase.innerText = phrase.innerText.replace('item', 'élément')
+          phrase.innerText = phrase.innerText.replace('items', 'éléments')
+
         })
 
       }
