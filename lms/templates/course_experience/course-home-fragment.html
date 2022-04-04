@@ -25,14 +25,19 @@ from lms.djangoapps.grades.course_grade import ZeroCourseGrade
   <link rel="stylesheet" type="text/css" href="${static.url('weup/css/animate-4.1.1.min.css')}" />
 
   <style>
+
+.window-wrap, #course-container, #course-outline-block-tree {
+    background: #fff !important;
+}
     header.page-header.has-secondary{
-        background-image: url("/media/microsites/amazon/banner_v3.png");
+        background-image: url(/static/bungalow/images/banner.svg);
         padding-top: 10px !important;
         padding-bottom: 10px !important;
         box-shadow: 0 3px 6px rgba(0,0,0,0.16);
         height: 210px;
         margin: auto;
         background-position-x: center;
+        margin-bottom: 65px;
     }
     .page-header-main, .page-header-secondary{
         animation: bounce;
@@ -47,17 +52,15 @@ from lms.djangoapps.grades.course_grade import ZeroCourseGrade
     .page-header-main h2.hd.hd-3.page-title{
         color: #343a40 !important;
     }
-    button.search-button{
+    /* button.search-button{
         margin-left: 5px;
         background: white !important;
-    }
+    } */
     .global-header .header-logo .course-header, a.help-link{
         display:none !important;
     }
 
-    .course-outline .block-tree .outline-button .fa {
-        color: #f90 !important;
-    }
+
     .course-outline .block-tree .outline-button .complete-checkmark {
         background-color: rgb(255, 153, 0);
         border-color: rgb(255, 153, 0);
@@ -126,7 +129,7 @@ from lms.djangoapps.grades.course_grade import ZeroCourseGrade
         padding: 20px 0 20px 2px;
         background-color: #343a40;
         margin-bottom: 25px;
-        color: #f90!important;
+        color:#fff!important;
         margin-bottom: 0px !important;
         margin-top:25px !important;
         border-radius: 2px;
@@ -171,6 +174,7 @@ from lms.djangoapps.grades.course_grade import ZeroCourseGrade
     .course-outline .block-tree .section {
         box-shadow: 0 3px 6px rgba(0,0,0,0.16);
         margin: 0 !important;
+        margin-bottom: 110px !important;
     }
 
 
@@ -192,17 +196,7 @@ from lms.djangoapps.grades.course_grade import ZeroCourseGrade
         border-radius:20px;
     }
 
-    .progress-bar-grade {
-        background-color:#F90;
-        position: absolute;
-        height: 100%;
-        top:3px;
-        left:3px;
-        border-radius: 20px;
-        animation: fadeInLeft;
-        animation-duration: 1.5s;
-        height: 70%;
-    }
+
 
     .grade-value {
         font-weight: 500;
@@ -375,6 +369,10 @@ from lms.djangoapps.grades.course_grade import ZeroCourseGrade
     padding-top: 85px;
     padding-left: 25px;
     }
+
+    .form-control{
+        border-radius: 15px !important;
+    }
   </style>
   <script>
 document.title = "Cours | ${HTML(course.display_name_with_default)}";
@@ -425,6 +423,34 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
     width: 100%;
     height: 100%;
 }
+#search{
+border: none !important;
+}
+
+.search-button {
+    width: 40px;
+position: absolute !important;
+left: 193px;
+height: 42px;
+border-radius: 100%;
+border: none;
+background: #325359 !important;
+color: #fff;
+font-size: 26px;
+font-weight: bold;
+padding: 0px;
+top: -2px;
+}
+
+.action-resume-course {
+    border-radius: 15px;
+    padding: 10px 40px;
+    color: white;
+    font-weight: 500;
+    background-color: #ed8349;
+    border: none !important;
+}
+
 </style>
 
 
@@ -522,7 +548,7 @@ share_image = "https://amazon.the-mooc-agency.com/media/microsite/amazon/auto/im
                                 placeholder="${_('Search the course')}"
                         />
                         <span class="input-group-btn">
-                            <button class="btn btn-outline-primary search-button" type="submit">${_('Search')}</button>
+                            <button class="btn btn-outline-primary search-button" type="submit">></button>
                         </span>
                     </form>
                 </div>

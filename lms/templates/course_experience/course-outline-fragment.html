@@ -217,14 +217,28 @@ align-items: flex-end;
 margin: auto;
   }
 
+  .course_logo_test_0 {
+    background-image: url(/static/bungalow/images/course_test_0.svg);
+  }
+  .course_logo_test_1 {
+    background-image: url(/static/bungalow/images/course_test_1.svg);
+  }
+  .course_logo_test_2 {
+    background-image: url(/static/bungalow/images/course_test_2.svg);
+  }
+  .course_logo_test_3 {
+    background-image: url(/static/bungalow/images/course_test_3.svg);
+  }
+
   .course_logo_name {
     margin: 1em;
     color: #000;
     font-size: 1.1em;
-    width: 300px;
+    width: 345px;
     text-align: center;
     height: 1px;
     line-height: 16px;
+    font-weight: bold;
   }
 
     
@@ -417,10 +431,80 @@ a:hover{
   display: none;
 }
 
+.progress-bar-grade {
+        position: absolute;
+        height: 100%;
+        top:3px;
+        left:3px;
+        border-radius: 20px;
+        animation: fadeInLeft;
+        animation-duration: 1.5s;
+        height: 70%;
+    }
+
 .arrow_navigation_right{
   margin-right:-10px;
 }
 
+.color_index_0{
+background-color: #ed8349 !important;
+}
+
+.color_index_1{
+background-color: #2e80ca !important;
+}
+
+.color_index_2{
+background-color: #e2524b !important;
+}
+
+.color_index_3{
+background-color: #249f6d !important;
+}
+
+.chevron_right_index_0{
+  color: #ac3f26 !important;
+}
+
+.chevron_right_index_1{
+  color: #8ec0d6 !important;
+}
+
+.chevron_right_index_2{
+  color: #ed8349 !important;
+}
+
+.chevron_right_index_3{
+  color: #54cc96 !important;
+}
+
+.progress_bar_index_0{
+  background-color: #a83b24;
+}
+
+.progress_bar_index_1{
+  background-color: #8ec0d6;
+}
+
+.progress_bar_index_2{
+  background-color: #ed8349;
+}
+
+.progress_bar_index_3{
+  background-color: #54cc96 !important;
+}
+
+.image_logo_bar{
+  margin: auto;
+    display: block;
+    margin-top: -231px;
+    z-index: 2;
+    position: relative;
+    border: 13px #fff solid;
+    border-radius: 100%;
+    width: 201px;
+    margin-bottom: 31px;
+}
     </style>
 
     
@@ -438,7 +522,7 @@ a:hover{
         <ol class=" block-tree accordion"
             id="course-outline-block-tree"
             aria-labelledby="expand-collapse-outline-all-button">
-            % for section in course_sections:
+            % for primary_index, section in enumerate(course_sections):
             <%
             section_is_auto_opened = section.get('resume_block') is True
             scored = 'scored' if section.get('scored', False) else ''
@@ -446,17 +530,18 @@ a:hover{
             %>
                 <li class=" outline-item section ${scored}">
 
-                    <button class="section-name accordion-trigger outline-button flex-button"
+                    <button class="section-name accordion-trigger outline-button flex-button color_index_${primary_index}"
                             aria-expanded="${ 'true' if section_is_auto_opened else 'false' }"
                             aria-controls="${ section['id'] }_contents"
                             id="${ section['id'] }">
-                            <span class="fa fa-chevron-right ${ 'fa-rotate-90' if section_is_auto_opened else '' }" aria-hidden="true"></span>
+                            <span class="fa fa-chevron-right chevron_right_index_${primary_index} ${ 'fa-rotate-90' if section_is_auto_opened else '' }" aria-hidden="true"></span>
                             <h3 class="section-title">${ section['display_name']}</h3>
                         %for index, chapter in enumerate(user_grade.chapter_grades.keys()):
                             %if section['display_name'] == user_grade.chapter_grades[chapter]['display_name']:
                                 <div class="progress_bar_and_score">
                                     <div class="progress-bar-full">
-                                        <div style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade"></div>
+                                        <!-- <div style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade"></div> -->
+                                        <div style="width:50%;" class="progress-bar-grade progress_bar_index_${primary_index}"></div>
                                     </div>        
                                     <h2 class="completed_percent"> ${int(user_grade.chapter_percentage(chapter) * 100)} %</h2>     
                                 </div>  
@@ -467,6 +552,16 @@ a:hover{
                             <span class="sr">${_("Completed")}</span> -->
             % endif
                     </button>
+                    % if primary_index == 0:
+                    <img class="image_logo_bar" src="${static.url('bungalow/images/ico_middle_section_0.svg')}" alt="logo"/>
+                    % elif primary_index == 1:
+                    <img class="image_logo_bar" src="${static.url('bungalow/images/ico_middle_section_1.svg')}" alt="logo"/>
+                    % elif primary_index == 2:
+                    <img class="image_logo_bar" src="${static.url('bungalow/images/ico_middle_section_2.svg')}" alt="logo"/>
+                    % else:
+                    <img class="image_logo_bar" src="${static.url('bungalow/images/ico_middle_section_3.svg')}" alt="logo"/>
+                    % endif
+
                     <ol class=" outline-item accordion-panel ${ '' if section_is_auto_opened else 'is-hidden' }"
                         id="${ section['id'] }_contents"
                         aria-labelledby="${ section['id'] }">
@@ -506,7 +601,7 @@ a:hover{
                                       >
 
                                           <!-- <div class ="course_logo" style="background: url('/media/microsites/amazon/courses/${slug_img_name}.png')"> -->
-                                          <div class ="course_logo" style="background: url('/media/microsites/amazon/courses/analyser_les_campagnes_de_publicités_sur_les_réseaux_sociaux.png')">
+                                          <div class ="course_logo course_logo_test_${primary_index}">
                                           <!-- <p class="course_logo_name">${course_name}</p> -->
                                           % if subsection.get('complete'):
                                           <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
@@ -688,7 +783,7 @@ a:hover{
       <ol class=" block-tree accordion"
           id="course-outline-block-tree"
           aria-labelledby="expand-collapse-outline-all-button">
-          % for section in course_sections:
+          % for index, section in enumerate(course_sections):
           <%
           section_is_auto_opened = section.get('resume_block') is True
           scored = 'scored' if section.get('scored', False) else ''
@@ -701,7 +796,7 @@ a:hover{
                           aria-controls="${ section['id'] }_contents_tablet"
                           id="${ section['id'] }_tablet">
                           <div class="button_subsection">
-                            <span id="arrow_rotate_${ section['block_id'] }" class="fa fa-chevron-right ${ 'fa-rotate-90' if section_is_auto_opened else '' }" aria-hidden="true"></span>
+                            <span id="arrow_rotate_${ section['block_id'] }" class="fa fa-chevron-right chevron_right_index_${index} ${ 'fa-rotate-90' if section_is_auto_opened else '' }" aria-hidden="true"></span>
 
                             <script>                                
 
@@ -938,7 +1033,7 @@ a:hover{
       <ol class=" block-tree accordion"
           id="course-outline-block-tree"
           aria-labelledby="expand-collapse-outline-all-button">
-          % for section in course_sections:
+          % for index, section in enumerate(course_sections):
           <%
           section_is_auto_opened = section.get('resume_block') is True
           scored = 'scored' if section.get('scored', False) else ''
@@ -951,7 +1046,7 @@ a:hover{
                           aria-controls="${ section['id'] }_contents_mobile"
                           id="${ section['id'] }_mobile">
                           <div class="button_subsection">
-                            <span id="arrow_rotate_${ section['block_id'] }_mobile" class="fa fa-chevron-right ${ 'fa-rotate-90' if section_is_auto_opened else '' }" aria-hidden="true"></span>
+                            <span id="arrow_rotate_${ section['block_id'] }_mobile" class="fa fa-chevron-right chevron_right_index_${index} ${ 'fa-rotate-90' if section_is_auto_opened else '' }" aria-hidden="true"></span>
                             <h3 class="section-title">${ section['display_name']}</h3>
                           </div>
 
