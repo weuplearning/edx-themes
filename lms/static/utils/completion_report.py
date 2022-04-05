@@ -67,22 +67,26 @@ for course_id in course_ids:
     id_in_chapter = []
     # initialize chapter var
     first = True
+    unnecessary_chapter = False
     for section in course_structure:
         log.info(section)
         if str(section).find('chapter') != -1 :
             # remove last two sections :
             if str(section).find('259c99b5c0ba46318ca4a22f1d276380') != -1 or str(section).find('457a89c72983492cb08fc3beb1cc232f') != -1 :
+                unnecessary_chapter = True
                 continue
             # update object and then create the next chapter
             if first :
                 chapter = str(section)
                 first = False
             else:
+                unnecessary_chapter = False
                 block_id_dict[chapter] = id_in_chapter
                 chapter = str(section)
                 id_in_chapter = []
         elif str(section).find('html') != -1 or str(section).find('problem') != -1 :
-            id_in_chapter.append(str(section).split("@")[2])
+            if not unnecessary_chapter :
+                id_in_chapter.append(str(section).split("@")[2])
         else:
             continue
 
@@ -161,7 +165,7 @@ j=2
 for k, course_id in all_users_data.items():
 
     for key, user in course_id.items():
-        
+        log.info(user['general']['email'])
         sheet.cell(j, 1, user['general']['email'])
         sheet.cell(j, 2, user['general']['firstname'])
         sheet.cell(j, 3, user['general']['lastname'])
