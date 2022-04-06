@@ -28,6 +28,9 @@ is_course_staff = bool(user and course and has_access(user, 'staff', course, cou
 dates_banner_displayed = False
 %>
 
+
+
+
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 <style>
@@ -416,9 +419,30 @@ a:hover{
   margin-right:-10px;
 }
 
+.loader {
+    margin-left: 25px;
+    border: 5px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 5px solid #f90;
+    width: 25px;
+    height: 25px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
     </style>
 
-    
     
 <main role="main" class="desktop_device course-outline" id="main" tabindex="-1">
     <%include file="/dates_banner.html" />
@@ -451,9 +475,11 @@ a:hover{
                             %if section['display_name'] == user_grade.chapter_grades[chapter]['display_name']:
                                 <div class="progress_bar_and_score">
                                     <div class="progress-bar-full">
-                                        <div style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade"></div>
+                                        <div style="width:0;" class="progress-bar-grade"></div>
                                     </div>        
-                                    <h2 class="completed_percent"> ${int(user_grade.chapter_percentage(chapter) * 100)} %</h2>     
+                                    <!-- <h2 class="completed_percent"> 0 %</h2> -->
+                                    <div class="loader"></div>                                       
+    
                                 </div>  
                             %endif
                         %endfor
@@ -711,9 +737,10 @@ a:hover{
                           %if section['display_name'] == user_grade.chapter_grades[chapter]['display_name']:
                               <div class="progress_bar_and_score">
                                   <div class="progress-bar-full">
-                                      <div style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade"></div>
+                                      <div style="width:0;" class="progress-bar-grade"></div>
                                   </div>        
-                                  <h2 class="completed_percent"> ${int(user_grade.chapter_percentage(chapter) * 100)} %</h2>     
+                                  <!-- <h2 class="completed_percent"> 0 %</h2> -->
+                                  <div class="loader"></div>      
                               </div>  
                           %endif
                       %endfor
@@ -960,9 +987,10 @@ a:hover{
                           %if section['display_name'] == user_grade.chapter_grades[chapter]['display_name']:
                               <div class="progress_bar_and_score">
                                   <div class="progress-bar-full">
-                                      <div style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade"></div>
+                                      <div style="width:0;" class="progress-bar-grade"></div>
                                   </div>        
-                                  <h2 class="completed_percent"> ${int(user_grade.chapter_percentage(chapter) * 100)} %</h2>     
+                                  <!-- <h2 class="completed_percent"> 0 %</h2>      -->
+                                  <div class="loader"></div>      
                               </div>  
                           %endif
                       %endfor
@@ -1152,3 +1180,44 @@ a:hover{
   let introductionButtonProgressBar = introductionButton.children[2]
   introductionButtonProgressBar.style.visibility = "hidden"
 </script>
+
+<!-- Add completion instead of quiz result in progress bar -->
+<!-- TODO animate progress of completion bar -->
+<script>
+  window.addEventListener('load', function() {
+
+      for (course of completion_list) {
+        document.querySelectorAll("h3").forEach(function(element){
+
+          if(element.textContent === course.replace("&#39;", "'")){
+            // console.log(element)
+            let score = String(Math.floor(completion_object[course]) + "%")
+            let score_text = document.createElement("h2");
+            score_text.classList.add("completed_percent");
+            score_text.textContent = score 
+            if (element.nextElementSibling) {
+              element.nextElementSibling.children[0].children[0].style.width = score
+              // element.nextElementSibling.children[1].textContent = score 
+              element.nextElementSibling.children[1].replaceWith(score_text);
+            } else {
+              if (element.parentNode.nextElementSibling.children[0]) {
+                element.parentNode.nextElementSibling.children[0].children[0].style.width = score
+                // element.parentNode.nextElementSibling.children[1].textContent = score
+                element.parentNode.nextElementSibling.children[1].replaceWith(score_text);
+              } else {
+                element.parentNode.nextElementSibling.nextElementSibling.children[0].children[0].style.width = score
+                // element.parentNode.nextElementSibling.nextElementSibling.children[1].textContent = score
+                element.parentNode.nextElementSibling.nextElementSibling.children[1].replaceWith(score_text);
+              }
+
+            }
+            
+            }
+          });
+      }
+
+
+  });
+  </script>
+
+

@@ -5,6 +5,7 @@
 
 <%!
 import json
+import logging
 
 from django.conf import settings
 from django.utils.translation import ugettext as _
@@ -16,8 +17,10 @@ from openedx.core.djangolib.js_utils import dump_js_escaped_json, js_escaped_str
 from openedx.core.djangolib.markup import Text, HTML
 from openedx.features.course_experience import DISABLE_UNIFIED_COURSE_TAB_FLAG, SHOW_REVIEWS_TOOL_FLAG
 from openedx.features.course_experience.course_tools import HttpMethod
+from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 
 from lms.djangoapps.grades.course_grade import ZeroCourseGrade
+log = logging.getLogger()
 %>
 
 <%block name="header_extras">
@@ -438,6 +441,25 @@ share_title = "L%27acc%C3%A9l%C3%A9rateur%20du%20num%C3%A9rique"
 share_image = "https://amazon.the-mooc-agency.com/media/microsite/amazon/auto/images/logo.png"
 %>
 
+<%
+
+progress_percentage = 0
+total_blocks = 1
+completed_blocks = 0
+
+for section in course_block_tree.get('children', []):
+  for subsection in section.get('children', []):
+    for unitchild in subsection.get('children', []):
+      for blockchild in unitchild.get('children', []):
+        test_CA = unitchild.get('id')
+        total_blocks += 1
+        if blockchild.get('complete'):
+          completed_blocks += 1
+progress_percentage = completed_blocks / total_blocks
+
+
+%>
+
 
  <!-- The Modal -->
 <!-- get user's score -->
@@ -594,7 +616,11 @@ share_image = "https://amazon.the-mooc-agency.com/media/microsite/amazon/auto/im
         <aside class="page-content-secondary course-sidebar">
             <h4>Avez-vous bien retenu ?</h4>
             <div class="section" id="badges">
-                    
+                    <script>
+                    let completion_list = []
+                    let completion_object = {}
+                    let obj_key = ""
+                    </script>
                     <div class="grade-block">       
                         <div class="grade-section-title">
                             %if user_grade.passed:
@@ -610,23 +636,46 @@ share_image = "https://amazon.the-mooc-agency.com/media/microsite/amazon/auto/im
                             
                         </div>                    
                     </div>
-                    
-                    %for index, chapter in enumerate(user_grade.chapter_grades.keys()):
+
+
+                    % for section in course_block_tree.get('children'):
+
+                      <%
+                      total_blocks = 1
+                      completed_blocks = 1
+                      if not section.get('complete'):
+                        total_blocks = 1
+                        completed_blocks = 0
+                        for subsection in section.get('children', []):
+                          for unitchild in subsection.get('children', []):
+                            for blockchild in unitchild.get('children', []):
+                              total_blocks += 1
+                              if blockchild.get('complete'):
+                                completed_blocks += 1
+                      completion_ratio = completed_blocks / total_blocks
+                      %>
+                        <script>
+                        obj_key = "${section['display_name']}"
+                        completion_object[obj_key] = "${completion_ratio * 100}"
+                        completion_list.push("${section['display_name']}")
+                        </script>
                         <div class="grade-block">
                             <div class="grade-section-title">
-                                %if user_grade.chapter_percentage(chapter) >= 0.7:
+                                %if completion_ratio >= 1:
                                     <img src="${static.url('images/medal_on.svg')}" class="small-badge"/>
-                                %else: 
+                                %else:
                                     <img src="${static.url('images/medal_off.svg')}" class="small-badge"/>
                                 %endif
-                                <div class="chapter-title" >${user_grade.chapter_grades[chapter]['display_name']}</div>
-                                <div class="grade-value">${int(user_grade.chapter_percentage(chapter) * 100)}%</div>
+                                <div class="chapter-title" >${section['display_name']}</div>
+                                <div class="grade-value">${int(completion_ratio * 100)}%</div>
                             </div>
                             <div class="progress-bar-full">
-                                <div style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade"></div>
-                            </div>                    
+                                <div style="width:${completion_ratio * 100}%;" class="progress-bar-grade"></div>
+                            </div>
                         </div>
+
                     %endfor
+
             </div>
             <ul id="share-list">
                 <li>
@@ -725,4 +774,6 @@ share_image = "https://amazon.the-mooc-agency.com/media/microsite/amazon/auto/im
 </%static:require_module_async> 
 <script>
 $("div.grade-block").eq(1).hide();
+
+
 </script>
