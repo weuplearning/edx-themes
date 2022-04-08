@@ -1,6 +1,7 @@
 <%page expression_filter="h"/>
 <%inherit file="main.html" />
 <%namespace name='static' file='static_content.html'/>
+<%namespace file='main.html' import="login_query"/>
 <%!
 from django.utils.translation import ugettext as _
 from django.urls import reverse
@@ -8,50 +9,282 @@ from django.urls import reverse
 from openedx.core.djangolib.markup import HTML, Text
 %>
 
+<style>
+  .home, #home-video-area, #video-player-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .heading-group {
+    background-image: url("${static.url('icope/images/banner.png')}");
+    background-size: cover;
+    min-height: 350px; 
+  }
+
+  #orange_background {
+    background-color: #F2816F;
+    padding: 99px 111px 105px 111px;
+    height: 1760px;
+    width: 100vw;
+    position: relative;
+  }
+  #tournis-4 {
+    position: absolute;
+    top: 250px;
+    left: 0;
+    z-index: -1;
+  }
+  #tournis-5 {
+    position: absolute;
+    top: 500px;
+    left: -150px;
+    z-index: -1;
+  }
+  #tournis-6 {
+    position: absolute;
+    top: 500px;
+    right: 0;
+    z-index: -1;
+  }
+  #tournis-7 {
+    position: absolute;
+    bottom: 300px;
+    right: -100px;
+    z-index: -1;
+  }
+  .inside-background{
+    background-color: white;
+  }
+  .inside-background > div > img {
+    height: 506px;
+    width: 742px;
+    position: absolute;
+    top: 144px;
+    right: 33px;
+  }
+  .inside-background > img {
+    height: 720px;
+    width: 1281px;
+    
+  }
+  #home-header {
+    background-color: #9186AE;
+    background-size: cover;
+    height: 367px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  #tournis-1 {
+    position: absolute;
+    top: -42px;
+    left: -130px;
+  }
+  #tournis-2 {
+    position: absolute;
+    bottom: -49px;
+    left: 731px;
+  }
+  #tournis-3 {
+    position: absolute;
+    top: 60px;
+    right: -350px;
+  }
+  .log-button {
+    box-shadow: -10px 10px 7px slategrey;
+    width: 494px;
+    height: 130px;
+    font-size: 45px;
+    font-weight: bold;    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    margin: 20px;
+    z-index: 10;
+  }
+
+  a {
+    color: white;
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration:none; 
+    cursor:pointer;  
+  }
+  .register-btn-main {
+    background-color: #34A2DA;
+  }
+  .login-btn-main {
+
+    background-color: #1F6992;
+  }
+
+  #video-player-area {
+    margin: auto 160px auto 90px;
+    height: 596px;
+    background-color: grey;
+    width: 1085px;
+  }
+  #home-video-area  {
+    padding: 30px 0;
+  }
+  #home-video-area  p {
+    text-align: center;
+    font-size: 38px;
+    color: #35A2DA;
+    line-height: normal;
+    padding: 97px 214px
+  }
+  #trio-area {
+    font-size: 30px;
+    line-height: normal;
+    height: 746px;
+  }
+  #trio-area > p {
+    font-size: 35px;
+  }
+  .horizontal-align {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .vertical-align {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1;
+  }
+
+  .line-plan {
+    width: 50px;
+    border: 2px orange solid;
+
+  }
+  .rainbow-img {
+    height: 165px;
+    width: 325px;
+  }
+
+</style>
 
 <main id="main" aria-label="Content" tabindex="-1">
     <section class="home">
-      <!-- <header>
-        <div class="outer-wrapper">
-          <div class="title">
-            <div class="heading-group">
-              % if homepage_overlay_html:
-                ${homepage_overlay_html | n, decode.utf8}
-              % else:
-                <%include file="index_overlay.html" />
-              % endif
-            </div>
-            % if settings.FEATURES.get('ENABLE_COURSE_DISCOVERY'):
-              <div class="course-search">
-                <form method="get" action="/courses">
-                  <label><span class="sr">${_("Search for a course")}</span>
-                    <input class="search-input" name="search_query" type="text" placeholder="${_("Search for a course")}"></input>
-                  </label>
-                  <button class="search-button" type="submit">
-                    <span class="icon fa fa-search" aria-hidden="true"></span><span class="sr">${_("Search")}</span>
-                  </button>
-                </form>
-              </div>
-            % endif
+      <!-- <%include file="${courses_list}" /> -->
+      <header id="home-header">
+        <img src="${static.url('icope/images/Motif_violet_1.png')}" alt="" id="tournis-1">
+        <img src="${static.url('icope/images/Motif_violet_1.png')}" alt="" id="tournis-2">
+        <img src="${static.url('icope/images/Motif_violet_1.png')}" alt="" id="tournis-3">
 
-          </div>
-
-          <%include file="index_promo_video.html" />
+        <div class="log-button register-btn-main">
+          <a class="register-btn btn" href="/register${login_query()}">${_("Register")}</a>
+        </div>
+        
+        <div class="log-button login-btn-main">
+          <a class="sign-in-btn btn" href="/login${login_query()}">Se connecter</a>
+          <!-- <a class="sign-in-btn btn" href="/login${login_query()}">${_("Sign in")}</a> -->
         </div>
 
-      </header> -->
-      <%include file="${courses_list}" />
+      </header>
+      <div id="home-video-area">
+        <div id="video-player-area">
+          Video player
+        </div>
+        <div>
+          <p><strong>Découvrez comment permettre aux seniors de préserver leur santé et leur autonomie à travers le programme ICOPE </strong><br> (Soins intégrés pour les personnes âgées).</p>
+        </div>
+      </div>
 
+      <div id="trio-area" class="vertical-align">
+        <p><strong>L'aspect innovant </strong>de ce dispositif est <strong>triple</strong> :</p>
+        <div class="horizontal-align">
+          <div class="vertical-align">
+            <img src="${static.url('icope/images/Motif_gris_3.png')}" alt="" class="rainbow-img">
+            <p>Rendre les seniors acteurs de leur santé en les incitant à l'auto-surveillance de leurs fonctions.</p>
+          </div>
+          <div class="vertical-align">
+            <img src="${static.url('icope/images/arc_en_ciel_jaune.png')}" alt="" class="rainbow-img">
+            <p>Utiliser les nouvelles technologies pour l'évaluation et le suivi de leurs fonctions.</p>
+          </div>
+          <div class="vertical-align">
+            <img src="${static.url('icope/images/arc_en_ciel_rouge.png')}" alt="" class="rainbow-img">
+            <p>Changer les habitudes en porposant une prise de soin basé sur le statut fonctionnel et non sur la pathologie d'organe.</p>
+          </div>
+        </div>
+        <div class="vertical-align" style="margin-top: 50px;">
+          <p><strong>Cette formation de X heures</strong> de formation générale et X heures de modules complémentaires <strong>s'appuie sur les recommandations de l'OMS élaborées par des experts internationaux</strong> à partir de données robustes de la littérature scientifique.</p>
+        </div>
+      </div>
+
+      <div id="orange_background" class="vertical-align">
+        <!-- fond orange -->
+        <img src="${static.url('icope/images/Motif_violet_1.png')}" alt="" id="tournis-4">
+        <img src="${static.url('icope/images/Motif_violet_1.png')}" alt="" id="tournis-5">
+        <img src="${static.url('icope/images/Motif_violet_1.png')}" alt="" id="tournis-6">
+        <img src="${static.url('icope/images/Motif_violet_1.png')}" alt="" id="tournis-7">
+
+        <div class="inside-background">
+
+          <div>
+            <div>
+              
+              <p>Le programme ICOPE :</p>
+              <p><strong>Le programme ICOPE </strong>a pour cible <strong>les personnes autonome de 60 ans et plus,</strong> il est basé sur le dépistage, la surveillance et le suivi de six fonctions essentielles au maintien de l'autonomie : <strong>vue, audition, mémoire, mobilité, état psychologique et nutrition.</strong></p>
+            </div>
+            <img src="${static.url('icope/images/Bulle_illu.png')}" alt="bulle_icope">
+          </div>
+          <img src="${static.url('icope/images/Diapositive1.png')}" alt="programme_icope">
+          <div>
+            <p><strong>ICOPE</strong> repose sur <strong>les acteurs des soins de premiers recours.</strong> Le plan de soin s'appuie sur les dispositifs de proximité offert par la collectivité et fait intervenir les acteurs locaux du secteur sanitaire mais aussi social et médico-social.</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div>
+
+          <p>Plan de formation</p>
+          <div class="line-plan"></div>
+        </div>
+        <div>
+          <div>
+            <div class="left-plan"></div>
+            <div class="right-plan"></div>
+          </div>
+          <div>
+            <p>La formation est découpée en deux parties :</p>
+            <div class="line-plan"></div>
+          </div>
+        </div>
+        <div>
+          <div>Etape 1</div>
+          <div></div>
+          <ul>
+            <li>Introduction : le vieillissement en bonne santé, comment maintenir les fonctions.</li>
+            <li>Mise en situation : comment réaliser l'étape 1 et points de vigilance.</li>
+            <li>Présentation du programme ICOPE aux seniors.</li>
+            <li>Contenu des applications numériques pour le dépistage et le suivi.</li>
+            <li>Suivi des fonction et orientation vers l'étape 2.</li>
+          </ul>
+
+        </div>
+        <div>
+          <!-- 2 -->
+        </div>
+      </div>
+
+      <div>
+        <!-- modalité  -->
+        <div></div>
+        <!-- qui sommes nous -->
+        <div></div>
+      </div>
     </section>
 </main>
 
-% if show_homepage_promo_video:
-  <section id="video-modal" class="modal home-page-video-modal video-modal">
-    <div class="inner-wrapper">
-      <iframe title="YouTube Video" width="640" height="360" src="//www.youtube.com/embed/${homepage_promo_video_youtube_id}?showinfo=0" frameborder="0" allowfullscreen></iframe>
-    </div>
-  </section>
-% endif
 
 <%block name="js_extra">
    <script type="text/javascript">

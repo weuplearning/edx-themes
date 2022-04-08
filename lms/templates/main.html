@@ -83,14 +83,18 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
   <script type="text/javascript" src="${static.url(jsi18n_path)}"></script>
   <script type="text/javascript" src="${static.url(ie11_fix_path)}"></script>
 
-  <link rel="icon" type="image/x-icon" href="${static.url(static.get_value('favicon_path', settings.FAVICON_PATH))}" />
+  <link rel="icon" type="image/x-icon" href="${static.url('icope/images/favicon.png')}" />
 
   <style>
-  #content {
-    background-image: url("${static.url('icope/images/background.png')}");
-    background-size: cover;
-    min-height: Calc(100vh - 80px - 80px);
+    
+  @import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Quicksand:wght@300;400;500;600;700&display=swap');
+  
+  .content-wrapper {
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: none;
   }
+
   </style>
 
 
@@ -107,6 +111,8 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
   % else:
     <%static:css group='${self.attr.main_css}'/>
   % endif
+  
+
 
   % if disable_courseware_js:
     <%static:js group='base_vendor'/>
@@ -124,6 +130,10 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
   % endif
 
   <script>
+    let test = "${static.url(self.attr.main_css)}"
+    console.log('test')
+    console.log(test)
+
     window.baseUrl = "${settings.STATIC_URL | n, js_escaped_string}";
     (function (require) {
       require.config({

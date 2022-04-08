@@ -31,26 +31,18 @@
   #logo-footer {
     width: 75px;
   }
+
+  #footer-openedx{
+    display: flex;
+    width: 100vw;
+  }
+
+  .colophon {
+    align-items: center;
+  }
 </style>
 
-% if uses_bootstrap:
-  <div class="container-fluid wrapper-footer">
-    <footer>
-      <div class="row">
-        <div class="col-md-9">
-          <nav class="navbar site-nav navbar-expand-sm" aria-label="${_('CGU')}">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="/cgu">Conditions générales d'utilisation</a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-        <div class="col-md-3"></div>
-      </div>
-    </footer>
-  </div>
-% else:
+
   <div class="wrapper wrapper-footer">
     <footer id="footer-openedx" class="grid-container"
       ## When rendering the footer through the branding API,
@@ -67,6 +59,12 @@
               <a id="cgu" href="/cgu">Conditions générales d'utilisation</a>
             </li>
             <li>
+              <a href="/contact">Contact</a>
+            </li>
+            <li>
+              <a href="/program">Programme</a>
+            </li>
+            <li>
               <img src="${static.url('icope/images/large-LOGO A51.png')}" id="logo-footer" class="img-fluid img-logo" alt="A51 logo">
             </li>
           </ol>
@@ -74,13 +72,14 @@
       </div>
     </footer>
   </div>
-% endif
+
 % if include_dependencies:
   <%static:js group='base_vendor'/>
   <%static:css group='style-vendor'/>
   <%include file="widgets/segment-io.html" />
   <%include file="widgets/segment-io-footer.html" />
 % endif
+
 % if footer_css_urls:
   % for url in footer_css_urls:
     <link rel="stylesheet" type="text/css" href="${url}"></link>
