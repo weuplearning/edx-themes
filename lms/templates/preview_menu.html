@@ -70,6 +70,17 @@ show_preview_menu = course and can_masquerade and supports_preview_menu
             font-weight: bold;
             padding-left: 15px;
         }
+
+        @media screen and (max-width: 1550px) {
+            .top-search-bar {
+            visibility: visible !important;
+        }
+
+        .bottom-search-bar {
+    display: none !important;
+}
+        }
+
     </style>
     <nav class="wrapper-preview-menu" aria-label="${_('Course View')}">
         <div class="preview-menu" style="display: flex; align-items: center;">
