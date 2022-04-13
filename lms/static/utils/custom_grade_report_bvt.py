@@ -26,6 +26,7 @@ import time
 from openpyxl import Workbook
 from datetime import datetime, date, timedelta
 from django.utils import timezone
+from dateutil import tz
 
 
 from opaque_keys.edx.locator import CourseLocator
@@ -126,6 +127,7 @@ for course_id in course_ids:
 
     # FILTRER LES UTILISATEUR DU JOUR POUR RENDRE UN RAPPORT SANS ANCIENS UTILISATEURS : 
     now = timezone.now()
+
     try:
       user_last_login = user.last_login
     except:
@@ -134,10 +136,24 @@ for course_id in course_ids:
     if (now - timedelta(days=daysLimit) >= user_last_login ):
       continue
 
-
     log.info('Treating --------> ' + str(user.email))
     no_student = False
     user_data["session"] = session
+
+
+    from_zone = tz.gettz('UTC')
+    to_zone = tz.gettz('Europe/Paris')
+    utc = datetime.strptime(user.last_login.strftime('%d/%m/%Y %H:%M:%S'), '%d/%m/%Y %H:%M:%S')
+
+    # Tell the datetime object that it's in UTC time zone since 
+    # datetime objects are 'naive' by default
+    utc = utc.replace(tzinfo=from_zone)
+
+    # Convert time zone
+    local_time_last_login = utc.astimezone(to_zone)
+    local_time_last_login = str(local_time_last_login).split('+')[0]
+
+    user_data["last_login"] = local_time_last_login
 
     try:
       user_data["email"] = user.email
@@ -230,7 +246,7 @@ sheet = wb.active
 sheet.title= 'Rapport'
 filename = '/home/edxtma/csv/{}_BVT_grade_report.xlsx'.format(timestr)
 
-headers = ['Adresse e-mail', 'Prénom', 'Nom', 'Session', 'Score' ,'Validation']
+headers = ['Adresse e-mail', 'Prénom', 'Nom', 'Session', 'Dernière connexion', 'Score' ,'Validation']
 
 for i, header in enumerate(headers):
   sheet.cell(1, i+1, header)
@@ -241,9 +257,10 @@ for k, course_id in all_users_data.items():
     sheet.cell(j, 2, user['general']['firstname'])
     sheet.cell(j, 3, user['general']['lastname'])
     sheet.cell(j, 4, user['general']['session'])
+    sheet.cell(j, 5, user['general']['last_login'])
 
     correctedExamGrade = 0
-    i = 5 
+    i = 6
     for question in user['list_question']:
 
       correctedGrade = question['correctedGrade']
