@@ -27,14 +27,11 @@ import time
 <% user_name = str(user_metadata['username']) %>
 
 <!-- Cyril - Limit test time to 1hr15min -->
-<!-- Start -->
 <%
 custom_fields = {}
 custom_fields = json.loads(user.profile.custom_field)
 timestamp = int(round(time.time() * 1000))
-%>
 
-<% 
 if (str(course.id) in custom_fields.keys()) and (custom_fields[str(course.id)] != 'NaN'):
   closing_time = int(custom_fields[str(course.id)]) + 1000*60*60*1.25
 
@@ -49,6 +46,7 @@ else :
   var $$course_id = "${course.id | n, js_escaped_string}";
   var courseId = "${course.id}";
 </script>
+
 
 <style>
   .window-wrap {
@@ -77,6 +75,24 @@ else :
   }
   .bookmark-button {
     display: none;
+  }
+  #logout-button-end:hover {
+    background-color: #065683;
+    cursor: pointer;
+  }
+  #logout-button-end {
+    padding: 20px;
+    width: 344px;
+    text-align: center;
+    margin: 30px auto;
+    background-color: #31AA47 ;
+    border-radius: 7px;
+  }
+  #logout-button-end > a {
+    margin-bottom: 0;
+    text-align: center;
+    text-decoration: none;
+    color: white;
   }
 
 </style>
@@ -230,7 +246,7 @@ ${HTML(fragment.foot_html())}
             <div class="page-header-main">
                 <nav aria-label="${_('Course')}" class="sr-is-focusable" tabindex="-1">
                     <div class="has-breadcrumbs">
-                        <div class="breadcrumbs">
+                        <div class="breadcrumbs" style="display: none;">
                             % if not DISABLE_COURSE_OUTLINE_PAGE_FLAG.is_enabled(course.id):
                                 <span class="nav-item nav-item-course">
                                     <a href="${course_url}">${course_home_page_title(course)}</a>
@@ -366,9 +382,9 @@ ${HTML(fragment.foot_html())}
 
 </%static:require_module_async>
 
+
+<!-- Cyril - Limit test time to 75 min -->
 <script>
-
-
   let link_progression = '/courses/'+$$course_id+"/courseware/d4a9392d58cb49fba5afe41b33aa8f9e/310e3b2e46784b028a88a55034f35ce7/?child=first"
   document.getElementById('link_progression').setAttribute('href', link_progression)
 
@@ -394,16 +410,30 @@ ${HTML(fragment.foot_html())}
     seconds = ("0"+seconds).slice(-2);
 
     if (hour == 2) {
-      
       document.getElementById('timer_digits').textContent = String(Number(minutes)+60) + ':'+ seconds
     } else {
-      
       document.getElementById('timer_digits').textContent = minutes + ':'+ seconds
     }
     // Add timer here
 
   }, 500);
 </script>
-<!-- END -->
-<!-- Cyril - Limit test time to 1hr -->
+
+
+<!-- Cyril - Display disconnect button at the end-->
+<script>
+let finished_exam = setInterval(() => {
+  let div_completion = document.getElementById('quiz_passed')
+
+  if (div_completion.style.display == "block") {
+
+    var logout_button = document.createElement("div");
+    logout_button.innerHTML = "<div id='logout-button-end' ><a href='/logout'>Valider et terminer l'examen</a></div>"
+    div_completion.appendChild(logout_button);
+
+    clearInterval(finished_exam)
+  }
+}, 500);
+
+</script>
 
