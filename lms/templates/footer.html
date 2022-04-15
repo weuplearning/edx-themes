@@ -12,8 +12,9 @@
 
 <style>
   .wrapper-footer {
-    background-color: #35A2DA;
+    background-color: #FFFFFF;
     /* background-color: var(--primary); */
+    padding: 2rem 5rem;
   }
 
   body.view-in-course .wrapper-footer {
@@ -25,7 +26,12 @@
   }
 
   .wrapper-footer .site-nav .nav-link, .wrapper-footer footer#footer-openedx .colophon .nav-colophon li a {
-    color: white !important;
+    /* color: white !important; */
+    color: #475059 !important;
+  }
+
+  .wrapper-footer footer#footer-openedx .colophon .nav-colophon li{
+    float: unset;
   }
 
   #logo-footer {
@@ -38,7 +44,23 @@
   }
 
   .colophon {
+    /* align-items: center; */
+    width: 100% !important;
+  }
+  .footerList-italicText{
+    font-style: italic;
+    font-weight: 200;
+    font-size: 1.7rem !important;
+  }
+  .footerList-logoAndText{
+    display: flex;
     align-items: center;
+  }
+  .footerList-logoImg{
+    margin-left: 10px;
+  }
+  .footerLists{
+    margin: 0rem 2.7rem;
   }
 </style>
 
@@ -54,18 +76,19 @@
     >
       <div class="colophon">
         <nav class="nav-colophon" aria-label="${_('CGU')}">
-          <ol>
-            <li class="nav-colophon-01">
-              <a id="cgu" href="/cgu">Conditions générales d'utilisation</a>
+          <ol style="display: flex;">
+            <li class="nav-colophon-01 footerLists">
+              <a id="cgu" href="/cgu">Mentions légales</a>
             </li>
-            <li>
+            <li class="footerLists">
               <a href="/contact">Contact</a>
             </li>
-            <li>
-              <a href="/program">Programme</a>
+            <li class="footerLists">
+              <a href="/program">Programme ICOPE</a>
             </li>
-            <li>
-              <img src="${static.url('icope/images/large-LOGO A51.png')}" id="logo-footer" class="img-fluid img-logo" alt="A51 logo">
+            <li class="footerLists footerList-logoAndText ">
+              <p class="footerList-italicText">Projet autorisé dans le cadre de l’Article 51</p>
+              <img class="footerList-logoImg" src="${static.url('icope/images/large-LOGO A51.png')}" id="logo-footer" class="img-fluid img-logo" alt="A51 logo">
             </li>
           </ol>
         </nav>

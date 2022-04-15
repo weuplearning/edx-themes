@@ -44,10 +44,16 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
   </script>
 % endif
 <style>
-    .main-header {
-        display: flex;
-        justify-content: space-between;
-    }
+  .main-header {
+    display: flex;
+    justify-content: space-between;
+  }
+  .horizontal-align {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
 </style>
 <header class="global-header ${'slim' if course else ''}">
     % if use_cookie_banner:
