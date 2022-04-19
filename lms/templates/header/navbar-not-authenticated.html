@@ -83,43 +83,15 @@ from openedx.core.djangoapps.user_authn.utils import should_redirect_to_logistra
     cursor: pointer;
   }
 
+
 </style>
+
+%if request.path is not "/":
 <nav class="nav-links position-header" aria-label=${_("Supplemental Links")}>
 
- 
-  <!-- <div class="main">
-
-
-  % if mktg_site_enabled:
-    <div class="mobile-nav-item hidden-mobile nav-item">
-      <a href="${marketing_link('HOW_IT_WORKS')}">${_("How it Works")}</a>
-    </div>
-    % if courses_are_browsable:
-      <div class="mobile-nav-item hidden-mobile nav-item">
-        <a href="${marketing_link('COURSES')}">${_("Courses")}</a>
-      </div>
-    % endif
-    <div class="mobile-nav-item hidden-mobile nav-item">
-      <a href="${marketing_link('SCHOOLS')}">${_("Schools")}</a>
-    </div>
-  % endif
-  % if allows_login:
-    % if can_discover_courses and courses_are_browsable:
-      <div class="mobile-nav-item hidden-mobile nav-item">
-        <a href="/courses">${_('Explore courses')}</a>
-      </div>
-    %endif
-  % endif
-  </div> -->
   <div class="secondary">
     <div class="horizontal-align">
 
-      <!-- <div class="register-btn-header horizontal-align-header">
-        <a  href="/register${login_query()}">${_("Register")}</a>
-      </div> -->
-      <!-- <div class="log-button register-btn-main">
-        <div class="register-btn-header btn registerButtonExtra">${_("Register")}</div>
-      </div> -->
       <div class="register-btn-header horizontal-align-header">
         <div class="register-btn-header-inside">${_("Register")}</div>
       </div>
@@ -130,56 +102,7 @@ from openedx.core.djangoapps.user_authn.utils import should_redirect_to_logistra
 
     </div>
   </div>
-  <div class="title-icope">
-    Formation à <br> la démarche ICOPE <br> de l'Organisation Mondiale de la Santé 
-  </div>
 
 </nav>
+%endif
 
-<!-- 
-
-<script>
-  
-  // ---------------- map show / hide ----------------------
-
-const registerButtonHeader = document.querySelector(".register-btn")
-const mapHeader = document.querySelector(".mapSection")
-const closeButtonHeader = document.querySelector('.mapSection-closeButton')
-
-registerButtonHeader.addEventListener('click', ()=>{
-
-    mapHeader.classList.toggle('mapSection-show')
-})
-
-closeButtonHeader.addEventListener('click', ()=>{
-
-  mapHeader.classList.toggle('mapSection-show')
-
-})
-
-
-</script>
-
-
-<script>
-
-function restart_color_button(){
-      const all_region_buttonHeader = document.getElementsByClassName("mapSection-map-region-texts")
-      for (region of all_region_buttonHeader){
-        region.style.color = "#fff"
-      }
-    }
-
-function selectRegion(region) {
-  const buttonHeader = document.querySelector('.mapSection-buttonLink')
-  const buttonDivHeader = document.querySelector('.mapSection-button')
-  
-  const selectedTextHeader = document.getElementById(region)
-  restart_color_button()
-  selectedTextHeader.style.color = "#F2816F"
-
-  buttonDivHeader.style.background =  "#F2816F"
-  buttonHeader.href = "/register?course_id=course-v1%3Aicope%2B" + region + "%2B2022&enrollment_action=enroll"
-  }
-  </script>
-   -->

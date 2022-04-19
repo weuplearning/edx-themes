@@ -40,21 +40,17 @@ enterprise_customer_link = get_enterprise_learner_portal(request)
     object-position: right;
   }
 </style>
-
+%if request.path is not "/":
 <h1 class="header-logo">
-
-    <div class="area-over-logo">
-      <img src="${static.url('icope/images/Image_principal.png')}" alt="header_big.png">
-    </div>
 
     <a href="${branding_api.get_home_url()}">
       <%block name="navigation_logo">
-        <!-- <img  class="logo" src="${branding_api.get_logo_url(is_secure)}" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}"/> -->
         <img src="${static.url('icope/images/logo.jpg')}" id="header-logo-1" class="img-fluid img-logo" alt="CHU logo">
         <img src="${static.url('icope/images/logo_icope.png')}" id="header-logo-2" class="img-fluid img-logo" alt="icope logo">
       </%block>
     </a>
 </h1>
+%endif
 % if enable_enterprise_sidebar:
   <div class="enterprise-tagline">
     <% tagline = configuration_helpers.get_value('ENTERPRISE_TAGLINE', settings.ENTERPRISE_TAGLINE) %>

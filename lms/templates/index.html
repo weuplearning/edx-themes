@@ -52,6 +52,7 @@ from openedx.core.djangolib.markup import HTML, Text
     justify-content: space-between;
     align-items: center;
     flex: 1;
+    margin-top: -20px;
   }
 
   /* VIOLET-LOGIN AREA */
@@ -607,7 +608,86 @@ from openedx.core.djangolib.markup import HTML, Text
   .mapSection-map-domTom-description{
     font-size: 20px;
   }
+  #Corse{
+    color: #000;
+  }
+
+  .header-logo {
+    text-align: start;
+    margin-left: 2em;
+  }
+  .global-header {
+
+    padding-bottom: 0;
+   border-bottom: none;
+}
+.horizontal-align {
+
+    margin-right: 2em;
+}
+.register-btn-main, .register-btn-header {
+  cursor: pointer;
+}
+.login-btn-main, .sign-in-btn-header {
+  cursor: pointer;
+} 
+.area-over-logo {
+    margin-top: 0;
+
+}
+#home-video-area p {
+  text-align: center;
+    font-size: 38px;
+    color: #35A2DA;
+    line-height: normal;
+    padding: 97px 214px;
+}
+
+#img-play-button {
+  width: 100px;
+  position: relative;
+  top: 310px;
+}
+
+
+.mapSection-map-world {
+    position: relative;
+    top: 50px;
+    left: 175px;
+}
 </style>
+
+
+  <nav class="nav-links position-header" aria-label=${_("Supplemental Links")}>
+    <div class="secondary">
+      <div class="horizontal-align">
+        <div class="register-btn-header horizontal-align-header">
+          <div class="register-btn-header-inside">${_("Register")}</div>
+        </div>
+        <a  href="/login${login_query()}">
+          <div class="sign-in-btn-header horizontal-align-header">
+            <a  href="/login${login_query()}">Se connecter</a>
+          </div>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="area-over-logo">
+    <img src="${static.url('icope/images/Image_principal.png')}" alt="header_big.png">
+  </div>
+  <div class="title-icope">
+    Formation à <br> la démarche ICOPE <br> de l'Organisation Mondiale de la Santé 
+  </div>
+  
+  <h1 class="header-logo">
+    <a href="/">
+        <img src="${static.url('icope/images/logo.jpg')}" id="header-logo-1" class="img-fluid img-logo" alt="CHU logo">
+        <img src="${static.url('icope/images/logo_icope.png')}" id="header-logo-2" class="img-fluid img-logo" alt="icope logo">
+    </a>
+  </h1>
+
+
 
 <main id="main" aria-label="Content" tabindex="-1">
 
@@ -623,6 +703,13 @@ from openedx.core.djangolib.markup import HTML, Text
             <img src="${static.url('icope/images/asset-croix.svg')}" alt="">
           </div>
           <div class="mapSection-map">
+            <div class="mapSection-map-world">
+              <div class="mapSection-map-domTom-items mapSection-regions"  onclick="selectRegion('world')">
+                <img class="outremer_img" src="${static.url('icope/images/map/globe.png')}" alt="">
+                <img class="outremer_img" src="${static.url('icope/images/globe.png')}" alt="">
+                <p id="world" class="mapSection-map-domTom-description">Pays francophones</p>
+              </div>
+            </div>
               <div class="mapSection-map-france">
                 <img class="mapSection-mapGlobale" src="${static.url('icope/images/map/carte-fr-modif.svg')}" alt="">
                 <div class="mapSection-map-regions mapSection-map-region1"  onclick="selectRegion('Pays_de_la_Loire')">
@@ -693,17 +780,19 @@ from openedx.core.djangolib.markup import HTML, Text
           <div class="register-btn btn registerButtonExtra">${_("Register")}</div>
           <!-- <a class="register-btn btn" href="">${_("Register")}</a> -->
         </div>
-        
+      <a href="/login${login_query()}">     
         <div class="log-button login-btn-main">
           <a class="sign-in-btn btn" href="/login${login_query()}">Se connecter</a>
           <!-- <a class="sign-in-btn btn" href="/login${login_query()}">${_("Sign in")}</a> -->
         </div>
+      </a> 
 
       </header>
 
       <div id="home-video-area">
+        <!-- <img id="img-play-button" src="${static.url('icope/images/play-button.png')}"> -->
         <div id="video-player-area">
-          <iframe src="https://player.vimeo.com/progressive_redirect/playback/698527297/rendition/1080p?loc=external&signature=ba25b29ce6167e190044a089b4a48f6003583d26f58e04681ed8bf075a8f45f4" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="width:100%;height:100%;" title="trailer"></iframe>
+          <iframe src="https://player.vimeo.com/video/698527297" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="width:100%;height:100%;" title="trailer"></iframe>
         </div>
         <div>
           <p><strong>Découvrez comment permettre aux seniors de préserver leur santé et leur autonomie à travers le programme ICOPE </strong><br> (Soins intégrés pour les personnes âgées).</p>
@@ -893,8 +982,8 @@ from openedx.core.djangolib.markup import HTML, Text
   
   // ---------------- map show / hide ----------------------
 
-const registerButton = document.querySelector(".register-btn")
-const registerButtonHeader = document.querySelector(".register-btn-header-inside")
+const registerButton = document.querySelector(".register-btn-main")
+const registerButtonHeader = document.querySelector(".register-btn-header")
 const map = document.querySelector(".mapSection")
 const home = document.querySelector('.home')
 const header = document.querySelector('.global-header')
@@ -931,6 +1020,15 @@ closeButton.addEventListener('click', ()=>{
 
   map.classList.toggle('mapSection-show')
   console.log('map-hidden')
+})
+
+const loginButton1 = document.querySelector(".login-btn-main")
+const loginButton2 = document.querySelector(".sign-in-btn-header")
+loginButton1.addEventListener('click', ()=>{
+  window.location = "/login"
+})
+loginButton2.addEventListener('click', ()=>{
+  window.location = "/login"
 })
 
   // ------------------- map functions ----------------------
@@ -977,7 +1075,7 @@ function restart_color_button(){
 
 function selectRegion(region) {
 
-  const redirect_to_occitanie = ['Autre', 'Guadeloupe', 'Martinique', 'Guyane', 'Mayotte', 'Reunion']
+  const redirect_to_occitanie = ['Autre', 'Guadeloupe', 'Martinique', 'Guyane', 'Mayotte', 'Reunion', 'world']
 
   const button = document.querySelector('.mapSection-buttonLink')
   const buttonDiv = document.querySelector('.mapSection-button')
