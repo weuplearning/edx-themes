@@ -64,4 +64,37 @@
 setInterval(function () {
     $('.plaintext-field').html('En créant votre compte vous acceptez les <a href="/honor" rel="noopener" target="_blank">conditions d\'utilisations</a> de la plateforme.')
 }, 100);
+
+</script>
+
+<script>
+
+window.addEventListener('load', function() {
+    let usernameField = document.getElementsByClassName("text-username")[0]
+    let companyField = document.getElementsByClassName("text-company")[0]
+
+    function insertAfter(newNode, existingNode) {
+        existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
+    }
+
+    function testUntilItWorks () {
+        setTimeout(function () {
+            usernameField = document.getElementsByClassName("text-username")[0]
+            companyField = document.getElementsByClassName("text-company")[0]
+            if (usernameField && companyField) {
+                insertAfter(companyField,  usernameField);
+            } else {
+                testUntilItWorks()
+            }
+        }, 100);
+    }
+
+    if (usernameField && companyField) {
+        insertAfter(companyField,  usernameField);
+    } else {
+        testUntilItWorks()
+    }
+    
+})
+
 </script>
