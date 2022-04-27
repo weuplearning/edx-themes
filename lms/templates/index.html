@@ -329,11 +329,19 @@ from openedx.core.djangolib.markup import HTML, Text
   }
   .step-number-img {
     position: absolute;
-    top: 3px;
-    left : 65px;
-  }
+    top: 0px;
+    left: 67px;
+    width: 230px;
+}
+.step-number-img2 {
+    position: absolute;
+    top: 0px;
+    left: 38px;
+    width: 230px;
+}
   #step-one-list {
-    list-style: url("${static.url('icope/images/Puce_rouge.png')}");
+    /* list-style: url("${static.url('icope/images/Puce_rouge.png')}"); */
+    list-style: url("${static.url('icope/images/puce_R.png')}");
     line-height: 2;
     margin: 100px 0 0 75px;
   }
@@ -889,7 +897,7 @@ from openedx.core.djangolib.markup import HTML, Text
         <div id="step-two-text">
           <div class="step-div">
             <p>Etape</p>
-            <img src="${static.url('icope/images/point_2_vert.png')}" alt="1" class="step-number-img">
+            <img src="${static.url('icope/images/point_2_vert.png')}" alt="1" class="step-number-img2">
           </div>
           <p><strong>Gestion des alertes et évaluation approfondie </strong>destiné aux professionnels de santé.</p>
 
