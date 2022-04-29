@@ -340,7 +340,8 @@ from openedx.core.djangolib.markup import HTML, Text
     width: 230px;
 }
   #step-one-list {
-    list-style: url("${static.url('icope/images/Puce_rouge.png')}");
+    list-style: none;
+    /* list-style: url("${static.url('icope/images/Puce_rouge.png')}"); */
     /* list-style: url("${static.url('icope/images/puce_R.png')}"); */
     line-height: 2;
     margin: 100px 0 0 75px;
@@ -537,7 +538,7 @@ from openedx.core.djangolib.markup import HTML, Text
     left: 26.08rem;
 }
 .mapSection-map-region5 {
-    top: -23.9rem;
+    top: -19.9rem;
     left: 30.4rem;
 }
 
@@ -564,14 +565,7 @@ from openedx.core.djangolib.markup import HTML, Text
   .mapSection-map-regionImgs{
     z-index: 1;
   }
-  /* .mapSection-map-region1{
-    background: url("/static/icope/images/map/Trace_118.218e2933b509.svg");
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-    width: 18rem;
-    height: 16rem;
-  } */
+
   .mapSection-map-domTom{
     display: flex;
     text-align: center;
@@ -660,8 +654,25 @@ from openedx.core.djangolib.markup import HTML, Text
 
 .mapSection-map-world {
     position: relative;
-    top: 50px;
-    left: 175px;
+    top: 575px;
+    left: -334px;
+}
+
+.list_and_logo{
+  display: flex;
+    align-items: center;
+    margin-bottom: 14px;
+}
+.picto_img{
+  width: 60px;
+    height: 33px;
+    margin-right: 10px;
+}
+.text_logo{
+  font-size: 30px;
+}
+.blue_bold{
+  font-weight: bold;
 }
 </style>
 
@@ -714,7 +725,7 @@ from openedx.core.djangolib.markup import HTML, Text
             <div class="mapSection-map-world">
               <div class="mapSection-map-domTom-items mapSection-regions"  onclick="selectRegion('world')">
                 <img class="outremer_img" src="${static.url('icope/images/globe.png')}" alt="">
-                <p id="world" class="mapSection-map-domTom-description">Pays francophones</p>
+                <p id="world" style="color: #000;" class="mapSection-map-domTom-description">Pays francophones</p>
               </div>
             </div>
               <div class="mapSection-map-france">
@@ -811,15 +822,15 @@ from openedx.core.djangolib.markup import HTML, Text
         <div class="horizontal-align">
           <div class="vertical-align">
             <img src="${static.url('icope/images/Motif_gris_3.png')}" alt="" class="rainbow-img">
-            <p>Rendre les seniors acteurs de leur santé en les incitant à l'auto-surveillance de leurs fonctions.</p>
+            <p class="blue_bold">Rendre les seniors acteurs de leur santé en les incitant à l'auto-surveillance de leurs fonctions.</p>
           </div>
           <div class="vertical-align">
             <img src="${static.url('icope/images/arc_en_ciel_jaune.png')}" alt="" class="rainbow-img">
-            <p>Utiliser les nouvelles technologies pour l'évaluation et le suivi de leurs fonctions.</p>
+            <p class="blue_bold">Utiliser les nouvelles technologies pour l'évaluation et le suivi de leurs fonctions.</p>
           </div>
           <div class="vertical-align">
             <img src="${static.url('icope/images/arc_en_ciel_rouge.png')}" alt="" class="rainbow-img">
-            <p>Changer les habitudes en proposant une prise de soin basée sur le statut fonctionnel et non sur la pathologie d'organe.</p>
+            <p class="blue_bold">Changer les habitudes en proposant une prise de soin basée sur le statut fonctionnel et non sur la pathologie d'organe.</p>
           </div>
         </div>
         <div class="vertical-align" style="margin-top: 50px;">
@@ -882,13 +893,14 @@ from openedx.core.djangolib.markup import HTML, Text
             <img src="${static.url('icope/images/Point_1.png')}" alt="1" class="step-number-img">
           </div>
           <p>Destiné à des publics divers dont les professionnels de santé.</p>
+
           <ul id="step-one-list">
-            <li>Introduction : le vieillissement en bonne santé, comment maintenir les fonctions.</li>
-            <li>Programme ICOPE de l'OMS : objectifs et déroulement de l'étape 1 (dépistage)</li>
-            <li>Mise en situation : comment réaliser l'étape 1 et points de vigilance.</li>
-            <li>Présentation du programme ICOPE aux seniors.</li>
-            <li>Contenu des applications numériques pour le dépistage et le suivi.</li>
-            <li>Suivi des fonction et orientation vers l'étape 2.</li>
+            <li class="list_and_logo"><img src="${static.url('icope/images/puce_R.png')}" alt="redpicto" class="picto_img red_img_picto"><p class="text_logo">Introduction : le vieillissement en bonne santé, comment maintenir les fonctions.</p></li>
+            <li class="list_and_logo"><img src="${static.url('icope/images/puce_R.png')}" alt="redpicto" class="picto_img red_img_picto"><p class="text_logo">Programme ICOPE de l'OMS : objectifs et déroulement de l'étape 1 (dépistage)</p></li>
+            <li class="list_and_logo"><img src="${static.url('icope/images/puce_R.png')}" alt="redpicto" class="picto_img red_img_picto"><p class="text_logo">Mise en situation : comment réaliser l'étape 1 et points de vigilance.</p></li>
+            <li class="list_and_logo"><img src="${static.url('icope/images/puce_R.png')}" alt="redpicto" class="picto_img red_img_picto"><p class="text_logo">Présentation du programme ICOPE aux seniors.</p></li>
+            <li class="list_and_logo"><img src="${static.url('icope/images/puce_R.png')}" alt="redpicto" class="picto_img red_img_picto"><p class="text_logo">Contenu des applications numériques pour le dépistage et le suivi.</p></li>
+            <li class="list_and_logo"><img src="${static.url('icope/images/puce_R.png')}" alt="redpicto" class="picto_img red_img_picto"><p class="text_logo">Suivi des fonction et orientation vers l'étape 2.</p></li>
           </ul>
           <img class="stepOneText-img" src="${static.url('icope/images/Motif_gris__2.png')}" alt="">
         </div>
@@ -904,28 +916,30 @@ from openedx.core.djangolib.markup import HTML, Text
           <div class="horizontal-align stepTwoText-columns">
             <div class="step-two-a">
               <p><strong>Phase <span style="color:#34A2DA">A</span> :</strong> gestion des alertes</p>
+
               <ul id="step-two-list">
-                <li>Principe de la gestion des aletrtes : arbre décisionnel et vignette clinique</li>
-                <li>Cas cliniques sur le dépistage et la gestion des alertes</li>
+                <li class="list_and_logo"><img src="${static.url('icope/images/puce_B.png')}" alt="bluepicto" class="picto_img blue_img_picto"><p class="text_logo">Principe de la gestion des aletrtes : arbre décisionnel et vignette clinique</p></li>
+                <li class="list_and_logo"><img src="${static.url('icope/images/puce_B.png')}" alt="bluepicto" class="picto_img blue_img_picto"><p class="text_logo">Cas cliniques sur le dépistage et la gestion des alertes</p></li>
               </ul>
             </div>
             <div class="step-two-b">
               <p><strong>Phase <span style="color:#FFCB60">B</span> :</strong> évaluation approfondie</p>
               <ul id="step-three-list">
-                <li>Soins intégrés en gériatrie</li>
-                <li>Évaluation de la mobilité</li>
-                <li>Évaluation de la nutrition</li>
-                <li>Évaluation de la cognition</li>
-                <li>Évaluation de l'état psychologique</li>
-                <li>Évaluation de la vision</li>
-                <li>Évaluation d'audition</li>
-                <li>Évaluation sociale</li>
-                <li>Aide aux aidants</li>
-                <li>Initiation à l'entretien motivationnel</li>
-                <li>Simulation de passation des échelles : SPPB, MNA et MMS</li>
-                <li>Cas cliniques sur l'ensemble de la formation et corrections commentées</li>
-                <li>Quiz sur l'ensemble de la formation</li>
+                <li class="list_and_logo"><img src="${static.url('icope/images/puce_J.png')}" alt="yellowpicto" class="picto_img yellow_img_picto"><p class="text_logo">Soins intégrés en gériatrie</p></li>
+                <li class="list_and_logo"><img src="${static.url('icope/images/puce_J.png')}" alt="yellowpicto" class="picto_img yellow_img_picto"><p class="text_logo">Évaluation de la mobilité</p></li>
+                <li class="list_and_logo"><img src="${static.url('icope/images/puce_J.png')}" alt="yellowpicto" class="picto_img yellow_img_picto"><p class="text_logo">Évaluation de la nutrition</p></li>
+                <li class="list_and_logo"><img src="${static.url('icope/images/puce_J.png')}" alt="yellowpicto" class="picto_img yellow_img_picto"><p class="text_logo">Évaluation de la cognition</p></li>
+                <li class="list_and_logo"><img src="${static.url('icope/images/puce_J.png')}" alt="yellowpicto" class="picto_img yellow_img_picto"><p class="text_logo">Évaluation de l'état psychologique</p></li>
+                <li class="list_and_logo"><img src="${static.url('icope/images/puce_J.png')}" alt="yellowpicto" class="picto_img yellow_img_picto"><p class="text_logo">Évaluation de la vision</p></li>
+                <li class="list_and_logo"><img src="${static.url('icope/images/puce_J.png')}" alt="yellowpicto" class="picto_img yellow_img_picto"><p class="text_logo">Évaluation d'audition</p></li>
+                <li class="list_and_logo"><img src="${static.url('icope/images/puce_J.png')}" alt="yellowpicto" class="picto_img yellow_img_picto"><p class="text_logo">Évaluation sociale</p></li>
+                <li class="list_and_logo"><img src="${static.url('icope/images/puce_J.png')}" alt="yellowpicto" class="picto_img yellow_img_picto"><p class="text_logo">Aide aux aidants</p></li>
+                <li class="list_and_logo"><img src="${static.url('icope/images/puce_J.png')}" alt="yellowpicto" class="picto_img yellow_img_picto"><p class="text_logo">Initiation à l'entretien motivationnel</p></li>
+                <li class="list_and_logo"><img src="${static.url('icope/images/puce_J.png')}" alt="yellowpicto" class="picto_img yellow_img_picto"><p class="text_logo">Simulation de passation des échelles : SPPB, MNA et MMS</p></li>
+                <li class="list_and_logo"><img src="${static.url('icope/images/puce_J.png')}" alt="yellowpicto" class="picto_img yellow_img_picto"><p class="text_logo">Cas cliniques sur l'ensemble de la formation et corrections commentées</p></li>
+                <li class="list_and_logo"><img src="${static.url('icope/images/puce_J.png')}" alt="yellowpicto" class="picto_img yellow_img_picto"><p class="text_logo">Quiz sur l'ensemble de la formation</p></li>
               </ul>
+
             </div>
           </div>
 
@@ -982,7 +996,8 @@ from openedx.core.djangolib.markup import HTML, Text
 </script>
 % endif
 
-
+<!-- 
+<script src="media/test.js"></script> -->
 <!------------ script map ----------->
 
 <script>
