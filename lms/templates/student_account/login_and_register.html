@@ -60,3 +60,15 @@
         </div>
     </main>
 </div>
+
+<script>
+    var updateHref = setInterval(() => {
+
+        let target = $("a[href='/tos']")
+        if (target) {
+            clearInterval(updateHref)
+            $("a[href='/tos']").attr("href", "https://www.hlm.coop/contenu/mentions-legales")
+        }
+        
+    }, 700);
+</script>
