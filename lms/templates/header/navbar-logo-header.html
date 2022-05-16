@@ -19,9 +19,12 @@ enterprise_customer_link = get_enterprise_learner_portal(request)
 %>
 
 <style>
-  #header-logo-1, #header-logo-2 {
-    width: 192px;
-    margin-right: 20px;
+  #header-logo-1 {
+    width: 180px;
+    margin-right: 5px;
+  }
+  #header-logo-2 {
+    width: 122px;
   }
   .area-over-logo {
     margin-top: 34px;
@@ -39,14 +42,239 @@ enterprise_customer_link = get_enterprise_learner_portal(request)
     object-fit: cover;
     object-position: right;
   }
+  /* --------------- section map ------------------ */
+  
+.mapSection{
+  z-index: 3;
+  display: none;
+  opacity: 0;
+  animation: ease-in-out;
+  position: absolute;
+  top: 0rem;
+}
+.mapSection-show{
+  transition: 0.3s;
+  display: block;
+  opacity: 1;
+  animation: ease-in-out;
+  width: 100%;
+}
+.mapSectionLayer1{
+  background: #35A2DA;
+  padding: 2rem;
+  border-radius: 0.3rem;
+  width: 800px;
+  margin: auto;
+  text-align: center;
+  margin-top: 3rem;
+}
+.mapSectionLayer2{
+  background: #FFFFFF;
+  padding: 3rem;
+  border-radius: 0.3rem;
+}
+.tempSpace{
+  height: 5rem;
+}
+.mapSection-title-block{
+  float: left;
+}
+.mapSection-title{
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+.mapSection-underlineTitle{
+  height: 0.4rem;
+  background: #F2816F;
+  width: 7rem;
+  margin-bottom: 3rem;
+  margin-top: 0.5rem;
+}
+.mapSection-closeButton{
+  float: right;
+  cursor: pointer;
+}
+.mapSection-closeButton:hover{
+  transform: rotate(45deg);
+}
+.mapSection-closeButton:active{
+  transform: rotate(45deg);
+}
+.mapSection-closeButton > img {
+  width: 2rem;
+}
+.mapSection-mapGlobale{
+  /* margin: 4rem 0rem; */
+  width: 560px;
+  margin-top: -30px;
+}
+
+.mapSection-map-regions{
+  position: relative;
+  /* display: none; */
+}
+.mapSection-map-region1 {
+  top: -34.7rem;
+  left: 7.5rem;
+}
+.mapSection-map-region2 {
+  top: -28.75rem;
+  left: 19.4rem;
+}
+.mapSection-map-region3 {
+    top: -22.25rem;
+    left: 13.16rem;
+}
+.mapSection-map-region4 {
+  top: -26.45rem;
+  left: 27.08rem;
+  line-height: 1.3;
+}
+.mapSection-map-region5 {
+    top: -19.9rem;
+    left: 30.4rem;
+}
+
+
+.mapSection-map-region6 {
+    top: -47.9rem;
+    left: 17.4rem;
+}
+.mapSection-map-region-texts{
+  position: relative;
+  top: 12rem;
+  color: white;
+  width: 16rem;
+  text-align: center;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+.mapSection-map-region-texts:hover{
+  filter: brightness(0.7);
+}
+.mapSection-map-region-texts:active{
+  filter: brightness(0.5);
+}
+.mapSection-map-regionImgs{
+  z-index: 1;
+}
+
+.mapSection-map-domTom{
+  display: flex;
+  text-align: center;
+  margin-top: -80px;
+  justify-content: center;
+}
+.mapSection-map-domTom-items{
+  margin: 0rem 1.5rem;
+  align-self: flex-end;
+  cursor: pointer;
+}
+.mapSection-map-domTom-items:hover{
+  filter: opacity(0.8);
+}
+.mapSection-map-domTom-items:active{
+  filter: opacity(0.6);
+}
+.mapSection-button{
+  padding: 1rem;
+  /* background: #F2816F; */
+  background: #e2e2e2;
+  text-align: center;
+  border-radius: 0.3rem;
+  box-shadow: -0.3rem 0.3rem 0rem #0077b563;
+  font-size: 1.5rem;
+  margin: 1rem 10rem 1rem 10rem;
+  cursor: pointer;
+}
+.mapSection-button:hover{
+  filter: brightness(0.9);
+}
+.mapSection-button:active{
+  transition: 0.1s;
+  filter: brightness(0.9);
+  transform: translateX(-0.3rem) translateY(0.3rem);
+  box-shadow: 0rem 0rem 0rem #e2e2e2;
+}
+
+.outremer_img{
+  width: 60px;
+}
+.mapSection-map-domTom-description{
+  font-size: 20px;
+}
+#Corse{
+  color: #000;
+}
+
+.header-logo {
+  text-align: start;
+  margin-left: 2em;
+}
+.global-header {
+
+  padding-bottom: 0;
+   border-bottom: none;
+}
+.horizontal-align {
+
+    margin-right: 2em;
+}
+.register-btn-main, .register-btn-header {
+  cursor: pointer;
+}
+.login-btn-main, .sign-in-btn-header {
+  cursor: pointer;
+} 
+.area-over-logo {
+  margin-top: 0;
+
+}
+#home-video-area p {
+  text-align: center;
+  font-size: 38px;
+  color: #35A2DA;
+  line-height: normal;
+  padding: 97px 214px;
+}
+
+#img-play-button {
+  width: 100px;
+  position: relative;
+  top: 310px;
+}
+
+
+.mapSection-map-world {
+  position: relative;
+  top: 575px;
+  left: -334px;
+}
+
+.list_and_logo{
+  display: flex;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.picto_img{
+  width: 60px;
+  height: 33px;
+  margin-right: 10px;
+}
+.text_logo{
+  font-size: 30px;
+}
+.blue_bold{
+  font-weight: bold;
+}
+
 </style>
 %if request.path is not "/":
 <h1 class="header-logo">
 
     <a href="${branding_api.get_home_url()}">
       <%block name="navigation_logo">
-      <img src="/static/icope/images/logo_toulouse_2.webp" id="header-logo-1" class="img-fluid img-logo" alt="CHU logo" style="margin-top: 26px;">
-        <img src="${static.url('icope/images/logo_icope.png')}" id="header-logo-2" class="img-fluid img-logo" alt="icope logo">
+        <img src="${static.url('icope/images/logo_icope.png')}" id="header-logo-1" class="img-fluid img-logo" alt="CHU logo" >
       </%block>
     </a>
 </h1>

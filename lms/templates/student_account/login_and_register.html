@@ -28,17 +28,15 @@
   }
   .login-register .form-field select {
     background: #fff;
-}
+  }
 
-
-#main {
+  #main {
     height: 66vh;
-}
+  }
 
   #content-container {
     background: url("${static.url('icope/images/bg_img.png')}");
   }
-
 
 </style>
 
@@ -94,4 +92,189 @@
     </main>
 </div>
 
+<!------------ layer map - begin ------------>
+<div class="mapSection" id="map">
+    <div class="mapSectionLayer1">
+    <div class="mapSectionLayer2">
+        <div class="mapSection-title-block">
+        <p class="mapSection-title">Je m'inscris :</p>
+        <div class="mapSection-underlineTitle"></div>
+        </div>
+        <div class="mapSection-closeButton">
+        <img src="${static.url('icope/images/asset-croix.svg')}" alt="">
+        </div>
+        <div class="mapSection-map">
+        <div class="mapSection-map-world">
+            <div class="mapSection-map-domTom-items mapSection-regions"  onclick="selectRegion('world')">
+            <img class="outremer_img" src="${static.url('icope/images/globe.png')}" alt="">
+            <p id="world" style="color: #000;" class="mapSection-map-domTom-description">Pays francophones</p>
+            </div>
+        </div>
+            <div class="mapSection-map-france">
+            <img class="mapSection-mapGlobale" src="${static.url('icope/images/map/carte-fr-modif.svg')}" alt="">
+            <div class="mapSection-map-regions mapSection-map-region1"  onclick="selectRegion('Pays_de_la_Loire')">
+                <p id="Pays_de_la_Loire" class="mapSection-map-region-texts ">Pays de la loire</p>
+                <!-- <img class="mapSection-map-regionImgs" src="${static.url('icope/images/map/Trace_118.svg')}" alt=""> -->
+            </div>
+            <div class="mapSection-map-regions mapSection-map-region2" onclick="selectRegion('Auvergne_Rhone_Alpes')">
+                <p id="Auvergne_Rhone_Alpes" class="mapSection-map-region-texts">Auvergne-Rhône-Alpes</p>
+                <!-- <img class="mapSection-map-regionImgs" src="${static.url('icope/images/map/Trace_119.svg')}" alt=""> -->
+            </div>
+            <div class="mapSection-map-regions mapSection-map-region3" onclick="selectRegion('Occitanie')">
+                <p id="Occitanie" class="mapSection-map-region-texts">Occitanie</p>
+                <!-- <img class="mapSection-map-regionImgs" src="${static.url('icope/images/map/Trace_120.svg')}" alt=""> -->
+            </div>
+            <div class="mapSection-map-regions mapSection-map-region4" onclick="selectRegion('PACA')">
+                <p id="PACA" class="mapSection-map-region-texts" style="width: 150px;">Provence-Alpes-Côte d'Azur</p>
+                <!-- <img class="mapSection-map-regionImgs" src="${static.url('icope/images/map/Trace_121.svg')}" alt=""> -->
+            </div>
+            <div class="mapSection-map-regions mapSection-map-region5" onclick="selectRegion('Corse')">
+                <p id="Corse" class="mapSection-map-region-texts">Corse</p>
+                <!-- <img class="mapSection-map-regionImgs" src="${static.url('icope/images/map/Trace_122.svg')}" alt=""> -->
+            </div>
+            <div class="mapSection-map-regions mapSection-map-region6" onclick="selectRegion('Autre')">
+                <p id="Autre" class="mapSection-map-region-texts">Autres régions</p>
+                <!-- <img class="mapSection-map-regionImgs" src="${static.url('icope/images/map/Trace_122.svg')}" alt=""> -->
+            </div>
+            </div>
+            <div class="mapSection-map-domTom">
+            <div class="mapSection-map-domTom-items mapSection-regions" id="region-1" onclick="selectRegion('Guadeloupe')">
+                <img class="outremer_img" src="${static.url('icope/images/map/Trace_123.svg')}" alt="">
+                <p id="Guadeloupe" class="mapSection-map-domTom-description">Guadeloupe</p>
+            </div>
+            <div class="mapSection-map-domTom-items mapSection-regions" id="region-2" onclick="selectRegion('Martinique')">
+                <img class="outremer_img" src="${static.url('icope/images/map/Trace_124.svg')}" alt="">
+                <p id="Martinique" class="mapSection-map-domTom-description">Martinique</p>
+            </div>
+            <div class="mapSection-map-domTom-items mapSection-regions" id="region-3" onclick="selectRegion('Guyane')">
+                <img class="outremer_img" src="${static.url('icope/images/map/Trace_125.svg')}" alt="">
+                <p id="Guyane" class="mapSection-map-domTom-description">Guyane</p>
+            </div>
+            <div class="mapSection-map-domTom-items mapSection-regions" id="region-4" onclick="selectRegion('Reunion')">
+                <img class="outremer_img" src="${static.url('icope/images/map/Trace_126.svg')}" alt="">
+                <p id="Reunion" class="mapSection-map-domTom-description">La réunion</p>
+            </div>
+            <div class="mapSection-map-domTom-items mapSection-regions" id="region-5" onclick="selectRegion('Mayotte')">
+                <img class="outremer_img" src="${static.url('icope/images/map/Groupe_2.svg')}" alt="">
+                <p id="Mayotte" class="mapSection-map-domTom-description">Mayotte</p>
+            </div>
+            </div>
+        </div>
+        <div class="mapSection-button">
+        <a class="mapSection-buttonLink">Selectionnez votre région</a>
+        </div>
+    </div>
+    </div>
+</div>
+<!------------ layer map - end ------------>
+
+
 <%include file="${static.get_template_path('../footer.html')}" />
+
+
+
+
+
+
+
+<script>
+  
+  // ---------------- map show / hide ----------------------
+
+// var registerButton = setInterval(function() {
+
+  const registerButtonHeader = document.querySelector(".register-btn-header")
+  const map = document.querySelector(".mapSection")
+  const home = document.querySelector('.section-bkg-wrapper')
+  const header = document.querySelector('.global-header')
+  const closeButton = document.querySelector('.mapSection-closeButton')
+  
+
+  registerButtonHeader.addEventListener('click', ()=>{
+    console.log('ciblage-ok')
+    
+    home.style.filter = "blur(0.5rem)"
+    header.style.filter = "blur(0.5rem)"
+    console.log('filter-ok')
+    
+    map.classList.toggle('mapSection-show')
+    console.log('map-showing-ok')
+  })
+  
+  closeButton.addEventListener('click', ()=>{
+    console.log('ciblage-2-ok')
+    
+    home.style.filter = "blur(0rem)"
+    header.style.filter = "blur(0rem)"
+    console.log('blur-off')
+    
+    map.classList.toggle('mapSection-show')
+    console.log('map-hidden')
+  })
+  
+  const loginButton2 = document.querySelector(".sign-in-btn-header")
+  loginButton2.addEventListener('click', ()=>{
+    window.location = "/login"
+  })
+  
+  // ------------------- map functions ----------------------
+  
+  const regions = document.querySelectorAll('.mapSection-regions')
+  const button = document.querySelector('.mapSection-buttonLink')
+  
+  regions.forEach((item)=>{
+    item.addEventListener('click', (e)=>{
+      console.log(e)
+      console.log(e.target.id)
+      switch(e.target.id){
+        case "region-1":
+          button.href = "/register?course_id=course-v1:icope+Occitanie+2022&enrollment_action=enroll"
+          break
+        case "region-2":
+          button.href = "https://www.google.fr/"
+          break
+        case "region-3":
+          button.href = ""
+          break
+        default:
+          null
+      }
+    })
+  })
+// }, 500)
+
+</script>
+
+
+<script>
+
+function restart_color_button(){
+      const all_region_button = document.getElementsByClassName("mapSection-map-region-texts")
+      for (region of all_region_button){
+        region.style.color = "#fff"
+      }
+      const all_region_domtom_button = document.getElementsByClassName("mapSection-map-domTom-description")
+      for (region of all_region_domtom_button){
+        region.style.color = "#000"
+      }
+      
+    }
+
+function selectRegion(region) {
+
+  const redirect_to_occitanie = ['Autre', 'Guadeloupe', 'Martinique', 'Guyane', 'Mayotte', 'Reunion', 'world']
+
+  const button = document.querySelector('.mapSection-buttonLink')
+  const buttonDiv = document.querySelector('.mapSection-button')
+  
+  const selectedText = document.getElementById(region)
+  restart_color_button()
+  selectedText.style.color = "#F2816F"
+
+  buttonDiv.style.background =  "#F2816F"
+  if (redirect_to_occitanie.includes(region)) {
+    region = 'Occitanie'
+  }
+  button.href = "/register?course_id=course-v1%3Aicope%2B" + region + "%2B2022&enrollment_action=enroll"
+}
+</script>

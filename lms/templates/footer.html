@@ -62,6 +62,12 @@
   .footerLists{
     margin: 0rem 2.7rem;
   }
+  #footer-logo-1 {
+    width: 400px;
+  }
+  #footer-logo-2 {
+    width: 125px;
+  }
 </style>
 
 
@@ -76,7 +82,7 @@
     >
       <div class="colophon">
         <nav class="nav-colophon" aria-label="${_('CGU')}">
-          <ol style="display: flex;">
+          <ul style="display: flex;">
             <li class="nav-colophon-01 footerLists">
               <a id="cgu" href="/cgu">Mentions légales</a>
             </li>
@@ -87,10 +93,12 @@
               <a href="/program">Programme ICOPE</a>
             </li>
             <li class="footerLists footerList-logoAndText ">
-              <p class="footerList-italicText">Projet autorisé dans le cadre de l’Article 51</p>
-              <img class="footerList-logoImg" src="${static.url('icope/images/large-LOGO A51.png')}" id="logo-footer" class="img-fluid img-logo" alt="A51 logo">
+              <!-- <p class="footerList-italicText">Projet autorisé dans le cadre de l’Article 51</p> -->
+              <img src="${static.url('icope/images/logo_chu_toulouse.jpg')}" id="footer-logo-1" class="img-fluid img-logo" alt="CHU logo" style="margin-top: 26px;">
+              <img src="${static.url('icope/images/large-LOGO A51.png')}" id="footer-logo-2" class="img-fluid img-logo" alt="icope logo">
+
             </li>
-          </ol>
+          </ul>
         </nav>
       </div>
     </footer>
