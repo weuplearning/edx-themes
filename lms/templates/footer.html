@@ -12,8 +12,7 @@
 
 <style>
   .wrapper-footer {
-    background-color: #FFFFFF;
-    /* background-color: var(--primary); */
+    background-color: #FFFFFF !important;
     padding: 2rem 5rem;
   }
 
@@ -40,7 +39,7 @@
 
   #footer-openedx{
     display: flex;
-    width: 100vw;
+    /* width: 100vw; */
   }
 
   .colophon {
@@ -50,7 +49,7 @@
   .footerList-italicText{
     font-style: italic;
     font-weight: 200;
-    font-size: 1.7rem !important;
+    font-size: 1rem !important;
   }
   .footerList-logoAndText{
     display: flex;
@@ -61,6 +60,7 @@
   }
   .footerLists{
     margin: 0rem 2.7rem;
+    font-size: 16px;
   }
   #footer-logo-1 {
     width: 400px;
@@ -82,7 +82,7 @@
     >
       <div class="colophon">
         <nav class="nav-colophon" aria-label="${_('CGU')}">
-          <ul style="display: flex;">
+          <ul style="display: flex;justify-content: center;align-items: center;">
             <li class="nav-colophon-01 footerLists">
               <a id="cgu" href="/cgu">Mentions légales</a>
             </li>
@@ -93,10 +93,9 @@
               <a href="/program">Programme ICOPE</a>
             </li>
             <li class="footerLists footerList-logoAndText ">
-              <!-- <p class="footerList-italicText">Projet autorisé dans le cadre de l’Article 51</p> -->
               <img src="${static.url('icope/images/logo_chu_toulouse.jpg')}" id="footer-logo-1" class="img-fluid img-logo" alt="CHU logo" style="margin-top: 26px;">
               <img src="${static.url('icope/images/large-LOGO A51.png')}" id="footer-logo-2" class="img-fluid img-logo" alt="icope logo">
-
+              <p class="footerList-italicText">Projet autorisé dans le <br> cadre de l’Article 51</p>
             </li>
           </ul>
         </nav>
