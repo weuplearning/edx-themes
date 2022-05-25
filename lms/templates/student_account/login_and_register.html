@@ -294,8 +294,9 @@ if (window.location.href == 'https://icope.koa.qualif.dev/register') {
 }
 
 // Hide profession fields :
-window.onload = function() {
-
+var alreadyPassed = false
+var functionForm = setInterval(() => {
+  
   $("#register-profession").change(function() {
     var val = $(this).val();
     if(val === "Autre (précisez)") {
@@ -304,7 +305,11 @@ window.onload = function() {
       $(".text-profession_autre").hide();
     }
   })
+  if (alreadyPassed) {
+    clearInterval(functionForm)
+  }
+  alreadyPassed = true
+}, 700);
 
-};
 
 </script>
