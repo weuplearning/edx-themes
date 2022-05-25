@@ -39,6 +39,13 @@
     background: url("${static.url('icope/images/bg_img.png')}");
   }
 
+  .toggle-form {
+    display: none !important;
+  }
+  .text-profession_autre {
+    display: none;
+  }
+
 </style>
 
 % if "register" in request.path:
@@ -277,4 +284,27 @@ function selectRegion(region) {
   }
   button.href = "/register?course_id=course-v1%3Aicope%2B" + region + "%2B2022&enrollment_action=enroll"
 }
+
+// Avoid people trying to register without enroll
+if (window.location.href == 'https://icope-formation.com/register') {
+  window.location.href = 'https://icope-formation.com';
+}
+if (window.location.href == 'https://icope.koa.qualif.dev/register') {
+  window.location.href = 'https://icope.koa.qualif.dev';
+}
+
+// Hide profession fields :
+window.onload = function() {
+
+  $("#register-profession").change(function() {
+    var val = $(this).val();
+    if(val === "Autre (précisez)") {
+      $(".text-profession_autre").show();
+    } else {
+      $(".text-profession_autre").hide();
+    }
+  })
+
+};
+
 </script>
