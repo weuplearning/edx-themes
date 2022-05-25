@@ -1113,6 +1113,8 @@ a:hover{
 
 
 
+
+
 <script>
   function navigate(sectionId, index, device) {
     
@@ -1221,3 +1223,15 @@ a:hover{
   </script>
 
 
+<!-- // remove webinaire section -->
+<script>
+  let divs = document.getElementsByClassName("section-title")
+const searchText = "webinaire";
+
+for (const div of divs) {
+  if (div.textContent.includes(searchText)) {
+  div.parentElement.parentElement.remove()
+  }
+}
+
+</script>
