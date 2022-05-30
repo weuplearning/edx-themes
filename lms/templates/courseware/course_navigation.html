@@ -74,3 +74,11 @@ if course is not None:
         </nav>
     % endif
 %endif
+
+
+
+<script>
+    const homagePageTab = $('li:contains("Accueil")')[0]
+    const parentNavList = homagePageTab.parentElement
+    parentNavList.prepend(homagePageTab)
+</script>

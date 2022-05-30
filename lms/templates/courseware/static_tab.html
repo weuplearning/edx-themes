@@ -109,18 +109,24 @@ ${HTML(fragment.foot_html())}
 <%static:css group='style-student-notes'/>
 
 % if str(request.user) != "AnonymousUser":
-<main id="main" aria-label="Content" tabindex="-1">
-    <section class="container"
-    % if getattr(course, 'language'):
-      lang=${course.language}
-    % endif
-    >
-    <section class="container">
-      <div class="static_tab_wrapper">
-        ${HTML(fragment.body_html())}
-      </div>
-    </section>
-</main>
-% endif
 
+  % if request.path == "/courses/course-v1:amazon+amazon001+SP/0c78fdee4f0c447ebceb300f2a44a891/":
 
+    <%include file="/wul_apps/landing_page.html" args="" />
+
+  % else:
+    <main id="main" aria-label="Content" tabindex="-1">
+      <section class="container"
+      % if getattr(course, 'language'):
+        lang=${course.language}
+      % endif
+      >
+      <section class="container">
+        <div class="static_tab_wrapper">
+          ${HTML(fragment.body_html())}
+        </div>
+      </section>
+    </main>
+  % endif
+
+% endif 

@@ -1,0 +1,44 @@
+<% css = '/media/wul_apps/dashboard/reset.css' %>
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <link rel="icon" href="/favicon.ico"/>
+        <meta name="viewport" content="width=device-width,initial-scale=1"/>
+        <meta name="theme-color" content="#000000"/>
+        <meta name="description" content="Web site created using create-react-app"/>
+        <link rel="apple-touch-icon" href="/logo192.png"/>
+        <link rel="manifest" href="/manifest.json"/>
+        <title>React App</title>
+        <link rel="stylesheet" type="text/css" href="${css}" />
+        <link href="/media/microsites/amazon/react_static/static/css/main.57a64a08.css" rel="stylesheet">
+    </head>
+    <body>
+        <div id="root"></div>
+
+        <!-- fix to get window.props before the react is loaded -->
+        <script>
+            $.getJSON("/media/microsites/amazon/media_react/props.json", function(response) {
+                window.props = response
+                var script  = document.createElement('script'),
+                head = document.head || document.getElementsByTagName('head')[0];
+                script.src = '/media/microsites/amazon/react_static/static/js/main.a944e90a.js';
+                head.insertBefore(script, head.firstChild);
+            });  
+        </script>
+    </body>
+</html>
+
+
+<style>
+    .content-wrapper {
+        padding: 0;
+        background-color: #fff;
+        margin-top: 0 !important;
+    }
+
+    h3 {
+    margin-top: inherit !important;
+    }
+</style>

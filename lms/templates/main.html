@@ -40,7 +40,11 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
 ## embedding theme conditionals into templates. All inheriting
 ## templates have access to these functions, and we can import these
 ## into non-inheriting templates via the %namespace tag.
-<script>console.log("${request.path}")</script>
+<script>
+  if(document.referrer.includes("login") || document.referrer.includes("register")) {
+    window.location.replace("https://amazon.koa.qualif.dev/courses/course-v1:amazon+amazon001+SP/ebb748c209af46d7a082b78bb85b93cc/");
+  }
+</script>
 ## this needs to be here to prevent the title from mysteriously appearing in the body, in one case
 <%def name="pagetitle()" />
   <%block name="title">
