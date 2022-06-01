@@ -312,4 +312,34 @@ var functionForm = setInterval(() => {
 }, 700);
 
 
+var replaceText = setInterval(() => {
+
+  var textTarget = $('#login-email-desc')
+  textTarget[0].textContent = textTarget[0].textContent.replace('icope', 'le e-learning.')
+  
+  if (textTarget[0].textContent.indexof('icope') == -1) {
+    clearInterval(replaceText)
+  }
+}, 400);
+
+var replaceTextField = setInterval(() => {
+
+  var textTarget = $('.label-text')
+  test1 = false
+
+  for (let i = 0; i < textTarget.length; i++) {
+    const elem = textTarget[i];
+    if (elem.textContent.indexOf('public') != -1) {
+      elem.textContent = 'Pseudo'
+      test1 = true
+    }
+  }
+
+  if (test1) {
+    clearInterval(replaceTextField)
+  }
+
+}, 400);
+
+
 </script>
