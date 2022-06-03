@@ -186,7 +186,7 @@
 
 <script>
   
-  // ---------------- map show / hide ----------------------
+// ---------------- map show / hide ----------------------
 
 // var registerButton = setInterval(function() {
 
@@ -293,10 +293,15 @@ if (window.location.href == 'https://icope.koa.qualif.dev/register') {
   window.location.href = 'https://icope.koa.qualif.dev';
 }
 
+
+
+// ________________________________
+// --------REGISTER FORM UPDATE--------
+// ________________________________
+
 // Hide profession fields :
 var alreadyPassed = false
 var functionForm = setInterval(() => {
-  
   $("#register-profession").change(function() {
     var val = $(this).val();
     if(val === "Autre (précisez)") {
@@ -314,11 +319,16 @@ var functionForm = setInterval(() => {
 
 var replaceText = setInterval(() => {
 
-  var textTarget = $('#login-email-desc')
-  textTarget[0].textContent = textTarget[0].textContent.replace('icope', 'le e-learning.')
-  
-  if (textTarget[0].textContent.indexof('icope') == -1) {
+  if (window.location.href.indexOf('login') == -1) {
     clearInterval(replaceText)
+  } else {
+    
+    var textTarget = $('#login-email-desc')
+    textTarget[0].textContent = textTarget[0].textContent.replace('icope', 'le e-learning.')
+    
+    if (textTarget[0].textContent.indexof('icope') == -1) {
+      clearInterval(replaceText)
+    }
   }
 }, 400);
 
@@ -329,7 +339,7 @@ var replaceTextField = setInterval(() => {
 
   for (let i = 0; i < textTarget.length; i++) {
     const elem = textTarget[i];
-    if (elem.textContent.indexOf('public') != -1) {
+    if (elem.textContent.indexOf('public') != -1 || elem.textContent.indexOf('Public') != -1) {
       elem.textContent = 'Pseudo'
       test1 = true
     }
@@ -341,5 +351,69 @@ var replaceTextField = setInterval(() => {
 
 }, 400);
 
+
+// __-------------------------------
+// ----- Update Departement field regarding Region field 
+// __-------------------------------
+
+const table = {
+  "Auvergne-Rh\u00f4ne-Alpes": ["","ain","allier","ardeche","cantal","drome","isere","loire","haute-loire",'puy-de-dome', 'rhone', 'savoie', 'haute-savoie'],
+  "Bourgogne-Franche-Comt\u00e9" : ["","cote-d'or", 'doubs', 'jura', 'nievre','haute-saone', 'saone-et-loire', 'yonne', 'territoire-de-belfort'],
+  "Bretagne" : ["", "cotes-d'armor",'finistere', 'ille-et-vilaine', 'morbihan'],
+  "Centre-Val de Loire" : ["", 'cher', 'eure-et-loir', 'loir-et-cher','loiret'],
+  "Corse" : ["",'corse-du-sud', 'haute-corse'],
+  "Grand Est" :['','ardennes', 'aube', 'marne', 'haute-marne', 'meurthe-et-moselle', 'meuse', 'moselle', 'bas-rhin', 'haut-rhin','vosges'], 
+  "Guadeloupe" : ["","guadeloupe"],
+  "Guyane" : ["","guyane"],
+  "Hauts-de-France" : ["",'aisne', 'nord', 'oise', 'pas-de-calais', 'somme'],
+  "\u00cele-de-France" : ["",'paris', 'seine-et-marne','yvelines', 'essone', 'haut-de-seine', 'seine-saint-denis', 'val-de-marne', "val-d'oise"],
+  "La R\u00e9union" : ["","la-reunion"],
+  "Martinique" : ["",'martinique'],
+  "Mayotte" : ["","mayotte"],
+  "Normandie" : ["",'calvados', 'eure', 'manche', 'orne', 'seine-maritime'],
+  "Nouvelle-Aquitaine" : ["",'charente', 'charente-maritime', 'correze', 'creuse', 'dordogne', 'gironde', 'landes', 'lot-et-garonne', 'pyrenees-atlantiques', 'deux-sevres','vienne', 'haute-vienne'],
+  "Occitanie" : ["",'arriege','aude','aveyron', 'gard', 'haute-garonne','gers','herault','lot', 'lozere', 'hautes-pyrenees', 'pyrenees-orientales','tarn','tarn-et-garonne'],
+  "Pays de la Loire" : ["",'loire-atlantique', 'maine-et-loire', 'mayenne', 'sarthe', 'vendee'],
+  "Provence-Alpes-C\u00f4te d'Azur" : ["",'alpes-de-haute-provence', 'hautes-alpes','alpes-maritimes','bouches-du-rhone','var','vaucluse'],
+  "autre" : ["","saint-pierre-et-miquelon", 'sainte-barthelemy', 'saint-martin', 'wallis-et-futuna', 'polynesie-francaise', 'nouvelle-caledonie'],
+}
+
+
+var functionToRegion = setInterval(() => {
+
+  $('#register-region').change(function(){
+        
+    let value = $('#register-region').val()
+    console.log('value');
+    console.log(value);
+
+    // Remove all options for departement
+    $('#register-department').find('option').remove().end()
+    
+    if (value) {
+      for (let i = 0; i < Object.keys(table).length; i++) {
+
+        if (Object.keys(table)[i] == value) {
+                    
+          const departementList = table[ Object.keys(table)[i] ];
+          console.log(departementList);
+
+          for (let i = 0; i < departementList.length; i++) {
+            const departement = departementList[i];
+
+            // Add selected option for departement 
+            $('#register-department').append("<option value='"+ departement + "'>" + departement + "</option>");
+          
+          }
+        }
+        
+      }
+      check_add_option = false
+    }
+  })
+
+  clearInterval(functionToRegion)
+
+}, 700);
 
 </script>

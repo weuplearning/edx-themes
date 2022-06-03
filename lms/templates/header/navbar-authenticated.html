@@ -62,11 +62,6 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         <a class="tab-nav-link" href="${reverse('sysadmin')}">${_("Sysadmin")}</a>
       </div>
     % endif
-    % if configuration_helpers.get_value('WUL_DASHBOARD_ACCESS', False):
-    <div  class="mobile-nav-item hidden-mobile nav-item nav-tab">
-      <a class="tab-nav-link" href="/wul_apps/dashboard/home/">Administration</a>
-    </div>
-  % endif
   </div>
   <div class="secondary">
     <div class="mobile-nav-item hidden-mobile nav-item">
