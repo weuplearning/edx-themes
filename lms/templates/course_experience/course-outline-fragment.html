@@ -1223,17 +1223,24 @@ a:hover{
 
 
 <!-- // remove webinaire section -->
+
 <script>
-window.addEventListener('load', function() {
-let divs = document.getElementsByClassName("section-title")
-const searchText = "webinaire";
 
-for (const div of divs) {
-  console.log(div.textContent)
-  if (div.textContent.includes(searchText)) {
-  div.parentElement.parentElement.remove()
+  function removeWebinaireSection () {
+    let divs = document.getElementsByClassName("section-title")
+    const searchText = "webinaire";
+    for (const div of divs) {
+      if (div.textContent.includes(searchText)) {
+        console.log(div)
+        console.log(div.textContent)
+        console.log(div.parentElement.parentElement)
+        div.parentElement.parentElement.remove()
+      } 
+    }
   }
-}
-});
-
-</script>
+  
+  removeWebinaireSection()
+  const myTimeout = setTimeout(removeWebinaireSection, 1000);
+  
+  
+  </script>
