@@ -1224,7 +1224,8 @@ a:hover{
 
 <!-- // remove webinaire section -->
 <script>
-  let divs = document.getElementsByClassName("section-title")
+window.addEventListener('load', function() {
+let divs = document.getElementsByClassName("section-title")
 const searchText = "webinaire";
 
 for (const div of divs) {
@@ -1232,5 +1233,6 @@ for (const div of divs) {
   div.parentElement.parentElement.remove()
   }
 }
+});
 
 </script>
