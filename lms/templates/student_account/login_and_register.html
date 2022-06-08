@@ -352,9 +352,9 @@ var replaceTextField = setInterval(() => {
 }, 400);
 
 
-// __-------------------------------
+// ---------------------------------
 // ----- Update Departement field regarding Region field 
-// __-------------------------------
+// ---------------------------------
 
 const table = {
   "Auvergne-Rh\u00f4ne-Alpes": ["","ain","allier","ardeche","cantal","drome","isere","loire","haute-loire",'puy-de-dome', 'rhone', 'savoie', 'haute-savoie'],
@@ -415,5 +415,16 @@ var functionToRegion = setInterval(() => {
   clearInterval(functionToRegion)
 
 }, 700);
+
+</script>
+
+
+<!-- quentin - ticket 15338 - script change text full name field -->
+
+<script>
+
+window.addEventListener("load", ()=>{
+  document.querySelector('#register-name-required-label').previousElementSibling.textContent = 'Nom complet (Prénom + Nom)'
+})
 
 </script>
