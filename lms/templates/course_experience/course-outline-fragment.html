@@ -1229,6 +1229,7 @@ let divs = document.getElementsByClassName("section-title")
 const searchText = "webinaire";
 
 for (const div of divs) {
+  console.log(div.textContent)
   if (div.textContent.includes(searchText)) {
   div.parentElement.parentElement.remove()
   }
