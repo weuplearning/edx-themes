@@ -357,27 +357,26 @@ var replaceTextField = setInterval(() => {
 // ---------------------------------
 
 const table = {
-  "Auvergne-Rh\u00f4ne-Alpes": ["","ain","allier","ardeche","cantal","drome","isere","loire","haute-loire",'puy-de-dome', 'rhone', 'savoie', 'haute-savoie'],
-  "Bourgogne-Franche-Comt\u00e9" : ["","cote-d'or", 'doubs', 'jura', 'nievre','haute-saone', 'saone-et-loire', 'yonne', 'territoire-de-belfort'],
-  "Bretagne" : ["", "cotes-d'armor",'finistere', 'ille-et-vilaine', 'morbihan'],
-  "Centre-Val de Loire" : ["", 'cher', 'eure-et-loir', 'loir-et-cher','loiret'],
-  "Corse" : ["",'corse-du-sud', 'haute-corse'],
-  "Grand Est" :['','ardennes', 'aube', 'marne', 'haute-marne', 'meurthe-et-moselle', 'meuse', 'moselle', 'bas-rhin', 'haut-rhin','vosges'], 
-  "Guadeloupe" : ["","guadeloupe"],
-  "Guyane" : ["","guyane"],
-  "Hauts-de-France" : ["",'aisne', 'nord', 'oise', 'pas-de-calais', 'somme'],
-  "\u00cele-de-France" : ["",'paris', 'seine-et-marne','yvelines', 'essone', 'haut-de-seine', 'seine-saint-denis', 'val-de-marne', "val-d'oise"],
-  "La R\u00e9union" : ["","la-reunion"],
-  "Martinique" : ["",'martinique'],
-  "Mayotte" : ["","mayotte"],
-  "Normandie" : ["",'calvados', 'eure', 'manche', 'orne', 'seine-maritime'],
-  "Nouvelle-Aquitaine" : ["",'charente', 'charente-maritime', 'correze', 'creuse', 'dordogne', 'gironde', 'landes', 'lot-et-garonne', 'pyrenees-atlantiques', 'deux-sevres','vienne', 'haute-vienne'],
-  "Occitanie" : ["",'arriege','aude','aveyron', 'gard', 'haute-garonne','gers','herault','lot', 'lozere', 'hautes-pyrenees', 'pyrenees-orientales','tarn','tarn-et-garonne'],
-  "Pays de la Loire" : ["",'loire-atlantique', 'maine-et-loire', 'mayenne', 'sarthe', 'vendee'],
-  "Provence-Alpes-C\u00f4te d'Azur" : ["",'alpes-de-haute-provence', 'hautes-alpes','alpes-maritimes','bouches-du-rhone','var','vaucluse'],
-  "autre" : ["","saint-pierre-et-miquelon", 'sainte-barthelemy', 'saint-martin', 'wallis-et-futuna', 'polynesie-francaise', 'nouvelle-caledonie'],
+  "Auvergne-Rh\u00f4ne-Alpes": ["","Ain","Allier","Ardeche","Cantal","Drome","Isere","Loire","Haute-loire",'Puy-de-dome', 'Rhone', 'Savoie', 'Haute-savoie'],
+  "Bourgogne-Franche-Comt\u00e9" : ["","Cote-d'Or", 'Doubs', 'Jura', 'Nievre','Haute-saone', 'Saone-et-loire', 'Yonne', 'Territoire-de-belfort'],
+  "Bretagne" : ["", "Cotes-d'Armor",'Finistere', 'Ille-et-vilaine', 'Morbihan'],
+  "Centre-Val de Loire" : ["", 'Cher', 'Eure-et-loir', 'Loir-et-cher','Loiret'],
+  "Corse" : ["",'Corse-du-sud', 'Haute-corse'],
+  "Grand Est" :['','Ardennes', 'Aube', 'Marne', 'Haute-marne', 'Meurthe-et-moselle', 'Meuse', 'Moselle', 'Bas-rhin', 'Haut-rhin','Vosges'], 
+  "Guadeloupe" : ["","Guadeloupe"],
+  "Guyane" : ["","Guyane"],
+  "Hauts-de-France" : ["",'Aisne', 'Nord', 'Oise', 'Pas-de-calais', 'Somme'],
+  "\u00cele-de-France" : ["",'Paris', 'Seine-et-marne','Yvelines', 'Essone', 'Haut-de-seine', 'Seine-saint-denis', 'Val-de-marne', "Val-d'Oise"],
+  "La R\u00e9union" : ["","La-reunion"],
+  "Martinique" : ["",'Martinique'],
+  "Mayotte" : ["","Mayotte"],
+  "Normandie" : ["",'Calvados', 'Eure', 'Manche', 'Orne', 'Seine-maritime'],
+  "Nouvelle-Aquitaine" : ["",'Charente', 'Charente-maritime', 'Correze', 'Creuse', 'Dordogne', 'Gironde', 'Landes', 'Lot-et-garonne', 'Pyrenees-atlantiques', 'Deux-sevres','Vienne', 'Haute-vienne'],
+  "Occitanie" : ["",'Arriege','Aude','Aveyron', 'Gard', 'Haute-garonne','Gers','Herault','Lot', 'Lozere', 'Hautes-pyrenees', 'Pyrenees-orientales','Tarn','Tarn-et-garonne'],
+  "Pays de la Loire" : ["",'Loire-atlantique', 'Maine-et-loire', 'Mayenne', 'Sarthe', 'Vendee'],
+  "Provence-Alpes-C\u00f4te d'Azur" : ["",'Alpes-de-haute-provence', 'Hautes-alpes','Alpes-maritimes','Bouches-du-rhone','Var','Vaucluse'],
+  "Autre" : ["","Saint-pierre-et-miquelon", 'Sainte-barthelemy', 'Saint-martin', 'Wallis-et-futuna', 'Polynesie-francaise', 'Nouvelle-caledonie'],
 }
-
 
 var functionToRegion = setInterval(() => {
 
@@ -396,14 +395,27 @@ var functionToRegion = setInterval(() => {
         if (Object.keys(table)[i] == value) {
                     
           const departementList = table[ Object.keys(table)[i] ];
+          
+          console.log('------------departementList-------------');
           console.log(departementList);
+          console.log('------------departementList-------------');
+          
+          departementList.sort()// sort elements alphabetically
+
+          console.log('------------departementList sorted-------------');
+          console.log(departementList);
+          console.log('------------departementList sorted-------------');
 
           for (let i = 0; i < departementList.length; i++) {
             const departement = departementList[i];
 
             // Add selected option for departement 
             $('#register-department').append("<option value='"+ departement + "'>" + departement + "</option>");
-          
+
+            console.log('-------------departement------------');
+            console.log(departement);
+            console.log('-------------departement------------');
+
           }
         }
         
@@ -423,8 +435,12 @@ var functionToRegion = setInterval(() => {
 
 <script>
 
-window.addEventListener("load", ()=>{
+// window.addEventListener("load", ()=>{
+//   document.querySelector('#register-name-required-label').previousElementSibling.textContent = 'Nom complet (Prénom + Nom)'
+// })
+
+window.setInterval(()=>{
   document.querySelector('#register-name-required-label').previousElementSibling.textContent = 'Nom complet (Prénom + Nom)'
-})
+}, 150)
 
 </script>
