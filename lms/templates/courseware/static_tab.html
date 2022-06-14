@@ -90,6 +90,19 @@ div.window-wrap{
   }
 }
 
+
+
+.container_toggle_xscorm{
+      display: none;
+  }
+  
+  .title_toggle_xscorm{
+      cursor: pointer;
+  }
+  .show_content{
+      display: block;
+  }
+
 </style>
 
 </%block>
@@ -130,3 +143,18 @@ ${HTML(fragment.foot_html())}
   % endif
 
 % endif 
+
+<script>
+    window.addEventListener("load", function(event) {
+      let toggleTitle = document.getElementsByClassName("title_toggle_xscorm")
+      console.log(toggleTitle)
+          let toggleContainer  = document.getElementsByClassName("container_toggle_xscorm")
+          console.log(toggleContainer)
+
+          for (let i =0; i < toggleTitle.length; i++){
+              toggleTitle[i].addEventListener("click", function(){
+                  toggleContainer[i].classList.toggle("show_content")
+              });
+          }
+  });
+</script>
