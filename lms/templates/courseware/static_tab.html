@@ -126,7 +126,7 @@ ${HTML(fragment.foot_html())}
   % if request.path == "/courses/course-v1:amazon+amazon001+SP/0c78fdee4f0c447ebceb300f2a44a891/" or request.path == "/courses/course-v1:amazon+amazon001+SP/6f99bd87c01a4a1383e1b73fba057666/":
     <%include file="/wul_apps/landing_page.html" args="webinaire_replay=False" />
 
-  % elif request.path == "/courses/course-v1:amazon+amazon001+SP/24b326c7def14a7f86a0cb15cf7eea51/" :
+  % elif request.path == "/courses/course-v1:amazon+amazon001+SP/24b326c7def14a7f86a0cb15cf7eea51/" or request.path == "/courses/course-v1:amazon+amazon001+SP/1ae7488e68504c708c53d5e8e676b683/":
     <%include file="/wul_apps/landing_page.html" args="webinaire_replay=True" />
 
   % else:
