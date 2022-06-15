@@ -1,4 +1,5 @@
 <% css = '/media/wul_apps/dashboard/reset.css' %>
+<%page args="webinaire_replay"/>
 
 <!doctype html>
 <html lang="en">
@@ -17,12 +18,22 @@
         <div id="root"></div>
 
         <!-- fix to get window.props before the react is loaded -->
+        % if webinaire_replay:
+        <script>
+            let pageType = "webinaire"
+        </script>
+        % else:
+        <script>
+            let pageType = "accueil"
+        </script>
+        %endif
         <script>
             $.getJSON("/media/microsites/amazon/media_react/props.json", function(response) {
                 window.props = response
+                window.props.type = pageType
                 var script  = document.createElement('script'),
                 head = document.head || document.getElementsByTagName('head')[0];
-                script.src = '/media/microsites/amazon/react_static/static/js/main.c68b76aa.js';
+                script.src = '/media/microsites/amazon/react_static/static/js/main.37387ed9.js';
                 head.insertBefore(script, head.firstChild);
             });  
         </script>
@@ -57,3 +68,17 @@
 }
   }
 </style>
+
+% if webinaire_replay:
+
+<style>
+    .adn-top_content,
+    .adn-content {
+        display: none;
+    }
+    .adn-category{
+        margin-top: 2em;
+    }
+</style>
+
+% endif
