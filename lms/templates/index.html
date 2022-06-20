@@ -21,7 +21,7 @@ from openedx.core.djangolib.markup import HTML, Text
     color: #0E353C;
   }
 .main-page {
-  background-image: url(/static/bungalow/images/hp_back.jpg);
+  background-image: url(/static/bungalow/images/hp_back.png);
   background-size: cover;
   background-position-x: center;
   width: 100%;
@@ -42,8 +42,8 @@ video {
   background-color: brown;
 }
 .CTA {
-  width: 49%;
-  height: 40px;
+  width: 350px;
+  height: 50px;
   box-sizing: border-box;
   display: inline-block;
   text-align: center;
@@ -51,6 +51,7 @@ video {
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+  padding-top: 5px;
 }
 .CTA a {
   text-decoration: none;
@@ -68,13 +69,18 @@ video {
   margin: auto;
 }
 #title-container h1 {
-  font-size: 22px;
+  font-size: 26px;
   padding-top: 22px;
-  width: 415px;
+  width: 440px;
   margin: auto;
   text-align: center;
   color: #0E353C;
   font-weight: 700;
+}
+
+#CTA-container{
+  display: flex;
+  justify-content: center;
 }
 @media screen and (max-width: 800px) {
   #content-container {
@@ -120,8 +126,12 @@ video {
     </div>
     <script src="https://player.vimeo.com/api/player.js"></script>
     <div id="CTA-container">
-      <div class="CTA login-link"><a href="/login">Connexion</a></div>
-      <div class="CTA register-link"><a href="/register">Inscription</a></div>
+      <div class="CTA login-link">
+        <a href="/login">Connexion</a>
+      </div>
+      <div class="CTA register-link">
+        <a href="/register">Inscription</a>
+      </div>
     </div>
   </div>  
 </div>

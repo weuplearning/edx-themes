@@ -32,9 +32,29 @@ dates_banner_displayed = False
 
 <style>
 
+#course-container {
+    background: #0e353c !important;
+}
+
+  .content-wrapper {
+    padding: 10px 0 0 0;
+    margin-bottom: -10px;
+}
+
+.course-outline .block-tree .section {
+
+    border-bottom: none;
+}
+
+#course-outline-block-tree{
+  background: url("${static.url('bungalow/images/bg_dashboard.png')}") !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+}
+
     .carousel {
       position: relative;
-      padding-top: 75%;
+      /* padding-top: 75%; */
       filter: drop-shadow(0 0 10px #0003);
       perspective: 100px;
       width: 100%;
@@ -215,6 +235,9 @@ padding-top: 30px;
   display: flex;
 align-items: flex-end;
 margin: auto;
+background-size: 95% !important;
+background-repeat: no-repeat !important;
+background-position: bottom !important;
   }
 
   .course_logo_test_0 {
@@ -286,14 +309,13 @@ margin: auto;
 }
 
 .complete-checkmark {
-  position: relative;
-bottom: 260px;
-left:-10px;
-background: #f90;
-border-radius: 100%;
-color: #fff;
-border: 1px solid #fff;
-padding: 6px;
+    position: relative;
+    bottom: -2px;
+    left: 10px;
+    background: #0e353c;
+    border-radius: 100%;
+    color: #fff;
+    padding: 6px;
 }
 
 .mobile_device{
@@ -492,6 +514,8 @@ background-color: #249f6d !important;
     width: 201px;
     margin-bottom: 31px;
 }
+
+
     </style>
 
     
@@ -587,15 +611,18 @@ background-color: #249f6d !important;
                                       % endif
                                       >
 
-                                          <!-- <div class ="course_logo" style="background: url('/media/microsites/amazon/courses/${slug_img_name}.png')"> -->
-                                          <div class ="course_logo course_logo_test_${primary_index}">
-                                          <!-- <p class="course_logo_name">${course_name}</p> -->
+             
+                                        <div class ="course_logo" style="background: url('/media/microsites/bungalow/courses/${slug_img_name}.png')">
+
+
+                                        </div>
+                                        <p class="course_logo_name">
+                                          ${course_name}
                                           % if subsection.get('complete'):
                                           <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
                                           <span class="sr">${_("Completed")}</span>
                                           %endif
-                                        </div>
-                                        <p class="course_logo_name">${course_name}</p>
+                                        </p>
                                     </a>
                                     % endfor
                                   </div>
@@ -686,11 +713,8 @@ background-color: #249f6d !important;
                                             aria-disabled="true"
                                         % endif
                                         > 
-                                        % if slug_img_name == 'vendre_via_le_drive':
-                                          <div class ="course_logo" style="background: url('/media/microsites/amazon/courses/vendre_via_le_drive.31ef70b80544.png')">
-                                        % else:
                                           <div class ="course_logo" style="background: url('/media/microsites/amazon/courses/${slug_img_name}.png')">
-                                        % endif
+
                                           <p class="course_logo_name">${course_name}</p>
                                           % if subsection.get('complete'):
                                           <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
@@ -854,15 +878,15 @@ background-color: #249f6d !important;
                                 aria-disabled="true"
                             % endif
                             >
-                            <div class ="course_logo course_logo_test_${primary_index}">
-                              <!-- <div class ="course_logo" style="background: url('/media/microsites/amazon/courses/${slug_img_name}.png')"> -->
+                              <div class ="course_logo" style="background: url('/media/microsites/bungalow/courses/${slug_img_name}.png')">
     
+
+                              </div>
+                              <p class="course_logo_name">${course_name}
                                 % if subsection.get('complete'):
                                 <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
-                                <span class="sr">${_("Completed")}</span>
                                 %endif
-                              </div>
-                              <p class="course_logo_name">${course_name}</p>
+                              </p>
                           </a>
 
                         </div>
@@ -939,7 +963,8 @@ background-color: #249f6d !important;
                       }
                   }
                   document.getElementById('carousel__slide' + index + '_' + sectionId + device).setAttribute("data-active", "active")
-                  // window.location.href='#carousel__slide' + index + '_' + sectionId + '_mobile_anchor'
+                  window.location.href='#carousel__slide' + (i + 1) + '_' + sectionId + device + '_anchor'
+                  
                   break;
               }
 
@@ -954,14 +979,11 @@ background-color: #249f6d !important;
 
         for (let i = 0; i < listElement.length; i++) {
             if (listElement[i].getAttribute("data-active") === "active") {
-              console.log(listElement[i])
                 listElement[i + 1].setAttribute("data-active", "active")
                 listElement[i].removeAttribute("data-active")
                 document.getElementById("carousel__navigation-item" + i + "_" + sectionId + device).removeAttribute("data-active")
                 document.getElementById("carousel__navigation-item" + (i + 1) + "_" + sectionId + device).setAttribute("data-active", "active")
                 window.location.href='#carousel__slide' + (i + 1) + '_' + sectionId + device + '_anchor'
-                console.log('#carousel__slide' + (i + 1) + '_' + sectionId + device + '_anchor')
-
                 break;
             }
         }
@@ -971,14 +993,11 @@ background-color: #249f6d !important;
         let listElement = document.getElementsByClassName('carousel__slide_' + sectionId + device)
         for (let i = 0; i < listElement.length; i++) {
             if (listElement[i].getAttribute("data-active") === "active") {
-                console.log(listElement[i]) 
                 listElement[i - 1].setAttribute("data-active", "active")
                 listElement[i].removeAttribute("data-active")
                 document.getElementById("carousel__navigation-item" + i + "_" + sectionId + device).removeAttribute("data-active")
                 document.getElementById("carousel__navigation-item" + (i - 1) + "_" + sectionId + device).setAttribute("data-active", "active")
                 window.location.href='#carousel__slide' + (i - 1) + '_' + sectionId + device + '_anchor'
-                console.log('#carousel__slide' + (i + 1) + '_' + sectionId + device + '_anchor')
-                
                 break;
             }
         } 
