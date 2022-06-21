@@ -138,11 +138,11 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         animation-duration: 0.5s;
     }
     .wrapper-preview-menu{
-       //display:none;
+       display:none;
     }
-.wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary{
-    display:none !important;
-}
+    .wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary{
+        display:none !important;
+    }
 
 
     .section-title{
@@ -433,7 +433,10 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
                               total_blocks += 1
                               if blockchild.get('complete'):
                                 completed_blocks += 1
-                      completion_ratio = completed_blocks / total_blocks
+                      if total_blocks == 0:
+                        pass
+                      else:
+                        completion_ratio = completed_blocks / total_blocks
                       %>
                         <div class="grade-block">
                             <div class="grade-section-title">
@@ -556,4 +559,4 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
         linkCategory: "(none)"
       });
 
-</%static:require_module_async> 
+</%static:require_module_async>
