@@ -1,0 +1,911 @@
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.urls import reverse
+
+from openedx.core.djangolib.markup import HTML, Text
+%>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Du savoir à la chaine</title>
+</head>
+
+<style>
+
+	/* --------------------------- manage openedx --------------------------- */
+
+    /* hide header on homepage */
+
+    .global-header{
+        display: none;
+    }
+	
+	/* hide footer on homepage */
+	.wrapper-footer{
+		padding: 0rem !important;
+	}
+
+	.content-wrapper{
+		padding: 0rem !important;
+	}
+	a:not(.btn), a:visited:not(.btn){
+		color: #3D4550;
+	}
+
+	/* --------------------------- global rules --------------------------- */
+
+	/* *{
+		line-height: 1.7rem;
+		word-spacing: 0.2rem;
+	} */
+	body{
+		font-size: 1.3rem;
+		line-height: 1.95rem;
+		list-style: none;
+		transition: 0.2s;
+		color: #3D4550;
+		line-height: 1.7rem;
+		word-spacing: 0.2rem;
+	}
+
+	.dividers{
+		background: url("${static.url('du-savoir-a-la-chaine/images/divider.svg')}");
+		height: 10rem;
+		background-repeat: no-repeat;
+		background-size: cover;
+		margin: 0rem -1rem;
+		background-position: center;
+	}
+	p{
+		margin: 0.3rem !important;
+		padding: 0.3rem !important;
+	}
+	a:hover{
+		text-decoration: underline !important;
+	}
+
+	.sectionsTitle{
+		margin-bottom: 6rem;
+	}
+	.sectionsTitle > img{
+		width: 65%;
+	}
+
+	/* text style */
+
+	.blueText{
+		font-weight: bold !important;
+		color: #00BADF !important;
+	}
+	.greenText{
+		font-weight: bold !important;
+		color: #4DC494 !important;
+	}
+	.sandText{
+		font-weight: bold !important;
+		color: #FAF7EF !important;
+	}
+	.boldText{
+		font-weight: bold !important;
+	}
+	.uppercase{
+		text-transform: uppercase !important;
+	}
+
+	/* other */
+
+	.blueMarker::before{
+		content: url("${static.url('du-savoir-a-la-chaine/images/blueMarker2.svg')}");
+		zoom: 250%;
+		margin-right: 0.4rem;
+	}
+	.greenMarker::before{
+		content: url("${static.url('du-savoir-a-la-chaine/images/greenMarker2.svg')}");
+		zoom: 250%;
+		margin-right: 0.4rem;
+	}
+
+	/* --------------------------- header --------------------------- */
+
+	.headerContent{
+		/* display: flex; */
+		margin: 1rem;
+	}
+	.headerContent-connexionLink:hover{
+		color: #00BADF !important;
+	}
+	.headerContent-sectionTop{
+		display: flex;
+		align-items: center;
+		justify-content: space-around;
+	}
+	.headerContent-navbar{
+		display: flex;
+		text-transform: uppercase;
+	}
+	.items-navbar{
+		margin: 0rem 2rem;
+		font-weight: bold;
+	}
+	
+	/* --------------------------- section 1 --------------------------- */
+	
+	.section1{
+
+	}
+	.section1-headline{
+		height: 50rem;
+		text-align: center;
+		background: url("${static.url('du-savoir-a-la-chaine/images/imgs/section1_img1.svg')}");
+    	background-size: 75%;
+    	background-repeat: no-repeat;
+		margin-bottom: 5rem;
+		background-position-y: 13rem;
+		background-position-x: center;
+	}
+	.headlineText{
+		font-size: 2rem;
+		font-weight: bold;
+	}
+	.section1-headline-buttons{
+		margin: 2rem 0rem;
+		display: flex;
+		place-content: center;
+	}
+	.buttons{
+		transition: all 0.2s;
+		padding: 1.2rem 4rem;
+		margin: 1rem;
+		border-radius: 3rem;
+	}
+	.buttons:hover{
+		/* filter: brightness(0.8); */
+		transform: scale(0.95);
+	}
+	.buttonColor1{
+		background: #00BADF;
+	}
+	.buttonColor2{
+		background: #4DC494;
+	}
+	.buttons > a{
+		color: white !important;
+	}
+	.buttons > a:visited{
+		color: white !important;
+	}
+	.section1-text{
+		padding: 15rem 20rem 15rem;
+		margin-top: -10rem;
+		background: url("${static.url('du-savoir-a-la-chaine/images/backgrounds/section1_bkg2.svg')}");
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: contain;
+	}
+	.section1-textElements{
+		padding: -5rem;
+	}
+	
+	/* --------------------------- section 2 --------------------------- */
+
+	.section2{
+		margin-top: -11rem;
+		overflow: hidden;
+	}
+	.section2-title{
+		margin-left: 3rem;
+	}
+	.section2-sides{
+		display: flex;
+	}
+	.section2-leftSide{
+		/* background: url("${static.url('du-savoir-a-la-chaine/images/imgs/section2_img1.svg')}");
+		background-repeat: no-repeat; */
+	}
+	.section2-text{
+		padding: 2rem 20rem;
+		margin-bottom: 1.5rem;
+	}
+	.section2-bkgText{
+		position: relative;
+		left: 36rem;
+		background: url("${static.url('du-savoir-a-la-chaine/images/backgrounds/section2_bkg.svg')}");
+		background-repeat: no-repeat;
+		padding: 3rem 6rem;
+		margin: 3rem;
+		transform: scale(0.8) rotate(-5deg);
+		font-size: 1.6rem;
+		margin-top: -40rem;
+		background-position: left;
+	}
+	.section2-bkgText > ul > li{
+		line-height: 2.2rem;
+	}
+	.section2-list{
+		list-style-type: none;
+	}
+	.section2-img1{
+		position: relative;
+		left: -6rem;
+		margin: 3rem;
+	}
+	.section2-img2{
+		margin-right: -3rem;
+		margin-top: -10rem;
+	}
+	.section2-img2 > img{
+		height: 65rem;
+	}
+
+	/* --------------------------- section 3 --------------------------- */
+
+	.section3{
+		margin-top: 5rem;
+	}
+	.section3-title{
+		text-align: right;
+		margin-right: 6rem;
+	}
+	.section3-title > img{
+		width: 75%;
+	}
+	.section3-information{
+		text-align: center;
+		font-size: 1.5rem;
+	}
+	.section3-bkgText{
+		padding: 11rem 20rem;
+		margin: 3rem;
+		background: url("${static.url('du-savoir-a-la-chaine/images/backgrounds/section3_bkg.svg')}");
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-position: center;
+		padding-top: 3rem;
+	}
+	.section3-bkgText-leftColumn{
+		text-align: left;
+		margin: 3rem;
+		flex-basis: 100%;
+	}
+	.section3-bkgText-rightColumn{
+		text-align: left;
+		margin: 3rem;
+		flex-basis: 100%;
+	}
+	.section3-elements{
+		display: flex;
+	}
+
+	/* --------------------------- section 4 --------------------------- */
+
+	.section4{
+		margin: 5rem 0rem;
+	}
+	.section4-img2{
+		background: url("${static.url('du-savoir-a-la-chaine/images/img/section4_img2.svg')}");
+	}
+	.section4-img1{
+		text-align: center;
+	}
+	.section4-img1 > img{
+		width: 60%;
+		border-radius: 0.5rem;
+	}
+
+	/* --------------------------- footer --------------------------- */
+	
+	/* (dans template footer) */
+
+	/* --------------------------- media query --------------------------- */
+
+	@media screen and (min-width:1925px){
+		.content-wrapper{
+			max-width: none !important;
+		}
+		body{
+			font-size: 1.6rem;
+			line-height: 2.3rem;
+		}
+	}
+	@media screen and (min-width:2300px){
+		body{
+			font-size: 1.7rem;
+			line-height: 2.4rem;
+		}
+	}
+	@media screen and (max-width:1750px){
+		.section1-headline{
+			margin-bottom: 0rem;
+			background-position-y: 17rem;
+		}
+		.section1-text{
+			padding: 21rem 9rem 20rem;
+			margin-top: -13rem;
+		}
+		.section2{
+			margin-top: -15rem;
+		}
+		.section2-text{
+			padding: 2rem 15rem;
+		}
+		.section2-bkgText{
+			top: -3rem;
+		}
+		.section3-title{
+			margin-right: 3rem;
+		}
+		.section3-bkgText{
+			padding: 11rem 12rem;
+		}
+	}
+	@media screen and (max-width:1600px){
+		.section1-text{
+			background: url("${static.url('du-savoir-a-la-chaine/images/backgrounds/section1_bkg.svg')}");
+			padding: 20rem 10rem 19rem;
+			margin-top: -10rem;
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: contain;
+		}
+		.section2-text{
+			padding: 2rem 12rem;
+		}
+		.section2-img1{
+			left: -8rem;
+			margin: 0rem;
+		}
+		.section2-img1 > img{
+			width: 70%;
+		}
+		.section2-bkgText{
+			top: 5rem;
+			left: 27rem;
+			transform: scale(0.75) rotate(-5deg);
+		}
+		.section2-img2 > img{
+			height: 55rem;
+		}
+		.section3-bkgText{
+			padding: 5rem 10rem;
+			background-position: bottom;
+		}
+	}
+	@media screen and (max-width:1460px){
+		.section1-text{
+			margin-top: -15rem;
+		}
+		.section2{
+			padding-bottom: 6rem;
+		}
+		.section2-img2{
+			margin-right: -10rem;
+		}
+		.section2-bkgText{
+			top: 7rem;
+		}
+		.section3{
+			margin-top: 0rem;
+		}
+		.section3-bkgText{
+			padding: 5rem 7rem;
+			background-position-y: 7rem;
+		}
+	}
+	@media screen and (max-width:1360px){
+		body{
+			font-size: 1.2rem;
+		}
+		.section1-text{
+			padding: 20rem 5rem 18rem;
+			margin-top: -20rem;
+		}
+		.section2-img2{
+			margin-right: -13rem;
+		}
+		.section2-bkgText{
+			top: 9.5rem;
+			left: 22rem;
+		}
+		.section2-img1 > img{
+			width: 65%;
+		}
+		.section3-bkgText{
+			background: url("${static.url('du-savoir-a-la-chaine/images/backgrounds/section3_bkg2.svg')}");
+			background-repeat: no-repeat;
+			background-size: contain;
+			background-position-y: 2rem;
+		}
+	}
+	@media screen and (max-width:1250px){
+		.section1-headline{
+			background-position-y: 20rem;
+		}
+		.section1-text{
+			padding: 6rem 6rem 4rem;
+			margin-top: -6rem;
+			background-size: cover;
+		}
+		.section2{
+			margin-top: -2rem;
+		}
+		.section2-text{
+			padding: 2rem 9rem;
+		}
+		.section2-bkgText{
+			top: 8.5rem;
+			left: 17rem;
+			transform: scale(0.65) rotate(-5deg);
+		}
+		.section3-bkgText{
+			padding: 13rem 6rem;
+			background-position-y: 15rem;
+			margin: -12rem 3rem;
+		}
+	}
+	@media screen and (max-width:1140px){
+		body{
+			font-size: 1.1rem;
+		}
+		.headlineText{
+			font-size: 1.6rem;
+		}
+		.section1-headline{
+			background-position-y: 22rem;
+		}
+		.section2-bkgText{
+			padding: 3rem 5rem;
+			top: 11.5rem;
+			left: 13rem;
+			transform: scale(0.55) rotate(-5deg);
+		}
+		.section3-bkgText{
+			padding: 15rem 4rem;
+			background-position-y: 17rem;
+			margin: -12rem 1rem;
+		}
+		/* .section3-bkgText-leftColumn{
+			flex-basis: 300%;
+		} */
+		.section4-img1 > img{
+			width: 80%;
+		}
+	}
+	@media screen and (max-width:1040px){
+		.section2{
+			padding-bottom: 5rem;
+		}
+		.section2-text{
+			padding: 2rem 5rem;
+		}
+		.section2-bkgText{
+			padding: 0rem 0rem;
+			top: 19.5rem;
+			left: 12rem;
+			background-size: contain;
+			transform: scale(0.70) rotate(-5deg);
+		}
+		.section2-bkgText-elements{
+			transform: scale(0.8);
+		}
+		.section3{
+			margin-top: -1.5rem;
+		}
+		.section3-bkgText{
+			padding: 14rem 1rem;
+		}
+		.section3-elements-scaling{
+			transform: scale(0.9);
+		}
+	}
+	@media screen and (max-width:950px){
+		.section2{
+			padding-bottom: 12rem;
+		}
+		.section2-rightSide{
+			margin-left: -6rem;
+		}
+		.section2-img1{
+			left: -6rem;
+		}
+		.section2-img2 > img{
+			height: 45rem;
+		}
+		.section2-bkgText{
+			top: 15.5rem;
+			left: 13rem;
+		}
+		.section3-bkgText{
+			background: url("${static.url('du-savoir-a-la-chaine/images/backgrounds/section3_bkg3.svg')}");
+			background-repeat: no-repeat;
+			background-size: contain;
+			background-position-y: 16rem;
+			margin: -12rem 3rem;
+		}
+	}
+	@media screen and (max-width:840px){
+		.headlineText{
+			font-size: 1.4rem;
+		}
+		.section1-headline{
+			background-size: 85%;
+		}
+		.section2-title > img{
+			width: 80%;
+		}
+		.section3-title > img{
+			width: 90%;
+		}
+		.section3-bkgText{
+			background-position-y: 18rem;
+			margin: -12rem 1rem;
+		}
+		.section3-elements-scaling{
+			transform: scale(0.9);
+		}
+		.section3-elements{
+			flex-direction: column;
+		}
+		.section3-bkgText-leftColumn{
+			margin: 3rem 0rem 0rem 3rem;
+		}
+		.section3-information{
+			font-size: 1.3rem;
+		}
+	}
+	@media screen and (max-width:750px){
+		.section1-headline{
+			background-size: 90%;
+		}
+		.section1-text{
+			margin-top: -10rem;
+			padding: 6rem 4rem 4rem;
+		}
+		.section2-text{
+			padding: 2rem 3rem;
+		}
+		.section2-img1 > img{
+			width: 70%;
+		}
+		.section2-bkgText{
+			top: 18.5rem;
+			left: 11rem;
+			transform: scale(0.8) rotate(-5deg);
+		}
+		.section2-bkgText-elements{
+			transform: scale(0.7);
+		}
+		.section3-bkgText{
+			background: url("${static.url('du-savoir-a-la-chaine/images/backgrounds/section3_bkg4.svg')}");
+			background-repeat: no-repeat;
+			background-size: contain;
+			background-size: 39rem 50rem;
+			background-position-x: center;
+			background-position-y: 15rem;
+			margin: -12rem 0rem;
+			padding: 14rem 6rem;
+		}
+		.section3-information{
+			font-size: 1.2rem;
+		}
+	}
+	@media screen and (max-width:650px){
+		.headerContent-logo{
+			align-self: baseline;
+		}
+		.headerContent-sectionTop{
+			flex-direction: column;
+		}
+		.headerContent-logo > img{
+			width: 60%;
+		}
+		.headerContent-navbar{
+			margin-top: 2rem;
+		}
+		.section1{
+			margin-bottom: 2rem;
+		}
+		.section1-headline{
+			background-size: 100%;
+			background-position-y: 23rem;
+		}
+		.section1-headline-buttons{
+			transform: scale(0.9);
+		}
+		.section2{
+			padding-bottom: 5rem;
+		}
+		.section2-title{
+			margin-left: 1rem;
+		}
+		.section2-title > img{
+			width: 95%;
+		}
+		.section2-rightSide{
+			display: none;
+		}
+		.section2-img1{
+			display: none;
+		}
+		.section2-text{
+			margin-bottom: 0rem;
+		}
+		.section2-bkgText{
+			transform: scale(1) rotate(0deg);
+			margin: 2rem;
+			position: unset;
+		}
+		.section3-bkgText{
+			padding: 14rem 2rem;
+		}
+	}
+	@media screen and (max-width:550px){
+		body{
+			font-size: 1.3rem;
+			line-height: 2rem;
+		}
+		.sectionsTitle{
+    		filter: drop-shadow(0.01rem 0.01rem 0rem #00BADF);
+		}
+		.headerContent-sectionTop{
+			align-items: baseline;
+		}
+		.headerContent-navbar{
+			flex-direction: column;
+		}
+		.items-navbar{
+			margin: 0.5rem 1rem;
+		}
+		.item-navbar2{
+			display: none;
+		}
+		.item-navbar3{
+			display: none;
+		}
+		.section1-headline{
+			background-position-y: 32rem;
+		}
+		.section1-headline-buttons{
+			flex-direction: column;
+		}
+		.section1-text{
+			padding: 11rem 1.5rem 8rem;
+			margin-top: -2rem;
+		}
+		.section2-title > img{
+			width: 100%;
+		}
+		.section2-text{
+			padding: 0rem 1.5rem;
+		}
+		.section2-bkgText{
+			margin: 0rem 1rem;
+			background: #FAF7EF;
+			margin: 1.2rem;
+			border-radius: 0.4rem;
+		}
+		.section2-bkgText-elements{
+			transform: scale(0.8);
+		}
+		.section3-title{
+			margin-right: 0rem;
+			margin-left: 1rem;
+		}
+		.section3-title > img{
+			width: 100%;
+		}
+		.section3-information{
+			font-size: 1.4rem;
+			margin-bottom: 4rem;
+		}
+		.section3-bkgText{
+			padding: 0rem 0rem;
+			background: #FAF7EF;
+			margin: 1.2rem;
+			border-radius: 0.4rem;
+			margin-bottom: 7rem;
+		}
+		.section3-elements-scaling{
+			transform: scale(0.95);
+		}
+		.section3-bkgText-rightColumn{
+			margin: 1rem;
+		}
+		.section3-bkgText-leftColumn{
+			margin: 1rem;
+		}
+		.section4-img1 > img{
+			width: 100%;
+			border-radius: 0rem;
+		}
+	}
+	@media screen and (max-width:410px){
+		.section1-text{
+			padding: 2rem 1.3rem 2rem;
+			background: #FAF7EF;
+			text-align: center;
+			margin: 2rem 1.2rem;
+			border-radius: 0.4rem;
+		}
+		.section2{
+			margin-top: 0rem;
+		}
+	}
+	@media screen and (max-width:370px){
+		.section1-headline{
+			background-position-y: 35rem;
+		}
+		.section1-text{
+			padding: 2rem 0.7rem 2rem;
+			background: #FAF7EF;
+			text-align: center;
+			margin: 2rem 0.5rem;
+			border-radius: 0.4rem;
+		}
+		.section2{
+			margin-top: 0rem;
+		}
+		.section2-title{
+			margin-right: 0.7rem;
+		}
+		.section2-text{
+			padding: 0rem 0.6rem;
+			text-align: center;
+		}
+		.section2-bkgText{
+			margin: 1.2rem 0.7rem;
+		}
+		.section2-list{
+			margin: 0rem;
+			padding: 0rem;
+		}
+		.section3-bkgText{
+			margin: 1.2rem 0.7rem;
+		}
+		.section3-bkgText-leftColumn{
+			margin: 0.5rem;
+		}
+		.section3-bkgText-rightColumn{
+			margin: 0.5rem;
+		}
+		.section3-title{
+			margin-right: 0.7rem;
+		}
+	}
+
+</style>
+
+<body>
+
+	<div class="headerContent">
+		<div class="headerContent-sectionTop">
+			<div class="headerContent-logo"><img src="${static.url('du-savoir-a-la-chaine/images/logo.png')}" alt="logo"></div>
+			<div class="headerContent-navbar">
+				<div class="items-navbar item-navbar1"><a href="">+&nbsp;d'info</a></div>
+				<div class="items-navbar item-navbar2"><a href="/register">inscription</a></div>
+				<div class="items-navbar item-navbar3"><a class="headerContent-connexionLink" href="/login"><span class="blueText">connexion</span></a></div>
+			</div>
+		</div>
+		<div class="headerContent-sectionBottom">
+			<div class="headerContent-divider dividers"></div>
+		</div>
+	</div>
+    
+    <div class="section1">
+        <div class="section1-headline parallax">
+			<div class="section1-headlineText">
+				<p class="uppercase boldText">Du savoir à la chaine</p>
+				<br>
+				<p class="headlineText blueText">Découvrez la Chaîne des Puys - </p>
+				<p class="headlineText blueText">Faille de Limagne, inscrite au patrimoine mondial</p>
+			</div>
+			<div class="section1-headline-buttons">
+				<div class="buttons buttonColor1"><a class="uppercase boldText" href="/register">inscription</a></div>
+				<div class="buttons buttonColor2"><a class="uppercase boldText" href="/login">connexion</a></div>
+			</div>
+		</div>
+        <div class="section1-text">
+			<div class="section1-textElements">
+				<p>Dominé par le puy de Dôme, le Haut lieu tectonique de la Chaîne des Puys - faille de Limagne est connu pour la silhouette facilement reconnaissable de plus de <span class="blueText">80 volcans</span> alignés et aux formes harmonieuses. Fort de ses caractéristiques uniques, c’est un bien inscrit au <span class="greenText"> patrimoine mondial de l'UNESCO</span> qui suscite la curiosité de tous les publics. C'est aussi un site aux paysages et à la nature fragiles, ainsi que le théâtre d'activités locales, à préserver.</p>
+				<br>
+				<p>Vous êtes un enseignant ? un étudiant ? un professionnel du tourisme ? un ambassadeur du site Unesco ? Ou vous êtes simplement curieux d'en savoir plus sur ce site d'exception ? Alors suivez <span class="blueText"> cette formation en ligne gratuite</span> que vous propose le Parc naturel régional des Volcans d'Auvergne. </p>
+				<br>
+				<p>Vite parcourue ou suivie de façon approfondie, vous profiterez des dernières connaissances scientifiques sur le volcanisme du site et découvrirez bien d'autres de ses spécificités, dont les activités pastorales, forestières,... Cette formation sera également l'occasion d'en savoir davantage sur les enjeux locaux et sur les actions menées pour préserver ce Bien. <span class="greenText">Nous avons là un site d’exception et nous avons tous, chacun à notre niveau, la responsabilité de le préserver.</span></p>
+			</div>
+		</div>
+    </div>
+
+    <div class="section2">
+		<div class="section2-title sectionsTitle">
+			<img src="${static.url('du-savoir-a-la-chaine/images/titles/section2_title.svg')}" alt="Présentation">
+		</div>
+		<div class="section2-sides">
+			<div class="section2-leftSide">
+				<div class="section2-text">
+					<p>Suivez <span class="greenText"> Léo </span>dans cette randonnée pédagogique qui vous permettra de découvrir tout ce qu’il faut savoir sur le territoire de la Chaîne des Puys – faille de Limagne.</p>
+					<p>Passionné par la géologie du site, son histoire, sa biologie ainsi que toutes ses particularités…, il vous contera ces paysages exceptionnels. Car selon lui, ce n’est qu’en comprenant vraiment la géologie du site et ses spécificités qu’on peut pleinement apprécier ce site merveilleux, en admirer tous ses contours, et le protéger.</p>
+				</div>
+				<div class="section2-elements">
+					<div class="section2-img1 parallaxSection2">
+						<img src="${static.url('du-savoir-a-la-chaine/images/imgs/section2_img1.svg')}" alt="mouton dans prairie">
+					</div>
+					<div class="section2-bkgText bkgTexts">
+						<div class="section2-bkgText-elements">
+							<p class="blueText">Plan de la formation</p>
+							<ul class="section2-list">
+								<li class="section2-list-items greenMarker">La géologie</li>
+								<li class="section2-list-items greenMarker">Le paysage</li>
+								<li class="section2-list-items greenMarker">La protection et la valorisation</li>
+								<li class="section2-list-items greenMarker">La cohabitation des activités</li>
+								<li class="section2-list-items greenMarker">La forêt</li>
+								<li class="section2-list-items greenMarker">L'eau</li>
+								<li class="section2-list-items greenMarker">Les milieux agro-pastoraux</li>
+								<li class="section2-list-items greenMarker">Les milieux rupestres</li>
+								<li class="section2-list-items greenMarker">La biodiversité</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="section2-rightSide">
+				<div class="section2-img2">
+					<img src="${static.url('du-savoir-a-la-chaine/images/imgs/section2_img2.svg')}" alt="">
+				</div>
+			</div>
+		</div>
+    </div>
+
+    <div class="section3">
+		<div class="section3-title sectionsTitle">
+			<img src="${static.url('du-savoir-a-la-chaine/images/titles/section3_title.svg')}" alt="Modalité d'accès">
+		</div>
+		<div class="section3-information">
+			<p>Cette formation est totalement <span class="blueText">gratuite</span> et <span class="blueText">ouverte à tous&nbsp;!</span></p>
+			<p>Elle est proposée en deux versions&nbsp;:</p>
+		</div>
+		<div class="section3-bkgText bkgTexts">
+			<div class="section3-elements-scaling">
+				<div class="section3-elements">
+					<div class="section3-bkgText-leftColumn">
+						<p class="greenText uppercase greenMarker">Une version courte 1h30</p>
+						<p>Formation permettant de découvrir, pour les curieux, les bases de ce site incroyable de la Chaîne des Puys - faille de Limagne. Vous pourrez également vous imprégner des bons comportements à avoir en déambulant sur ce territoire exceptionnel</p>
+					</div>
+					<div class="section3-bkgText-rightColumn">
+						<p class="greenText uppercase greenMarker">Une version longue 3h00 maximum</p>
+						<p>Formation approfondie avec des modules complémentaires et optionnels pour devenir incollable sur le territoire de la Chaîne des Puys – faille de Limagne et sa gestion (le site, sa géologie, ses particularités paysagères et naturalistes, les enjeux de sa préservation et du maintien des activités locales, les actions menées…).</p>
+					</div>
+				</div>
+				<p class="blueText">En fin de parcours, vous pourrez télécharger une attestation de suivi et un livret synthétique qui reprend l’ensemble des éléments.</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="section4">
+		<div class="section4-img1">
+			<img src="${static.url('du-savoir-a-la-chaine/images/imgs/section4_img3.jpg')}" alt="montagne volcan lac">
+		</div>
+	</div>
+
+</body>
+</html>
+
+<!-- script parallax - quentin - it allow to add a parallax effect when scrolling to some desired elements with the class "parallax" or "parallaxSection2" -->
+
+<!-- <script>
+
+const parallaxSection1 = document.querySelector('.parallax')
+const parallaxSection2 = document.querySelector('.parallaxSection2')
+
+window.addEventListener('scroll', ()=>{
+	let calculateY = (window.scrollY / 100)
+    parallaxSection1.style.backgroundPositionY = calculateY + 10 + 'rem'
+	parallaxSection2.style.transform = 'translateY(' + (calculateY - 24) + 'rem)'
+})
+
+</script> -->
