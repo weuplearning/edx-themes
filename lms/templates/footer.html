@@ -38,15 +38,16 @@
   .wrapper-footer footer#footer-openedx a{
     text-decoration: inherit;
   }
-
-  /* ------------------- global footer ----------------------- */
-
-
   .wrapper-footer{
     box-shadow: none !important;
     border-top: none !important;
     overflow: hidden;
+    background-color: inherit;
   }
+
+  /* ------------------- global footer ----------------------- */
+
+
   .footerContent{
     padding: 1rem 0rem;
   }
@@ -56,7 +57,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    margin: 0rem -1rem;
+    margin: 0rem -2rem;
   }
   .footerContent-bottom{
     display: flex;
@@ -102,7 +103,9 @@
 
 </style>
 
-% if uses_bootstrap:
+<!-- ⬇️ modif quentin ⬇️ - j'ai volontairement voulu éviter le premier if^^ -->
+
+% if uses_bootstrappppppp:
   <div class="container-fluid wrapper-footer">
     <footer>
       <div class="row">

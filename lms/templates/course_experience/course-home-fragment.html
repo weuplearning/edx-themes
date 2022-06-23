@@ -140,9 +140,9 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     .wrapper-preview-menu{
        //display:none;
     }
-.wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary{
-    display:none !important;
-}
+    .wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary{
+        display:none !important;
+    }
 
 
     .section-title{
@@ -259,6 +259,39 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         height: 40px;
     }
 
+    /* modifs quentin - 15384 */
+    header.page-header.has-secondary{
+        background: url("${static.url('du-savoir-a-la-chaine/images/imgs/img_banner1.jpg')}");
+        background: url("/static/du-savoir-a-la-chaine/images/imgs/img_banner1.3b19be947ef3.jpg");
+        background-size: cover;
+        background-position-y: -1rem;
+        background-repeat: no-repeat;
+        border-radius: 0.3rem;
+    }
+    #logo_banner{
+        display: none;
+    }
+    a.btn.btn-secondary.action-resume-course{
+        background-color: #4DC494 !important;
+        border: #4DC494 !important;
+        transition: 0.2s;
+    }
+    a.btn.btn-secondary.action-resume-course:hover{
+        filter: brightness(0.85);
+    }
+    li.outline-item.section{
+        background-color: #4DC494 !important;
+        border-radius: 0.3rem;
+    }
+    .wrapper-preview-menu{
+        background-color: #00BADF;
+    }
+    .container-fluid.wrapper-footer{
+        background-color: #00BADF;
+    }
+    aside.page-content-secondary.course-sidebar{
+        border-radius: 0.3rem;
+    }
     
     @media screen and (max-width: 1024px) {
         .page-content .page-content-secondary { 
@@ -344,7 +377,7 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
 <div class="course-view page-content-container" id="course-container">
     <header class="page-header has-secondary">
         <div class="page-header-main">
-            <img id="logo_banner" src="${static.url('{}/images/logo_secondary.png'.format(course.org))}" alt="banner logo">
+            <img id="logo_banner" src="${static.url('du-savoir-a-la-chaine/images/imgs/img_banner1.jpg')}" alt="banner logo">
         </div>
         <div class="page-header-secondary">
             % if show_search:
