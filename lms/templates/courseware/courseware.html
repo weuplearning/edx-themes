@@ -48,6 +48,19 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
 .wrapper-course-material .course-tabs .tab a, .wrapper-course-material .course-tabs .tab a:visited {
     color: #ED8349;
 }
+
+
+.wrapper-problem-response, .inputtype {
+display: inline;
+}
+.wrapper-problem-response {
+  margin-right: -12px;
+}
+
+.problem > div > p {
+  display: inline;
+  line-height: 34px;
+}
 </style>
 
 % if display_reset_dates_banner:
@@ -157,7 +170,6 @@ ${HTML(fragment.foot_html())}
   % endif
   >
   <div class="course-wrapper" role="presentation">
-
 % if disable_accordion is UNDEFINED or not disable_accordion:
     <div class="course-index">
 
@@ -331,3 +343,4 @@ ${HTML(fragment.foot_html())}
   });
 
 </%static:require_module_async>
+
