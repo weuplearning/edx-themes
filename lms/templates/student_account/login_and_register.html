@@ -46,6 +46,11 @@
     display: none;
   }
 
+  /* modifs quentin - ticket 15377 - hide department section if region isn't selected first */
+  .form-field.select-department{
+    display: none;
+  }
+
 </style>
 
 % if "register" in request.path:
@@ -435,12 +440,42 @@ var functionToRegion = setInterval(() => {
 
 <script>
 
-// window.addEventListener("load", ()=>{
-//   document.querySelector('#register-name-required-label').previousElementSibling.textContent = 'Nom complet (Prénom + Nom)'
-// })
-
-window.setInterval(()=>{
+window.setTimeout(()=>{
   document.querySelector('#register-name-required-label').previousElementSibling.textContent = 'Nom complet (Prénom + Nom)'
 }, 150)
 
+</script>
+
+
+<!-- modifs quentin - ticket 15377 - hide department section if region isn't selected first -->
+
+<script>
+
+  setTimeout(() => {
+    const sectionDepartment = document.querySelector('.form-field.select-department')
+    const sectionRegion = document.querySelector('#register-region')
+    
+    // console.log('💧💧💧💧💧💧💧💧💧💧 sectionDepartment'+sectionDepartment);
+    // console.log('💧💧💧💧💧💧💧💧💧💧 sectionRegion'+sectionRegion);
+
+    sectionRegion.addEventListener('change', ()=>{
+      let selectedRegion = sectionRegion.value
+      
+      // console.log('🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥 sectionRegion : '+sectionRegion)
+      // console.log('🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥 selectedRegion : '+selectedRegion)
+
+      if (selectedRegion != '') {
+        console.log('there is a value for sectionRegions');
+        sectionDepartment.style.display='block'
+        console.log('sectionDepartment displayed');
+      }
+      else if (selectedRegion == ''){
+        console.log('sectionDepartment hidden');
+        sectionDepartment.style.display='none'
+      }
+      else{
+        console.log('🤔 something is not working with hidding department section script');
+      }
+    })
+  }, 500)
 </script>
