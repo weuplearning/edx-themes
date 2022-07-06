@@ -456,51 +456,51 @@ a:hover{
 }
 
 .color_index_0{
-background-color: #ed8349 !important;
+  background-color: #249f6d !important;
 }
 
 .color_index_1{
-background-color: #2e80ca !important;
+  background-color: #ed8349 !important;
 }
 
 .color_index_2{
-background-color: #e2524b !important;
+  background-color: #2e80ca !important;
 }
 
 .color_index_3{
-background-color: #249f6d !important;
+  background-color: #e2524b !important;
 }
 
 .chevron_right_index_0{
-  color: #ac3f26 !important;
-}
-
-.chevron_right_index_1{
-  color: #8ec0d6 !important;
-}
-
-.chevron_right_index_2{
-  color: #ed8349 !important;
-}
-
-.chevron_right_index_3{
   color: #54cc96 !important;
 }
 
+.chevron_right_index_1{
+  color: #ac3f26 !important;
+}
+
+.chevron_right_index_2{
+  color: #8ec0d6 !important;
+}
+
+.chevron_right_index_3{
+  color: #ed8349 !important;
+}
+
 .progress_bar_index_0{
-  background-color: #a83b24;
+  background-color: #54cc96 !important;
 }
 
 .progress_bar_index_1{
-  background-color: #8ec0d6;
+  background-color: #a83b24;
 }
 
 .progress_bar_index_2{
-  background-color: #ed8349;
+  background-color: #8ec0d6;
 }
 
 .progress_bar_index_3{
-  background-color: #54cc96 !important;
+  background-color: #ed8349;
 }
 
 .image_logo_bar{
@@ -568,10 +568,12 @@ background-color: #249f6d !important;
             % endif
                     </button>
                     % if primary_index == 0:
-                    <img class="image_logo_bar" src="${static.url('bungalow/images/ico_middle_section_0.svg')}" alt="logo"/>
+                    <img class="image_logo_bar" src="${static.url('bungalow/images/ico_middle_section_intro3.png')}" alt="logo"/>
                     % elif primary_index == 1:
-                    <img class="image_logo_bar" src="${static.url('bungalow/images/ico_middle_section_1.svg')}" alt="logo"/>
+                    <img class="image_logo_bar" src="${static.url('bungalow/images/ico_middle_section_0.svg')}" alt="logo"/>
                     % elif primary_index == 2:
+                    <img class="image_logo_bar" src="${static.url('bungalow/images/ico_middle_section_1.svg')}" alt="logo"/>
+                    % elif primary_index == 3:
                     <img class="image_logo_bar" src="${static.url('bungalow/images/ico_middle_section_2.svg')}" alt="logo"/>
                     % else:
                     <img class="image_logo_bar" src="${static.url('bungalow/images/ico_middle_section_3.svg')}" alt="logo"/>
