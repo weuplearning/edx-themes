@@ -344,3 +344,137 @@ ${HTML(fragment.foot_html())}
 
 </%static:require_module_async>
 
+<!-- modif quentin - ticket 14545 - pour traduction  -->
+
+<script>
+
+  setTimeout(() => {
+
+    // elements à traduire
+    const element1 = document.querySelector('.problem-progress') // 'ungraded'
+    const element2 = document.querySelector('.keyboard-help-button').childNodes[2] // 'keyboard help'
+    const element3 = document.querySelector('.submit-answer-button').childNodes[1] // 'bouton submit'
+    const element4 = document.querySelector('.attempts-used') // 'nombre d'attempts'
+    const element5 = document.querySelector('.reset-button').childNodes[1] // 'bouton reset'
+    const element6 = document.querySelector('.show-answer-button').childNodes[1] // 'show answer'
+    const element7 = document.querySelector('.feedback-content').childNodes[0] // feedback
+    const element8 = document.querySelector('.feedback-content').childNodes[1].childNodes[0] // elements correctement placés
+    const element9 = document.querySelector('.feedback-content').childNodes[1].childNodes[1] // elements mal placés
+    const element10 = document.querySelector('.feedback-content').childNodes[1].childNodes[2] // elements pas placés
+
+    // pattern de traduction pour chaque elements
+
+    const patternElement1 = element1.textContent.slice(19,27)
+    const patternElement2 = element2.textContent
+    const patternElement3 = element3.textContent
+    const patternElement4 = element4.textContent
+    const patternElement4_1 = 'You have used'
+    const patternElement4_2 = 'of'
+    const patternElement4_3 = 'attempts.'
+    const patternElement5 = element5.textContent
+    const patternElement6 = element6.textContent
+    const patternElement7 = element7.textContent
+    // const patternElement8_1 = element8.textContent.slice(0,16)
+    // const patternElement8_2 = element8.textContent.slice(18,25)
+    // const patternElement9_1 = element9.textContent.slice(0,10)
+    // const patternElement9_2 = element9.textContent.slice(11,18)
+    // const patternElement10_1 = element10.textContent.slice(0,14)
+    // const patternElement10_2 = element10.textContent.slice(15,30)
+    const patternElement8_1 = 'Correctly placed '
+    const patternElement8_2 = ' items.'
+    const patternElement9_1 = 'Misplaced '
+    const patternElement9_2 = ' items.'
+    const patternElement10_1 = 'Did not place '
+    const patternElement10_2 = ' required item.'
+
+    const tradElement1 = 'non noté'
+    const tradElement2 = 'Aide clavier'
+    const tradElement3 = 'Soumettre'
+    const tradElement4 = 'Vous avez utilisé 0 sur 1 tentative'
+    const tradElement4_1 = 'Vous avez utilisé'
+    const tradElement4_2 = 'sur'
+    const tradElement4_3 = 'tentative'
+    const tradElement5 = 'Réinitialiser'
+    const tradElement6 = 'Voir la réponse'
+    const tradElement7 = 'Indices :'
+    const tradElement8_1 = 'Element(s) correctement placé(s) : '
+    const tradElement8_2 = ''
+    const tradElement9_1 = 'Element(s) mal placé(s) : '
+    const tradElement9_2 = ''
+    const tradElement10_1 = 'Element(s) non placé(s) : '
+    const tradElement10_2 = ''
+    
+    console.log('la variable patternElement2 est de type : '+typeof patternElement2);
+    
+    if(element1.textContent != null){
+      element1.textContent=element1.textContent.replace(patternElement1,tradElement1)
+      element2.textContent=element2.textContent.replace(patternElement2,tradElement2)
+      element3.textContent=element3.textContent.replace(patternElement3,tradElement3)
+      element4.textContent=element4.textContent.replace(patternElement4_1,tradElement4_1)
+      element4.textContent=element4.textContent.replace(patternElement4_2,tradElement4_2)
+      element4.textContent=element4.textContent.replace(patternElement4_3,tradElement4_3)
+      element5.textContent=element5.textContent.replace(patternElement5,tradElement5)
+      element6.textContent=element6.textContent.replace(patternElement6,tradElement6)
+    }
+
+    setInterval(() => {
+
+      element7.innerHTML=element7.innerHTML.replace(patternElement7,tradElement7)
+      
+      if(element8.textContent.includes('Correctly')){
+        element8.innerHTML=element8.innerHTML.replace(patternElement8_1,tradElement8_1)
+        element8.innerHTML=element8.innerHTML.replace(patternElement8_2,tradElement8_2)
+      }
+      else if(element8.textContent.includes('Misplaced')){
+        element8.innerHTML=element8.innerHTML.replace(patternElement9_1,tradElement9_1)
+        element8.innerHTML=element8.innerHTML.replace(patternElement9_2,tradElement9_2)
+      }
+      else if(element8.textContent.includes('required')){
+        element8.innerHTML=element8.innerHTML.replace(patternElement10_1,tradElement10_1)
+        element8.innerHTML=element8.innerHTML.replace(patternElement10_2,tradElement10_2)
+      }
+
+      if(element9.textContent.includes('Misplaced')){
+        element9.innerHTML=element9.innerHTML.replace(patternElement9_1,tradElement9_1)
+        element9.innerHTML=element9.innerHTML.replace(patternElement9_2,tradElement9_2)
+      }
+      else if(element9.textContent.includes('required')){
+        element9.innerHTML=element9.innerHTML.replace(patternElement10_1,tradElement10_1)
+        element9.innerHTML=element9.innerHTML.replace(patternElement10_2,tradElement10_2)
+      }
+
+      if(element10.textContent.includes('required')){
+        element10.innerHTML=element10.innerHTML.replace(patternElement10_1,tradElement10_1)
+        element10.innerHTML=element10.innerHTML.replace(patternElement10_2,tradElement10_2)
+      }
+
+    }, 300);
+
+    // ⬇️ working on a cleaner script ⬇️
+
+    // for (let i = 1; i < 7; i++) {
+
+    //   console.log('variable element[i] : '+['element'+[i]]);
+    //   console.log('variable patterElement[i] : '+['patternElement'+[i]]);
+    //   console.log('variable tradElement[i] : '+['tradElement'+[i]]);
+
+    //   console.log('type de variable pour element : '+ typeof ['element'+[i]]);
+    //   console.log('type de variable pour pattern : '+ typeof ['patternElement'+[i]]);
+    //   console.log('type de variable pour trad : '+ typeof ['tradElement'+[i]]);
+
+    //   console.log('textContent pour variable pattern : '+['patternElement'+[i]].textContent);
+    //   console.log('textContent pour variable element : '+['element'+[i]].textContent);
+
+    //   console.log('textContent pour variable pattern (parenthese) : '+('patternElement'+[i]).textContent);
+    //   console.log('textContent pour variable element (parenthese) : '+('element'+[i]).textContent);
+
+    //   console.log('typeof pour variable pattern (parenthese) : '+typeof ('patternElement'+[i]));
+    //   console.log('typeof pour variable element (parenthese) : '+typeof ('element'+[i]));
+
+    //   // ['element'+[i]].textContent=['element'+[i]].textContent.replace(['patternElement'+[i]],['tradElement'+[i]])
+    //   // ['element'+[i]].textContent=['element'+[i]].textContent.replace('classé','test')
+    // }
+
+  }, 600);
+
+</script>

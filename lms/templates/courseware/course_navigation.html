@@ -74,3 +74,33 @@ if course is not None:
         </nav>
     % endif
 %endif
+
+<!-- modif quentin - 14545 - remove discussion in courses -->
+
+<script>
+    // solution 1 pour ce cours en particulier
+    // document.querySelector('[href="/courses/course-v1:bungalow+01+01/discussion/forum/"]').style.display='none'
+
+    // solution 2, pour tous les cours (sans tenir compte du course id)
+    setTimeout(() => {
+        const allLinksOnPage = document.querySelectorAll('[href]')
+        // console.log('variable allLinksOnPage : '+allLinksOnPage);
+
+        allLinksOnPage.forEach(element => {
+            if (element.href.includes('/discussion/forum/')) {
+                console.log('there is a link on the page that include the pattern "/discussion/forum/" ');
+                element.parentElement.style.display='none'
+                console.log('discussion hidden 👌🏻');
+            }
+            else if (element.href.includes('course_wiki')) {
+                console.log('there is a link on the page that include the pattern "course_wiki" ');
+                element.parentElement.style.display='none'
+                console.log('course_wiki hidden 👌🏻');
+            }
+            else{
+                console.log("havent found link containing '/discussion/forum/' to hide in the page");
+            }
+        });
+    }, 5);
+
+</script>
