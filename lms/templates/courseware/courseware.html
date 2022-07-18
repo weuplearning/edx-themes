@@ -358,9 +358,9 @@ ${HTML(fragment.foot_html())}
     const element5 = document.querySelector('.reset-button').childNodes[1] // 'bouton reset'
     const element6 = document.querySelector('.show-answer-button').childNodes[1] // 'show answer'
     const element7 = document.querySelector('.feedback-content').childNodes[0] // feedback
-    const element8 = document.querySelector('.feedback-content').childNodes[1].childNodes[0] // elements correctement placés
-    const element9 = document.querySelector('.feedback-content').childNodes[1].childNodes[1] // elements mal placés
-    const element10 = document.querySelector('.feedback-content').childNodes[1].childNodes[2] // elements pas placés
+    // const element8 = document.querySelector('.feedback-content').childNodes[1].childNodes[0] // elements correctement placés
+    // const element9 = document.querySelector('.feedback-content').childNodes[1].childNodes[1] // elements mal placés
+    // const element10 = document.querySelector('.feedback-content').childNodes[1].childNodes[2] // elements pas placés
 
     // pattern de traduction pour chaque elements
 
@@ -417,45 +417,45 @@ ${HTML(fragment.foot_html())}
       element6.textContent=element6.textContent.replace(patternElement6,tradElement6)
     }
 
-    setInterval(() => {
-      if (element7 !=null) {
-        element7.innerHTML=element7.innerHTML.replace(patternElement7,tradElement7)
-      }
+    // setInterval(() => {
+    //   if (element7 !=null) {
+    //     element7.innerHTML=element7.innerHTML.replace(patternElement7,tradElement7)
+    //   }
       
-      if(element8 != null){
-        if(element8.textContent.includes('Correctly')){
-          element8.innerHTML=element8.innerHTML.replace(patternElement8_1,tradElement8_1)
-          element8.innerHTML=element8.innerHTML.replace(patternElement8_2,tradElement8_2)
-        }
-        else if(element8.textContent.includes('Misplaced')){
-          element8.innerHTML=element8.innerHTML.replace(patternElement9_1,tradElement9_1)
-          element8.innerHTML=element8.innerHTML.replace(patternElement9_2,tradElement9_2)
-        }
-        else if(element8.textContent.includes('required')){
-          element8.innerHTML=element8.innerHTML.replace(patternElement10_1,tradElement10_1)
-          element8.innerHTML=element8.innerHTML.replace(patternElement10_2,tradElement10_2)
-        }
-      }
+    //   if(element8 != null){
+    //     if(element8.textContent.includes('Correctly')){
+    //       element8.innerHTML=element8.innerHTML.replace(patternElement8_1,tradElement8_1)
+    //       element8.innerHTML=element8.innerHTML.replace(patternElement8_2,tradElement8_2)
+    //     }
+    //     else if(element8.textContent.includes('Misplaced')){
+    //       element8.innerHTML=element8.innerHTML.replace(patternElement9_1,tradElement9_1)
+    //       element8.innerHTML=element8.innerHTML.replace(patternElement9_2,tradElement9_2)
+    //     }
+    //     else if(element8.textContent.includes('required')){
+    //       element8.innerHTML=element8.innerHTML.replace(patternElement10_1,tradElement10_1)
+    //       element8.innerHTML=element8.innerHTML.replace(patternElement10_2,tradElement10_2)
+    //     }
+    //   }
 
-      if(element9 != null){
-        if(element9.textContent.includes('Misplaced')){
-          element9.innerHTML=element9.innerHTML.replace(patternElement9_1,tradElement9_1)
-          element9.innerHTML=element9.innerHTML.replace(patternElement9_2,tradElement9_2)
-        }
-        else if(element9.textContent.includes('required')){
-          element9.innerHTML=element9.innerHTML.replace(patternElement10_1,tradElement10_1)
-          element9.innerHTML=element9.innerHTML.replace(patternElement10_2,tradElement10_2)
-        }
-      }
+    //   if(element9 != null){
+    //     if(element9.textContent.includes('Misplaced')){
+    //       element9.innerHTML=element9.innerHTML.replace(patternElement9_1,tradElement9_1)
+    //       element9.innerHTML=element9.innerHTML.replace(patternElement9_2,tradElement9_2)
+    //     }
+    //     else if(element9.textContent.includes('required')){
+    //       element9.innerHTML=element9.innerHTML.replace(patternElement10_1,tradElement10_1)
+    //       element9.innerHTML=element9.innerHTML.replace(patternElement10_2,tradElement10_2)
+    //     }
+    //   }
 
-      if(element10 != null){
-        if(element10.textContent.includes('required')){
-          element10.innerHTML=element10.innerHTML.replace(patternElement10_1,tradElement10_1)
-          element10.innerHTML=element10.innerHTML.replace(patternElement10_2,tradElement10_2)
-        }
-      }
+    //   if(element10 != null){
+    //     if(element10.textContent.includes('required')){
+    //       element10.innerHTML=element10.innerHTML.replace(patternElement10_1,tradElement10_1)
+    //       element10.innerHTML=element10.innerHTML.replace(patternElement10_2,tradElement10_2)
+    //     }
+    //   }
 
-    }, 400);
+    // }, 400);
 
     // ⬇️ working on a cleaner script ⬇️
 
@@ -482,6 +482,6 @@ ${HTML(fragment.foot_html())}
     //   // ['element'+[i]].textContent=['element'+[i]].textContent.replace('classé','test')
     // }
 
-  }, 700);
+  }, 900);
 
 </script>
