@@ -418,8 +418,9 @@ ${HTML(fragment.foot_html())}
     }
 
     setInterval(() => {
-
-      element7.innerHTML=element7.innerHTML.replace(patternElement7,tradElement7)
+      if (element7 !=null) {
+        element7.innerHTML=element7.innerHTML.replace(patternElement7,tradElement7)
+      }
       
       if(element8 != null){
         if(element8.textContent.includes('Correctly')){
