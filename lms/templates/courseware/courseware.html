@@ -88,6 +88,10 @@ button.show.problem-action-btn.btn-default.btn-small{
 div.problem-progress{
     display:none !important;
 }
+
+/* .video-controls {
+  display: none;
+} */
 </style>
 <script>
 setInterval(function(){
@@ -342,3 +346,33 @@ ${HTML(fragment.foot_html())}
   });
 
 </%static:require_module_async>
+
+
+<!-- get time tracking for video => useless, already saved in wul course enrollment -->
+<!-- <script>
+  let videoTimeStampBeforeUnload = 0
+
+  window.addEventListener('load', function() {
+
+    window.addEventListener("click", function(){
+        if (document.getElementsByClassName("progress-handle").length > 0) {
+          videoTimeStampBeforeUnload = document.getElementsByClassName("progress-handle")[0].attributes[6].value
+          console.log(videoTimeStampBeforeUnload)
+        }
+      })
+
+    window.onbeforeunload=function(){
+      console.log("test")
+      if(document.getElementsByClassName("progress-handle").length > 0) {
+        console.log(document.getElementsByClassName("progress-handle")[0].attributes[6].value)
+      } else {
+        console.log(videoTimeStampBeforeUnload)
+      }
+      return "Are you sure to leave this page?";
+    }
+
+  })
+  
+  </script> -->
+  
+  <%include file="/wul_apps/wul_time_tracking.html" />
