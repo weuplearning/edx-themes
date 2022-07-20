@@ -70,3 +70,19 @@ if (window.location.href.indexOf("/login") != -1) {
     }
 }
 </script>
+
+<script>
+window.addEventListener("load", function () {
+    const productField = document.getElementsByClassName("form-field select-online_sales_products")[0]
+    productField.style.display = "none"
+    const selectorField = document.getElementById("register-online_sales")
+    selectorField.addEventListener("click", function () {
+    console.log(selectorField.value)
+    if (selectorField.value === "oui") {
+        productField.style.display = "block"
+    } else {
+        productField.style.display = "none"
+    }
+    });
+});
+    </script>
