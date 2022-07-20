@@ -3,6 +3,8 @@
 <!-- WUL TIME TRACKING -->
 <script src="/media/wul_apps/interface_stat/jquery.idle.js"></script>
 <script type="text/javascript">
+
+
   var time_spent=0;
   var can_reset_timer=false;
 
@@ -37,8 +39,7 @@
   }
 });
 
-  //Send timer when user leaves the page
-  window.addEventListener('beforeunload', function (e) {
+window.addEventListener('beforeunload', function (e) {
     time=end_timer();
     send_time(time);
   });
@@ -93,6 +94,8 @@
     section=get_section();
     subsection=get_sub_section();
     console.log('time sent : '+time);
+    console.log(section)
+    console.log(sub_section)
     $.ajax({
       url : '/wul_apps/${str(course.id)}/wul_stats/time_tracker',
       type : 'POST',
@@ -103,9 +106,15 @@
       },
       dataType:'json',
       success : function(data) {
+        console.log(data)
         if ('success' in data){
           can_reset_timer=true;
         }
+        
+      },
+      error: function (xhr, ajaxOptions, thrownError) {
+      console.log(thrownError)
+      console.log(xhr); //Ce code affichera le message d'erreur, ici Message d'erreur.
       }
     });
   }
