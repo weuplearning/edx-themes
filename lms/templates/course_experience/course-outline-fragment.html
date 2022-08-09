@@ -18,6 +18,12 @@ from django.utils.translation import ngettext
 from lms.djangoapps.courseware.access import has_access
 from openedx.core.djangolib.markup import HTML, Text
 from openedx.features.course_experience import RELATIVE_DATES_FLAG
+
+from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+
+from lms.djangoapps.grades.course_grade import ZeroCourseGrade
+from django.conf import settings
+
 %>
 
 <%
@@ -520,6 +526,25 @@ a:hover{
     font-weight: bold;
 }
 
+
+  /* modifs quentin - ticket 15882 - solving responsive problem with titles of sections */
+
+  @media screen and (min-width:1151px) and (max-width:1250px) {
+    .section-title{
+      width: 23rem;
+    }
+  }
+  @media screen and (min-width:1251px) and (max-width:1350px) {
+    .section-title{
+      width: 29rem;
+    }
+  }
+  @media screen and (min-width:1351px) and (max-width:1450px) {
+    .section-title{
+      width: 32rem;
+    }
+  }
+
     </style>
 
     
@@ -551,6 +576,40 @@ a:hover{
                             id="${ section['id'] }">
                             <span class="fa fa-chevron-right chevron_right_index_${primary_index} ${ 'fa-rotate-90' if section_is_auto_opened else '' }" aria-hidden="true"></span>
                             <h3 class="section-title">${ section['display_name']}</h3>
+
+
+                      <!-- modifs quentin - ticket 15882 - solving completion gauge -->
+                      
+                      %if configuration_helpers.get_value('COMPLETION_BASED_DASHBOARD_MONO', False):
+
+                        <%
+                        total_blocks = 1
+                        completed_blocks = 1
+
+                        if not section.get('complete'):
+                          total_blocks = 0
+                          completed_blocks = 0
+                          for subsection in section.get('children', []):
+                            for unitchild in subsection.get('children', []):
+                              for blockchild in unitchild.get('children', []):
+                                total_blocks += 1
+                                if blockchild.get('complete'):
+                                  completed_blocks += 1
+                        if total_blocks == 0:
+                          pass
+                        else:
+                          completion_ratio = completed_blocks / total_blocks
+                        %>
+                      
+                        <div class="progress_bar_and_score">
+                          <div class="progress-bar-full">
+                              <div style="width:${(completion_ratio * 100)-2}%;" class="progress-bar-grade progress_bar_index_${primary_index}"></div>
+                          </div>
+                          <h2 class="completed_percent"> ${int(completion_ratio * 100)} %</h2>
+                        </div>
+
+                      %else:
+
                         %for index, chapter in enumerate(user_grade.chapter_grades.keys()):
                             %if section['display_name'] == user_grade.chapter_grades[chapter]['display_name']:
                                 <div class="progress_bar_and_score">
@@ -559,9 +618,13 @@ a:hover{
                                         <div style="width:50%;" class="progress-bar-grade progress_bar_index_${primary_index}"></div>
                                     </div>        
                                     <h2 class="completed_percent"> ${int(user_grade.chapter_percentage(chapter) * 100)} %</h2>     
-                                </div>  
+                                </div>
                             %endif
                         %endfor
+
+                      %endif
+
+                      
             % if section.get('complete'):
                             <!-- <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
                             <span class="sr">${_("Completed")}</span> -->
