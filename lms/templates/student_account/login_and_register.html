@@ -39,17 +39,18 @@
 }
 
 .login-register-box-container {
-        background-image: none;
-    width: 790px;
+    background-image: none;
     height: auto;
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 790px;
     background-image: url(/static/bungalow/images/fond_form.png);
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
-
+    padding: 3rem;
+    padding-bottom: 0rem;
 }
   .login-register{
       min-height: inherit;
@@ -76,7 +77,14 @@ color: #fff;
     align-items: center;
     margin-top: 0;
     position: relative;
-    top: 85px;
+    top: 6rem;
+    transition: 0.2s;
+}
+.button-box:hover{
+    filter: brightness(0.9);
+}
+.button-box:active{
+    filter: brightness(0.9);
 }
 
 .login-register .action-primary {
@@ -97,6 +105,36 @@ color: #fff;
     height: 60px;
     top: 70px;
 } */
+
+
+/* media query */
+
+@media screen and (max-width:600px) {
+    div#login-and-registration-container{
+        padding: 1rem;
+        background: white;
+        border-radius: 0.3rem;
+        margin: 2rem;
+    }
+    .login-register-box-container{
+        background: none;
+        padding: 0;
+    }
+}
+@media screen and (max-width:450px) {
+    .login-register-content{
+        margin-top: 5rem;
+    }
+    div#login-and-registration-container{
+        margin: 0.5rem;
+    }
+}
+@media screen and (max-width:300px) {
+    div#login-and-registration-container{
+        transform: scale(0.95);
+        padding: 0.5rem;
+    }
+}
 
 
 
