@@ -1,0 +1,207 @@
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.urls import reverse
+
+from openedx.core.djangolib.markup import HTML, Text
+%>
+
+<style>
+  body {
+    background-size: contain!important;
+    background-repeat: no-repeat!important;
+    background-position-x: right!important;
+}
+#content {
+    min-height: calc(100vh - 102px) !important;
+}
+.content_tma {
+    min-height: calc(100vh - 136px) !important;
+}
+.home {
+    margin-left: 0px;
+    background: none;
+    border: none;
+    height: auto;
+    margin: 0 auto 0;
+    max-width: 1180px;
+    min-width: 760px;
+}
+.header-global {
+    border-bottom: none;
+    box-shadow: none;
+    background: none;
+}
+.header-global h1.logo img.ec-logo-size {
+    display:none;
+}
+.wrapper-header {
+    max-width: 1500px !important;
+}
+.empty-dashboard-message {
+    max-width: 600px;
+    margin-left: 0px;
+    background: none;
+    color: none !important;
+    border: none;
+}
+#tma_background_font {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url("${static.url('bvt/images/banner.jpeg')}");
+}
+header > nav > ol {
+    background-color: rgba(255, 255, 255,0.5);
+    border-radius: 10px;
+}
+.user-link {
+    box-shadow: none !important;
+}
+.user-link:hover {
+    background-color: rgba(21, 67, 121,0.7) !important;
+    border-radius: 15px;
+}
+
+/*Homepage*/
+#connectButnsWrapper{
+    max-width: 600px;
+    margin-left: 0px;
+    background: none;
+    border: none;
+    text-align: center;
+}
+.butnContainer {
+    margin-top: 180px;
+}
+.butnContainer > a {
+    padding: 10px 20px;
+    text-align: center;
+    text-shadow: none;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: white;
+    background-color: rgb(33, 171, 200);
+    box-sizing: border-box;
+    transition: color 0.25s ease-in-out,background 0.25s ease-in-out,box-shadow 0.25s ease-in-out;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0px 0px 3px black;
+    border-radius: 3px;
+    font-size: 24px;
+}
+.butnContainer > a:hover {
+    background-color: rgba(33, 171, 200,0.5);
+}
+.header-global {
+    height: 120px;
+}
+
+/* Dashboard */
+#dashboard_course_content {
+    margin: 0px;
+    width: 100%;
+}
+#logoData4Manager > img {
+    margin-top: 50px;
+    max-width: 70vw;
+}
+.empty-dashboard-message p {
+    color: rgba(21, 67, 121,1);
+    line-height: 100%;
+}
+
+@media screen and (max-width: 670px) {
+    #logoData4Manager {
+        margin-left: 10px;
+    }
+    #logoData4Manager > img {
+        position: relative;
+    }
+    #tma_background_font {
+        background-position-x: -955px;
+    }
+}
+@media screen and (max-width: 500px) {
+    .header-global h1.logo img.ec-logo-size {
+        min-width: 90vw;
+    }
+}
+  .wrapper-header {
+    display: none;
+  }
+  body {
+    background-image: none !important;
+  }
+  .home>header {
+    height: 450px;
+    background-image: none;
+    box-shadow: none;
+  }
+  .header-global {
+    height: 120px;
+  }
+  #logoData4Manager {
+    max-width: 600px;
+    margin-left: 0px;
+    background: none;
+    border: none;
+    text-align: center;
+  }
+  .courses {
+    display: none !important;
+  }
+
+  .global-header {
+    display: none !important;
+  }
+
+  .main-container{
+    background-image: url("${static.url('complete-data/images/bg_img.jpeg')}");
+  }
+</style>
+
+
+<script>
+  document.title="Préparation-data";
+</script>
+
+
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="home">
+
+        <div id="logoData4Manager">
+          <img src="${static.url('complete-data/images/logo_data_for_manager.png')}" width="50" style="width: 500px;"/>
+        </div>
+
+        <div id="connectButnsWrapper">
+          <div class="butnContainer">
+            <a class="registerButn" href='/register' style="display: none;">Inscription</a>
+          </div>
+          <div class="butnContainer">
+            <a class="connectButn" href='/login'>${_("Sign in")}</a>
+          </div>
+        </div>
+
+    </section>
+</main>
+
+
+<%block name="js_extra">
+   <script type="text/javascript">
+      $(window).load(function() {
+         if(getParameterByName('next')) {
+              $('#login').trigger("click");
+         }
+      })
+   </script>
+</%block>
+
+% if show_signup_immediately is not UNDEFINED:
+  ## NOTE: This won't work in production, because anonymous views are cached, so it will
+  ## show either with or without this extra js for 3 minutes at a time.
+<script type="text/javascript">
+  $(window).load(function() {$('#signup_action').trigger("click");});
+</script>
+% endif
