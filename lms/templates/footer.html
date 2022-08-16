@@ -3,81 +3,184 @@
 <%!
   from django.urls import reverse
   from django.utils.translation import ugettext as _
-  from lms.djangoapps.branding.api import get_footer
-  from openedx.core.djangoapps.lang_pref.api import footer_language_selector_is_enabled
+  from branding.api import get_footer
+  from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_enabled, released_languages
 %>
 <% footer = get_footer(is_secure=is_secure) %>
-<% icp_license_info = getattr(settings, 'ICP_LICENSE_INFO', {})%>
 <%namespace name='static' file='static_content.html'/>
+<%
+org = static.get_value('domain_prefix')
+css = '/media/microsite/{}/auto/css/footer.css'.format(org)
+%>
+<script>
+$( document ).ready(function(){
+  // console.log(window.location.pathname)
 
-<style>
-  .wrapper-footer {
-    /* background-color: var(--primary); */
-    background-color: rgba(3,48,85,1);
+  console.log('en');
+  console.log($('#settings-language-value > option[value="en"]')[0]);
+  console.log('fr');
+  console.log($('#settings-language-value > option[value="fr"]')[0]);
+  
+  if(window.location.pathname === "/"){
+    $(".footer-translation").show();
+  }else{
+    $('footer.global').attr('style', 'padding: 20px 0px!important');
   }
-
-  body.view-in-course .wrapper-footer {
-    background-color: gray;
+  if($('#settings-language-value > option[value="en"]')[0] && $('#settings-language-value > option[value="en"]')[0].hasAttribute("selected")){
+    $('#about-trad').text('Legal Notice')
+    $('#conf-trad').text('Privacy')
+    $('#general-conditions').text('General conditions')
+    $('#credits').text('Credits')
+  } else{
+    $('#about-trad').text('Mentions Légales')
+    $('#conf-trad').text('Confidentialité')
+    $('#general-conditions').text('Conditions générales')
+    $('#credits').html('Cr&eacute;dits')
   }
-
-  .wrapper-footer .site-nav, .wrapper-footer footer#footer-openedx .colophon .nav-colophon {
-    margin: 0 !important;
-  }
-
-  .wrapper-footer .site-nav .nav-link, .wrapper-footer footer#footer-openedx .colophon .nav-colophon li a {
-    color: white !important;
-  }
-
-
-</style>
-
-% if uses_bootstrap:
-  <div class="container-fluid wrapper-footer">
-    <footer>
-      <div class="row">
-        <div class="col-md-9">
-          <nav class="navbar site-nav navbar-expand-sm" aria-label="${_('CGU')}">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="/cgu">Conditions générales d'utilisation</a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-        <div class="col-md-3"></div>
-      </div>
-    </footer>
+});
+</script>
+<!-- <link rel="stylesheet" type="text/css" href="${css}" /> -->
+<footer class="global">
+  <div class="footer-container">
+    <ul class="links">
+      <li>
+        <a id="general-conditions" href="/tos"> Conditions générales</a>
+      </li>
+      <li>
+        <a id="about-trad" href="/about">Mentions Légales</a>
+      </li>
+	    <li>
+        <a id="conf-trad" href="/privacy">Confidentialité</a>
+      </li>
+      <li>
+        <a id="credits" href="/honor">Cr&eacute;dits</a>
+      </li>
+    </ul>
+    <p class="copyright">Une r&eacute;alisation <a href="http://themoocagency.com">The MOOC Agency</a></p>
+    <div class="by-ionisx">
+    </div>
   </div>
-% else:
-  <div class="wrapper wrapper-footer">
-    <footer id="footer-openedx" class="grid-container"
-      ## When rendering the footer through the branding API,
-      ## the direction may not be set on the parent element,
-      ## so we set it here.
-      % if bidi:
-        dir=${bidi}
-      % endif
-    >
-      <div class="colophon">
-        <nav class="nav-colophon" aria-label="${_('CGU')}">
-          <ol>
-            <li class="nav-colophon-01">
-              <a id="cgu" href="/cgu">Conditions générales d'utilisation</a>
-            </li>
-          </ol>
-        </nav>
-      </div>
-    </footer>
-  </div>
-% endif
-% if include_dependencies:
-  <%static:js group='base_vendor'/>
-  <%static:css group='style-vendor'/>
-  <%include file="widgets/segment-io.html" />
-  <%include file="widgets/segment-io-footer.html" />
-% endif
-% if footer_css_urls:
-  % for url in footer_css_urls:
-    <link rel="stylesheet" type="text/css" href="${url}"></link>
-  % endfor
-% endif
+  <% languages = released_languages() %>
+        <ol class="user footer-translation" style="display:none;">
+          <li class="primary">
+            <form action="/i18n/setlang/" method="post" class="settings-language-form" id="language-settings-form">
+              <input type="hidden" id="csrf_token" name="csrfmiddlewaretoken" value="${csrf_token}">
+              % if user.is_authenticated:
+              <input title="preference api" type="hidden" class="url-endpoint" value="${reverse('preferences_api', kwargs={'username': user.username})}" data-user-is-authenticated="true">
+              % else:
+              <input title="session update url" type="hidden" class="url-endpoint" value="${reverse('session_language')}" data-user-is-authenticated="false">
+              % endif
+              <label><span class="sr">${_("Choose Language")}</span>
+                <!--LANGUAGE FLAGS-->
+                <div id="lang-content">
+                  <!-- <img src="/media/microsite/afpa/images/uk.png" id="en"> -->
+                  <img src="${static.url('complete-data/images/uk.png')}" id="en">
+                  <img src="${static.url('complete-data/images/fr.png')}" id="fr">
+                  <!-- <img src="/media/microsite/afpa/images/fr.png" id="fr"> -->
+                  <select class="input select language-selector" id="settings-language-value" name="language" size="2" >
+                    % for language in languages:
+                      <script>
+                        console.log('language : 83');
+                        console.log('${language}');
+                      </script>
+
+                      % if language[0] == LANGUAGE_CODE:
+                        <script>
+                          console.log('1');
+                          console.log('${language[0]}');
+                          console.log('LANGUAGE_CODE');
+                          console.log('${LANGUAGE_CODE}');
+                        </script>
+                        <option value="${language[0]}" selected="selected">${language[0]}</option>
+                      % else:
+                        <script>
+                          console.log('2');
+                          console.log('${language[0]}');
+                        </script>
+                        <option value="${language[0]}">${language[0]}</option>
+                      % endif
+                     
+                    % endfor
+                  </select>
+                </div>
+              </label>
+            </form>
+          </li>
+        </ol>
+
+  <style>
+    /*LANGUAGE FLAGS*/
+    body footer.global {
+      padding: 20px 0 0 0px;
+      display: flex;
+      background-color: rgba(3,48,85,1);
+      font-size: .9em;
+      color: #f7f7f7;
+      padding: 20px 0;
+      overflow: hidden;
+    }
+    footer.global>.user{
+      margin-top: 0px!important;
+    }
+    footer.global>.user>li{
+      list-style-type: none;
+    }
+    .language-selector {
+      display: none;
+    }
+    #lang-content {
+      width: 60px;
+      height: 24px;
+    }
+    #lang-content img{
+      width: 25px;
+    }
+    body footer.global ul.links {
+      padding-left: 40px;
+      list-style: none;
+      margin: 0;
+      display: flex;
+    }
+    ul.links li {
+      padding-right: 20px;
+    }
+    .copyright {
+      display: none ;
+    }
+    body footer.global .footer-container {
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 1170px;
+    }
+  </style>
+
+  <script>
+    //LANGUAGE FLAGS
+    $('footer #en').on('click', function() {
+      console.log('en');
+      console.log($('#settings-language-value'));
+
+      console.log($('#settings-language-value > option[value="fr"]'));
+      console.log($('#settings-language-value > option[value="fr"]')[0]);
+
+      console.log($('#settings-language-value')[0]);
+      $('#settings-language-value > option[value="fr"]').removeAttr('selected');
+      $('#settings-language-value > option[value="en"]').attr('selected','selected');
+      // $('#settings-language-value > option[value="fr"]').removeAttr('selected').trigger( "change");
+      console.log('post');
+      console.log($('#settings-language-value')[0]);
+      console.log($('#settings-language-value')[1]);
+    }
+    );
+    $('footer #fr').on('click', function() {
+      console.log('fr');
+      $('#settings-language-value > option[value="fr"]').attr('selected','selected');
+      $('#settings-language-value > option[value="en"]').removeAttr('selected').trigger( "change");;
+
+    }
+
+    );
+  </script>
+
+</footer>
