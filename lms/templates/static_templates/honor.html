@@ -1,0 +1,27 @@
+<%page expression_filter="h"/>
+<%! from django.utils.translation import ugettext as _ %>
+<%inherit file="../main.html" />
+
+<%block name="pagetitle">${_("Honor Code")}</%block>
+
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="container about">
+        <h1>
+            <%block name="pageheader">${page_header or _("Honor Code")}</%block>
+        </h1>
+        <p>Netexplo est une marque de la SAS HappeningCo :</p>
+        <p>264 rue du Faubourg Saint-Honoré, 75008 Paris - RCS Paris B 447 906 165        </p>
+        <p>Réalisation : WeUp Learning, 5 rue de Conflans, 94220 Charenton-le-Pont        </p>
+    </section>
+</main>
+<style>
+    h3 { 
+        display: block;
+        font-size: 1.17em;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        margin-left: 0;
+        margin-right: 0;
+        font-weight: bold;
+    }
+    </style>

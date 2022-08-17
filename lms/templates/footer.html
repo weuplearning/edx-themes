@@ -15,11 +15,6 @@ css = '/media/microsite/{}/auto/css/footer.css'.format(org)
 <script>
 $( document ).ready(function(){
   // console.log(window.location.pathname)
-
-  console.log('en');
-  console.log($('#settings-language-value > option[value="en"]')[0]);
-  console.log('fr');
-  console.log($('#settings-language-value > option[value="fr"]')[0]);
   
   if(window.location.pathname === "/"){
     $(".footer-translation").show();
@@ -79,24 +74,9 @@ $( document ).ready(function(){
                   <!-- <img src="/media/microsite/afpa/images/fr.png" id="fr"> -->
                   <select class="input select language-selector" id="settings-language-value" name="language" size="2" >
                     % for language in languages:
-                      <script>
-                        console.log('language : 83');
-                        console.log('${language}');
-                      </script>
-
                       % if language[0] == LANGUAGE_CODE:
-                        <script>
-                          console.log('1');
-                          console.log('${language[0]}');
-                          console.log('LANGUAGE_CODE');
-                          console.log('${LANGUAGE_CODE}');
-                        </script>
                         <option value="${language[0]}" selected="selected">${language[0]}</option>
                       % else:
-                        <script>
-                          console.log('2');
-                          console.log('${language[0]}');
-                        </script>
                         <option value="${language[0]}">${language[0]}</option>
                       % endif
                      
@@ -111,12 +91,10 @@ $( document ).ready(function(){
   <style>
     /*LANGUAGE FLAGS*/
     body footer.global {
-      padding: 20px 0 0 0px;
       display: flex;
       background-color: rgba(3,48,85,1);
       font-size: .9em;
       color: #f7f7f7;
-      padding: 20px 0;
       overflow: hidden;
     }
     footer.global>.user{
@@ -152,35 +130,27 @@ $( document ).ready(function(){
       margin-left: auto;
       margin-right: auto;
       max-width: 1170px;
+      padding: 20px;
+    }
+    a:not(.btn), a:visited:not(.btn) {
+      color: white !important;
+    }
+    a:not(.btn):hover, a:not(.btn):focus, a:visited:not(.btn):hover, a:visited:not(.btn):focus {
+      color: #f7f7f7 !important;
     }
   </style>
 
   <script>
     //LANGUAGE FLAGS
     $('footer #en').on('click', function() {
-      console.log('en');
-      console.log($('#settings-language-value'));
-
-      console.log($('#settings-language-value > option[value="fr"]'));
-      console.log($('#settings-language-value > option[value="fr"]')[0]);
-
-      console.log($('#settings-language-value')[0]);
-      $('#settings-language-value > option[value="fr"]').removeAttr('selected');
       $('#settings-language-value > option[value="en"]').attr('selected','selected');
-      // $('#settings-language-value > option[value="fr"]').removeAttr('selected').trigger( "change");
-      console.log('post');
-      console.log($('#settings-language-value')[0]);
-      console.log($('#settings-language-value')[1]);
-    }
-    );
+      $('#settings-language-value > option[value="fr"]').removeAttr('selected').trigger( "change");
+    } );
+
     $('footer #fr').on('click', function() {
-      console.log('fr');
       $('#settings-language-value > option[value="fr"]').attr('selected','selected');
       $('#settings-language-value > option[value="en"]').removeAttr('selected').trigger( "change");;
-
-    }
-
-    );
+    } );
   </script>
 
 </footer>

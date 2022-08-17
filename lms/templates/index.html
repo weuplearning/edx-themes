@@ -9,16 +9,20 @@ from openedx.core.djangolib.markup import HTML, Text
 %>
 
 <style>
-  body {
+body {
     background-size: contain!important;
     background-repeat: no-repeat!important;
     background-position-x: right!important;
+    font-family: 'Open Sans', 'Roboto', sans-serif !important;
 }
 #content {
-    min-height: calc(100vh - 102px) !important;
+    min-height: calc(100vh - 68px) !important;
 }
 .content_tma {
     min-height: calc(100vh - 136px) !important;
+}
+.content-wrapper {
+    margin-top: 0 !important;
 }
 .home {
     margin-left: 0px;
@@ -104,7 +108,7 @@ header > nav > ol {
     width: 100%;
 }
 #logoData4Manager > img {
-    margin-top: 50px;
+    margin-top: 130px;
     max-width: 70vw;
 }
 .empty-dashboard-message p {
@@ -128,41 +132,42 @@ header > nav > ol {
         min-width: 90vw;
     }
 }
-  .wrapper-header {
-    display: none;
-  }
-  body {
-    background-image: none !important;
-  }
-  .home>header {
-    height: 450px;
-    background-image: none;
-    box-shadow: none;
-  }
-  .header-global {
-    height: 120px;
-  }
-  #logoData4Manager {
-    max-width: 600px;
-    margin-left: 0px;
-    background: none;
-    border: none;
-    text-align: center;
-  }
-  .courses {
-    display: none !important;
-  }
+.wrapper-header {
+  display: none;
+}
+body {
+  background-image: none !important;
+}
+.home>header {
+  height: 450px;
+  background-image: none;
+  box-shadow: none;
+}
+.header-global {
+  height: 120px;
+}
+#logoData4Manager {
+  max-width: 600px;
+  margin-left: 0px;
+  background: none;
+  border: none;
+  text-align: center;
+}
+.courses {
+  display: none !important;
+}
 
-  .global-header {
-    display: none !important;
-  }
+.global-header {
+  display: none !important;
+}
 
-  .main-container{
-    background-image: url("${static.url('complete-data/images/bg_img.jpeg')}");
-    background-position: center;
-  }
-  a:not(.btn):hover, a:not(.btn):focus, a:visited:not(.btn):hover, a:visited:not(.btn):focus {
-    color: #fff;
+.main-container{
+  background-image: url("${static.url('complete-data/images/bg_img.jpeg')}");
+  background-position: center;
+  background-size: cover;
+}
+a:not(.btn):hover, a:not(.btn):focus, a:visited:not(.btn):hover, a:visited:not(.btn):focus {
+  color: #fff;
 }
 a:not(.btn), a:visited:not(.btn) {
     color: #fff;

@@ -1,0 +1,37 @@
+<%page expression_filter="h"/>
+<%! from django.utils.translation import ugettext as _ %>
+<%inherit file="../main.html" />
+
+<%block name="pagetitle">${_("About")}</%block>
+
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="container about">
+        <h1>
+            <%block name="pageheader">${page_header or _("About")}</%block>
+        </h1>
+        <p>La société éditrice du site formationadistance.dataformanagers.com : </p>
+        <p>HAPPENINGCO        </p>
+        <p>Société par Actions Simplifiée au capital de 148 092,60 euros        </p>
+        <p>Siège social : 264, rue du Faubourg Saint-Honoré, 75008 Paris        </p>
+        <p>RCS Paris : 447 906 165 000 33        </p>
+        <p>Tél : 01 45 01 60 00        </p>
+        <p>Numéro individuel d’identification de TVA : FR11447906165        </p>
+        <p>Directeur de la Publication : Thierry HAPPE        </p>
+        <p>Editrice du Site web : Flore SEGALEN        </p>
+        <p>Hébergeur : OVH, 2 rue Kellermann, 59100 Roubaix        </p>
+        <p>Tél. : 09.72.10.10.07        </p>
+        <p>Date de création : 30 avril 2020        </p>
+
+    </section>
+</main>
+<style>
+    h3 { 
+        display: block;
+        font-size: 1.17em;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        margin-left: 0;
+        margin-right: 0;
+        font-weight: bold;
+    }
+    </style>
