@@ -144,7 +144,6 @@ enterprise_customer_link = get_enterprise_learner_portal(request)
       $('footer.global').attr('style', 'padding: 20px 0px!important');
     }
     if($('#settings-language-value > option[value="en"]')[0] && $('#settings-language-value > option[value="en"]')[0].hasAttribute("selected")){
-      $('.text').text('testt')
       $('#conf-trad').text('Privacy')
       $('#general-conditions').text('General conditions')
       $('#credits').text('Credits')
@@ -159,12 +158,12 @@ enterprise_customer_link = get_enterprise_learner_portal(request)
 
 <script>
   //LANGUAGE FLAGS
-  $('footer #en').on('click', function() {
+  $('header #en').on('click', function() {
     $('#settings-language-value > option[value="en"]').attr('selected','selected');
     $('#settings-language-value > option[value="fr"]').removeAttr('selected').trigger( "change");
   } );
 
-  $('footer #fr').on('click', function() {
+  $('header #fr').on('click', function() {
     $('#settings-language-value > option[value="fr"]').attr('selected','selected');
     $('#settings-language-value > option[value="en"]').removeAttr('selected').trigger( "change");;
   } );
