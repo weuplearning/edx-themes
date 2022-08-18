@@ -90,38 +90,40 @@ enterprise_customer_link = get_enterprise_learner_portal(request)
         <img  class="logo" src="${branding_api.get_logo_url(is_secure)}" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}"/>
       </%block>
     </a>
-    <% languages = released_languages() %>
-    <ol class="user footer-translation">
-      <li class="primary">
-        <form action="/i18n/setlang/" method="post" class="settings-language-form" id="language-settings-form">
-          <input type="hidden" id="csrf_token" name="csrfmiddlewaretoken" value="${csrf_token}">
-          % if user.is_authenticated:
-          <input title="preference api" type="hidden" class="url-endpoint" value="${reverse('preferences_api', kwargs={'username': user.username})}" data-user-is-authenticated="true">
-          % else:
-          <input title="session update url" type="hidden" class="url-endpoint" value="${reverse('session_language')}" data-user-is-authenticated="false">
-          % endif
-          <label><span class="sr">${_("Choose Language")}</span>
-            <!--LANGUAGE FLAGS-->
-            <div id="lang-content">
-              <!-- <img src="/media/microsite/afpa/images/uk.png" id="en"> -->
-              <img src="${static.url('complete-data/images/uk.png')}" id="en">
-              <img src="${static.url('complete-data/images/fr.png')}" id="fr">
-              <!-- <img src="/media/microsite/afpa/images/fr.png" id="fr"> -->
-              <select class="input select language-selector" id="settings-language-value" name="language" size="2" >
-                % for language in languages:
-                  % if language[0] == LANGUAGE_CODE:
-                    <option value="${language[0]}" selected="selected">${language[0]}</option>
-                  % else:
-                    <option value="${language[0]}">${language[0]}</option>
-                  % endif
-                 
-                % endfor
-              </select>
-            </div>
-          </label>
-        </form>
-      </li>
-    </ol>
+    % if "/login" in request.path:
+      <% languages = released_languages() %>
+      <ol class="user footer-translation">
+        <li class="primary">
+          <form action="/i18n/setlang/" method="post" class="settings-language-form" id="language-settings-form">
+            <input type="hidden" id="csrf_token" name="csrfmiddlewaretoken" value="${csrf_token}">
+            % if user.is_authenticated:
+            <input title="preference api" type="hidden" class="url-endpoint" value="${reverse('preferences_api', kwargs={'username': user.username})}" data-user-is-authenticated="true">
+            % else:
+            <input title="session update url" type="hidden" class="url-endpoint" value="${reverse('session_language')}" data-user-is-authenticated="false">
+            % endif
+            <label><span class="sr">${_("Choose Language")}</span>
+              <!--LANGUAGE FLAGS-->
+              <div id="lang-content">
+                <!-- <img src="/media/microsite/afpa/images/uk.png" id="en"> -->
+                <img src="${static.url('complete-data/images/uk.png')}" id="en">
+                <img src="${static.url('complete-data/images/fr.png')}" id="fr">
+                <!-- <img src="/media/microsite/afpa/images/fr.png" id="fr"> -->
+                <select class="input select language-selector" id="settings-language-value" name="language" size="2" >
+                  % for language in languages:
+                    % if language[0] == LANGUAGE_CODE:
+                      <option value="${language[0]}" selected="selected">${language[0]}</option>
+                    % else:
+                      <option value="${language[0]}">${language[0]}</option>
+                    % endif
+                  
+                  % endfor
+                </select>
+              </div>
+            </label>
+          </form>
+        </li>
+      </ol>
+    %endif
   % endif
 </h1>
 % if enable_enterprise_sidebar:
