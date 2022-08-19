@@ -891,7 +891,7 @@ a:hover{
                           %if section['display_name'] == user_grade.chapter_grades[chapter]['display_name']:
                               <div class="progress_bar_and_score">
                                   <div class="progress-bar-full">
-                                      <div style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade"></div>
+                                      <div style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade progress_bar_index_${primary_index}"></div>
                                   </div>        
                                   <h2 class="completed_percent"> ${int(user_grade.chapter_percentage(chapter) * 100)} %</h2>     
                               </div>  
