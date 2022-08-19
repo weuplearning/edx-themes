@@ -48,7 +48,7 @@ $( document ).ready(function(){
         <a id="conf-trad" href="/privacy">Confidentialité</a>
       </li>
       <li>
-        <a id="credits" href="/honor">Cr&eacute;dits</a>
+        <a id="credits" href="/honor">Crédits</a>
       </li>
     </ul>
     <p class="copyright">Une r&eacute;alisation <a href="http://themoocagency.com">The MOOC Agency</a></p>
@@ -133,10 +133,13 @@ $( document ).ready(function(){
       padding: 20px;
     }
     a:not(.btn), a:visited:not(.btn) {
-      color: white !important;
+      color: var(--secondary) ;
     }
     a:not(.btn):hover, a:not(.btn):focus, a:visited:not(.btn):hover, a:visited:not(.btn):focus {
-      color: #f7f7f7 !important;
+      color: var(--secondary) ;
+    }
+    ul.links li a {
+      color: white !important;
     }
   </style>
 

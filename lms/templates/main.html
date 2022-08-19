@@ -220,3 +220,15 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
     next=urlquote_plus(login_redirect_url if login_redirect_url else request.path)
   ) if (login_redirect_url or (request and not request.path.startswith("/logout"))) else ""
 }</%def>
+
+<style>
+:root{
+  --primary:  #033055;
+  --secondary:  #194c76;
+  --tertiary: bisque
+}
+#content {
+  max-width: none;
+  min-height: calc(100vh - 105px - 96px);
+}
+</style>
