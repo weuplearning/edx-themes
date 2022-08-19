@@ -1081,3 +1081,22 @@ a:hover{
   let introductionButtonProgressBar = introductionButton.children[2]
   introductionButtonProgressBar.style.visibility = "hidden"
 </script> -->
+
+
+<!-- quentin - 15882 - use values from back in desktop on mobile gauges -->
+
+<script>
+  const progressBarElements = document.querySelectorAll('.progress-bar-grade')
+  const percentageElements = document.querySelectorAll('.completed_percent')
+
+  console.log('variable progressBarElements, valeur de width : '+progressBarElements[0].style.width);
+
+  for (let i = 0; i < 4; i++) {
+      let progressBarValue = progressBarElements[i].style.width
+      progressBarElements[i+4].style.width=progressBarValue
+
+      let percentageValue = percentageElements[i].textContent
+      percentageElements[i+4].innerText=percentageValue
+  }
+
+</script>
