@@ -466,52 +466,6 @@ share_image = "https://amazon.the-mooc-agency.com/media/microsite/amazon/auto/im
 %>
 
 
- <!-- The Modal -->
-<!-- get user's score -->
-%if int(user_grade.percent * 100) > 50:
-<script>
-    $(function () {
-        if (localStorage.getItem('popState') != 'shown') {
-            $("#myModal1").fadeIn();
-        }
-    
-        $('#popup-close').click(function (e) {
-            $('#myModal1').fadeOut();
-            localStorage.setItem('popState', 'shown');
-        });
-    });
-    
-    
-    $("body").click(function() {
-        if ($("#myModal1").is(":visible")) {
-            $("#myModal1").hide();
-            localStorage.setItem('popState', 'shown');
-        }
-    });
-    </script>
-%elif int(user_grade.percent * 100) == 100:
-<script>
-    $(function () {
-        if (localStorage.getItem('popState') != 'shown') {
-            $("#myModal2").fadeIn();
-        }
-    
-        $('#popup-close').click(function (e) {
-            $('#myModal2').fadeOut();
-            localStorage.setItem('popState', 'shown');
-        });
-    });
-    
-    
-    $("body").click(function() {
-        if ($("#myModal2").is(":visible")) {
-            $("#myModal2").hide();
-            localStorage.setItem('popState', 'shown');
-        }
-    });
-    </script>
-%endif
-
 
  <div id="myModal1" class="modal"> 
    <div class="modal-content">
