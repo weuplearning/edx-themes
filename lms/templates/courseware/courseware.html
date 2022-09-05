@@ -347,7 +347,7 @@ ${HTML(fragment.foot_html())}
 <!-- modif quentin - ticket 14545 - pour traduction  -->
 
 <script>
-
+/*
   setTimeout(() => {
 
     // elements à traduire
@@ -482,6 +482,47 @@ ${HTML(fragment.foot_html())}
     //   // ['element'+[i]].textContent=['element'+[i]].textContent.replace('classé','test')
     // }
 
-  }, 900);
+  }, 900);*/
+
+  setInterval(() => {
+    var user_lang = navigator.language || navigator.userLanguage;
+    if(user_lang.indexOf("fr")!= -1 || user_lang.indexOf("FR")!=-1 ){
+      var misplaced = document.getElementsByClassName("message incorrect");
+      for(var i = 0; i< misplaced.length; i++){
+        misplaced[i].innerText = misplaced[i].innerText.replace('Misplaced', 'Element(s) mal placé(s) :').replace('items.', '').replace('item.', '').replace('Did not place', 'Element(s) non placé(s) : ').replace('required items.', '').replace('required', '').replace('items were returned to item bank', 'Les éléments ont été remis dans la liste').replace('item was returned to item bank.', "L'élement à été remis dans la liste.");
+      } 
+      
+      var reset_button = document.getElementsByClassName("unbutton btn-default btn-small reset-button")
+      if(reset_button.length != 0){
+        reset_button[0].textContent = reset_button[0].textContent.replace('Reset', 'Réinitialiser');
+      }
+
+      var submit_button = document.getElementsByClassName("btn-brand submit-answer-button")
+      if(submit_button.length != 0){
+        submit_button[0].innerText = submit_button[0].innerText.replace('Submit', 'Soumettre');
+      }
+
+      var attempts_used = document.getElementsByClassName("attempts-used")
+      if(attempts_used.length != 0){
+        attempts_used[0].innerText = attempts_used[0].innerText.replace('You have used', 'Vous avez utilisé').replace('of', 'sur').replace('attempts', 'tentatives');
+      }
+
+      var message_correct = document.getElementsByClassName("message correct")
+      if(message_correct.length != 0){
+        message_correct[0].innerText = message_correct[0].innerText.replace('Correctly placed', 'Element(s) correctement placé(s) :').replace('item.', '').replace('items', '');
+      }
+
+      var show_answer_button = document.getElementsByClassName("unbutton btn-default btn-small show-answer-button")
+      if(show_answer_button.length != 0){  
+        show_answer_button[0].innerText = show_answer_button[0].innerText.replace('Show Answer', 'Voir Réponse');
+      }
+
+      var feedback = document.getElementsByClassName("title1") 
+      if(feedback.length != 0){
+        feedback[0].innerText = feedback[0].innerText.replace('FEEDBACK', 'Commentaires')
+      }
+
+    }
+  }, 100);
 
 </script>
