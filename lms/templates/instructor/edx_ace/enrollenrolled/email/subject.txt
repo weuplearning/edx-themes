@@ -1,9 +1,9 @@
 {% if course_key == 'course-v1:deeptechforbusiness+FR+2021'%}
 
-Bienvenue sur Deep Tech For Business !
+Bienvenue sur Tech For Business !
 
 {% else %}
 
-Welcome to Deep Tech For Business
+Welcome to Tech For Business
 
 {% endif%}

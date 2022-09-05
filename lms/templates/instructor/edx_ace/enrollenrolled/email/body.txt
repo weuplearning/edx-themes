@@ -1,6 +1,6 @@
 {% if course_key == 'course-v1:deeptechforbusiness+FR+2021' %}
 
-Bienvenue sur Deep Tech For Business par Télécom Paris et Netexplo !
+Bienvenue sur Tech For Business par Télécom Paris et Netexplo !
 
 Pour vous connecter, rendez-vous sur formationadistance.deeptechforbusiness.com puis cliquez sur le bouton « connexion » et entrez votre adresse email et votre mot de passe.
 
@@ -12,7 +12,7 @@ L'équipe Netexplo Observatory
 
 {% elif course_key == 'course-v1:deeptechforbusiness+FR+2022-20_21-01' %}
 
-Bienvenue sur Deep Tech For Business par Télécom Paris et Netexplo !
+Bienvenue sur Tech For Business par Télécom Paris et Netexplo !
 
 Pour vous connecter, rendez-vous sur formationadistance.deeptechforbusiness.com puis cliquez sur le bouton « connexion » et entrez votre adresse email et votre mot de passe.
 
@@ -24,7 +24,7 @@ L'équipe Netexplo Observatory
 
 {% else %}
 
-Welcome to Deep Tech for Business by Telecom & Netexplo.
+Welcome to Tech for Business by Telecom & Netexplo.
 
 To log in, go to formationadistance.deeptechforbusiness.com then click on the "login" button and enter your login details. If you have forgotten your password, you can click on "Forgot password".
 If you have any questions, please do not hesitate to contact us at : learning@netexplo.org
