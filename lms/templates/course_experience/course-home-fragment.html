@@ -135,12 +135,12 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     	animation: fadeInLeft;
         animation-duration: 0.5s;
     }
-    .wrapper-preview-menu{
+    /* .wrapper-preview-menu{
        //display:none;
+    } */
+    .wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary{
+        display:none !important;
     }
-.wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary{
-    display:none !important;
-}
 
 
     .section-title{
@@ -332,7 +332,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
   </style>
   <script>
-document.title = "Cours | ${HTML(course.display_name_with_default)}";
+    document.title = "Cours | ${HTML(course.display_name_with_default)}";
   </script>
 
 </%block>
@@ -398,7 +398,13 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
             % endif
         </div>
         <aside class="page-content-secondary course-sidebar">
-            <h4>Avez-vous bien retenu ?</h4>
+            %if resume_course_url :
+                %if resume_course_url.find("+EN+") != -1 :
+                    <h4>Progress tracking</h4>
+                %else : 
+                    <h4>Suivi de progression</h4>
+                %endif
+            %endif
             <div class="section" id="badges">
                     
                     <div class="grade-block">       
