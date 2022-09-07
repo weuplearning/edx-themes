@@ -484,6 +484,7 @@ ${HTML(fragment.foot_html())}
 
   }, 900);*/
 
+
   setInterval(() => {
     var user_lang = navigator.language || navigator.userLanguage;
     if(user_lang.indexOf("fr")!= -1 || user_lang.indexOf("FR")!=-1 ){
@@ -521,7 +522,16 @@ ${HTML(fragment.foot_html())}
       if(feedback.length != 0){
         feedback[0].innerText = feedback[0].innerText.replace('FEEDBACK', 'Commentaires')
       }
-
+	  
+	  var fullscreen_button = document.getElementsByClassName("js-button-full-screen full-screen-on");
+	  if(fullscreen_button != 0){
+		fullscreen_button[0].innerText = fullscreen_button[0].innerText.replace('Fullscreen', 'Plein écran');
+	  }
+	  
+	  var exit_fullscreen_button = document.getElementsByClassName("js-button-full-screen full-screen-off");
+	  if(exit_fullscreen_button != 0){
+		exit_fullscreen_button[0].innerText = exit_fullscreen_button[0].innerText.replace("Exit fullscreen", 'Quitter le plein écran')
+	  }
     }
   }, 100);
 
