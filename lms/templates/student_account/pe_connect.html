@@ -1,0 +1,88 @@
+<%page expression_filter="h"/>
+<%namespace name='static' file='/static_content.html'/>
+
+<%!
+from django.utils.translation import ugettext as _
+from django.urls import reverse
+from openedx.core.djangolib.markup import HTML, Text
+%>
+
+<!DOCTYPE html>
+
+<html lang="fr">
+	<head>
+		<title>Se connecter avec P&ocirc;le emploi | pole-emploi.io</title>
+		<meta property="og:title" content="Se connecter avec P&ocirc;le emploi | pole-emploi.io">
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	</head>
+
+	<body id="website" class="front">
+		<main id="contenu" role="main">
+			<div class="pe-connect">
+				<!-- <a href="#" class="button-pe-connect is-blue" data-toggle="tooltip" data-placement="bottom" title="Connectez-vous &agrave; MonApplication en utilisant des identifiants P&ocirc;le emploi et b&eacute;n&eacute;ficiez d'un acc&egrave;s gratuit &agrave; ce service.">
+					<img class="icon-pe-connect" src="${static.url('emploi-store/images/icon-pe-connect-is-white.svg')}" alt="Ic&ocirc;ne P&ocirc;le emploi" width="34" height="31" />				
+					<span class="text">Se connecter avec P&ocirc;le emploi</span>
+				</a> -->
+
+				<a onclick="window.location.href='/auth/login/emploi-store/?auth_entry=register&next=%2Fdashboard'" type="button" class="button-pe-connect is-white" data-toggle="tooltip" data-placement="bottom" title="Connectez-vous &agrave; MonApplication en utilisant des identifiants P&ocirc;le emploi et b&eacute;n&eacute;ficiez d'un acc&egrave;s gratuit &agrave; ce service.">
+
+				<!-- <a href="https://api.emploi-store.fr/partenaire/authentificationindividu/v1/me?realm=/individu" type="button" class="button-pe-connect is-white" data-toggle="tooltip" data-placement="bottom" title="Connectez-vous &agrave; MonApplication en utilisant des identifiants P&ocirc;le emploi et b&eacute;n&eacute;ficiez d'un acc&egrave;s gratuit &agrave; ce service."> -->
+
+					<img class="icon-pe-connect" src="${static.url('emploi-store/images/icon-pe-connect-is-blue.svg')}" alt="Ic&ocirc;ne P&ocirc;le emploi" width="34" height="31" />	
+					<span class="text">Se connecter avec P&ocirc;le emploi</span>
+				</a>
+			</div>
+		</main>
+	</body>
+</html>
+
+<style>
+/*============================================
+== Pôle emploi Connect
+=============================================*/
+@import url("https://fonts.googleapis.com/css?family=Lato:400,700");
+
+.pe-connect {
+  font-size: 14px;
+}
+.pe-connect .button-pe-connect {
+  font-family: "Lato", sans-serif !important;
+  display: inline-block;
+  padding: 6px 10px 5px 13px;
+  border-radius: 100px;
+  border: 2px #1b2e57 solid;
+  font-weight: bold;
+  text-decoration: none;
+}
+.pe-connect .button-pe-connect:hover, .pe-connect .button-pe-connect:focus {
+  text-decoration: none;
+}
+.pe-connect .button-pe-connect:hover {
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+}
+.pe-connect .button-pe-connect:focus {
+  opacity: 0.7;
+}
+.pe-connect .button-pe-connect.is-blue {
+  background-color: #1b2e57;
+  color: #fff;
+}
+.pe-connect .button-pe-connect.is-white {
+  background-color: #fff;
+  color: #1b2e57;
+}
+.pe-connect .button-pe-connect .icon-pe-connect,
+.pe-connect .button-pe-connect .text {
+  display: inline-block;
+}
+.pe-connect .button-pe-connect .icon-pe-connect {
+  vertical-align: middle;
+}
+.pe-connect .button-pe-connect .text {
+  padding: 0 10px;
+  margin-top: 6px;
+}
+</style>

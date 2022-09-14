@@ -146,7 +146,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
 
     .section-title{
-       color:white !important;
+       color:black !important;
     }
     h2.hd.hd-3.page-title{
        color:white !important;
@@ -344,7 +344,8 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
 <div class="course-view page-content-container" id="course-container">
     <header class="page-header has-secondary">
         <div class="page-header-main">
-            <img id="logo_banner" src="${static.url('{}/images/logo_secondary.png'.format(course.org))}" alt="banner logo">
+            <img id="logo_banner" src="${static.url('{}/images/icon-pe-connect-is-white.svg'.format(course.org))}" alt="banner logo">
+            <!-- <img id="logo_banner" src="${static.url('{}/images/logo_secondary.png'.format(course.org))}" alt="banner logo"> -->
         </div>
         <div class="page-header-secondary">
             % if show_search:
