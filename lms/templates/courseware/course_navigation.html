@@ -22,7 +22,7 @@ if course is not None:
     (course.enable_proctored_exams or course.enable_timed_exams)
     )
 
-#allowed_users = configuration_helpers.get_value('WUL_DASHBOARD_ACCESS')
+allowed_users = configuration_helpers.get_value('WUL_DASHBOARD_ACCESS')
 %>
 
 % if include_special_exams is not UNDEFINED and include_special_exams:
