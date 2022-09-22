@@ -92,7 +92,7 @@ enterprise_customer_link = get_enterprise_learner_portal(request)
     </a>
     % if "/login" in request.path:
       <% languages = released_languages() %>
-      <ol class="user footer-translation">
+      <ol class="user footer-translation" style="list-style-type: none;" >
         <li class="primary">
           <form action="/i18n/setlang/" method="post" class="settings-language-form" id="language-settings-form">
             <input type="hidden" id="csrf_token" name="csrfmiddlewaretoken" value="${csrf_token}">

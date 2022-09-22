@@ -21,6 +21,8 @@ if course is not None:
     settings.FEATURES.get('ENABLE_SPECIAL_EXAMS', False) and
     (course.enable_proctored_exams or course.enable_timed_exams)
     )
+
+#allowed_users = configuration_helpers.get_value('WUL_DASHBOARD_ACCESS')
 %>
 
 % if include_special_exams is not UNDEFINED and include_special_exams:
@@ -69,9 +71,11 @@ if course is not None:
                 <ol class="tabs course-tabs">
                     <%include file="${tabs_tmpl}" args="tab_list=tab_list,active_page=active_page,default_tab=default_tab,tab_image=tab_image" />
                     <%block name="extratabs" />
-                    <li class="tab">
-                        <a href="/wul_apps/dashboard/home">Administrateur</a>
-                    </li>
+                    % if user.email.lower() in allowed_users:
+                        <li class="tab">
+                            <a href="/wul_apps/dashboard/home">Administrateur</a>
+                        </li>
+                    % endif
                 </ol>
             </div>
         </nav>
