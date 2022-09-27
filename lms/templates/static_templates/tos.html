@@ -1,16 +1,307 @@
-<%page expression_filter="h"/>
+<%page expression_filter="h" />
 <%! from django.utils.translation import ugettext as _ %>
-<%inherit file="../main.html" />
+    <%inherit file="../main.html" />
 
-<%block name="pagetitle">${_("Terms of Service")}</%block>
+    <%block name="pagetitle">${_("Terms of Service")}</%block>
 
-<main id="main" aria-label="Content" tabindex="-1">
-    <section class="container about">
-        <h1>
-            <%block name="pageheader">${page_header or _("Terms of Service")}</%block>
-        </h1>
-        <p>
-            <%block name="pagecontent">${page_content or _("This page left intentionally blank. Feel free to add your own content.")}</%block>
-        </p>
-    </section>
-</main>
+    <main id="main" aria-label="Content" tabindex="-1">
+        <section class="container about">
+            <h1>
+                <%block name="pageheader">${page_header or _("Terms of Service")}</%block>
+            </h1>
+            <p>
+            <h6 class="font_6" style="font-size:25px;"><span style="font-size:25px;">MENTIONS LÉGALES ET COOKIES</span>
+            </h6>
+            <p class="font_8" style="font-size:16px;"><span class="wixGuard">​</span></p>
+            <p class="font_8" style="font-size:16px;"><span class="wixGuard">​</span></p>
+            <h5 class="font_5" style="line-height:normal; font-size:6px;"><span class="color_29"><span
+                        style="letter-spacing:normal;">IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII</span></span>
+            </h5>
+            <h3 class="font_3" style="line-height:normal; font-size:20px;"><span class="color_29"><span
+                        style="letter-spacing:normal;">C</span></span><span
+                    style="font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;">onception,
+                    réalisation, éditeur et gestion du site</span></h3>
+            <p class="font_8" style="font-size:16px;">&nbsp;</p>
+            <p class="font_8" style="font-size:16px;">Syndicat mixte du Parc naturel régional des Volcans d'Auvergne</p>
+            <p class="font_8" style="font-size:16px;">Château de Montlosier,63970 Aydat - France</p>
+            <p class="font_8" style="font-size:16px;">Téléphone 04 73 65 64 00</p>
+            <p class="font_8" style="font-size:16px;">Adresse mail :&nbsp;<span style="text-decoration:underline;"><a
+                        href="mailto:accueil@parcdesvolcans.fr" target="_self">accueil@parcdesvolcans.fr</a></span></p>
+            <p class="font_8" style="font-size:16px;">&nbsp;</p>
+            <p class="font_8" style="font-size:16px;"><span
+                    style="font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif;">N°
+                    SIREN/SIRET</span> : 25630023700011<br>
+                <br>
+                <span style="font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif;">Directeur de
+                    publication​ </span>: Baptiste Deguin, directeur du Syndicat mixte du Parc naturel régional des
+                Volcans d'Auvergne
+            </p>
+            <p class="font_8" style="font-size:16px;">&nbsp;</p>
+            <p class="font_8" style="font-size:16px;"><span
+                    style="font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif;">Hébergement du
+                    site </span>: Wix Online Platform Limited, 1 Grant’s Row, Dublin 2 D02HX96, Ireland</p>
+            <p class="font_8" style="font-size:16px;"><span class="wixGuard">​</span></p>
+            <h5 class="font_5" style="line-height:normal; font-size:6px;"><span class="color_29"><span
+                        style="letter-spacing:normal;">IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII</span></span>
+            </h5>
+            <h3 class="font_3" style="line-height:normal; font-size:20px;"><span class="color_29"><span
+                        style="letter-spacing:normal;">D</span></span><span
+                    style="font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;">roits d'auteurs
+                    et copyright&nbsp;</span></h3>
+            <p class="font_8" style="font-size:16px;"><span
+                    style="font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;"><span
+                        class="wixGuard">​</span></span></p>
+            <ul class="font_8" style="font-size:16px;">
+                <li>
+                    <p class="font_8" style="font-size:16px;">Le présent site Internet du Parc naturel régional des
+                        Volcans d'Auvergne est une œuvre de l'esprit protégée par la législation en vigueur. Les <span
+                            style="font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;"><span
+                                class="color_13">droits de l'auteur de ce site</span></span> sont réservés pour toute
+                        forme d'utilisation. En particulier, la reproduction des éléments graphiques du site, le
+                        téléchargement complet du site pour son enregistrement sur un support de diffusion, ainsi que
+                        toute utilisation des visuels et textes qu'il contient, autre que la consultation individuelle
+                        et privée, sont interdits sans autorisation.<br>
+                        &nbsp;</p>
+                </li>
+                <li>
+                    <p class="font_8" style="font-size:16px;">Les droits afférents aux <span
+                            style="font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;"><span
+                                class="color_13">illustrations et photographies</span></span> contenues dans ce site
+                        appartiennent, sauf mention contraire, au site du Parc naturel régional des Volcans d'Auvergne.
+                        Les auteurs des photographies sont habituellement Frédéric Pigot, Eve Hilaire, Marc Sagot,
+                        Ludovic Combe et l'équipe du Syndicat mixte du Parc, sauf mention particulière : tous droits
+                        réservés.</p>
+                </li>
+            </ul>
+            <p class="font_8" style="font-size:16px;"><span class="wixGuard">​</span></p>
+            <h5 class="font_5" style="font-size:6px;">IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII</h5>
+            <h3 class="font_3" style="font-size:20px;">Informations et liens</h3>
+            <p class="font_8" style="font-size:16px;"><span
+                    style="font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;"><span
+                        class="wixGuard">​</span></span></p>
+            <ul class="font_8" style="font-size:16px;">
+                <li>
+                    <p class="font_8" style="font-size:16px;">Les informations présentes dans le présent site n'ont
+                        qu'une <span
+                            style="font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;"><span
+                                class="color_13">valeur informative</span></span> et sont susceptibles d'évoluer en
+                        fonction des modifications législatives et réglementaires, ainsi que de l'actualité ou
+                        d'éléments de contexte. Même si ces informations sont régulièrement vérifiées, le Syndicat mixte
+                        du Parc naturel régional des Volcans d'Auvergne décline toute responsabilité en cas d'erreur ou
+                        d'omission et ne peut être tenu responsable de l'interprétation qui peut en être faite. De la
+                        même façon, les liens proposés vers d'autres sites Internet sont communiqués à titre indicatif ;
+                        ils ne sauraient engager la responsabilité du Syndicat mixte du Parc naturel régional des
+                        Volcans d'Auvergne, tant en ce qui concerne les contenus, que leurs conditions d'accès. Pour
+                        signaler une erreur ou demander la rectification d'informations, le&nbsp;<span
+                            style="text-decoration:underline;"><a
+                                href="https://www.parcdesvolcans.fr/formulaire-de-contact" target="_self"
+                                data-anchor="dataItem-kykft7xu">formulaire de contact</a></span>&nbsp;est à disposition.
+                    </p>
+                </li>
+            </ul>
+            <p class="font_8" style="font-size:16px;"><span class="wixGuard">​</span></p>
+            <ul class="font_8" style="font-size:16px;">
+                <li>
+                    <p class="font_8" style="font-size:16px;">Toute personne (physique ou morale) souhaitant citer
+                        une(des) information(s) du présente site , créer un(des) lien(s) de page(s) du présent site sur
+                        un autre site..., doit demander préalablement l'autorisation expresse au Syndicat mixte du Parc
+                        naturel régional des Volcans d'Auvergne au moyen du <span style="text-decoration:underline;"><a
+                                href="https://www.parcdesvolcans.fr/formulaire-de-contact" target="_self"
+                                data-anchor="dataItem-kykft7xu">formulaire de contact</a></span>. A noter, en
+                        particulier :</p>
+                    <ul class="font_8" style="font-size:16px;">
+                        <li>
+                            <p class="font_8" style="font-size:16px;">la demande d'utilisation de photos et/ou du logo
+                                du Parc naturel régional des Volcans d'Auvergne, pour l'(les)afficher sur son propre
+                                site Internet ou sur un document, doit être faite au moyen d'un <span
+                                    style="text-decoration:underline;"><a
+                                        href="https://www.parcdesvolcans.fr/promouvoir-et-accueillir-avec-le-parc"
+                                        target="_self">formulaire dédié (rubrique "logo du Parc")</a></span>&nbsp;</p>
+                        </li>
+                        <li>
+                            <p class="font_8" style="font-size:16px;">la création d'un lien vers le présent site doit :
+                            </p>
+                            <ul class="font_8" style="font-size:16px;">
+                                <li>
+                                    <p class="font_8" style="font-size:16px;">ouvrir une nouvelle fenêtre du navigateur
+                                        et ne pas imbriquer la page atteinte par le lien (en particulier par voie de
+                                        cadres ou frames)</p>
+                                </li>
+                                <li>
+                                    <p class="font_8" style="font-size:16px;">faire apparaître l'URL "<a
+                                            data-auto-recognition="true" href="http://www.parcdesvolcans.fr"
+                                            target="_blank">www.parcdesvolcans.fr</a>".<br>
+                                        &nbsp;</p>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <p class="font_8" style="font-size:16px;">Néanmoins, est autorisé, sans accord express préalable la
+                        citation d'extraits du présent site, respectant le droit moral de l'auteur par l'indication de
+                        son nom et de la source. La citation est nécessairement courte, cette notion s'appréciant tant
+                        par rapport à la publication dont elle est extraite que par rapport à celle dans laquelle elle
+                        est introduite. La citation illustre un propos et ne doit pas concurrencer la publication à
+                        laquelle elle est empruntée. La multiplication des citations, aboutissant à une anthologie, est
+                        considérée comme une œuvre dérivée, et donc soumise à l'accord préalable de l'auteur ou de
+                        l'ayant droit.​</p>
+                </li>
+            </ul>
+            <p class="font_8" style="font-size:16px;">​</p>
+            <p class="font_8" style="font-size:16px;">Le Syndicat mixte du Parc naturel régional des Volcans d'Auvergne
+                dégage toute responsabilité concernant les liens créés par d'autres sites vers ses propres sites.
+                L'existence de tels liens ne peut permettre d'induire que le Syndicat mixte du Parc naturel régional des
+                Volcans d'Auvergne cautionne ces sites ou qu'il en approuve le contenu.</p>
+            <p class="font_8" style="font-size:16px;">​</p>
+            <p class="font_8" style="font-size:16px;">Afin de garantir l'identité et l'intégrité de son site, le
+                Syndicat mixte du Parc naturel régional des Volcans d'Auvergne se réserve le droit d'interdire les liens
+                qui ne répondraient pas à l'objet dudit site ou qui pourraient porter préjudice à l'image de
+                l'institution. Le Syndicat mixte du Parc naturel régional des Volcans d'Auvergne ne peut être tenu
+                responsable du contenu (éditoriaux, illustrations ...) des sites vers lesquels ses sites renvoient.​</p>
+            <p class="font_8" style="font-size:16px;"><span class="wixGuard">​</span>​</p>
+            <h5 class="font_5" style="font-size:6px;">IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII</h5>
+            <h3 class="font_3" style="font-size:20px;">Accès au site<span
+                    style="font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;">&nbsp;et
+                    données personnelles</span></h3>
+            <p class="font_8" style="font-size:16px;">&nbsp;</p>
+            <ul class="font_8" style="font-size:16px;">
+                <li>
+                    <p class="font_8" style="font-size:16px;">Il appartient à l'utilisateur de ce site de prendre toutes
+                        les mesures appropriées de façon à <span
+                            style="font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;"><span
+                                class="color_13">protéger ses propres données</span></span> et/ou logiciels de la
+                        contamination par d'éventuels virus circulant sur le réseau Internet. De manière générale, le
+                        Syndicat mixte du Parc naturel régional des Volcans d'Auvergne décline toute responsabilité lié
+                        à un éventuel dommage survenu pendant la consultation du présent site.<br>
+                        &nbsp;</p>
+                </li>
+                <li>
+                    <p class="font_8" style="font-size:16px;">Les <span
+                            style="font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif;"><span
+                                class="color_29">informations personnelles</span></span> que le Syndicat mixte du Parc
+                        naturel régional des Volcans d'Auvergne recueille via les formulaires proposés sur le présent
+                        site proviennent d’une saisie directe et volontaire des personnes. <span class="color_13"><span
+                                style="font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;">Aucune
+                                donnée personnelle collectée n'est diffusée à un tiers, ni utilisée à des fins
+                                publicitaires, ni détournée pour un autre objectif</span></span>.<br>
+                        <br>
+                        En application des dispositions du Règlement Général sur la Protection des Données (article 15 à
+                        22), vous pouvez accéder aux données vous concernant ou demander leur effacement. Vous disposez
+                        également d'un droit d’opposition, d’un droit de rectification, d’un droit à la limitation du
+                        traitement de vos données et d’un droit à l’oubli (cf. cnil.fr pour plus d’informations sur vos
+                        droits). Pour exercer ces droits ou pour toute question sur le traitement de vos données dans ce
+                        dispositif, vous pouvez contacter notre Délégué à la Protection des Données (DPO) à contacter
+                        par voie électronique:&nbsp;<span style="text-decoration:underline;"><a
+                                href="mailto:dpo-adit63@puy-de-dome.fr"
+                                target="_self">dpo-adit63@puy-de-dome.fr</a></span>. Si vous estimez, après nous avoir
+                        contactés, que vos droits Informatique et Libertés ne sont pas respectés ou que le dispositif de
+                        contrôle d’accès n’est pas conforme aux règles de protection des données, vous pouvez adresser
+                        une réclamation à la CNIL.<br>
+                        <br>
+                        Le caractère obligatoire des informations à communiquer (habituellement : nom, prénom, e-mail)
+                        est indiqué par un astérisque sur le formulaire de saisie. D'autres données peuvent être
+                        sollicitées ponctuellement pour des besoins précis (exemple : âge pour l'inscription à une
+                        manifestation sportive). A défaut, la demande ne pourra être traitée ou transmise.<br>
+                        <br>
+                        Pour toute question, remarque ou réclamation relatives à la protection des données personnelles,
+                        en particulier si l'on ne souhaite plus recevoir de lettres d'information (actualités, annonces,
+                        invitations, sondages, alertes...), il est possible de se désinscrire grâce au lien de
+                        désinscription qui apparaît en bas de chaque lettre d'information ou en contactant le Syndicat
+                        mixte du Parc naturel régional des Volcans d'Auvergne (via le <span
+                            style="text-decoration:underline;"><a
+                                href="https://www.parcdesvolcans.fr/formulaire-de-contact" target="_self"
+                                data-anchor="dataItem-kykft7xu">formulaire de contact</a></span> ou par voie postale à
+                        <span style="text-decoration:underline;"><a href="https://www.parcdesvolcans.fr" target="_self"
+                                data-anchor="SCROLL_TO_TOP">l'adresse indiquée ci-dessus</a></span>). Pour toutes
+                        demandes, la communication d’une pièce permettant la vérification de votre identité peut être
+                        exigée.
+                    </p>
+                </li>
+            </ul>
+
+            <p class="font_8" style="margin-left:40px; font-size:16px;">​</p>
+
+            <ul class="font_8" style="font-size:16px;">
+                <li>
+                    <p class="font_8" style="font-size:16px;">Concernant les <span
+                            style="font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;"><span
+                                class="color_13">offres et recommandations de visites, de produits, de manifestations et
+                                de prestataires</span></span>, les données sont celles mises en ligne par le site qui
+                        exploitent les données de la plateforme Apidae ; cette base de données touristiques est
+                        alimentée par divers contributeurs (offices de Tourisme, Comité Régional du Tourisme,
+                        prestataires variés etc.) qui sont responsables du traitement des demandes, libres de les
+                        valider ou non et de la suite donnée. Ils sont également responsables la protection des données
+                        personnelles collectées dans le cadre du signalement de l’erreur. Le Syndicat mixte du Parc
+                        naturel régional des Volcans d'Auvergne n’interfère pas dans cette relation et se dégage de
+                        toute responsabilité dans la teneur et l’issue de ces échanges.</p>
+                </li>
+            </ul>
+
+            <p class="font_8" style="font-size:16px;"><span class="wixGuard">​</span></p>
+
+            <h5 class="font_5" style="font-size:6px;">IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII</h5>
+
+            <h3 class="font_3" style="font-size:20px;">C<span
+                    style="font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;">ookies</span>
+            </h3>
+
+            <p class="font_8" style="font-size:16px;">&nbsp;</p>
+
+            <p class="font_8" style="font-size:16px;">Sur le présent site, les cookies permettre essentiellement :</p>
+
+            <ul class="font_8" style="font-size:16px;">
+                <li>
+                    <p class="font_8" style="font-size:16px;">de proposer des vidéos, des boutons de partage...</p>
+                </li>
+                <li>
+                    <p class="font_8" style="font-size:16px;">des remontées de contenus de plateformes sociales... (des
+                        plug-ins de réseaux sociaux et de vidéos, qui exploitent des cookies, sont présents sur ce site
+                        web. Ils permettent d’améliorer la convivialité et la promotion du site grâce à différentes
+                        interactions sociales)</p>
+                </li>
+                <li>
+                    <p class="font_8" style="font-size:16px;">des mesures et analyses d’audience, tels que Google
+                        Analytics et Google Ads, afin d’évaluer et d’améliorer le site</p>
+                </li>
+                <li>
+                    <p class="font_8" style="font-size:16px;">le fonctionnement de composants tiers, tels que ReCAPTCHA,
+                        Google Maps, MailChimp ou Calameo, qui peuvent déposer des cookies sur votre machine. Si vous
+                        décider de bloquer un composant, le contenu ne s’affichera pas.</p>
+                </li>
+            </ul>
+
+            <p class="font_8" style="font-size:16px;">&nbsp;</p>
+
+            <p class="font_8" style="font-size:16px;"><span class="color_13"><span
+                        style="font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;">Les cookies
+                        ne sont pas utilisés à des fins publicitaires et ne sont pas cédées à des tiers</span>.</span>
+                En poursuivant votre navigation sur le présent site, vous acceptez le dépôt potentiel de cookies
+                (données personnelles ou données de préférence enregistrées sur le site Internet). Si ces cookies sont
+                bloqués, certaines parties du site ne pourront pas fonctionner.</p>
+
+            <p class="font_8" style="font-size:16px;"><span class="wixGuard">​</span></p>
+
+            <h5 class="font_5" style="font-size:6px;">IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII</h5>
+
+            <h3 class="font_3" style="font-size:20px;">L<span
+                    style="font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;">ois de
+                    référence</span></h3>
+
+            <ul class="font_8" style="font-size:16px;">
+                <li>
+                    <p class="font_8" style="font-size:16px;">Loi 78-17 du 6 janvier 1978 Loi relative à l'informatique,
+                        aux fichiers et aux libertés,</p>
+                </li>
+                <li>
+                    <p class="font_8" style="font-size:16px;">Loi du 29 juillet 1881 Loi sur la liberté de la presse,
+                    </p>
+                </li>
+                <li>
+                    <p class="font_8" style="font-size:16px;">Loi 2000-719 du 1er août 2000 Extrait de la loi portant
+                        sur la responsabilité des prestataires techniques.</p>
+                </li>
+            </ul>
+            </p>
+        </section>
+    </main>

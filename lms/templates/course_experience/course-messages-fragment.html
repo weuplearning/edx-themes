@@ -38,3 +38,41 @@ is_rtl = get_language_bidi()
         username: "${username | n, js_escaped_string}",
     });
 </%static:webpack>
+
+<script>
+    // console.log('------const element1 : '+element1);
+    // console.log('------const element1 : '+typeof element1);
+    // console.log('------const element2 : '+element2);
+    // console.log('------variable modifiedPhrase1 : '+modifiedPhrase1);
+
+    setTimeout(() => {
+
+        if (document.querySelector('.message-content') != null) {
+            const element1 = document.querySelector('.message-content').childNodes[1]
+            const element2 = document.querySelector('.message-content').childNodes[2]
+
+            let modifiedPhrase1 = element1.textContent.replace('Bievenue','Bienvenue')
+            let modifiedPhrase2 = element2.textContent.replace('acitivation','activation')
+
+            if (element1 != null && element1.textContent.includes('Bievenue')) {
+                element1.innerText = modifiedPhrase1
+                // console.log("bienvenue 👌🏻");
+                element2.innerText = modifiedPhrase2
+                // console.log("activation 👌🏻");
+                // console.log("an occurence have been found for 'Bievenue', so it have been replaced with 'Bienvenue' and 'acitivation' to 'activation' as well 👌🏻")
+            }
+            else if (element1 != null && !element1.textContent.includes('Bievenue')){
+                // console.log("none occurence 'Bievenue' have been found in message-content class 🤷🏻‍♂️")
+            }
+            else{
+                // console.log("the element of the class '.message-content' might be inexistant 🤷🏻‍♂️")
+                null
+            }
+        }
+        else{
+            null
+            console.log('nothing to change');
+        }
+    }, 400)
+
+</script>

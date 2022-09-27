@@ -384,3 +384,11 @@ from common.djangoapps.student.models import CourseEnrollment
 </div>
 
 <%include file="dashboard/_dashboard_entitlement_unenrollment_modal.html"/>
+
+<script>
+  document.getElementsByClassName('active tab-nav-link')[0].innerText = document.getElementsByClassName('active tab-nav-link')[0].innerText.replace('Cours', 'Formation')
+  document.getElementsByClassName('header-courses')[0].innerText = document.getElementsByClassName('header-courses')[0].innerText.replace('Cours', 'Formations')
+  document.getElementsByClassName('btn btn-primary')[0].innerText = document.getElementsByClassName('btn btn-primary')[0].innerText.replace('Cours', 'Formations')
+  document.getElementsByClassName('empty-dashboard-message')[0].innerHTML = document.getElementsByClassName('empty-dashboard-message')[0].innerHTML.replace('un cours', 'une formation')
+  document.getElementsByClassName('learn-more')[0].innerText = 'Accéder à la formation ici'
+</script>

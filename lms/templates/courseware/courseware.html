@@ -326,3 +326,21 @@ ${HTML(fragment.foot_html())}
   });
 
 </%static:require_module_async>
+
+<script>
+  setInterval(() => {
+    var user_lang = navigator.language || navigator.userLanguage;
+    if(user_lang.indexOf("fr")!= -1 || user_lang.indexOf("FR")!=-1 ){
+	  var fullscreen_button = document.getElementsByClassName("js-button-full-screen full-screen-on");
+	  if(fullscreen_button != 0){
+		fullscreen_button[0].innerText = fullscreen_button[0].innerText.replace('Fullscreen', 'Plein écran');
+	  }
+	  
+	  var exit_fullscreen_button = document.getElementsByClassName("js-button-full-screen full-screen-off");
+	  if(exit_fullscreen_button != 0){
+		exit_fullscreen_button[0].innerText = exit_fullscreen_button[0].innerText.replace("Exit fullscreen", 'Quitter le plein écran')
+	  }
+    }
+  }, 100);
+
+</script>
