@@ -159,3 +159,48 @@
         }
     }, 200)
 </script> -->
+
+<script>
+var test123 = setInterval(function(){
+    
+    var passwordField = document.querySelector('.password-password')
+    passwordField.innerHTML = '<label for="register-password">Mot de passe</label><input id="register-password" type="password" name="password" value="" required aria-required="true" style="border-color:#767676;" /><i class="fa fa-eye" id="togglePassword" style="position:absolute; left:473px; bottom:12px; cursor:pointer;"></i>'
+    
+    const togglePassword = document.querySelector('#togglePassword');
+    const passwordInput = document.querySelector('#register-password');
+
+    togglePassword.addEventListener('click', function (e) {
+        // toggle the type attribute
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        // toggle the eye slash icon
+        this.classList.toggle('fa-eye-slash');
+    });
+    clearInterval(test123)
+
+}, 400)
+
+
+var parcoursUpdate = setInterval(function(){
+
+
+    var field_parcours = document.querySelector("#register-parcours")
+    var field_cohorte = document.querySelector("#register-parcours2")
+    var field_cohorte_plus = document.querySelector("#register-parcours2-optional-label")
+
+    field_cohorte.style.display = 'none';
+    field_cohorte_plus.style.display = 'none';
+        
+    field_parcours.onchange = function(e){
+        if (this.value == 'tourisme' || this.value == 'encadrement') {
+            $("#register-parcours2").val("Avancé")
+        } else {
+            $("#register-parcours2").val("Standard")
+        }
+        
+    }
+    clearInterval(parcoursUpdate)
+
+}, 600)
+</script>
+
