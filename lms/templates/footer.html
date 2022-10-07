@@ -251,6 +251,15 @@ var textTranslation = setInterval(function() {
     } 
   }
 
-}, 1000)
+}, 500)
+
+var hide_audit_message = setInterval(() => {
+  
+  let target = document.querySelector('#course-success')
+  if (target) {
+    target.style.display = 'none'
+  }
+  clearInterval(hide_audit_message)
+}, 300);
 
 </script>

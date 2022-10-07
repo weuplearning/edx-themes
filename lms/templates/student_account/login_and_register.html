@@ -164,7 +164,7 @@
 var test123 = setInterval(function(){
     
     var passwordField = document.querySelector('.password-password')
-    passwordField.innerHTML = '<label for="register-password">Mot de passe</label><input id="register-password" type="password" name="password" value="" required aria-required="true" style="border-color:#767676;" /><i class="fa fa-eye" id="togglePassword" style="position:absolute; left:473px; bottom:12px; cursor:pointer;"></i>'
+    passwordField.innerHTML = '<label for="register-password">Mot de passe</label><input id="register-password" type="password" name="password" value="" required aria-required="true" style="border-color:#767676;" /><i class="fa fa-eye" id="togglePassword" style="position:absolute; left:452px; bottom:12px; cursor:pointer;"></i>'
     
     const togglePassword = document.querySelector('#togglePassword');
     const passwordInput = document.querySelector('#register-password');
@@ -187,17 +187,24 @@ var parcoursUpdate = setInterval(function(){
     var field_parcours = document.querySelector("#register-parcours")
     var field_cohorte = document.querySelector("#register-parcours2")
     var field_cohorte_plus = document.querySelector("#register-parcours2-optional-label")
+    var field_to_hide = document.querySelector("#register-terms_of_service-optional-label")
+    var field_to_hide_2 = document.querySelector(".checkbox-honor_code")
 
-    field_cohorte.style.display = 'none';
-    field_cohorte_plus.style.display = 'none';
-        
-    field_parcours.onchange = function(e){
-        if (this.value == 'tourisme' || this.value == 'encadrement') {
-            $("#register-parcours2").val("Avancé")
-        } else {
-            $("#register-parcours2").val("Standard")
+    // CONDITION IS NEEDED FOR /LOGIN
+    if (document.querySelector(".checkbox-terms_of_service .label-text")) {
+        document.querySelector(".checkbox-terms_of_service .label-text").innerHTML = `J'accepte les <a href="/tos" rel="noopener" target="_blank">Conditions générales d’utilisation</a> `
+        $("#register-honor_code").prop('checked', true);
+        field_cohorte.style.display = 'none';
+        field_cohorte_plus.style.display = 'none';
+        field_to_hide.style.display = 'none';
+        field_to_hide_2.style.display = 'none';
+        field_parcours.onchange = function(e){
+            if (this.value == 'tourisme' || this.value == 'encadrement') {
+                $("#register-parcours2").val("Avancé")
+            } else {
+                $("#register-parcours2").val("Standard")
+            }
         }
-        
     }
     clearInterval(parcoursUpdate)
 
