@@ -209,5 +209,11 @@ var parcoursUpdate = setInterval(function(){
     clearInterval(parcoursUpdate)
 
 }, 600)
+
+var statut = setInterval(function(){
+    if(document.getElementsByClassName("label-text")[3].innerHTML === "Choix du parcours"){
+        document.getElementsByClassName("label-text")[3].innerHTML = "Statut"
+    }
+}, 100)
 </script>
 
