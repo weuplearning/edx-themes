@@ -251,15 +251,12 @@ var textTranslation = setInterval(function() {
     } 
   }
 
-}, 500)
+}, 1000)
 
-var hide_audit_message = setInterval(() => {
-  
-  let target = document.querySelector('#course-success')
-  if (target) {
-    target.style.display = 'none'
+</script>
+
+<script>
+  if(window.location.pathname ==="/account/settings"){
+    document.getElementsByClassName("help-link")[0].hidden = true 
   }
-  clearInterval(hide_audit_message)
-}, 300);
-
 </script>
