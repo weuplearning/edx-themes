@@ -1,0 +1,128 @@
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.urls import reverse
+
+from openedx.core.djangolib.markup import HTML, Text
+%>
+
+
+<!-- STYLE  -->
+<style>
+.vertical-align, .horizontal-align {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.horizontal-align {
+  flex-direction: row;
+}
+</style>
+<!-- STYLE  -->
+
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="home">
+      <header>
+        <div id="top-container" class="vertical-align">
+
+          <div class="vertical-align">
+            <p>Bienvenue sur le MOOC</p>
+            <p><strong>destination conduite</strong></p>
+            <p>Un MOOC d'avance sur votre recrutement</p>
+            <div class="horizontal-align">
+              <button>M'INSCRIRE</button>
+              <button>ME CONNECTER</button>
+            </div>
+          </div>
+
+          <div>
+            <div>Desination conduite</div>
+            <p>LE MÉTIER DE CONDUCTRICE OU CONDUCTEUR DE TRAIN VOUS INTÉRESSE ?</p>
+            <div>V</div>
+          </div>
+
+        </div>
+      </header>
+
+      <div id="center-container" class="vertical-align">
+        <div >
+          <p>
+            SNCF vous porpose son nouveau MOOC consacré aux métiers de la conduite ! Que vous soyez néophyte ou expert, futur candidat ou simple curieux, ce cours vous enseignera tout ce que vous devez savoir du métier de conductrice ou conducteur de train. <br>Au fil des cinq séquences proposées, nous vous ferons découvrir le monde du ferroviaire : 
+          </p>
+        </div>
+
+        <div class="horizontal-align">
+
+          <div class="vertical-align">
+
+            <div class="horizontal-align">
+              <img src="" alt="numéro">
+              <div>
+                <p>Intégrez SNCF et son écosystème</p>
+              </div>
+            </div>
+
+            <div class="horizontal-align">
+              <img src="" alt="numéro">
+              <div>
+                <p>Intégrez SNCF et son écosystème</p>
+              </div>
+            </div>
+
+            <div class="horizontal-align">
+              <img src="" alt="numéro">
+              <div>
+                <p>Intégrez SNCF et son écosystème</p>
+              </div>
+            </div>
+
+            <div class="horizontal-align">
+              <img src="" alt="numéro">
+              <div>
+                <p>Intégrez SNCF et son écosystème</p>
+              </div>
+            </div>
+
+            <div class="horizontal-align">
+              <img src="" alt="numéro">
+              <div>
+                <p>Intégrez SNCF et son écosystème</p>
+              </div>
+            </div>
+
+          </div>
+
+          <div>
+            VIDEO
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+    </section>
+</main>
+
+
+<%block name="js_extra">
+   <script type="text/javascript">
+      $(window).load(function() {
+         if(getParameterByName('next')) {
+              $('#login').trigger("click");
+         }
+      })
+   </script>
+</%block>
+
+% if show_signup_immediately is not UNDEFINED:
+  ## NOTE: This won't work in production, because anonymous views are cached, so it will
+  ## show either with or without this extra js for 3 minutes at a time.
+<script type="text/javascript">
+  $(window).load(function() {$('#signup_action').trigger("click");});
+</script>
+% endif

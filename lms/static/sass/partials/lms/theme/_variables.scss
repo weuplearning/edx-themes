@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com"> <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;1,300;1,400;1,500&display=swap');
+// Theme colors
+$primary:  #46B277;
+$secondary:  #3DC0F0;
+
+$theme-colors: (
+  "tertiary": #008268
+);
+
+// Theme fonts
+$font-family-sans-serif: 'Avenir', 'Barlow';
+
+$action-primary-bg: $secondary !default;
+$action-primary-shadow: $secondary !default;
+$action-primary-focused-bg: $secondary !default;
+$action-primary-active-bg: $secondary !default;
+$action-primary-active-fg: $secondary !default;
+$action-primary-active-shadow: $secondary !default;
+$action-primary-active-focused-fg: $secondary !default;
+$action-primary-active-focused-shadow: $secondary !default;
+
+@import 'edx-bootstrap/sass/open-edx/theme';

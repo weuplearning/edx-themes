@@ -1,0 +1,300 @@
+<%page expression_filter="h"/>
+<%! from django.utils.translation import ugettext as _ %>
+<%inherit file="../main.html" />
+
+<%block name="pagetitle">${_("Jobs")}</%block>
+
+<%
+# DEAL WITH XML DATA
+import urllib.request as urllib2
+import xmltodict
+from openedx.core.djangolib.js_utils import dump_js_escaped_json
+
+file = urllib2.urlopen('https://testsncf-recrute.talent-soft.com/Handlers/OfferXML.ashx')
+data_0 = file.read()
+file.close()
+
+data = xmltodict.parse(data_0)
+%>
+
+
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="container about">
+
+        <div id="carte-fr">
+            <p id="reg-hdf" onclick="select_region(event)">Hauts-de-France</p>
+            <p id="reg-ges" onclick="select_region(event)">Grand-Est</p>
+            <p id="reg-idf" onclick="select_region(event)">Ile-de-France</p>
+            <p id="reg-nor" onclick="select_region(event)">Normandie</p>
+            <p id="reg-bre" onclick="select_region(event)">Bretagne</p>
+            <p id="reg-pdl" onclick="select_region(event)">Pays de la Loire</p>
+            <p id="reg-cvl" onclick="select_region(event)">Centre-Val de Loire</p>
+            <p id="reg-bou" onclick="select_region(event)">Bourgogne-Franche-Comté</p>
+            <p id="reg-naq" onclick="select_region(event)">Nouvelle Aquitaine</p>
+            <p id="reg-ara" onclick="select_region(event)">Auvergne-Rhône-Alpes</p>
+            <p id="reg-occ" onclick="select_region(event)">Occitanie</p>
+            <p id="reg-pac" onclick="select_region(event)">Provence-Alpes-Côte d'Azur</p>
+        </div>
+
+        <div id="job-list-container" style="display: none;">
+            <ul id="job-list">
+
+            </ul>
+            <p id="empty_list" style="display: none;">
+                La liste des offres d'emploi est actuellement vide pour la région sélectionnée.
+            </p>
+        </div>
+
+        <div id="exit-pop-up">
+            <div id="container-pop-up">
+                <p>
+                    <strong>Attention</strong><br>
+                    Vous allez être redirigé vers le site de recrutement SNCF. <br>
+                    Veillez à avoir votre CV à disposition.
+                </p>
+                <div id="button-area-pop-up">
+
+                    <div onclick='$("#exit-pop-up").hide()' >Retour sur le MOOC</div>
+                    <a href="to_fill" id="pop-up-redirect" >Continuer</a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+</main>
+
+<style>
+#main {
+    min-height: calc(100vh - 71px - 69px) ;
+}
+
+#carte-fr {
+    background-image: url('https://sncf-voyageurs.koa.qualif.dev/media/microsites/sncf-voyages/carte.png');  
+    background-size: cover; 
+    background-position: center;
+    width: 600px; 
+    height: 600px;
+    /* max-width: 80vw;
+    max-height: 60vw; */
+    margin: auto;
+    position: relative;
+}
+#carte-fr > p:hover, #job-list li:hover {
+    cursor: pointer;
+    color: #378f37;
+}
+#carte-fr > p {
+    font-weight: 800;
+    font-size: large;
+    padding: 2px;
+    border: 2px solid black;
+    background-color: antiquewhite;
+}
+/* REGION */
+#reg-hdf {
+    position: absolute;
+    top: 16px;
+    right: 213px;
+}
+#reg-ges {
+    position:absolute;
+    top: 110px;
+    right: 62px;
+}
+#reg-idf {
+    position:absolute;
+    top: 100px;
+    right: 234px;
+}
+#reg-nor {
+    position:absolute;
+    top: 85px;
+    right: 343px;
+}
+#reg-bre {
+    position:absolute;
+    top: 137px;
+    right: 484px;
+}
+#reg-pdl {
+    position:absolute;
+    top: 190px;
+    right: 369px;
+}
+#reg-cvl {
+    position:absolute;
+    top: 209px;
+    right: 249px;
+}
+#reg-bou {
+    position:absolute;
+    top: 222px;
+    right: 59px;
+}
+#reg-naq {
+    position:absolute;
+    top: 330px;
+    right: 315px;
+}
+#reg-ara {
+    position:absolute;
+    top: 327px;
+    right: 103px;
+}
+#reg-occ {
+    position:absolute;
+    top: 432px;
+    right: 250px;
+}
+#reg-pac {
+    position:absolute;
+    top: 430px;
+    right: 4px;
+}
+
+/* JOB LIST */
+#job-list li {
+    line-height: 2;
+}
+#empty_list {
+    padding: 0 20px 20px 20px;
+
+}
+/* POP UP */
+#exit-pop-up {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: 100;
+    background-color: rgba(0, 100, 100, 0.2);
+
+}
+#container-pop-up {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: white;
+    border: solid 1px orange;
+    position: relative;
+    height: 200px;
+    padding: 20px;
+    line-height: 1.5;
+}
+
+#button-area-pop-up {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+#button-area-pop-up > div {
+    border: 1px solid orange;
+    padding: 8px;
+}
+#button-area-pop-up > a {
+    border: 1px solid orange;
+    padding: 8px;
+    background-color: orange;
+    color: white;
+    
+}
+#button-area-pop-up > a:hover {
+    background-color: white;
+    color: orange;
+    text-decoration: none;
+}
+#button-area-pop-up > div:hover {
+    background-color: orange;
+    color: white;
+}
+#job-list-container {
+    border: black 1px solid;
+}
+
+</style>
+
+<script>
+// Access XML data
+let offers = ${dump_js_escaped_json(data) | n, decode.utf8};
+
+
+region_dict = {
+    "reg-hdf" : "Hauts-de-France",
+    "reg-ges" : "Grand-Est",
+    "reg-idf" : "Ile-de-France",
+    "reg-nor" : "Normandie",
+    "reg-bre" : "Bretagne",
+    "reg-pdl" : "Pays de la Loire",
+    "reg-cvl" : "Centre-Val de Loire",
+    "reg-bou" : "Bourgogne-Franche-Comté",
+    "reg-naq" : "Nouvelle Aquitaine",
+    "reg-ara" : "Auvergne-Rhône-Alpes",
+    "reg-occ" : "Occitanie",
+    "reg-pac" : "Provence-Alpes-Côte d'azur"
+}
+
+function pop_up (url) {
+
+    url_id = url.split('idOrigin')[0] + 'idOrigine/57346J'
+
+    console.log(url_id);
+    $('#pop-up-redirect')[0].attributes.href.value = url_id
+
+    console.log( $('#pop-up-redirect')[0].attributes.href.value);
+    $("#exit-pop-up").css('display', 'flex')
+
+}
+
+
+
+function select_region (event) {
+    event.preventDefault()
+
+    region_value = region_dict[event.target.id]
+    // job_list = []
+    $('#job-list li').remove()
+    $('#empty_list').hide()
+    $('#job-list-container').show()
+
+    let offer_found = false
+    let list_clientcode = ['852','470','854','301','853','599','303','310']
+
+    for (let index = 0; index < offers["offers"]["offer"].length; index++) {
+    
+        const offer = offers["offers"]["offer"][index];
+
+        if (offer.jobDescription.location.regions) {
+            
+            
+            if (offer.jobDescription.location.regions.region['#text'] == region_value) {
+                
+                console.log("offer found");
+                console.log(offer.jobDescription.profile);
+                console.log(offer.jobDescription.profile['@clientcode']);
+                console.log(list_clientcode);
+
+                if (list_clientcode.includes(offer.jobDescription.profile['@clientcode'])) {
+   
+                    offer_found = true
+                    
+                    $('#job-list').append("<li onclick=\"pop_up('"+offer.directUrl+"')\" >"+offer.jobDescription.title+"</li>")
+                }
+                
+            }
+        }
+    }
+
+    if (!offer_found) {
+        $('#empty_list').show()
+    }
+}
+
+</script>
