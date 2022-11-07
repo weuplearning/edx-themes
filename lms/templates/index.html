@@ -688,7 +688,9 @@ from openedx.core.djangolib.markup import HTML, Text
     <div class="secondary">
       <div class="horizontal-align">
         <div class="register-btn-header horizontal-align-header">
-          <div class="register-btn-header-inside" style='color: white;'>${_("Register")}</div>
+          <a  href="/register?course_id=course-v1:icope+Occitanie+2022&enrollment_action=enroll">S'inscrire
+          <!-- <div class="register-btn-header-inside" style='color: white;'>${_("Register")}</div> -->
+        </a>
         </div>
         <a  href="/login${login_query()}">
           <div class="sign-in-btn-header horizontal-align-header">
@@ -800,8 +802,8 @@ from openedx.core.djangolib.markup import HTML, Text
         <img src="${static.url('icope/images/Motif_violet_1.png')}" alt="" id="tournis-3">
 
         <div class="log-button register-btn-main">
-          <!-- <a class="register-btn btn" href="/register${login_query()}">${_("Register")}</a> -->
-          <div class="register-btn btn registerButtonExtra">${_("Register")}</div>
+          
+          <div class="register-btn btn registerButtonExtra"><a class="register-btn btn" href="/register?course_id=course-v1:icope+Occitanie+2022&enrollment_action=enroll">${_("Register")}</a></div>
           <!-- <a class="register-btn btn" href="">${_("Register")}</a> -->
         </div>
       <a href="/login${login_query()}">     
@@ -1017,38 +1019,38 @@ const home = document.querySelector('.home')
 const header = document.querySelector('.global-header')
 const closeButton = document.querySelector('.mapSection-closeButton')
 
-registerButton.addEventListener('click', ()=>{
-    console.log('ciblage-ok')
+// registerButton.addEventListener('click', ()=>{
+//     console.log('ciblage-ok')
 
-    home.style.filter = "blur(0.5rem)"
-    header.style.filter = "blur(0.5rem)"
-    console.log('filter-ok')
+//     home.style.filter = "blur(0.5rem)"
+//     header.style.filter = "blur(0.5rem)"
+//     console.log('filter-ok')
 
-    map.classList.toggle('mapSection-show')
-    console.log('map-showing-ok')
-})
+//     map.classList.toggle('mapSection-show')
+//     console.log('map-showing-ok')
+// })
 
-registerButtonHeader.addEventListener('click', ()=>{
-    console.log('ciblage-ok')
+// registerButtonHeader.addEventListener('click', ()=>{
+//     console.log('ciblage-ok')
 
-    home.style.filter = "blur(0.5rem)"
-    header.style.filter = "blur(0.5rem)"
-    console.log('filter-ok')
+//     home.style.filter = "blur(0.5rem)"
+//     header.style.filter = "blur(0.5rem)"
+//     console.log('filter-ok')
 
-    map.classList.toggle('mapSection-show')
-    console.log('map-showing-ok')
-})
+//     map.classList.toggle('mapSection-show')
+//     console.log('map-showing-ok')
+// })
 
-closeButton.addEventListener('click', ()=>{
-  console.log('ciblage-2-ok')
+// closeButton.addEventListener('click', ()=>{
+//   console.log('ciblage-2-ok')
 
-  home.style.filter = "blur(0rem)"
-  header.style.filter = "blur(0rem)"
-  console.log('blur-off')
+//   home.style.filter = "blur(0rem)"
+//   header.style.filter = "blur(0rem)"
+//   console.log('blur-off')
 
-  map.classList.toggle('mapSection-show')
-  console.log('map-hidden')
-})
+//   map.classList.toggle('mapSection-show')
+//   console.log('map-hidden')
+// })
 
 const loginButton1 = document.querySelector(".login-btn-main")
 const loginButton2 = document.querySelector(".sign-in-btn-header")
