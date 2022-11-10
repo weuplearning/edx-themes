@@ -1,6 +1,7 @@
 <%page expression_filter="h"/>
 <%inherit file="main.html" />
 <%namespace name='static' file='static_content.html'/>
+<%namespace file='main.html' import="login_query"/>
 <%!
 from django.utils.translation import ugettext as _
 from django.urls import reverse
@@ -10,7 +11,52 @@ from openedx.core.djangolib.markup import HTML, Text
 
 
 <!-- STYLE  -->
+<!-- https://xd.adobe.com/view/f988e995-7514-4c22-a878-009f239cff37-acdb/variables/ -->
 <style>
+/* HEADER */
+.global-header {
+  display: none;
+}
+.global-header-2 {
+  position: fixed;
+  background-color: rgb(0, 0, 0, 0.2);
+  top: 0;
+  left: 0;
+  width: calc( 100vw - 4vw );
+  height: 11vh;
+  padding: 0 2vw;
+  z-index: 4;
+
+}
+#logo-home {
+  height: 9vh;
+  padding-left: 40px;
+}
+.register-btn {
+  background: #47B077 !important;
+  color: white;
+}
+.sign-in-btn {
+  color: white;
+  background: #3DC0EF !important;
+}
+.login-btn {
+  padding: 16px;
+  width: 37vw;
+
+}
+.btn {
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-size: 2vh;
+  font-weight: 700;
+  display: block;
+  width: 16vw;
+  text-align: center;
+}
+
+/* GLOBAL */
 .vertical-align, .horizontal-align {
   display: flex;
   flex-direction: column;
@@ -20,92 +66,315 @@ from openedx.core.djangolib.markup import HTML, Text
 .horizontal-align {
   flex-direction: row;
 }
+.space-between {
+  justify-content: space-between;
+}
+#top-container {
+  color: white;
+  background-image: url("${static.url('images/baniere.png')}");
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
+}
+.home {
+  background-color: #EDEDED;
+}
+html, body {
+  max-width: 100%;
+}
+html {
+  overflow-x: hidden;
+}
+.cc-grower {
+  display: none !important;
+}
+
+
+/* BODY */
+.home-page-1 {
+  align-self: flex-start;
+  margin: 25vh 20px 60px 140px;
+  height: 50vh;
+  align-items: flex-start;
+}
+.home-page-1 > p:first-child {
+  text-transform: uppercase;
+  font-size: xxx-large;
+  font-size: 5vh;
+  line-height: normal;
+}
+.home-page-1 > p:nth-child(2) {
+  font-size: x-large;
+  font-size: 3vh;
+  font-weight: 800;
+}
+.home-page-1 > div {
+  padding-left: 0;
+}
+
+.home-page-2 {
+  height: 33vh;
+  font-size: 26px;
+  font-size: 2vw;
+  font-weight: 800;
+  padding-bottom: 20px;
+}
+.home-page-2 > img:first-child {
+  height: 9vh; 
+}
+.home-page-2 > img:last-child {
+  height: 5vh; 
+}
+
+#center-container-text {
+  text-align: center;
+  font-size: 25px;
+  font-size: 2.3vh;
+  padding: 50px 102px;
+  line-height: normal;
+  /* position: relative; */
+}
+.numero {
+  background-color: #47B077;
+  color: white;
+  font-size: 19px;
+  font-size: 2.5vh;
+  height: 5vh;
+  width: 5vh;
+  border-radius: 50%;
+  position: absolute;
+  left: -24px;
+}
+.bulle-numero {
+  background-color: white;
+  padding: 1vh 6vw;
+  height: 6vh;
+  width: 14vw;
+  border-radius: 2vh;
+  text-align: center;
+  font-size: 20px;
+  font-size: 2vh;
+  line-height: 1.4;
+}
+
+.numero-relat {
+  position: relative;
+  margin: 0 10vw 7vh 0;
+
+}
+.dotted div {
+  border-right: black 3px solid;
+  height: 2.5vh;
+  position: absolute;
+  left: -10px;
+  }
+#illu-ter {
+  position: relative;
+  height: 500px;
+}
+#illu-ter > div:first-child {
+  /* background-color: aqua; */
+  position: relative;
+  z-index: 2;
+}
+
+/* #illu-ter > img {
+  position: absolute;
+  right: -1681px;
+  height: 564px;
+  z-index: 1;
+} */
+#video-home {
+  height: 34vh;
+  width: 42vw;
+  background-color: white;
+  border: #47B077 3px solid;
+}
+
+#center-container {
+  position: relative;
+}
+#illu-ter-2 {
+  background-image: url("${static.url('sncf-voyageurs/images/illu_rogne.png')}");
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  height: 500px;
+  width: 500px;
+
+}
+
+
+/* FOOTER */
+.wrapper-footer {
+  display: none;
+}
+.wrapper-footer-home {
+  background-color: #1D5659;
+  z-index: 2;
+  height: 9vh;
+  padding: 0 10vw;
+}
+.wrapper-footer-home a {
+  color: white !important;
+  font-size: 15px;
+  font-size: 2vh;
+  text-decoration: none;
+}
+
+
+/* MEDIA */
+@media (min-width: 768px) {  
+  .content-wrapper {
+    padding: 0 !important;
+    margin-top: 0 !important;
+  }
+}
+
+
 </style>
 <!-- STYLE  -->
 
 <main id="main" aria-label="Content" tabindex="-1">
-    <section class="home">
-      <header>
-        <div id="top-container" class="vertical-align">
 
-          <div class="vertical-align">
-            <p>Bienvenue sur le MOOC</p>
-            <p><strong>destination conduite</strong></p>
-            <p>Un MOOC d'avance sur votre recrutement</p>
-            <div class="horizontal-align">
-              <button>M'INSCRIRE</button>
-              <button>ME CONNECTER</button>
+  <header class="global-header-2 horizontal-align space-between" >
+    <img id="logo-home" class="logo" src="${static.url('sncf-voyageurs/images/logo_secondary.png')}" alt="logo-SNCF"/>
+
+    <div class="horizontal-align space-between login-btn">
+      <div class="mobile-nav-item hidden-mobile nav-item">
+        <a class="register-btn btn" href="/register${login_query()}">M'INSCRIRE</a>
+      </div>
+      <div class="mobile-nav-item hidden-mobile nav-item">
+        <a class="sign-in-btn btn" href="/login${login_query()}">ME&nbspCONNECTER</a>
+      </div>
+    </div>
+
+  </header>
+
+  <section class="home">
+    <div>
+      <div id="top-container" class="vertical-align">
+
+        <div class="vertical-align home-page-1">
+          <p>Bienvenue sur le MOOC <br><strong>destination conduite</strong></p>
+          <p>Un MOOC d'avance sur votre recrutement</p>
+          <div class="horizontal-align login-btn space-between">
+            <div class="mobile-nav-item nav-item">
+              <a class="register-btn btn" href="/register${login_query()}">M'INSCRIRE</a>
+            </div>
+
+            <div class="mobile-nav-item nav-item">
+              <a class="sign-in-btn btn" href="/login${login_query()}">ME&nbspCONNECTER</a>
             </div>
           </div>
-
-          <div>
-            <div>Desination conduite</div>
-            <p>LE MÉTIER DE CONDUCTRICE OU CONDUCTEUR DE TRAIN VOUS INTÉRESSE ?</p>
-            <div>V</div>
-          </div>
-
-        </div>
-      </header>
-
-      <div id="center-container" class="vertical-align">
-        <div >
-          <p>
-            SNCF vous porpose son nouveau MOOC consacré aux métiers de la conduite ! Que vous soyez néophyte ou expert, futur candidat ou simple curieux, ce cours vous enseignera tout ce que vous devez savoir du métier de conductrice ou conducteur de train. <br>Au fil des cinq séquences proposées, nous vous ferons découvrir le monde du ferroviaire : 
-          </p>
-        </div>
-
-        <div class="horizontal-align">
-
-          <div class="vertical-align">
-
-            <div class="horizontal-align">
-              <img src="" alt="numéro">
-              <div>
-                <p>Intégrez SNCF et son écosystème</p>
-              </div>
-            </div>
-
-            <div class="horizontal-align">
-              <img src="" alt="numéro">
-              <div>
-                <p>Intégrez SNCF et son écosystème</p>
-              </div>
-            </div>
-
-            <div class="horizontal-align">
-              <img src="" alt="numéro">
-              <div>
-                <p>Intégrez SNCF et son écosystème</p>
-              </div>
-            </div>
-
-            <div class="horizontal-align">
-              <img src="" alt="numéro">
-              <div>
-                <p>Intégrez SNCF et son écosystème</p>
-              </div>
-            </div>
-
-            <div class="horizontal-align">
-              <img src="" alt="numéro">
-              <div>
-                <p>Intégrez SNCF et son écosystème</p>
-              </div>
-            </div>
-
-          </div>
-
-          <div>
-            VIDEO
-          </div>
-
         </div>
 
+        <div class="home-page-2 vertical-align space-between">
+          <img src="${static.url('sncf-voyageurs/images/logo_destination_conduite.svg')}" alt="Destination conduite">
+          <p>LE MÉTIER DE CONDUCTRICE OU CONDUCTEUR DE TRAIN VOUS INTÉRESSE ?</p>
+          <img src="${static.url('sncf-voyageurs/images/fleche.svg')}" alt="V">
+        </div>
 
       </div>
+    </div>
+
+    <div id="center-container" class="vertical-align">
+      <div class="horizontal-align">
+        <p id="center-container-text">
+          SNCF vous porpose son nouveau MOOC consacré aux métiers de la conduite ! Que vous soyez néophyte ou expert, futur candidat ou simple curieux, ce cours vous enseignera tout ce que vous devez savoir du métier de conductrice ou conducteur de train. <br>Au fil des cinq séquences proposées, nous vous ferons découvrir le monde du ferroviaire : 
+        </p>
+      </div>
+
+      <div class="horizontal-align">
+
+        <div class="vertical-align">
+
+          <div class="horizontal-align numero-relat">
+            <div class="numero vertical-align">
+              1
+            </div>
+            <div class="bulle-numero vertical-align">
+              <p>Intégrez SNCF et son écosystème</p>
+            </div>
+            <div class="dotted">
+              <div style="top : 8vh"></div>
+              <div style="top : 13vh"></div>
+            </div>
+          </div>
+          
+          <div class="horizontal-align numero-relat">
+            <div class="numero vertical-align">
+              2
+            </div>
+            <div class="bulle-numero vertical-align">
+              <p>Découvrez les métiers de la conduite</p>
+            </div>
+            <div class="dotted">
+              <div style="top : 8vh"></div>
+              <div style="top : 13vh"></div>
+            </div>
+          </div>
+
+          <div class="horizontal-align numero-relat">
+            <div class="numero vertical-align">
+              3
+            </div>
+            <div class="bulle-numero vertical-align">
+              <p>Initiez-vous à la réglementation ferroviaire</p>
+            </div>
+            <div class="dotted">
+              <div style="top : 8vh"></div>
+              <div style="top : 13vh"></div>
+            </div>
+          </div>
+
+          <div class="horizontal-align numero-relat">
+            <div class="numero vertical-align">
+              4
+            </div>
+            <div class="bulle-numero vertical-align">
+              <p>Devenez un porfessionnel de la conduite !</p>
+            </div>
+            <div class="dotted">
+              <div style="top : 8vh"></div>
+              <div style="top : 13vh"></div>
+            </div>
+          </div>
+          <div class="horizontal-align numero-relat">
+            <div class="numero vertical-align">
+              5
+            </div>
+            <div class="bulle-numero vertical-align" style="background-color: #008168; color: white;">
+              <p>Rejoinez le plus beau bureau de France !</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div id="illu-ter">
+          <div class="horizontal-align" id="video-home">
+
+            VIDEO
+          </div>
+          <!-- <img src="${static.url('sncf-voyageurs/images/illu.svg')}" alt=""> -->
+        </div>
+        
+      </div>
+      
+      
+      <div id="illu-ter-2"></div>
+    </div>
 
 
-    </section>
+  </section>
+  <footer class="wrapper-footer-home horizontal-align space-between">
+    <a href="/cgu">Mentions légales</a>
+    <a href="/honor">Politique de confidentialité</a>
+    <a href="/tos">Crédits</a>
+
+  </footer>
 </main>
 
 

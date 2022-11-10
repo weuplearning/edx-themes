@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="237.596" height="92.356" viewBox="0 0 237.596 92.356">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_304" data-name="Rectangle 304" width="237.596" height="92.356" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="logo_destination_conduite" data-name="logo destination conduite" transform="translate(0 0)">
+    <g id="Groupe_657" data-name="Groupe 657" transform="translate(0 0)">
+      <g id="Groupe_656" data-name="Groupe 656" clip-path="url(#clip-path)">
+        <path id="Tracé_658" data-name="Tracé 658" d="M221.13,92.356H17.606A16.337,16.337,0,0,1,1.269,76.019V16.337A16.337,16.337,0,0,1,17.606,0H221.13a16.337,16.337,0,0,1,16.337,16.337V76.019A16.337,16.337,0,0,1,221.13,92.356" transform="translate(0.128 0)" fill="#008168"/>
+      </g>
+    </g>
+    <text id="DESTINATION" transform="translate(84.048 37.718)" fill="#fff" font-size="13" font-family="Avenir-Heavy, Avenir" font-weight="800"><tspan x="0" y="0" letter-spacing="0.3em">DESTIN</tspan><tspan y="0" letter-spacing="0.208em">A</tspan><tspan y="0" letter-spacing="0.3em">T</tspan><tspan y="0" letter-spacing="0.299em">IO</tspan><tspan y="0">N</tspan></text>
+    <text id="CONDUITE" transform="translate(82.091 62.123)" fill="#fff" font-size="23" font-family="Avenir-Black, Avenir" font-weight="800"><tspan x="0" y="0" letter-spacing="0.08em">CONDUIT</tspan><tspan y="0">E</tspan></text>
+    <g id="Groupe_659" data-name="Groupe 659" transform="translate(0 0)">
+      <g id="Groupe_658" data-name="Groupe 658" clip-path="url(#clip-path)">
+        <path id="Tracé_659" data-name="Tracé 659" d="M24.166,64.511l2.35-2.612h25.9l2.35,2.612a1.319,1.319,0,0,0,2,0,1.7,1.7,0,0,0,0-2.228l-6.811-7.574a2.927,2.927,0,0,0,.416-.325,10.818,10.818,0,0,0,3.3-5.016,36.116,36.116,0,0,0,2.28-10.185c.32-4.613-1.579-11.787-2.835-15.13l-.439-1.181a15.328,15.328,0,0,0-3.136-4.255c-1.577-1.639-3.09-1.759-5.394-1.759H34.787c-2.3,0-3.818.12-5.393,1.759a15.248,15.248,0,0,0-3.136,4.255l-.44,1.184c-1.255,3.341-3.154,10.514-2.834,15.131a36,36,0,0,0,2.28,10.181,10.783,10.783,0,0,0,3.3,5.016,3.724,3.724,0,0,0,.422.318l-6.818,7.581a1.7,1.7,0,0,0,0,2.228,1.32,1.32,0,0,0,2,0m5.182-5.762,2.511-2.792a13.738,13.738,0,0,0,3.169.283H43.9a13.742,13.742,0,0,0,3.169-.283l2.511,2.792Zm18.324-6.806a2.337,2.337,0,1,1,2.343-2.337,2.341,2.341,0,0,1-2.343,2.337m-21.185-15c-1.431,0,.817-12.56,1.842-12.56H50.348c1.113,0,3.726,12.56,1.972,12.56Zm2.383,12.664a2.342,2.342,0,1,1,2.343,2.337,2.341,2.341,0,0,1-2.343-2.337M64.583,69.1H14.35a1.428,1.428,0,0,0,0,2.854H64.583a1.428,1.428,0,0,0,0-2.854" transform="translate(1.312 1.706)" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>

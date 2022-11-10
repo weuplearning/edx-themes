@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="792" height="427.659" viewBox="0 0 792 427.659">
+  <g id="video" transform="translate(-960 -322)">
+    <g id="Rectangle_91" data-name="Rectangle 91" transform="translate(960 322)" fill="#fff" stroke="#1d5659" stroke-width="5">
+      <rect width="792" height="427.659" stroke="none"/>
+      <rect x="2.5" y="2.5" width="787" height="422.659" fill="none"/>
+    </g>
+    <circle id="Ellipse_16" data-name="Ellipse 16" cx="55.377" cy="55.377" r="55.377" transform="translate(1301.181 480.824)" fill="#008168"/>
+    <path id="Polygone_1" data-name="Polygone 1" d="M23.414,0,46.829,40.882H0Z" transform="translate(1381.458 512.787) rotate(90)" fill="#fff"/>
+  </g>
+</svg>
