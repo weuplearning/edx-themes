@@ -5,6 +5,8 @@
 <%namespace name='static' file='../static_content.html'/>
 
 <%!
+import re
+from math import ceil
 import json
 import pytz
 from datetime import date, datetime, timedelta
@@ -16,6 +18,12 @@ from django.utils.translation import ngettext
 from lms.djangoapps.courseware.access import has_access
 from openedx.core.djangolib.markup import HTML, Text
 from openedx.features.course_experience import RELATIVE_DATES_FLAG
+
+from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+
+from lms.djangoapps.grades.course_grade import ZeroCourseGrade
+from django.conf import settings
+
 %>
 
 <%
@@ -25,155 +33,980 @@ relative_dates_flag_is_enabled = RELATIVE_DATES_FLAG.is_enabled(str(course_key))
 is_course_staff = bool(user and course and has_access(user, 'staff', course, course.id))
 dates_banner_displayed = False
 %>
-<main role="main" class="course-outline" id="main" tabindex="-1">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+<style>
+
+#course-container {
+    background: white !important;
+}
+
+  .content-wrapper {
+    padding: 10px 0 0 0;
+    margin-bottom: -10px;
+}
+
+.course-outline .block-tree .section {
+
+    border-bottom: none;
+}
+
+/* #course-outline-block-tree{
+  background: url("${static.url('bungalow/images/bg_dashboard.png')}") !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+} */
+
+    .carousel {
+      position: relative;
+      /* padding-top: 75%; */
+      filter: drop-shadow(0 0 10px #0003);
+      perspective: 100px;
+      width: 100%;
+    margin: auto;
+    height: 400px;
+    /* margin-top: -50px; */
+    }
+    
+    .carousel__viewport {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      overflow-x: scroll;
+      counter-reset: item;
+      scroll-behavior: smooth;
+      scroll-snap-type: x mandatory;
+      height: 423px;
+      overflow: hidden;
+      padding-left: 0;
+    }
+    
+    .carousel__slide {
+      position: relative;
+      flex: 0 0 100%;
+      width: 100%;
+      background-color:rgb(244, 244, 244);
+      counter-increment: item;
+      list-style: none;
+      margin-bottom: 25px;
+      /* display: flex;
+      justify-content: center; */
+    }
+    .carousel__slide:before {
+      content: counter(item);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate3d(-50%,-40%,70px);
+      color: #fff;
+      font-size: 2em;
+    }
+    
+    .carousel__snapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      scroll-snap-align: center;
+    }
+
+    .carousel__snapper__container {
+        display: flex;
+justify-content: center;
+align-items: center;
+padding-top: 30px;
+    }
+
+
+    
+    @media (hover: hover) {
+      .carousel__snapper {
+        /* animation-name: tonext, snap; */
+        animation-timing-function: ease;
+        animation-duration: 4s;
+        animation-iteration-count: infinite;
+      }
+    
+      .carousel__slide:last-child .carousel__snapper {
+        animation-name: tostart, snap;
+      }
+    }
+    
+    @media (prefers-reduced-motion: reduce) {
+      .carousel__snapper {
+        animation-name: none;
+      }
+    }
+    
+    
+    .carousel:hover .carousel__snapper,
+    .carousel:focus-within .carousel__snapper {
+      animation-name: none;
+    }
+    
+    .carousel__navigation {
+      position: absolute;
+      right: 0;
+      top: 355px;
+      left: 0;
+      text-align: center;
+    }
+    
+    .carousel__navigation-list,
+    .carousel__navigation-item {
+      display: inline-block;
+    }
+
+    .carousel__navigation-list{
+      padding-left: 0;
+    }
+    
+    .carousel__navigation-button {
+      display: inline-block;
+      width: 1.5rem;
+      height: 1.5rem;
+      background-color: #333;
+      background-clip: content-box;
+      border: 0.25rem solid transparent;
+      border-radius: 50%;
+      font-size: 0;
+      transition: transform 0.1s;
+    }
+    
+    .carousel::before,
+    .carousel::after,
+    .carousel__prev,
+    .carousel__next {
+      position: absolute;
+      top: 185px;
+      /* margin-top: 37.5%; */
+      width: 8rem;
+      /* height: 4rem; */
+      transform: translateY(-50%);
+      border-radius: 50%;
+      font-size: 0;
+      outline: 0;
+      color: black;
+    font-size: 5em;
+    }
+    
+    .carousel::before,
+    .carousel::after,
+    .carousel__prev {
+      left: 20px;
+    }
+    
+    .carousel::after,
+    .carousel::after,
+    .carousel__next {
+      right: -75px;
+    }
+    
+    .carousel::before,
+    .carousel::after {
+      content: '';
+      z-index: 1;
+      background-color: #333;
+      background-size: 1.5rem 1.5rem;
+      background-repeat: no-repeat;
+      background-position: center center;
+      color: #fff;
+      font-size: 2.5rem;
+      line-height: 4rem;
+      text-align: center;
+      pointer-events: none;
+    }
+    
+    .carousel::before {
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='0,50 80,100 80,0' fill='%23fff'/%3E%3C/svg%3E");
+    }
+    
+    .carousel::after {
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='100,50 20,100 20,0' fill='%23fff'/%3E%3C/svg%3E");
+    }
+    
+    .carousel_image {
+      width: 22%;
+    }
+
+  .course_logo {
+    height: 290px;
+    width: 290px;
+    border-radius: 100%;
+    display: flex;
+    align-items: flex-end;
+    margin: auto;
+    background-size: 95% !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+  }
+
+  .course_logo_test_0 {
+    background-image: url(/static/bungalow/images/course_test_0.svg);
+  }
+  .course_logo_test_1 {
+    background-image: url(/static/bungalow/images/course_test_1.svg);
+  }
+  .course_logo_test_2 {
+    background-image: url(/static/bungalow/images/course_test_2.svg);
+  }
+  .course_logo_test_3 {
+    background-image: url(/static/bungalow/images/course_test_3.svg);
+  }
+
+  .course_logo_name {
+    margin: 1em;
+    color: #000;
+    font-size: 1.1em;
+    width: 345px;
+    text-align: center;
+    height: 1px;
+    line-height: 16px;
+    font-weight: bold;
+  }
+
+    
+</style>
+    
+    
+    <style>
+    .flex-button {
+        display: flex !important;
+        justify-content: space-between;
+        align-items: center;
+        padding: 30px !important;
+    }
+    .progress_bar_and_score {
+        width: 30%;
+        display: flex;
+        align-items: center;
+        margin-left: auto;
+    }
+    .completed_percent {
+        margin-left: 20px;
+        font-size: 1.5em;
+        margin-bottom: 0;
+    }
+    .accordion-flex {
+        display: flex !important;
+    }
+    .course_image_container{
+        background-image: url("/media/microsites/amazon/amazon_img.png");
+        height: 320px;
+        width: 340px;
+    }
+    
+    .course-outline .fa-chevron-right {
+        font-size: 1.6em;
+        margin-left: 170px;
+    }
+    .course-outline .fa-chevron-right.fa-rotate-90 {
+        font-size: 1.6em;
+    }
+    .course-outline .block-tree .section ol.outline-item {
+      /* display: flex; */
+    height: 400px;
+    /* align-items: center; */
+}
+
+.complete-checkmark {
+    position: relative;
+    bottom: -2px;
+    left: 10px;
+    background: #0e353c;
+    border-radius: 100%;
+    color: #fff;
+    padding: 6px;
+}
+
+.mobile_device{
+    display: none !important;
+}
+
+.tablet_device{
+    display: none !important;
+}
+
+@media screen and (max-width: 1650px) {
+  .bloc_course_vignet {
+    margin: 0 1%;
+    width: 250px;
+}
+.course_logo {
+    height: 250px;
+    width: 250px;
+}
+
+.course_logo_name {
+    width: 250px;
+}
+}
+
+@media screen and (max-width: 1150px) {
+  .desktop_device {
+    display:none !important;
+  }
+  .tablet_device{
+    display: none !important;
+}
+
+.mobile_device{
+  display: block !important;
+}
+
+.progress_bar_and_score {
+  width: 100%;
+}
+.flex-button{
+  flex-direction: column;
+}
+
+.course-outline .fa-chevron-right{
+  margin-left: 0px;
+}
+
+}
+
+
+@media screen and (max-width: 520px) {
+  .progress-bar-full {
+    width: 74%;
+  }
+  .completed_percent {
+    margin-left: 10px;
+    font-size: 1.2em;
+}
+
+.carousel__navigation-button {
+
+    width: 1rem;
+    height: 1rem;
+
+}
+
+.course_logo {
+    height: 250px;
+  width: 250px;
+  }
+
+  .arrow_navigation {
+
+    bottom: -140px;
+
+}
+.complete-checkmark {
+
+    margin-bottom: 209px;
+}
+
+}
+
+
+.button_subsection {
+  display: flex;
+  width: 100%;
+margin-bottom: 1em;
+}
+
+
+.anchor{
+  display: block;
+  height: 200px; /*same height as header*/
+  margin-top: -200px; /*same height as header*/
+  visibility: hidden;
+}
+
+.bloc_course_vignet {
+  margin: 0 10px;
+}
+
+.squarebutton{
+  width: 1.8rem;
+  height: 1.8rem;
+  background-color: #f90;
+}
+
+a:hover{
+  text-decoration: none;
+}
+
+.carousel__navigation-item[data-active="active"] a {
+  background-color: #f90;
+  }
+.arrow_navigation {
+  cursor: pointer;
+  position: relative;
+  bottom: -215px;
+  z-index: 2;
+}
+
+.navigation_container {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 5px;
+}
+
+.progress-bar-grade {
+        position: absolute;
+        height: 100%;
+        top:3px;
+        left:3px;
+        border-radius: 20px;
+        animation: fadeInLeft;
+        animation-duration: 1.5s;
+        height: 70%;
+    }
+
+.arrow_navigation_right{
+  margin-right:-10px;
+}
+
+.color_index_0{
+  background-color: #04ac9c !important;
+}
+
+.color_index_1{
+  background-color: #04ac9c !important;
+}
+
+.color_index_2{
+  background-color: #04ac9c !important;
+}
+
+.color_index_3{
+  background-color: #04ac9c !important;
+}
+
+.chevron_right_index_0{
+  color: white !important;
+}
+
+.chevron_right_index_1{
+  color: white !important;
+}
+
+.chevron_right_index_2{
+  color: white !important;
+}
+
+.chevron_right_index_3{
+  color: white !important;
+}
+
+.progress_bar_index_0{
+  background-color: #36BDB0 !important;
+}
+
+.progress_bar_index_1{
+  background-color: #36BDB0;
+}
+
+.progress_bar_index_2{
+  background-color: #36BDB0;
+}
+
+.progress_bar_index_3{
+  background-color: #36BDB0;
+}
+
+.image_logo_bar{
+  /* margin: auto; */
+    display: block;
+    margin-top: -163px;
+    z-index: 2;
+    position: relative;
+    width: 201px;
+    margin-bottom: 31px;
+}
+
+.course-outline .block-tree .section .section-name .section-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+
+  /* modifs quentin - ticket 15882 - solving responsive problem with titles of sections */
+
+  @media screen and (min-width:1151px) and (max-width:1250px) {
+    .section-title{
+      width: 23rem;
+    }
+  }
+  @media screen and (min-width:1251px) and (max-width:1350px) {
+    .section-title{
+      width: 29rem;
+    }
+  }
+  @media screen and (min-width:1351px) and (max-width:1450px) {
+    .section-title{
+      width: 32rem;
+    }
+  }
+
+    </style>
+
+    
+    
+<main role="main" class="desktop_device course-outline" id="main" tabindex="-1">
     <%include file="/dates_banner.html" />
     % if course_sections is not None:
-        <button class="btn btn-primary"
+        <button class="btn btn-primary "
                 id="expand-collapse-outline-all-button"
                 aria-expanded="false"
                 aria-controls="course-outline-block-tree"
                 >
-          <span class="expand-collapse-outline-all-extra-padding" id="expand-collapse-outline-all-span">${_("Expand All")}</span>
+            <span class="expand-collapse-outline-all-extra-padding" id="expand-collapse-outline-all-span">${_("Expand All")}</span>
         </button>
-        <ol class="block-tree accordion"
+        <ol class=" block-tree accordion"
             id="course-outline-block-tree"
             aria-labelledby="expand-collapse-outline-all-button">
-        % for section in course_sections:
+            % for primary_index, section in enumerate(course_sections):
             <%
             section_is_auto_opened = section.get('resume_block') is True
             scored = 'scored' if section.get('scored', False) else ''
+            section_id = section['id']
             %>
-                <li class="outline-item section ${scored}">
-                    <button class="section-name accordion-trigger outline-button"
+                <li class=" outline-item section ${scored}">
+
+                    <button class="section-name accordion-trigger outline-button flex-button color_index_${primary_index}"
                             aria-expanded="${ 'true' if section_is_auto_opened else 'false' }"
                             aria-controls="${ section['id'] }_contents"
                             id="${ section['id'] }">
-                        <span class="fa fa-chevron-right ${ 'fa-rotate-90' if section_is_auto_opened else '' }" aria-hidden="true"></span>
-                        <h3 class="section-title">${ section['display_name'] }</h3>
+                            <span class="fa fa-chevron-right chevron_right_index_${primary_index} ${ 'fa-rotate-90' if section_is_auto_opened else '' }" aria-hidden="true"></span>
+                            <h3 class="section-title">${ section['display_name']}</h3>
+
+
+                      <!-- modifs quentin - ticket 15882 - solving completion gauge -->
+                      
+                      %if configuration_helpers.get_value('COMPLETION_BASED_DASHBOARD_MONO', False):
+
+                        <%
+                        total_blocks = 1
+                        completed_blocks = 1
+
+                        if not section.get('complete'):
+                          total_blocks = 0
+                          completed_blocks = 0
+                          for subsection in section.get('children', []):
+                            for unitchild in subsection.get('children', []):
+                              for blockchild in unitchild.get('children', []):
+                                total_blocks += 1
+                                if blockchild.get('complete'):
+                                  completed_blocks += 1
+                        if total_blocks == 0:
+                          pass
+                        else:
+                          completion_ratio = completed_blocks / total_blocks
+                        %>
+                      
+                        <div class="progress_bar_and_score">
+                          <div class="progress-bar-full">
+                              <div style="width:${(completion_ratio * 100)-2}%;" class="progress-bar-grade progress_bar_index_${primary_index}"></div>
+                          </div>
+                          <h2 class="completed_percent"> ${int(completion_ratio * 100)} %</h2>
+                        </div>
+
+                      %else:
+
+                        %for index, chapter in enumerate(user_grade.chapter_grades.keys()):
+                            %if section['display_name'] == user_grade.chapter_grades[chapter]['display_name']:
+                                <div class="progress_bar_and_score">
+                                    <div class="progress-bar-full">
+                                        <!-- <div style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade"></div> -->
+                                        <div style="width:50%;" class="progress-bar-grade progress_bar_index_${primary_index}"></div>
+                                    </div>        
+                                    <h2 class="completed_percent"> ${int(user_grade.chapter_percentage(chapter) * 100)} %</h2>     
+                                </div>
+                            %endif
+                        %endfor
+
+                      %endif
+
+                      
             % if section.get('complete'):
-                            <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
-                            <span class="sr">${_("Completed")}</span>
+                            <!-- <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
+                            <span class="sr">${_("Completed")}</span> -->
             % endif
                     </button>
-                    <ol class="outline-item accordion-panel ${ '' if section_is_auto_opened else 'is-hidden' }"
+                    % if primary_index == 0:
+                    <!-- <img class="image_logo_bar" src="${static.url('bungalow/images/ico_middle_section_intro3.png')}" alt="logo"/> -->
+                    % elif primary_index == 1:
+                    <img class="image_logo_bar" src="${static.url('bien-accueillir-personnes-trans/images/vignette 1.png')}" alt="logo"/>
+                    % elif primary_index == 2:
+                    <img class="image_logo_bar" src="${static.url('bien-accueillir-personnes-trans/images/vignette 2.png')}" alt="logo"/>
+                    % elif primary_index == 3:
+                    <img class="image_logo_bar" src="${static.url('bien-accueillir-personnes-trans/images/vignette 3.png')}" alt="logo"/>
+                    % else:
+                    <img class="image_logo_bar" src="${static.url('bien-accueillir-personnes-trans/images/ico_middle_section_3.svg')}" alt="logo"/>
+                    % endif
+
+                    <ol class=" outline-item accordion-panel ${ '' if section_is_auto_opened else 'is-hidden' }"
                         id="${ section['id'] }_contents"
                         aria-labelledby="${ section['id'] }">
-            % for subsection in section.get('children', []):
-                <%
-                gated_subsection = subsection['id'] in gated_content
-                needs_prereqs = not gated_content[subsection['id']]['completed_prereqs'] if gated_subsection else False
-                scored = 'scored' if subsection.get('scored', False) else ''
-                graded = 'graded' if subsection.get('graded') else ''
-                num_graded_problems = subsection.get('num_graded_problems', 0)
-                %>
-                        <li class="subsection accordion ${ 'current' if subsection.get('resume_block') else '' } ${graded} ${scored}">
-                            <a
+                        <!-- <div class="navigation_container">
+                          <a class="arrow_navigation arrow_navigation_left" onclick="navigatePrevious('${ section_id}', '')">
+                            <i class="material-icons" style="font-size:45px;">arrow_back_ios</i>
+                          </a>
+                          <a class="arrow_navigation arrow_navigation_right"  onclick="navigateNext('${ section_id}', '')">
+                            <i class="material-icons" style="font-size:45px;">arrow_forward_ios</i>
+                        </a>
+                      </div> -->
+
+                        <section class="carousel" aria-label="Gallery">
+                          <%
+                          course_list = section.get('children', [])
+                          %>
+                            <ol class="carousel__viewport">
+                            % if len(course_list) <= 4:
+                                <li id="carousel__slide0_${ section['id'] }"
+                                tabindex="0"
+                                data-active="active"
+                                class="carousel__slide carousel__slide_${ section['id'] }">
+
+                                  <div class="carousel__snapper">
+                                      <div class=carousel__snapper__container>
+                                    % for subsection in section.get('children', []):
+                                      <%
+                                      course_name = subsection['display_name']
+                                      slug_img_name = re.sub(r'\W+', '_', course_name).lower()
+                                      %>
+                                      <a class="bloc_course_vignet"
+                                      % if enable_links:
+                                          href="${ subsection['lms_web_url'] }"
+                                      % else:
+                                          aria-disabled="true"
+                                      % endif
+                                      >
+
+             
+                                        <div class ="course_logo" style="background: url('/media/microsites/bungalow/courses/${slug_img_name}.png')">
+
+
+                                        </div>
+                                        <p class="course_logo_name">
+                                          ${course_name}
+                                          % if subsection.get('complete'):
+                                          <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
+                                          <span class="sr">${_("Completed")}</span>
+                                          %endif
+                                        </p>
+                                    </a>
+                                    % endfor
+                                  </div>
+                                </div>
+                              </li>
+                            % else:
+                              <%
+                              lenght_course_list = len(course_list)
+                              rounded_course_list = ceil((len(course_list) / 4))
+                              course_list_list =[]
+                              %>
+                              <%
+                              course_name = subsection['display_name']
+                              slug_img_name = re.sub(r'\W+', '_', course_name).lower()
+                              %>
+                              % for subsection in course_list:
+
+                                % if len(course_list) > 4 and len(course_list) < 9:
+                                <% 
+
+                                course_list_0 = course_list[0:4]
+                                course_list_1 = course_list[4:len(course_list)]
+                                course_list_list.extend([course_list_0, course_list_1])
+                                %>
+
+                                %elif len(course_list) > 8 and len(course_list) < 13:
+                                <% 
+
+                                course_list_0 = course_list[0:4]
+                                course_list_1 = course_list[4:8]
+                                course_list_2 = course_list[8:len(course_list)]
+                                course_list_list.extend([course_list_0, course_list_1, course_list_2])
+                                %>
+
+                                %elif len(course_list) > 12 and len(course_list) < 17:
+                                <% 
+
+                                course_list_0 = course_list[0:4]
+                                course_list_1 = course_list[4:8]
+                                course_list_2 = course_list[8:12]
+                                course_list_3 = course_list[12:len(course_list)]
+                                course_list_list.extend([course_list_0, course_list_1, course_list_2, course_list_3])
+                                %>
+
+
+                                %elif len(course_list) > 16 and len(course_list) < 21:
+                                <% 
+       
+                                course_list_0 = course_list[0:4]
+                                course_list_1 = course_list[4:8]
+                                course_list_2 = course_list[8:12]
+                                course_list_3 = course_list[12:16]
+                                course_list_4 = course_list[16:len(course_list)]
+                                course_list_list.extend([course_list_0, course_list_1, course_list_2, course_list_3, course_list_4])
+                                %>
+
+                                %endif
+
+                              % endfor
+
+                                % for index in range(rounded_course_list):
+                                % if index == 0:
+                                  <li id="carousel__slide${index}_${ section['id'] }"
+                                  tabindex="0"
+                                  data-active="active"
+                                  class="carousel__slide carousel__slide_${ section['id'] }">
+                                % else : 
+                                    <li id="carousel__slide${index}_${ section['id'] }"
+                                    tabindex="0"
+                                    class="carousel__slide carousel__slide_${ section['id'] }">
+                                % endif
+                                  <!-- <li id="carousel__slide${index}_${ section['id'] }"
+                                  tabindex="0"
+                                  class="carousel__slide"> -->
+                                  <span class="anchor" id="carousel__slide${index}_${ section['id'] }_anchor"></span>
+                                    <div class="carousel__snapper">
+                                      <div class=carousel__snapper__container>
+
+                                        % for subsection in course_list_list[index]:
+                                        <%
+                                        course_name = subsection['display_name']
+                                        slug_img_name = re.sub(r'\W+', '_', course_name).lower()
+                                        %>
+                                        <a class="bloc_course_vignet"
+                                        % if enable_links:
+                                            href="${ subsection['lms_web_url'] }"
+                                        % else:
+                                            aria-disabled="true"
+                                        % endif
+                                        > 
+                                          <div class ="course_logo" style="background: url('/media/microsites/bungalow/courses/${slug_img_name}.png')">
+
+                                          <p class="course_logo_name">${course_name}</p>
+                                          % if subsection.get('complete'):
+                                          <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
+                                          <span class="sr">${_("Completed")}</span>
+                                          %endif
+                                        </div>
+                                      </a>
+                                      % endfor
+
+                                          </div>
+                                    </div>
+<!-- 
+                                    <a href="#carousel__slide${index - 1}_${ section['id'] }_anchor"
+                                    class="carousel__prev"> <i class="material-icons" style="font-size:45px;">arrow_back_ios</i></a>     
+                                    <a href="#carousel__slide${index + 1}_${ section['id'] }_anchor"
+                                    class="carousel__next"><i class="material-icons" style="font-size:45px;">arrow_forward_ios</i></a> -->
+                                  </li>
+                                %endfor
+
+                            % endif 
+                            </ol>
+                            % if len(course_list) > 4:
+     
+                              <aside class="carousel__navigation">
+                                <ol class="carousel__navigation-list">
+                                  % for index in range(rounded_course_list):
+                                  <li class="carousel__navigation-item">
+                                    %if index == 0:
+                                      <li class="carousel__navigation-item carousel__navigation-item_${ section['id'] }"
+                                      id="carousel__navigation-item${index}_${ section['id'] }"
+                                      data-active="active"
+                                      onclick="navigate('${ section_id }', '${index}', '')"
+                                      >
+                                      %else :
+                                      <li class="carousel__navigation-item carousel__navigation-item_${ section['id'] }"
+                                      id="carousel__navigation-item${index}_${ section['id'] }"
+                                      onclick="navigate('${ section_id }', '${index}', '')"
+                                      >
+                                    %endif
+                                    <a href="#carousel__slide${index}_${ section['id'] }_anchor"
+                                      class="carousel__navigation-button"
+                                      id="carousel__slide${index}_${ section['id'] }_dot" 
+                                      >Go to slide 1
+                                    </a>
+                                  </li>
+
+                                  %endfor
+
+                                </ol>
+                              </aside>
+
+                            %endif
+                          </section>
+                    </ol>
+
+                </li>
+        % endfor
+        </ol>
+
+    % endif
+</main>
+
+
+<!-- mobile version  -->
+  
+<main role="main" class=" mobile_device course-outline" id="main" tabindex="-1">
+  <%include file="/dates_banner.html" />
+  % if course_sections is not None:
+      <button class="btn btn-primary "
+              id="expand-collapse-outline-all-button"
+              aria-expanded="false"
+              aria-controls="course-outline-block-tree"
+              >
+          <span class="expand-collapse-outline-all-extra-padding" id="expand-collapse-outline-all-span">${_("Expand All")}</span>
+      </button>
+      <ol class=" block-tree accordion"
+          id="course-outline-block-tree"
+          aria-labelledby="expand-collapse-outline-all-button">
+          % for primary_index, section in enumerate(course_sections):
+          <%
+          section_is_auto_opened = section.get('resume_block') is True
+          scored = 'scored' if section.get('scored', False) else ''
+          section_id = section['id']
+          %>
+              <li class=" outline-item section ${scored}">
+
+                  <button class="section-name accordion-trigger outline-button flex-button color_index_${primary_index}"
+                          aria-expanded="${ 'true' if section_is_auto_opened else 'false' }"
+                          aria-controls="${ section['id'] }_contents_mobile"
+                          id="${ section['id'] }_mobile">
+                          <div class="button_subsection">
+                            <span id="arrow_rotate_${ section['block_id'] }_mobile" class="fa fa-chevron-right chevron_right_index_${primary_index} ${ 'fa-rotate-90' if section_is_auto_opened else '' }" aria-hidden="true"></span>
+                            <h3 class="section-title">${ section['display_name']}</h3>
+                          </div>
+
+                          <script>                                
+                            $(document.getElementById("${ section['id'] }_mobile")).on('click', function(e) {
+                              $(document.getElementById("arrow_rotate_${ section['block_id'] }_mobile")).toggleClass("fa-rotate-90"); 
+                              e.preventDefault();
+                            });
+
+                        </script>
+
+                      %for index, chapter in enumerate(user_grade.chapter_grades.keys()):
+                          %if section['display_name'] == user_grade.chapter_grades[chapter]['display_name']:
+                              <div class="progress_bar_and_score">
+                                  <div class="progress-bar-full">
+                                      <div style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade progress_bar_index_${primary_index}"></div>
+                                  </div>        
+                                  <h2 class="completed_percent"> ${int(user_grade.chapter_percentage(chapter) * 100)} %</h2>     
+                              </div>  
+                          %endif
+                      %endfor
+          % if section.get('complete'):
+                          <!-- <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
+                          <span class="sr">${_("Completed")}</span> -->
+          % endif
+                  </button>
+                  
+                  <ol class=" outline-item accordion-panel ${ '' if section_is_auto_opened else 'is-hidden' }"
+                      id="${ section['id'] }_contents_mobile"
+                      aria-labelledby="${ section['id'] }_mobile">
+                      <div class="navigation_container">
+                        <a class="arrow_navigation arrow_navigation_left" onclick="navigatePrevious('${ section_id}', '_mobile')">
+                          <i class="material-icons" style="font-size:45px;">arrow_back_ios</i>
+                        </a>
+                        <a class="arrow_navigation arrow_navigation_right"  onclick="navigateNext('${ section_id}', '_mobile')">
+                          <i class="material-icons" style="font-size:45px;">arrow_forward_ios</i>
+                      </a>
+                    </div>
+                
+                      <section class="carousel" aria-label="Gallery">
+
+                        <%
+                        course_list = section.get('children', [])
+                        %>
+                          <ol class="carousel__viewport">
+                        % for index, subsection in enumerate(section.get('children', [])):
+                          % if index == 0:
+                            <li id="carousel__slide${index}_${ section['id'] }_mobile"
+                            tabindex="0"
+                            data-active="active"
+                            class="carousel__slide carousel__slide_${ section['id'] }_mobile">
+                          % else : 
+                            <li id="carousel__slide${index}_${ section['id'] }_mobile"
+                            tabindex="0"
+                            class="carousel__slide carousel__slide_${ section['id'] }_mobile">
+                          % endif
+                          <span class="anchor" id="carousel__slide${index}_${ section['id'] }_mobile_anchor"></span>
+                        <div class="carousel__snapper">
+                            <div class=carousel__snapper__container>
+
+                            <%
+                            course_name = subsection['display_name']
+                            slug_img_name = re.sub(r'\W+', '_', course_name).lower()
+                            %>
+                            <a class="bloc_course_vignet"
                             % if enable_links:
                                 href="${ subsection['lms_web_url'] }"
                             % else:
                                 aria-disabled="true"
                             % endif
-                                class="subsection-text outline-button"
-                                id="${ subsection['id'] }"
                             >
-                            % if graded and scored and 'special_exam_info' not in subsection:
-                                      <span class="icon fa fa-pencil-square-o" aria-hidden="true"></span>
-                            % endif
-                                      <h4 class="subsection-title">
-                                          ${ subsection['display_name'] }
-                            % if num_graded_problems:
-<!--
-                                          ${ngettext("({number} Question)",
-                                                     "({number} Questions)",
-                                                     num_graded_problems).format(number=num_graded_problems)}
--->
-                            % endif
-                                      </h4>
+                              <div class ="course_logo" style="background: url('/media/microsites/bungalow/courses/${slug_img_name}.png')">
+    
 
-                            % if subsection.get('complete'):
+                              </div>
+                              <p class="course_logo_name">${course_name}
+                                % if subsection.get('complete'):
                                 <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
-                                <span class="sr">${_("Completed")}</span>
+                                %endif
+                              </p>
+                          </a>
 
-                            % endif
-                            % if needs_prereqs:
-                                    <div class="details prerequisite">
-                                        <span class="prerequisites-icon icon fa fa-lock" aria-hidden="true"></span>
-                                        ${ _("Prerequisite: ") }
-                                            <%
-                                                prerequisite_id = gated_content[subsection['id']]['prerequisite']
-                                                prerequisite_name = xblock_display_names.get(prerequisite_id)
-                                            %>
-                                            ${ prerequisite_name }
-                                    </div>
-                            % endif
-                                        <div class="details">
+                        </div>
+                      </div>
+                    </li>
+                    % endfor
+      
+                          </ol>
+                          <%
+                          course_list = section.get('children', [])
+                          number_of_subsections = len(course_list)
 
-                ## There are behavior differences between rendering of subsections which have
-                ## exams (timed, graded, etc) and those that do not.
-                ##
-                ## Exam subsections expose exam status message field as well as a status icon
-                <%
-                if subsection.get('due') is None or (self_paced and not in_edx_when):
-                    # examples: Homework, Lab, etc.
-                    data_string = subsection.get('format')
-                    data_datetime = ""
-                else:
-                    if 'special_exam_info' in subsection:
-                        data_string = _('due {date}')
-                    else:
-                        data_string = _("{subsection_format} due {{date}}").format(subsection_format=subsection.get('format'))
-                    data_datetime = subsection.get('due')
-                %>
-                % if subsection.get('format') or 'special_exam_info' in subsection:
-                                            <span class="subtitle">
-                    % if 'special_exam_info' in subsection:
-                                                    ## Display the exam status icon and status message
-                                                    <span
-                                                        class="menu-icon icon fa ${subsection['special_exam_info'].get('suggested_icon', 'fa-pencil-square-o')} ${subsection['special_exam_info'].get('status', 'eligible')}"
-                                                        aria-hidden="true"
-                                                    ></span>
-                                                    <span class="subtitle-name">
-                                                        ${subsection['special_exam_info'].get('short_description', '')}
-                                                    </span>
+                         
+                          %>
 
-                        ## completed exam statuses should not show the due date
-                        ## since the exam has already been submitted by the user
-                        % if not subsection['special_exam_info'].get('in_completed_state', False):
-                                                        <span
-                                                            class="localized-datetime subtitle-name"
-                                                            data-datetime="${data_datetime}"
-                                                            data-string="${data_string}"
-                                                            data-timezone="${user_timezone}"
-                                                            data-language="${user_language}"
-                                                        ></span>
-                        % endif
-                    % else:
-                                                    ## non-graded section, we just show the exam format and the due date
-                                                    ## this is the standard case in edx-platform
-                                                    <span
-                                                        class="localized-datetime subtitle-name"
-                                                        data-datetime="${data_datetime}"
-                                                        data-string="${data_string}"
-                                                        data-timezone="${user_timezone}"
-                                                        data-language="${user_language}"
-                                                    ></span>
+                          <aside class="carousel__navigation">
+                            <ol class="carousel__navigation-list">
+                              % for index in range(number_of_subsections):
+                                %if index == 0:
+                                <li class="carousel__navigation-item carousel__navigation-item_${ section['id'] }_mobile"
+                                id="carousel__navigation-item${index}_${ section['id'] }_mobile"
+                                data-active="active"
+                                onclick="navigate('${ section_id }', '${index}', '_mobile')"
+                                >
+                                %else :
+                                <li class="carousel__navigation-item carousel__navigation-item_${ section['id'] }_mobile"
+                                id="carousel__navigation-item${index}_${ section['id'] }_mobile"
+                                onclick="navigate('${ section_id }', '${index}', '_mobile')"
+                                >
+                                %endif
+                                <a 
+                                href="#carousel__slide${index}_${ section['id'] }_mobile_anchor"
+                                  class="carousel__navigation-button">Go to slide 1</a>
+                              </li>
+                              %endfor
+                            </ol>
+                          </aside>
+                        </section>
 
-                        % if subsection.get('graded'):
-                                                <span class="sr">&nbsp;${_("This content is graded")}</span>
-                        % endif
-                    % endif
-                                            </span>
-                % endif
-                                        </div> <!-- /details -->
-                            </a>
-                        </li>
-            % endfor
-                    </ol>
-                </li>
-        % endfor
-        </ol>
-    % endif
+                  </ol>
+
+              </li>
+      % endfor
+      </ol>
+
+  % endif
 </main>
+
 
 <%static:require_module_async module_name="js/dateutil_factory" class_name="DateUtilFactory">
     DateUtilFactory.transform('.localized-datetime');
@@ -182,3 +1015,91 @@ dates_banner_displayed = False
 <%static:webpack entry="CourseOutline">
     new CourseOutline();
 </%static:webpack>
+
+
+
+<script>
+  function navigate(sectionId, index, device) {
+    
+      let listElement = document.getElementsByClassName("carousel__navigation-item_" + sectionId + device)
+      for (let i = 0; i < listElement.length; i++) {
+          if (listElement[i].getAttribute("data-active") === "active") {
+              if (listElement[i].getAttribute("id") === "carousel__navigation-item_" + index + "_"+ sectionId + device) {
+                  break;
+              } else {
+                  listElement[i].removeAttribute("data-active")
+                  document.getElementById("carousel__navigation-item" + index + "_" + sectionId + device).setAttribute("data-active", "active")
+                  for (let i = 0; i < document.getElementsByClassName('carousel__slide_' + sectionId + device).length; i++) {
+                      if (document.getElementsByClassName('carousel__slide_' + sectionId + device)[i].getAttribute("data-active") === "active") {
+                          document.getElementsByClassName('carousel__slide_' + sectionId + device)[i].removeAttribute("data-active")
+                      }
+                  }
+                  document.getElementById('carousel__slide' + index + '_' + sectionId + device).setAttribute("data-active", "active")
+                  window.location.href='#carousel__slide' + (i + 1) + '_' + sectionId + device + '_anchor'
+                  
+                  break;
+              }
+
+          }
+      }
+  }
+
+
+  function navigateNext(sectionId, device) {
+
+        let listElement = document.getElementsByClassName('carousel__slide_' + sectionId + device)
+
+        for (let i = 0; i < listElement.length; i++) {
+            if (listElement[i].getAttribute("data-active") === "active") {
+                listElement[i + 1].setAttribute("data-active", "active")
+                listElement[i].removeAttribute("data-active")
+                document.getElementById("carousel__navigation-item" + i + "_" + sectionId + device).removeAttribute("data-active")
+                document.getElementById("carousel__navigation-item" + (i + 1) + "_" + sectionId + device).setAttribute("data-active", "active")
+                window.location.href='#carousel__slide' + (i + 1) + '_' + sectionId + device + '_anchor'
+                break;
+            }
+        }
+    }
+
+    function navigatePrevious(sectionId, device) {
+        let listElement = document.getElementsByClassName('carousel__slide_' + sectionId + device)
+        for (let i = 0; i < listElement.length; i++) {
+            if (listElement[i].getAttribute("data-active") === "active") {
+                listElement[i - 1].setAttribute("data-active", "active")
+                listElement[i].removeAttribute("data-active")
+                document.getElementById("carousel__navigation-item" + i + "_" + sectionId + device).removeAttribute("data-active")
+                document.getElementById("carousel__navigation-item" + (i - 1) + "_" + sectionId + device).setAttribute("data-active", "active")
+                window.location.href='#carousel__slide' + (i - 1) + '_' + sectionId + device + '_anchor'
+                break;
+            }
+        } 
+    }
+</script>
+
+<!-- visibility hidden for introduction -->
+
+
+<!-- <script>
+  let introductionButton = document.getElementById("block-v1:amazon+amazon001+SP+type@chapter+block@2bae6b60b8a1423382a8915610cb9737")
+  let introductionButtonProgressBar = introductionButton.children[2]
+  introductionButtonProgressBar.style.visibility = "hidden"
+</script> -->
+
+
+<!-- quentin - 15882 - use values from back in desktop on mobile gauges -->
+
+<script>
+  const progressBarElements = document.querySelectorAll('.progress-bar-grade')
+  const percentageElements = document.querySelectorAll('.completed_percent')
+
+  console.log('variable progressBarElements, valeur de width : '+progressBarElements[0].style.width);
+
+  for (let i = 0; i < 4; i++) {
+      let progressBarValue = progressBarElements[i].style.width
+      progressBarElements[i+4].style.width=progressBarValue
+
+      let percentageValue = percentageElements[i].textContent
+      percentageElements[i+4].innerText=percentageValue
+  }
+
+</script>

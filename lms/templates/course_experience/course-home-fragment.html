@@ -5,7 +5,6 @@
 
 <%!
 import json
-import six
 
 from django.conf import settings
 from django.utils.translation import ugettext as _
@@ -19,47 +18,61 @@ from openedx.features.course_experience import DISABLE_UNIFIED_COURSE_TAB_FLAG, 
 from openedx.features.course_experience.course_tools import HttpMethod
 
 from lms.djangoapps.grades.course_grade import ZeroCourseGrade
-
-from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 %>
 
 <%block name="header_extras">
   <link rel="stylesheet" type="text/css" href="${static.url('paragon/static/paragon.min.css')}" />
   <link rel="stylesheet" type="text/css" href="${static.url('weup/css/animate-4.1.1.min.css')}" />
+
   <style>
+
+.window-wrap, #course-container, #course-outline-block-tree {
+    background: #fff !important;
+}
     header.page-header.has-secondary{
-        background-color: var(--primary);
-        padding-top: 10px !important;
-        padding-bottom: 10px !important;
-        box-shadow: 0 3px 6px rgba(0,0,0,0.16);
-        display: flex;
-        align-items: center;
+        background-image: url(/static/bien-accueillir-personnes-trans/images/bandeau.png);
+        /* padding-top: 10px !important;
+        padding-bottom: 10px !important; */
+        /* box-shadow: 0 3px 6px rgba(0,0,0,0.16); */
+        margin: auto;
+        background-position-x: center;
+        margin-bottom: 65px;
+        padding: 0 0 17.7%;
+        background-size: contain;
+    }
+    .page-header-main, .page-header-secondary{
+        animation: bounce;
+        animation-duration: 0.5s;
     }
     .page-header-secondary{
-        padding: 25px 0 !important;
+        padding-top: 25px !important;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
     }
-    button.search-button{
+    .page-header-main h2.hd.hd-3.page-title{
+        color: #343a40 !important;
+    }
+    /* button.search-button{
         margin-left: 5px;
         background: white !important;
-    }
+    } */
     .global-header .header-logo .course-header, a.help-link{
         display:none !important;
     }
 
-    .course-outline .block-tree .outline-button .fa {
-        color: var(--secondary) !important;
-    }
+
     .course-outline .block-tree .outline-button .complete-checkmark {
-        background-color: var(--secondary);
-        border-color: var(--secondary);
+        background-color: rgb(255, 153, 0);
+        border-color: rgb(255, 153, 0);
         color: white !important;
         padding: 2px;
     }
     .course-message .message-content .message-header{
-        color: var(--secondary) !important;
+        color: #f90 !important;
     }
     .course-message .message-content{
-        border: 1px solid var(--secondary) !important;
+        border: 1px solid #f90 !important;
     }
     .section-name.accordion-trigger.outline-button    {
         padding-left: 25px !important;
@@ -67,6 +80,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     }
      a.subsection-text div.details,a.subsection-text span.icon.fa.fa-pencil-square-o{
          display:none !important;
+         visiblity: hidden;
      }
     .page-content .page-content-secondary{
         min-width: calc(50% - 15px);
@@ -85,7 +99,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
     .page-content .page-content-main { 
         min-width: calc(50% - 15px);
-        max-width: calc(50% - 15px);
+        /* max-width: calc(50% - 15px); */
     }
 
     .page-content-container{
@@ -95,6 +109,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         background: white !important; 
     }
     h4.subsection-title{
+        color: rgb(255, 153, 0) !important;
         font-size: 1rem;
     }
     button:focus {
@@ -113,15 +128,18 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
     .course-outline .block-tree .section .section-name {
         padding: 20px 0 20px 2px;
-        background-color: var(--tertiary);
+        background-color: #343a40;
         margin-bottom: 25px;
-        color: var(--secondary)!important;
+        color:#fff!important;
         margin-bottom: 0px !important;
         margin-top:25px !important;
         border-radius: 2px;
+        padding: 40px 40px 40px 40px !important;
+        margin-left: 21px;
     }
 
     .page-content-secondary {
+        display: none;
         margin-top:25px !important;
     }
     #expand-collapse-outline-all-button {
@@ -137,13 +155,10 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     	animation: fadeInLeft;
         animation-duration: 0.5s;
     }
-    .wrapper-preview-menu{
-       //display:none;
-    }
-.wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary{
-    display:none !important;
-}
 
+    .wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary{
+        display:none !important;
+    }
 
     .section-title{
        color:white !important;
@@ -159,8 +174,9 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     }
 
     .course-outline .block-tree .section {
-        box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+        /* box-shadow: 0 3px 6px rgba(0,0,0,0.16); */
         margin: 0 !important;
+        margin-bottom: 110px !important;
     }
 
 
@@ -170,29 +186,19 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     }
 
     .progress-bar-full {
-        width: 100%;
-        background-color: rgba(0, 0, 0, 0.2);
+        width: 76%;
+        background-color: lightgray;
         position: relative;
-        margin-bottom: 20px;
         display: flex;
         flex-direction:row;
         justify-content: center;
         align-items: center;
-        height: 10px;
+        height: 20px;
         overflow: hidden;
-        border-radius:5px;
+        border-radius:20px;
     }
 
-    .progress-bar-grade {
-        background-color:var(--green);
-        position: absolute;
-        height: 100%;
-        top:0;
-        left:0;
-        border-radius: 5px;
-        animation: fadeInLeft;
-        animation-duration: 1.5s;
-    }
+
 
     .grade-value {
         font-weight: 500;
@@ -206,7 +212,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     }
 
     #final-grade-progress .progress-bar-grade{
-        background-color: var(--secondary);
+        background-color: #FF9900 ;
         border-radius: 7.5px;
     }
 
@@ -243,7 +249,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     .page-content .page-content-secondary h4{
         padding:15px;
         color:white;
-        background-color:var(--tertiary);
+        background-color:#343a40;
         text-align:center
     }
 
@@ -253,12 +259,32 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         white-space: nowrap;
         overflow: hidden;
     }
-
-    #logo_banner {
-        margin: auto 30px;
-        height: 40px;
+    .bottom-search-bar {
+        display: none;
     }
+    .top-search-bar{
+            display : none;
 
+    }
+    @media screen and (max-width: 1550px) {
+        .bottom-search-bar {
+        display: flex;
+        }
+        .top-search-bar{
+            visibility: hidden;
+        }
+    }
+    @media screen and (max-width: 1550px) {
+        .top-search-bar{
+            display : none;
+        }
+    }
+    /* @media screen and (max-width: 1414px) {
+        header.page-header.has-secondary{
+            background-size: contain;
+            height: 273px;
+        }
+    } */
     
     @media screen and (max-width: 1024px) {
         .page-content .page-content-secondary { 
@@ -269,7 +295,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
         .page-content .page-content-main { 
             min-width: calc(50% - 15px);
-            max-width: calc(50% - 15px);
+            /* max-width: calc(50% - 15px); */
         }
     }
     @media screen and (max-width: 991px) {
@@ -280,7 +306,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
         .page-content .page-content-main { 
             min-width: calc(40% - 15px);
-            max-width: calc(40% - 15px);
+            /* max-width: calc(40% - 15px); */
         }
 
     }
@@ -332,22 +358,140 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         }
     }
 
+    @media screen and (max-width: 478px) {
+        .bottom-button {
+            margin-top: 5px;
+        }
+    }
+
+
+    .logo_banner{
+    margin-top: -80px;
+    max-height: 180px;
+    padding-top: 85px;
+    padding-left: 25px;
+    }
+
+    .form-control{
+        border-radius: 15px !important;
+    }
   </style>
   <script>
 document.title = "Cours | ${HTML(course.display_name_with_default)}";
-  </script>
+  </script> 
+
+
+<!-- modal style -->
+<style>
+     /* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fab835;
+  margin: 8% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #000;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+} 
+
+.modal__image{
+    width: 100%;
+    height: 100%;
+}
+#search{
+border: none !important;
+}
+
+.search-button {
+    width: 40px;
+position: relative !important;
+left: -32px;
+height: 42px;
+border-radius: 100%;
+border: none;
+background: #325359 !important;
+color: #fff;
+font-size: 26px;
+font-weight: bold;
+padding: 0px;
+top: -2px;
+}
+
+.action-resume-course {
+    padding: 10px 40px;
+    color: white;
+    font-weight: 500;
+    background-color: #04ac9c;
+    border: none !important;
+}
+
+</style>
+
+
 
 </%block>
 
 
 <%block name="content">
+<%
+share_url = "https://www.accelerateur-du-numerique.fr/"
+share_title = "L%27acc%C3%A9l%C3%A9rateur%20du%20num%C3%A9rique"
+share_image = "https://amazon.the-mooc-agency.com/media/microsite/amazon/auto/images/logo.png"
+%>
+
+
+
+ <div id="myModal1" class="modal"> 
+   <div class="modal-content">
+     <span id="popup-close" class="close">&times;</span>
+     <img class="modal__image" src="/media/microsites/amazon/amazon-popup-1.gif" alt="mi parcours popup">
+   </div>
+ </div>
+ 
+ <div id="myModal2" class="modal"> 
+    <div class="modal-content">
+      <span id="popup-close" class="close">&times;</span>
+      <img class="modal__image" src="/media/microsites/amazon/amazon-popup-2.gif" alt="mi parcours popup">
+    </div>
+  </div>
+
+  <!--end modal test -->
+
 <div class="course-view page-content-container" id="course-container">
     <header class="page-header has-secondary">
         <div class="page-header-main">
-            <img id="logo_banner" src="${static.url('{}/images/logo_secondary.png'.format(course.org))}" alt="banner logo">
+            <nav aria-label="${_('Course Outline')}" class="sr-is-focusable" tabindex="-1">
+            </nav>
         </div>
-        <div class="page-header-secondary">
-            % if show_search:
+        <div class="page-header-secondary top-search-bar" style="position: relative;">
+            <!-- % if show_search:
                 <div class="page-header-search">
                     <form class="search-form input-group" role="search" action="${reverse('openedx.course_search.course_search_results', args=[course_key])}">
                         <label class="field-label sr-only" for="search" id="search-hint">${_('Search the course')}</label>
@@ -359,14 +503,14 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
                                 placeholder="${_('Search the course')}"
                         />
                         <span class="input-group-btn">
-                            <button class="btn btn-outline-primary search-button" type="submit">${_('Search')}</button>
+                            <button class="btn btn-outline-primary search-button" type="submit">></button>
                         </span>
                     </form>
-                </div>
-            % endif
-            <div class="form-actions">
+                </div> -->
+            <!--% endif -->
+            <div class="form-actions" style="position: absolute;right: 100px;top: 200px;">
                 % if resume_course_url:
-                    <a class="btn btn-secondary action-resume-course" href="${resume_course_url}">
+                    <a class="btn btn-primary action-resume-course" href="${resume_course_url}">
                         % if has_visited_course:
                             <span data-action-type="resume">${_("Resume Course")}</span>
                         % else:
@@ -377,6 +521,36 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
             </div>
         </div>
     </header>
+    <div class="page-header-secondary bottom-search-bar">
+        <!-- % if show_search:
+            <div class="page-header-search">
+                <form class="search-form input-group" role="search" action="${reverse('openedx.course_search.course_search_results', args=[course_key])}">
+                    <label class="field-label sr-only" for="search" id="search-hint">${_('Search the course')}</label>
+                    <input
+                            class="field-input input-text search-input form-control"
+                            type="search"
+                            name="query"
+                            id="search"
+                            placeholder="${_('Search the course')}"
+                    />
+                    <span class="input-group-btn">
+                        <button class="btn btn-outline-primary search-button" style="margin-right: 5px" type="submit">${_('Search')}</button>
+                    </span>
+                </form>
+            </div> -->
+        <!--% endif -->
+        <div class="form-actions">
+            % if resume_course_url:
+                <a class="btn btn-primary action-resume-course bottom-button" href="${resume_course_url}">
+                    % if has_visited_course:
+                        <span data-action-type="resume">${_("Resume Course")}</span>
+                    % else:
+                        <span data-action-type="start">${_("Start Course")}</span>
+                    % endif
+                </a>
+            % endif
+        </div>
+    </div>
     <div class="page-content">
         <div class="page-content-main">
             % if offer_banner_fragment:
@@ -402,6 +576,7 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
         <aside class="page-content-secondary course-sidebar">
             <h4>Avez-vous bien retenu ?</h4>
             <div class="section" id="badges">
+                    
                     <div class="grade-block">       
                         <div class="grade-section-title">
                             %if user_grade.passed:
@@ -417,43 +592,7 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
                             
                         </div>                    
                     </div>
-
-                 %if configuration_helpers.get_value('COMPLETION_BASED_DASHBOARD_MONO', False):
-
-                    % for section in course_block_tree.get('children'):
-                      <%
-                      total_blocks = 1
-                      completed_blocks = 1
-                      if not section.get('complete'):
-                        total_blocks = 0
-                        completed_blocks = 0
-                        for subsection in section.get('children', []):
-                          for unitchild in subsection.get('children', []):
-                            for blockchild in unitchild.get('children', []):
-                              total_blocks += 1
-                              if blockchild.get('complete'):
-                                completed_blocks += 1
-                      completion_ratio = completed_blocks / total_blocks
-                      %>
-                        <div class="grade-block">
-                            <div class="grade-section-title">
-                                %if completion_ratio >= 1:
-                                    <img src="${static.url('images/medal_on.svg')}" class="small-badge"/>
-                                %else:
-                                    <img src="${static.url('images/medal_off.svg')}" class="small-badge"/>
-                                %endif
-                                <div class="chapter-title" >${section['display_name']}</div>
-                                <div class="grade-value">${int(completion_ratio * 100)}%</div>
-                            </div>
-                            <div class="progress-bar-full">
-                                <div style="width:${completion_ratio * 100}%;" class="progress-bar-grade"></div>
-                            </div>
-                        </div>
-
-                    %endfor
-                 %else:
-
-
+                    
                     %for index, chapter in enumerate(user_grade.chapter_grades.keys()):
                         <div class="grade-block">
                             <div class="grade-section-title">
@@ -470,9 +609,18 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
                             </div>                    
                         </div>
                     %endfor
-
-                 %endif
             </div>
+            <ul id="share-list">
+                <li>
+                    <a target="_blank" href="http://www.facebook.com/share.php?u=${share_url}&t=${share_title}&pic=${share_image}" title="Facebook"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
+                </li>
+                <li>
+                    <a target="_blank" href="http://twitter.com/intent/tweet?text=${share_title}&url=${share_url}&pic=${share_image}" title="Twitter"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>
+                </li>
+                <li>
+                    <a target="_blank" href="https://www.linkedin.com/sharing/share-offsite/?url=${share_url}&title=${share_title}" title="LinkedIn"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                </li>
+            </ul>
         </aside>
     </div>
     % if course_sock_fragment:
@@ -557,3 +705,6 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
       });
 
 </%static:require_module_async> 
+<script>
+$("div.grade-block").eq(1).hide();
+</script>
