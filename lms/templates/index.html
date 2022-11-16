@@ -1,0 +1,309 @@
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.urls import reverse
+
+from openedx.core.djangolib.markup import HTML, Text
+%>
+<style>
+  .images{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+  .pss{
+    max-width: 300px;
+    width: 100%;
+    max-height: 200px;
+    height: auto;
+  }
+
+  .outrans{
+    max-width: 519px;
+    width: 100%;
+    max-height: 156px;
+    height: auto;
+
+  }
+
+  .title1{
+    height: auto;
+    background: linear-gradient(
+      to bottom,
+      #8f4080 0%,
+      #8f4080 60%,
+      white 60%,
+      white 100%
+    );
+  }
+
+  .title2{
+    background-color: #8f4080;
+    /* height: 1600px; */
+    /* background: linear-gradient(
+      to bottom,
+      #8f4080 0%,
+      #8f4080 60%,
+      #04ac9c 60%,
+      #04ac9c 100%
+    ); */
+  }
+
+  h1{
+    font-size: 6vw;
+    color: white;
+    font-weight:bold;
+    padding-top: 3%;
+    padding-bottom: 3%;
+  }
+
+  h2{
+    font-size: 3vw;
+    color: white;
+    font-weight:bold;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    text-align: center;
+    font-family: 'Mont Bold', 'Ubuntu Medium' ;
+  }
+
+  h3{
+    color: #8f4080;
+    font-weight: bold;
+	  font-size: 1.5vw;
+    padding-top: 20px;
+    text-align: center;
+    font-family: 'Mont Bold', 'Ubuntu Medium' ;
+  }
+
+  p{
+    font-size: 25px;
+    color:#8f4080;
+  }
+
+  .picture{
+    
+    width: 100%;
+    height: 530px;
+    max-width: 256px;
+    height: auto;
+  }
+  .pictures{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .transform{
+	transform: translateY(10%);
+  }
+
+  .text{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    line-height: 31px;
+    position: relative;
+    top: 100px;
+	padding-bottom: 10%;
+
+  }
+
+  .boldText{
+    font-weight: bold;
+  }
+
+  .buttons{
+    background: rgb(42,125,226);
+    background: linear-gradient(0deg, rgba(42,125,226,1) 30%, rgba(0,161,225,1) 100%);
+    padding: 20px;
+    width: 200px;
+    text-align: center;
+    text-transform: uppercase;
+    color: #fff;
+    font-size: 1.4em;
+    cursor: pointer;
+    font-weight: bold;
+    margin: auto;
+	}
+
+  .buttonColor{
+    background: #04ac9c;
+  }
+
+  .p{
+    line-height: 1em;
+  }
+
+  .register{
+    margin:auto;
+    position: relative;
+    /* display: flex; */
+    height: 600px;
+    width:75%;
+    background-color: white;
+  }
+
+  .registerPicture{
+    width: 100%;
+    max-width: 1280px;
+    max-height: 379px;
+    height: auto;
+  }
+  
+  .blank{
+    text-align: center;
+	  transform: translateY(10%);
+  }
+  
+  .position{
+    position: relative;
+	top: 20px;
+  }
+  
+  .background{
+	  background-color: white;
+    border: 2vw solid white;
+    margin: 10px;
+  }
+
+  .passeport{
+    max-width: 705px;
+    max-height: 295px;
+    width: 100%;
+    height: auto;
+  }
+
+  .arrows{
+    text-align: center;
+    /*transform: translateY(40%);*/
+  }
+
+  .test{
+	  width: 68%;
+    height: 50%;
+    overflow: auto;
+    margin: auto;
+}
+
+.registerType{
+  background-color: #04ac9c;
+  display: flex;
+  /* flex-direction: row; */
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.arrowsPicture{
+  width: 100%;
+  max-width: 910px;
+  max-height: 195px;
+  height: auto;
+}
+
+@media screen and (max-width:1354px) {
+	.arrowsPicture{
+		display:none;
+	}
+  }
+  
+@media screen and (max-width:800px){
+    p{
+      font-size:15px;
+    }
+	
+	.title2{
+	  margin-top: 10%;
+	}
+	
+	.register{
+	  height: 350px;
+	}
+  }
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<main id="main" aria-label="Content" tabindex="-1">
+  <section class="logo">
+    <div class="images">
+      <img class="pss" src="${static.url('bien-accueillir-personnes-trans/images/logo.png')}" alt="pss"/>
+      <img class="outrans" src="${static.url('bien-accueillir-personnes-trans/images/logo Outrans complet-1.png')}" alt="outrans"/>
+    </div>
+  </section>
+  <section class="title1">
+    <div>
+      <h1>BIEN ACCUEILLIR <br> LES PERSONNES TRANS</h1>
+      <div class="pictures">
+        <img class="picture transform" src="${static.url('bien-accueillir-personnes-trans/images/portrait1.png')}" alt="picture"/>
+        <img class="picture" src="${static.url('bien-accueillir-personnes-trans/images/portrait2.png')}" alt="picture"/>
+        <img class="picture transform" src="${static.url('bien-accueillir-personnes-trans/images/portrait3.png')}" alt="picture"/>
+        <img class="picture" src="${static.url('bien-accueillir-personnes-trans/images/portrait4.png')}" alt="picture"/>
+        <img class="picture transform" src="${static.url('bien-accueillir-personnes-trans/images/portrait5.png')}" alt="picture"/>
+    </div>
+  </div>
+  </section>
+  <section class="text">
+    <div class="test" style="text-align: start;">
+      <div class="buttons buttonColor" ><a class="uppercase boldText" style="color:white;" href="/login">connexion</a></div>	
+		<p class="p" style="padding-top: 5%;"> Les personnes trans connaissent des discriminations encore trop nombreuses dans l’accès
+		au droit.<br></p>
+		<p class="p"> la trajectoire des personnes trans permet aux agent·e·s de mieux cerner leurs
+		besoins. <br></p>
+		<p class="p">En suivant le module sur les bases des transidentités puis, le cas échéant, le module
+		spécifique à votre métier, vous ne serez plus un·e acteur·ice involontaire de ces
+		discriminations. <br></p>
+		<p class="p">Cette sensibilisation constitue une première étape, amenée à être complétée par des
+		formations dispensées par des associations de personnes concernées. <br> </p>
+		<p class="p" style="padding-bottom: 10%;">Vers Paris sans sida et OUTrans vous remercient d’avance pour votre engagement pour
+		appliquer au mieux la lettre du droit, avec humanité. <br></p>
+    </div>
+  </section>
+  <section>
+    <div class="title2">
+      <h2>DÉROULÉ DU PROGRAMME</h2>
+      <div class="register">
+        <div class="blank">
+              <img src="${static.url('bien-accueillir-personnes-trans/images/IMG_3616.jpeg')}" alt="registerImage" class="registerPicture">
+              <h3>LES BASES</h3>
+              <p>sensibilisation aux transidentités</p>
+              <div class="buttons buttonColor position" ><a class="uppercase boldText" style="color:white;" href="/register?next=%2F">Je commence</a></div>
+        </div>
+      </div>
+	  <div class="arrows">
+		<img src="${static.url('bien-accueillir-personnes-trans/images/Arrows.png')}" alt="arrows" class="arrowsPicture">
+      </div>
+    </div>
+    <div class="registerType">
+      <div class="background left">
+        <img class="passeport" src="${static.url('bien-accueillir-personnes-trans/images/FireShot Capture 292.png')}" alt="passeport">
+        <h3>JE SUIS OFFICIER·E D’ÉTAT-CIVIL</h3>
+      </div>
+      <div class="background right">
+        <img class="passeport" src="${static.url('bien-accueillir-personnes-trans/images/FireShot Capture 294.png')}" alt="carte vitale">
+        <h3>JE SUIS AGENT·E D’ACCUEIL À LA CPAM</h3>
+      </div>
+    </div>
+  </section>
+    
+</main>
+
+<%block name="js_extra">
+   <script type="text/javascript">
+      $(window).load(function() {
+         if(getParameterByName('next')) {
+              $('#login').trigger("click");
+         }
+      })
+   </script>
+</%block>
+
+% if show_signup_immediately is not UNDEFINED:
+  ## NOTE: This won't work in production, because anonymous views are cached, so it will
+  ## show either with or without this extra js for 3 minutes at a time.
+<script type="text/javascript">
+  $(window).load(function() {$('#signup_action').trigger("click");});
+</script>
+% endif

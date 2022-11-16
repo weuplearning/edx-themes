@@ -1,0 +1,151 @@
+%!Adobe-FontList 1.22
+%Locale:0x40c
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Type1
+FontName:MinionPro-Regular
+FamilyName:Minion Pro
+StyleName:Regular
+FullName:Minion Pro
+MenuName:Minion Pro
+StyleBits:0
+WritingScript:Roman
+OutlineFileName:Y:\Clients\Paris Sans Sida\2. Propositions graphiques\PDF\Dossier OK_VDEF HP PARIS SANS SIDA\Document fonts\MinionPro-Regular.otf
+DataFormat:sfntData
+UsesStandardEncoding:yes
+isCFF:yes
+hasSVG:no
+VariableFontType:NonVariableFont
+FileLength:218640
+FileModTime:1612796923
+WeightClass:400
+WidthClass:5
+AngleClass:0
+DesignSize:110
+NameArray:0,Mac,4,Minion Pro
+NameArray:0,Win,1,Minion Pro
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Type1
+FontName:Mont-Bold
+FamilyName:Mont
+StyleName:Bold
+FullName:Mont Bold
+MenuName:Mont Bold
+StyleBits:0
+WritingScript:Roman
+OutlineFileName:Y:\Clients\Paris Sans Sida\2. Propositions graphiques\PDF\Dossier OK_VDEF HP PARIS SANS SIDA\Document fonts\Mont-Bold.otf
+DataFormat:sfntData
+UsesStandardEncoding:yes
+isCFF:yes
+hasSVG:no
+VariableFontType:NonVariableFont
+FileLength:171324
+FileModTime:1650632693
+WeightClass:800
+WidthClass:5
+AngleClass:0
+NameArray:0,Mac,4,Mont Bold
+NameArray:0,Win,1,Mont Bold
+NameArray:0,Win,16,Mont
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Type1
+FontName:Mont-Heavy
+FamilyName:Mont
+StyleName:Heavy
+FullName:Mont Heavy
+MenuName:Mont Heavy
+StyleBits:0
+WritingScript:Roman
+OutlineFileName:Y:\Clients\Paris Sans Sida\2. Propositions graphiques\PDF\Dossier OK_VDEF HP PARIS SANS SIDA\Document fonts\Mont-Heavy.otf
+DataFormat:sfntData
+UsesStandardEncoding:yes
+isCFF:yes
+hasSVG:no
+VariableFontType:NonVariableFont
+FileLength:179748
+FileModTime:1650632712
+WeightClass:900
+WidthClass:5
+AngleClass:0
+NameArray:0,Mac,4,Mont Heavy
+NameArray:0,Win,1,Mont Heavy
+NameArray:0,Win,16,Mont
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Type1
+FontName:Mont-Trial-Bold
+FamilyName:Mont-Trial
+StyleName:Bold
+FullName:Mont-Trial Bold
+MenuName:Mont-Trial
+StyleBits:2
+WritingScript:Roman
+OutlineFileName:Y:\Clients\Paris Sans Sida\2. Propositions graphiques\PDF\Dossier OK_VDEF HP PARIS SANS SIDA\Document fonts\Mont-Trial-Bold.otf
+DataFormat:sfntData
+UsesStandardEncoding:yes
+isCFF:yes
+hasSVG:no
+VariableFontType:NonVariableFont
+FileLength:81736
+FileModTime:1623421374
+WeightClass:700
+WidthClass:5
+AngleClass:0
+NameArray:0,Mac,4,Mont-Trial Bold
+NameArray:0,Win,1,Mont-Trial
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Ubuntu-Bold
+FamilyName:Ubuntu
+StyleName:Bold
+FullName:Ubuntu Bold
+MenuName:Ubuntu
+StyleBits:2
+WritingScript:Roman
+OutlineFileName:Y:\Clients\Paris Sans Sida\2. Propositions graphiques\PDF\Dossier OK_VDEF HP PARIS SANS SIDA\Document fonts\Ubuntu-Bold.ttf
+DataFormat:sfntData
+hasSVG:no
+VariableFontType:NonVariableFont
+FileLength:270164
+FileModTime:1650894852
+WeightClass:700
+WidthClass:5
+AngleClass:0
+NameArray:0,Win,1,Ubuntu
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Ubuntu-Medium
+FamilyName:Ubuntu
+StyleName:Medium
+FullName:Ubuntu Medium
+MenuName:Ubuntu Medium
+StyleBits:0
+WritingScript:Roman
+OutlineFileName:Y:\Clients\Paris Sans Sida\2. Propositions graphiques\PDF\Dossier OK_VDEF HP PARIS SANS SIDA\Document fonts\Ubuntu-Medium.ttf
+DataFormat:sfntData
+hasSVG:no
+VariableFontType:NonVariableFont
+FileLength:285136
+FileModTime:1650894861
+WeightClass:500
+WidthClass:5
+AngleClass:0
+NameArray:0,Win,1,Ubuntu Medium
+NameArray:0,Win,16,Ubuntu
+%EndFont
+
