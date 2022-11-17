@@ -699,11 +699,11 @@ a:hover{
                               rounded_course_list = ceil((len(course_list) / 4))
                               course_list_list =[]
                               %>
-                              <%
-                              course_name = subsection['display_name']
-                              slug_img_name = re.sub(r'\W+', '_', course_name).lower()
-                              %>
                               % for subsection in course_list:
+                                <%
+                                course_name = subsection['display_name']
+                                slug_img_name = re.sub(r'\W+', '_', course_name).lower()
+                                %>
 
                                 % if len(course_list) > 4 and len(course_list) < 9:
                                 <% 
