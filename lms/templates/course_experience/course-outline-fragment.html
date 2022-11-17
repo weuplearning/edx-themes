@@ -39,17 +39,17 @@ dates_banner_displayed = False
 <style>
 
 #course-container {
-    background: white !important;
+  background: white !important;
 }
 
-  .content-wrapper {
-    padding: 10px 0 0 0;
-    margin-bottom: -10px;
+.content-wrapper {
+  padding: 10px 0 0 0;
+  margin-bottom: -10px;
 }
 
 .course-outline .block-tree .section {
 
-    border-bottom: none;
+  border-bottom: none;
 }
 
 /* #course-outline-block-tree{
@@ -58,293 +58,288 @@ dates_banner_displayed = False
   background-repeat: no-repeat !important;
 } */
 
-    .carousel {
-      position: relative;
-      /* padding-top: 75%; */
-      filter: drop-shadow(0 0 10px #0003);
-      perspective: 100px;
-      width: 100%;
-    margin: auto;
-    height: 400px;
-    /* margin-top: -50px; */
-    }
+.carousel {
+  position: relative;
+  /* padding-top: 75%; */
+  filter: drop-shadow(0 0 10px #0003);
+  perspective: 100px;
+  width: 100%;
+  margin: auto;
+  height: 200px;
+  /* margin-top: -50px; */
+}
     
-    .carousel__viewport {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      display: flex;
-      overflow-x: scroll;
-      counter-reset: item;
-      scroll-behavior: smooth;
-      scroll-snap-type: x mandatory;
-      height: 423px;
-      overflow: hidden;
-      padding-left: 0;
-    }
-    
-    .carousel__slide {
-      position: relative;
-      flex: 0 0 100%;
-      width: 100%;
-      background-color:rgb(244, 244, 244);
-      counter-increment: item;
-      list-style: none;
-      margin-bottom: 25px;
-      /* display: flex;
-      justify-content: center; */
-    }
-    .carousel__slide:before {
-      content: counter(item);
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate3d(-50%,-40%,70px);
-      color: #fff;
-      font-size: 2em;
-    }
-    
-    .carousel__snapper {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      scroll-snap-align: center;
-    }
+.carousel__viewport {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 40px;
+  display: flex;
+  overflow-x: scroll;
+  /* counter-reset: item; */
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  height: 250px;
+  overflow: hidden;
+  padding-left: 0;
+}
 
-    .carousel__snapper__container {
-        display: flex;
-justify-content: center;
-align-items: center;
-padding-top: 30px;
-    }
+.carousel__slide {
+  position: relative;
+  flex: 0 0 100%;
+  width: 100%;
+  background-color:rgb(244, 244, 244);
+  /* counter-increment: item; */
+  list-style: none;
+  margin-bottom: 25px;
+  /* display: flex;
+  justify-content: center; */
+}
+/* .carousel__slide:before {
+  content: counter(item);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%,-40%,70px);
+  color: #fff;
+  font-size: 2em;
+} */
+
+.carousel__snapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  scroll-snap-align: center;
+}
+
+.carousel__snapper__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 30px;
+}
 
 
-    
-    @media (hover: hover) {
-      .carousel__snapper {
-        /* animation-name: tonext, snap; */
-        animation-timing-function: ease;
-        animation-duration: 4s;
-        animation-iteration-count: infinite;
-      }
-    
-      .carousel__slide:last-child .carousel__snapper {
-        animation-name: tostart, snap;
-      }
-    }
-    
-    @media (prefers-reduced-motion: reduce) {
-      .carousel__snapper {
-        animation-name: none;
-      }
-    }
-    
-    
-    .carousel:hover .carousel__snapper,
-    .carousel:focus-within .carousel__snapper {
-      animation-name: none;
-    }
-    
-    .carousel__navigation {
-      position: absolute;
-      right: 0;
-      top: 355px;
-      left: 0;
-      text-align: center;
-    }
-    
-    .carousel__navigation-list,
-    .carousel__navigation-item {
-      display: inline-block;
-    }
 
-    .carousel__navigation-list{
-      padding-left: 0;
-    }
-    
-    .carousel__navigation-button {
-      display: inline-block;
-      width: 1.5rem;
-      height: 1.5rem;
-      background-color: #333;
-      background-clip: content-box;
-      border: 0.25rem solid transparent;
-      border-radius: 50%;
-      font-size: 0;
-      transition: transform 0.1s;
-    }
-    
-    .carousel::before,
-    .carousel::after,
-    .carousel__prev,
-    .carousel__next {
-      position: absolute;
-      top: 185px;
-      /* margin-top: 37.5%; */
-      width: 8rem;
-      /* height: 4rem; */
-      transform: translateY(-50%);
-      border-radius: 50%;
-      font-size: 0;
-      outline: 0;
-      color: black;
-    font-size: 5em;
-    }
-    
-    .carousel::before,
-    .carousel::after,
-    .carousel__prev {
-      left: 20px;
-    }
-    
-    .carousel::after,
-    .carousel::after,
-    .carousel__next {
-      right: -75px;
-    }
-    
-    .carousel::before,
-    .carousel::after {
-      content: '';
-      z-index: 1;
-      background-color: #333;
-      background-size: 1.5rem 1.5rem;
-      background-repeat: no-repeat;
-      background-position: center center;
-      color: #fff;
-      font-size: 2.5rem;
-      line-height: 4rem;
-      text-align: center;
-      pointer-events: none;
-    }
-    
-    .carousel::before {
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='0,50 80,100 80,0' fill='%23fff'/%3E%3C/svg%3E");
-    }
-    
-    .carousel::after {
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='100,50 20,100 20,0' fill='%23fff'/%3E%3C/svg%3E");
-    }
-    
-    .carousel_image {
-      width: 22%;
-    }
-
-  .course_logo {
-    height: 290px;
-    width: 290px;
-    border-radius: 100%;
-    display: flex;
-    align-items: flex-end;
-    margin: auto;
-    background-size: 95% !important;
-    background-repeat: no-repeat !important;
-    background-position: center !important;
+@media (hover: hover) {
+  .carousel__snapper {
+    /* animation-name: tonext, snap; */
+    animation-timing-function: ease;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
   }
 
-  .course_logo_test_0 {
-    background-image: url(/static/bungalow/images/course_test_0.svg);
+  .carousel__slide:last-child .carousel__snapper {
+    animation-name: tostart, snap;
   }
-  .course_logo_test_1 {
-    background-image: url(/static/bungalow/images/course_test_1.svg);
-  }
-  .course_logo_test_2 {
-    background-image: url(/static/bungalow/images/course_test_2.svg);
-  }
-  .course_logo_test_3 {
-    background-image: url(/static/bungalow/images/course_test_3.svg);
-  }
+}
 
-  .course_logo_name {
-    margin: 1em;
-    color: #000;
-    font-size: 1.1em;
-    width: 345px;
-    text-align: center;
-    height: 1px;
-    line-height: 16px;
-    font-weight: bold;
+@media (prefers-reduced-motion: reduce) {
+  .carousel__snapper {
+    animation-name: none;
   }
+}
 
-    
-</style>
-    
-    
-    <style>
-    .flex-button {
-        display: flex !important;
-        justify-content: space-between;
-        align-items: center;
-        padding: 30px !important;
-    }
-    .progress_bar_and_score {
-        width: 30%;
-        display: flex;
-        align-items: center;
-        margin-left: auto;
-    }
-    .completed_percent {
-        margin-left: 20px;
-        font-size: 1.5em;
-        margin-bottom: 0;
-    }
-    .accordion-flex {
-        display: flex !important;
-    }
-    .course_image_container{
-        background-image: url("/media/microsites/amazon/amazon_img.png");
-        height: 320px;
-        width: 340px;
-    }
-    
-    .course-outline .fa-chevron-right {
-        font-size: 1.6em;
-        margin-left: 170px;
-    }
-    .course-outline .fa-chevron-right.fa-rotate-90 {
-        font-size: 1.6em;
-    }
-    .course-outline .block-tree .section ol.outline-item {
-      /* display: flex; */
-    height: 400px;
-    /* align-items: center; */
+
+.carousel:hover .carousel__snapper,
+.carousel:focus-within .carousel__snapper {
+  animation-name: none;
+}
+
+.carousel__navigation {
+  position: absolute;
+  right: 0;
+  top: 150px;
+  left: 0;
+  text-align: center;
+}
+
+.carousel__navigation-list,
+.carousel__navigation-item {
+  display: inline-block;
+}
+
+.carousel__navigation-list{
+  padding-left: 0;
+}
+
+.carousel__navigation-button {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: #333;
+  background-clip: content-box;
+  border: 0.25rem solid transparent;
+  border-radius: 50%;
+  font-size: 0;
+  transition: transform 0.1s;
+}
+
+.carousel::before,
+.carousel::after,
+.carousel__prev,
+.carousel__next {
+  position: absolute;
+  top: 185px;
+  /* margin-top: 37.5%; */
+  width: 8rem;
+  /* height: 4rem; */
+  transform: translateY(-50%);
+  border-radius: 50%;
+  font-size: 0;
+  outline: 0;
+  color: black;
+  font-size: 5em;
+}
+
+.carousel::before,
+.carousel::after,
+.carousel__prev {
+  left: 20px;
+}
+
+.carousel::after,
+.carousel::after,
+.carousel__next {
+  right: -75px;
+}
+
+.carousel::before,
+.carousel::after {
+  content: '';
+  z-index: 1;
+  background-color: #333;
+  background-size: 1.5rem 1.5rem;
+  background-repeat: no-repeat;
+  background-position: center center;
+  color: #fff;
+  font-size: 2.5rem;
+  line-height: 4rem;
+  text-align: center;
+  pointer-events: none;
+}
+
+.carousel::before {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='0,50 80,100 80,0' fill='%23fff'/%3E%3C/svg%3E");
+}
+
+.carousel::after {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='100,50 20,100 20,0' fill='%23fff'/%3E%3C/svg%3E");
+}
+
+.carousel_image {
+  width: 22%;
+}
+
+/* .course_logo {
+  height: 290px;
+  width: 290px;
+  border-radius: 100%;
+  display: flex;
+  align-items: flex-end;
+  margin: auto;
+  background-size: 95% !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+} */
+
+.course_logo_test_0 {
+  background-image: url(/static/bungalow/images/course_test_0.svg);
+}
+.course_logo_test_1 {
+  background-image: url(/static/bungalow/images/course_test_1.svg);
+}
+.course_logo_test_2 {
+  background-image: url(/static/bungalow/images/course_test_2.svg);
+}
+.course_logo_test_3 {
+  background-image: url(/static/bungalow/images/course_test_3.svg);
+}
+
+.course_logo_name {
+  margin: 1em;
+  color: #000;
+  font-size: 1.1em;
+  width: 345px;
+  text-align: center;
+  height: 1px;
+  line-height: 16px;
+  font-weight: bold;
+}
+
+.flex-button {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px !important;
+}
+.progress_bar_and_score {
+  width: 30%;
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+.completed_percent {
+  margin-left: 20px;
+  font-size: 1.5em;
+  margin-bottom: 0;
+}
+.accordion-flex {
+  display: flex !important;
+}
+.course_image_container{
+  background-image: url("/media/microsites/amazon/amazon_img.png");
+  height: 320px;
+  width: 340px;
+}
+
+.course-outline .fa-chevron-right {
+  font-size: 1.6em;
+  margin-left: 170px;
+}
+.course-outline .fa-chevron-right.fa-rotate-90 {
+  font-size: 1.6em;
+}
+.course-outline .block-tree .section ol.outline-item {
+  /* display: flex; */
+  height: 200px;
+  /* align-items: center; */
 }
 
 .complete-checkmark {
-    position: relative;
-    bottom: -2px;
-    left: 10px;
-    background: #0e353c;
-    border-radius: 100%;
-    color: #fff;
-    padding: 6px;
+  position: relative;
+  bottom: -2px;
+  left: 10px;
+  background: #0e353c;
+  border-radius: 100%;
+  color: #fff;
+  padding: 6px;
 }
 
 .mobile_device{
-    display: none !important;
+  display: none !important;
 }
 
 .tablet_device{
-    display: none !important;
+  display: none !important;
 }
 
 @media screen and (max-width: 1650px) {
   .bloc_course_vignet {
     margin: 0 1%;
     width: 250px;
-}
-.course_logo {
+  }
+  /* .course_logo {
     height: 250px;
     width: 250px;
-}
+  } */
 
-.course_logo_name {
+  .course_logo_name {
     width: 250px;
-}
+  }
 }
 
 @media screen and (max-width: 1150px) {
@@ -353,22 +348,22 @@ padding-top: 30px;
   }
   .tablet_device{
     display: none !important;
-}
+  }
 
-.mobile_device{
-  display: block !important;
-}
+  .mobile_device{
+    display: block !important;
+  }
 
-.progress_bar_and_score {
-  width: 100%;
-}
-.flex-button{
-  flex-direction: column;
-}
+  .progress_bar_and_score {
+    width: 100%;
+  }
+  .flex-button{
+    flex-direction: column;
+  }
 
-.course-outline .fa-chevron-right{
-  margin-left: 0px;
-}
+  .course-outline .fa-chevron-right{
+    margin-left: 0px;
+  }
 
 }
 
@@ -380,29 +375,29 @@ padding-top: 30px;
   .completed_percent {
     margin-left: 10px;
     font-size: 1.2em;
-}
+  }
 
-.carousel__navigation-button {
+  .carousel__navigation-button {
 
     width: 1rem;
     height: 1rem;
 
-}
-
-.course_logo {
-    height: 250px;
-  width: 250px;
   }
+
+  /* .course_logo {
+    height: 250px;
+    width: 250px;
+  } */
 
   .arrow_navigation {
 
     bottom: -140px;
 
-}
-.complete-checkmark {
+  }
+  .complete-checkmark {
 
     margin-bottom: 209px;
-}
+  }
 
 }
 
@@ -410,7 +405,7 @@ padding-top: 30px;
 .button_subsection {
   display: flex;
   width: 100%;
-margin-bottom: 1em;
+  margin-bottom: 1em;
 }
 
 
@@ -437,7 +432,7 @@ a:hover{
 
 .carousel__navigation-item[data-active="active"] a {
   background-color: #f90;
-  }
+}
 .arrow_navigation {
   cursor: pointer;
   position: relative;
@@ -452,15 +447,15 @@ a:hover{
 }
 
 .progress-bar-grade {
-        position: absolute;
-        height: 100%;
-        top:3px;
-        left:3px;
-        border-radius: 20px;
-        animation: fadeInLeft;
-        animation-duration: 1.5s;
-        height: 70%;
-    }
+  position: absolute;
+  height: 100%;
+  top:3px;
+  left:3px;
+  border-radius: 20px;
+  animation: fadeInLeft;
+  animation-duration: 1.5s;
+  height: 70%;
+}
 
 .arrow_navigation_right{
   margin-right:-10px;
@@ -516,12 +511,12 @@ a:hover{
 
 .image_logo_bar{
   /* margin: auto; */
-    display: block;
-    margin-top: -163px;
-    z-index: 2;
-    position: relative;
-    width: 201px;
-    margin-bottom: 31px;
+  display: block;
+  margin-top: -163px;
+  z-index: 2;
+  position: relative;
+  width: 201px;
+  margin-bottom: 31px;
 }
 
 .course-outline .block-tree .section .section-name .section-title {
@@ -530,25 +525,25 @@ a:hover{
 }
 
 
-  /* modifs quentin - ticket 15882 - solving responsive problem with titles of sections */
+/* modifs quentin - ticket 15882 - solving responsive problem with titles of sections */
 
-  @media screen and (min-width:1151px) and (max-width:1250px) {
-    .section-title{
-      width: 23rem;
-    }
+@media screen and (min-width:1151px) and (max-width:1250px) {
+  .section-title{
+    width: 23rem;
   }
-  @media screen and (min-width:1251px) and (max-width:1350px) {
-    .section-title{
-      width: 29rem;
-    }
+}
+@media screen and (min-width:1251px) and (max-width:1350px) {
+  .section-title{
+    width: 29rem;
   }
-  @media screen and (min-width:1351px) and (max-width:1450px) {
-    .section-title{
-      width: 32rem;
-    }
+}
+@media screen and (min-width:1351px) and (max-width:1450px) {
+  .section-title{
+    width: 32rem;
   }
+}
 
-    </style>
+</style>
 
     
     
@@ -587,7 +582,7 @@ a:hover{
 
                         <%
                         total_blocks = 1
-                        completed_blocks = 1
+                        completed_blocks = 0
 
                         if not section.get('complete'):
                           total_blocks = 0
@@ -606,7 +601,7 @@ a:hover{
                       
                         <div class="progress_bar_and_score">
                           <div class="progress-bar-full">
-                              <div style="width:${(completion_ratio * 100)-2}%;" class="progress-bar-grade progress_bar_index_${primary_index}"></div>
+                              <div style="width:${(completion_ratio * 100)}%;" class="progress-bar-grade progress_bar_index_${primary_index}"></div>
                           </div>
                           <h2 class="completed_percent"> ${int(completion_ratio * 100)} %</h2>
                         </div>
@@ -617,8 +612,8 @@ a:hover{
                             %if section['display_name'] == user_grade.chapter_grades[chapter]['display_name']:
                                 <div class="progress_bar_and_score">
                                     <div class="progress-bar-full">
-                                        <!-- <div style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade"></div> -->
-                                        <div style="width:50%;" class="progress-bar-grade progress_bar_index_${primary_index}"></div>
+                                        <div style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade"></div>
+                                        <!-- <div style="width:50%;" class="progress-bar-grade progress_bar_index_${primary_index}"></div> -->
                                     </div>        
                                     <h2 class="completed_percent"> ${int(user_grade.chapter_percentage(chapter) * 100)} %</h2>     
                                 </div>
@@ -684,10 +679,10 @@ a:hover{
                                       >
 
              
-                                        <div class ="course_logo" style="background: url('/media/microsites/bungalow/courses/${slug_img_name}.png')">
+                                        <!-- <div class ="course_logo" style="background: url('/media/microsites/bungalow/courses/${slug_img_name}.png')">
+                                        </div> -->
 
 
-                                        </div>
                                         <p class="course_logo_name">
                                           ${course_name}
                                           % if subsection.get('complete'):
@@ -773,11 +768,11 @@ a:hover{
                                     <div class="carousel__snapper">
                                       <div class=carousel__snapper__container>
 
-                                        % for subsection in course_list_list[index]:
-                                        <%
-                                        course_name = subsection['display_name']
-                                        slug_img_name = re.sub(r'\W+', '_', course_name).lower()
-                                        %>
+                                      % for subsection in course_list_list[index]:
+                                      <%
+                                      course_name = subsection['display_name']
+                                      slug_img_name = re.sub(r'\W+', '_', course_name).lower()
+                                      %>
                                         <a class="bloc_course_vignet"
                                         % if enable_links:
                                             href="${ subsection['lms_web_url'] }"
@@ -785,18 +780,18 @@ a:hover{
                                             aria-disabled="true"
                                         % endif
                                         > 
-                                          <div class ="course_logo" style="background: url('/media/microsites/bungalow/courses/${slug_img_name}.png')">
+                                          <!-- <div class ="course_logo" style="background: url('/media/microsites/bungalow/courses/${slug_img_name}.png')"> -->
 
-                                          <p class="course_logo_name">${course_name}</p>
-                                          % if subsection.get('complete'):
-                                          <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
-                                          <span class="sr">${_("Completed")}</span>
-                                          %endif
-                                        </div>
-                                      </a>
+                                            <p class="course_logo_name">${course_name}</p>
+                                            % if subsection.get('complete'):
+                                            <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
+                                            <span class="sr">${_("Completed")}</span>
+                                            %endif
+                                          <!-- </div> -->
+                                        </a>
                                       % endfor
 
-                                          </div>
+                                      </div>
                                     </div>
 <!-- 
                                     <a href="#carousel__slide${index - 1}_${ section['id'] }_anchor"
@@ -950,10 +945,10 @@ a:hover{
                                 aria-disabled="true"
                             % endif
                             >
-                              <div class ="course_logo" style="background: url('/media/microsites/bungalow/courses/${slug_img_name}.png')">
-    
+                              
+                              <!-- <div class ="course_logo" style="background: url('/media/microsites/bungalow/courses/${slug_img_name}.png')">
+                              </div> -->
 
-                              </div>
                               <p class="course_logo_name">${course_name}
                                 % if subsection.get('complete'):
                                 <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
