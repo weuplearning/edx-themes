@@ -51,6 +51,10 @@
     display: none;
   }
 
+  a {
+    color: #C2C6CA !important;
+  }
+
 </style>
 
 % if "register" in request.path:
@@ -59,19 +63,127 @@
 } */
 </style>
 % endif 
+<script>
 
+</script>
 <%block name="js_extra">
-    <%static:require_module module_name="js/student_account/logistration_factory" class_name="LogistrationFactory">
-        var options = ${data | n, dump_js_escaped_json};
+
+<%static:require_module module_name="js/student_account/logistration_factory" class_name="LogistrationFactory">
+    var options = ${data | n, dump_js_escaped_json};
         LogistrationFactory(options);
-        if ('newrelic' in window) {
-            newrelic.finished();
-            // Because of a New Relic bug, the finished() event doesn't show up
-            // in Insights, so we have to make a new PageAction that is basically
-            // the same thing. We still want newrelic.finished() for session
-            // traces though.
-            newrelic.addPageAction('xfinished');
+
+        const table = {
+          "Auvergne-Rh\u00f4ne-Alpes": ["","Ain","Allier","Ardeche","Cantal","Drome","Isere","Loire","Haute-loire",'Puy-de-dome', 'Rhone', 'Savoie', 'Haute-savoie'],
+          "Bourgogne-Franche-Comt\u00e9" : ["","Cote-d'Or", 'Doubs', 'Jura', 'Nievre','Haute-saone', 'Saone-et-loire', 'Yonne', 'Territoire-de-belfort'],
+          "Bretagne" : ["", "Cotes-d'Armor",'Finistere', 'Ille-et-vilaine', 'Morbihan'],
+          "Centre-Val de Loire" : ["", 'Cher', 'Eure-et-loir', 'Loir-et-cher','Loiret'],
+          "Corse" : ["",'Corse-du-sud', 'Haute-corse'],
+          "Grand Est" :['','Ardennes', 'Aube', 'Marne', 'Haute-marne', 'Meurthe-et-moselle', 'Meuse', 'Moselle', 'Bas-rhin', 'Haut-rhin','Vosges'], 
+          "Guadeloupe" : ["","Guadeloupe"],
+          "Guyane" : ["","Guyane"],
+          "Hauts-de-France" : ["",'Aisne', 'Nord', 'Oise', 'Pas-de-calais', 'Somme'],
+          "\u00cele-de-France" : ["",'Paris', 'Seine-et-marne','Yvelines', 'Essone', 'Haut-de-seine', 'Seine-saint-denis', 'Val-de-marne', "Val-d'Oise"],
+          "La R\u00e9union" : ["","La-reunion"],
+          "Martinique" : ["",'Martinique'],
+          "Mayotte" : ["","Mayotte"],
+          "Normandie" : ["",'Calvados', 'Eure', 'Manche', 'Orne', 'Seine-maritime'],
+          "Nouvelle-Aquitaine" : ["",'Charente', 'Charente-maritime', 'Correze', 'Creuse', 'Dordogne', 'Gironde', 'Landes', 'Lot-et-garonne', 'Pyrenees-atlantiques', 'Deux-sevres','Vienne', 'Haute-vienne'],
+          "Occitanie" : ["",'Arriege','Aude','Aveyron', 'Gard', 'Haute-garonne','Gers','Herault','Lot', 'Lozere', 'Hautes-pyrenees', 'Pyrenees-orientales','Tarn','Tarn-et-garonne'],
+          "Pays de la Loire" : ["",'Loire-atlantique', 'Maine-et-loire', 'Mayenne', 'Sarthe', 'Vendee'],
+          "Provence-Alpes-C\u00f4te d'Azur" : ["",'Alpes-de-haute-provence', 'Hautes-alpes','Alpes-maritimes','Bouches-du-rhone','Var','Vaucluse'],
+          "Autre" : ["","Saint-pierre-et-miquelon", 'Sainte-barthelemy', 'Saint-martin', 'Wallis-et-futuna', 'Polynesie-francaise', 'Nouvelle-caledonie'],
         }
+
+        const regionTable = {
+          "Auvergne-Rh\u00f4ne-Alpes": "Auvergne_Rhone_Alpes",
+          "Bourgogne-Franche-Comt\u00e9" : "Occitanie",
+          "Bretagne" : "Occitanie",
+          "Centre-Val de Loire" : "Centre_Val_de_Loire",
+          "Corse" : "Corse",
+          "Grand Est" : "Grand_Est", 
+          "Guadeloupe" : "Occitanie",
+          "Guyane" : "Occitanie",
+          "Hauts-de-France" : "Occitanie",
+          "\u00cele-de-France" : "Occitanie",
+          "La R\u00e9union" : "La_Reunion",
+          "Martinique" : "Occitanie",
+          "Mayotte" : "Occitanie",
+          "Normandie" : "Occitanie",
+          "Nouvelle-Aquitaine" : "Nouvelle_Aquitaine",
+          "Occitanie" : "Occitanie",
+          "Pays de la Loire" : "Pays_de_la_Loire",
+          "Provence-Alpes-C\u00f4te d'Azur" : "PACA",
+          "Autre" : "Occitanie"
+        }
+
+
+
+        const regionSelector = document.getElementById('register-region')
+        regionSelector.addEventListener('change', function (e) {
+          const regionSelectorValue = document.getElementById('register-region').value
+          if (regionTable[regionSelectorValue]) {
+            options.login_redirect_url = '/account/finish_auth?course_id=course-v1%3Aicope+' + regionTable[regionSelectorValue] + '+2022&enrollment_action=enroll&next=%2Fdashboard'
+          } 
+          console.log(options.login_redirect_url)
+          const sectionDepartment = document.querySelector('.form-field.select-department')
+          
+          const queryParams = new URLSearchParams(window.location.search);
+          queryParams.set('course_id', 'course-v1:icope+' + regionTable[regionSelectorValue] + '+2022');
+          history.replaceState(null, null, "?"+queryParams.toString()); 
+          const usernameValue = document.getElementById('register-username').value
+          const emailValue = document.getElementById('register-email').value
+          const passwordValue = document.getElementById('register-password').value
+          const nameValue = document.getElementById('register-name').value
+          const adressValue = document.getElementById('register-adress').value
+          const postcodeValue = document.getElementById('register-post_code').value
+          const cityValue = document.getElementById('register-city').value
+
+          LogistrationFactory(options);
+          document.getElementById('register-username').value = usernameValue
+          document.getElementById('register-email').value = emailValue
+          document.getElementById('register-password').value = passwordValue
+          document.getElementById('register-name').value = nameValue
+          document.getElementById('register-adress').value = adressValue
+          document.getElementById('register-post_code').value = postcodeValue
+          document.getElementById('register-city').value = cityValue
+
+
+          console.log(options.login_redirect_url)
+
+          document.getElementById('register-region').value = regionSelectorValue
+          if (document.getElementById('register-region').value != '') {
+            document.getElementsByClassName('select-department')[0].style.display = 'block' 
+            sectionDepartment.style.display='block'
+            $('#register-department').empty();
+            setTimeout(() => {
+              for (const region in table) {
+                if (region == document.getElementById('register-region').value) {
+                  for (const departement of table[region]) {
+                    $('#register-department').append("<option value='"+ departement + "'>" + departement + "</option>");
+                  }
+                }
+              }
+            }, 500)
+
+          }
+          else if (document.getElementById('register-region').value == ''){
+            document.getElementsByClassName('select-department')[0].style.display = 'none' 
+            sectionDepartment.style.display='none'
+          }
+          else{
+            console.log('🤔 something is not working with hidding department section script');
+          }
+        })
+        if ('newrelic' in window) {
+          newrelic.finished();
+          // Because of a New Relic bug, the finished() event doesn't show up
+          // in Insights, so we have to make a new PageAction that is basically
+          // the same thing. We still want newrelic.finished() for session
+          // traces though.
+          newrelic.addPageAction('xfinished');
+      }
+
+
     </%static:require_module>
     % if configuration_helpers.get_value('DISPLAY_TOS_IN_MODAL_ON_REGISTRATION_PAGE', False):
     <script type="text/javascript" src="${static.url('js/student_account/tos_modal.js')}"></script>
@@ -104,81 +216,7 @@
     </main>
 </div>
 
-<!------------ layer map - begin ------------>
-<div class="mapSection" id="map">
-    <div class="mapSectionLayer1">
-    <div class="mapSectionLayer2">
-        <div class="mapSection-title-block">
-        <p class="mapSection-title">Je m'inscris :</p>
-        <div class="mapSection-underlineTitle"></div>
-        </div>
-        <div class="mapSection-closeButton">
-        <img src="${static.url('icope/images/asset-croix.svg')}" alt="">
-        </div>
-        <div class="mapSection-map">
-        <div class="mapSection-map-world">
-            <div class="mapSection-map-domTom-items mapSection-regions"  onclick="selectRegion('world')">
-            <img class="outremer_img" src="${static.url('icope/images/globe.png')}" alt="">
-            <p id="world" style="color: #000;" class="mapSection-map-domTom-description">Pays francophones</p>
-            </div>
-        </div>
-            <div class="mapSection-map-france">
-            <img class="mapSection-mapGlobale" src="${static.url('icope/images/map/carte-fr-modif.svg')}" alt="">
-            <div class="mapSection-map-regions mapSection-map-region1"  onclick="selectRegion('Pays_de_la_Loire')">
-                <p id="Pays_de_la_Loire" class="mapSection-map-region-texts ">Pays de la loire</p>
-                <!-- <img class="mapSection-map-regionImgs" src="${static.url('icope/images/map/Trace_118.svg')}" alt=""> -->
-            </div>
-            <div class="mapSection-map-regions mapSection-map-region2" onclick="selectRegion('Auvergne_Rhone_Alpes')">
-                <p id="Auvergne_Rhone_Alpes" class="mapSection-map-region-texts">Auvergne-Rhône-Alpes</p>
-                <!-- <img class="mapSection-map-regionImgs" src="${static.url('icope/images/map/Trace_119.svg')}" alt=""> -->
-            </div>
-            <div class="mapSection-map-regions mapSection-map-region3" onclick="selectRegion('Occitanie')">
-                <p id="Occitanie" class="mapSection-map-region-texts">Occitanie</p>
-                <!-- <img class="mapSection-map-regionImgs" src="${static.url('icope/images/map/Trace_120.svg')}" alt=""> -->
-            </div>
-            <div class="mapSection-map-regions mapSection-map-region4" onclick="selectRegion('PACA')">
-                <p id="PACA" class="mapSection-map-region-texts" style="width: 150px;">Provence-Alpes-Côte d'Azur</p>
-                <!-- <img class="mapSection-map-regionImgs" src="${static.url('icope/images/map/Trace_121.svg')}" alt=""> -->
-            </div>
-            <div class="mapSection-map-regions mapSection-map-region5" onclick="selectRegion('Corse')">
-                <p id="Corse" class="mapSection-map-region-texts">Corse</p>
-                <!-- <img class="mapSection-map-regionImgs" src="${static.url('icope/images/map/Trace_122.svg')}" alt=""> -->
-            </div>
-            <div class="mapSection-map-regions mapSection-map-region6" onclick="selectRegion('Autre')">
-                <p id="Autre" class="mapSection-map-region-texts">Autres régions</p>
-                <!-- <img class="mapSection-map-regionImgs" src="${static.url('icope/images/map/Trace_122.svg')}" alt=""> -->
-            </div>
-            </div>
-            <div class="mapSection-map-domTom">
-            <div class="mapSection-map-domTom-items mapSection-regions" id="region-1" onclick="selectRegion('Guadeloupe')">
-                <img class="outremer_img" src="${static.url('icope/images/map/Trace_123.svg')}" alt="">
-                <p id="Guadeloupe" class="mapSection-map-domTom-description">Guadeloupe</p>
-            </div>
-            <div class="mapSection-map-domTom-items mapSection-regions" id="region-2" onclick="selectRegion('Martinique')">
-                <img class="outremer_img" src="${static.url('icope/images/map/Trace_124.svg')}" alt="">
-                <p id="Martinique" class="mapSection-map-domTom-description">Martinique</p>
-            </div>
-            <div class="mapSection-map-domTom-items mapSection-regions" id="region-3" onclick="selectRegion('Guyane')">
-                <img class="outremer_img" src="${static.url('icope/images/map/Trace_125.svg')}" alt="">
-                <p id="Guyane" class="mapSection-map-domTom-description">Guyane</p>
-            </div>
-            <div class="mapSection-map-domTom-items mapSection-regions" id="region-4" onclick="selectRegion('Reunion')">
-                <img class="outremer_img" src="${static.url('icope/images/map/Trace_126.svg')}" alt="">
-                <p id="Reunion" class="mapSection-map-domTom-description">La réunion</p>
-            </div>
-            <div class="mapSection-map-domTom-items mapSection-regions" id="region-5" onclick="selectRegion('Mayotte')">
-                <img class="outremer_img" src="${static.url('icope/images/map/Groupe_2.svg')}" alt="">
-                <p id="Mayotte" class="mapSection-map-domTom-description">Mayotte</p>
-            </div>
-            </div>
-        </div>
-        <div class="mapSection-button">
-        <a class="mapSection-buttonLink">Selectionnez votre région</a>
-        </div>
-    </div>
-    </div>
-</div>
-<!------------ layer map - end ------------>
+
 
 
 <%include file="${static.get_template_path('../footer.html')}" />
@@ -189,114 +227,10 @@
 
 
 
-<script>
-  
-// ---------------- map show / hide ----------------------
-
-// var registerButton = setInterval(function() {
-
-  const registerButtonHeader = document.querySelector(".register-btn-header")
-  const map = document.querySelector(".mapSection")
-  const home = document.querySelector('.section-bkg-wrapper')
-  const header = document.querySelector('.global-header')
-  const closeButton = document.querySelector('.mapSection-closeButton')
-  
-
-  registerButtonHeader.addEventListener('click', ()=>{
-    console.log('ciblage-ok')
-    
-    home.style.filter = "blur(0.5rem)"
-    header.style.filter = "blur(0.5rem)"
-    console.log('filter-ok')
-    
-    map.classList.toggle('mapSection-show')
-    console.log('map-showing-ok')
-  })
-  
-  closeButton.addEventListener('click', ()=>{
-    console.log('ciblage-2-ok')
-    
-    home.style.filter = "blur(0rem)"
-    header.style.filter = "blur(0rem)"
-    console.log('blur-off')
-    
-    map.classList.toggle('mapSection-show')
-    console.log('map-hidden')
-  })
-  
-  const loginButton2 = document.querySelector(".sign-in-btn-header")
-  loginButton2.addEventListener('click', ()=>{
-    window.location = "/login"
-  })
-  
-  // ------------------- map functions ----------------------
-  
-  const regions = document.querySelectorAll('.mapSection-regions')
-  const button = document.querySelector('.mapSection-buttonLink')
-  
-  regions.forEach((item)=>{
-    item.addEventListener('click', (e)=>{
-      console.log(e)
-      console.log(e.target.id)
-      switch(e.target.id){
-        case "region-1":
-          button.href = "/register?course_id=course-v1:icope+Occitanie+2022&enrollment_action=enroll"
-          break
-        case "region-2":
-          button.href = "https://www.google.fr/"
-          break
-        case "region-3":
-          button.href = ""
-          break
-        default:
-          null
-      }
-    })
-  })
-// }, 500)
-
-</script>
-
 
 <script>
 
-function restart_color_button(){
-      const all_region_button = document.getElementsByClassName("mapSection-map-region-texts")
-      for (region of all_region_button){
-        region.style.color = "#fff"
-      }
-      const all_region_domtom_button = document.getElementsByClassName("mapSection-map-domTom-description")
-      for (region of all_region_domtom_button){
-        region.style.color = "#000"
-      }
-      
-    }
 
-function selectRegion(region) {
-
-  const redirect_to_occitanie = ['Autre', 'Guadeloupe', 'Martinique', 'Guyane', 'Mayotte', 'Reunion', 'world']
-
-  const button = document.querySelector('.mapSection-buttonLink')
-  const buttonDiv = document.querySelector('.mapSection-button')
-  
-  const selectedText = document.getElementById(region)
-  restart_color_button()
-  selectedText.style.color = "#F2816F"
-
-  buttonDiv.style.background =  "#F2816F"
-  if (redirect_to_occitanie.includes(region)) {
-    region = 'Occitanie'
-  }
-  button.href = "/register?course_id=course-v1%3Aicope%2B" + region + "%2B2022&enrollment_action=enroll"
-}
-
-// Avoid people trying to register without enroll
-if (window.location.href == 'https://icope-formation.com/register') {
-  window.location.href = 'https://icope-formation.com';
-}
-if (window.location.href == 'https://icope.koa.qualif.dev/register') {
-  window.location.href = 'https://icope.koa.qualif.dev';
-}
 
 
 
@@ -383,57 +317,77 @@ const table = {
   "Autre" : ["","Saint-pierre-et-miquelon", 'Sainte-barthelemy', 'Saint-martin', 'Wallis-et-futuna', 'Polynesie-francaise', 'Nouvelle-caledonie'],
 }
 
-var functionToRegion = setInterval(() => {
+// var functionToRegion = setInterval(() => {
+//   console.log("test")
 
-  $('#register-region').change(function(){
+//   // $('#register-region').change(function(){
+//     console.log("*************change22*****************")
+//     const sectionDepartment = document.querySelector('.form-field.select-department')
+//     const regionSelectorValue = document.getElementById('register-region').value
         
-    let value = $('#register-region').val()
-    console.log('value');
-    console.log(value);
+//     if (document.getElementById('register-region').value != '') {
+//             document.getElementsByClassName('select-department')[0].style.display = 'block' 
+//             sectionDepartment.style.display='block'
+//             $('#register-department').empty()
+//             setTimeout(() => {
+//               for (const region in table) {
+//                 if (region == document.getElementById('register-region').value) {
+//                   for (const departement of table[region]) {
+//                     console.log(departement)
+//                     $('#register-department').append("<option value='"+ departement + "'>" + departement + "</option>");
 
-    // Remove all options for departement
-    $('#register-department').find('option').remove().end()
-    
-    if (value) {
-      for (let i = 0; i < Object.keys(table).length; i++) {
+//                     clearInterval(functionToRegion)
+//                   }
+//                 }
+//               }
+//             }, 700)
 
-        if (Object.keys(table)[i] == value) {
-                    
-          const departementList = table[ Object.keys(table)[i] ];
-          
-          console.log('------------departementList-------------');
-          console.log(departementList);
-          console.log('------------departementList-------------');
-          
-          departementList.sort()// sort elements alphabetically
+//           }
+//           else if (document.getElementById('register-region').value == ''){
+//             document.getElementsByClassName('select-department')[0].style.display = 'none' 
+//             sectionDepartment.style.display='none'
+//           }
+//           else{
+//             console.log('🤔 something is not working with hidding department section script');
+//           }
+//   // })
 
-          console.log('------------departementList sorted-------------');
-          console.log(departementList);
-          console.log('------------departementList sorted-------------');
+//   // clearInterval(functionToRegion)
 
-          for (let i = 0; i < departementList.length; i++) {
-            const departement = departementList[i];
+// }, 700);
 
-            // Add selected option for departement 
-            $('#register-department').append("<option value='"+ departement + "'>" + departement + "</option>");
-
-            console.log('-------------departement------------');
-            console.log(departement);
-            console.log('-------------departement------------');
+function updateDept() {
+  $('#register-region').change(function(){
+    const sectionDepartment = document.querySelector('.form-field.select-department')
+    const regionSelectorValue = document.getElementById('register-region').value
+        
+    if (document.getElementById('register-region').value != '') {
+            document.getElementsByClassName('select-department')[0].style.display = 'block' 
+            sectionDepartment.style.display='block'
+            $('#register-department').empty()
+              for (const region in table) {
+                if (region == document.getElementById('register-region').value) {
+                  for (const departement of table[region]) {
+                    $('#register-department').append("<option value='"+ departement + "'>" + departement + "</option>");
+                  }
+                }
+              }
 
           }
-        }
-        
-      }
-      check_add_option = false
-    }
+          else if (document.getElementById('register-region').value == ''){
+            document.getElementsByClassName('select-department')[0].style.display = 'none' 
+            sectionDepartment.style.display='none'
+          }
+          else{
+            console.log('🤔 something is not working with hidding department section script');
+          }
   })
+}
 
-  clearInterval(functionToRegion)
-
-}, 700);
-
-</script>
+const functionToRegion = setInterval(() => {
+    updateDept();
+  }, 3000);
+// </script>
 
 
 <!-- quentin - ticket 15338 - script change text full name field -->
@@ -441,15 +395,18 @@ var functionToRegion = setInterval(() => {
 <script>
 
 window.setTimeout(()=>{
-  document.querySelector('#register-name-required-label').previousElementSibling.textContent = 'Nom complet (Prénom + Nom)'
-}, 150)
+  if (document.querySelector('#register-name-required-label')) {
+    document.querySelector('#register-name-required-label').previousElementSibling.textContent = 'Nom complet (Prénom + Nom)'
+  }
+ 
+}, 500)
 
 </script>
 
 
 <!-- modifs quentin - ticket 15377 - hide department section if region isn't selected first -->
 
-<script>
+<!-- <script>
 
   setTimeout(() => {
     const sectionDepartment = document.querySelector('.form-field.select-department')
@@ -478,4 +435,4 @@ window.setTimeout(()=>{
       }
     })
   }, 500)
-</script>
+</script> -->
