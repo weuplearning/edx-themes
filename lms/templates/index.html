@@ -12,17 +12,18 @@ from openedx.core.djangolib.markup import HTML, Text
     align-items: center;
     display: flex;
     justify-content: center;
+    padding-bottom: 1%;
   }
   .pss{
     max-width: 300px;
-    width: 100%;
+    width: 10%;
     max-height: 200px;
     height: auto;
   }
 
   .outrans{
     max-width: 519px;
-    width: 100%;
+    width: 17%;
     max-height: 156px;
     height: auto;
 
@@ -33,7 +34,7 @@ from openedx.core.djangolib.markup import HTML, Text
     background: linear-gradient(
       to bottom,
       #8f4080 0%,
-      #8f4080 60%,
+      #8f4080 85%,
       white 60%,
       white 100%
     );
@@ -52,11 +53,11 @@ from openedx.core.djangolib.markup import HTML, Text
   }
 
   h1{
-    font-size: 6vw;
+    font-size: 4vw;
     color: white;
     font-weight:bold;
-    padding-top: 3%;
-    padding-bottom: 3%;
+    padding-top: 1%;
+    line-height: 1;
   }
 
   h2{
@@ -81,23 +82,24 @@ from openedx.core.djangolib.markup import HTML, Text
   p{
     font-size: 25px;
     color:#8f4080;
+    font-family: "Ubuntu Medium";
   }
 
   .picture{
-    
-    width: 100%;
+    width: 10%;
     height: 530px;
     max-width: 256px;
     height: auto;
   }
+
+  .transform{
+    transform: translateY(10%);
+  }
+
   .pictures{
     align-items: center;
     display: flex;
     justify-content: center;
-  }
-  
-  .transform{
-	transform: translateY(10%);
   }
 
   .text{
@@ -140,14 +142,15 @@ from openedx.core.djangolib.markup import HTML, Text
   .register{
     margin:auto;
     position: relative;
+	  /* bottom: 40px; */
     /* display: flex; */
-    height: 600px;
-    width:75%;
+    height: 550px;
+    width:63%;
     background-color: white;
   }
 
   .registerPicture{
-    width: 100%;
+    width: 92%;
     max-width: 1280px;
     max-height: 379px;
     height: auto;
@@ -160,7 +163,7 @@ from openedx.core.djangolib.markup import HTML, Text
   
   .position{
     position: relative;
-	top: 20px;
+	  top: 20px;
   }
   
   .background{
@@ -170,7 +173,7 @@ from openedx.core.djangolib.markup import HTML, Text
   }
 
   .passeport{
-    max-width: 705px;
+    max-width: 555px;
     max-height: 295px;
     width: 100%;
     height: auto;
@@ -178,11 +181,10 @@ from openedx.core.djangolib.markup import HTML, Text
 
   .arrows{
     text-align: center;
-    /*transform: translateY(40%);*/
   }
 
   .test{
-	  width: 68%;
+	  width: 90%;
     height: 50%;
     overflow: auto;
     margin: auto;
@@ -204,26 +206,60 @@ from openedx.core.djangolib.markup import HTML, Text
   max-height: 195px;
   height: auto;
 }
+/*  @media screen and (max-width:1650px) {
+    .text{
+      margin-left: 200px;
+      margin-right: 200px;
+    }
+	
+  }*/
 
+  /* @media screen and (max-width:810px){
+    p{
+      font-size:15px;
+    }
+
+    .title2{
+      position: relative;
+      top: 50px;
+      height: 600px;
+    }
+
+    .passeport{
+      max-width: 150px;
+      width: 100%;
+      height: auto;
+    }
+
+    .background{
+      border: 10px solid white;
+    }
+
+    .register{
+      top: 0px;
+    }
+
+  } */
 @media screen and (max-width:1354px) {
-	.arrowsPicture{
-		display:none;
-	}
-  }
-  
+      .arrowsPicture{
+              display:none;
+      }
+}
+
 @media screen and (max-width:800px){
     p{
       font-size:15px;
     }
-	
-	.title2{
-	  margin-top: 10%;
-	}
-	
-	.register{
-	  height: 350px;
-	}
+
+        .title2{
+          margin-top: 10%;
+        }
+
+        .register{
+          height: 350px;
+        }
   }
+
 </style>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <main id="main" aria-label="Content" tabindex="-1">
@@ -248,10 +284,8 @@ from openedx.core.djangolib.markup import HTML, Text
   <section class="text">
     <div class="test" style="text-align: start;">
       <div class="buttons buttonColor" ><a class="uppercase boldText" style="color:white;" href="/login">connexion</a></div>	
-		<p class="p" style="padding-top: 5%;"> Les personnes trans connaissent des discriminations encore trop nombreuses dans l’accès
-		au droit.<br></p>
-		<p class="p"> la trajectoire des personnes trans permet aux agent·e·s de mieux cerner leurs
-		besoins. <br></p>
+		<p class="p" style="padding-top: 3%;"> Les personnes trans connaissent des discriminations encore trop nombreuses dans l’accès au droit. Comprendre la trajectoire des personnes
+      trans permet aux agent·e·s de mieux cerner leurs besoins.<br></p>
 		<p class="p">En suivant le module sur les bases des transidentités puis, le cas échéant, le module
 		spécifique à votre métier, vous ne serez plus un·e acteur·ice involontaire de ces
 		discriminations. <br></p>
@@ -272,8 +306,8 @@ from openedx.core.djangolib.markup import HTML, Text
               <div class="buttons buttonColor position" ><a class="uppercase boldText" style="color:white;" href="/register?next=%2F">Je commence</a></div>
         </div>
       </div>
-	  <div class="arrows">
-		<img src="${static.url('bien-accueillir-personnes-trans/images/Arrows.png')}" alt="arrows" class="arrowsPicture">
+      <div class="arrows">
+        <img src="${static.url('bien-accueillir-personnes-trans/images/Arrows.png')}" alt="arrows" class="arrowsPicture">
       </div>
     </div>
     <div class="registerType">
