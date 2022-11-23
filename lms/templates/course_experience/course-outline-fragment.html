@@ -63,9 +63,9 @@ dates_banner_displayed = False
   /* padding-top: 75%; */
   filter: drop-shadow(0 0 10px #0003);
   perspective: 100px;
-  width: 100%;
+  width: 50%;
   margin: auto;
-  height: 200px;
+  height: auto;
   /* margin-top: -50px; */
 }
     
@@ -83,6 +83,16 @@ dates_banner_displayed = False
   height: 250px;
   overflow: hidden;
   padding-left: 0;
+}
+
+h4.subsection-title{
+	color: #8f4080 !important;
+  font-size: 2rem;
+}
+
+.course-outline .block-tree .outline-button .complete-checkmark{
+  background-color: #8f4080;
+  border-color: #8f4080;
 }
 
 .carousel__slide {
@@ -305,7 +315,7 @@ dates_banner_displayed = False
 }
 .course-outline .block-tree .section ol.outline-item {
   /* display: flex; */
-  height: 200px;
+  height: auto;
   /* align-items: center; */
 }
 
@@ -531,15 +541,32 @@ a:hover{
   .section-title{
     width: 23rem;
   }
+  .carousel{
+    width: 80%;
+  }
 }
 @media screen and (min-width:1251px) and (max-width:1350px) {
   .section-title{
     width: 29rem;
   }
+
+  .carousel{
+    width: 80%;
+  }
 }
 @media screen and (min-width:1351px) and (max-width:1450px) {
   .section-title{
     width: 32rem;
+  }
+
+  .carousel{
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 1150px) {
+  .carousel{
+    width: 80%;
   }
 }
 
@@ -631,11 +658,11 @@ a:hover{
                     % if primary_index == 0:
                     <img class="image_logo_bar" src="${static.url('bien-accueillir-personnes-trans/images/vignette 1.png')}" alt="logo"/>
                     % elif primary_index == 1:
-                    <img class="image_logo_bar" src="${static.url('bien-accueillir-personnes-trans/images/vignette 2.png')}" alt="logo"/>
-                    % elif primary_index == 2:
-                    <img class="image_logo_bar" src="${static.url('bien-accueillir-personnes-trans/images/vignette 3.png')}" alt="logo"/>
-                    % else:
                     <img class="image_logo_bar" src="${static.url('bien-accueillir-personnes-trans/images/vignette 1.png')}" alt="logo"/>
+                    % elif primary_index == 2:
+                    <img class="image_logo_bar" src="${static.url('bien-accueillir-personnes-trans/images/vignette 2.png')}" alt="logo"/>
+                    % else:
+                    <img class="image_logo_bar" src="${static.url('bien-accueillir-personnes-trans/images/vignette 3.png')}" alt="logo"/>
                     % endif
 
                     <ol class=" outline-item accordion-panel ${ '' if section_is_auto_opened else 'is-hidden' }"
@@ -651,187 +678,121 @@ a:hover{
                       </div> -->
 
                         <section class="carousel" aria-label="Gallery">
-                          <%
-                          course_list = section.get('children', [])
-                          %>
-                            <ol class="carousel__viewport">
-                            % if len(course_list) <= 4:
-                                <li id="carousel__slide0_${ section['id'] }"
-                                tabindex="0"
-                                data-active="active"
-                                class="carousel__slide carousel__slide_${ section['id'] }">
+						<!-- <ol class="outline-item accordion-panel ${ '' if section_is_auto_opened else 'is-hidden' }" -->
+            <ol class="outline-item accordion-panel"
+                        id="${ section['id'] }_contents"
+                        aria-labelledby="${ section['id'] }">
+            % for subsection in section.get('children', []):
+              <%
+              gated_subsection = subsection['id'] in gated_content
+              needs_prereqs = not gated_content[subsection['id']]['completed_prereqs'] if gated_subsection else False
+              scored = 'scored' if subsection.get('scored', False) else ''
+              graded = 'graded' if subsection.get('graded') else ''
+              num_graded_problems = subsection.get('num_graded_problems', 0)
+              %>
+                  <li class="subsection accordion ${ 'current' if subsection.get('resume_block') else '' } ${graded} ${scored}">
+                    <a
+                    % if enable_links:
+                      href="${ subsection['lms_web_url'] }"
+                    % else:
+                      aria-disabled="true"
+                    % endif
+                      class="subsection-text outline-button"
+                      id="${ subsection['id'] }"
+                    >
+                    % if graded and scored and 'special_exam_info' not in subsection:
+                          <span class="icon fa fa-pencil-square-o" aria-hidden="true"></span>
+                    % endif
+                          <h4 class="subsection-title">
+                            ${ subsection['display_name'] }
+                    % if num_graded_problems:
+      <!--
+                            ${ngettext("({number} Question)",
+                                "({number} Questions)",
+                                num_graded_problems).format(number=num_graded_problems)}
+      -->
+                    % endif
+                          </h4>
 
-                                  <div class="carousel__snapper">
-                                      <div class=carousel__snapper__container>
-                                    % for subsection in section.get('children', []):
-                                      <%
-                                      course_name = subsection['display_name']
-                                      slug_img_name = re.sub(r'\W+', '_', course_name).lower()
-                                      %>
-                                      <a class="bloc_course_vignet"
-                                      % if enable_links:
-                                          href="${ subsection['lms_web_url'] }"
-                                      % else:
-                                          aria-disabled="true"
-                                      % endif
-                                      >
+                    % if subsection.get('complete'):
+                      <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
+                      <span class="sr">${_("Completed")}</span>
 
-             
-                                        <!-- <div class ="course_logo" style="background: url('/media/microsites/bungalow/courses/${slug_img_name}.png')">
-                                        </div> -->
+                    % endif
+                    % if needs_prereqs:
+                        <div class="details prerequisite">
+                          <span class="prerequisites-icon icon fa fa-lock" aria-hidden="true"></span>
+                          ${ _("Prerequisite: ") }
+                            <%
+                              prerequisite_id = gated_content[subsection['id']]['prerequisite']
+                              prerequisite_name = xblock_display_names.get(prerequisite_id)
+                            %>
+                            ${ prerequisite_name }
+                        </div>
+                    % endif
+                          <div class="details">
 
+              ## There are behavior differences between rendering of subsections which have
+              ## exams (timed, graded, etc) and those that do not.
+              ##
+              ## Exam subsections expose exam status message field as well as a status icon
+              <%
+              if subsection.get('due') is None or (self_paced and not in_edx_when):
+                # examples: Homework, Lab, etc.
+                data_string = subsection.get('format')
+                data_datetime = ""
+              else:
+                if 'special_exam_info' in subsection:
+                  data_string = _('due {date}')
+                else:
+                  data_string = _("{subsection_format} due {{date}}").format(subsection_format=subsection.get('format'))
+                data_datetime = subsection.get('due')
+              %>
+              % if subsection.get('format') or 'special_exam_info' in subsection:
+                            <span class="subtitle">
+                % if 'special_exam_info' in subsection:
+                                ## Display the exam status icon and status message
+                                <span
+                                  class="menu-icon icon fa ${subsection['special_exam_info'].get('suggested_icon', 'fa-pencil-square-o')} ${subsection['special_exam_info'].get('status', 'eligible')}"
+                                  aria-hidden="true"
+                                ></span>
+                                <span class="subtitle-name">
+                                  ${subsection['special_exam_info'].get('short_description', '')}
+                                </span>
 
-                                        <p class="course_logo_name">
-                                          ${course_name}
-                                          % if subsection.get('complete'):
-                                          <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
-                                          <span class="sr">${_("Completed")}</span>
-                                          %endif
-                                        </p>
-                                    </a>
-                                    % endfor
-                                  </div>
-                                </div>
-                              </li>
-                            % else:
-                              <%
-                              lenght_course_list = len(course_list)
-                              rounded_course_list = ceil((len(course_list) / 4))
-                              course_list_list =[]
-                              %>
-                              % for subsection in course_list:
-                                <%
-                                course_name = subsection['display_name']
-                                slug_img_name = re.sub(r'\W+', '_', course_name).lower()
-                                %>
+                  ## completed exam statuses should not show the due date
+                  ## since the exam has already been submitted by the user
+                  % if not subsection['special_exam_info'].get('in_completed_state', False):
+                                  <span
+                                    class="localized-datetime subtitle-name"
+                                    data-datetime="${data_datetime}"
+                                    data-string="${data_string}"
+                                    data-timezone="${user_timezone}"
+                                    data-language="${user_language}"
+                                  ></span>
+                  % endif
+                % else:
+                                ## non-graded section, we just show the exam format and the due date
+                                ## this is the standard case in edx-platform
+                                <span
+                                  class="localized-datetime subtitle-name"
+                                  data-datetime="${data_datetime}"
+                                  data-string="${data_string}"
+                                  data-timezone="${user_timezone}"
+                                  data-language="${user_language}"
+                                ></span>
 
-                                % if len(course_list) > 4 and len(course_list) < 9:
-                                <% 
-
-                                course_list_0 = course_list[0:4]
-                                course_list_1 = course_list[4:len(course_list)]
-                                course_list_list.extend([course_list_0, course_list_1])
-                                %>
-
-                                %elif len(course_list) > 8 and len(course_list) < 13:
-                                <% 
-
-                                course_list_0 = course_list[0:4]
-                                course_list_1 = course_list[4:8]
-                                course_list_2 = course_list[8:len(course_list)]
-                                course_list_list.extend([course_list_0, course_list_1, course_list_2])
-                                %>
-
-                                %elif len(course_list) > 12 and len(course_list) < 17:
-                                <% 
-
-                                course_list_0 = course_list[0:4]
-                                course_list_1 = course_list[4:8]
-                                course_list_2 = course_list[8:12]
-                                course_list_3 = course_list[12:len(course_list)]
-                                course_list_list.extend([course_list_0, course_list_1, course_list_2, course_list_3])
-                                %>
-
-
-                                %elif len(course_list) > 16 and len(course_list) < 21:
-                                <% 
-       
-                                course_list_0 = course_list[0:4]
-                                course_list_1 = course_list[4:8]
-                                course_list_2 = course_list[8:12]
-                                course_list_3 = course_list[12:16]
-                                course_list_4 = course_list[16:len(course_list)]
-                                course_list_list.extend([course_list_0, course_list_1, course_list_2, course_list_3, course_list_4])
-                                %>
-
-                                %endif
-
-                              % endfor
-
-                                % for index in range(rounded_course_list):
-                                % if index == 0:
-                                  <li id="carousel__slide${index}_${ section['id'] }"
-                                  tabindex="0"
-                                  data-active="active"
-                                  class="carousel__slide carousel__slide_${ section['id'] }">
-                                % else : 
-                                    <li id="carousel__slide${index}_${ section['id'] }"
-                                    tabindex="0"
-                                    class="carousel__slide carousel__slide_${ section['id'] }">
-                                % endif
-                                  <!-- <li id="carousel__slide${index}_${ section['id'] }"
-                                  tabindex="0"
-                                  class="carousel__slide"> -->
-                                  <span class="anchor" id="carousel__slide${index}_${ section['id'] }_anchor"></span>
-                                    <div class="carousel__snapper">
-                                      <div class=carousel__snapper__container>
-
-                                      % for subsection in course_list_list[index]:
-                                      <%
-                                      course_name = subsection['display_name']
-                                      slug_img_name = re.sub(r'\W+', '_', course_name).lower()
-                                      %>
-                                        <a class="bloc_course_vignet"
-                                        % if enable_links:
-                                            href="${ subsection['lms_web_url'] }"
-                                        % else:
-                                            aria-disabled="true"
-                                        % endif
-                                        > 
-                                          <!-- <div class ="course_logo" style="background: url('/media/microsites/bungalow/courses/${slug_img_name}.png')"> -->
-
-                                            <p class="course_logo_name">${course_name}</p>
-                                            % if subsection.get('complete'):
-                                            <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
-                                            <span class="sr">${_("Completed")}</span>
-                                            %endif
-                                          <!-- </div> -->
-                                        </a>
-                                      % endfor
-
-                                      </div>
-                                    </div>
-                                    <!-- 
-                                    <a href="#carousel__slide${index - 1}_${ section['id'] }_anchor"
-                                    class="carousel__prev"> <i class="material-icons" style="font-size:45px;">arrow_back_ios</i></a>     
-                                    <a href="#carousel__slide${index + 1}_${ section['id'] }_anchor"
-                                    class="carousel__next"><i class="material-icons" style="font-size:45px;">arrow_forward_ios</i></a> -->
-                                  </li>
-                                %endfor
-
-                            % endif 
-                            </ol>
-                            % if len(course_list) > 4:
-     
-                              <aside class="carousel__navigation">
-                                <ol class="carousel__navigation-list">
-                                  % for index in range(rounded_course_list):
-                                  <li class="carousel__navigation-item">
-                                    %if index == 0:
-                                      <li class="carousel__navigation-item carousel__navigation-item_${ section['id'] }"
-                                      id="carousel__navigation-item${index}_${ section['id'] }"
-                                      data-active="active"
-                                      onclick="navigate('${ section_id }', '${index}', '')"
-                                      >
-                                      %else :
-                                      <li class="carousel__navigation-item carousel__navigation-item_${ section['id'] }"
-                                      id="carousel__navigation-item${index}_${ section['id'] }"
-                                      onclick="navigate('${ section_id }', '${index}', '')"
-                                      >
-                                    %endif
-                                    <a href="#carousel__slide${index}_${ section['id'] }_anchor"
-                                      class="carousel__navigation-button"
-                                      id="carousel__slide${index}_${ section['id'] }_dot" 
-                                      >Go to slide 1
-                                    </a>
-                                  </li>
-
-                                  %endfor
-
-                                </ol>
-                              </aside>
-
-                            %endif
+                  % if subsection.get('graded'):
+                              <span class="sr">&nbsp;${_("This content is graded")}</span>
+                  % endif
+                % endif
+                            </span>
+              % endif
+                          </div> <!-- /details -->
+                    </a>
+                  </li>
+            % endfor
+                    </ol>
                           </section>
                     </ol>
 
@@ -899,97 +860,135 @@ a:hover{
           % endif
                   </button>
                   
-                  <ol class=" outline-item accordion-panel ${ '' if section_is_auto_opened else 'is-hidden' }"
-                      id="${ section['id'] }_contents_mobile"
-                      aria-labelledby="${ section['id'] }_mobile">
-                      <div class="navigation_container">
-                        <a class="arrow_navigation arrow_navigation_left" onclick="navigatePrevious('${ section_id}', '_mobile')">
-                          <i class="material-icons" style="font-size:45px;">arrow_back_ios</i>
-                        </a>
-                        <a class="arrow_navigation arrow_navigation_right"  onclick="navigateNext('${ section_id}', '_mobile')">
-                          <i class="material-icons" style="font-size:45px;">arrow_forward_ios</i>
-                      </a>
-                    </div>
-                
-                      <section class="carousel" aria-label="Gallery">
-
-                        <%
-                        course_list = section.get('children', [])
-                        %>
-                          <ol class="carousel__viewport">
-                        % for index, subsection in enumerate(section.get('children', [])):
-                          % if index == 0:
-                            <li id="carousel__slide${index}_${ section['id'] }_mobile"
-                            tabindex="0"
-                            data-active="active"
-                            class="carousel__slide carousel__slide_${ section['id'] }_mobile">
-                          % else : 
-                            <li id="carousel__slide${index}_${ section['id'] }_mobile"
-                            tabindex="0"
-                            class="carousel__slide carousel__slide_${ section['id'] }_mobile">
-                          % endif
-                          <span class="anchor" id="carousel__slide${index}_${ section['id'] }_mobile_anchor"></span>
-                        <div class="carousel__snapper">
-                            <div class=carousel__snapper__container>
-
-                            <%
-                            course_name = subsection['display_name']
-                            slug_img_name = re.sub(r'\W+', '_', course_name).lower()
-                            %>
-                            <a class="bloc_course_vignet"
-                            % if enable_links:
-                                href="${ subsection['lms_web_url'] }"
-                            % else:
-                                aria-disabled="true"
-                            % endif
-                            >
-                              
-                              <!-- <div class ="course_logo" style="background: url('/media/microsites/bungalow/courses/${slug_img_name}.png')">
+                            <ol class=" outline-item accordion-panel ${ '' if section_is_auto_opened else 'is-hidden' }"
+                                id="${ section['id'] }_contents_mobile"
+                                aria-labelledby="${ section['id'] }_mobile">
+                                <!-- <div class="navigation_container">
+                                  <a class="arrow_navigation arrow_navigation_left" onclick="navigatePrevious('${ section_id}', '_mobile')">
+                                    <i class="material-icons" style="font-size:45px;">arrow_back_ios</i>
+                                  </a>
+                                  <a class="arrow_navigation arrow_navigation_right"  onclick="navigateNext('${ section_id}', '_mobile')">
+                                    <i class="material-icons" style="font-size:45px;">arrow_forward_ios</i>
+                                </a>
                               </div> -->
+                          
+                                <section class="carousel" aria-label="Gallery">
 
-                              <p class="course_logo_name">${course_name}
-                                % if subsection.get('complete'):
+                                  <ol class="outline-item accordion-panel"
+                                  id="${ section['id'] }_contents"
+                                  aria-labelledby="${ section['id'] }">
+                      % for subsection in section.get('children', []):
+                        <%
+                        gated_subsection = subsection['id'] in gated_content
+                        needs_prereqs = not gated_content[subsection['id']]['completed_prereqs'] if gated_subsection else False
+                        scored = 'scored' if subsection.get('scored', False) else ''
+                        graded = 'graded' if subsection.get('graded') else ''
+                        num_graded_problems = subsection.get('num_graded_problems', 0)
+                        %>
+                            <li class="subsection accordion ${ 'current' if subsection.get('resume_block') else '' } ${graded} ${scored}">
+                              <a
+                              % if enable_links:
+                                href="${ subsection['lms_web_url'] }"
+                              % else:
+                                aria-disabled="true"
+                              % endif
+                                class="subsection-text outline-button"
+                                id="${ subsection['id'] }"
+                              >
+                              % if graded and scored and 'special_exam_info' not in subsection:
+                                    <span class="icon fa fa-pencil-square-o" aria-hidden="true"></span>
+                              % endif
+                                    <h4 class="subsection-title">
+                                      ${ subsection['display_name'] }
+                              % if num_graded_problems:
+                <!--
+                                      ${ngettext("({number} Question)",
+                                          "({number} Questions)",
+                                          num_graded_problems).format(number=num_graded_problems)}
+                -->
+                              % endif
+                                    </h4>
+
+                              % if subsection.get('complete'):
                                 <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
-                                %endif
-                              </p>
-                          </a>
+                                <span class="sr">${_("Completed")}</span>
 
-                        </div>
-                      </div>
-                    </li>
-                    % endfor
-      
-                          </ol>
-                          <%
-                          course_list = section.get('children', [])
-                          number_of_subsections = len(course_list)
+                              % endif
+                              % if needs_prereqs:
+                                  <div class="details prerequisite">
+                                    <span class="prerequisites-icon icon fa fa-lock" aria-hidden="true"></span>
+                                    ${ _("Prerequisite: ") }
+                                      <%
+                                        prerequisite_id = gated_content[subsection['id']]['prerequisite']
+                                        prerequisite_name = xblock_display_names.get(prerequisite_id)
+                                      %>
+                                      ${ prerequisite_name }
+                                  </div>
+                              % endif
+                                    <div class="details">
 
-                         
-                          %>
+                        ## There are behavior differences between rendering of subsections which have
+                        ## exams (timed, graded, etc) and those that do not.
+                        ##
+                        ## Exam subsections expose exam status message field as well as a status icon
+                        <%
+                        if subsection.get('due') is None or (self_paced and not in_edx_when):
+                          # examples: Homework, Lab, etc.
+                          data_string = subsection.get('format')
+                          data_datetime = ""
+                        else:
+                          if 'special_exam_info' in subsection:
+                            data_string = _('due {date}')
+                          else:
+                            data_string = _("{subsection_format} due {{date}}").format(subsection_format=subsection.get('format'))
+                          data_datetime = subsection.get('due')
+                        %>
+                        % if subsection.get('format') or 'special_exam_info' in subsection:
+                                      <span class="subtitle">
+                          % if 'special_exam_info' in subsection:
+                                          ## Display the exam status icon and status message
+                                          <span
+                                            class="menu-icon icon fa ${subsection['special_exam_info'].get('suggested_icon', 'fa-pencil-square-o')} ${subsection['special_exam_info'].get('status', 'eligible')}"
+                                            aria-hidden="true"
+                                          ></span>
+                                          <span class="subtitle-name">
+                                            ${subsection['special_exam_info'].get('short_description', '')}
+                                          </span>
 
-                          <aside class="carousel__navigation">
-                            <ol class="carousel__navigation-list">
-                              % for index in range(number_of_subsections):
-                                %if index == 0:
-                                <li class="carousel__navigation-item carousel__navigation-item_${ section['id'] }_mobile"
-                                id="carousel__navigation-item${index}_${ section['id'] }_mobile"
-                                data-active="active"
-                                onclick="navigate('${ section_id }', '${index}', '_mobile')"
-                                >
-                                %else :
-                                <li class="carousel__navigation-item carousel__navigation-item_${ section['id'] }_mobile"
-                                id="carousel__navigation-item${index}_${ section['id'] }_mobile"
-                                onclick="navigate('${ section_id }', '${index}', '_mobile')"
-                                >
-                                %endif
-                                <a 
-                                href="#carousel__slide${index}_${ section['id'] }_mobile_anchor"
-                                  class="carousel__navigation-button">Go to slide 1</a>
-                              </li>
-                              %endfor
-                            </ol>
-                          </aside>
-                        </section>
+                            ## completed exam statuses should not show the due date
+                            ## since the exam has already been submitted by the user
+                            % if not subsection['special_exam_info'].get('in_completed_state', False):
+                                            <span
+                                              class="localized-datetime subtitle-name"
+                                              data-datetime="${data_datetime}"
+                                              data-string="${data_string}"
+                                              data-timezone="${user_timezone}"
+                                              data-language="${user_language}"
+                                            ></span>
+                            % endif
+                          % else:
+                                          ## non-graded section, we just show the exam format and the due date
+                                          ## this is the standard case in edx-platform
+                                          <span
+                                            class="localized-datetime subtitle-name"
+                                            data-datetime="${data_datetime}"
+                                            data-string="${data_string}"
+                                            data-timezone="${user_timezone}"
+                                            data-language="${user_language}"
+                                          ></span>
+
+                            % if subsection.get('graded'):
+                                        <span class="sr">&nbsp;${_("This content is graded")}</span>
+                            % endif
+                          % endif
+                                      </span>
+                        % endif
+                                    </div> <!-- /details -->
+                              </a>
+                            </li>
+                      % endfor
+                              </ol>
+                                    </section>
 
                   </ol>
 

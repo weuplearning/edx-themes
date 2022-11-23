@@ -159,6 +159,10 @@ from lms.djangoapps.grades.course_grade import ZeroCourseGrade
     .wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary{
         display:none !important;
     }
+	
+	.wrapper-preview-menu{
+		background-color: #04ac9c !important;
+	}
 
     .section-title{
        color:white !important;
@@ -508,7 +512,7 @@ share_image = "https://amazon.the-mooc-agency.com/media/microsite/amazon/auto/im
                     </form>
                 </div> -->
             <!--% endif -->
-            <div class="form-actions" style="position: absolute;right: 100px;top: 200px;">
+            <div class="form-actions" style="position: absolute;right: 100px;top: 140px;">
                 % if resume_course_url:
                     <a class="btn btn-primary action-resume-course" href="${resume_course_url}">
                         % if has_visited_course:
