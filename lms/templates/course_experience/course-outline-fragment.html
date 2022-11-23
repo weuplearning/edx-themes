@@ -658,11 +658,11 @@ a:hover{
                     % if primary_index == 0:
                     <img class="image_logo_bar" src="${static.url('bien-accueillir-personnes-trans/images/vignette 1.png')}" alt="logo"/>
                     % elif primary_index == 1:
-                    <img class="image_logo_bar" src="${static.url('bien-accueillir-personnes-trans/images/vignette 1.png')}" alt="logo"/>
-                    % elif primary_index == 2:
                     <img class="image_logo_bar" src="${static.url('bien-accueillir-personnes-trans/images/vignette 2.png')}" alt="logo"/>
-                    % else:
+                    % elif primary_index == 2:
                     <img class="image_logo_bar" src="${static.url('bien-accueillir-personnes-trans/images/vignette 3.png')}" alt="logo"/>
+                    % else:
+                    <img class="image_logo_bar" src="${static.url('bien-accueillir-personnes-trans/images/vignette 1.png')}" alt="logo"/>
                     % endif
 
                     <ol class=" outline-item accordion-panel ${ '' if section_is_auto_opened else 'is-hidden' }"
