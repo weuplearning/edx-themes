@@ -25,7 +25,8 @@ from openedx.core.djangolib.markup import HTML, Text
 
 .body_section{
     background-image: url("/static/deeptechforbusiness/images/photo_homepage.487110380807.png");
-    height: 1080px;
+    background-size: cover;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -284,8 +285,12 @@ padding-top: 30px;
 .logo-middle--right{
     width: 180px;
 }
-
-
+.content-wrapper {
+    max-width: none !important;
+}
+.section_up--up--middle {
+    height: 200px;
+}
 
 
 </style>
@@ -297,7 +302,7 @@ padding-top: 30px;
 
     <div class="section_up">
         <div class="section_up--up">
-            <img class="image_flex section_up--up--middle" src="${static.url('deeptechforbusiness/images/logo_deeptech_n.png')}" alt="logo deeptech"/>
+            <img class="image_flex section_up--up--middle" src="${static.url('deeptechforbusiness/images/logo.png')}" alt="logo deeptech" />
         </div>
         <div class="section_up--middle">
             <img class="image_flex section_up--middle--left logo-middle--left" src="${static.url('deeptechforbusiness/images/logo_telecom_n.png')}" alt="logo telecom Paris"/>
