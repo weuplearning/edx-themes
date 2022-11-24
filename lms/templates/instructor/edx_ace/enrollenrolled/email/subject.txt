@@ -1,3 +1,5 @@
+{% load i18n %}
+{% autoescape off %}
 {% if course_key == 'course-v1:deeptechforbusiness+FR+2021'%}
 
 Bienvenue sur Tech For Business !
@@ -7,3 +9,4 @@ Bienvenue sur Tech For Business !
 Welcome to Tech For Business
 
 {% endif%}
+{% endautoescape %}
