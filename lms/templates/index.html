@@ -178,15 +178,9 @@ html {
   z-index: 2;
 }
 
-/* #illu-ter > img {
-  position: absolute;
-  right: -1681px;
-  height: 564px;
-  z-index: 1;
-} */
 #video-home {
-  height: 34vh;
-  width: 42vw;
+  height: 300px;
+  width: 450px;
   background-color: white;
   border: #47B077 3px solid;
 }
@@ -203,10 +197,8 @@ html {
   right: 0px;
   height: 500px;
   width: 500px;
-
+  clip: rect(1px, 500px, 500px, 0px);
 }
-
-
 /* FOOTER */
 .wrapper-footer {
   display: none;
@@ -355,10 +347,8 @@ html {
 
         <div id="illu-ter">
           <div class="horizontal-align" id="video-home">
-
-            VIDEO
+            <iframe src="https://player.vimeo.com/video/773440122?h=9acfd867ed" frameborder="0"></iframe>
           </div>
-          <!-- <img src="${static.url('sncf-voyageurs/images/illu.svg')}" alt=""> -->
         </div>
         
       </div>
@@ -369,6 +359,7 @@ html {
 
 
   </section>
+
   <footer class="wrapper-footer-home horizontal-align space-between">
     <a href="/cgu">Mentions légales</a>
     <a href="/honor">Politique de confidentialité</a>
