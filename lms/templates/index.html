@@ -179,7 +179,7 @@ html {
 }
 
 #video-home {
-  height: 300px;
+  height: 250px;
   width: 450px;
   background-color: white;
   border: #47B077 3px solid;
@@ -236,7 +236,8 @@ html {
 
     <div class="horizontal-align space-between login-btn">
       <div class="mobile-nav-item hidden-mobile nav-item">
-        <a class="register-btn btn" href="/register${login_query()}">M'INSCRIRE</a>
+        <a class="register-btn btn" href="/register?course_id=course-v1%3Asncf-voyageurs%2BDC1%2B2022&enrollment_action=enroll">M'INSCRIRE</a>
+        <!-- <a class="register-btn btn" href="/register${login_query()}">M'INSCRIRE</a> -->
       </div>
       <div class="mobile-nav-item hidden-mobile nav-item">
         <a class="sign-in-btn btn" href="/login${login_query()}">ME&nbspCONNECTER</a>
@@ -254,7 +255,8 @@ html {
           <p>Un MOOC d'avance sur votre recrutement</p>
           <div class="horizontal-align login-btn space-between">
             <div class="mobile-nav-item nav-item">
-              <a class="register-btn btn" href="/register${login_query()}">M'INSCRIRE</a>
+              <!-- <a class="register-btn btn" href="/register${login_query()}">M'INSCRIRE</a> -->
+              <a class="register-btn btn" href="/register?course_id=course-v1%3Asncf-voyageurs%2BDC1%2B2022&enrollment_action=enroll">M'INSCRIRE</a>
             </div>
 
             <div class="mobile-nav-item nav-item">
@@ -347,7 +349,8 @@ html {
 
         <div id="illu-ter">
           <div class="horizontal-align" id="video-home">
-            <iframe src="https://player.vimeo.com/video/773440122?h=9acfd867ed" frameborder="0"></iframe>
+            <iframe src="https://player.vimeo.com/video/773440122?h=9acfd867ed" width="450px" height="250px"
+             frameborder="0"></iframe>
           </div>
         </div>
         
