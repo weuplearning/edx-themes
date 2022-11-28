@@ -63,10 +63,9 @@ dates_banner_displayed = False
   /* padding-top: 75%; */
   filter: drop-shadow(0 0 10px #0003);
   perspective: 100px;
-  width: 50%;
+  width: 66%;
   margin: auto;
   height: auto;
-  /* margin-top: -50px; */
 }
     
 .carousel__viewport {
@@ -87,12 +86,21 @@ dates_banner_displayed = False
 
 h4.subsection-title{
 	color: #8f4080 !important;
-  font-size: 2rem;
+  font-size: 1.3rem;
+  font-family: Ubuntu;
 }
 
 .course-outline .block-tree .outline-button .complete-checkmark{
   background-color: #8f4080;
   border-color: #8f4080;
+  margin-right: 20px;
+
+}
+
+.course-outline .block-tree .outline-button{
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .carousel__slide {
@@ -404,10 +412,10 @@ h4.subsection-title{
     bottom: -140px;
 
   }
-  .complete-checkmark {
+  /* .complete-checkmark {
 
     margin-bottom: 209px;
-  }
+  } */
 
 }
 
@@ -526,7 +534,7 @@ a:hover{
   z-index: 2;
   position: relative;
   width: 201px;
-  margin-bottom: 31px;
+  margin-bottom: -38px;
 }
 
 .course-outline .block-tree .section .section-name .section-title {
@@ -541,32 +549,21 @@ a:hover{
   .section-title{
     width: 23rem;
   }
-  .carousel{
-    width: 80%;
-  }
 }
 @media screen and (min-width:1251px) and (max-width:1350px) {
   .section-title{
     width: 29rem;
-  }
-
-  .carousel{
-    width: 80%;
   }
 }
 @media screen and (min-width:1351px) and (max-width:1450px) {
   .section-title{
     width: 32rem;
   }
-
-  .carousel{
-    width: 80%;
-  }
 }
 
 @media screen and (max-width: 1150px) {
   .carousel{
-    width: 80%;
+    margin-top:auto;
   }
 }
 
@@ -715,7 +712,9 @@ a:hover{
                           </h4>
 
                     % if subsection.get('complete'):
-                      <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
+                      <div>
+                        <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
+                      </div>
                       <span class="sr">${_("Completed")}</span>
 
                     % endif
@@ -910,7 +909,9 @@ a:hover{
                                     </h4>
 
                               % if subsection.get('complete'):
-                                <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
+                                <div>
+                                  <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
+                                </div>
                                 <span class="sr">${_("Completed")}</span>
 
                               % endif

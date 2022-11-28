@@ -7,25 +7,27 @@ from django.urls import reverse
 
 from openedx.core.djangolib.markup import HTML, Text
 %>
+
+
 <style>
-  .images{
+
+.content-wrapper {
+  padding: 0 0 10px;
+}
+.images{
     align-items: center;
     display: flex;
     justify-content: center;
-    padding-bottom: 1%;
+    padding-bottom: 40px;
   }
   .pss{
-    max-width: 300px;
-    width: 10%;
-    max-height: 200px;
-    height: auto;
+    width: 130px;
+    margin-right: 5px;
   }
 
   .outrans{
-    max-width: 519px;
-    width: 17%;
-    max-height: 156px;
-    height: auto;
+    width: 230px;
+    margin-left: 5px;
 
   }
 
@@ -56,7 +58,7 @@ from openedx.core.djangolib.markup import HTML, Text
     font-size: 4vw;
     color: white;
     font-weight:bold;
-    padding-top: 1%;
+    padding-top: 36px;
     line-height: 1;
   }
 
@@ -109,7 +111,7 @@ from openedx.core.djangolib.markup import HTML, Text
     line-height: 31px;
     position: relative;
     top: 100px;
-	padding-bottom: 10%;
+	  margin-bottom: 20px;
 
   }
 
@@ -120,8 +122,8 @@ from openedx.core.djangolib.markup import HTML, Text
   .buttons{
     background: rgb(42,125,226);
     background: linear-gradient(0deg, rgba(42,125,226,1) 30%, rgba(0,161,225,1) 100%);
-    padding: 20px;
-    width: 200px;
+    padding: 15px;
+    width: 170px;
     text-align: center;
     text-transform: uppercase;
     color: #fff;
@@ -136,7 +138,8 @@ from openedx.core.djangolib.markup import HTML, Text
   }
 
   .p{
-    line-height: 1em;
+    line-height: 1.4em;
+    font-size: 20px;
   }
 
   .register{
@@ -145,7 +148,7 @@ from openedx.core.djangolib.markup import HTML, Text
 	  /* bottom: 40px; */
     /* display: flex; */
     height: 505px;
-    width:62%;
+    width: 960px;
     background-color: white;
   }
 
@@ -170,7 +173,7 @@ from openedx.core.djangolib.markup import HTML, Text
 	  background-color: white;
     border: 2vw solid white;
     margin: 40px;
-    margin-top: 5px;
+    margin-top: 99px;
   }
 
   .passeport{
@@ -199,6 +202,7 @@ from openedx.core.djangolib.markup import HTML, Text
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  margin-top: -103px;
 }
 
 .arrowsPicture{
@@ -207,6 +211,33 @@ from openedx.core.djangolib.markup import HTML, Text
   max-height: 195px;
   height: auto;
 }
+
+.button_up{
+  padding: 7px;
+  width: 170px;
+}
+
+
+.title_base{
+  font-size: 1.6em;
+    margin-bottom: 1.2em;
+}
+
+.subtitle_base{
+  font-size: 1.4em;
+    margin-bottom: 0.6em;
+    line-height: 1em;
+}
+.title_programme{
+  font-size: 2.8em;
+    padding-top: 38px;
+    padding-bottom: 18px;
+}
+.title_back{
+  font-size: 1.3em;
+}
+
+
 /*  @media screen and (max-width:1650px) {
     .text{
       margin-left: 200px;
@@ -241,13 +272,20 @@ from openedx.core.djangolib.markup import HTML, Text
     }
 
   } */
-@media screen and (max-width:1354px) {
+
+@media screen and (max-width:510px){
+  .title2{
+    margin-top: 20%;
+  }
+}
+
+@media screen and (max-width:1184px) {
       .arrowsPicture{
               display:none;
       }
 }
 
-@media screen and (max-width:800px){
+@media screen and (min-width:511px) and (max-width:800px){
     p{
       font-size:15px;
     }
@@ -255,11 +293,23 @@ from openedx.core.djangolib.markup import HTML, Text
         .title2{
           margin-top: 10%;
         }
-
-        .register{
-          height: 350px;
-        }
   }
+
+@media screen and (max-width:1184px){
+  .title2{
+    height: 815px;
+  }
+
+  .register{
+    width: 62%;
+  }
+}
+
+@media screen and (max-width:800px){
+  .register{
+          height: 350px;
+  }
+}
 
 </style>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -284,7 +334,7 @@ from openedx.core.djangolib.markup import HTML, Text
   </section>
   <section class="text">
     <div class="test" style="text-align: start;">
-      <div class="buttons buttonColor" ><a class="uppercase boldText" style="color:white;" href="/login">connexion</a></div>	
+      <div class="buttons buttonColor button_up" ><a class="uppercase boldText" style="color:white;" href="/login">connexion</a></div>	
 		<p class="p" style="padding-top: 3%;"> Les personnes trans connaissent des discriminations encore trop nombreuses dans l’accès au droit. Comprendre la trajectoire des personnes
       trans permet aux agent·e·s de mieux cerner leurs besoins.<br></p>
 		<p class="p">En suivant le module sur les bases des transidentités puis, le cas échéant, le module
@@ -298,12 +348,12 @@ from openedx.core.djangolib.markup import HTML, Text
   </section>
   <section>
     <div class="title2">
-      <h2>DÉROULÉ DU PROGRAMME</h2>
+      <h2 class="title_programme">DÉROULÉ DU PROGRAMME</h2>
       <div class="register">
         <div class="blank">
               <img src="${static.url('bien-accueillir-personnes-trans/images/IMG_3616.jpeg')}" alt="registerImage" class="registerPicture">
-              <h3>LES BASES</h3>
-              <p>sensibilisation aux transidentités</p>
+              <h3 class="title_base">LES BASES</h3>
+              <p class="subtitle_base">Sensibilisation aux transidentités</p>
               <div class="buttons buttonColor position" ><a class="uppercase boldText" style="color:white;" href="/register?next=%2F">Je commence</a></div>
         </div>
       </div>
@@ -314,11 +364,11 @@ from openedx.core.djangolib.markup import HTML, Text
     <div class="registerType">
       <div class="background left">
         <img class="passeport" src="${static.url('bien-accueillir-personnes-trans/images/FireShot Capture 292.png')}" alt="passeport">
-        <h3>JE SUIS OFFICIER·E D’ÉTAT-CIVIL</h3>
+        <h3 class="title_back">JE SUIS OFFICIER·E D’ÉTAT-CIVIL</h3>
       </div>
       <div class="background right">
         <img class="passeport" src="${static.url('bien-accueillir-personnes-trans/images/FireShot Capture 294.png')}" alt="carte vitale">
-        <h3>JE SUIS AGENT·E D’ACCUEIL À LA CPAM</h3>
+        <h3 class="title_back">JE SUIS AGENT·E D’ACCUEIL À LA CPAM</h3>
       </div>
     </div>
   </section>

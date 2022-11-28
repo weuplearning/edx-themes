@@ -517,19 +517,19 @@ share_image = "https://amazon.the-mooc-agency.com/media/microsite/amazon/auto/im
                     </form>
                 </div> -->
             <!--% endif -->
-            <div class="form-actions" style="position: absolute;right: 100px;top: 140px;">
-                % if resume_course_url:
-                    <a class="btn btn-primary action-resume-course" href="${resume_course_url}">
-                        % if has_visited_course:
-                            <span data-action-type="resume">${_("Resume Course")}</span>
-                        % else:
-                            <span data-action-type="start">${_("Start Course")}</span>
-                        % endif
-                    </a>
-                % endif
-            </div>
         </div>
     </header>
+    <div class="form-actions" style="text-align: center;">
+        % if resume_course_url:
+            <a class="btn btn-primary action-resume-course" href="${resume_course_url}">
+                % if has_visited_course:
+                    <span data-action-type="resume">${_("Resume Course")}</span>
+                % else:
+                    <span data-action-type="start">${_("Start Course")}</span>
+                % endif
+            </a>
+        % endif
+    </div>
     <div class="page-header-secondary bottom-search-bar">
         <!-- % if show_search:
             <div class="page-header-search">
@@ -548,16 +548,16 @@ share_image = "https://amazon.the-mooc-agency.com/media/microsite/amazon/auto/im
                 </form>
             </div> -->
         <!--% endif -->
-        <div class="form-actions">
-            % if resume_course_url:
-                <a class="btn btn-primary action-resume-course bottom-button" href="${resume_course_url}">
-                    % if has_visited_course:
-                        <span data-action-type="resume">${_("Resume Course")}</span>
-                    % else:
-                        <span data-action-type="start">${_("Start Course")}</span>
-                    % endif
-                </a>
-            % endif
+        <!-- <div class="form-actions"> -->
+            <!-- % if resume_course_url: -->
+                <!-- <a class="btn btn-primary action-resume-course bottom-button" href="${resume_course_url}"> -->
+                    <!-- % if has_visited_course: -->
+                        <!-- <span data-action-type="resume">${_("Resume Course")}</span> -->
+                    <!-- % else: -->
+                        <!-- <span data-action-type="start">${_("Start Course")}</span> -->
+                    <!-- % endif -->
+                <!-- </a> -->
+            <!-- % endif -->
         </div>
     </div>
     <div class="page-content">

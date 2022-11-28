@@ -32,34 +32,39 @@
   }
 
   .logoParis{
-    max-width: 85px;
-    max-height: 106px;
+    width: 75px;
   }
 
   .logoPss{
-    max-width: 155px;
-    max-height: 149px;
+    width: 110px;
   }
 
   .logoOutrans{
-    max-width: 195px;
-    max-height: 78px;
+    width: 180px;
+  }
+  .logo_footer{
+    margin: 0 15px;
   }
 
   .soutien{
     text-align: right;
+    margin-right: 35px;
+    margin-top: -20px;
   }
 
   .font1{
     color: #002542;
+    font-size: 1em;
   }
 
   .font2{
     color: #114b98;
+    font-size: 1em;
   }
 
   .wrapper-footer{
     background-color: white;
+    border: none;
   }
 
 </style>
@@ -72,7 +77,7 @@
             <ul class="navbar-nav">
               <li class="nav-item">
                 <div class="logo">
-                  <img class="logoParis" src="${static.url('bien-accueillir-personnes-trans/images/paris_logo.png')}" alt="logo_paris">
+                  <img class="logo_footer logoParis" src="${static.url('bien-accueillir-personnes-trans/images/paris_logo.png')}" alt="logo_paris">
                   <img class="logoPss" src="${static.url('bien-accueillir-personnes-trans/images/logo.png')}" alt="logo_pss">
                   <img class="logoOutrans" src="${static.url('bien-accueillir-personnes-trans/images/logo Outrans complet-1.png')}" alt="logo_outrans">
                 </div>
@@ -87,12 +92,12 @@
         <div class="col-md-3"></div>
       </div> -->
       <div class="logo">
-        <img class="logoParis" src="${static.url('bien-accueillir-personnes-trans/images/paris_logo.png')}" alt="logo_paris">
-        <img class="logoPss" src="${static.url('bien-accueillir-personnes-trans/images/logo.png')}" alt="logo_pss">
-        <img class="logoOutrans" src="${static.url('bien-accueillir-personnes-trans/images/logo Outrans complet-1.png')}" alt="logo_outrans">
+        <img class="logo_footer logoParis" src="${static.url('bien-accueillir-personnes-trans/images/paris_logo.png')}" alt="logo_paris">
+        <img class="logo_footer logoPss" src="${static.url('bien-accueillir-personnes-trans/images/logo.png')}" alt="logo_pss">
+        <img class="logo_footer logoOutrans" src="${static.url('bien-accueillir-personnes-trans/images/logo Outrans complet-1.png')}" alt="logo_outrans">
       </div>
       <div class="soutien">
-        <p class="font1">Avec le soutien de:<br></p>
+        <p class="font1">Avec le soutien de :<br></p>
         <p class="font2">Santé publique France</p>
       </div>
     </footer>
@@ -108,12 +113,12 @@
       % endif
     >
     <div class="logo">
-      <img class="logoParis" src="${static.url('bien-accueillir-personnes-trans/images/paris_logo.png')}" alt="logo_paris">
-      <img class="logoPss" src="${static.url('bien-accueillir-personnes-trans/images/logo.png')}" alt="logo_pss">
-      <img class="logoOutrans" src="${static.url('bien-accueillir-personnes-trans/images/logo Outrans complet-1.png')}" alt="logo_outrans">
+      <img class="logo_footer logoParis" src="${static.url('bien-accueillir-personnes-trans/images/paris_logo.png')}" alt="logo_paris">
+      <img class="logo_footer logoPss" src="${static.url('bien-accueillir-personnes-trans/images/logo.png')}" alt="logo_pss">
+      <img class="logo_footer logoOutrans" src="${static.url('bien-accueillir-personnes-trans/images/logo Outrans complet-1.png')}" alt="logo_outrans">
     </div>
     <div class="soutien">
-      <p class="font1">Avec le soutien de:<br></p>
+      <p class="font1">Avec le soutien de :<br></p>
       <p class="font2">Santé publique France</p>
     </div>
       <!-- <div class="colophon">
