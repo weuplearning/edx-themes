@@ -215,7 +215,7 @@ data = xmltodict.parse(data_0)
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: rgb(51 176 51 / 65%);
+    background-color: rgb(51 176 51 / 90%);
     color: white;
     border-radius: 23px;
     position: relative;
@@ -317,7 +317,7 @@ function select_region (event) {
                 if (list_clientcode.includes(offer.jobDescription.profile['@clientcode'])) {
 
                     offer_found = true
-                    $('#job-list').append("<li onclick=\"pop_up('"+offer.directUrl+"')\" >"+offer.jobDescription.title+"</li>")
+                    $('#job-list').append("<li onclick=\"pop_up('"+offer.directUrl+"')\" >"+offer.jobDescription.title+ " - [ réf: " + offer.reference +" ] </li>")
                 }
             }
         }

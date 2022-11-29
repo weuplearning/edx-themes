@@ -1,0 +1,23 @@
+<%page expression_filter="h"/>
+<%! from django.utils.translation import ugettext as _ %>
+<%inherit file="../main.html" />
+
+<%block name="pagetitle">${_("Honor Code")}</%block>
+<style>
+#content {
+    min-height: calc( 100vh - 66px -  72px);
+}
+</style>
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="container about">
+        <h1 >
+            Crédits
+        </h1>
+        <p>Département AC2R Direction de la Traction </p>
+        <p>Communication Direction de la Traction </p>
+        <p>CIFT Direction de la Traction</p>
+        <p>UNFT Direction de la Traction </p>
+        <p>Département Communication SNCF Voyageurs </p>
+        <p>Réalisation : WeUp Learning, 5 rue de Conflans, 94220 Charenton-le-Pont </p>
+    </section>
+</main>
