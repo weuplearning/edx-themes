@@ -24,10 +24,18 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
 %>
 
 <style>
-  .window-wrap {
-    background: url("${static.url('{}/images/bg_img.png'.format(course.org))}");
-    background-size: contain;
-  }
+.window-wrap {
+  background: url("${static.url('sncf-voyageurs/images/background_courseware_1.jpg')}");
+  background-size: cover;
+}
+.wrapper-course-material {
+  background-color: white;
+  position: relative;
+  left: -20px;
+  width: 100vw;
+  top: -20px;
+}
+
 </style>
 
 % if display_reset_dates_banner:
@@ -184,12 +192,6 @@ ${HTML(fragment.foot_html())}
                 <nav aria-label="${_('Course')}" class="sr-is-focusable" tabindex="-1">
                     <div class="has-breadcrumbs">
                         <div class="breadcrumbs">
-                            % if not DISABLE_COURSE_OUTLINE_PAGE_FLAG.is_enabled(course.id):
-                                <span class="nav-item nav-item-course">
-                                    <a href="${course_url}">${course_home_page_title(course)}</a>
-                                </span>
-                                <span class="icon fa fa-angle-right" aria-hidden="true"></span>
-                            % endif
                             % if chapter:
                                 <span class="nav-item nav-item-chapter" data-course-position="${course.position}" data-chapter-position="${chapter.position}">
                                     <a href="${course_url}#${six.text_type(chapter.location)}">${chapter.display_name_with_default}</a>

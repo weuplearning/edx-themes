@@ -13,6 +13,12 @@ from openedx.core.djangolib.markup import HTML, Text
 <!-- STYLE  -->
 <!-- https://xd.adobe.com/view/f988e995-7514-4c22-a878-009f239cff37-acdb/variables/ -->
 <style>
+:root {
+  --primary: #048753;
+  --secundary: #ff7853;
+  --ternary : #2d0d33;
+}
+
 /* HEADER */
 .global-header {
   display: none;
@@ -33,12 +39,12 @@ from openedx.core.djangolib.markup import HTML, Text
   padding-left: 40px;
 }
 .register-btn {
-  background: #47B077 !important;
+  background: var(--primary) !important;
   color: white;
 }
 .sign-in-btn {
   color: white;
-  background: #3DC0EF !important;
+  background: var(--secundary) !important;
 }
 .login-btn {
   padding: 16px;
@@ -135,7 +141,7 @@ html {
   /* position: relative; */
 }
 .numero {
-  background-color: #47B077;
+  background-color: var(--primary);
   color: white;
   font-size: 19px;
   font-size: 2.5vh;
@@ -182,7 +188,7 @@ html {
   height: 250px;
   width: 450px;
   background-color: white;
-  border: #47B077 3px solid;
+  border: var(--primary) 3px solid;
 }
 
 #center-container {
@@ -277,7 +283,7 @@ html {
     <div id="center-container" class="vertical-align">
       <div class="horizontal-align">
         <p id="center-container-text">
-          SNCF vous porpose son nouveau MOOC consacré aux métiers de la conduite ! Que vous soyez néophyte ou expert, futur candidat ou simple curieux, ce cours vous enseignera tout ce que vous devez savoir du métier de conductrice ou conducteur de train. <br>Au fil des cinq séquences proposées, nous vous ferons découvrir le monde du ferroviaire : 
+          SNCF vous propose son nouveau MOOC consacré aux métiers de la conduite ! Que vous soyez néophyte ou expert, futur candidat ou simple curieux, ce cours vous enseignera tout ce que vous devez savoir du métier de conductrice ou conducteur de train. <br>Au fil des cinq séquences proposées, nous vous ferons découvrir le monde du ferroviaire : 
         </p>
       </div>
 
@@ -329,7 +335,7 @@ html {
               4
             </div>
             <div class="bulle-numero vertical-align">
-              <p>Devenez un porfessionnel de la conduite !</p>
+              <p>Devenez un professionnel de la conduite !</p>
             </div>
             <div class="dotted">
               <div style="top : 8vh"></div>
@@ -341,7 +347,7 @@ html {
               5
             </div>
             <div class="bulle-numero vertical-align" style="background-color: #008168; color: white;">
-              <p>Rejoinez le plus beau bureau de France !</p>
+              <p>Rejoignez le plus beau bureau de France !</p>
             </div>
           </div>
 
