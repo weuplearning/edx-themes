@@ -75,9 +75,9 @@ for course_id in course_ids:
     user = course_enrollments[i].user
     user_data = {}
 
-    '''if str(user.email).find('@yopmail') != -1 or str(user.email).find('@weuplearning') != -1 or str(user.email).find(
+    if str(user.email).find('@yopmail') != -1 or str(user.email).find('@weuplearning') != -1 or str(user.email).find(
             '@themoocagency') != -1:
-      continue'''
+      continue
 
     # FILTRER LES UTILISATEUR DU JOUR POUR RENDRE UN RAPPORT SANS ANCIENS UTILISATEURS :
     now = timezone.now()
@@ -140,70 +140,70 @@ for course_id in course_ids:
     user_state_client = DjangoXBlockUserStateClient()
     list_question = []
 
-    exam_type = list(grading_context['all_graded_subsections_by_type'].keys())[0]
+    try:
+      log.info(list(grading_context['all_graded_subsections_by_type'].keys()))
+    
+      exam_type = list(grading_context['all_graded_subsections_by_type'].keys())[0]
+    except:
+      log.info("user did not completed exams")
+      continue
 
-    log.info(exam_type)
-    if "+FR+" in course_id:
-      exam_lang = 'Evaluation Finale'
-    elif "+EN+" in course_id:
-      exam_lang = 'Final Exam'
+    for exam in list(grading_context['all_graded_subsections_by_type'].keys()):
 
-    log.info(grading_context['all_graded_subsections_by_type'])
-    for section in grading_context['all_graded_subsections_by_type'][exam_type]: # QCM Intermédiaire
-      for unit in section['scored_descendants']:
-        scorable_block_titles.append((unit.location))
-        log.info(unit.location)
-    k = 1
-    for block_location in scorable_block_titles:
+      for section in grading_context['all_graded_subsections_by_type'][exam]: # QCM Intermédiaire
+        scorable_block_titles = []
+        for unit in section['scored_descendants']:
+          scorable_block_titles.append((unit.location))
+      k = 1
+      list_question = []
+      for block_location in scorable_block_titles:
 
-      question = {}
-      try:
-        history_entries = list(user_state_client.get_history(user.username, block_location))
-        log.info(history_entries)
-        log.info(block_location)
-      except:
-        question['choice'] = 'n.a.'
-        continue
-
-      problemNum = str(block_location)[-2:]
-      question['problem'] = problemNum
-      choices = []
-      multiple_answer = ""
-
-      if len(history_entries[0].state) == 3:
-        question['choice'] = 'n.a.'
-      else:
-        log.info("inside if")
-        log.info(history_entries[0])
+        question = {}
         try:
-          for key, value in sorted(history_entries[0].state['student_answers'].items()):
-            if len(history_entries[0].state['student_answers'].items()) > 1:
-              multiple_answer += value + "\r\n"
-              question['choice'] = multiple_answer
-              log.info(multiple_answer)
-            else:
-              question['choice'] = value
+          history_entries = list(user_state_client.get_history(user.username, block_location))
         except:
-          log.info("hello")
+          question['choice'] = 'n.a.'
           continue
 
-        correct = history_entries[0].state['correct_map'].items()
-        correctness = ""
-        for key, value in correct:
-          if len(correct) > 1:
-            correctness += value.get('correctness') + "\r\n"
-            question['correctness'] = [k, correctness]
-          else:
-            correctness = value.get('correctness')
-            question['correctness'] = [k, correctness]
-      k += 1  
+        problemNum = str(block_location)[-2:]
+        question['problem'] = [problemNum, k]
+        choices = []
+        multiple_answer = ""
 
-      list_question.append(question)
+        if len(history_entries[0].state) == 3:
+          question['choice'] = 'n.a.'
+        else:
+          try:
+            for key, value in sorted(history_entries[0].state['student_answers'].items()):
+              if len(history_entries[0].state['student_answers'].items()) > 1:
+                multiple_answer += value + "\r\n"
+                question['choice'] = multiple_answer
+                log.info(multiple_answer)
+              else:
+                question['choice'] = value
+          except:
+            log.info("hello")
+            continue
 
-    data = {"general": user_data, 'list_question': list_question}
-    course_data[str(user.id)] = data
-    
-  all_users_data[course_id] = course_data
+          correct = history_entries[0].state['correct_map'].items()
+          correctness = ""
+          for key, value in correct:
+            if len(correct) > 1:
+              correctness += value.get('correctness') + "\r\n"
+              question['correctness'] = [correctness]
+            else:
+              correctness = value.get('correctness')
+              question['correctness'] = [correctness]
+        k += 1  
+
+        list_question.append(question)
+
+      data = {"general": user_data, 'list_question': list_question}
+      course_data[str(user.id)+':'+exam] = data
+      log.info("***************************************************")
+      log.info(course_data)
+      log.info("***************************************************")
+    all_users_data[course_id] = course_data
 
 log.info('------------> Finish fetching user data and answers')
 log.info('------------> Begin write xlsx report')
@@ -216,7 +216,7 @@ sheet.title= 'Rapport_deeptech'
 filename = '/edx/app/edxapp/edx-themes/deeptechforbusiness/lms/static/utils/{}_deeptechforbusiness_grade_report.xlsx'.format(timestr)
 
 
-headers = ['Adresse e-mail', 'Prénom', 'Nom', 'Session']
+headers = ['Adresse e-mail', 'Prénom', 'Nom', 'Session', 'Exam']
 
 for i, header in enumerate(headers):
   sheet.cell(1, i+1, header)
@@ -227,19 +227,23 @@ for k, course_id in all_users_data.items():
     sheet.cell(j, 2, user['general']['firstname'])
     sheet.cell(j, 3, user['general']['lastname'])
     sheet.cell(j, 4, user['general']['session'])
+    sheet.cell(j, 5, key.split(':')[1])
 
     correctedExamGrade = 0
-    i = 5
+    i = 6
     for question in user['list_question']:
         try:
-          sheet.cell(1, i, "question " + str(question['correctness'][0]))
-          correct = str(question['correctness'][1])
+          sheet.cell(1, i, "question " + str(question['problem'][1]))
+          correct = str(question['correctness'])
           sheet.cell(j, i, correct)
-          sheet.cell(1, i+1, "choix " +  str(question['correctness'][0]))
+          sheet.cell(1, i+1, "choix " +  str(question['problem'][1]))
           choices = str(question['choice'])
           sheet.cell(j, i+1, choices)
         except:
-          log.info("test")
+          sheet.cell(1, i, "question " + str(question['problem'][1]))
+          sheet.cell(j, i, "n.a.")
+          sheet.cell(1, i+1, "choix " +  str(question['problem'][1]))
+          sheet.cell(j, i+1, "n.a.")
         i +=2
     j += 1
 
