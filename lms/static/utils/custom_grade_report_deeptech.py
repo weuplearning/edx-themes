@@ -275,7 +275,7 @@ for email in emails:
   msg = MIMEMultipart()
   msg['From'] = fromaddr
   msg['To'] = email
-  msg['Subject'] = "BVT_grade_report"
+  msg['Subject'] = "deeptech_grade_report"
   attachment = _files_values
   part = MIMEBase('application', 'octet-stream')
   part.set_payload(attachment)
@@ -292,3 +292,13 @@ for email in emails:
   log.info('Email sent to '+str(email))
 
 log.info('------------> Finish write xlsx report')
+
+# Exams occur everyday, send grade report after todays exam. Choose the right time to send a grade report in crontab. 
+
+# 0 6 * * * /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/deeptechforbusiness/lms/static/utils/custom_grade_report_deeptech.py 'cyril.adolf@weuplearning.com;alexandre.berteau@weuplearning.com' 'timePeriodToCheck;1'
+
+# first day of every month at 6
+# 0 6 1 * * /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/deeptechforbusiness/lms/static/utils/custom_grade_report_deeptech.py 'cyril.adolf@weuplearning.com;alexandre.berteau@weuplearning.com' 'timePeriodToCheck;31'
+
+# once a year the 1st of january at 6
+# 0 6 1 1 * /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/deeptechforbusiness/lms/static/utils/custom_grade_report_deeptech.py 'cyril.adolf@weuplearning.com;alexandre.berteau@weuplearning.com' 'timePeriodToCheck;365'
