@@ -12,7 +12,7 @@
 
 <style>
   .wrapper-footer {
-    background-color: #1C5659;
+    background-color: #1C5659 !important;
     color: white;
   }
 
@@ -27,16 +27,26 @@
   .wrapper-footer .site-nav .nav-link, .wrapper-footer footer#footer-openedx .colophon .nav-colophon li a {
     color: white !important;
   }
+  .navbar-nav {
+    width: 100%;
+  }
   .navbar-nav > .nav-item {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin: 0 10vw;
+    margin: 0 10vw !important;
+    width: calc( 100% - 20vw ) ;
   }
   .navbar-nav > .nav-item > a {
     color : white !important;
   }
+@media (min-width: 768px) {
+  .col-md-9 {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+}
 </style>
 
   <div class="container-fluid wrapper-footer">

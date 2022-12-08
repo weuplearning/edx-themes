@@ -2,12 +2,12 @@
 
 @font-face {
     font-family: 'Barlow';
-    src: url('https://koa.qualif.dev/media/fonts/Barlow/Barlow-Regular.eot');
-    src: url('https://koa.qualif.dev/media/fonts/Barlow/Barlow-Regular.eot') format('embedded-opentype'),
-        url('https://koa.qualif.dev/media/fonts/Barlow/Barlow-Regular.woff2') format('woff2'),
-        url('https://koa.qualif.dev/media/fonts/Barlow/Barlow-Regular.woff') format('woff'),
-        url('https://koa.qualif.dev/media/fonts/Barlow/Barlow-Regular.ttf') format('truetype'),
-        url('https://koa.qualif.dev/media/fonts/Barlow/Barlow-Regular.svg') format('svg');
+    src: url('/media/fonts/Barlow/Barlow-Regular.eot');
+    src: url('/media/fonts/Barlow/Barlow-Regular.eot') format('embedded-opentype'),
+        url('/media/fonts/Barlow/Barlow-Regular.woff2') format('woff2'),
+        url('/media/fonts/Barlow/Barlow-Regular.woff') format('woff'),
+        url('/media/fonts/Barlow/Barlow-Regular.ttf') format('truetype'),
+        url('/media/fonts/Barlow/Barlow-Regular.svg') format('svg');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -15,8 +15,8 @@
 
 
 // Theme colors
-$primary:  #048753;
-$secondary:  #ff7853;
+$primary:  #1d5659;
+$secondary:  #BBFFBE;
 
 $theme-colors: (
   "tertiary": #2d0d33
