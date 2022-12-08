@@ -372,15 +372,8 @@ function select_region (event) {
         region_id = '#reg-'+ key
         div_region_clicked = $(region_id + " > svg > g .cls-1 ") 
         div_region_clicked.css('fill', 'var(--dark-green)')
-
-        div_region_clicked = $(region_id + " > svg > g:hover .cls-1 ") 
-        div_region_clicked.css('fill', 'var(--light-green)')
-
         div_text_clicked = $(region_id + " > svg > g .cls-2 ") 
         div_text_clicked.css('fill', 'white')
-
-        div_text_clicked = $(region_id + " > svg > g:hover .cls-2 ") 
-        div_text_clicked.css('fill', 'black')
     }
     // Styling
     region_id = '#reg-'+ event.target.id
@@ -389,12 +382,6 @@ function select_region (event) {
     div_text_clicked = $(region_id + " > svg > g .cls-2 ") 
     div_text_clicked.css('fill', 'black')
 
-// svg > g:hover .cls-1 {
-//     fill:var(--light-green);
-// }    
-// svg > g:hover .cls-2 {
-//     fill: black;
-// }  
 
     region_value = region_dict[event.target.id]
     $('#job-list li').remove()
@@ -415,11 +402,14 @@ function select_region (event) {
                 if (list_clientcode.includes(offer.jobDescription.profile['@clientcode'])) {
 
                     let title = offer.jobDescription.title
-                    console.log(title);
                     if (offer.jobDescription.title.slice(-1) == ')') {
                         title = offer.jobDescription.title.slice(0,-5)
                     } 
-                    console.log(title);
+
+                    // Remove FRET offers
+                    if (title.indexOf('FRET') != -1) {
+                        continue
+                    }
 
                     offer_found = true
                     $('#job-list').append("<li onclick=\"pop_up('"+offer.directUrl+"')\" >"+title+"<br>Ref. "+offer.reference+" </li>")
