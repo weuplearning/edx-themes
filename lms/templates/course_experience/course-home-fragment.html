@@ -184,7 +184,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     }
 
     .progress-bar-grade {
-        background-color:var(--green);
+        background-color:var(--primary);
         position: absolute;
         height: 100%;
         top:0;
@@ -206,7 +206,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     }
 
     #final-grade-progress .progress-bar-grade{
-        background-color: var(--secondary);
+        background-color: var(--primary);
         border-radius: 7.5px;
     }
 
@@ -433,7 +433,11 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
                               total_blocks += 1
                               if blockchild.get('complete'):
                                 completed_blocks += 1
-                      completion_ratio = completed_blocks / total_blocks
+                      if total_blocks != 0 :
+                        completion_ratio = completed_blocks / total_blocks
+                      else :
+                        completion_ratio = 0
+
                       %>
                         <div class="grade-block">
                             <div class="grade-section-title">
