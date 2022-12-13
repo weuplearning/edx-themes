@@ -62,11 +62,16 @@
 </div>
 
 <script>
-// check honor checkbox
-setInterval(() => {
-    document.getElementById("register-honor_code").checked = true;
 
-}, 1000);
+setTimeout(function(){
+    document.getElementById("register-honor_code").checked = true;
+    document.getElementById("register-birth_date").type = "date";
+    $("#register-birth_date").css('color', "transparent");
+    $("#register-birth_date").click(function() {
+
+        $("#register-birth_date").css('color', "black");
+    })
+}, 3000);
 
 
 </script>
@@ -79,5 +84,4 @@ setInterval(() => {
 #register-terms_of_service-optional-label {
     display: none;
 }
-
 </style>
