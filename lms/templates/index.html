@@ -1,0 +1,100 @@
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.urls import reverse
+
+from openedx.core.djangolib.markup import HTML, Text
+%>
+
+<style>
+
+h1{
+    text-align: left;
+    font-weight: bold;
+    font-size: 5rem;
+}
+
+p{
+    font-size: 2rem;
+    line-height: 1.5em;
+}
+
+.color{
+    color: #003a70;
+}
+
+.text{
+    width: 75%;
+}
+
+.home{
+    background-color: #b8c8d7;
+    padding-bottom: 17%;
+    overflow: auto;
+}
+
+.box{
+    padding-top: 10%;
+    margin-left: 5%;
+}
+
+.button_custom{
+    padding: 30px;
+    width: 135px;
+    text-align: center;
+    color: #fff;
+    font-size: 1.7em;
+    cursor: pointer;
+    /* margin: auto; */
+    background-color: #003a70;
+    /* position: absolute; */
+    margin-top: 2%;
+}
+
+.buttons{
+    display: flex;
+    justify-content: left;
+    margin: 0;
+    gap: 30px;
+    /* flex-direction: row; */
+}
+
+.content-wrapper{
+    padding: 0 0 0 0;
+}
+
+</style>
+
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="home">
+        <div class="box">
+            <h1 class="color">Plaforme test</h1>
+            <div class="text">
+                <p class="color">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</p>
+            </div>
+            <div class=buttons>
+                <div class="button_custom" ><a style="color:white;" href="/login">Connexion</a></div><div class="button_custom" ><a style="color:white;" href="/register?next=%2F">Inscription</a></div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<%block name="js_extra">
+   <script type="text/javascript">
+      $(window).load(function() {
+         if(getParameterByName('next')) {
+              $('#login').trigger("click");
+         }
+      })
+   </script>
+</%block>
+
+% if show_signup_immediately is not UNDEFINED:
+  ## NOTE: This won't work in production, because anonymous views are cached, so it will
+  ## show either with or without this extra js for 3 minutes at a time.
+<script type="text/javascript">
+  $(window).load(function() {$('#signup_action').trigger("click");});
+</script>
+% endif
