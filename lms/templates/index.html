@@ -8,14 +8,14 @@ from django.urls import reverse
 from openedx.core.djangolib.markup import HTML, Text
 %>
 
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Du savoir à la chaine</title>
-</head>
+</head> -->
 
 <style>
 
@@ -76,6 +76,21 @@ from openedx.core.djangolib.markup import HTML, Text
 	}
 	.sectionsTitle > img{
 		width: 65%;
+	}
+	h1{
+		font-family: inherit;
+		margin: 0.3rem !important;
+		padding: 0.3rem !important;
+		font-size: 1.3rem;
+		line-height: 1.7rem;
+		word-spacing: 0.2rem;
+	}
+	h2{
+		font-family: inherit;
+		margin: 0.3rem !important;
+		padding: 0.3rem !important;
+		line-height: 1.7rem;
+		word-spacing: 0.2rem;
 	}
 
 	/* text style */
@@ -800,10 +815,10 @@ from openedx.core.djangolib.markup import HTML, Text
     <div class="section1">
         <div class="section1-headline parallax">
 			<div class="section1-headlineText">
-				<p class="uppercase boldText">Du savoir à la chaine</p>
+				<h1 class="uppercase boldText">Du savoir à la chaine</h1>
 				<br>
-				<p class="headlineText blueText">Découvrez la Chaîne des Puys - </p>
-				<p class="headlineText blueText">Faille de Limagne, inscrite au patrimoine mondial</p>
+				<h2 class="headlineText blueText">Découvrez la Chaîne des Puys - </h2>
+				<h2 class="headlineText blueText">Faille de Limagne, inscrite au patrimoine mondial</h2>
 			</div>
 			<div class="section1-headline-buttons">
 				<div class="buttons buttonColor1"><a class="uppercase boldText" href="/register?course_id=course-v1%3Adu-savoir-a-la-chaine%2BCDP-FL%2B2022&enrollment_action=enroll">inscription</a></div>
@@ -893,7 +908,7 @@ from openedx.core.djangolib.markup import HTML, Text
 	</div>
 
 </body>
-</html>
+<!-- </html> -->
 
 <!-- script parallax - quentin - it allow to add a parallax effect when scrolling to some desired elements with the class "parallax" or "parallaxSection2" -->
 
