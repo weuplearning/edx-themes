@@ -8,11 +8,16 @@ from django.urls import reverse
 from openedx.core.djangolib.markup import HTML, Text
 %>
 <style>
+
+  .content-wrapper {
+    padding: 0;
+    margin: 0;
+  }
   .container_banner{
     width: 100%;
     height: 600px;
-    background-color: aquamarine;
-    /* background-image: url("${static.url('vinducentreloire/images/home_bg.jpg')}"); */
+    /* background-color: aquamarine; */
+    background-image: url("${static.url('vinducentreloire/images/banner_top.png')}");
   }
   .container_banner__bloc_image{
     display: flex;
@@ -27,15 +32,16 @@ from openedx.core.djangolib.markup import HTML, Text
     justify-content: center;
   }
   .container_banner__buttons__button{
-    margin: 2em;
-    padding: 1em;
+    color: #fff;
+    text-transform: uppercase;
+    margin: 1.8em;
+    padding: 1.2em 4em;
   }
   .button_register{
-    background-color: yellow;
+    background-color: #ea9e06;
   }
-
   .button_login{
-    background-color: orange;
+    background-color: #ac4117;
   }
 
   .container_welcome{
@@ -43,23 +49,43 @@ from openedx.core.djangolib.markup import HTML, Text
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin: 6em 0 4em 0;
   }
   .container_welcome_title{
-    width: 400px;
+    width: 540px;
+    font-size: 2.4em;
+    text-align: center;
+    text-transform: uppercase;
   }
   .container_welcome__image{
     width: 200px;
+    margin: 3em 0;
   }
   .container_welcome__span{
-    color: orange;
+    color: #ea9e06;
+  }
+  .container_welcome_subtitle{
+    font-size: 1.8em;
+    text-transform: uppercase;
   }
 
   .container_introduction{
     display: flex;
     justify-content: center;
+    align-items: center;
   }
   .container_introduction_bloc_left{
-    width: 400px;
+    width: 300px;
+    margin: 2em;
+  }
+  .container_introduction_bloc_right{
+    margin: 2em;
+    width: 600px;
+    height: 300px;
+  }
+  .container_introduction_bloc_left_video{
+    width: 100%;
+    height: 100%;
   }
 
   .container_register{
@@ -68,10 +94,74 @@ from openedx.core.djangolib.markup import HTML, Text
     align-items: center;
   }
 
+  .container_caroussel{
+    width: 1200px;
+    height: 500px;
+    /* border: black solid 1px; */
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2em;
+    margin-bottom: 2em;
+  }
+
+  .container_carousel_cards {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    width: fit-content;
+  }
+
+  .container_carousel_entry {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    width: 300px;
+    height: 450px;
+    background: #f9eee4;
+    margin: 1em;
+    padding: 0.5em;
+  }
+
+  .container_carousel_back, .container_carousel_forward {
+    cursor: pointer;
+    width: auto;
+    margin-top: -23px;
+    padding: 17px;
+    color: #e89f00;
+    font-weight: bold;
+    font-size: 19px;
+    transition: 0.4s ease;
+    border-radius: 0 5px 5px 0;
+    user-select: none;
+  }
+
+  .container_carousel_image{
+    height: 200px;
+  }
+
+  .container_carousel_name{
+    font-size: 2em;
+  }
+
+  .container_carousel_text{
+    margin-left: 1em;
+    margin-right: 1em;
+  }
+
+  .container_carousel_time {
+    margin-top: auto;
+    margin-left: auto;
+  }
+
   .container_register__buttons__register{
     margin: 2em;
     padding: 1em;
-    background-color: orange;
+    background-color: #ac4117;
+    color: #fff;
+    text-transform: uppercase;
   }
 
   .container_mooc {
@@ -87,9 +177,22 @@ from openedx.core.djangolib.markup import HTML, Text
     width: 300px;
     margin: 1em;
   }
+  .container_mooc_card_title{
+    color: #ea9e06;
+    text-transform: uppercase;
+    margin: 1em;
+  }
+  .container_mooc_card_image{
+    width: 150px;
+    margin: 1em;
+  }
+  .container_mooc_card_text{
+    text-align: center;
+    margin: 1em;
+  }
 
   .container_footer{
-    background-color: blueviolet;
+    background-color: #212837;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -112,9 +215,9 @@ from openedx.core.djangolib.markup import HTML, Text
     justify-content: center;
   }
   .container_footer_socials_network_icon{
-    width: 30px;
-    height: 30px;
-    background-color: aliceblue;
+    width: 50px;
+    height: 50px;
+    /* background-color: aliceblue; */
     border-radius: 100%;
     margin: 0.4em;
   }
@@ -125,6 +228,40 @@ from openedx.core.djangolib.markup import HTML, Text
   .container_footer_links_text{
     margin: 1em;
   }
+
+  .container_footer_locations{
+    display: flex;
+    align-items: center;
+  }
+
+  .container_footer_locations_text{
+    width: 544px;
+    font-size: 1.5rem;
+    line-height: 1em;
+    text-transform: uppercase;
+    color:white;
+  }
+
+  .container_footer_locations_image{
+    width: 220px;
+  }
+
+  .container_footer_locations_text_red__span{
+    color:#ac4117;
+  }
+
+  .container_footer_locations_text_yellow__span{
+    color:#ea9e06;
+  }
+
+  .container_footer_locations_text_blue__span{
+    color:#60707e;
+  }
+
+  .container_footer_links{
+    color:#60707e;
+  }
+
   .text_underscore{
     margin-top: 10px;
   }
@@ -151,7 +288,7 @@ from openedx.core.djangolib.markup import HTML, Text
 
   <div class="container_welcome">
     <h2 class="container_welcome_title">
-      Bienvenue sur le<span class="container_welcome__span">Mooc des vins</span> du centre-loire
+      Bienvenue sur le <span class="container_welcome__span">Mooc des vins</span> du centre-loire
     </h2>
     <img class="container_welcome__image" src="${static.url('vinducentreloire/images/vague.png')}" alt="vague" id="vague-logo"/>
     <h3 class="container_welcome_subtitle">
@@ -174,33 +311,55 @@ from openedx.core.djangolib.markup import HTML, Text
   </div>
 
   <div class="container_caroussel">
-    <h1>CAROUSSEL</h1>
+    <!-- <h1>CAROUSSEL</h1> -->
+    <div class="container_carousel_cards">
+      <a class="container_carousel_back">&#10094;</a>
+      <div class="container_carousel_entry slide1">
+        <img class="container_carousel_image" src="${static.url('vinducentreloire/images/picto_leaf.png')}" alt="picto leaf"/>
+        <h2 class="container_carousel_name">Titre du module 1</h2>
+        <p class="container_carousel_text">Delectus qui nulla sint quisquam nihil iste hic. Soluta quam nobis et corrupti non. Qui explicabo iste accusantium. Ut praesentium debitis delectus architecto et libero cum. Voluptas aut temporibus dolores modi velit.</p>
+        <p class="container_carousel_time">10 minutes</p>
+      </div>
+      <div class="container_carousel_entry slide2">
+        <img class="container_carousel_image" src="${static.url('vinducentreloire/images/picto_grape.png')}" alt="picto grappe"/>
+        <h2 class="container_carousel_name">Titre du module 2</h2>
+        <p class="container_carousel_text">Delectus qui nulla sint quisquam nihil iste hic. Soluta quam nobis et corrupti non. Qui explicabo iste accusantium. Ut praesentium debitis delectus architecto et libero cum. Voluptas aut temporibus dolores modi velit.</p>
+        <p class="container_carousel_time">10 minutes</p>
+      </div>
+      <div class="container_carousel_entry slide3">
+        <img class="container_carousel_image" src="${static.url('vinducentreloire/images/picto_fossil.png')}" alt="picto fossil"/>
+        <h2 class="container_carousel_name">Titre du module 3</h2>
+        <p class="container_carousel_text">Delectus qui nulla sint quisquam nihil iste hic. Soluta quam nobis et corrupti non. Qui explicabo iste accusantium. Ut praesentium debitis delectus architecto et libero cum. Voluptas aut temporibus dolores modi velit.</p>
+        <p class="container_carousel_time">10 minutes</p>
+      </div>
+      <a class="container_carousel_forward">&#10095;</a>
+    </div>
   </div>
 
   <div class="container_register">
-    <div class="container_banner__buttons__register">
+    <div class="container_register__buttons__register">
       S'inscrire au MOOC
     </div>
   </div>
 
   <div class="container_mooc">
     <div class="container_mooc_card">
-      <img class="container_mooc_card_image">
+      <img class="container_mooc_card_image" src="${static.url('vinducentreloire/images/Picto_people_1.png')}" alt="picto people"/>
       <h3 class="container_mooc_card_title">Massive</h3>
       <p class="container_mooc_card_text">Nombre illimité d'apprenants, connectés au même moment, avec la possibilité d'échanger des idées en ligne.</p>
     </div>
     <div class="container_mooc_card">
-      <img class="container_mooc_card_image">
+      <img class="container_mooc_card_image" src="${static.url('vinducentreloire/images/Picto_cadena_1.png')}" alt="picto cadenas"/>
       <h3 class="container_mooc_card_title">Open</h3>
       <p class="container_mooc_card_text">Accès ouvert aux ressources</p>
     </div>
     <div class="container_mooc_card">
-      <img class="container_mooc_card_image">
+      <img class="container_mooc_card_image" src="${static.url('vinducentreloire/images/Picto_web_1.png')}" alt="picto web"/>
       <h3 class="container_mooc_card_title">Online</h3>
       <p class="container_mooc_card_text">Disponible en ligne, partout, tout le temps</p>
     </div>
     <div class="container_mooc_card">
-      <img class="container_mooc_card_image">
+      <img class="container_mooc_card_image" src="${static.url('vinducentreloire/images/Picto_cours_1.png')}" alt="picto cours"/>
       <h3 class="container_mooc_card_title">Course</h3>
       <p class="container_mooc_card_text">Un nouvel outil d'apprentissage pour obtenir une meilleure compréhesion des Vins du Centre-Loire</p>
     </div>
@@ -211,21 +370,21 @@ from openedx.core.djangolib.markup import HTML, Text
       <div class="container_footer_socials_email">
       </div>
       <div class="container_footer_socials_network">
-        <img class="container_footer_socials_network_icon">
-        <img class="container_footer_socials_network_icon">
-        <img class="container_footer_socials_network_icon">
-        <img class="container_footer_socials_network_icon">
-        <img class="container_footer_socials_network_icon">
+        <img class="container_footer_socials_network_icon" src="${static.url('vinducentreloire/images/footer_phone.png')}" alt="picto phone"/>
+        <img class="container_footer_socials_network_icon" src="${static.url('vinducentreloire/images/footer_fb.png')}" alt="picto fb"/>
+        <img class="container_footer_socials_network_icon" src="${static.url('vinducentreloire/images/footer_insta.png')}" alt="picto insta"/>
+        <img class="container_footer_socials_network_icon" src="${static.url('vinducentreloire/images/footer_yt.png')}" alt="picto yt"/>
+        <img class="container_footer_socials_network_icon" src="${static.url('vinducentreloire/images/footer_linkedin.png')}" alt="picto linkedin"/>
       </div>
     </div>
     <div class="container_footer_locations">
-      <img class="container_footer_locations_image">
-      <!-- <p class="container_footer_locations_text">
-        Vins du centre loire 
-        Sancerre Pouilly-Fumé Menetou-Salon Quincy
-        Reuilly Coteux du Giennois Châteaumeillant
-        Pouilly-sur-Loire Côtes de la charité Coteaux de tannay
-      </p> -->
+      <img class="container_footer_locations_image" src="${static.url('vinducentreloire/images/logo.png')}" alt="vin centre et loire" id="vcl-logo"/>
+      <p class="container_footer_locations_text">
+        Vins du centre loire <br>
+        Sancerre <span class="container_footer_locations_text_red__span">Pouilly-Fumé</span> Menetou-Salon <span class="container_footer_locations_text_blue__span">Quincy</span>
+        Reuilly <span class="container_footer_locations_text_yellow__span">Coteux du Giennois</span> <span class="container_footer_locations_text_red__span">Châteaumeillant</span>
+        <span class="container_footer_locations_text_blue__span">Pouilly-sur-Loire</span> <span class="container_footer_locations_text_red__span">Côtes de la charité</span> <span class="container_footer_locations_text_yellow__span">Coteaux de tannay</span>
+      </p>
     </div>
     <div class="container_footer_links">
       <p class="container_footer_links_text">Conditions générales</p>
