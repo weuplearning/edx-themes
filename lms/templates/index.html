@@ -7,6 +7,12 @@ from django.urls import reverse
 
 from openedx.core.djangolib.markup import HTML, Text
 %>
+
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+</head>
+
 <style>
 
   .content-wrapper {
@@ -94,16 +100,43 @@ from openedx.core.djangolib.markup import HTML, Text
     align-items: center;
   }
 
+  .swiper {
+    width: 100%;
+    height: 100%;
+  }
+
+  .swiper-slide {
+    /* text-align: center; */
+    /* font-size: 18px; */
+    background: #fff;
+
+    /* Center slide text vertically */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+  }
+
   .container_caroussel{
     width: 1200px;
     height: 500px;
     /* border: black solid 1px; */
     margin: auto;
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
     margin-top: 2em;
     margin-bottom: 2em;
+    padding-right: 13em;
+    
   }
 
   .container_carousel_cards {
@@ -147,8 +180,8 @@ from openedx.core.djangolib.markup import HTML, Text
   }
 
   .container_carousel_text{
-    margin-left: 1em;
-    margin-right: 1em;
+    margin-left: 3em;
+    margin-right: 3em;
   }
 
   .container_carousel_time {
@@ -310,30 +343,49 @@ from openedx.core.djangolib.markup import HTML, Text
     </div>
   </div>
 
-  <div class="container_caroussel">
+  <div class="container_caroussel swiper mySwiper">
     <!-- <h1>CAROUSSEL</h1> -->
-    <div class="container_carousel_cards">
-      <a class="container_carousel_back">&#10094;</a>
-      <div class="container_carousel_entry slide1">
+    <div class="container_carousel_cards swiper-wrapper">
+      <div class="container_carousel_entry swiper-slide slide1">
         <img class="container_carousel_image" src="${static.url('vinducentreloire/images/picto_leaf.png')}" alt="picto leaf"/>
         <h2 class="container_carousel_name">Titre du module 1</h2>
         <p class="container_carousel_text">Delectus qui nulla sint quisquam nihil iste hic. Soluta quam nobis et corrupti non. Qui explicabo iste accusantium. Ut praesentium debitis delectus architecto et libero cum. Voluptas aut temporibus dolores modi velit.</p>
         <p class="container_carousel_time">10 minutes</p>
       </div>
-      <div class="container_carousel_entry slide2">
+      <div class="container_carousel_entry swiper-slide slide2">
         <img class="container_carousel_image" src="${static.url('vinducentreloire/images/picto_grape.png')}" alt="picto grappe"/>
         <h2 class="container_carousel_name">Titre du module 2</h2>
         <p class="container_carousel_text">Delectus qui nulla sint quisquam nihil iste hic. Soluta quam nobis et corrupti non. Qui explicabo iste accusantium. Ut praesentium debitis delectus architecto et libero cum. Voluptas aut temporibus dolores modi velit.</p>
         <p class="container_carousel_time">10 minutes</p>
       </div>
-      <div class="container_carousel_entry slide3">
+      <div class="container_carousel_entry swiper-slide slide3">
         <img class="container_carousel_image" src="${static.url('vinducentreloire/images/picto_fossil.png')}" alt="picto fossil"/>
         <h2 class="container_carousel_name">Titre du module 3</h2>
         <p class="container_carousel_text">Delectus qui nulla sint quisquam nihil iste hic. Soluta quam nobis et corrupti non. Qui explicabo iste accusantium. Ut praesentium debitis delectus architecto et libero cum. Voluptas aut temporibus dolores modi velit.</p>
         <p class="container_carousel_time">10 minutes</p>
       </div>
-      <a class="container_carousel_forward">&#10095;</a>
+      <div class="container_carousel_entry swiper-slide slide2">
+        <img class="container_carousel_image" src="${static.url('vinducentreloire/images/picto_grape.png')}" alt="picto grappe"/>
+        <h2 class="container_carousel_name">Titre du module 2</h2>
+        <p class="container_carousel_text">Delectus qui nulla sint quisquam nihil iste hic. Soluta quam nobis et corrupti non. Qui explicabo iste accusantium. Ut praesentium debitis delectus architecto et libero cum. Voluptas aut temporibus dolores modi velit.</p>
+        <p class="container_carousel_time">10 minutes</p>
+      </div>
+      <div class="container_carousel_entry swiper-slide slide1">
+        <img class="container_carousel_image" src="${static.url('vinducentreloire/images/picto_leaf.png')}" alt="picto leaf"/>
+        <h2 class="container_carousel_name">Titre du module 1</h2>
+        <p class="container_carousel_text">Delectus qui nulla sint quisquam nihil iste hic. Soluta quam nobis et corrupti non. Qui explicabo iste accusantium. Ut praesentium debitis delectus architecto et libero cum. Voluptas aut temporibus dolores modi velit.</p>
+        <p class="container_carousel_time">10 minutes</p>
+      </div>
+      <div class="container_carousel_entry swiper-slide slide3">
+        <img class="container_carousel_image" src="${static.url('vinducentreloire/images/picto_fossil.png')}" alt="picto fossil"/>
+        <h2 class="container_carousel_name">Titre du module 3</h2>
+        <p class="container_carousel_text">Delectus qui nulla sint quisquam nihil iste hic. Soluta quam nobis et corrupti non. Qui explicabo iste accusantium. Ut praesentium debitis delectus architecto et libero cum. Voluptas aut temporibus dolores modi velit.</p>
+        <p class="container_carousel_time">10 minutes</p>
+      </div>
     </div>
+    <div class="container_carousel_back swiper-button-prev"></div>
+    <div class="container_carousel_forward swiper-button-next"></div>
+    <div class="swiper-pagination"></div>
   </div>
 
   <div class="container_register">
@@ -396,3 +448,23 @@ from openedx.core.djangolib.markup import HTML, Text
   </div>
 </main>
 
+<script>
+  var swiper = new Swiper(".mySwiper", {
+  slidesPerView: 3,
+  spaceBetween: 120,
+  slidesPerGroup: 3,
+  initialSlide: 1,
+  loop: false,
+  loopFillGroupWithBlank: false,
+  pagination: {
+    el: ".swiper-pagination",
+    clickable: true,
+  },
+  navigation: {
+    nextEl: ".swiper-button-next",
+    prevEl: ".swiper-button-prev",
+  },
+  });
+
+//https://codepen.io/anon/pen/aLVQom
+</script>
