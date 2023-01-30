@@ -41,9 +41,21 @@ from openedx.core.djangolib.markup import HTML, Text
     color: #fff;
     text-transform: uppercase;
     margin: 1.8em;
-    padding: 1.2em 4em;
-    font-size: 1.6em;
+    padding: 1.2em 3em;
+    font-size: 2em;
+    cursor: pointer;
+    position: relative;
   }
+
+  .container_banner__buttons__button__link{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+
   .button_register{
     background-color: #ea9e06;
   }
@@ -196,6 +208,8 @@ from openedx.core.djangolib.markup import HTML, Text
     background-color: #ac4117;
     color: #fff;
     text-transform: uppercase;
+    cursor: pointer;
+    position: relative;
   }
 
   .container_mooc {
@@ -289,9 +303,13 @@ from openedx.core.djangolib.markup import HTML, Text
   .container_footer_locations_text{
     width: 544px;
     font-size: 1.5rem;
-    line-height: 1em;
+    line-height: 1.2em;
     text-transform: uppercase;
     color:white;
+  }
+
+  .container_footer_locations_text_title{
+    font-weight: bold;
   }
 
   .container_footer_locations_image{
@@ -330,10 +348,16 @@ from openedx.core.djangolib.markup import HTML, Text
     </h1> -->
     <div class="container_banner__buttons">
       <div class="container_banner__buttons__button button_register">
-        <a style="color: white" href="/register?next=%2F">Inscription</a>
+        <a style="color: white" href="/register?next=%2F">
+          <span class="container_banner__buttons__button__link"></span>
+          Inscription
+        </a>
       </div>
-      <div class="container_banner__buttons__button button_login" href="/login">
-        <a style="color: white" href="/login">connexion</a>
+      <div class="container_banner__buttons__button button_login">
+        <a style="color: white" href="/login">
+          <span class="container_banner__buttons__button__link"></span>
+          connexion
+        </a>
       </div>
     </div>
   </div>
@@ -361,7 +385,6 @@ from openedx.core.djangolib.markup import HTML, Text
       <iframe class="container_introduction_bloc_left_video"></iframe>
     </div>
   </div>
-
   <div class="container_caroussel swiper mySwiper">
     <!-- <h1>CAROUSSEL</h1> -->
     <div class="container_carousel_cards swiper-wrapper">
@@ -409,7 +432,10 @@ from openedx.core.djangolib.markup import HTML, Text
 
   <div class="container_register">
     <div class="container_register__buttons__register">
-      S'inscrire au MOOC
+      <a style="color: white" href="/register?next=%2F">
+        <span class="container_banner__buttons__button__link"></span>
+        S'inscrire au MOOC
+      </a>
     </div>
   </div>
 
@@ -459,7 +485,7 @@ from openedx.core.djangolib.markup import HTML, Text
     <div class="container_footer_locations">
       <img class="container_footer_locations_image" src="${static.url('vinducentreloire/images/logo.png')}" alt="vin centre et loire" id="vcl-logo"/>
       <p class="container_footer_locations_text">
-        Vins du centre loire <br>
+        <span class="container_footer_locations_text_title">Vins du centre loire</span> <br>
         Sancerre <span class="container_footer_locations_text_red__span">Pouilly-Fumé</span> Menetou-Salon <span class="container_footer_locations_text_blue__span">Quincy</span>
         Reuilly <span class="container_footer_locations_text_yellow__span">Coteux du Giennois</span> <span class="container_footer_locations_text_red__span">Châteaumeillant</span>
         <span class="container_footer_locations_text_blue__span">Pouilly-sur-Loire</span> <span class="container_footer_locations_text_red__span">Côtes de la charité</span> <span class="container_footer_locations_text_yellow__span">Coteaux de tannay</span>
