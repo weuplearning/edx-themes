@@ -21,11 +21,15 @@ enterprise_customer_link = get_enterprise_learner_portal(request)
 <style>
 
   .container_lang_flag{
-    width: 30px;
+    width: auto;
+    max-width: 30px;
+    height: 100%;
   }
 
   .container_lang_tampon{
-    width: 90px;
+    width: auto;
+    max-width: 90px;
+    height: 100%;
   }
 
   .container_lang{
@@ -37,6 +41,12 @@ enterprise_customer_link = get_enterprise_learner_portal(request)
     position: relative;
     top:13px;
     right:13px;
+  }
+
+  @media screen and (max-width:992px){
+    .container_lang_tampon{
+      max-width: 45px;
+    }
   }
 
 </style>

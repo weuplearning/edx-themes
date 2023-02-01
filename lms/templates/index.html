@@ -21,7 +21,8 @@ from openedx.core.djangolib.markup import HTML, Text
   }
   .container_banner{
     width: 100%;
-    height: 881px;
+    max-height: 881px;
+    height: auto;
     /* background-color: aquamarine; */
     background-image: url("${static.url('vinducentreloire/images/banner_top.png')}");
   }
@@ -31,7 +32,8 @@ from openedx.core.djangolib.markup import HTML, Text
     justify-content: center;
   }
   .container_banner__bloc_image__image{
-    width: 800px;
+    width: 50vw;
+
   }
   .container_banner__buttons {
     display: flex;
@@ -71,7 +73,9 @@ from openedx.core.djangolib.markup import HTML, Text
     margin: 6em 0 4em 0;
   }
   .container_welcome_title{
-    width: 871px;
+    width: auto;
+    max-width: 871px;
+    height: 100%;
     font-size: 4em;
     text-align: center;
     text-transform: uppercase;
@@ -86,6 +90,7 @@ from openedx.core.djangolib.markup import HTML, Text
   .container_welcome_subtitle{
     font-size: 2.6em;
     text-transform: uppercase;
+    text-align: center;
   }
 
   .container_introduction{
@@ -185,11 +190,14 @@ from openedx.core.djangolib.markup import HTML, Text
   }
 
   .container_carousel_image{
-    height: 200px;
+    height: auto;
+    width: 100%;
+    max-width: 200px;
   }
 
   .container_carousel_name{
     font-size: 2em;
+    text-align: center;
   }
 
   .container_carousel_text{
@@ -301,7 +309,9 @@ from openedx.core.djangolib.markup import HTML, Text
   }
 
   .container_footer_locations_text{
-    width: 544px;
+    max-width: 544px;
+    width: auto;
+    height: 100%;
     font-size: 1.5rem;
     line-height: 1.2em;
     text-transform: uppercase;
@@ -335,6 +345,68 @@ from openedx.core.djangolib.markup import HTML, Text
   .text_underscore{
     margin-top: 10px;
   }
+
+  .wrapper-footer{
+    display: none;
+  }
+
+  @media screen and (max-width:450px){
+    .container_carousel_image{
+      max-width: 0px;
+    }
+  }
+
+  @media screen and (max-width:700px){
+    .container_mooc{
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container_footer_locations{
+      flex-direction: column;
+    }
+
+    .container_carousel_image{
+      display: none;
+    }
+  }
+
+  @media screen and (max-width:850px){
+    .container_banner__buttons__button{
+      margin: 0em;
+      font-size: 1em;
+      margin-top: 1em;
+      margin-bottom: 1em;
+    }
+
+    .container_footer_socials{
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  @media screen and (max-width:1200px){
+    .container_introduction{
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container_caroussel{
+      width: auto;
+    }
+
+    .container_carousel_image{
+      height: auto;
+      width: 100%;
+      max-width: 100px;
+    }
+  }
+  
+  /* @media screen and (min-width: 905px) and (max-width:1100px){
+    .container_carousel_image{
+      max-width: 0px;
+    }
+  } */
 </style>
 
 <main id="main" aria-label="Content" tabindex="-1">
@@ -503,12 +575,33 @@ from openedx.core.djangolib.markup import HTML, Text
 
 <script>
   var swiper = new Swiper(".mySwiper", {
-  slidesPerView: 3,
-  spaceBetween: 120,
-  slidesPerGroup: 3,
+  slidesPerView: 1,
+  spaceBetween: 10,
   initialSlide: 1,
   loop: false,
   loopFillGroupWithBlank: false,
+  breakpoints: {
+    "320": {
+        slidesPerView: 1,
+        spaceBetween: 10,
+    },
+	  "480": {
+        slidesPerView: 2,
+        spaceBetween: 10,
+    },
+    "640": {
+        slidesPerView: 2,
+        spaceBetween: 10,
+    },
+    "875": {
+        slidesPerView: 3,
+        spaceBetween: 10,
+    },
+    "1200": {
+        slidesPerView: 3,
+        spaceBetween: 120,
+    },
+  },
   // pagination: {
   //   el: ".swiper-pagination",
   //   clickable: true,
