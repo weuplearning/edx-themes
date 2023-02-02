@@ -8,6 +8,10 @@ from lms.djangoapps.courseware.tabs import get_course_tab_list
 from django.conf import settings
 from django.urls import reverse
 from django.utils.translation import ugettext as _
+
+from openedx.core.djangolib.js_utils import dump_js_escaped_json
+from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+admin_list = configuration_helpers.get_value('WUL_DASHBOARD_ACCESS', False)
 %>
 
 <%
@@ -69,6 +73,15 @@ if course is not None:
                 <ol class="tabs course-tabs">
                     <%include file="${tabs_tmpl}" args="tab_list=tab_list,active_page=active_page,default_tab=default_tab,tab_image=tab_image" />
                     <%block name="extratabs" />
+
+                    % if request.user.email in admin_list:
+                        <li class="tab">
+                            <a href="/wul_apps/dashboard/home/" >
+                                Tableau de bord
+                            </a>
+                        </li>
+                    % endif
+
                 </ol>
             </div>
         </nav>
@@ -88,19 +101,20 @@ if course is not None:
 
         allLinksOnPage.forEach(element => {
             if (element.href.includes('/discussion/forum/')) {
-                console.log('there is a link on the page that include the pattern "/discussion/forum/" ');
+                // console.log('there is a link on the page that include the pattern "/discussion/forum/" ');
                 element.parentElement.style.display='none'
-                console.log('discussion hidden 👌🏻');
+                // console.log('discussion hidden 👌🏻');
             }
             else if (element.href.includes('course_wiki')) {
-                console.log('there is a link on the page that include the pattern "course_wiki" ');
+                // console.log('there is a link on the page that include the pattern "course_wiki" ');
                 element.parentElement.style.display='none'
-                console.log('course_wiki hidden 👌🏻');
+                // console.log('course_wiki hidden 👌🏻');
             }
             else{
-                console.log("havent found link containing '/discussion/forum/' to hide in the page");
+                // console.log("havent found link containing '/discussion/forum/' to hide in the page");
             }
         });
     }, 5);
+
 
 </script>
