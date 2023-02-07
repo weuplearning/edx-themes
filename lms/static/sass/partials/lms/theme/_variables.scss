@@ -1,14 +1,21 @@
-@import url('https://fonts.googleapis.com"> <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;1,300;1,400;1,500&display=swap');
+
 @font-face {
-  font-family: 'Mont Bold';
-  // src: url("/edx/app/edxapp/edx-themes/bien-accueillir-personnes-trans/lms/static/fonts/Mont-Bold.otf") format(opentype);
-  src: url("https://bien-accueillir-personnes-trans.koa.qualif.dev/media/fonts/Mont-Bold.otf") format(opentype);
+  font-family: 'MontBold';
+  src: url("/media/fonts/Mont-Bold.otf") format(opentype),
+  url('/media/fonts/Mont-bold/Mont-bold.woff2') format('woff2'),
+  url('/media/fonts/Mont-bold/Mont-bold.woff') format('woff'),
+  url('/media/fonts/Mont-bold/Mont-bold.ttf') format('truetype'),
+  url('/media/fonts/Mont-bold/Mont-bold.svg') format('svg');
 }
 @font-face {
-  font-family: 'Ubuntu Medium';
-  // src: url("/edx/app/edxapp/edx-themes/bien-accueillir-personnes-trans/lms/static/fonts/Ubuntu-Medium.ttf") format(truetype);
-  src: url("https://bien-accueillir-personnes-trans.koa.qualif.dev/media/fonts/Ubuntu-Medium.ttf") format(truetype);
+  font-family: 'UbuntuMedium';
+  src: url("/media/fonts/Ubuntu-medium/Ubuntu-Medium.ttf") format(truetype),
+  url('/media/fonts/Ubuntu-medium/Ubuntu-Medium.woff2') format('woff2'),
+  url('/media/fonts/Ubuntu-medium/Ubuntu-Medium.woff') format('woff'),
+  url('/media/fonts/Ubuntu-medium/Ubuntu-Medium.ttf') format('truetype'),
+  url('/media/fonts/Ubuntu-medium/Ubuntu-Medium.svg') format('svg');
 }
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Ubuntu:wght@300;400;500;700&display=swap');
 
 // Theme colors
 $primary:  #8f4080;
@@ -19,7 +26,7 @@ $theme-colors: (
 );
 
 // Theme fonts
-$font-family-sans-serif: 'Mont Bold', 'Ubuntu Medium';
+$font-family-sans-serif: Ubuntu;
 
 $action-primary-bg: $secondary !default;
 $action-primary-shadow: $secondary !default;

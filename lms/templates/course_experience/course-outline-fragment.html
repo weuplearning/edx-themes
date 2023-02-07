@@ -638,7 +638,7 @@ a:hover{
                                     <div class="progress-bar-full">
                                         <div style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade"></div>
                                         <!-- <div style="width:50%;" class="progress-bar-grade progress_bar_index_${primary_index}"></div> -->
-                                    </div>        
+                                    </div>
                                     <h2 class="completed_percent"> ${int(user_grade.chapter_percentage(chapter) * 100)} %</h2>     
                                 </div>
                             %endif
@@ -829,6 +829,7 @@ a:hover{
                   <button class="section-name accordion-trigger outline-button flex-button color_index_${primary_index}"
                           aria-expanded="${ 'true' if section_is_auto_opened else 'false' }"
                           aria-controls="${ section['id'] }_contents_mobile"
+                          style="padding-left: 170px !important ; margin-left: 67px !important ; "
                           id="${ section['id'] }_mobile">
                           <div class="button_subsection">
                             <span id="arrow_rotate_${ section['block_id'] }_mobile" class="fa fa-chevron-right chevron_right_index_${primary_index} ${ 'fa-rotate-90' if section_is_auto_opened else '' }" aria-hidden="true"></span>
@@ -858,24 +859,34 @@ a:hover{
                           <span class="sr">${_("Completed")}</span> -->
           % endif
                   </button>
-                  
-                            <ol class=" outline-item accordion-panel ${ '' if section_is_auto_opened else 'is-hidden' }"
-                                id="${ section['id'] }_contents_mobile"
-                                aria-labelledby="${ section['id'] }_mobile">
-                                <!-- <div class="navigation_container">
-                                  <a class="arrow_navigation arrow_navigation_left" onclick="navigatePrevious('${ section_id}', '_mobile')">
-                                    <i class="material-icons" style="font-size:45px;">arrow_back_ios</i>
-                                  </a>
-                                  <a class="arrow_navigation arrow_navigation_right"  onclick="navigateNext('${ section_id}', '_mobile')">
-                                    <i class="material-icons" style="font-size:45px;">arrow_forward_ios</i>
-                                </a>
-                              </div> -->
-                          
-                                <section class="carousel" aria-label="Gallery">
+                  % if primary_index == 0:
+                  <img class="image_logo_bar" src="${static.url('bien-accueillir-personnes-trans/images/vignette 1.png')}" alt="logo"/>
+                  % elif primary_index == 1:
+                  <img class="image_logo_bar" src="${static.url('bien-accueillir-personnes-trans/images/vignette 2.png')}" alt="logo"/>
+                  % elif primary_index == 2:
+                  <img class="image_logo_bar" src="${static.url('bien-accueillir-personnes-trans/images/vignette 3.png')}" alt="logo"/>
+                  % else:
+                  <img class="image_logo_bar" src="${static.url('bien-accueillir-personnes-trans/images/vignette 1.png')}" alt="logo"/>
+                  % endif
 
-                                  <ol class="outline-item accordion-panel"
-                                  id="${ section['id'] }_contents"
-                                  aria-labelledby="${ section['id'] }">
+
+                  <ol class=" outline-item accordion-panel ${ '' if section_is_auto_opened else 'is-hidden' }"
+                      id="${ section['id'] }_contents_mobile"
+                      aria-labelledby="${ section['id'] }_mobile">
+                      <!-- <div class="navigation_container">
+                        <a class="arrow_navigation arrow_navigation_left" onclick="navigatePrevious('${ section_id}', '_mobile')">
+                          <i class="material-icons" style="font-size:45px;">arrow_back_ios</i>
+                        </a>
+                        <a class="arrow_navigation arrow_navigation_right"  onclick="navigateNext('${ section_id}', '_mobile')">
+                          <i class="material-icons" style="font-size:45px;">arrow_forward_ios</i>
+                      </a>
+                    </div> -->
+                
+                      <section class="carousel" aria-label="Gallery">
+
+                        <ol class="outline-item accordion-panel"
+                        id="${ section['id'] }_contents"
+                        aria-labelledby="${ section['id'] }">
                       % for subsection in section.get('children', []):
                         <%
                         gated_subsection = subsection['id'] in gated_content
