@@ -1,0 +1,15 @@
+Bonjour {{  full_name  }},
+
+Vous avez été invité à rejoindre {{ course_name }} sur {{  site_name  }} par un membre de l'équipe pédagogique de ce cours.
+
+Pour rejoindre le cours veuillez utiliser le lien ci-dessous :
+
+https://{{site_name}}
+
+Et renseignez votre email ainsi que votre mot de passe :
+
+Login: {{ email_address }}
+Password: {{ password }}
+
+Cordialement,
+L'équipe de la Fédération Hospitalière de France
