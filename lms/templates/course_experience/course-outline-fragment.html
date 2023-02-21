@@ -32,6 +32,7 @@ self_paced = context.get('self_paced', False)
 relative_dates_flag_is_enabled = RELATIVE_DATES_FLAG.is_enabled(str(course_key))
 is_course_staff = bool(user and course and has_access(user, 'staff', course, course.id))
 dates_banner_displayed = False
+display_sections = False
 %>
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -634,10 +635,15 @@ a:hover{
 
                         %for index, chapter in enumerate(user_grade.chapter_grades.keys()):
                             %if section['display_name'] == user_grade.chapter_grades[chapter]['display_name']:
+                              %if section['display_name'] == 'LES BASES - Sensibilisation aux transidentités' and int(user_grade.chapter_percentage(chapter) * 100) >= 50:
+                                <% display_sections = True %>           
+                              %endif
+                              <script>
+                              </script>
                                 <div class="progress_bar_and_score">
                                     <div class="progress-bar-full">
-                                        <div style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade"></div>
-                                        <!-- <div style="width:50%;" class="progress-bar-grade progress_bar_index_${primary_index}"></div> -->
+                                        <!-- <div style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade"></div> -->
+                                        <div style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;"  class="progress-bar-grade progress_bar_index_${primary_index}"></div>
                                     </div>
                                     <h2 class="completed_percent"> ${int(user_grade.chapter_percentage(chapter) * 100)} %</h2>     
                                 </div>
@@ -662,6 +668,7 @@ a:hover{
                     <img class="image_logo_bar" src="${static.url('bien-accueillir-personnes-trans/images/vignette 1.png')}" alt="logo"/>
                     % endif
 
+                    %if section['display_name'] == 'LES BASES - Sensibilisation aux transidentités' or display_sections == True:
                     <ol class=" outline-item accordion-panel ${ '' if section_is_auto_opened else 'is-hidden' }"
                         id="${ section['id'] }_contents"
                         aria-labelledby="${ section['id'] }">
@@ -676,9 +683,9 @@ a:hover{
 
                         <section class="carousel" aria-label="Gallery">
 						<!-- <ol class="outline-item accordion-panel ${ '' if section_is_auto_opened else 'is-hidden' }" -->
-            <ol class="outline-item accordion-panel"
-                        id="${ section['id'] }_contents"
-                        aria-labelledby="${ section['id'] }">
+                          <ol class="outline-item accordion-panel"
+                              id="${ section['id'] }_contents"
+                              aria-labelledby="${ section['id'] }">
             % for subsection in section.get('children', []):
               <%
               gated_subsection = subsection['id'] in gated_content
@@ -794,6 +801,21 @@ a:hover{
                     </ol>
                           </section>
                     </ol>
+                    %else:
+                      <ol class=" outline-item accordion-panel " id="block-v1:bien-accueillir-personnes-trans+01+2022+type@chapter+block@eedfc0811f9f476ba3e83fabc511c58b_contents"       aria-labelledby="block-v1:bien-accueillir-personnes-trans+01+2022+type@chapter+block@eedfc0811f9f476ba3e83fabc511c58b">
+                        <section class="carousel" aria-label="Gallery">
+                          <ol class="outline-item accordion-panel" id="block-v1:bien-accueillir-personnes-trans+01+2022+type@chapter+block@eedfc0811f9f476ba3e83fabc511c58b_contents" aria-labelledby="block-v1:bien-accueillir-personnes-trans+01+2022+type@chapter+block@eedfc0811f9f476ba3e83fabc511c58b">
+                            <li class="subsection accordion">
+                              <a href="#" class="subsection-text outline-button">
+                                    <h4 class="subsection-title">
+                                      Vous devez compléter la section "LES BASES - Sensibilisation aux transidentités" à plus de 50% pour accéder au contenu de cette partie.
+                                    </h4>
+                              </a>
+                            </li>
+                          </ol>
+                        </section>
+                      </ol>
+                    %endif
 
                 </li>
         % endfor
@@ -849,7 +871,7 @@ a:hover{
                               <div class="progress_bar_and_score">
                                   <div class="progress-bar-full">
                                       <div style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade progress_bar_index_${primary_index}"></div>
-                                  </div>        
+                                  </div>
                                   <h2 class="completed_percent"> ${int(user_grade.chapter_percentage(chapter) * 100)} %</h2>     
                               </div>  
                           %endif
