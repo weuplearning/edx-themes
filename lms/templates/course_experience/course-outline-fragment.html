@@ -634,11 +634,6 @@ a:hover{
                       %else:
 
                         %for index, chapter in enumerate(user_grade.chapter_grades.keys()):
-                          <script>
-                            console.log("${section['display_name']}")
-                            console.log("${user_grade.chapter_grades[chapter]['display_name']}")
-                            console.log("${int(user_grade.chapter_percentage(chapter) * 100)}")
-                          </script>
                             %if section['display_name'] == user_grade.chapter_grades[chapter]['display_name']:
                               %if section['display_name'] == 'LES BASES - Sensibilisation aux transidentités' and int(user_grade.chapter_percentage(chapter) * 100) >= 50:
                                 <% display_sections = True %>           
@@ -674,9 +669,6 @@ a:hover{
                     % endif
 
                     %if section['display_name'] == 'LES BASES - Sensibilisation aux transidentités' or display_sections == True:
-                    <script>
-                      console.log("${display_sections}")
-                    </script>
                     <ol class=" outline-item accordion-panel ${ '' if section_is_auto_opened else 'is-hidden' }"
                         id="${ section['id'] }_contents"
                         aria-labelledby="${ section['id'] }">
@@ -811,7 +803,7 @@ a:hover{
                     </ol>
                     %else:
                       <ol class=" outline-item accordion-panel " id="block-v1:bien-accueillir-personnes-trans+01+2022+type@chapter+block@eedfc0811f9f476ba3e83fabc511c58b_contents"       aria-labelledby="block-v1:bien-accueillir-personnes-trans+01+2022+type@chapter+block@eedfc0811f9f476ba3e83fabc511c58b">
-                      <section class="carousel" aria-label="Gallery">
+                        <section class="carousel" aria-label="Gallery">
                           <ol class="outline-item accordion-panel" id="block-v1:bien-accueillir-personnes-trans+01+2022+type@chapter+block@eedfc0811f9f476ba3e83fabc511c58b_contents" aria-labelledby="block-v1:bien-accueillir-personnes-trans+01+2022+type@chapter+block@eedfc0811f9f476ba3e83fabc511c58b">
                             <li class="subsection accordion">
                               <a href="#" class="subsection-text outline-button">
