@@ -65,6 +65,7 @@ daysLimit = int(sys.argv[2].split(";")[1])
 
 
 def updateGrade(problemNum, choices, answer_list):
+
   answered_true = 0
   grade = 0
 
@@ -75,6 +76,7 @@ def updateGrade(problemNum, choices, answer_list):
   for choice in choices:
     index = choice.split('_')[1]
     translated_list.append(index)
+
   for choice in translated_list :
     problemRef = 'problem'+ problemNum 
 
@@ -132,7 +134,11 @@ for course_id in course_ids:
       user_last_login = user.last_login
     except:
       continue
+    log.info(user.email)
 
+    if not user_last_login:
+      continue
+  
     if (now - timedelta(days=daysLimit) >= user_last_login ):
       continue
 
@@ -194,6 +200,8 @@ for course_id in course_ids:
       question = {}
       try:
         history_entries = list(user_state_client.get_history(user.username, block_location))
+        log.info("block_location " + block_location)
+        log.info("history_entries" + history_entries)
       except: 
         question['choice'] = 'n.a.'
         question['correctedGrade'] = 0
@@ -238,7 +246,6 @@ for course_id in course_ids:
 log.info('------------> Finish fetching user data and answers')
 log.info('------------> Begin Calculate grades and write xlsx report')
 
-
 # WRITE XLS
 timestr = time.strftime("%Y_%m_%d")
 wb = Workbook()
@@ -267,7 +274,8 @@ for k, course_id in all_users_data.items():
       choices = ''
       for choice in question['choice'] :
         choices += str(choice) + ' '
-      correctedExamGrade += int(correctedGrade)
+
+      correctedExamGrade += float(correctedGrade)
 
     sheet.cell(j, i, correctedExamGrade)
     if correctedExamGrade >= 21: 
