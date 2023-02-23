@@ -9,6 +9,7 @@ import re
 from math import ceil
 import json
 import pytz
+import logging
 from datetime import date, datetime, timedelta
 
 from django.utils import timezone
@@ -26,6 +27,7 @@ self_paced = context.get('self_paced', False)
 relative_dates_flag_is_enabled = RELATIVE_DATES_FLAG.is_enabled(str(course_key))
 is_course_staff = bool(user and course and has_access(user, 'staff', course, course.id))
 dates_banner_displayed = False
+log = logging.getLogger(__name__)
 %>
 
 
@@ -588,8 +590,35 @@ a:hover{
                                 course_list_list.extend([course_list_0, course_list_1, course_list_2, course_list_3, course_list_4])
                                 %>
 
-                                %endif
+                                
+                                %elif len(course_list) > 20 and len(course_list) < 25:
+                                <% 
+       
+                                course_list_0 = course_list[0:4]
+                                course_list_1 = course_list[4:8]
+                                course_list_2 = course_list[8:12]
+                                course_list_3 = course_list[12:16]
+                                course_list_4 = course_list[16:20]
+                                course_list_5 = course_list[20:len(course_list)]
+                                course_list_list.extend([course_list_0, course_list_1, course_list_2, course_list_3, course_list_4, course_list_5])
+                                %>
 
+                                %elif len(course_list) > 24 and len(course_list) < 29:
+                                <% 
+       
+                                course_list_0 = course_list[0:4]
+                                course_list_1 = course_list[4:8]
+                                course_list_2 = course_list[8:12]
+                                course_list_3 = course_list[12:16]
+                                course_list_4 = course_list[16:20]
+                                course_list_5 = course_list[20:24]
+                                course_list_6 = course_list[24:len(course_list)]
+                                course_list_list.extend([course_list_0, course_list_1, course_list_2, course_list_3, course_list_4, course_list_5, course_list_6])
+                                %>
+
+                                %endif
+                              log.info(len(course_list))
+                              log.info(course_list_list)
                               % endfor
 
                                 % for index in range(rounded_course_list):
