@@ -185,6 +185,11 @@ for course_id in course_ids:
       except:
         user_data["lastname"] = 'n.a.'
 
+    try:
+      user_data["CF_session"] = json.loads(user.profile.custom_field)['session_number']
+    except:
+      user_data["CF_session"] = 'n.a.'
+
     # Access Section
     scorable_block_titles = []
     grading_context = grading_context_for_course(course)
@@ -253,7 +258,7 @@ sheet = wb.active
 sheet.title= 'Rapport'
 filename = '/home/edxtma/csv/{}_BVT_grade_report.xlsx'.format(timestr)
 
-headers = ['Adresse e-mail', 'Prénom', 'Nom', 'Session', 'Dernière connexion', 'Score' ,'Validation']
+headers = ['Adresse e-mail', 'Prénom', 'Nom', 'Numéro de session', 'Numéro du test', 'Dernière connexion', 'Score' ,'A validé le test']
 
 for i, header in enumerate(headers):
   sheet.cell(1, i+1, header)
@@ -263,11 +268,12 @@ for k, course_id in all_users_data.items():
     sheet.cell(j, 1, user['general']['email'])
     sheet.cell(j, 2, user['general']['firstname'])
     sheet.cell(j, 3, user['general']['lastname'])
-    sheet.cell(j, 4, user['general']['session'])
-    sheet.cell(j, 5, user['general']['last_login'])
+    sheet.cell(j, 4, user['general']['CF_session'])
+    sheet.cell(j, 5, user['general']['session'])
+    sheet.cell(j, 6, user['general']['last_login'])
 
     correctedExamGrade = 0
-    i = 6
+    i = 7
     for question in user['list_question']:
 
       correctedGrade = question['correctedGrade']
@@ -284,7 +290,7 @@ for k, course_id in all_users_data.items():
       sheet.cell(j, i+1, 'non')
 
     j += 1
-sheet.cell(1, i+1, 'Note finale')
+# sheet.cell(1, i+1, 'Note finale')
 
 
 # SEND MAILS
@@ -336,10 +342,10 @@ log.info('------------> Finish calculate grades and write xlsx report')
 
 # Exams occur everyday, send grade report after todays exam. Choose the right time to send a grade report in crontab. 
 
-# 0 6 * * * /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/bvt/lms/static/utils/custom_grade_report_bvt.py 'cyril.adolf@weuplearning.com;alexandre.berteau@weuplearning.com' 'timePeriodToCheck;1'
+# 0 5 * * * /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/bvt/lms/static/utils/custom_grade_report_bvt.py 'cyril.adolf@weuplearning.com;alexandre.berteau@weuplearning.com' 'timePeriodToCheck;1'
 
 # first day of every month at 6
-# 0 6 1 * * /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/bvt/lms/static/utils/custom_grade_report_bvt.py 'cyril.adolf@weuplearning.com;alexandre.berteau@weuplearning.com' 'timePeriodToCheck;31'
+# 0 5 1 * * /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/bvt/lms/static/utils/custom_grade_report_bvt.py 'cyril.adolf@weuplearning.com;alexandre.berteau@weuplearning.com' 'timePeriodToCheck;31'
 
 # once a year the 1st of january at 6
-# 0 6 1 1 * /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/bvt/lms/static/utils/custom_grade_report_bvt.py 'cyril.adolf@weuplearning.com;alexandre.berteau@weuplearning.com' 'timePeriodToCheck;365'
+# 0 5 1 1 * /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/bvt/lms/static/utils/custom_grade_report_bvt.py 'cyril.adolf@weuplearning.com;alexandre.berteau@weuplearning.com' 'timePeriodToCheck;365'
