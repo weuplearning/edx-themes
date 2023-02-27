@@ -105,16 +105,6 @@ for course_id in course_ids:
   course_enrollments = CourseEnrollment.objects.filter(course_id=course_key)
   course_name = course.display_name_with_default
 
-
-  # DO NOT RENAME THE COURSE, IF NECESSARY, USE THE CONVERTER TO DO SO 
-  # DO NOT RENAME THE COURSE, IF NECESSARY, USE THE CONVERTER TO DO SO 
-  json_file_name = 'list_corrected_answer_' + str(course_name).replace(' ', '_') +'.json'
-  with open('/edx/var/edxapp/media/microsites/bvt/answers_lists_files/'+json_file_name) as json_file:
-    answer_list = json.load(json_file)
-  # DO NOT RENAME THE COURSE, IF NECESSARY, USE THE CONVERTER TO DO SO 
-  # DO NOT RENAME THE COURSE, IF NECESSARY, USE THE CONVERTER TO DO SO 
-
-
   course_data = {}
 
   # session
@@ -141,6 +131,16 @@ for course_id in course_ids:
   
     if (now - timedelta(days=daysLimit) >= user_last_login ):
       continue
+
+
+    # DO NOT RENAME THE COURSE, IF NECESSARY, USE THE CONVERTER TO DO SO 
+    # DO NOT RENAME THE COURSE, IF NECESSARY, USE THE CONVERTER TO DO SO 
+    json_file_name = 'list_corrected_answer_' + str(course_name).replace(' ', '_') +'.json'
+    with open('/edx/var/edxapp/media/microsites/bvt/answers_lists_files/'+json_file_name) as json_file:
+      answer_list = json.load(json_file)
+    # DO NOT RENAME THE COURSE, IF NECESSARY, USE THE CONVERTER TO DO SO 
+    # DO NOT RENAME THE COURSE, IF NECESSARY, USE THE CONVERTER TO DO SO 
+
 
     log.info('Treating --------> ' + str(user.email))
     no_student = False
@@ -203,11 +203,11 @@ for course_id in course_ids:
     for block_location in scorable_block_titles:
 
       question = {}
+      
       try:
         history_entries = list(user_state_client.get_history(user.username, block_location))
-        log.info("block_location " + block_location)
-        log.info("history_entries" + history_entries)
       except: 
+        log.info('$$$$$ in except')
         question['choice'] = 'n.a.'
         question['correctedGrade'] = 0
         question['time'] = 'n.a.'
@@ -341,8 +341,8 @@ log.info('------------> Finish calculate grades and write xlsx report')
 
 
 # Exams occur everyday, send grade report after todays exam. Choose the right time to send a grade report in crontab. 
+# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/bvt/lms/static/utils/custom_grade_report_bvt.py 'cyril.adolf@weuplearning.com' 'timePeriodToCheck;10'
 
-# 0 5 * * * /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/bvt/lms/static/utils/custom_grade_report_bvt.py 'cyril.adolf@weuplearning.com;alexandre.berteau@weuplearning.com' 'timePeriodToCheck;1'
 
 # first day of every month at 6
 # 0 5 1 * * /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/bvt/lms/static/utils/custom_grade_report_bvt.py 'cyril.adolf@weuplearning.com;alexandre.berteau@weuplearning.com' 'timePeriodToCheck;31'
