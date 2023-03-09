@@ -14,13 +14,13 @@
 }
 
 @font-face {
-    font-family: 'Antagometrical';
-    src: url('/media/fonts/Antagometrical/AntagometricalBT-Regular.eot');
-    src: url('/media/fonts/Antagometrical/AntagometricalBT-Regular.eot') format('embedded-opentype'),
-        url('/media/fonts/Antagometrical/AntagometricalBT-Regular.woff2') format('woff2'),
-        url('/media/fonts/Antagometrical/AntagometricalBT-Regular.woff') format('woff'),
-        url('/media/fonts/Antagometrical/AntagometricalBT-Regular.ttf') format('truetype'),
-        url('/media/fonts/Antagometrical/AntagometricalBT-Regular.svg') format('svg');
+    font-family: 'Antagometrica';
+    src: url('/media/fonts/Antagometrica/AntagometricaBT-Regular.eot');
+    src: url('/media/fonts/Antagometrica/AntagometricaBT-Regular.eot') format('embedded-opentype'),
+        url('/media/fonts/Antagometrica/AntagometricaBT-Regular.woff2') format('woff2'),
+        url('/media/fonts/Antagometrica/AntagometricaBT-Regular.woff') format('woff'),
+        url('/media/fonts/Antagometrica/AntagometricaBT-Regular.ttf') format('truetype'),
+        url('/media/fonts/Antagometrica/AntagometricaBT-Regular.svg') format('svg');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -37,7 +37,7 @@ $theme-colors: (
 
 
 // Theme fonts
-$font-family-sans-serif: 'Antagometrical', 'Barlow';
+$font-family-sans-serif: 'Antagometrica', 'Barlow';
 
 $action-primary-bg: $secondary !default;
 $action-primary-shadow: $secondary !default;
@@ -49,3 +49,4 @@ $action-primary-active-focused-fg: $secondary !default;
 $action-primary-active-focused-shadow: $secondary !default;
 
 @import 'edx-bootstrap/sass/open-edx/theme';
+
