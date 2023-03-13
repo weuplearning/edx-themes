@@ -571,7 +571,7 @@ a:hover{
 </style>
 
     
-    
+
 <main role="main" class="desktop_device course-outline" id="main" tabindex="-1">
     <%include file="/dates_banner.html" />
     % if course_sections is not None:
@@ -661,9 +661,9 @@ a:hover{
                     % if primary_index == 0:
                     <img class="image_logo_bar" src="${static.url('bien-accueillir-personnes-trans/images/vignette 1.png')}" alt="logo"/>
                     % elif primary_index == 1:
-                    <img class="image_logo_bar" src="${static.url('bien-accueillir-personnes-trans/images/vignette 2.png')}" alt="logo"/>
+                    <img class="image_logo_bar" src="${static.url('bien-accueillir-personnes-trans/images/passeport_course.jpg')}" alt="logo"/>
                     % elif primary_index == 2:
-                    <img class="image_logo_bar" src="${static.url('bien-accueillir-personnes-trans/images/vignette 3.png')}" alt="logo"/>
+                    <img class="image_logo_bar" src="${static.url('bien-accueillir-personnes-trans/images/carte_vitale_course.jpg')}" alt="logo"/>
                     % else:
                     <img class="image_logo_bar" src="${static.url('bien-accueillir-personnes-trans/images/vignette 1.png')}" alt="logo"/>
                     % endif
@@ -884,9 +884,9 @@ a:hover{
                   % if primary_index == 0:
                   <img class="image_logo_bar" src="${static.url('bien-accueillir-personnes-trans/images/vignette 1.png')}" alt="logo"/>
                   % elif primary_index == 1:
-                  <img class="image_logo_bar" src="${static.url('bien-accueillir-personnes-trans/images/vignette 2.png')}" alt="logo"/>
+                  <img class="image_logo_bar" src="${static.url('bien-accueillir-personnes-trans/images/passeport_course.jpg')}" alt="logo"/>
                   % elif primary_index == 2:
-                  <img class="image_logo_bar" src="${static.url('bien-accueillir-personnes-trans/images/vignette 3.png')}" alt="logo"/>
+                  <img class="image_logo_bar" src="${static.url('bien-accueillir-personnes-trans/images/carte_vitale_course.jpg')}" alt="logo"/>
                   % else:
                   <img class="image_logo_bar" src="${static.url('bien-accueillir-personnes-trans/images/vignette 1.png')}" alt="logo"/>
                   % endif
@@ -1102,17 +1102,7 @@ a:hover{
     }
 </script>
 
-<!-- visibility hidden for introduction -->
 
-
-<!-- <script>
-  let introductionButton = document.getElementById("block-v1:amazon+amazon001+SP+type@chapter+block@2bae6b60b8a1423382a8915610cb9737")
-  let introductionButtonProgressBar = introductionButton.children[2]
-  introductionButtonProgressBar.style.visibility = "hidden"
-</script> -->
-
-
-<!-- quentin - 15882 - use values from back in desktop on mobile gauges -->
 
 <script>
   const progressBarElements = document.querySelectorAll('.progress-bar-grade')
@@ -1127,5 +1117,71 @@ a:hover{
       let percentageValue = percentageElements[i].textContent
       percentageElements[i+4].innerText=percentageValue
   }
+
+</script>
+
+
+<!-- conditional display for section depending on the role -->
+<script>
+  const userCustomFields = "${custom_fields}"
+  const customFieldsString = userCustomFields.replace(/&#34;/g, '"');
+  const customFieldsObject = JSON.parse(customFieldsString);
+
+  let sectionsCPAM = []
+  let sectionsEtatCivil = []
+  let certificateBase = []
+  let h3 = document.getElementsByClassName("section-title")
+  let subH3 = document.getElementsByClassName("subsection-title") 
+
+  for (let element of h3) {
+    if (element.textContent === "JE SUIS UN PERSONNEL DE MAIRIE ou OFFICIER·E D'ÉTAT-CIVIL") {
+      if (element.parentElement.parentElement.tagName === "BUTTON") {
+        sectionsCPAM.push(element.parentElement.parentElement.parentElement)
+      } else {
+        sectionsCPAM.push(element.parentElement.parentElement)
+      }
+      
+    }
+    if (element.textContent === "JE SUIS AGENT·E D'ACCUEIL À LA CPAM") {
+      if (element.parentElement.parentElement.tagName === "BUTTON") {
+        sectionsEtatCivil.push(element.parentElement.parentElement.parentElement)
+      } else {
+        sectionsEtatCivil.push(element.parentElement.parentElement)
+      }
+    }
+  }
+
+  for (let element of subH3) {
+    if (element.outerText.includes("sensibilisation sur les transidentités")) {
+        certificateBase.push(element.parentElement.parentElement.nextElementSibling)
+    }
+  }
+
+  if (customFieldsObject["parcours"] === "Parcours Personnels Assurance Maladie") {
+    for (section of sectionsEtatCivil) {
+      section.style.display ="None"
+    } 
+    for (section of certificateBase) {
+      section.style.display ="None"
+    } 
+  } else if (customFieldsObject["parcours"] === "Parcours Agents Etat civil"){
+    for (section of sectionsCPAM) {
+      section.style.display ="None"
+    } 
+    for (section of certificateBase) {
+      section.style.display ="None"
+    } 
+  } else if (customFieldsObject["parcours"] === "Parcours Personnel hors Etat-civil"){
+    for (section of sectionsCPAM) {
+      section.style.display ="None"
+    } 
+    for (section of sectionsEtatCivil) {
+      section.style.display ="None"
+    } 
+  }
+  else {
+    console.log("there is no parcours registered for this user")
+  }
+  
 
 </script>
