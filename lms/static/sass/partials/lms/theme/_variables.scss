@@ -1,21 +1,29 @@
+// Fonts 
+@font-face {
+  font-family: 'Ubuntu';
+  src: url("/media/fonts/Ubuntu/Ubuntu-Regular.eot");
+  src: url("/media/fonts/Ubuntu/Ubuntu-Regular.eot") format('embedded-opentype'),
+    url('/media/fonts/Ubuntu/Ubuntu-Regular.woff2') format('woff2'),
+    url('/media/fonts/Ubuntu/Ubuntu-Regular.woff') format('woff'),
+    url('/media/fonts/Ubuntu/Ubuntu-Regular.ttf') format('truetype'),
+    url('/media/fonts/Ubuntu/Ubuntu-Regular.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
 @font-face {
   font-family: 'MontBold';
-  src: url("/media/fonts/Mont-Bold.otf") format(opentype),
-  url('/media/fonts/Mont-bold/Mont-bold.woff2') format('woff2'),
-  url('/media/fonts/Mont-bold/Mont-bold.woff') format('woff'),
-  url('/media/fonts/Mont-bold/Mont-bold.ttf') format('truetype'),
-  url('/media/fonts/Mont-bold/Mont-bold.svg') format('svg');
+  src: url("/media/fonts/Mont-bold/Mont-Bold.otf");
+  src: url("/media/fonts/Mont-bold/Mont-Bold.otf") format(opentype),
+    url('/media/fonts/Mont-bold/Mont-bold.woff2') format('woff2'),
+    url('/media/fonts/Mont-bold/Mont-bold.woff') format('woff'),
+    url('/media/fonts/Mont-bold/Mont-bold.ttf') format('truetype'),
+    url('/media/fonts/Mont-bold/Mont-bold.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
-@font-face {
-  font-family: 'UbuntuMedium';
-  src: url("/media/fonts/Ubuntu-medium/Ubuntu-Medium.ttf") format(truetype),
-  url('/media/fonts/Ubuntu-medium/Ubuntu-Medium.woff2') format('woff2'),
-  url('/media/fonts/Ubuntu-medium/Ubuntu-Medium.woff') format('woff'),
-  url('/media/fonts/Ubuntu-medium/Ubuntu-Medium.ttf') format('truetype'),
-  url('/media/fonts/Ubuntu-medium/Ubuntu-Medium.svg') format('svg');
-}
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Ubuntu:wght@300;400;500;700&display=swap');
 
 // Theme colors
 $primary:  #8f4080;
@@ -26,7 +34,7 @@ $theme-colors: (
 );
 
 // Theme fonts
-$font-family-sans-serif: Ubuntu;
+$font-family-sans-serif: 'Ubuntu', 'MontBold';
 
 $action-primary-bg: $secondary !default;
 $action-primary-shadow: $secondary !default;
