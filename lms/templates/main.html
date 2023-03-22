@@ -221,11 +221,13 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
   ) if (login_redirect_url or (request and not request.path.startswith("/logout"))) else ""
 }</%def>
 <style>
-    .span.info-university .span.info-course-id{
-      display:none !important;
-    }
-    .window-wrap {
-      background-size: cover !important;
-    }
-
+.span.info-university .span.info-course-id{
+  display:none !important;
+}
+.window-wrap {
+  background-size: cover !important;
+}
+.window-wrap .content-wrapper {
+  min-height: calc( 100vh - 220px );
+}
 </style>
