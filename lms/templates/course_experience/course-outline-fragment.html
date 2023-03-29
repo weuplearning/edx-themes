@@ -591,6 +591,7 @@ a:hover{
             scored = 'scored' if section.get('scored', False) else ''
             section_id = section['id']
             %>
+            <script>console.log("${section['display_name']}")</script>
                 <li class=" outline-item section ${scored}">
 
                     <button class="section-name accordion-trigger outline-button flex-button color_index_${primary_index}"
@@ -1136,26 +1137,29 @@ a:hover{
   for (let element of h3) {
     if (element.textContent === "JE SUIS UN PERSONNEL DE MAIRIE ou OFFICIER·E D'ÉTAT-CIVIL") {
       if (element.parentElement.parentElement.tagName === "BUTTON") {
-        sectionsCPAM.push(element.parentElement.parentElement.parentElement)
+        sectionsEtatCivil.push(element.parentElement.parentElement.parentElement)
       } else {
-        sectionsCPAM.push(element.parentElement.parentElement)
+        sectionsEtatCivil.push(element.parentElement.parentElement)
       }
       
     }
     if (element.textContent === "JE SUIS AGENT·E D'ACCUEIL À LA CPAM") {
       if (element.parentElement.parentElement.tagName === "BUTTON") {
-        sectionsEtatCivil.push(element.parentElement.parentElement.parentElement)
+        sectionsCPAM.push(element.parentElement.parentElement.parentElement)
       } else {
-        sectionsEtatCivil.push(element.parentElement.parentElement)
+        sectionsCPAM.push(element.parentElement.parentElement)
       }
     }
   }
+  
 
   for (let element of subH3) {
     if (element.outerText.includes("sensibilisation sur les transidentités")) {
         certificateBase.push(element.parentElement.parentElement.nextElementSibling)
     }
   }
+
+  console.log(customFieldsObject["parcours"])
 
   if (customFieldsObject["parcours"] === "Parcours Personnels Assurance Maladie") {
     for (section of sectionsEtatCivil) {
