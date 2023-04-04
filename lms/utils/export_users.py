@@ -14,11 +14,15 @@ os.chdir("/edx/app/edxapp/edx-platform")
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
 
-from django.core.management import execute_from_command_line
-import django
-
+from opaque_keys.edx.locator import CourseLocator
+from common.djangoapps.student.models import CourseEnrollment
 from student.models import *
+from lms.djangoapps.wul_apps.models import WulCourseEnrollment
 
+
+from openpyxl import Workbook
+import json
+import time
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -26,12 +30,8 @@ from email.mime.base import MIMEBase
 from email import encoders
 
 
-from pprint import pformat
-from openpyxl import Workbook
 
-import json
 
-import time
 
 
 # sys.setdefaultencoding('utf8')
@@ -41,8 +41,6 @@ timesfr = time.strftime("%d.%m.%Y")
 timesfr = str(timesfr)
 
 
-print("*********************************************************************")
-
 _title = [
     "email",
     "Nom",
@@ -50,8 +48,10 @@ _title = [
     "Pays",
     "Genre",
     "Année de naissance",
-    #"Code Postal",
-    #"Adresse",
+    "Code Postal",
+    "Adresse",
+    "date d'inscription",
+    "dernière connexion",
     "LaPatisserie - MOOCPatisserieAFPA_S1",
     "LaPatisserie2 - MOOCPatisserieAFPA_S2",
     "MOOC_FLE_AFPA - FLE",
@@ -71,7 +71,8 @@ _title = [
     "Handicap",
     "TRE",
     "MATU",
-    "MOOC Love Food"
+    "MOOC Love Food",
+    "Temps passé"
 ]
 
 _id = [
@@ -97,6 +98,33 @@ _id = [
     "course-v1:afpa+love_food+2020"
 ]
 
+
+def get_time_tracking(enrollment):
+
+    try:
+        wul_enrollment,is_exist=WulCourseEnrollment.objects.get_or_create(course_enrollment_edx=enrollment)
+        global_time=wul_enrollment[0].global_time_tracking
+    except:
+        global_time = 0
+    return global_time
+
+
+def get_course_enrollment(course_id, user):
+    course_key = CourseLocator.from_string(course_id)
+    # course = get_course_by_id(course_key)
+    course_enrollments = CourseEnrollment.objects.filter(course_id=course_key)
+
+    for index, enrollment in enumerate(course_enrollments):
+
+        user_enrollment = course_enrollments[index].user
+        if user_enrollment == user:
+            print("hey")
+            print(enrollment)
+            print(get_time_tracking(enrollment))
+
+            return get_time_tracking(enrollment)
+
+
 #PREPARE LE XLS
 
 filename = '/edx/var/edxapp/media/microsites/afpa/reports{}_export_enroll_afpa.xlsx'.format(timestr)
@@ -120,10 +148,26 @@ query = query + ') GROUP BY a.id;'
 
 #users = User.objects.raw('SELECT a.id,a.username,a.first_name,a.last_name,a.email,b.name,b.custom_field,c.user_id,group_concat(c.course_id) AS course_id FROM auth_user a, auth_userprofile b, student_courseenrollment c WHERE a.id = c.user_id AND a.id = b.user_id AND c.course_id in("course-v1:afpa+LaPatisserie+MOOCPatisserieAFPA_S1","course-v1:afpa+LaPatisserie2+MOOCPatisserieAFPA_S2","course-v1:afpa+Metsetvins+MOOCmetsetvinsAFPA_S3","course-v1:afpa+MOOC_FLE_AFPA+FLE","course-v1:afpa+Les101techniquesdebase+MOOCCUISINEAFPA","course-v1:afpa+Les101techniquesdebase+MOOCCUISINEAFPA_S2","course-v1:afpa+Les101techniquesdebase+MOOCCUISINEAFPA_S3","course-v1:afpa+occitanie+2019_S1","course-v1:afpa+MOOC_FLI+FLI_2019","course-v1:afpa+La_Patisserie_replay_2020+2020","course-v1:afpa+Mets_et_vins_replay_2020+2020","course-v1:afpa+MOOC_FLI_replay_2020+2020","course-v1:afpa+replay_2020+2020") GROUP BY a.id;')
 
+
 users = User.objects.raw(query)
 
 i = 1
 for user in users:
+
+    global_time = 0
+
+    try:
+        registration_date = user.date_joined.strftime('%d %b %y')
+    except:
+        registration_date = "n/a"
+
+    try:
+        last_login = user.last_login.strftime('%d %b %y')
+    except:
+        last_login = "n/a"
+
+    print(last_login)
+    print(registration_date)
 
     _email = user.email
     try:
@@ -140,14 +184,17 @@ for user in users:
     else:
         _first_name = user.first_name
 
+    print(_custom)
     values = [
         _last_name,
         _first_name,
         _custom.get('country'),
         _custom.get('gender'),
-        _custom.get('year_of_birth')
-        #_custom.get('cp')
-        #_custom.get('mailing_adress')
+        _custom.get('year_of_birth'),
+        _custom.get('cp'),
+        _custom.get('mailing_adress'),
+        registration_date,
+        last_login
     ]
 
     courses = user.course_id
@@ -166,6 +213,7 @@ for user in users:
     #is enroll
     q = {}
     course_id = user.course_id.split(',')
+
     for n in _id:
         for c in course_id:
             if str(n) == str(c):
@@ -181,6 +229,12 @@ for user in users:
             sheet.cell(i+1, j+1, 'non')
         j = j + 1
     i = i + 1
+
+    for course in course_id:
+        global_time += get_course_enrollment(course, user)
+
+    sheet.cell(i, j+1, global_time)
+
 
 
 wb.close()
@@ -203,12 +257,8 @@ for i in range(len(TO_EMAILS)):
    msg['To'] = toaddr
    msg['Subject'] = "Inscriptions MOOC AFPA"
    attachment = _files_values
-#    attachment = open(filename, "wb")
-#    attachment_bytes = BytesIO(attachment.read())
-#    attachment.close()
    part = MIMEBase('application', 'octet-stream')
    part.set_payload((attachment))
-#    attachment.close()
    encoders.encode_base64(part)
    part.add_header('Content-Disposition', "attachment; filename= %s" % os.path.basename(filename))
    msg.attach(part)
@@ -220,7 +270,7 @@ for i in range(len(TO_EMAILS)):
    server.sendmail(fromaddr, toaddr, text)
    server.quit()
    print('mail send to '+str(TO_EMAILS[i]))
-# os.remove(filename)
+
 
 
 # /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/afpa/lms/utils/export_users.py
