@@ -1,0 +1,74 @@
+<%page expression_filter="h"/>
+<%! from django.utils.translation import ugettext as _ %>
+
+<%inherit file="../main.html" />
+
+<%block name="pagetitle">Vos données personnelles</%block>
+
+<style>
+    h3 {
+        font-family: 'Antagometrica';
+        font-size: 22px;
+        font-weight: 700;
+        color: #67b134;
+        text-transform: uppercase;
+        margin: 30px;
+    }
+</style>
+    
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="container about">
+        <h1>Informations sur le traitement de vos données personnelles et sur vos droits dans le cadre de l’utilisation de la plateforme de MOOC de l’Afpa </h1>
+
+        <p>L'Agence nationale pour la Formation Professionnelle des Adultes (Afpa) est le Responsable de traitement des données à caractère personnel vous concernant collectées sur la plateforme <a href="https://mooc.afpa.fr">mooc.afpa.fr</a>.</p>
+        <br>
+        <p>La société WeUp Learning agit en tant que sous-traitant dans la gestion de vos données personnelles pour le compte de l’Afpa.</p>
+
+        <h3 class="sub-section">Finalités du traitement de données</h3>
+        <p>Des données à caractère personnel vous concernant sont collectées et traitées par l’Afpa et WeUpLearning afin notamment de : </p>
+        <ul>
+            <li>vous permettre de créer un compte personnel sur le site <a href="https://mooc.afpa.fr">mooc.afpa.fr</a> </li>
+            <li>vous inscrire à un ou plusieurs MOOC et de suivre votre progression</li>
+            <li>d’obtenir le cas échant la délivrance d’Open Badges nominatifs et/ou une attestation de suivi </li>
+            <li>participer sur le forum de discussion mis à disposition sur la plateforme</li>
+            <li>laisser un avis nominatif ou anonyme publié sur la plateforme tierce www.my-mooc.com </li>
+            <li>d’être contacté.e par l’Afpa pour répondre à un questionnaire de satisfaction, </li>
+            <li>d’être contacté.e par l’Afpa pour vous informer sur les MOOC de l’Afpa et/ou de vous adresser d’autres informations concernant des services de l’Afpa.</li>        
+        </ul>
+        <br>
+        <p>Directeur de publication :  Pierre Simon, Directeur Communication Marketing Relation client</p>
+
+        <h3>Bases légales du traitement de données</h3>
+        <p>Vos données personnelles sont traitées sur la base de l’intérêt légitime de l’Afpa ou de l’exécution d’une obligation contractuelle pour assurer notamment la fourniture des services proposés sur la plateforme, répondre à vos demandes, assurer la sécurité de la plateforme. </p>
+        <p>Vos données personnelles utilisées pour l’envoi de communications liées aux nouveaux MOOC disponibles ou aux MOOC analogues à ceux suivis sont traitées sur la base avec votre consentement.</p>
+
+        <h3>Catégories de données personnelles </h3>
+        <p>Les données personnelles traitées sont :</p>
+        <ul>
+            <li>Des données d’identification : genre, nom, prénom, pseudo (pour les internautes ne désirant pas faire apparaitre leur nom de famille dans les forums des Moocs) année de naissance, adresse email, pays de connexion,</li>
+            <li>Des données de connexion (adresse IP, système d’exploitation, logs de connexion, analyse de mesure d’audience de la plateforme)  </li>
+        </ul>
+        <p>Attention, votre propre activité est susceptible de transmettre des données personnelles à d’autres participants aux MOOC, par exemple si vous indiquez des informations personnelles dans le forum mis à disposition sur la plateforme.</p>
+
+        <h3>Source des données </h3>
+        <p>Vos données personnelles sont fournies par vos soins et sont donc collectées de façon directe.</p>
+
+        <h3>Durée de conservation de vos données personnelles</h3>
+        <p>Vos données personnelles sont conservées pendant 3 ans à compter de votre dernière connexion.</p>
+        <p>Vous pouvez également supprimer à tout moment votre compte personnel MOOC Afpa et toutes vos données personnelles associées en cliquant sur « Supprimer mon compte ».</p>
+        <p>Par ailleurs, votre éventuel consentement à recevoir des offres de l’Afpa liées aux MOOC et/ou des informations concernant des évènements Afpa sont optionnels et n'ont pas d'incidence sur votre accès aux MOOC. Le consentement est conservé pendant 3 ans à compter de sa collecte par l’Afpa ou de votre dernière prise de contact. Vous pouvez cependant, à tout moment, retirer votre consentement en modifiant vos choix dans la rubrique ou « Mon Profil » ou par le biais d'un lien « Se désabonner » figurant en bas des communications envoyées. </p>
+        
+        <h3>Destinataires des données </h3>
+        <p>Vos données personnelles sont destinées aux services concernés de l’Afpa, à ceux du prestataire WeUpLearning et de certains services tiers le cas échéant tels que OpenBadge Factory ou my-mooc.</p>
+
+        <h3>Sécurité des données </h3>
+        <p>Toutes les mesures adéquates sont prises afin d’assurer la sécurité et la confidentialité de vos données personnelles et notamment à empêcher qu’elles ne soient endommagées, effacées ou que des tiers non autorisés y aient accès.</p>
+
+        <h3>Exercice des droits</h3>
+        <p>Conformément à la loi informatique et libertés du 6 janvier 1978 modifiée et au Règlement Général sur la Protection des Données à caractère personnel (RGPD) du 27 avril 2016, vous bénéficiez d’un droit d’accès, de rectification, d’effacement, d’opposition, de portabilité et de limitation du traitement relatif aux données personnelles qui vous concernent. Vous pouvez exercer ces droits par e-mail à l’adresse dpo@afpa.fr ou en envoyant un courrier postal à l'adresse suivante : AFPA - Délégué à la protection des données - Tour Cityscope - Direction juridique - 3, rue Franklin - 93100 Montreuil. </p>
+        <p>Si après nous avoir contactés, vous estimez que vos droits n’ont pas été respectés ou que le traitement n’est pas conforme à la réglementation relative à la protection des données à caractère personnel, vous pouvez adresser une réclamation à la CNIL.</p>
+
+        <p>Pour plus d'information, consulter la Politique de protection des données à caractère personnel de l'Afpa en <a href="https://www.afpa.fr/actualites/politique-de-protection-des-donnees-a-caractere-personnel">cliquant ici</a>.</p>
+
+    </section>
+</main>
