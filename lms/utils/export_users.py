@@ -103,7 +103,7 @@ def get_time_tracking(enrollment):
 
     try:
         wul_enrollment,is_exist=WulCourseEnrollment.objects.get_or_create(course_enrollment_edx=enrollment)
-        global_time=wul_enrollment[0].global_time_tracking
+        global_time=wul_enrollment.global_time_tracking
     except:
         global_time = 0
     return global_time
@@ -118,9 +118,6 @@ def get_course_enrollment(course_id, user):
 
         user_enrollment = course_enrollments[index].user
         if user_enrollment == user:
-            print("hey")
-            print(enrollment)
-            print(get_time_tracking(enrollment))
 
             return get_time_tracking(enrollment)
 
@@ -166,8 +163,6 @@ for user in users:
     except:
         last_login = "n/a"
 
-    print(last_login)
-    print(registration_date)
 
     _email = user.email
     try:
@@ -184,7 +179,6 @@ for user in users:
     else:
         _first_name = user.first_name
 
-    print(_custom)
     values = [
         _last_name,
         _first_name,
