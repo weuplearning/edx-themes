@@ -1,0 +1,62 @@
+// Fonts
+@font-face {
+    font-family: 'Avenir';
+    src: url('/media/fonts/Avenir/Avenir-Book.eot');
+    src: url('/media/fonts/Avenir/Avenir-Book.eot') format('embedded-opentype'),
+        url('/media/fonts/Avenir/Avenir-Book.svg') format('svg'),
+        url('/media/fonts/Avenir/Avenir-Book.ttf') format('truetype'),
+        url('/media/fonts/Avenir/Avenir-Book.woff') format('woff'),
+        url('/media/fonts/Avenir/Avenir-Book.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Avenir';
+    src: url('/media/fonts/Avenir/Avenir-Bold.eot');
+    src: url('/media/fonts/Avenir/Avenir-Bold.eot') format('embedded-opentype'),
+        url('/media/fonts/Avenir/Avenir-Bold.svg') format('svg'),
+        url('/media/fonts/Avenir/Avenir-Bold.ttf') format('truetype'),
+        url('/media/fonts/Avenir/Avenir-Bold.woff') format('woff'),
+        url('/media/fonts/Avenir/Avenir-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+  font-family: 'Barlow';
+  src: url('/media/fonts/Barlow/Barlow-Regular.eot');
+  src: url('/media/fonts/Barlow/Barlow-Regular.eot') format('embedded-opentype'),
+      url('/media/fonts/Barlow/Barlow-Regular.woff2') format('woff2'),
+      url('/media/fonts/Barlow/Barlow-Regular.woff') format('woff'),
+      url('/media/fonts/Barlow/Barlow-Regular.ttf') format('truetype'),
+      url('/media/fonts/Barlow/Barlow-Regular.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+// Theme colors
+$primary: #36474d;
+$secondary: #1D9FE3;
+
+$theme-colors: (
+  "tertiary": #e72476
+);
+
+
+// Theme fonts
+$font-family-sans-serif: Arial ,'Avenir', 'Barlow';
+
+$action-primary-bg: $secondary !default;
+$action-primary-shadow: $secondary !default;
+$action-primary-focused-bg: $secondary !default;
+$action-primary-active-bg: $secondary !default;
+$action-primary-active-fg: $secondary !default;
+$action-primary-active-shadow: $secondary !default;
+$action-primary-active-focused-fg: $secondary !default;
+$action-primary-active-focused-shadow: $secondary !default;
+
+@import 'edx-bootstrap/sass/open-edx/theme';

@@ -1,0 +1,286 @@
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%namespace file='main.html' import="login_query"/>
+<%!
+from django.utils.translation import ugettext as _
+from django.urls import reverse
+
+from openedx.core.djangolib.markup import HTML, Text
+from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+from courseware.courses import get_courses, sort_by_announcement, sort_by_start_date  # pylint: disable=import-error
+from django.contrib.auth.models import AnonymousUser
+%>
+<%
+courses = get_courses(AnonymousUser())
+courses = sort_by_announcement(courses)
+%>
+
+
+<style>
+/* GLOBAL */
+:root {
+  --primary: #e72476;
+  --secondary: #1D9FE3;
+}
+.vertical-align, .horizontal-align {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.horizontal-align {
+  flex-direction: row;
+}
+.space-between {
+  justify-content: space-between;
+}
+#top-container {
+  color: white;
+  background-image: url("${static.url('rtm/images/baniere.png')}");
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
+  margin-bottom: 40px;
+}
+#center-container {
+  margin-bottom: 40px;
+}
+html, body {
+  max-width: 100%;
+}
+html {
+  overflow-x: hidden;
+}
+.cc-grower {
+  display: none !important;
+}
+
+/* HEADER */
+.global-header {
+  display: none;
+}
+.global-header-2 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: calc( 100vw - 4vw );
+  height: 8vh;
+  background-color: white;
+  padding: 0 2vw;
+  z-index: 4;
+}
+.logo-home {
+  height: 5vh;
+  padding-left: 40px;
+}
+.register-btn {
+  background: var(--secondary) !important;
+  color: white;
+}
+.sign-in-btn {
+  color: white;
+  background: var(--primary) !important;
+}
+.login-btn {
+  padding: 16px;
+}
+.home-page-1 .login-btn {
+  border-top: 7px solid white;
+  margin-top: 15px;
+}
+.btn {
+  padding: 6px 15px;
+  margin: 10px;
+  border-radius: 20px;
+  font-size: 17px;
+  font-weight: 700;
+  display: block;
+  text-align: center;
+}
+
+/* BODY */
+.home-page-1 {
+  height: 50vh;
+  text-align: center;
+}
+.home-page-1 > p:first-child {
+  font-size: xxx-large;
+  font-weight: 900;
+  line-height: normal;
+}
+.home-page-1 > p:nth-child(2) {
+  font-size: x-large;
+  font-weight: 800;
+}
+.home-page-1 > div {
+  padding-left: 0;
+}
+/* BOTTOM PART */
+.sectionTitle {
+  text-transform: uppercase;
+  font-size: 22px;
+  color: #36474e;
+  font-weight: bold;
+  line-height: 1.1; 
+  font-family: inherit;
+}
+.sectionSubTitle, .additionalText {
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 16px;
+  margin: 0 0 20px 0px;
+  color: grey;
+}
+.img-rounded {
+  width: 60%;
+}
+.name {
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 1.1;
+  color: #0f1736;
+  text-transform: uppercase;
+  padding: 12px;
+}
+
+
+/* FOOTER */
+.wrapper-footer {
+  display: none;
+}
+.wrapper-footer-home {
+  background-color: #36474d;
+  z-index: 2;
+  height: 56px;
+  padding: 0 10vw;
+}
+.wrapper-footer-home a {
+  color: white !important;
+  font-size: 15px;
+  text-decoration: none;
+}
+
+
+/* MEDIA */
+@media (min-width: 768px) {  
+  .content-wrapper {
+    padding: 0 !important;
+    margin-top: 0 !important;
+  }
+}
+
+@media (max-width: 1200px) {  
+  .home-page-1 {
+    margin: 25vh 20px 60px 14px;
+    align-items: center;
+  }
+  .home-page-1 > p:first-child {
+    font-size: xx-large !important;
+  }
+  .home-page-1 > p:nth-child(2) {
+    font-size: x-large !important;
+    line-height: 1.1;
+  }
+  .home-page-1 > div {
+    flex-direction: column;
+    padding: 0 0 0 0;
+  }
+  .home-page-1 > div > div:first-child {
+    margin: 20px;
+  }
+  .btn {
+    width: 43vw;
+  }
+  .content-wrapper {
+    margin-top: 0 !important;
+    padding: 0;
+  }
+}
+
+
+</style>
+<!-- STYLE  -->
+
+<main id="main" aria-label="Content" tabindex="-1">
+
+  <header class="global-header-2 horizontal-align space-between" >
+    <div id="logo-div">
+      <img class="logo-home" src="${static.url('rtm/images/logo.png')}" alt="logo-SNCF"/>
+    </div>
+    <div class="horizontal-align space-between login-btn">
+      <div class="mobile-nav-item hidden-mobile nav-item">
+        <a class="register-btn btn" href="/register?course_id=course-v1%3Artm%2BDC1%2B2022&enrollment_action=enroll">Inscription</a>
+        <!-- <a class="register-btn btn" href="/register${login_query()}">M'INSCRIRE</a> -->
+      </div>
+      <div class="mobile-nav-item hidden-mobile nav-item">
+        <a class="sign-in-btn btn" href="/login${login_query()}">Connexion</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="home">
+    <div id="top-container" class="vertical-align">
+
+      <div class="vertical-align home-page-1">
+        <p>Bienvenue sur la plateforme <br>de MOOC de la RTM</p>
+        <div class="horizontal-align login-btn space-between">
+          <div class="mobile-nav-item nav-item">
+            <!-- <a class="register-btn btn" href="/register${login_query()}">M'INSCRIRE</a> -->
+            <a class="register-btn btn" href="/register?course_id=course-v1%3Artm%2BDC1%2B2022&enrollment_action=enroll">Inscription</a>
+          </div>
+
+          <div class="mobile-nav-item nav-item">
+            <a class="sign-in-btn btn" href="/login${login_query()}">Connexion</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div id="center-container" class="vertical-align">
+
+        <h2 class="text-center sectionTitle">ET AU FAIT... C'est QUOI UN MOOC?</h2>
+        <h3 class="sectionSubTitle">Une formation gratuite, ouverte à tous, disponible et accessible où que vous soyez !</h3>
+        <div id="markMoock" class="horizontal-align">
+              <div class='box vertical-align'>
+                <img class='img-rounded moocIco' src="${static.url('rtm/images/thumbnailStr0.png')}">
+                <h3 class='name'>massive</h3>
+              </div>
+              <div class='box vertical-align'>
+                <img class='img-rounded moocIco' src="${static.url('rtm/images/thumbnailStr1.png')}">
+                <h3 class='name'>open</h3>
+              </div>
+              <div class='box vertical-align'>
+                <img class='img-rounded moocIco' src="${static.url('rtm/images/thumbnailStr2.png')}">
+                <h3 class='name'>online</h3>
+              </div>
+              <div class='box vertical-align'>
+                <img class='img-rounded moocIco' src="${static.url('rtm/images/thumbnailStr3.png')}">
+                <h3 class='name'>course</h3>
+              </div>
+        </div>
+
+    </div>
+  </section>
+
+  <footer class="wrapper-footer-home horizontal-align space-between">
+    <a href="/tos">Conditions générales</a>
+    <a href="/faq">FAQ</a>
+    <a href="/honor">Crédits</a>
+
+  </footer>
+</main>
+
+
+<%block name="js_extra">
+  <script type="text/javascript">
+    $(window).load(function() {
+      if(getParameterByName('next')) {
+        $('#login').trigger("click");
+      }
+    })
+  </script>
+</%block>
+
