@@ -1,0 +1,147 @@
+<%page expression_filter="h"/>
+<%!
+    import json
+    from django.utils.translation import ugettext as _
+    from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+    from openedx.core.djangolib.js_utils import dump_js_escaped_json
+%>
+<%namespace name='static' file='/static_content.html'/>
+
+<%inherit file="../main.html" />
+
+<%block name="pagetitle">${_("Sign in or Register")}</%block>
+<style>
+    input[type="submit"],input[type="button"],button,.button {
+        box-shadow: none !important;
+        background-color: var(--primary);
+        background-image: none !important;
+        text-shadow: none !important;
+    }
+
+    .checkbox-terms_of_service,
+    .checkbox-honor_code {
+        display: none;
+    }
+
+    #policy-html {
+        line-height: 2;
+        margin-top: 20px;
+    }
+
+    div#login-and-registration-container {
+        background: whitesmoke;
+        clip-path: polygon(65% 0%,100% 10%,100% 43%,99% 74%,89% 96%,32% 100%,7% 95%,0% 36%,9% 6%);
+        padding: 5rem 8rem;
+        display: flex;
+        flex-direction: column;
+    }
+    button.action.action-primary.action-update.js-register.register-button,button.action.action-primary.action-update.js-login.login-button{
+        clip-path: polygon(30% 0%,79% 3%,100% 17%,100% 49%,93% 94%,32% 100%,0% 87%,0% 36%,3% 6%);
+        padding: 2rem;
+        transition: .2s;
+        margin-top: 4rem;
+    }
+    .logoForConnectionSection{
+        align-self: center;
+    }
+    img.logoImg{
+        width: 10rem;
+        margin-bottom: 3rem;
+    }
+    .login-register-content{
+        background: url("${static.url('grand-reims/images/assets/asset3.svg')");
+    }
+</style>
+<%block name="js_extra">
+    <%static:require_module module_name="js/student_account/logistration_factory" class_name="LogistrationFactory">
+        var options = ${data | n, dump_js_escaped_json};
+        LogistrationFactory(options);
+        if ('newrelic' in window) {
+            newrelic.finished();
+            // Because of a New Relic bug, the finished() event doesn't show up
+            // in Insights, so we have to make a new PageAction that is basically
+            // the same thing. We still want newrelic.finished() for session
+            // traces though.
+            newrelic.addPageAction('xfinished');
+        }
+    </%static:require_module>
+    % if configuration_helpers.get_value('DISPLAY_TOS_IN_MODAL_ON_REGISTRATION_PAGE', False):
+    <script type="text/javascript" src="${static.url('js/student_account/tos_modal.js')}"></script>
+    % endif
+</%block>
+
+<%block name="header_extras">
+    % for template_name in ["account", "access", "form_field", "login", "register", "institution_login", "institution_register", "password_reset", "hinted_login"]:
+        <script type="text/template" id="${template_name}-tpl">
+            <%static:include path="student_account/${template_name}.underscore" />
+        </script>
+    % endfor
+</%block>
+<div class="section-bkg-wrapper">
+    <main id="main" aria-label="Content" tabindex="-1">
+        <div id="content-container" class="login-register-content">
+            % if enable_enterprise_sidebar:
+                <%include file="enterprise_sidebar.html" />
+                <%
+                    border_class = 'border-left'
+                %>
+            % else:
+                <%
+                    border_class = ''
+                %>
+            % endif
+            <div id="login-and-registration-container" class="login-register ${border_class}"></div>
+        </div>
+    </main>
+</div>
+
+<script>
+
+setInterval(() => {
+    
+    // Validate hided checkbox
+    let checkbox_tos = document.getElementById("register-terms_of_service")
+    if (checkbox_tos) {
+        checkbox_tos.checked = true
+    }
+    
+    let checkbox_honor = document.getElementById("register-honor_code")
+    if (checkbox_honor) {
+        checkbox_honor.checked = true
+    }
+
+    // Replace placeholder name
+    let targeted_placeholder = document.getElementsByClassName("text-name")[0]
+    if (targeted_placeholder) {
+        targeted_placeholder.children[0].innerText = 'Nom prénom'
+    }
+}, 300);
+
+// Add Policy text 
+setTimeout(() => {
+    let policy_html = "<p id='policy-html'>En créant un compte, vous acceptez nos <a href='https://www.grandreims.fr/protection-des-donnees-personnelles-et-gestion-des-cookies'>Conditions d'utilisation et Code d'Honneur</a> et autorisez les équipes Grand Reims à traiter vos données personnelles en accord avec la <a href='https://www.grandreims.fr/mentions-legales'>Privacy Policy</a>.</p>"
+    $( policy_html ).insertAfter( ".password-password" );
+}, 500);
+
+
+</script>
+
+<!-- quentin - 17147 - hiding header -->
+<script>
+    window.addEventListener('load',() => {
+        document.querySelector('.global-header').style.display="none"
+    })
+</script>
+
+<!-- quentin - 17147 - adding logo link in the login&register container -->
+<script>
+    setTimeout(() => {
+        const parentElement = document.querySelector('#login-and-registration-container')
+        const elementToAdd = document.createElement('div')
+        const textInsideElementToAdd = `<a class="linkToHome" href=""><img class="logoImg" src="${static.url("grand-reims/images/logo.png")}" alt="Logo Grand Reims"/></a>`
+
+        elementToAdd.classList.add('logoForConnectionSection')
+        elementToAdd.innerHTML = textInsideElementToAdd
+        parentElement.prepend(elementToAdd)
+    }, 400)
+</script>
