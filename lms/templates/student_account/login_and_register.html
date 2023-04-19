@@ -49,7 +49,38 @@
         margin-bottom: 3rem;
     }
     .login-register-content{
-        background: url("${static.url('grand-reims/images/assets/asset3.svg')");
+        background: none;
+    }
+    body{
+        background: url("${static.url('grand-reims/images/assets/asset3.svg')}");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+    }
+    html{
+        background: none;
+    }
+    .window-wrap{
+        background: none;
+    }
+    input{
+        border-radius: .4rem !important;
+    }
+    form#login,form#register{
+        display: flex;
+        flex-direction: column;
+    }
+    button.action,.action-primary.action-update.js-register.register-button,.login-button{
+        align-self: center;
+        background: #ed8349 !important;
+    }
+    button.action:hover{
+        filter: brightness(0.9);
+        background: inherit;
+    }
+    button.action:active{
+        transform: scale(.9);
+
     }
 </style>
 <%block name="js_extra">
