@@ -28,9 +28,11 @@ from openedx.core.djangoapps.content.block_structure.api import get_course_in_ca
 from completion.models import BlockCompletion
 
 import json
+import codecs
+import yaml
 import time
 from openpyxl import Workbook
-
+from django.core.exceptions import ImproperlyConfigured
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -41,6 +43,27 @@ from email import encoders
 import logging
 log = logging.getLogger()
 
+
+EMAIL_HOST_USER = ""
+EMAIL_HOST_PASSWORD = ""
+
+# Get the auth ID to send mail
+def get_env_setting(setting):
+    """ Get the environment setting or return exception """
+    try:
+        return os.environ[setting]
+    except KeyError:
+        error_msg = u"Set the %s env variable" % setting
+        raise ImproperlyConfigured(error_msg)
+    
+CONFIG_FILE = get_env_setting('LMS_CFG')
+
+with codecs.open(CONFIG_FILE, encoding='utf-8') as f:
+    __config__ = yaml.safe_load(f)
+    ENV_TOKENS = __config__
+
+    EMAIL_HOST_USER = ENV_TOKENS.get('EMAIL_HOST_USER', None)
+    EMAIL_HOST_PASSWORD = ENV_TOKENS.get('EMAIL_HOST_PASSWORD', None)
 
 emails = sys.argv[1].split(";")
 course_ids = sys.argv[2].split(";")
@@ -222,7 +245,7 @@ for email in emails:
     msg.attach(part)
     server = smtplib.SMTP('mail3.themoocagency.com', 25)
     server.starttls()
-    server.login('contact', 'waSwv6Eqer89')
+    server.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
     msg.attach(part2)
     text = msg.as_string()
     server.sendmail(fromaddr, email, text)
@@ -235,5 +258,6 @@ log.info('------------> Finish calculate grades and write xlsx report')
 
 
 # exemple Koa-prod
+# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/bmd/lms/static/utils/completion_report.py 'dimitri.hoareau@weuplearning.com' 'course-v1:bmd+EN+2021'
 # /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/bmd/lms/static/utils/completion_report.py 'eruch-ext@netexplo.org;lnyadanu@netexplo.org;melanie.zunino@weuplearning.com;cyril.adolf@weuplearning.com' 'course-v1:bmd+FR+2022_02_9-10'
 
