@@ -72,22 +72,40 @@ margin-top: 30px;
     left: 0;
     width: 80px;
 }
+.section-bottom-buttons {
+margin-top: 0;
+
+display: flex;
+
+}
+
 .section-bottom-button {
-    margin-top: 0;
-background-color: #d70613;
-border: none;
+    font-size: 22px;
+cursor: pointer;
+font-weight: bold;
+    border: none;
 color: white;
 padding: 22px 55px;
 text-align: center;
 text-decoration: none;
-display: inline-block;
-font-size: 22px;
-cursor: pointer;
-font-weight: bold;
+    background-color: #0e297f;
+    margin: 10px;
+}
+
+.button-red{
+background-color: #d70613;
 }
 
 .section-bottom-button:hover {
+  background-color: #53649c; /* Darken the background color on hover */
+}
+
+.button-red:hover {
   background-color: #d43f49; /* Darken the background color on hover */
+}
+
+a{
+    text-decoration: none;
 }
 
 .section-bottom-map{
@@ -123,9 +141,14 @@ font-weight: bold;
 </section>
 <section class="section-bottom">
         <img class="section-bottom-img-left" src="${static.url('atoutfrance/images/img-left.png')}" alt="image left">
-        <a href="/login">
-            <div class="section-bottom-button">Connexion</div>
-        </a>
+        <div class="section-bottom-buttons">
+            <a href="/login">
+                <div class="section-bottom-button button-red">Connexion</div>
+            </a>
+            <a href="/register?course_id=course-v1:atoutfrance+0+1&enrollment_action=enroll">
+                <div class="section-bottom-button">Inscription</div>
+            </a>
+        </div>
         <img class="section-bottom-map" src="${static.url('atoutfrance/images/map.png')}" alt="normandie map">
 
 </section>
