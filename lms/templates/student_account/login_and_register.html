@@ -39,7 +39,7 @@
         clip-path: polygon(30% 0%,79% 3%,100% 17%,100% 49%,93% 94%,32% 100%,0% 87%,0% 36%,3% 6%);
         padding: 2rem;
         transition: .2s;
-        margin-top: 4rem;
+        margin-top: 3rem;
     }
     .logoForConnectionSection{
         align-self: center;
@@ -52,10 +52,13 @@
         background: none;
     }
     body{
-        background: url("${static.url('grand-reims/images/assets/asset3.svg')}");
+        background: url("${static.url('grand-reims/images/assets/asset3.svg')}") !important;
         background-repeat: no-repeat;
         background-position: center;
         background-size: cover;
+    }
+    div#content{
+        background: none;
     }
     html{
         background: none;
@@ -79,8 +82,8 @@
         background: inherit;
     }
     button.action:active{
+        filter: brightness(0.9);
         transform: scale(.9);
-
     }
 </style>
 <%block name="js_extra">

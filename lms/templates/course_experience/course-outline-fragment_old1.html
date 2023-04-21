@@ -7,8 +7,6 @@
 <%!
 import json
 import pytz
-import string
-import re
 from datetime import date, datetime, timedelta
 
 from django.utils import timezone
@@ -18,8 +16,6 @@ from django.utils.translation import ngettext
 from lms.djangoapps.courseware.access import has_access
 from openedx.core.djangolib.markup import HTML, Text
 from openedx.features.course_experience import RELATIVE_DATES_FLAG
-
-from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 %>
 
 <%
@@ -29,219 +25,6 @@ relative_dates_flag_is_enabled = RELATIVE_DATES_FLAG.is_enabled(str(course_key))
 is_course_staff = bool(user and course and has_access(user, 'staff', course, course.id))
 dates_banner_displayed = False
 %>
-
-<!-- 17147 - quentin - cleaning the sections name text -->
-<%def cleaningText(text):
-    translator = str.maketrans(" ", "_", string.punctuation)
-    text = text.translate(translator)
-
-    accents = {
-        'é': 'e',
-        'è': 'e',
-        'ê': 'e',
-        'à': 'a',
-        'ù': 'u',
-        'ç': 'c'
-    }
-    translator = str.maketrans(accents)
-    text = text.translate(translator)
-
-    text = text.lower()
-    return text
-%>
-
-<style>
-    li.outline-item.section{
-        border-bottom: none !important;
-        /* border-radius: .4rem !important; */
-        border-radius: 3rem !important;
-        transition: .15s;
-        /* clip-path: polygon(3% 2%, 70% 0%, 98% 10%, 100% 50%, 98% 92%, 52% 100%, 2% 85%, 0% 30%); */
-        display: flex;
-        padding: 3rem 2rem !important;
-        margin: 3rem 0rem !important;
-        position: relative;
-        /* justify-content: space-around; */
-        flex-direction: column;
-    }
-    li.outline-item.section:active{
-        transform: scale(.99);
-    }
-    li.outline-item:hover {
-        /* transform: scale(1.03) rotate(1deg); */
-        transform: scale(1.04) rotate(0.7deg);
-    }
-    .page-header{
-        border-bottom: none !important;
-        border-radius: .5rem;
-        height: 14rem;
-        background: url("${static.url('grand-reims/images/assets/asset1.svg')}");
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-    }
-    div#course-container{
-        background: none;
-    }
-    main#main{
-        background: none;
-        display: flex;
-        justify-content: center;
-    }
-    ol#course-outline-block-tree{
-        background: none;
-        display: flex;
-        flex-direction: column;
-        width: 60%;
-    }
-    button{
-        border-radius: .4rem !important;
-        transition: .15s !important;
-    }
-    button.outline-button{
-        padding: 0 !important;
-		background-color: unset !important;
-		margin-top: 0 !important;
-    }
-    button.outline-button:hover{
-        filter: brightness(0.93);
-    }
-    button.outline-button:active{
-        filter: brightness(0.93);
-        transform: scale(.995);
-    }
-    div.page-content{
-        flex-direction: column;
-    }
-    div.page-content-main{
-        min-width: unset !important;
-        max-width: unset !important;
-    }
-    aside.page-content-secondary.course-sidebar{
-        display: none;
-    }
-    .imgCourseSection{
-        width: 13rem;
-        position: absolute;
-        top: -2rem;
-        left: -6rem;
-    }
-    .course-outline .block-tree .section .section-name .section-title{
-        font-size: 1.4rem;
-        text-transform: uppercase;
-    }
-    a.linkToCourseSection{
-        color: white;
-        display: flex;
-        margin-left: 7.8%;
-        padding: 1rem 0rem;
-    }
-    a.linkToCourseSection:hover{
-        color: white;
-        text-decoration-thickness: .15rem;
-    }
-    .progressCourseSection{
-        display: flex;
-        place-content: space-evenly;
-        color: white;
-        align-items: center;
-    }
-    .progressCourseSection-bar{
-        width: 60%;
-        background: white;
-        border-radius: 2rem;
-        height: 1rem;
-        display: flex;
-    }
-    .progressCourseSection-progressBars{
-        width: 50%;
-        background: black;
-        height: .5rem;
-        border-radius: 1rem;
-        align-self: center;
-        margin-left: .4rem;
-        margin-right: .4rem;
-    }
-    h2.progressCourseSection-text{
-        margin: 0;
-    }
-
-    /* set the colors of the sections and progress bar, according to variable 'sectionCount' in the for loop below */
-    .courseSection0, .progressCourseSection-progressBar0{
-        background: #21ad73;
-    }
-    .courseSection1{
-        background: #E24729;
-    }
-    .courseSection2{
-        background: #174685;
-    }
-    .courseSection3, .progressCourseSection-progressBar3{
-        background: #663224;
-    }
-    .courseSection4, .progressCourseSection-progressBar1{
-        background: #F19000;
-    }
-    .courseSection5, .progressCourseSection-progressBar2{
-        background: #59C4C6;
-    }
-    .progressCourseSection-progressBar4{
-        background: #FECC3E;
-    }
-    .progressCourseSection-progressBar5{
-        background: #CEF6FF;
-    }
-
-    
-    /* specific rules for photos in sections */
-    .imgCourseSection1{
-        top: -6rem;
-    }
-    .imgCourseSection2{
-        top: -0.5rem;
-    }
-    .imgCourseSection3{
-        width: 17rem;
-        top: -3.5rem;
-        left: -9rem;
-    }
-    .imgCourseSection4{
-
-    }
-    .imgCourseSection5{
-
-    }
-    .imgCourseSection0{
-
-    }
-
-    /* media queries */
-    @media screen and (max-width: 1100px) {
-        ol#course-outline-block-tree{
-            width: 70%;
-        }
-    }
-    @media screen and (max-width: 800px) {
-        li.outline-item:hover {
-            transform: scale(1) rotate(0deg);
-        }
-    }
-
-    @media screen and (max-width: 600px) {
-        ol#course-outline-block-tree{
-            width: 100%;
-        }
-        .imgCourseSection{
-            display: none;
-        }
-    }
-    @media screen and (max-width: 500px) {
-        .page-header{
-            border-radius: 0;
-        }
-    }
-</style>
-
 <main role="main" class="course-outline" id="main" tabindex="-1">
     <%include file="/dates_banner.html" />
     % if course_sections is not None:
@@ -255,35 +38,26 @@ dates_banner_displayed = False
         <ol class="block-tree accordion"
             id="course-outline-block-tree"
             aria-labelledby="expand-collapse-outline-all-button">
-        % for sectionCount, section in enumerate(course_sections):
+        % for section in course_sections:
             <%
             section_is_auto_opened = section.get('resume_block') is True
             scored = 'scored' if section.get('scored', False) else ''
             %>
-                <li class="outline-item section ${scored} courseSection${sectionCount}">
-                    <img src="${static.url('grand-reims/images/assets/' + cleaningText(section['display_name']) + '.png')}" alt="" class="imgCourseSection imgCourseSection${sectionCount}">
-                    <a class="linkToCourseSection" href="${ section['lms_web_url'] }">
-                        <button class="section-name accordion-trigger outline-button"
-                                aria-expanded="${ 'true' if section_is_auto_opened else 'false' }"
-                                aria-controls="${ section['id'] }_contents"
-                                id="${ section['id'] }">
-                            <!-- <span class="fa fa-chevron-right ${ 'fa-rotate-90' if section_is_auto_opened else '' }" aria-hidden="true"></span> -->
-                            <h3 class="section-title">${ section['display_name'] }</h3>
-                % if section.get('complete'):
-                                <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
-                                <span class="sr">${_("Completed")}</span>
-                % endif
-                        </button>
-                    </a>
-                    <div class="progressCourseSection">
-                        <div class="progressCourseSection-bar">
-                            <div class="progressCourseSection-progressBars progressCourseSection-progressBar${sectionCount}"></div>
-                        </div>
-                        <h2 class="progressCourseSection-text">50%</h2>
-                    </div>
-                    <!-- <ol class="outline-item accordion-panel ${ '' if section_is_auto_opened else 'is-hidden' }"
+                <li class="outline-item section ${scored}">
+                    <button class="section-name accordion-trigger outline-button"
+                            aria-expanded="${ 'true' if section_is_auto_opened else 'false' }"
+                            aria-controls="${ section['id'] }_contents"
+                            id="${ section['id'] }">
+                        <span class="fa fa-chevron-right ${ 'fa-rotate-90' if section_is_auto_opened else '' }" aria-hidden="true"></span>
+                        <h3 class="section-title">${ section['display_name'] }</h3>
+            % if section.get('complete'):
+                            <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
+                            <span class="sr">${_("Completed")}</span>
+            % endif
+                    </button>
+                    <ol class="outline-item accordion-panel ${ '' if section_is_auto_opened else 'is-hidden' }"
                         id="${ section['id'] }_contents"
-                        aria-labelledby="${ section['id'] }"> -->
+                        aria-labelledby="${ section['id'] }">
             % for subsection in section.get('children', []):
                 <%
                 gated_subsection = subsection['id'] in gated_content
@@ -292,7 +66,7 @@ dates_banner_displayed = False
                 graded = 'graded' if subsection.get('graded') else ''
                 num_graded_problems = subsection.get('num_graded_problems', 0)
                 %>
-                        <!-- <li class="subsection accordion ${ 'current' if subsection.get('resume_block') else '' } ${graded} ${scored}">
+                        <li class="subsection accordion ${ 'current' if subsection.get('resume_block') else '' } ${graded} ${scored}">
                             <a
                             % if enable_links:
                                 href="${ subsection['lms_web_url'] }"
@@ -301,11 +75,12 @@ dates_banner_displayed = False
                             % endif
                                 class="subsection-text outline-button"
                                 id="${ subsection['id'] }"
-                            > -->
+                            >
                             % if graded and scored and 'special_exam_info' not in subsection:
                                       <span class="icon fa fa-pencil-square-o" aria-hidden="true"></span>
                             % endif
-                                      <!-- <h4 class="subsection-title"> -->
+                                      <h4 class="subsection-title">
+                                          ${ subsection['display_name'] }
                             % if num_graded_problems:
 <!--
                                           ${ngettext("({number} Question)",
@@ -391,9 +166,9 @@ dates_banner_displayed = False
                 % endif
                                         </div> <!-- /details -->
                             </a>
-                        <!-- </li> -->
+                        </li>
             % endfor
-                    <!-- </ol> -->
+                    </ol>
                 </li>
         % endfor
         </ol>

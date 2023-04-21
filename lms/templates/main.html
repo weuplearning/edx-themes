@@ -171,6 +171,79 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
 
 </head>
 
+<!-- 17147 - quentin - css global modifications -->
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap');
+
+    select{
+        border-radius: 1rem !important;
+        padding: 0.3rem .8rem !important;
+        border: 0.19rem solid #5c5c5c !important;
+    }
+    input{
+        border-radius: .7rem !important;
+        border: .19rem solid #5c5c5c !important;
+        padding: .3rem 1rem !important;
+    }
+    div#content{
+        background: #F0ECD1;
+        padding: 2rem;
+        margin: 0;
+    }
+    button{
+        transition: .1s;
+    }
+    /* button:hover{
+        filter: brightness(0.9);
+        background: inherit;
+    }
+    button:active{
+        filter: brightness(0.9);
+        transform: scale(.95);
+    } */
+    a.btn.btn-secondary.action-resume-course{
+      background: #ed8349 !important;
+      color: white;
+      border: .19rem solid #5c5c5c;
+      border-radius: .7rem;
+      transition: .2s;
+    }
+    a.btn.btn-secondary.action-resume-course:hover{
+        /* background: inherit !important; */
+        filter: brightness(0.9);
+    }
+    a.btn.btn-secondary.action-resume-course:active{
+        transform: scale(.96);
+        border-color: inherit;
+    }
+    div.page-header-main > img{
+        display: none;
+    }
+    nav.wrapper-preview-menu{
+        background: #21ad73;
+    }
+    nav.wrapper-preview-menu > div > ol > li > form > label{
+        font-family: 'Amatic SC';
+        font-size: 1.5rem;
+    }
+    nav.courseware.wrapper-course-material {
+        background: white;
+        border-radius: 0.7rem;
+        margin: 1rem 0rem;
+    }
+    li.action-preview{
+        margin-left: 5rem;
+    }
+    @media screen and (max-width: 500px) {
+      div#content{
+        padding: 0;
+      }
+      li.action-preview{
+          margin-left: 2rem;
+      }
+    }
+</style>
+
 <body class="${static.dir_rtl()} <%block name='bodyclass'/> lang_${LANGUAGE_CODE}">
 
 <%static:optional_include_mako file="body-initial.html" is_theming_enabled="True" />
