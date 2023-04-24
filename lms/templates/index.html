@@ -1,1 +1,19 @@
-<div>I'm dimitri and I love boating</div>
+
+<%namespace name='static' file='static_content.html'/>
+
+
+<link rel="stylesheet" type="text/css" href="${static.url('loveboating/css/extra/index.css')}" />
+<script src="${static.url('loveboating/js/test.js')}"></script>
+<script src="${static.url('loveboating/wul_apps/hash.js')}"></script>
+
+<script>
+    console.log("${static.url('loveboating/css/extra/index.css')}")
+    console.log("${static.url('loveboating/loveboating/css/extra/index.css')}")
+</script>
+<style>
+    .test_div{
+        color: red;
+    }
+</style>
+
+<div class="test_div">I'm dimitri and I love boating</div>
