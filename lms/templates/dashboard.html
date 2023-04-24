@@ -376,27 +376,65 @@ from lms.djangoapps.course_api.views import CourseListView
 
   </div>
   <hr>
-  <h2 class="secondary-section">Toutes nos Formations</h2>
+
+  <div class="secondary-section-block">
+    <h2 class="secondary-section">Toutes nos Formations</h2>
+    <select id="domaine" name="domaine">
+      <option value="All">All</option>
+      <option value="Stratégie">Stratégie</option>
+      <option value="Marketing">Marketing</option>
+      <option value="Gestion D'entreprise">Gestion D'entreprise</option>
+      <option value="Gestion Des Opérations">Gestion Des Opérations</option>
+      <option value="Ventes">Ventes</option>
+      <option value="Tech">Tech</option>
+      <option value="Marketplace">Marketplace</option>
+      <option value="Bootcamp">Bootcamp</option>
+    </select>  
+  </div>
+
+
   <div id="available-courses" >
     <%
     courses = CourseOverview.get_all_courses(orgs=['loveboating'])
     %>
     %for course in courses:
-      <script>
+      <!-- <script>
         console.log('course');
         console.log("${dir(course)}");
         console.log("${course.display_name}");
         console.log("${course._pre_requisite_courses_json}");
-      </script>
+      </script> -->
       %if not CourseEnrollment.is_enrolled(user, course):
-        <li class="course-item">
+        <li class="course-item course-item-not-enrolled">
           <%include file="course.html" args="course=course" />
         </li>
       %endif
     %endfor
   </div>
 </main>
+<script>
+  const selectElement = document.getElementById('domaine');
+  
+  function handleSelectChange(event) {
+    const selectedValue = event.target.value.toLowerCase();
 
+    const courseList = document.getElementsByClassName("course-item-not-enrolled");
+
+    for (const course of courseList) {
+      const courseTag = course.firstElementChild.attributes[3].textContent;
+      const shouldHide = selectedValue !== "all" && courseTag !== selectedValue;
+      const isHidden = course.classList.contains("course-item-hide");
+
+      if (shouldHide && !isHidden) {
+        course.classList.add("course-item-hide");
+      } else if (!shouldHide && isHidden) {
+        course.classList.remove("course-item-hide");
+      }
+    }
+  }
+  
+  selectElement.addEventListener('change', handleSelectChange);
+  </script>
 
 <style>
 /* Global */
@@ -556,5 +594,48 @@ from lms.djangoapps.course_api.views import CourseListView
 .wrapper-action-more {
   display: none !important;
 }
+
+/* selector style */
+
+  .secondary-section-block{
+    display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  }
+
+select {
+  font-size: 16px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #333;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.075) inset;
+  width: 200px;
+  max-width: 100%;
+  margin-right: 20px;
+}
+
+select:hover, select:focus {
+  border-color: #999;
+  outline: none;
+}
+
+select option {
+  font-size: 16px;
+  background-color: #fff;
+  color: #333;
+}
+
+select option:hover {
+  background-color: #eee;
+  color: #333;
+}
+
+.course-item-hide{
+  display: none;
+}
+
+
 
 </style>
