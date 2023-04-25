@@ -393,7 +393,7 @@ log = logging.getLogger(__name__)
                                             ${ prerequisite_name }
                                     </div>
                             % endif
-                                        <div class="details">
+                                        <!-- <div class="details"> -->
 
                 ## There are behavior differences between rendering of subsections which have
                 ## exams (timed, graded, etc) and those that do not.
@@ -412,7 +412,7 @@ log = logging.getLogger(__name__)
                     data_datetime = subsection.get('due')
                 %>
                 % if subsection.get('format') or 'special_exam_info' in subsection:
-                                            <span class="subtitle">
+                                            <!-- <span class="subtitle"> -->
                     % if 'special_exam_info' in subsection:
                                                     ## Display the exam status icon and status message
                                                     <span
@@ -449,9 +449,9 @@ log = logging.getLogger(__name__)
                                                 <span class="sr">&nbsp;${_("This content is graded")}</span>
                         % endif
                     % endif
-                                            </span>
+                                            <!-- </span> -->
                 % endif
-                                        </div> <!-- /details -->
+                                        <!-- </div> /details -->
                             </a>
                         <!-- </li> -->
             % endfor
