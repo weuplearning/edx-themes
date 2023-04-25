@@ -20,6 +20,7 @@ from openedx.core.djangolib.markup import HTML, Text
 from openedx.features.course_experience import RELATIVE_DATES_FLAG
 
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+import logging
 %>
 
 <%
@@ -28,6 +29,10 @@ self_paced = context.get('self_paced', False)
 relative_dates_flag_is_enabled = RELATIVE_DATES_FLAG.is_enabled(str(course_key))
 is_course_staff = bool(user and course and has_access(user, 'staff', course, course.id))
 dates_banner_displayed = False
+%>
+
+<%
+log = logging.getLogger(__name__)
 %>
 
 <!-- 17147 - quentin - cleaning the sections name text -->
@@ -56,13 +61,12 @@ dates_banner_displayed = False
         /* border-radius: .4rem !important; */
         border-radius: 3rem !important;
         transition: .15s;
-        /* clip-path: polygon(3% 2%, 70% 0%, 98% 10%, 100% 50%, 98% 92%, 52% 100%, 2% 85%, 0% 30%); */
         display: flex;
-        padding: 3rem 2rem !important;
         margin: 3rem 0rem !important;
         position: relative;
         /* justify-content: space-around; */
         flex-direction: column;
+        box-shadow: none !important;
     }
     li.outline-item.section:active{
         transform: scale(.99);
@@ -73,8 +77,8 @@ dates_banner_displayed = False
     }
     .page-header{
         border-bottom: none !important;
-        border-radius: .5rem;
-        height: 14rem;
+        border-radius: .7rem;
+        height: 16rem;
         background: url("${static.url('grand-reims/images/assets/asset1.svg')}");
         background-position: center;
         background-repeat: no-repeat;
@@ -125,10 +129,17 @@ dates_banner_displayed = False
         position: absolute;
         top: -2rem;
         left: -6rem;
+        z-index: 1;
     }
     .course-outline .block-tree .section .section-name .section-title{
         font-size: 1.4rem;
         text-transform: uppercase;
+    }
+    .courseSectionContent{
+        clip-path: polygon(3% 2%, 70% 0%, 99% 12%, 100% 50%, 98% 94%, 48% 100%, 2% 93%, 0% 30%);
+        padding: 3rem 2rem;
+        z-index: 0;
+        padding-left: 7rem;
     }
     a.linkToCourseSection{
         color: white;
@@ -165,24 +176,32 @@ dates_banner_displayed = False
     h2.progressCourseSection-text{
         margin: 0;
     }
+    .section-name.accordion-trigger.outline-button{
+        padding-left: .3rem !important;
+    }
+    button.btn.btn-outline-primary.search-button{
+        border: .19rem solid #5c5c5c;
+        border-radius: .7rem !important;
+        margin-left: 1rem;
+    }
 
     /* set the colors of the sections and progress bar, according to variable 'sectionCount' in the for loop below */
-    .courseSection0, .progressCourseSection-progressBar0{
+    .courseSectionBkg0, .progressCourseSection-progressBar0{
         background: #21ad73;
     }
-    .courseSection1{
+    .courseSectionBkg1{
         background: #E24729;
     }
-    .courseSection2{
+    .courseSectionBkg2{
         background: #174685;
     }
-    .courseSection3, .progressCourseSection-progressBar3{
+    .courseSectionBkg3, .progressCourseSection-progressBar3{
         background: #663224;
     }
-    .courseSection4, .progressCourseSection-progressBar1{
+    .courseSectionBkg4, .progressCourseSection-progressBar1{
         background: #F19000;
     }
-    .courseSection5, .progressCourseSection-progressBar2{
+    .courseSectionBkg5, .progressCourseSection-progressBar2{
         background: #59C4C6;
     }
     .progressCourseSection-progressBar4{
@@ -191,7 +210,6 @@ dates_banner_displayed = False
     .progressCourseSection-progressBar5{
         background: #CEF6FF;
     }
-
     
     /* specific rules for photos in sections */
     .imgCourseSection1{
@@ -203,7 +221,7 @@ dates_banner_displayed = False
     .imgCourseSection3{
         width: 17rem;
         top: -3.5rem;
-        left: -9rem;
+        left: -10rem;
     }
     .imgCourseSection4{
 
@@ -234,10 +252,16 @@ dates_banner_displayed = False
         .imgCourseSection{
             display: none;
         }
+        .courseSectionContent{
+            padding-left: 2rem;
+        }
     }
     @media screen and (max-width: 500px) {
         .page-header{
             border-radius: 0;
+        }
+        h3.section-title{
+            font-size: 1.4rem !important;
         }
     }
 </style>
@@ -262,6 +286,7 @@ dates_banner_displayed = False
             %>
                 <li class="outline-item section ${scored} courseSection${sectionCount}">
                     <img src="${static.url('grand-reims/images/assets/' + cleaningText(section['display_name']) + '.png')}" alt="" class="imgCourseSection imgCourseSection${sectionCount}">
+                    <div class="courseSectionContent courseSectionBkg${sectionCount}">
                     <a class="linkToCourseSection" href="${ section['lms_web_url'] }">
                         <button class="section-name accordion-trigger outline-button"
                                 aria-expanded="${ 'true' if section_is_auto_opened else 'false' }"
@@ -275,12 +300,46 @@ dates_banner_displayed = False
                 % endif
                         </button>
                     </a>
+
+                %if configuration_helpers.get_value('COMPLETION_BASED_DASHBOARD_MONO', False):
+
+                    <%
+                    total_blocks = 1
+                    completed_blocks = 1
+
+                    if not section.get('complete'):
+                        total_blocks = 0
+                        completed_blocks = 0
+                        for subsection in section.get('children', []):
+                            for unitchild in subsection.get('children', []):
+                                for blockchild in unitchild.get('children', []):
+                                    total_blocks += 1
+                                    if blockchild.get('complete'):
+                                        completed_blocks += 1
+                    if total_blocks == 0:
+                        pass
+                    else:
+                        completion_ratio = completed_blocks / total_blocks
+                    %>
+                
+                    <div class="progressCourseSection">
+                        <div class="progressCourseSection-bar">
+                            <div style="width:${(completion_ratio * 100)}%;" class="progressCourseSection-progressBars progressCourseSection-progressBar${sectionCount}"></div>
+                        </div>
+                        <h2 class="progressCourseSection-text">${int(completion_ratio * 100)} %</h2>
+                    </div>
+
+                %else:
+
                     <div class="progressCourseSection">
                         <div class="progressCourseSection-bar">
                             <div class="progressCourseSection-progressBars progressCourseSection-progressBar${sectionCount}"></div>
                         </div>
                         <h2 class="progressCourseSection-text">50%</h2>
                     </div>
+            
+                %endif
+
                     <!-- <ol class="outline-item accordion-panel ${ '' if section_is_auto_opened else 'is-hidden' }"
                         id="${ section['id'] }_contents"
                         aria-labelledby="${ section['id'] }"> -->
@@ -316,8 +375,8 @@ dates_banner_displayed = False
                                       </h4>
 
                             % if subsection.get('complete'):
-                                <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
-                                <span class="sr">${_("Completed")}</span>
+                                <!-- <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
+                                <span class="sr">${_("Completed")}</span> -->
 
                             % endif
                             % if needs_prereqs:
@@ -394,6 +453,7 @@ dates_banner_displayed = False
                         <!-- </li> -->
             % endfor
                     <!-- </ol> -->
+                    </div>
                 </li>
         % endfor
         </ol>

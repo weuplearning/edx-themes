@@ -10,13 +10,20 @@
 <% icp_license_info = getattr(settings, 'ICP_LICENSE_INFO', {})%>
 <%namespace name='static' file='static_content.html'/>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
 
   @import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap');
 
+  nav.nav-colophon > ol > li > a {
+    font-family: 'amatic sc' !important;
+  }
   .wrapper-footer {
     background-color: #0c4a44;
-    font-family: 'Amatic SC', cursive !important;
+    font-family: 'Amatic SC' !important;
     font-size: 1.7rem;
     height: 14rem;
     margin-top: 0;
@@ -54,6 +61,11 @@
   .wrapper-footer .site-nav .nav-link, .wrapper-footer footer#footer-openedx .colophon .nav-colophon li a {
     color: white !important;
   }
+
+  .wrapper-footer footer#footer-openedx .colophon{
+    width: unset;
+  }
+
   @media screen and (max-width: 540px) {
     .footerLinkSection{
       flex-direction: column;

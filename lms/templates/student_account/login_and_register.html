@@ -53,12 +53,14 @@
     }
     body{
         background: url("${static.url('grand-reims/images/assets/asset3.svg')}") !important;
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: cover;
+        /* background-repeat: no-repeat !important; */
+        background-size: cover !important;
     }
     div#content{
         background: none;
+        max-width: none;
+        margin-bottom: 10rem;
+        margin-top: 5rem;
     }
     html{
         background: none;
@@ -84,6 +86,19 @@
     button.action:active{
         filter: brightness(0.9);
         transform: scale(.9);
+    }
+    @media screen and (max-width: 500px) {
+        div#login-and-registration-container{
+            clip-path: none;
+            padding: 5rem 2rem;
+            margin: 1rem;
+            border-radius: .5rem;
+        }
+    }
+    @media screen and (max-width: 350px) {
+        div#login-and-registration-container{
+            padding: 5rem 1rem;
+        }
     }
 </style>
 <%block name="js_extra">
