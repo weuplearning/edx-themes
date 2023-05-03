@@ -66,6 +66,7 @@ dates_banner_displayed = False
                 graded = 'graded' if subsection.get('graded') else ''
                 num_graded_problems = subsection.get('num_graded_problems', 0)
                 %>
+
                         <li class="subsection accordion ${ 'current' if subsection.get('resume_block') else '' } ${graded} ${scored}">
                             <a
                             % if enable_links:
@@ -174,6 +175,13 @@ dates_banner_displayed = False
         </ol>
     % endif
 </main>
+<script>
+window.onload = function () {
+
+    console.log('test print');
+    console.log("${ (subsection.get('children', []))[0].get('display_name') }");
+}
+</script>
 
 <%static:require_module_async module_name="js/dateutil_factory" class_name="DateUtilFactory">
     DateUtilFactory.transform('.localized-datetime');
@@ -182,3 +190,50 @@ dates_banner_displayed = False
 <%static:webpack entry="CourseOutline">
     new CourseOutline();
 </%static:webpack>
+
+<script>
+    // TODO : undefined error, hidden till it's resolved
+    const progressBarElements = document.querySelectorAll('.progress-bar-grade')
+    const percentageElements = document.querySelectorAll('.completed_percent')
+  
+    // console.log('variable progressBarElements, valeur de width : '+progressBarElements[0].style.width);
+  
+    // for (let i = 0; i < 4; i++) {
+    //     let progressBarValue = progressBarElements[i].style.width
+    //     progressBarElements[i+4].style.width=progressBarValue
+  
+    //     let percentageValue = percentageElements[i].textContent
+    //     percentageElements[i+4].innerText=percentageValue
+    // }
+  
+  </script>
+  
+  
+  <!-- conditional display for section depending on the role -->
+  <script>
+    const userCustomFields = "${custom_fields}"
+    const customFieldsString = userCustomFields.replace(/&#34;/g, '"');
+    const customFieldsObject = JSON.parse(customFieldsString);
+    const customFieldParcours = customFieldsObject.parcours
+    console.log(customFieldsObject)
+  
+    const h3 = document.querySelectorAll("h3.section-title");
+
+    for (let element of h3) {
+        console.log(element.textContent)
+        if (customFieldsObject.parcours === "Dépistage") {
+            if (element.textContent === "Etape 2 : phase d'évaluation" || element.textContent === "Étape 2 : Gestion des alertes") {
+            element.parentElement.parentElement.style.display = "none"
+            }
+        } else if (customFieldParcours === "evaluation") {
+            if (element.textContent === "Étape 2 : Gestion des alertes") {
+            element.parentElement.parentElement.style.display = "none"
+            }
+        } else if (customFieldParcours === "depistages_gestion") {
+            if (element.textContent === "Etape 2 : phase d'évaluation") {
+            element.parentElement.parentElement.style.display = "none"
+            }   
+        }
+    }
+
+  </script>
