@@ -1,0 +1,179 @@
+<%page expression_filter="h"/>
+
+<%!
+import json
+
+from django.urls import reverse
+from django.conf import settings
+from django.utils.translation import ugettext as _
+
+from openedx.core.djangolib.js_utils import dump_js_escaped_json, js_escaped_string
+from openedx.core.djangolib.markup import HTML
+from webpack_loader.templatetags.webpack_loader import render_bundle
+from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_feature_enabled
+%>
+
+<%inherit file="/main.html" />
+<%def name="online_help_token()"><% return "learneraccountsettings" %></%def>
+<%namespace name='static' file='/static_content.html'/>
+
+<%block name="pagetitle">${_("Account Settings")}</%block>
+
+% if duplicate_provider:
+    <section>
+        <%include file='/dashboard/_dashboard_third_party_error.html' />
+    </section>
+% endif
+
+<div class="wrapper-account-settings"></div>
+<%block name="headextra">
+    <%static:css group='style-course'/>
+    <link type="text/css" rel="stylesheet" href="${STATIC_URL}paragon/static/paragon.min.css">
+</%block>
+
+<%block name="js_extra">
+<%static:require_module module_name="js/student_account/views/account_settings_factory" class_name="AccountSettingsFactory">
+    var fieldsData = ${ fields | n, dump_js_escaped_json },
+        ordersHistoryData = ${ order_history | n, dump_js_escaped_json },
+        authData = ${ auth | n, dump_js_escaped_json },
+        platformName = '${ static.get_platform_name() | n, js_escaped_string }',
+        contactEmail = '${ static.get_contact_email_address() | n, js_escaped_string }',
+        allowEmailChange = ${ bool(settings.FEATURES['ALLOW_EMAIL_ADDRESS_CHANGE']) | n, dump_js_escaped_json },
+        socialPlatforms = ${ settings.SOCIAL_PLATFORMS | n, dump_js_escaped_json },
+
+        syncLearnerProfileData = ${ bool(sync_learner_profile_data) | n, dump_js_escaped_json },
+        enterpriseName = '${ enterprise_name | n, js_escaped_string }',
+        enterpriseReadonlyAccountFields = ${ enterprise_readonly_account_fields | n, dump_js_escaped_json },
+        edxSupportUrl = '${ edx_support_url | n, js_escaped_string }',
+        extendedProfileFields = ${ extended_profile_fields | n, dump_js_escaped_json },
+        displayAccountDeletion = ${ enable_account_deletion | n, dump_js_escaped_json};
+        isSecondaryEmailFeatureEnabled = ${ bool(is_secondary_email_feature_enabled()) | n, dump_js_escaped_json },
+
+    AccountSettingsFactory(
+        fieldsData,
+        ${ disable_order_history_tab | n, dump_js_escaped_json },
+        ordersHistoryData,
+        authData,
+        '${ password_reset_support_link | n, js_escaped_string }',
+        '${ user_accounts_api_url | n, js_escaped_string }',
+        '${ user_preferences_api_url | n, js_escaped_string }',
+        ${ user.id | n, dump_js_escaped_json },
+        platformName,
+        contactEmail,
+        allowEmailChange,
+        socialPlatforms,
+
+        syncLearnerProfileData,
+        enterpriseName,
+        enterpriseReadonlyAccountFields,
+        edxSupportUrl,
+        extendedProfileFields,
+        displayAccountDeletion,
+        isSecondaryEmailFeatureEnabled,
+        ${ beta_language | n, dump_js_escaped_json },
+    );
+</%static:require_module>
+
+<script type="text/javascript">
+     window.auth = ${ auth | n, dump_js_escaped_json };
+     window.isActive = ${ user.is_active | n, dump_js_escaped_json };
+     window.additionalSiteSpecificDeletionText = "${ static.get_value('SITE_SPECIFIC_DELETION_TEXT', _(' and access to private sites offered by MIT Open Learning, Wharton Executive Education, and Harvard Medical School')) | n, js_escaped_string }";
+     window.mktgRootLink = "${ static.marketing_link('ROOT') | n, js_escaped_string }";
+     window.platformName = "${ platform_name | n, js_escaped_string }";
+     window.siteName = "${ static.get_value('SITE_NAME', settings.SITE_NAME) | n, js_escaped_string }";
+
+</script>
+
+<script>
+    // CA - #17512
+    // organize /account/settings page
+    setTimeout(() => {
+        // page info
+        let sections_onglet_info = document.getElementById('aboutTabSections-tabpanel').getElementsByClassName('section')
+        // page data
+        let target_onglet = document.getElementById('accountsTabSections-tabpanel')
+
+        // replace "Comptes liés" to "Données personnelles"
+        // 1. onglet
+        let tab_to_update = document.getElementById('accounts-tab')
+        tab_to_update.innerHTML = tab_to_update.innerText.replace('Comptes liés', 'Données personnelles')
+        // 2. page title + description
+        let data_page_div = document.getElementById('accountsTabSections-tabpanel')
+        data_page_div.getElementsByClassName('section-header')[0].innerHTML = 'Données personnelles'
+        data_page_div.getElementsByClassName('account-settings-header-subtitle')[0].innerHTML = 'Modifiez librement et à tout moment vos préférences concernant la gestion de vos données personnelles.'
+
+        // Add CustomFields checkbox 
+        let field_to_add = document.createElement('div')
+        field_to_add.innerHTML = '<div class="u-field u-field-text editable-always mode-edit"><div class="u-field-value field"><input class="field-input input-text larger" placeholder="" type="checkbox" id="field-input-email_module" title="email_module" name="input" value=""></div><span class="u-field-message" id="u-field-message-email_module"><span class="u-field-message-notification" aria-live="polite"></span><label class="u-field-message-help" id="u-field-message-help-email" for="field-input-email_module" >J\'accepte de recevoir par e-mail des informations sur les autres Mooc & modules Afpa</label></span></div><div class="u-field u-field-text editable-always mode-edit"><div class="u-field-value field"><input class="field-input input-text larger" placeholder="" type="checkbox" id="field-input-email_event" title="email_event" name="input" value=""></div><span class="u-field-message" id="u-field-message-email_event"><span class="u-field-message-notification" aria-live="polite"></span><label class="u-field-message-help" id="u-field-message-help-email" for="field-input-email_event">J\'accepte de recevoir par e-mail d\'autres informations concernant des évènements organisés par l\'Afpa (journées portes ouvertes,...)</label></span></div>'
+        target_onglet.appendChild(field_to_add)
+        // access CF
+        let customField = ${user.profile.custom_field | n, decode.utf8}
+
+        for (const key in customField) {
+
+            if (Object.hasOwnProperty.call(customField, key)) {
+                const value = customField[key];
+                if (key == 'email_module' && (value == true || value == 'true' )) {
+                    document.getElementById('field-input-email_module').checked = true
+                }
+                if (key == 'email_event' && (value == true || value == 'true' ) ) {
+                    document.getElementById('field-input-email_event').checked = true
+                }
+            }
+        }
+        // Write in CF if modify : 
+        document.getElementById('field-input-email_module').addEventListener("click",trigger_checkbox);
+        document.getElementById('field-input-email_event').addEventListener("click",trigger_checkbox);
+        async function trigger_checkbox(event) {
+            
+            let CF_key = event.srcElement.id.replace('field-input-','')
+            let CF_value = event.srcElement.checked
+            // démarrer un timer avant de faire partir de call ? 
+            // AJAX call
+            let customFields = {
+                [CF_key] : CF_value
+            }
+            const url = '/wul_apps/custom_field_editor/';
+            const data = JSON.stringify(customFields);
+            const settings = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": $.cookie('csrftoken'),
+                },
+                body: data
+            };
+
+            const api_call = await fetch(url, settings);
+            // stop loader here 
+            // if (api_call.status !== 200) {
+            // }
+        }
+
+        // move delete-account section
+        for (let i = 0; i < sections_onglet_info.length; i++) {
+            const section = sections_onglet_info[i];
+            if (section.innerText.indexOf('Supprimer mon compte') != -1 ) {
+                // element to move
+                target_onglet.appendChild(section)
+
+            } else if (section.innerText.indexOf('Liens vers les réseaux sociaux') != -1) {
+                // element to hide
+                section.style.display = 'none'
+            }
+        }
+    }, 300);
+
+</script>
+<style>
+    input.larger {
+        height: 30px;
+    }
+    .u-field-message-help {
+        color : black !important;
+    }
+</style>
+
+<%static:webpack entry="StudentAccountDeletionInitializer">
+</%static:webpack>
+</%block>
