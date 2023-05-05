@@ -64,16 +64,21 @@
 
     // dev Cyril
     var hidePaperForm = setInterval(() => {
-      var paperFormDiv = document.querySelector('.checkbox-paper_form');
-      paperFormDiv.setAttribute('style', 'display: none !important')
+    //   var paperFormDiv = document.querySelector('.checkbox-paper_form');
+    //   paperFormDiv.setAttribute('style', 'display: none !important')
 
-      var paperGradeDiv = document.querySelector('.text-grade_paper_version');
-      paperGradeDiv.setAttribute('style', 'display: none !important')
-    }, 200);
+    //   var paperGradeDiv = document.querySelector('.text-grade_paper_version');
+    //   paperGradeDiv.setAttribute('style', 'display: none !important')
+        var show_div = document.getElementById('login-help')
+        show_div.style.display = 'block'
+        
+        var hide_div = document.getElementsByClassName('login-help')[0]
+        hide_div.style.display = 'none'
+
+    }, 300);
 
     if (window.location.href === "https://bvtexam.weup.in/register") {
         window.location.replace("https://bvtexam.weup.in/")
     }
-
 
 </script>
