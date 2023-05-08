@@ -24,7 +24,105 @@ self_paced = context.get('self_paced', False)
 relative_dates_flag_is_enabled = RELATIVE_DATES_FLAG.is_enabled(str(course_key))
 is_course_staff = bool(user and course and has_access(user, 'staff', course, course.id))
 dates_banner_displayed = False
+custom_fields_dict = json.loads(custom_fields)
+user_firstname = custom_fields_dict.get('first_name', '')
+user_lastname = custom_fields_dict.get('last_name', '')
+user_structure = custom_fields_dict.get('structure', '')
 %>
+
+
+## mako
+
+<%page expression_filter="h"/>
+
+<%namespace name='static' file='../static_content.html'/>
+
+<%!
+import json
+import pytz
+from datetime import date, datetime, timedelta
+
+from django.utils import timezone
+from django.utils.translation import gettext as _
+from django.utils.translation import ngettext
+
+from lms.djangoapps.courseware.access import has_access
+from openedx.core.djangolib.markup import HTML, Text
+from openedx.features.course_experience import RELATIVE_DATES_FLAG
+%>
+
+<%
+course_sections = blocks.get('children')
+self_paced = context.get('self_paced', False)
+relative_dates_flag_is_enabled = RELATIVE_DATES_FLAG.is_enabled(str(course_key))
+is_course_staff = bool(user and course and has_access(user, 'staff', course, course.id))
+dates_banner_displayed = False
+custom_fields_dict = json.loads(custom_fields)
+user_firstname = custom_fields_dict.get('first_name', '')
+user_lastname = custom_fields_dict.get('last_name', '')
+user_structure = custom_fields_dict.get('structure', '')
+display_form = False
+if not all([user_firstname, user_lastname, user_structure]):
+    display_form = True
+%>
+
+
+<style>
+    #customFieldsForm {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+  
+    #customFieldsForm label {
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+  
+    #customFieldsForm input[type="text"] {
+      padding: 5px;
+      margin-bottom: 20px;
+      border-radius: 3px;
+      border: 1px solid #ccc;
+      width: 100%;
+      max-width: 400px;
+    }
+  
+    #customFieldsForm button[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+  
+    #customFieldsForm button[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+  </style>
+
+% if display_form:
+
+<form id="customFieldsForm">
+    <label for="firstName">Nom:</label>
+    <input type="text" id="firstName" name="firstName"><br>
+  
+    <label for="lastName">Prénom:</label>
+    <input type="text" id="lastName" name="lastName"><br>
+  
+    <label for="structure">Organisme:</label>
+    <input type="text" id="structure" name="structure"><br>
+  
+    <button type="submit">Envoyer</button>
+</form>
+
+%else :
+
+
 <main role="main" class="course-outline" id="main" tabindex="-1">
     <%include file="/dates_banner.html" />
     % if course_sections is not None:
@@ -175,6 +273,8 @@ dates_banner_displayed = False
     % endif
 </main>
 
+% endif
+
 <%static:require_module_async module_name="js/dateutil_factory" class_name="DateUtilFactory">
     DateUtilFactory.transform('.localized-datetime');
 </%static:require_module_async>
@@ -182,3 +282,39 @@ dates_banner_displayed = False
 <%static:webpack entry="CourseOutline">
     new CourseOutline();
 </%static:webpack>
+
+
+<script>
+    const form = document.getElementById("customFieldsForm");
+
+form.addEventListener("submit", function(event) {
+//   event.preventDefault();
+
+  const firstName = document.getElementById("firstName").value;
+  const lastName = document.getElementById("lastName").value;
+  const structure = document.getElementById("structure").value;
+
+  const customFields = {
+    first_name: firstName,
+    last_name: lastName,
+    structure: structure
+  };
+
+    const url = '/wul_apps/custom_field_editor/';
+    const data = JSON.stringify(customFields);
+    const settings = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": $.cookie('csrftoken'),
+        },
+        body: data
+    };
+
+    fetch(url, settings)
+
+    window.location.reload();
+
+});
+
+</script>
