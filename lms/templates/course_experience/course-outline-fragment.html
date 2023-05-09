@@ -221,15 +221,15 @@ window.onload = function () {
 
     for (let element of h3) {
         console.log(element.textContent)
-        if (customFieldsObject.parcours === "Dépistage") {
+        if (customFieldsObject.parcours === "D\u00e9pistage") {
             if (element.textContent === "Etape 2 : phase d'évaluation" || element.textContent === "Étape 2 : Gestion des alertes") {
             element.parentElement.parentElement.style.display = "none"
             }
-        } else if (customFieldParcours === "evaluation") {
+        } else if (customFieldParcours === "Evaluation approfondie") {
             if (element.textContent === "Étape 2 : Gestion des alertes") {
             element.parentElement.parentElement.style.display = "none"
             }
-        } else if (customFieldParcours === "depistages_gestion") {
+        } else if (customFieldParcours === "D\u00e9pistage + gestion des alertes") {
             if (element.textContent === "Etape 2 : phase d'évaluation") {
             element.parentElement.parentElement.style.display = "none"
             }   
