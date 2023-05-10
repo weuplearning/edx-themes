@@ -62,6 +62,20 @@
 </div>
 <script>
     setInterval(() => {
+        document.getElementsByClassName("label-text")[0].innerHTML = "Nom d'utilisateur public (pseudo)";
+
+        if(document.getElementById("usernameTextInfo") === null){
+            const emailField = document.getElementsByClassName("form-field email-email")[0];
+            const registerFieldsParentNode = document.getElementsByClassName('required-fields')[0];
+            let stringInfoUsername = document.createElement('div');
+            stringInfoUsername.className = 'usernameTextInfo';
+            stringInfoUsername.id = 'usernameTextInfo';
+            let text = document.createTextNode('Sera visible dans toute discussion ou forum où vous participerez (ne pourra pas être modifié ultérieurement)');
+            stringInfoUsername.appendChild(text);
+            registerFieldsParentNode.insertBefore(stringInfoUsername, emailField);
+        }
+
+
         document.getElementsByClassName("label-text")[16].innerHTML = document.getElementsByClassName("label-text")[16].innerHTML.replace("de afpa", "du Service (CGU)")
         document.getElementsByClassName("label-text")[17].innerHTML = "J’accepte les conditions générales de vente (CGV) "
         document.getElementById("register-terms_of_service").setAttribute("required", "") 
