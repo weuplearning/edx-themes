@@ -131,6 +131,8 @@ from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_f
             // démarrer un timer avant de faire partir de call ? 
             // AJAX call
             let customFields = {
+                'user_id_for_api' : ${ user.id | n, dump_js_escaped_json },
+                'authorized' : true,
                 [CF_key] : CF_value
             }
             const url = '/wul_apps/custom_field_editor/';
