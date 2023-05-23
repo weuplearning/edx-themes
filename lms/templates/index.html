@@ -73,6 +73,9 @@ from openedx.core.djangolib.markup import HTML, Text
 .space-between {
   justify-content: space-between;
 }
+.space-around {
+  justify-content: space-around;
+}
 #top-container {
   color: white;
   background-image: url("${static.url('images/baniere.png')}");
@@ -340,11 +343,9 @@ html {
     </div>
   </section>
 
-  <footer class="wrapper-footer-home horizontal-align space-between">
+  <footer class="wrapper-footer-home horizontal-align space-around">
     <a href="/tos">Mentions légales</a>
-    <a href="/privacy">Politique de confidentialité</a>
-    <a href="/honor">Crédits</a>
-
+    <a href="/privacy">Politique Cookies</a>
   </footer>
 </main>
 
