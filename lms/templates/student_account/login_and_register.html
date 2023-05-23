@@ -56,17 +56,25 @@
 <script>
 setTimeout(function(){
     document.getElementById("register-honor_code").checked = true;
-    document.getElementById("register-birth_date").type = "date";
-    $("#register-birth_date").css('color', "transparent");
-    $("#register-birth_date").focus(function() {
-        $("#register-birth_date").css('color', "black");
-    })
+    // document.getElementById("register-birth_date").type = "date";
+    // $("#register-birth_date").css('color', "transparent");
+    // $("#register-birth_date").focus(function() {
+    //     $("#register-birth_date").css('color', "black");
+    // })
     
 }, 500);
 
 const register_form_update = setInterval( register_form_update_function, 250);
 function register_form_update_function(){
 
+
+    // CGU text 
+    let target2 = document.getElementById('register').getElementsByClassName('checkbox-terms_of_service')[0]
+    
+    target2.innerHTML = '<input id="register-terms_of_service" type="checkbox" name="terms_of_service" class="input-block checkbox" data-errormsg-required="Vous devez accepter les conditions d’utilisation de MOOC SNCF Sureté " value="false" data-dashlane-rid="bcb7bc0e1c1d0ab1" data-form-type="consent,terms"><label for="register-terms_of_service"><span class="label-text">J’ai lu et j’accepte les <a href="/tos" rel="noopener" target="_blank">conditions d’utilisation</a> du MOOC SNCF Sureté&nbsp;</span><span class="label-optional" id="register-terms_of_service-optional-label" style="display: none">(optionnel)</span></label><span id="register-terms_of_service-validation-error" class="tip error" aria-live="assertive"><span class="sr-only"></span><span id="register-terms_of_service-validation-error-msg"><ul class="fa-ul"></ul></span></span>'
+
+
+    // Mobility text to display
     let target = document.getElementsByClassName("checkbox-auvergne_rhone_alpes")[0]
     let div = document.createElement("div")
 
@@ -74,6 +82,9 @@ function register_form_update_function(){
     target.before(div)
 
     div.textContent = "Veuillez indiquer votre mobilité géographique :"
+
+    // document.getElementById('register').getElementsByClassName('checkbox-terms_of_service')[0].innerHTML = document.getElementById('register').getElementsByClassName('checkbox-terms_of_service')[0].innerHTML.replace("J'accepte les ", "J’ai lu et j’accepte les ");
+
     clearInterval(register_form_update)
 };
 
