@@ -24,13 +24,27 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
 %>
 
 <style>
-  .window-wrap {
+  /* .window-wrap {
     background: url("${static.url('{}/images/bg_img.png'.format(course.org))}");
     background-size: contain;
-  }
+  } */
   body.view-in-course .wrapper-footer{
       /* background-color: unset; */
       margin-top: 0;
+  }
+
+  .wrapper-problem-response, .inputtype {
+    display: inline;
+  }
+  .wrapper-problem-response {
+    margin-right: -12px;
+  }
+  .problem select { 
+    border: 1px solid #5c5c5c !important;
+  }
+  .problem > div > p {
+    display: inline;
+    line-height: 34px;
   }
 </style>
 
