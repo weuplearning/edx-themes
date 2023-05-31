@@ -1,0 +1,51 @@
+<!-- Cookie Consent -->
+<%page expression_filter="h"/>
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='../static_content.html'/>
+ 
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.1/cookieconsent.min.css" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.1/cookieconsent.min.js"></script>
+
+<script>
+window.addEventListener("load", function(){
+  window.cookieconsent.initialise({
+
+    window: '<div dir="${static.dir_rtl()}" role="dialog" tabindex="-1" id="cookiepopup" aria-label="cookieconsent" class="cc-window {{classes}}"><!--googleoff: all-->{{children}}<!--googleon: all--></div>',
+
+    palette:{
+      popup: {background: "#323538", text: "#ffffff"},
+      button: {background: "var(--secondary)", text: "#ffffff"},
+    },
+    "content": {
+      "message": "<p> ${_('This website uses cookies to ensure you get the best experience on our website. If you continue browsing this site, we understand that you accept the use of cookies.')} </p><p> Les données à caractère personnel que vous fournissez dans ce questionnaire sont nécessaires pour mieux connaître vos besoins et assurer le maintien de vos compétences. </p><p>Vous avez le choix de renseigner votre nom et prénom afin de permettre à nos équipes de vous recontacter. </p><p> Vous acceptez de recevoir des informations sur les formations pouvant vous intéresser en communiquant votre adresse email. </p><p> Vos données sont destinées aux personnels habilités au sein de BVT et sont conservées pendant 5 ans. </p><p> Conformément au Règlement Général sur la Protection des Données et à la loi «Informatique et Libertés» du 6 janvier 1978, vous pouvez exercer vos droits d’accès aux données à caractère personnel, à la rectification ou l’effacement de celles-ci, à la limitation du traitement vous concernant, à vous opposer au traitement et à la portabilité des données en contactant le Délégué à la Protection des Données à l’adresse mail <a href=mailto:dpo@apave.com>dpo@apave.com</a> ou par courrier à Apave à l’attention du Délégué à la Protection des Données 6 RUE DU GENERAL AUDRAN 92400 COURBEVOIE. </p><p> Dans les mêmes conditions, vous avez également le droit de retirer votre consentement à tout moment, sans que les effets de ce retrait soient rétroactifs. Vous avez la possibilité d’introduire une réclamation auprès de la CNIL.</p>",
+      "dismiss": "${_('Got it!')}",
+      "link": "${_('Learn more')}",
+    },
+    theme: "classic",
+    "elements": {
+        "dismiss": '<a aria-label="dismiss cookie message" id="dismiss" role=button tabindex="2" class="cc-btn cc-dismiss:focus">{{dismiss}}</a>',
+    },
+    "position": "bottom",
+    "static": "true"
+  },
+  function(popup){
+
+    $(".cc-window").on('keydown', function(event) {
+      if (event.keyCode == 27 ){
+        popup.close();
+      } 
+    });
+
+    $("#dismiss").on('keydown', function(event) {
+      if (event.keyCode == 13 || event.keyCode == 32 ) {
+        popup.onButtonClick(event);
+      }
+    });  
+  });
+});
+</script>
+<style>
+  p+p {
+    margin-top: 10px !important;
+  }
+</style>
