@@ -76,8 +76,8 @@
         }
 
 
-        document.getElementsByClassName("label-text")[16].innerHTML = document.getElementsByClassName("label-text")[16].innerHTML.replace("de afpa", "du Service (CGU)")
-        document.getElementsByClassName("label-text")[17].innerHTML = "J’accepte les conditions générales de vente (CGV) "
+        document.getElementsByClassName("label-text")[14].innerHTML = document.getElementsByClassName("label-text")[14].innerHTML.replace("de afpa", "du Service (CGU)")
+        document.getElementsByClassName("label-text")[15].innerHTML = "J’accepte les conditions générales de vente (CGV) "
         document.getElementById("register-terms_of_service").setAttribute("required", "") 
         const parentElement = document.getElementsByClassName("non-required-fields")[0];
         const parentElement1 = document.getElementsByClassName("register-form")[0];
@@ -88,7 +88,7 @@
         parentElement.insertBefore(firstElement, secondElement);
         parentElement.insertBefore(thirdElement, firstElement);
 
-        document.getElementsByClassName("label-text")[9].children[0].href = 'https://mooc.afpa.fr/donnees'
+        document.getElementsByClassName("label-text")[7].children[0].href = 'https://mooc.afpa.fr/donnees'
         document.getElementById("register-terms_of_service-optional-label").remove()
 
     }, 500);
