@@ -28,6 +28,15 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
     background: url("${static.url('{}/images/bg_img.png'.format(course.org))}");
     background-size: contain;
   }
+  nav.courseware.wrapper-course-material {
+    background: white;
+    margin: 1rem 0rem;
+    border-radius: .5rem;
+  }
+  .course-material > .tabs > .tab > a{
+    font-size: 1.1rem !important;
+    margin-top: .5rem;
+  }
 </style>
 
 % if display_reset_dates_banner:
