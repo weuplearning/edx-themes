@@ -62,8 +62,10 @@
 </div>
 <script>
     setInterval(() => {
+        // username field
         document.getElementsByClassName("label-text")[0].innerHTML = "Nom d'utilisateur public (pseudo)";
 
+        // fullname indications
         if(document.getElementById("usernameTextInfo") === null){
             const emailField = document.getElementsByClassName("form-field email-email")[0];
             const registerFieldsParentNode = document.getElementsByClassName('required-fields')[0];
@@ -75,21 +77,27 @@
             registerFieldsParentNode.insertBefore(stringInfoUsername, emailField);
         }
 
-
-        document.getElementsByClassName("label-text")[14].innerHTML = document.getElementsByClassName("label-text")[14].innerHTML.replace("de afpa", "du Service (CGU)")
-        document.getElementsByClassName("label-text")[15].innerHTML = "J’accepte les conditions générales de vente (CGV) "
-        document.getElementById("register-terms_of_service").setAttribute("required", "") 
+        // Move CGU after register form fields
         const parentElement = document.getElementsByClassName("non-required-fields")[0];
-        const parentElement1 = document.getElementsByClassName("register-form")[0];
-        const firstElement = document.getElementsByClassName("form-field checkbox-honor_code")[0];
+        const parentElement1 = document.getElementsByClassName("required-fields")[0];
+        const firstElement = document.getElementsByClassName("form-field plaintext-honor_code")[0];
         const secondElement = document.getElementsByClassName("form-field checkbox-email_module")[0];
         const thirdElement = document.getElementsByClassName("form-field checkbox-terms_of_service")[0];
+
         parentElement1.removeChild(firstElement);
         parentElement.insertBefore(firstElement, secondElement);
         parentElement.insertBefore(thirdElement, firstElement);
 
+        // Correct CGU text and links
+        firstElement.innerHTML = firstElement.innerHTML.replace('<a href=\"/honor\" rel=\"noopener\" target=\"_blank\">Conditions d’utilisation et Code d’honneur</a>', '<a href=\"/cgu\" rel=\"noopener\" target=\"_blank\">Conditions générales d’utilisation</a>')
+        firstElement.innerHTML = firstElement.innerHTML.replace('<a href=\"/privacy\" rel=\"noopener\" target=\"_blank\">Privacy Policy</a>', '<a href=\"/donnees\" rel=\"noopener\" target=\"_blank\"><Politique de gestion des données</a>')
+        firstElement.innerHTML = firstElement.innerHTML.replace('équipes afpa', 'équipes Afpa')
+
+
         document.getElementsByClassName("label-text")[7].children[0].href = 'https://mooc.afpa.fr/donnees'
-        document.getElementById("register-terms_of_service-optional-label").remove()
+        // document.getElementById("register-terms_of_service-optional-label").remove()
 
     }, 500);
 </script>
+
+
