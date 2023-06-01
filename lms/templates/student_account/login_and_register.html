@@ -80,23 +80,37 @@
         // Move CGU after register form fields
         const parentElement = document.getElementsByClassName("non-required-fields")[0];
         const parentElement1 = document.getElementsByClassName("required-fields")[0];
-        const firstElement = document.getElementsByClassName("form-field plaintext-honor_code")[0];
+        // const firstElement = document.getElementsByClassName("form-field plaintext-honor_code")[0];
+        const firstElement = document.getElementsByClassName("form-field checkbox-honor_code")[0];
         const secondElement = document.getElementsByClassName("form-field checkbox-email_module")[0];
         const thirdElement = document.getElementsByClassName("form-field checkbox-terms_of_service")[0];
+
+
+        // Correct CGU text and links only Koa-Prod
+        console.log(thirdElement);
+        // thirdElement.attributes('required', '')
+        if (thirdElement.innerText.indexOf('afpa') != -1 ) {
+            thirdElement.innerHTML = thirdElement.innerHTML.replace('<a href=\"/tos\" rel=\"noopener\" target=\"_blank\">Conditions d’utilisation</a> de afpa', '<a href=\"/cgu\" rel=\"noopener\" target=\"_blank\">Conditions d’utilisation</a> de Afpa')
+            thirdElement.innerHTML = thirdElement.innerHTML.replace('<span class=\"label-optional\" id=\"register-terms_of_service-optional-label\">(optionnel)</span>', '')    
+        }
+
+        if (firstElement.innerText.indexOf('afpa') != -1 ) {
+            firstElement.innerHTML = firstElement.innerHTML.replace("les <a href=\"/honor\" rel=\"noopener\" target=\"_blank\">Code d'honneur</a> de afpa", "la <a href=\"/donnees\" rel=\"noopener\" target=\"_blank\">Politique de confidentialité</a> de Afpa")
+            firstElement.innerHTML = firstElement.innerHTML.replace('<span class=\"label-optional\" id=\"register-terms_of_service-optional-label\">(optionnel)</span>', '')    
+        }
+
+        // Correct CGU text and links only Koa-Prod-2
+        // firstElement.innerHTML = firstElement.innerHTML.replace('<a href=\"/honor\" rel=\"noopener\" target=\"_blank\">Conditions d’utilisation et Code d’honneur</a>', '<a href=\"/cgu\" rel=\"noopener\" target=\"_blank\">Conditions générales d’utilisation</a>')
+        // firstElement.innerHTML = firstElement.innerHTML.replace('<a href=\"/privacy\" rel=\"noopener\" target=\"_blank\">Privacy Policy</a>', '<a href=\"/donnees\" rel=\"noopener\" target=\"_blank\"><Politique de gestion des données</a>')
+        // firstElement.innerHTML = firstElement.innerHTML.replace('équipes afpa', 'équipes Afpa')
+
+
+        //document.getElementsByClassName("label-text")[7].children[0].href = 'https://mooc.afpa.fr/donnees'
+        // document.getElementById("register-terms_of_service-optional-label").remove()
 
         parentElement1.removeChild(firstElement);
         parentElement.insertBefore(firstElement, secondElement);
         parentElement.insertBefore(thirdElement, firstElement);
-
-        // Correct CGU text and links
-        firstElement.innerHTML = firstElement.innerHTML.replace('<a href=\"/honor\" rel=\"noopener\" target=\"_blank\">Conditions d’utilisation et Code d’honneur</a>', '<a href=\"/cgu\" rel=\"noopener\" target=\"_blank\">Conditions générales d’utilisation</a>')
-        firstElement.innerHTML = firstElement.innerHTML.replace('<a href=\"/privacy\" rel=\"noopener\" target=\"_blank\">Privacy Policy</a>', '<a href=\"/donnees\" rel=\"noopener\" target=\"_blank\"><Politique de gestion des données</a>')
-        firstElement.innerHTML = firstElement.innerHTML.replace('équipes afpa', 'équipes Afpa')
-
-
-        document.getElementsByClassName("label-text")[7].children[0].href = 'https://mooc.afpa.fr/donnees'
-        // document.getElementById("register-terms_of_service-optional-label").remove()
-
     }, 500);
 </script>
 

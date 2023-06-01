@@ -153,9 +153,22 @@ var textTranslation = setInterval(function() {
         })
 
       }
-    } 
+    }
+
+    // Fullscreen
+    var FullscreenButton = document.getElementsByClassName('js-button-full-screen')
+    for (let i = 0; i < FullscreenButton.length; i++) {
+      const button = FullscreenButton[i];
+
+      if (button.innerText.indexOf('Fullscreen') != -1 ) {
+        button.innerText = button.innerText.replace('Fullscreen', 'Mode plein écran')
+      }
+      if (button.innerText.indexOf('Exit fullscreen') != -1 ) {
+        button.innerText = button.innerText.replace('Exit fullscreen', 'Quitter le mode plein écran')
+      }
+    }
   }
 
-}, 1000)
+}, 1000) 
 
 </script>
