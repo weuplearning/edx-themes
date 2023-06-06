@@ -43,6 +43,12 @@ from lms.djangoapps.experiments.utils import UPSELL_TRACKING_FLAG
 
 <%namespace name='static' file='../static_content.html'/>
 
+
+<style>
+  .info-date-block-container{
+    display: none;
+  }
+</style>
 <li class="course-item">
   % if display_course_modes_on_dashboard:
     <%
