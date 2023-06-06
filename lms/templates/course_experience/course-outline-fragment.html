@@ -236,6 +236,10 @@ log = logging.getLogger(__name__)
 
     }
 
+    .outline-item .accordion-panel{
+        display: none !important;
+    }
+
     /* media queries */
     @media screen and (max-width: 1100px) {
         ol#course-outline-block-tree{
@@ -286,16 +290,18 @@ log = logging.getLogger(__name__)
             <%
             section_is_auto_opened = section.get('resume_block') is True
             scored = 'scored' if section.get('scored', False) else ''
+            
+            subsectionName = section.get('children', [])[0] if section.get('children') else {}
             %>
                 <li class="outline-item section ${scored} courseSection${sectionCount}">
                     <img src="${static.url('grand-reims/images/assets/' + cleaningText(section['display_name']) + '.png')}" alt="" class="imgCourseSection imgCourseSection${sectionCount}">
                     <div class="courseSectionContent courseSectionBkg${sectionCount}">
-                    <a class="linkToCourseSection" href="${ section['lms_web_url'] }">
+                    <a class="linkToCourseSection" href="${ subsectionName['lms_web_url'] }">
                         <button class="section-name accordion-trigger outline-button"
                                 aria-expanded="${ 'true' if section_is_auto_opened else 'false' }"
                                 aria-controls="${ section['id'] }_contents"
                                 id="${ section['id'] }">
-                            <!-- <span class="fa fa-chevron-right ${ 'fa-rotate-90' if section_is_auto_opened else '' }" aria-hidden="true"></span> -->
+                            <span style="display: none;" class="fa fa-chevron-right ${ 'fa-rotate-90' if section_is_auto_opened else '' }" aria-hidden="true"></span>
                             <h3 class="section-title">${ section['display_name'] }</h3>
                 % if section.get('complete'):
                                 <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
@@ -338,14 +344,14 @@ log = logging.getLogger(__name__)
                         <div class="progressCourseSection-bar">
                             <div class="progressCourseSection-progressBars progressCourseSection-progressBar${sectionCount}"></div>
                         </div>
-                        <h2 class="progressCourseSection-text">50%</h2>
+                        <h2 class="progressCourseSection-text">55%</h2>
                     </div>
             
                 %endif
 
-                    <!-- <ol class="outline-item accordion-panel ${ '' if section_is_auto_opened else 'is-hidden' }"
+                    <ol style="display: none !important;" class="outline-item accordion-panel ${ '' if section_is_auto_opened else 'is-hidden' }"
                         id="${ section['id'] }_contents"
-                        aria-labelledby="${ section['id'] }"> -->
+                        aria-labelledby="${ section['id'] }">
             % for subsection in section.get('children', []):
                 <%
                 gated_subsection = subsection['id'] in gated_content
@@ -354,7 +360,7 @@ log = logging.getLogger(__name__)
                 graded = 'graded' if subsection.get('graded') else ''
                 num_graded_problems = subsection.get('num_graded_problems', 0)
                 %>
-                        <!-- <li class="subsection accordion ${ 'current' if subsection.get('resume_block') else '' } ${graded} ${scored}">
+                        <li class="subsection accordion ${ 'current' if subsection.get('resume_block') else '' } ${graded} ${scored}">
                             <a
                             % if enable_links:
                                 href="${ subsection['lms_web_url'] }"
@@ -363,23 +369,23 @@ log = logging.getLogger(__name__)
                             % endif
                                 class="subsection-text outline-button"
                                 id="${ subsection['id'] }"
-                            > -->
+                            >
                             % if graded and scored and 'special_exam_info' not in subsection:
-                                      <!-- <span class="icon fa fa-pencil-square-o" aria-hidden="true"></span> -->
+                                      <span style="display: none;" class="icon fa fa-pencil-square-o" aria-hidden="true"></span>
                             % endif
-                                      <!-- <h4 class="subsection-title"> -->
+                                      <h4 style="display: none;" class="subsection-title">
                             % if num_graded_problems:
-<!--
+
                                           ${ngettext("({number} Question)",
                                                      "({number} Questions)",
                                                      num_graded_problems).format(number=num_graded_problems)}
--->
+
                             % endif
                                       </h4>
 
                             % if subsection.get('complete'):
-                                <!-- <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
-                                <span class="sr">${_("Completed")}</span> -->
+                                <span style="display: none;" class="complete-checkmark fa fa-check" aria-hidden="true"></span>
+                                <span style="display: none;" class="sr">${_("Completed")}</span>
 
                             % endif
                             % if needs_prereqs:
@@ -393,7 +399,7 @@ log = logging.getLogger(__name__)
                                             ${ prerequisite_name }
                                     </div>
                             % endif
-                                        <!-- <div class="details"> -->
+                                        <div class="details">
 
                 ## There are behavior differences between rendering of subsections which have
                 ## exams (timed, graded, etc) and those that do not.
@@ -415,47 +421,50 @@ log = logging.getLogger(__name__)
                                             <!-- <span class="subtitle"> -->
                     % if 'special_exam_info' in subsection:
                                                     ## Display the exam status icon and status message
-                                                    <!-- <span
+                                                    <span
+                                                        style="display: none;"
                                                         class="menu-icon icon fa ${subsection['special_exam_info'].get('suggested_icon', 'fa-pencil-square-o')} ${subsection['special_exam_info'].get('status', 'eligible')}"
                                                         aria-hidden="true"
                                                     ></span>
-                                                    <span class="subtitle-name">
+                                                    <span class="subtitle-name" style="display: none;">
                                                         ${subsection['special_exam_info'].get('short_description', '')}
-                                                    </span> -->
+                                                    </span>
 
                         ## completed exam statuses should not show the due date
                         ## since the exam has already been submitted by the user
                         % if not subsection['special_exam_info'].get('in_completed_state', False):
-                                                        <!-- <span
+                                                        <span
+                                                            style="display: none;"
                                                             class="localized-datetime subtitle-name"
                                                             data-datetime="${data_datetime}"
                                                             data-string="${data_string}"
                                                             data-timezone="${user_timezone}"
                                                             data-language="${user_language}"
-                                                        ></span> -->
+                                                        ></span>
                         % endif
                     % else:
                                                     ## non-graded section, we just show the exam format and the due date
                                                     ## this is the standard case in edx-platform
-                                                    <!-- <span
+                                                    <span 
+                                                        style="display: none;"
                                                         class="localized-datetime subtitle-name"
                                                         data-datetime="${data_datetime}"
                                                         data-string="${data_string}"
                                                         data-timezone="${user_timezone}"
                                                         data-language="${user_language}"
-                                                    ></span> -->
+                                                    ></span>
 
                         % if subsection.get('graded'):
-                                                <!-- <span class="sr">&nbsp;${_("This content is graded")}</span> -->
+                                                <span style="display: none;" class="sr">&nbsp;${_("This content is graded")}</span>
                         % endif
                     % endif
-                                            <!-- </span> -->
+                                            </span>
                 % endif
-                                        <!-- </div> /details -->
+                                        </div>
                             </a>
-                        <!-- </li> -->
+                        </li>
             % endfor
-                    <!-- </ol> -->
+                    </ol>
                     </div>
                 </li>
         % endfor
