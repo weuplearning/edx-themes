@@ -25,6 +25,7 @@ from six import string_types
 
 <%block name="js_extra">
   <script type="text/javascript">
+
   (function() {
     $(".register").click(function(event) {
       $("#class_enroll_form").submit();
@@ -40,12 +41,13 @@ from six import string_types
           location.href = xhr.responseText;
         }
       } else if (xhr.status == 403) {
+        autoEnrollRedirection()
         $('#register_error').text(
-            (xhr.responseText ? xhr.responseText : "${_("An error has occurred. Please ensure that you are logged in to enroll.") | n, js_escaped_string}")
+            (xhr.responseText ? xhr.responseText : `${_("An error has occurred. Please ensure that you are logged in to enroll.") | n, js_escaped_string}`)
         ).css("display", "block");
       } else {
         $('#register_error').text(
-            (xhr.responseText ? xhr.responseText : "${_("An error occurred. Please try again later.") | n, js_escaped_string}")
+            (xhr.responseText ? xhr.responseText : `${_("An error occurred. Please try again later.") | n, js_escaped_string}`)
         ).css("display", "block");
       }
     });
@@ -298,3 +300,11 @@ from six import string_types
 <%static:require_module_async module_name="js/dateutil_factory" class_name="DateUtilFactory">
     DateUtilFactory.transform(iterationKey=".localized_datetime");
 </%static:require_module_async>
+
+// 17526 - quentin - script to redirect the page to the enroll link and then allow the user to create an account to access the course
+<script>
+    courseId = window.location.href.split('courses/')[1].split('/about')[0]
+  
+    // the below function is triggered above, line 44
+    const autoEnrollRedirection = () => window.location.replace('/register?course_id='+courseId+'&enrollment_action=enroll')
+</script>
