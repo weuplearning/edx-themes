@@ -68,8 +68,11 @@
     .window-wrap{
         background: none;
     }
-    input{
+    input, select{
         border-radius: .4rem !important;
+    }
+    select {
+        padding: 0 0.8rem !important;
     }
     form#login,form#register{
         display: flex;
@@ -169,7 +172,8 @@ setInterval(() => {
 // Add Policy text 
 setTimeout(() => {
     let policy_html = "<p id='policy-html'>En créant un compte, vous acceptez nos <a href='https://www.grandreims.fr/protection-des-donnees-personnelles-et-gestion-des-cookies'>Conditions d'utilisation et Code d'Honneur</a> et autorisez les équipes Grand Reims à traiter vos données personnelles en accord avec la <a href='https://www.grandreims.fr/mentions-legales'>Privacy Policy</a>.</p>"
-    $( policy_html ).insertAfter( ".password-password" );
+    // $( policy_html ).insertAfter( ".password-password" );
+    $( policy_html ).insertAfter( ".select-postal_code" );
 }, 500);
 
 
