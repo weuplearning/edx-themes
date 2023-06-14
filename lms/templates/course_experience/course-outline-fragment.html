@@ -285,10 +285,10 @@ if not all([user_firstname, user_lastname, user_structure]):
 
 
 <script>
-    const form = document.getElementById("customFieldsForm");
+const form = document.getElementById("customFieldsForm");
 
 form.addEventListener("submit", function(event) {
-//   event.preventDefault();
+  event.preventDefault();
 
   const firstName = document.getElementById("firstName").value;
   const lastName = document.getElementById("lastName").value;
@@ -297,7 +297,8 @@ form.addEventListener("submit", function(event) {
   const customFields = {
     first_name: firstName,
     last_name: lastName,
-    structure: structure
+    structure: structure,
+    authorized: true,
   };
 
     const url = '/wul_apps/custom_field_editor/';
@@ -312,8 +313,9 @@ form.addEventListener("submit", function(event) {
     };
 
     fetch(url, settings)
+    .then(() => window.location.reload())
+    .catch((error) => console.error('Error:', error));
 
-    window.location.reload();
 
 });
 
