@@ -242,7 +242,7 @@ html = u"<html><head></head><body><p>Bonjour,<br/><br/>Voici la liste des inscri
 part2 = MIMEText(html, 'html')
 # TO_EMAILS = ['sysadmin@themoocagency.com','loic.tournedouet@gmail.com']
 #TO_EMAILS = ['cyril.adolf@weuplearning.com','alexandre.berteau@weuplearning.com']
-TO_EMAILS = ['dimitri.hoareau@weuplearning.com']
+TO_EMAILS = ['dimitri.hoareau@weuplearning.com','alexandre.berteau@weuplearning.com', 'loic.tournedouet@gmail.com', 'loic.tournedouet@afpa.fr' ]
 for i in range(len(TO_EMAILS)):
    fromaddr = "no-reply@themoocagency.com"
    toaddr = str(TO_EMAILS[i])
