@@ -5,6 +5,7 @@
 <%!
 import six
 import waffle
+import json
 
 from django.conf import settings
 from django.urls import reverse
@@ -21,6 +22,17 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
    settings.FEATURES.get('ENABLE_SPECIAL_EXAMS', False) and
    (course.enable_proctored_exams or course.enable_timed_exams)
    )
+%>
+
+<!-- Cyril - Save or erase last visited course -->
+<%
+custom_fields = {}
+custom_fields = json.loads(user.profile.custom_field)
+
+custom_fields['last_visited_course'] = str(course.id)
+
+user.profile.custom_field = json.dumps(custom_fields)
+user.profile.save()
 %>
 
 % if display_reset_dates_banner:
@@ -65,7 +77,7 @@ body.view-in-course .container{
   }
 }
 .window-wrap {
-    background: url('/media/microsites/amazon/bg.png');
+    background-color: #f6f7f7;
 }
 .wrapper-preview-menu,.course-header{
 //    display:none !important;
