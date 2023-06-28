@@ -226,19 +226,24 @@ catch(e){window.attachEvent("onload", $buo_f)}
 % endif
 
 <script>
-const url = window.location.href
-let onglets = document.getElementById('dashboard-onglet-list')
-
-for (let i = 0; i < onglets.children.length; i++) {
-    const onglet = onglets.children[i];
+    try {
+        const url = window.location.href;
+        let onglets = document.getElementById('dashboard-onglet-list');
     
-    if (onglet.children[0].href == url) {
-        $('#dashboard-onglet-list li:nth-child('+(i+1)+') a').css('pointer-events', 'none');
-        $('#dashboard-onglet-list li:nth-child('+(i+1)+') a').css('background-color', 'white');
-        $('#dashboard-onglet-list li:nth-child('+(i+1)+') a').css('color', 'black');
-        // add style for current onglet here
+        if (!onglets) throw new Error("Unable to find element with id 'dashboard-onglet-list'");
+    
+        for (let i = 0; i < onglets.children.length; i++) {
+            const onglet = onglets.children[i];
+    
+            if (onglet.children[0].href === url) {
+                $('#dashboard-onglet-list li:nth-child('+(i+1)+') a').css('pointer-events', 'none');
+                $('#dashboard-onglet-list li:nth-child('+(i+1)+') a').css('background-color', 'white');
+                $('#dashboard-onglet-list li:nth-child('+(i+1)+') a').css('color', 'black');
+                // add style for current onglet here
+            }
+        }
+    } catch (error) {
+        console.error("An error occurred:", error);
     }
-}
-
-
 </script>
+    
