@@ -28,6 +28,41 @@ log = logging.getLogger()
   <link rel="stylesheet" type="text/css" href="${static.url('weup/css/animate-4.1.1.min.css')}" />
 
   <style>
+    header.page-header.has-secondary.course-v1amazonIntroductionAZ_01_banner{
+        background-image: url("/media/microsites/amazon/banners/course-v1amazon+Introduction+AZ_01.png");
+    }
+    header.page-header.has-secondary.course-v1amazonTransition_numeriqueAZ_03_banner{
+        background-image: url("/media/microsites/amazon/banners/course-v1amazon+Transition_numerique+AZ_03.png");
+    }
+    header.page-header.has-secondary.course-v1amazonaccelerer_ventesAZ_09_banner{
+        background-image: url("/media/microsites/amazon/banners/course-v1amazon+accelerer_ventes+AZ_09.png");
+    }
+    header.page-header.has-secondary.course-v1amazonaugmenter_traficAZ_07_banner{
+        background-image: url("/media/microsites/amazon/banners/course-v1amazon+augmenter_trafic+AZ_07.png");
+    }
+    header.page-header.has-secondary.course-v1amazonbases_de_donneesAZ_11_banner{
+        background-image: url("/media/microsites/amazon/banners/course-v1amazon+bases_de_donnees+AZ_11.png");
+    }
+    header.page-header.has-secondary.course-v1amazondemarrer_activiteAZ_02_banner{
+        background-image: url("/media/microsites/amazon/banners/course-v1amazon+demarrer_activite+AZ_02.png");
+    }
+    header.page-header.has-secondary.course-v1amazonimage_de_marqueAZ_06_banner{
+        background-image: url("/media/microsites/amazon/banners/course-v1amazon+image_de_marque+AZ_06.png");
+    }
+    header.page-header.has-secondary.course-v1amazonpreparer_logistiqueAZ_08_banner{
+        background-image: url("/media/microsites/amazon/banners/course-v1amazon+preparer_logistique+AZ_08.png");
+    }
+    header.page-header.has-secondary.course-v1amazonvendre_site_personnelAZ_04_banner{
+        background-image: url("/media/microsites/amazon/banners/course-v1amazon+vendre_site_personnel+AZ_04.png");
+    }
+    header.page-header.has-secondary.course-v1amazonvendre_site_tiersAZ_05_banner{
+        background-image: url("/media/microsites/amazon/banners/course-v1amazon+vendre_site_tiers+AZ_05.png");
+    }
+    header.page-header.has-secondary.course-v1amazonvendre_internationalAZ_10_banner{
+        background-image: url("/media/microsites/amazon/banners/course-v1amazon+vendre_international+AZ_10.png");
+    }
+
+
     header.page-header.has-secondary{
         background-image: url("/media/microsites/amazon/banner_v3.png");
         padding-top: 10px !important;
@@ -36,6 +71,7 @@ log = logging.getLogger()
         height: 210px;
         margin: auto;
         background-position-x: center;
+        background-size:cover;
     }
     .page-header-main, .page-header-secondary{
         animation: bounce;
@@ -447,18 +483,27 @@ progress_percentage = 0
 total_blocks = 1
 completed_blocks = 0
 
-for section in course_block_tree.get('children', []):
-  for subsection in section.get('children', []):
-    for unitchild in subsection.get('children', []):
-      for blockchild in unitchild.get('children', []):
-        test_CA = unitchild.get('id')
-        total_blocks += 1
-        if blockchild.get('complete'):
-          completed_blocks += 1
-progress_percentage = completed_blocks / total_blocks
-
-
 %>
+%for section in course_block_tree.get('children', []):
+    %for subsection in section.get('children', []):
+        %for unitchild in subsection.get('children', []):
+            %for blockchild in unitchild.get('children', []):
+                <%
+                test_CA = unitchild.get('id')
+                total_blocks += 1
+                if blockchild.get('complete'):
+                  completed_blocks += 1
+                %>
+                %if blockchild.get('type') == 'html':
+                    <script>
+                        console.log("test");
+                    </script>
+                %endif
+            %endfor
+        %endfor
+    %endfor
+%endfor
+                    
 
 
  <!-- The Modal -->
@@ -523,9 +568,11 @@ progress_percentage = completed_blocks / total_blocks
   </div>
 
   <!--end modal test -->
-
+<%
+course_id = str(course.id).translate({ord(i): None for i in ':+'})
+%>
 <div class="course-view page-content-container" id="course-container">
-    <header class="page-header has-secondary">
+    <header class="page-header has-secondary ${course_id}_banner">
         <div class="page-header-main">
             <nav aria-label="${_('Course Outline')}" class="sr-is-focusable" tabindex="-1">
             </nav>
@@ -774,6 +821,5 @@ progress_percentage = completed_blocks / total_blocks
 </%static:require_module_async> 
 <script>
 $("div.grade-block").eq(1).hide();
-
 
 </script>

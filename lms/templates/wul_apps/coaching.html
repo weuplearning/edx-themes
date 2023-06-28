@@ -1,0 +1,119 @@
+<% css='/media/wul_apps/dashboard/reset.css' %>
+<%page expression_filter="h" />
+<%inherit file="../main.html" />
+<%namespace name='static' file='../static_content.html' />
+<%! from django.utils.translation import ugettext as _ %>
+
+<%include file="../learner_dashboard/_dashboard_navigation_courses.html" />
+
+<script type="module" crossorigin src="/media/microsites/amazon/react_coach/build/index-f35ce78f.js"></script>
+<link rel="stylesheet" type="text/css" href="${css}" />
+<link rel="stylesheet" href="/media/microsites/amazon/react_coach/build/index-4dd03b4a.css">
+<link rel="stylesheet" href="https://cdn.fontawesome.com/css/fontawesome.min.css">
+<div id="root"></div>
+
+<!-- managing openedx style.. -->
+<style>
+
+    /* -------------------- relative to openedx -------------------- */
+    
+    .window-wrap{
+        background: none;
+    }
+    p{
+        margin: 1rem 0rem;
+    }
+    html{
+        background-color: #1E2631;
+    }
+    body{
+        color: #262626 !important;
+        /* line-height: 1.6rem; */
+        font-size: 1.1rem;
+    }
+    h2, .home>header .title>.heading-group p, section.outside-app h1{
+        color: #262626 !important;
+    }
+    *{
+        /* font-family: "AmazonEmber" !important; */
+    }
+    label{
+        color: #262626 !important;
+        font: inherit;
+        text-shadow: none;
+    }
+    .footerBottom{
+        padding: 40px 0 20px;
+        border-top: none !important;
+        font-size: 1rem;
+    }
+    .footer-column.footer_cgu{
+        display: flex;
+    }
+    .content-wrapper{
+        max-width: unset;
+    }
+    @media screen and (max-width:500px) {
+        .header-left-section{
+            flex-direction: column;
+        }
+        #footer > .container1 > .row {
+            flex-direction: column;
+        }
+        .footer-column{
+            width: unset !important;
+        }
+        .footer-column.footer_cgu{
+            flex-direction: column;
+        }
+        .footer-column.footer_cgu > a {
+            margin: .5rem;
+        }
+    }
+
+    /* -------------------- relative to react app -------------------- */
+
+    .section2_tile{
+        height: 38rem;
+    }
+    .section2_tile-themes{
+        font-size: 1.15rem;
+    }
+    .section2_tile-name{
+        margin: 2rem 0rem;
+    }
+    .section2-filterButton:before {
+        transform: scale(.9);
+    }
+    .section2_tile-button:not(.btn):hover, .section2_tile-button:not(.btn):focus, .section2_tile-button:visited:not(.btn):hover, .section2_tile-button:visited:not(.btn):focus{
+        color: white !important;
+        text-decoration: none !important;
+    }
+    a.section2_tile-button{
+        color: white !important;
+        text-decoration: none !important;
+    }
+    .section2_tile-name{
+        color: #262626;
+        margin: 1rem 0rem;
+    }
+    .section2_tile-jobTitle{
+        margin-bottom: 1rem;
+    }
+    .section2_tile-buttonShowMore{
+        margin: -1.6rem 2rem .5rem .5rem;
+    }
+    .section2-filterSection-labels{
+        padding: .4rem .7rem;
+    }
+    .section2_tile-moreInfos-popup{
+        left: -1.5rem;
+        bottom: -26rem;
+    }
+
+    @media screen and (max-width:500px) {
+        .pageTitleSection{
+            margin: 0;
+        }
+    }
+</style>

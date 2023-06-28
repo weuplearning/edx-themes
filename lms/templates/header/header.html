@@ -38,6 +38,66 @@ catch(e){window.attachEvent("onload", $buo_f)}
     display:none !important;
 }
 
+.wrapper-header-courses{
+    background-color: #1e2631;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.username .fa-bars{
+    color: #fff;
+}
+
+.wrapper-header-courses .username , .wrapper-header-courses .toggle-user-dropdown {
+    color: #fff !important;
+}
+
+.global-header {
+    border-bottom: none;
+    padding-bottom: 0 !important;
+    background-color: #1e2631;
+}
+
+/* .main-header{
+    margin: 0 40px;
+} */
+.global-header .header-logo a .logo {
+    height: 66px;
+    padding: 1rem 5% !important;
+}
+
+@media (min-width: 992px) {
+
+    .global-header .header-logo a .logo {
+        padding: 1.5rem 5% !important;
+    }
+}
+@media (max-width: 991.98px) {
+
+    .global-header .main-header {
+        height: unset !important;
+        position: inherit;
+    }
+    .global-header .header-logo a {
+        height: unset !important;
+    }
+
+}
+
+.header-left-section{
+    display: flex;
+  align-items: center;
+}
+
+.header-logo{
+    width: 235px;
+}
+
+#dashboard-onglet-list li {
+  min-width: initial !important;
+}
+
 </style>
 <%
   unsupported_browser_alert_versions = configuration_helpers.get_value('UNSUPPORTED_BROWSER_ALERT_VERSIONS', settings.FEATURES.get('UNSUPPORTED_BROWSER_ALERT_VERSIONS'))
@@ -45,6 +105,8 @@ catch(e){window.attachEvent("onload", $buo_f)}
   # provides a list of paths where cookie-consent widget is not active
   paths_list = ["/tos", "/honor", "/privacy", "/faq", "/cookies"]
 %>
+
+
 % if waffle.switch_is_active('enable_unsupported_browser_alert'):
   <script>
     var $buoop = {
@@ -70,19 +132,55 @@ catch(e){window.attachEvent("onload", $buo_f)}
             props={}
         )}
     % endif
+    <%include file="../learner_dashboard/_dashboard_navigation_courses.html"/>
     <div class="main-header">
-        <%include file="navbar-logo-header.html" args="online_help_token=online_help_token"/>
-        <div class="hamburger-menu" role="button" aria-label=${_("Options Menu")} aria-expanded="false" aria-controls="mobile-menu" tabindex="0">
-            <span class="line"></span>
-            <span class="line"></span>
-            <span class="line"></span>
-            <span class="line"></span>
-        </div>
-        % if user.is_authenticated:
-            <%include file="navbar-authenticated.html" args="online_help_token=online_help_token"/>
-        % else:
-            <%include file="navbar-not-authenticated.html" args="online_help_token=online_help_token"/>
-        % endif
+        <header class="wrapper-header-courses">
+            <div class="header-left-section">   
+
+
+                <h1 class="header-logo">
+                    <!-- WP temporary URL -->
+                    <!-- WP temporary URL -->
+                    <a href="https://adn.beestk.com/">
+                    <!-- <a href="${branding_api.get_home_url()}"> -->
+                        <%block name="navigation_logo">
+                        <img  class="logo" src="https://adn.beestk.com/wp-content/uploads/2023/04/logo_adn.png" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}"/>
+                        <!-- <img  class="logo" src="${static.url('amazon/images/logo_white.png')}" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}"/> -->
+                        </%block>
+                    </a>
+                </h1>
+                
+                <div class="hamburger-menu" role="button" aria-label=${_("Options Menu")} aria-expanded="false" aria-controls="mobile-menu" tabindex="0">
+                    <span class="line"></span>
+                    <span class="line"></span>
+                    <span class="line"></span>
+                    <span class="line"></span>
+                </div>
+
+                <!-- Display only if connected -->
+                % if user.is_authenticated:
+                <ul id="dashboard-onglet-list">
+                <li class="header-courses"><a href="/dashboard">Tableau de bord</a></li>
+                <li class="header-courses"><a href="/wul_apps/event">Event</a></li>
+                <li class="header-courses"><a href="/wul_apps/coaching">Coaching</a></li>
+                </ul>
+            </div>
+            <div class="header-right-section">
+
+                <%include file="navbar-authenticated.html" args="online_help_token=online_help_token"/>
+                % else:
+                <ul id="dashboard-onglet-list">
+                    <li class="header-courses"><a href="#">A propos</a></li>
+                    <li class="header-courses"><a href="#">A venir</a></li>
+                    </ul>
+                    <h1 style="color:white;"></h1>
+                </div>
+                <div class="header-right-section">
+                    <%include file="navbar-not-authenticated.html" args="online_help_token=online_help_token"/>
+                % endif
+            </div>
+          </header>
+
     </div>
     <div class="mobile-menu hidden" aria-label=${_("More Options")} role="menu" id="mobile-menu"></div>
 </header>
@@ -126,3 +224,21 @@ catch(e){window.attachEvent("onload", $buo_f)}
         </form>
     % endif
 % endif
+
+<script>
+const url = window.location.href
+let onglets = document.getElementById('dashboard-onglet-list')
+
+for (let i = 0; i < onglets.children.length; i++) {
+    const onglet = onglets.children[i];
+    
+    if (onglet.children[0].href == url) {
+        $('#dashboard-onglet-list li:nth-child('+(i+1)+') a').css('pointer-events', 'none');
+        $('#dashboard-onglet-list li:nth-child('+(i+1)+') a').css('background-color', 'white');
+        $('#dashboard-onglet-list li:nth-child('+(i+1)+') a').css('color', 'black');
+        // add style for current onglet here
+    }
+}
+
+
+</script>

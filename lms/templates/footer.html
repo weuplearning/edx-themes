@@ -10,65 +10,100 @@
 <% icp_license_info = getattr(settings, 'ICP_LICENSE_INFO', {})%>
 <%namespace name='static' file='static_content.html'/>
 
-<link rel="stylesheet" href="https://amazon.the-mooc-agency.com/media/microsite/amazon/css/style.css?v=25nov">
+<style>
+   #footer {
+      background-color: #1e2631;
+      padding-top: 40px;
+      padding-bottom: 0;
+      background-image: none;
+   }
 
-% if uses_bootstrap:
+   .footer-column .footer-block-padd ul li {
+  list-style-type: none;
+}
+
+   .container1 {
+      max-width: inherit;
+   }
+
+   .footer-column {
+      width: 425px !important;
+   }
+
+   .list-unstyled, .text-center{
+      text-align: inherit !important;
+   }
+
+   .row{
+      display: flex;
+      justify-content: space-around;
+      align-items: baseline;
+   }
+
+   .text-footer{
+      color: #fff;
+   }
+   .text-footer-up{
+      margin-bottom: 10px;
+   }
+
+   .logoSocialmedia{
+      margin: 10px 20px 0 0;
+   }
+
+   .footerBottom{
+      border-top: solid #fff 1px;
+      margin-top: 40px;
+      padding-bottom: 20px; 
+   }
+   .footer_links{
+      color: #fff !important;
+      padding-right: 20px;
+   }
+
+   .footer_cgu{
+      margin-top: 30px;
+   }
+
+
+
+</style>
+
+<!-- <link rel="stylesheet" href="https://amazon.the-mooc-agency.com/media/microsite/amazon/css/style.css?v=25nov"> -->
+
+## % if uses_bootstrap:
     <footer id="footer">
-      <div class="container">
+      <div class="container1">
          <div class="row">
             <div class="footer-column" >
-               <div class="footer-block-padd">
-                  <ul class="list-unstyled">
-                  <li class="text-center">SUIVEZ-NOUS</li>
-                  </ul>
-                  <ul class="list-inline flex">
-                  <li>
-                  <a target="_blank" href="https://twitter.com/AmazonNewsFR" title="Twitter"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>
-                  </li>
-                  <li>
-                  <a target="_blank" href="https://fr-fr.facebook.com/Amazon.fr/" title="Facebook"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
-                  </li>
-                  <li>
-                  <a target="_blank" href="https://www.instagram.com/amazon.fr/?hl=fr" title="Instagram"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-                  </li>
-                  </ul>
-               </div>
+               <img class="logoFooter text-footer-up" src="${static.url('amazon/images/logo_white.png')}" alt="logoADN"/>
+               <p class="text-footer">Amazon Small Business Academy (ASBA) offers FREE educational resources to help early-stage entrepreneurs start, build, and launch their businesses online.</p>
             </div>
             <div class="footer-column" >
-               <div class="footer-block-padd">
-                  <ul class="list-unstyled">
-                     <li class="text-center">UN PROGRAMME INITIÉ PAR</li>
-                     <a href="https://services.amazon.fr/" target="_blank"><img src="https://amazon.the-mooc-agency.com/media/microsite/amazon/assets/logo-ink.png" class="logoFooter" alt="logo BPI France"></a>
-                  </ul>
-                  <br><br>
-               </div>
+                     <p class="text-footer text-footer-up">Un programme initié par</p>
+                     <a href="https://services.amazon.fr/" target="_blank"><img src="${static.url('amazon/images/logo_amazon.png')}" class="logoFooter" alt="logo BPI France"></a>
             </div>
-<!--
             <div class="footer-column" >
-               <div class="footer-block-padd">
-                  <ul class="list-unstyled">
-                  <li class="text-center">EN PARTENARIAT AVEC</li>
-                  <a href="https://www.bpifrance.fr/" target="_blank"><img src="https://amazon.the-mooc-agency.com/media/microsite/amazon/assets/bpi-france-logo.png" class="logoFooter" alt="logo BPI France" style="height:55px"></a>
-                  </ul>
-                  <br><br>
-               </div>
+                  <p class="text-footer text-footer-up">Suivez-nous</p>
+                  <div class="social-media-links">
+                     <a target="_blank" class="logoSocialmedia" href="https://twitter.com/AmazonNewsFR" title="Twitter"><img src="${static.url('amazon/images/logo_fb.png')}" alt="logo facebook"/></a>
+                     <a target="_blank" class="logoSocialmedia" href="https://fr-fr.facebook.com/Amazon.fr/" title="Facebook"><img src="${static.url('amazon/images/logo_insta.png')}" alt="logo instagram"/></a>
+                     <a target="_blank" class="logoSocialmedia" href="https://www.instagram.com/amazon.fr/?hl=fr" title="Instagram"><img src="${static.url('amazon/images/logo_in.png')}" alt="logo linkedin"/></a>
+                  </div>
             </div>
--->
          </div>
          <div class="row footerBottom" >
-            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 footer-column" >
+            <div class="footer-column footer_cgu" >
+               <a target="_blank" class="footer_links" href="#">Mentions légales</a>
+               <a target="_blank" class="footer_links" href="#">Politique de confidentialité</a>
+               <a target="_blank" class="footer_links" href="#">FAQ</a>
+            </div>
+            <div class="footer-column footer_cgu" >
+            </div>
+            <!-- <div class="footer-column footer_cgu" >
 
-            </div>
-            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 footer-column" >
-               <!-- <div class="footer-block-padd">
-                  <a href="#">Mentions légales</a> &nbsp; | &nbsp;
-                  <a href="#">Politique de confidentialité</a>
-               </div> -->
-            </div>
-            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 footer-column" >
-
-            </div>
+            </div> -->
          </div>
       </div>
    </footer>
-% endif
+## % endif

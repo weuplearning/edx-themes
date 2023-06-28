@@ -40,7 +40,6 @@
     </body>
 </html>
 
-
 <style>
     .content-wrapper {
         padding: 0;
@@ -51,9 +50,9 @@
     h3 {
     margin-top: inherit !important;
     }
-    a:not(.btn), a:visited:not(.btn) {
+    /* a:not(.btn), a:visited:not(.btn) {
     color: #000 !important;
-}
+} */
 
 .scorm_object{
     width: 800px;
@@ -67,6 +66,27 @@
     width: 90%;
 }
   }
+
+    .adn-banner{
+        display: none;
+    }
+
+    .adn-top_content-top-button {
+        background-color: #2e3946 !important;
+        color: #fff !important;
+        font-size: 16px !important;
+    }
+
+    .adn-top_content-top-button {
+  color: #fff !important;
+}
+
+.tabs a {
+  color: #313131 !important;
+}
+.adn-main-thumbnail-button-link {
+  color: #313131 !important;
+}
 </style>
 
 % if webinaire_replay:
@@ -79,6 +99,47 @@
     .adn-category{
         margin-top: 2em;
     }
+    .adn-banner_img {
+        cursor: pointer;
+    }
 </style>
 
 % endif
+
+<script>
+
+window.addEventListener('load', function() {
+
+    document.getElementsByClassName('adn-banner')[0].addEventListener('click', function(){
+
+        window.open("https://www.amazon.fr/b?ie=UTF8&node=28970997031&ref_=ADN_BANNIERE")
+    })
+
+    // Get the parent element
+var parentElement = document.querySelector('.adn-top_content');
+
+// Create a new image element
+var imageElement = document.createElement('img');
+imageElement.src = '/media/microsites/amazon/media_react/images/bootcamp-bordeaux.png';
+imageElement.alt = 'image bootcamp bordeaux';
+imageElement.className = 'adn-top_content-top-image';
+
+// Create a new button element
+var buttonElement = document.createElement('button');
+buttonElement.textContent = "Je m'inscris";
+buttonElement.className = 'adn-top_content-top-button';
+buttonElement.style.cssText = 'text-align: center; color: #f90;';
+
+// Replace the existing content with the new elements
+parentElement.innerHTML = '';
+parentElement.appendChild(imageElement);
+parentElement.appendChild(buttonElement);
+
+// Add an event listener to the button
+buttonElement.addEventListener('click', function() {
+    window.open('https://docs.google.com/forms/d/e/1FAIpQLSdSFG1JPDkmcnuJQ41TI6qFfNvtxXxKnkKdzyQ3kjNfFfUu6g/viewform', '_blank');
+});
+
+})
+
+</script>

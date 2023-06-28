@@ -1,0 +1,19 @@
+<% css = '/media/wul_apps/dashboard/reset.css' %>
+<%page expression_filter="h"/>
+<%inherit file="../main.html" />
+<%namespace name='static' file='../static_content.html'/>
+<%! from django.utils.translation import ugettext as _ %>
+
+    <%include file="../learner_dashboard/_dashboard_navigation_courses.html"/>
+
+    <script type="module" crossorigin src="/media/microsites/amazon/react_event/assets/index-e8268bff.js"></script>
+    <link rel="stylesheet" type="text/css" href="${css}" />
+    <link rel="stylesheet" href="/media/microsites/amazon/react_event/assets/index-8be83eb0.css">
+    <div id="root"></div>
+    
+<style>
+    button:hover:not(:disabled) {
+  background-color: #5c656c;
+  color: #fff;
+}
+</style>

@@ -188,14 +188,7 @@ if 'last_visited_course' in custom_fields.keys() :
           )
           %>
           % for dashboard_index, enrollment in enumerate(course_entitlements + course_enrollments):
-            <script>
-              console.log("{enrollment.course_id}");
-              console.log("${enrollment.course_id}");
-              console.log("{already_visited}");
-              console.log("${already_visited}");
-              console.log("{custom_fields['last_visited_course']}");
-              console.log("${custom_fields['last_visited_course']}");
-            </script>
+
 
             % if ( already_visited and custom_fields['last_visited_course'] == str(enrollment.course_id) ) or ( not already_visited and dashboard_index == 0 ) :
               <%
@@ -300,9 +293,6 @@ if 'last_visited_course' in custom_fields.keys() :
                         return regex.test(time);
                       }
 
-                      console.log("isValidFormat(effort)");
-                      console.log(isValidFormat(effort));
-                      console.log(course['course_id'] + " " + effort);
                       if (isValidFormat(effort)) {
                         // apply progress ratio and convert min to time
                         let min_effort = Number((String(effort).split(':')[1])) + Number(String(effort).split(':')[0]) * 60
@@ -376,7 +366,11 @@ if 'last_visited_course' in custom_fields.keys() :
 
   </div> <!-- class="dashboard" id="dashboard-main" -->
 
-  <h2 class="header-courses secondary-section">En cours</h2>
+  <div>
+    <h3 id="not-last-courses-button" class="header-courses secondary-section" style="text-decoration: underline;">En cours</h3> 
+    <h3 id="finished-courses-button" class="header-courses secondary-section">Terminé</h3>
+  </div>
+  
   <div id="not-last-courses">
 
     <%
@@ -453,21 +447,86 @@ if 'last_visited_course' in custom_fields.keys() :
           // console.log('${dir(enrollment)}');
 
           // Need API to add progress and remaining time
-          $.ajax({
-            // Courses api
-            url: "/api/courses/v1/courses/",
-            success: function(result) {
-              let courses_list = result['results']
-              let course
-              for (let index = 0; index < courses_list.length; index++) {
-                course = courses_list[index];
-                // Treat only targeted course
-                if (course["course_id"] == '${enrollment.course_id}') {
-                  getCourseDetails_second(course);
-                } 
+          function getData() { 
+            return $.ajax({
+              // Courses api
+              url: "/api/courses/v1/courses/",
+              success: function(result) {
+
+                let courses_list = result['results']
+                let course
+                for (let index = 0; index < courses_list.length; index++) {
+                  course = courses_list[index];
+                  // Treat only targeted course
+                  if (course["course_id"] == '${enrollment.course_id}') {
+                    checkIfFinished(course) 
+                    // getCourseDetails_second(course);
+                  } 
+                }
+
               }
+            })
+          }
+
+          async function start() {
+            try {
+              const res = await getData()
+            } catch(err) {
+              console.log(err);
             }
-          });
+          }
+          start();
+
+
+          function checkIfFinished(course) {
+            $.ajax({
+              url: "/wul_apps/" + course['course_id'] + "/certificate/ensure",
+                success: function(result){
+
+                  if(result.passed){
+
+
+                    const parentElement = document.getElementById('finished-courses')
+                    const elementToMove = document.getElementById('not-last-courses').getElementsByClassName('course-item')
+
+                    for (let i = 0; i < elementToMove.length; i++) {
+                      const element = elementToMove[i];
+
+
+                      const elemtn_2_test = document.getElementById('not-last-courses').getElementsByClassName('course')
+
+                      if (element.children[0].children[0]['attributes']['aria-labelledby']['value'].indexOf(course['course_id']) != -1) {
+                        parentElement.prepend(element)
+                      }
+
+                    }
+
+                    
+                    // AJOUTER UN BOUTON POUR ACCEDER AU CERTIFICAT DE REUSSITE QUELQUE PART  ICI
+                    
+                    setTimeout(() => {
+                      let lien_attestation = '/wul_apps/' + course['course_id'] + '/certificate/generate_pdf'
+
+                      const textAttestationButton = '<a href='+lien_attestation+' target="_blank"><div class="attestationButtonButton"> Attestation</div></a>'
+
+                      const attestationButton = document.createElement('div')
+                      attestationButton.setAttribute('class', 'attestationButton')
+                      const divToIncrustButton = document.getElementById('course-title-course-v1:amazon+Introduction+AZ_01')
+
+                      attestationButton.innerHTML = textAttestationButton
+                      divToIncrustButton.append(attestationButton)
+                    }, 400)
+
+
+
+                  } else {
+
+                    getCourseDetails_second(course);
+                  }
+                }
+            });
+            
+          }
 
           // Function to get completion and progress details for a given course
           function getCourseDetails_second(course) {
@@ -491,8 +550,8 @@ if 'last_visited_course' in custom_fields.keys() :
                   return regex.test(time);
                 }
 
-                console.log("isValidFormat(effort)");
-                console.log(isValidFormat(effort));
+                // console.log("isValidFormat(effort)");
+                // console.log(isValidFormat(effort));
                 if (isValidFormat(effort)) {
                   // apply progress ratio and convert min to time
                   let min_effort = Number((String(effort).split(':')[1])) + Number(String(effort).split(':')[0]) * 60
@@ -526,6 +585,8 @@ if 'last_visited_course' in custom_fields.keys() :
     % endif
         
 
+  </div>
+  <div id="finished-courses" style="display: none;">
   </div>
 
   <div class="secondary-section-block">
@@ -594,10 +655,44 @@ if 'last_visited_course' in custom_fields.keys() :
       button.innerText = 'Reprendre' 
     }
   }
+
+  // Switch courses to display
+
+  function switch_section() {
+
+    let finished_courses_area = document.getElementById('finished-courses')
+    let not_finished_courses_area = document.getElementById('not-last-courses')
+
+    if (finished_courses_area.style.display === "none") {
+      finished_courses_area.style.display = "block";
+      not_finished_courses_area.style.display = "none"
+      button_targetted.style.textDecoration = 'underline'
+      button_targetted_2.style.textDecoration = 'none'
+    } else {
+      finished_courses_area.style.display = "none";
+      not_finished_courses_area.style.display = "flex"
+      button_targetted.style.textDecoration = 'none'
+      button_targetted_2.style.textDecoration = 'underline'
+    }
+  }
+
+  let button_targetted = document.getElementById("finished-courses-button")
+  let button_targetted_2 = document.getElementById("not-last-courses-button")
+
+  button_targetted.onclick = function() {
+    switch_section()
+  }
+  button_targetted_2.onclick = function() {
+    switch_section()
+  }
+
 </script>
 
 <style>
 /* Global */
+main {
+  background-color: #F4F5F5;
+}
 .content-wrapper {
   max-width: none;
 }
@@ -606,35 +701,30 @@ if 'last_visited_course' in custom_fields.keys() :
 }
 #dashboard-main {
   background-color: #1E2631;
-  padding-bottom: 100px;
+  padding-bottom: 30px;
+  box-shadow: 0px 8px 15px;
 }
-#not-last-courses, h2.header-courses {
-  background-color: #F4F5F5;
+#not-last-courses, h3.header-courses {
+  /* background-color: #F4F5F5; */
   margin: 0;
 }
 .dashboard .main-container, .dashboard .side-container {
   flex: 1;
   max-width: unset !important;
-  padding: 60px 120px 20px 30px;
+  padding: 30px 15vw 20px 30px;
 }
 .dashboard .main-container {
   
-  padding: 60px 30px 20px 120px;
+  padding: 30px 30px 20px 15vw;
 }
 /* Annonce */
 #top-right-section {
   box-sizing: border-box;
-  /* height: 100%; */
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 6px;
-}
-#top-right-section img {
-  width: 100%;
-  object-fit: cover;
-  border-radius: 6px;
-
 }
 
 /* Last course */
@@ -654,7 +744,7 @@ if 'last_visited_course' in custom_fields.keys() :
   width: unset !important;
   margin: 0 !important;
 }
-#new-section .wrapper-course-image img, #not-last-courses .course-item img, #not-last-courses .course-item a, #available-courses .course-item img  {
+#new-section .wrapper-course-image img, #not-last-courses .course-item img, #not-last-courses .course-item a, #finished-courses .course-item img, #finished-courses .course-item a, #available-courses .course-item img  {
   width: 100%;
   object-fit: cover;
   max-height: 200px;
@@ -670,7 +760,7 @@ if 'last_visited_course' in custom_fields.keys() :
 .course-title > a {
   color: black
 } 
-#not-last-courses .course-actions .course-target-link, #available-courses .course-item .cover-image > div, #new-section .course-actions .course-target-link {
+#not-last-courses .course-actions .course-target-link, #finished-courses .course-actions .course-target-link, #available-courses .course-item .cover-image > div, #new-section .course-actions .course-target-link {
   padding: 12px 28px;
   font-size: medium;
   color: white;
@@ -680,7 +770,7 @@ if 'last_visited_course' in custom_fields.keys() :
   bottom: -180px;
   left: 30px;
 }
-#not-last-courses .course-actions .course-target-link, #available-courses .course-item .cover-image > div {
+#not-last-courses .course-actions .course-target-link, #finished-courses .course-actions .course-target-link, #available-courses .course-item .cover-image > div {
   bottom: 30px;
   left: 30px;
   width: unset;
@@ -695,12 +785,13 @@ if 'last_visited_course' in custom_fields.keys() :
 .course-item .details .course-info {
   display: flex;
   justify-content: space-between;
+  align-items: baseline;
   width: 100%;
 }
 .wrapper-course-details , #available-courses .course .course-info {
   height: 130px;
-  margin-bottom: 70px !important;
-  padding: 0 30px !important;
+  margin-bottom: 50px !important;
+  padding: 25px 30px 0 30px !important;
 }
 #new-section .wrapper-course-image > a {
   width: 100%;
@@ -708,17 +799,21 @@ if 'last_visited_course' in custom_fields.keys() :
 
 
 /* Already enrolled courses */
-#not-last-courses .wrapper-course-details {
+#not-last-courses-button:hover , #finished-courses-button:hover {
+  cursor: pointer;
+  color: #6F7373;
+}
+#not-last-courses .wrapper-course-details, #finished-courses .wrapper-course-details {
   height: 59px;
   margin-bottom: 70px !important;
   padding: 25px 30px !important; 
 }
-#not-last-courses .course-actions .course-target-link, #available-courses .course-actions .course-target-link {
+#not-last-courses .course-actions .course-target-link, #finished-courses .course-actions .course-target-link, #available-courses .course-actions .course-target-link {
   padding: 10px 20px;
 }
-#not-last-courses .course-container .course-title .course-target-link, #available-courses .course-item .course-title {
+#not-last-courses .course-container .course-title .course-target-link, #finished-courses .course-container .course-title .course-target-link, #available-courses .course-item .course-title {
   font-weight: 700;
-  font-size: 25px !important;
+  font-size: 20px !important;
   line-height: 22px;
 }
 .secondary-section {
@@ -727,15 +822,17 @@ if 'last_visited_course' in custom_fields.keys() :
   font-weight: 800;
   font-size: 38px;
   line-height: 45px;
-  color: #000
+  color: #000;
+  display: inline-block;
 }
 
-#not-last-courses, #available-courses {
+#not-last-courses, #available-courses, #finished-courses {
   display: flex;
   flex-wrap: wrap;
-  padding: 3vh 8vw;
+  padding: 3vh 7vw;
+  border-bottom: 1px solid grey;
 }
-#not-last-courses .course-container, #available-courses .course {
+#not-last-courses .course-container,#finished-courses .course-container, #available-courses .course {
   background-color:white;
   min-height: 250px;
   margin: 15px 2vw;
@@ -745,29 +842,29 @@ if 'last_visited_course' in custom_fields.keys() :
   position: relative;
   box-sizing: border-box;
 }
-#not-last-courses .wrapper-course-image, #available-courses .wrapper-course-image {
+#not-last-courses .wrapper-course-image, #finished-courses .wrapper-course-image, #available-courses .wrapper-course-image {
   display: flex;
   justify-content: space-around;
   align-items: center;
 }
 #new-section .course-title .course-target-link  {
   color: #212121; 
-  width: 75%;
+  width: 100%;
   font-weight: 700;
-  font-size: 2vw;
+  font-size: 20px;
   line-height: 2.1vw;
 }
-#not-last-courses .course-title .course-target-link, #available-courses .course-info .course-name {
+#not-last-courses .course-title .course-target-link, #finished-courses .course-title .course-target-link, #available-courses .course-info .course-name {
   font-family: "AmazonEmber" !important;
   font-size: medium;
   color: black; 
 }
-#not-last-courses .wrapper-course-actions, #available-courses .wrapper-course-actions  {
+#not-last-courses .wrapper-course-actions, #finished-courses .wrapper-course-actions, #available-courses .wrapper-course-actions  {
   display: flex;
   justify-content: end;
   align-self: end;  
 }
-#not-last-courses .course-actions, #available-courses .course-actions {
+#not-last-courses .course-actions, #finished-courses .course-actions, #available-courses .course-actions {
   margin-bottom: 20px;
 }
 #not-last-courses .course-jauge {
@@ -776,7 +873,7 @@ if 'last_visited_course' in custom_fields.keys() :
   font-size: 14px;
   color: #F99746
 }
-#not-last-courses h3.course-title {
+#not-last-courses h3.course-title , #finished-courses h3.course-title {
   font-size: 18px !important;
   line-height: 20px !important;
 }
@@ -866,4 +963,23 @@ select option:hover {
   left: 200px;
 }
 
+.attestationButton {
+  position: absolute;
+  bottom: 30px;
+  right: 10px;
+}
+.attestationButtonButton {
+  background-color: orange;
+  color: white;
+  font-size: 10px;
+  padding: 8px;
+  border-radius: 9px;
+} 
+
+@media (max-width: 991.98px) {
+
+  .dashboard .main-container, .dashboard .side-container {
+    padding: 3vh 10vw ;
+  }
+}
 </style>

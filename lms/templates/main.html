@@ -40,12 +40,12 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
 ## embedding theme conditionals into templates. All inheriting
 ## templates have access to these functions, and we can import these
 ## into non-inheriting templates via the %namespace tag.
-<script>
+<!-- <script>
   if(document.referrer.includes("login") || document.referrer.includes("about")) {
     // window.location.replace("https://amazon.koa.qualif.dev/courses/course-v1:amazon+amazon001+SP/ebb748c209af46d7a082b78bb85b93cc/"); // qualif
     window.location.replace("https://www.accelerateur-du-numerique.fr/courses/course-v1:amazon+amazon001+SP/6f99bd87c01a4a1383e1b73fba057666/"); // prod
   }
-</script>
+</script> -->
 ## this needs to be here to prevent the title from mysteriously appearing in the body, in one case
 <%def name="pagetitle()" />
   <%block name="title">
@@ -346,7 +346,7 @@ if(window.location.href.indexOf("/login")>-1 || window.location.href.indexOf("/r
     </div>
 
     % if not disable_footer:
-        <%include file="${static.get_template_path('footer.html')}" />
+      <%include file="${static.get_template_path('footer.html')}" />
     % endif
 
 % if not disable_window_wrap:
