@@ -65,7 +65,7 @@ if 'last_visited_course' in custom_fields.keys() :
     });
 
     // Replace available course button text
-    setInterval(function(){
+    setTimeout(function(){
       let id = document.getElementById("available-courses")
       let boutons = id.getElementsByClassName('learn-more')
 
@@ -74,7 +74,25 @@ if 'last_visited_course' in custom_fields.keys() :
         bouton.innerText = "Voir le cours"
       }
 
-    }, 200)
+      let children = id.children
+      console.log(children);
+
+      for (let i = 0; i < children.length; i++) {
+        const child = children[i];
+
+        console.log(child);
+        console.log(child.children[0].children[0].children[0].href);
+        let aboutLink = child.children[0].children[0].children[0].href
+        courseId = aboutLink.split('/')[-2]
+        console.log(courseId);
+        let registerLink = ''+courseId
+
+
+        // /register?course_id=course-v1:amazon+demarrer_activite+AZ_02&enrollment_action=enroll
+
+      }
+
+    }, 350)
 
   
   </script>
@@ -366,8 +384,8 @@ if 'last_visited_course' in custom_fields.keys() :
 
   </div> <!-- class="dashboard" id="dashboard-main" -->
 
-  <div>
-    <h3 id="not-last-courses-button" class="header-courses secondary-section" style="text-decoration: underline;">En cours</h3> 
+  <div id="started-or-finished">
+    <h3 id="not-last-courses-button" class="header-courses secondary-section" style="border-bottom: 4px solid #368093;">En cours</h3> 
     <h3 id="finished-courses-button" class="header-courses secondary-section">Terminé</h3>
   </div>
   
@@ -619,7 +637,19 @@ if 'last_visited_course' in custom_fields.keys() :
       %endif
     %endfor
   </div>
+
+
+
+
+
 </main>
+
+
+
+
+
+
+
 <script>
   const selectElement = document.getElementById('domaine');
   
@@ -666,13 +696,13 @@ if 'last_visited_course' in custom_fields.keys() :
     if (finished_courses_area.style.display === "none") {
       finished_courses_area.style.display = "block";
       not_finished_courses_area.style.display = "none"
-      button_targetted.style.textDecoration = 'underline'
-      button_targetted_2.style.textDecoration = 'none'
+      button_targetted.style.borderBottom = '4px solid #368093'
+      button_targetted_2.style.borderBottom = 'none'
     } else {
       finished_courses_area.style.display = "none";
       not_finished_courses_area.style.display = "flex"
-      button_targetted.style.textDecoration = 'none'
-      button_targetted_2.style.textDecoration = 'underline'
+      button_targetted.style.borderBottom = 'none'
+      button_targetted_2.style.borderBottom = '4px solid #368093'
     }
   }
 
@@ -761,7 +791,7 @@ main {
   color: black
 } 
 #not-last-courses .course-actions .course-target-link, #finished-courses .course-actions .course-target-link, #available-courses .course-item .cover-image > div, #new-section .course-actions .course-target-link {
-  padding: 12px 28px;
+  padding: 4px 28px;
   font-size: medium;
   color: white;
   background-color: #3B4854;
@@ -813,11 +843,11 @@ main {
 }
 #not-last-courses .course-container .course-title .course-target-link, #finished-courses .course-container .course-title .course-target-link, #available-courses .course-item .course-title {
   font-weight: 700;
-  font-size: 20px !important;
-  line-height: 22px;
+  font-size: 23px !important;
+  line-height: 27px;
 }
 .secondary-section {
-  padding: 40px 40px 0 40px;
+  padding: 40px 80px 0 0;
   font-family: "AmazonEmber" !important;
   font-weight: 800;
   font-size: 38px;
@@ -829,14 +859,14 @@ main {
 #not-last-courses, #available-courses, #finished-courses {
   display: flex;
   flex-wrap: wrap;
-  padding: 3vh 7vw;
-  border-bottom: 1px solid grey;
+  padding: 3vh 7vw 11vh 7vw;
+  /* border-bottom: 1px solid grey; */
 }
 #not-last-courses .course-container,#finished-courses .course-container, #available-courses .course {
   background-color:white;
   min-height: 250px;
-  margin: 15px 2vw;
-  width: 24vw;
+  margin: 15px calc(14.33vw - 160px);
+  width: 320px;
   border: solid 0.5px #6F7373;
   border-radius: 8px;
   position: relative;
@@ -851,7 +881,7 @@ main {
   color: #212121; 
   width: 100%;
   font-weight: 700;
-  font-size: 20px;
+  font-size: 24px;
   line-height: 2.1vw;
 }
 #not-last-courses .course-title .course-target-link, #finished-courses .course-title .course-target-link, #available-courses .course-info .course-name {
@@ -873,6 +903,18 @@ main {
   font-size: 14px;
   color: #F99746
 }
+#started-or-finished {
+  margin: 65px calc(21.33vw - 160px) 0px calc(21.33vw - 160px);
+  border-bottom: 1px solid;
+  /* padding-bottom: 8px; */
+}
+#started-or-finished > h3 {
+  font-size: 30px;
+  width: 200px;
+  text-align: center;
+  padding: 0 !important;
+}
+
 #not-last-courses h3.course-title , #finished-courses h3.course-title {
   font-size: 18px !important;
   line-height: 20px !important;
@@ -884,6 +926,10 @@ main {
 
 
 /* Availavle courses */
+
+#available-courses {
+  background-color: white;
+}
 #available-courses .course-item .course {
   position:relative;
   display: flex;
@@ -925,6 +971,8 @@ main {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
+  padding: 65px calc(21.33vw - 160px) 0 calc(21.33vw - 160px);
+  background-color: white;
 }
 select {
   font-size: 16px;
@@ -959,7 +1007,7 @@ select option:hover {
 }
 .course-plan{
   position: relative;
-  bottom: -162px;
+  bottom: -170px;
   left: 200px;
 }
 
