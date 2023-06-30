@@ -25,6 +25,23 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
   <link rel="stylesheet" type="text/css" href="${static.url('paragon/static/paragon.min.css')}" />
   <link rel="stylesheet" type="text/css" href="${static.url('weup/css/animate-4.1.1.min.css')}" />
   <style>
+    /* Custom header HEC */
+    #greeting {
+        padding: 50px;
+        text-align: center;
+    }
+    #greeting h2 {
+        font-weight: 900;
+    }
+
+    #area-player {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 30px;
+    }
+
+
     header.page-header.has-secondary{
         background-color: var(--primary);
         padding-top: 10px !important;
@@ -257,6 +274,11 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         height: 40px;
     }
 
+
+    #main-course-outline {
+        display: none;
+    }
+
     
     @media screen and (max-width: 1024px) {
         .page-content .page-content-secondary { 
@@ -331,18 +353,79 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     }
 
   </style>
+
+
+  <script src="https://www.youtube.com/iframe_api"></script>
   <script>
     document.title = "Cours | ${HTML(course.display_name_with_default)}";
-  </script>
+
+ 
+
+    // Load the YouTube API asynchronously
+    function loadYouTubeAPI() {
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    }
+
+    // Function to execute when the YouTube API is ready
+    function onYouTubeIframeAPIReady() {
+        // Create a new YouTube player instance
+        var player = new YT.Player('player', {
+            height: '360',
+            width: '640',
+            videoId: 'oIo9kAKdVMY',
+            events: {
+                'onStateChange': onPlayerStateChange
+            }
+        });
+    }
+
+
+    if (window.location.href.indexOf('hec-pole-emploi+webinaire+2023') == -1) {
+
+        if(localStorage.getItem('watchedWebinar') != 'shown'){
+
+            // Function to handle video state changes
+            function onPlayerStateChange(event) {
+
+                if (event.data == YT.PlayerState.PLAYING) {
+                    console.log('Video started playing');
+                } else if (event.data == YT.PlayerState.ENDED) {
+                    // console.log('Video ended');
+
+                    const targetedDiv = document.getElementById('main-course-outline')
+                    targetedDiv.style.display = 'flex'
+                    // console.log('course schedule is visible');
+
+                    localStorage.setItem('watchedWebinar','shown')                    
+                }
+      
+            } 
+        } else {
+            setTimeout(() => {            
+                const targetedDiv = document.getElementById('main-course-outline')
+                targetedDiv.style.display = 'flex'
+            }, 500);
+        }
+    }
+
+
+    loadYouTubeAPI();
+
+</script>
+
 
 </%block>
 
 
 <%block name="content">
 <div class="course-view page-content-container" id="course-container">
-    <header class="page-header has-secondary">
+    <!-- <header class="page-header has-secondary">
         <div class="page-header-main">
-            <!--<img id="logo_banner" src="${static.url('hec-pole-emploi/images/hec-pole-emploi.png')}" alt="banner logo">-->
+            <img id="logo_banner" src="${static.url('hec-pole-emploi/images/hec-pole-emploi.png')}" alt="banner logo">
         </div>
         <div class="page-header-secondary">
             % if show_search:
@@ -374,8 +457,21 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                 % endif
             </div>
         </div>
+    </header> -->
+    
+    <header id="greeting">
+        <h2>Bienvenue sur la formation <br> ${course.display_name_with_default}</h2>
     </header>
-    <div class="page-content">
+    <div id="area-player">
+
+        <div id="player">
+            <!-- <iframe id="hec-video" width="420" height="236"
+                src="https://www.youtube.com/embed/oIo9kAKdVMY" frameborder="0" allowfullscreen >
+            </iframe> -->
+        </div>
+    </div>
+
+    <div class="page-content" id="main-course-outline" >
         <div class="page-content-main">
             % if offer_banner_fragment:
                 ${HTML(offer_banner_fragment.content)}
