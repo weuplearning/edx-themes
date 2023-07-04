@@ -194,9 +194,34 @@ var textTranslation = setInterval(function() {
         })
 
       }
-    } 
+    }
+
+    // Fullscreen 
+    var fullscreenButtons = document.getElementsByClassName('js-scorm-block')[0].getElementsByClassName('scorm_button')[0].children
+
+    for (let i = 0; i < fullscreenButtons.length; i++) {
+      const fullscreenButton = fullscreenButtons[i];
+      
+      fullscreenButton.innerText = fullscreenButton.innerText.replace('Exit fullscreen', 'Sortir du mode plein écran')
+      fullscreenButton.innerText = fullscreenButton.innerText.replace('Fullscreen', 'Mode plein écran')
+    }
+
+    // Favoris
+    document.getElementsByClassName('bookmark-button-wrapper')[0].style.display = 'none'
+    
+    // Completion status
+    var completStatus = document.getElementsByClassName('completion_status')
+
+    for (let i = 0; i < completStatus.length; i++) {
+      const spanStatus = completStatus[i];
+
+      spanStatus.innerText = spanStatus.innerText.replace('complete', 'complet')
+      
+    }
+
+
   }
 
-}, 1000)
+}, 500)
 
 </script>
