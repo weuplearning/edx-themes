@@ -525,6 +525,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                         <%
                         total_blocks = 1
                         completed_blocks = 1
+                        completion_ratio = 0
                         if not section.get('complete'):
                             total_blocks = 0
                             completed_blocks = 0
