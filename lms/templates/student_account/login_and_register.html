@@ -58,64 +58,30 @@
             % endif
             <div id="login-and-registration-container" class="login-register ${border_class}"></div>
         </div>
-
     </main>
 </div>
 
 <script>
-
 setTimeout(() => {
     
     let jsonData = {}
-
-
-    const url = '/wul_apps/read_google_drive_file'; // L'URL de l'endpoint de votre API
-
-    // Les données que vous souhaitez envoyer dans la requête
-    const data = {
-        link : 'https://drive.google.com/file/d/1MGSfm55b_ubv28QMcsA98Tl2trukDrOu/view?usp=drive_link',
-        id : '1MGSfm55b_ubv28QMcsA98Tl2trukDrOu'
-    };
-
-    // // Configuration de la requête
-    // const options = {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json' // Spécifiez le type de contenu JSON
-    //     },
-    //     body: JSON.stringify(data) // Convertit l'objet JavaScript en une chaîne JSON
-    // };
-    
-    // AJAX
+    const url = '/wul_apps/read_google_drive_file';
+    const data = {id : '1MGSfm55b_ubv28QMcsA98Tl2trukDrOu'};
 
     $.ajax({
         url: url,
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json' // Spécifiez le type de contenu JSON
-        },
+        headers: {'Content-Type': 'application/json' },
         data: JSON.stringify(data),
-        success: function(object){
-            console.log('object');
-            console.log(object);
+        dataType: 'json',
+        success: function(response){
+            jsonData = response
+        },
+        error: function(xhr, status, error) {
+            // Gestion des erreurs
+            console.error(error);
         }
     })
-
-    
-
-
-
-
-    // Get email list : 
-    fetch('/media/wul_apps/dashboard/email_template.json')
-    // fetch('https://drive.google.com/file/d/1MGSfm55b_ubv28QMcsA98Tl2trukDrOu/view?usp=drive_link')
-        .then(response => response.json())
-        .then(data => {
-            jsonData = data
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
 
 
     // Add an event listener to capture changes in the input field
@@ -126,12 +92,10 @@ setTimeout(() => {
         var authorizedEmail = false
 
         for (let i = 0; i < jsonData['email_list_hec_pole_emploi'].length; i++) {
+
             const email = jsonData['email_list_hec_pole_emploi'][i];
-            console.log("email");
-            console.log(email);
-            console.log('emailValue');
-            console.log(emailValue);
-            if (email == emailValue) {
+
+            if (email.toLowerCase() == emailValue.toLowerCase()) {
                 authorizedEmail = true
                 continue
             }
