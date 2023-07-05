@@ -250,7 +250,84 @@ align-items: flex-end;
     content:"\f044";
     font-family: FontAwesome;
   } */
-    
+
+  /* new course layout*/
+  .progress_bar_and_score>.loader{
+    margin-right: 40px;
+    margin-left: 0px;
+  }
+
+  .progress_bar_and_score>.completed_percent{
+    width: 65px;
+    margin-left: 0px;
+  }
+
+  .progress-bar-grade{
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    border-radius: 0px;
+  }
+
+  .progress-bar-full{
+    border-radius: 0px;
+    height: 10px;
+  }
+
+  .empty-star.fa.fa-star-o{
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(255, 153, 0);
+    border-color: rgba(0, 0, 0, 0);
+    padding: 2px;
+    margin-right: 10px;
+    float: right;
+  }
+
+  .full-star.fa.fa-star{
+    color: rgb(255, 153, 0);
+    padding: 2px;
+    margin-right: 10px;
+    float: right;
+  }
+  
+  .course-outline .block-tree .section ol.outline-item .subsection{
+    border-top: 0px;
+  }
+
+  .course-outline .block-tree .section ol.outline-item{
+    background-color: #F4F5F6;
+  }
+
+  .course-outline .block-tree .section{
+    box-shadow: none;
+  }
+
+  .course-outline .block-tree .section{
+    border-bottom: none;
+  }
+
+  .course-outline .block-tree .section .section-name{
+    background-color: #F4F5F6;
+    border-top: 2px solid black;
+  }
+
+  .section-title{
+    color: black !important;
+  }
+
+  .page-content .page-content-main{
+    margin-left: 100px;
+    margin-right: 100px;
+  }
+
+  .course-outline .block-tree .section ol.outline-item .subsection .subsection-title{
+    margin-left: 50px;
+  }
+
+  h4.subsection-title{
+    color: black !important;
+  }
+
 </style>
     
     
@@ -559,7 +636,7 @@ a:hover{
                                       </h4>
 
                             % if subsection.get('complete'):
-                                <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
+                                <span class="full-star fa fa-star" aria-hidden="true"></span>
                                 <span class="sr">${_("Completed")}</span>
 
                             % endif
@@ -895,7 +972,7 @@ a:hover{
                                       </h4>
 
                             % if subsection.get('complete'):
-                                <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
+                                <span class="full-star fa fa-star" aria-hidden="true"></span>
                                 <span class="sr">${_("Completed")}</span>
 
                             % endif
@@ -1228,7 +1305,7 @@ a:hover{
                                       </h4>
 
                             % if subsection.get('complete'):
-                                <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
+                                <span class="full-star fa fa-star" aria-hidden="true"></span>
                                 <span class="sr">${_("Completed")}</span>
 
                             % endif
@@ -1519,13 +1596,30 @@ a:hover{
               }
 
             }
-            
             }
           });
       }
-
-
+      // new course layout
+      let progress_bar_and_score = document.getElementsByClassName("progress_bar_and_score");
+      for(let i=0; i< progress_bar_and_score.length; i++){
+        progress_bar_and_score[i].insertBefore(progress_bar_and_score[i].children[1],progress_bar_and_score[i].children[0]);
+      }
   });
+  </script>
+
+  <script>
+    //new course layout
+    window.addEventListener('load', function() {
+      let subsectionTitle = document.getElementsByClassName("subsection-text outline-button");
+      for (let i=0; i<subsectionTitle.length; i++){
+        if(subsectionTitle[i].getElementsByClassName("full-star fa fa-star").length == 0){
+            let emptyStar = document.createElement("span");
+            emptyStar.className = "empty-star fa fa-star-o";
+            emptyStar.ariaHidden = "true";
+            subsectionTitle[i].appendChild(emptyStar);
+        }
+      }
+    })
   </script>
 
 
