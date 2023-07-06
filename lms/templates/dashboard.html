@@ -71,28 +71,23 @@ if 'last_visited_course' in custom_fields.keys() :
 
       for (let i = 0; i < boutons.length; i++) {
         const bouton = boutons[i];
-        bouton.innerText = "Voir le cours"
+        bouton.innerText = "S'inscrire au cours"
       }
 
       let children = id.children
-      console.log(children);
 
       for (let i = 0; i < children.length; i++) {
         const child = children[i];
 
-        console.log(child);
-        console.log(child.children[0].children[0].children[0].href);
-        let aboutLink = child.children[0].children[0].children[0].href
-        courseId = aboutLink.split('/')[-2]
-        console.log(courseId);
-        let registerLink = ''+courseId
+        let aboutLink = child.children[0].children[0].href
+        fragmentedLink = aboutLink.split('/')
+        courseId = fragmentedLink[fragmentedLink.length - 2]
 
-
-        // /register?course_id=course-v1:amazon+demarrer_activite+AZ_02&enrollment_action=enroll
-
+        let registerLink = '/wul_apps/' + courseId + '/course_registration'
+        child.children[0].children[0].href = registerLink
       }
 
-    }, 350)
+    }, 500)
 
   
   </script>
@@ -277,6 +272,7 @@ if 'last_visited_course' in custom_fields.keys() :
                   // Courses api
                   url: "/api/courses/v1/courses/",
                   success: function(result) {
+
                     let courses_list = result['results']
                     let course
                     for (let index = 0; index < courses_list.length; index++) {
@@ -294,6 +290,7 @@ if 'last_visited_course' in custom_fields.keys() :
                   $.ajax({
                     url: "/api/courses/v1/blocks/?course_id=" + course['course_id'] + "&username=${user.username}&depth=all&requested_fields=completion",
                     success: function(result_2) {
+
                       let max_completion = 0
                       let actual_completion = 0
                       for (const [key, block] of Object.entries(result_2['blocks'])) {
@@ -336,7 +333,7 @@ if 'last_visited_course' in custom_fields.keys() :
             % endif
           % endfor
           </div>
-          % else:
+        % else:
           <div class="empty-dashboard-message">
             % if display_dashboard_courses:
               <p>${_("You are not enrolled in any courses yet.")}</p>
@@ -351,7 +348,7 @@ if 'last_visited_course' in custom_fields.keys() :
             % else:
             <p>${_("Activate your account!")}</p>
             <p class="custom-message">${ activate_account_message | n, decode.utf8 }</p>
-          % endif
+            % endif
         </div>
         % endif
 
@@ -397,6 +394,7 @@ if 'last_visited_course' in custom_fields.keys() :
         getattr(settings, 'SOCIAL_SHARING_SETTINGS', {})
       )
     %>
+
     % for dashboard_index, enrollment in enumerate(course_entitlements + course_enrollments):
 
       % if ( already_visited and not custom_fields['last_visited_course'] == str(enrollment.course_id) ) or ( not already_visited and dashboard_index != 0 ) :
@@ -461,8 +459,6 @@ if 'last_visited_course' in custom_fields.keys() :
 
 
         <script>
-          // console.log('${enrollment.course_id}');
-          // console.log('${dir(enrollment)}');
 
           // Need API to add progress and remaining time
           function getData() { 
@@ -473,6 +469,7 @@ if 'last_visited_course' in custom_fields.keys() :
 
                 let courses_list = result['results']
                 let course
+
                 for (let index = 0; index < courses_list.length; index++) {
                   course = courses_list[index];
                   // Treat only targeted course
@@ -546,11 +543,14 @@ if 'last_visited_course' in custom_fields.keys() :
             
           }
 
+
           // Function to get completion and progress details for a given course
           function getCourseDetails_second(course) {
+
             $.ajax({
               url: "/api/courses/v1/blocks/?course_id=" + course['course_id'] + "&username=${user.username}&depth=all&requested_fields=completion",
               success: function(result_2) {
+
                 let max_completion = 0
                 let actual_completion = 0
                 for (const [key, block] of Object.entries(result_2['blocks'])) {
@@ -568,8 +568,6 @@ if 'last_visited_course' in custom_fields.keys() :
                   return regex.test(time);
                 }
 
-                // console.log("isValidFormat(effort)");
-                // console.log(isValidFormat(effort));
                 if (isValidFormat(effort)) {
                   // apply progress ratio and convert min to time
                   let min_effort = Number((String(effort).split(':')[1])) + Number(String(effort).split(':')[0]) * 60
@@ -637,13 +635,7 @@ if 'last_visited_course' in custom_fields.keys() :
       %endif
     %endfor
   </div>
-
-
-
-
-
 </main>
-
 
 
 
@@ -687,7 +679,6 @@ if 'last_visited_course' in custom_fields.keys() :
   }
 
   // Switch courses to display
-
   function switch_section() {
 
     let finished_courses_area = document.getElementById('finished-courses')
@@ -715,6 +706,40 @@ if 'last_visited_course' in custom_fields.keys() :
   button_targetted_2.onclick = function() {
     switch_section()
   }
+
+</script>
+<script>
+  // Display a message if course lists are empty 
+  try {
+    var ongoingCourses = document.getElementById('not-last-courses')
+  
+    if (ongoingCourses.children.length == 0) {
+      ongoingCourses.innerText = 'Cette liste est actuellement vide' 
+    }
+  } catch (error) {
+    console.log(error);
+  }
+
+  try {
+    var finishedCourses = document.getElementById('finished-courses')
+  
+    if (finishedCourses.children.length == 0) {
+      finishedCourses.innerText = 'Cette liste est actuellement vide' 
+    }
+  } catch (error) {
+    console.log(error);
+  }
+
+  try {
+    var availableCourses = document.getElementById('available-courses')
+  
+    if (availableCourses.children.length == 0) {
+      availableCourses.innerText = 'Cette liste est actuellement vide' 
+    }
+  } catch (error) {
+    console.log(error);
+  }
+
 
 </script>
 
@@ -865,7 +890,7 @@ main {
 #not-last-courses .course-container,#finished-courses .course-container, #available-courses .course {
   background-color:white;
   min-height: 250px;
-  margin: 15px calc(14.33vw - 160px);
+  margin: 15px calc(14.33vw - 164px);
   width: 320px;
   border: solid 0.5px #6F7373;
   border-radius: 8px;
