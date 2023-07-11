@@ -18,7 +18,7 @@
     text-shadow: none !important;
   }
   #register-parcours {
-    -webkit-appearance: auto;
+    webkit-appearance: auto;
     background: white;
   }
 
@@ -100,6 +100,24 @@
         margin-top: 3rem;
         background: #ffffffde;
     } */
+
+    .passwordField{
+        display: flex;
+        font-size: .8rem;
+        font-style: italic;
+        margin-bottom: .5rem !important;
+    }
+    .passwordField > input {
+        height: unset !important;
+        width: unset !important;
+        margin: unset !important;
+        margin-left: .5rem !important;
+        transition: .1s;
+    }
+    .passwordField > input:active {
+        transform: scale(.7);
+    }
+
     @media screen and (max-width:1370px) {
         div#login-and-registration-container{
             margin-bottom: 32rem;
@@ -161,28 +179,27 @@
 </script> -->
 
 <script>
-var test123 = setInterval(function(){
+// var test123 = setInterval(function(){
     
-    var passwordField = document.querySelector('.password-password')
-    passwordField.innerHTML = '<label for="register-password">Mot de passe</label><input id="register-password" type="password" name="password" value="" required aria-required="true" style="border-color:#767676;" /><i class="fa fa-eye" id="togglePassword" style="position:absolute; left:452px; bottom:12px; cursor:pointer;"></i>'
+//     var passwordField = document.querySelector('.password-password')
+//     passwordField.innerHTML = '<label for="register-password">Mot de passe</label><input id="register-password" type="password" name="password" value="" required aria-required="true" style="border-color:#767676;" /><i class="fa fa-eye" id="togglePassword" style="position:absolute; left:452px; bottom:12px; cursor:pointer;"></i>'
     
-    const togglePassword = document.querySelector('#togglePassword');
-    const passwordInput = document.querySelector('#register-password');
+//     const togglePassword = document.querySelector('#togglePassword');
+//     const passwordInput = document.querySelector('#register-password');
 
-    togglePassword.addEventListener('click', function (e) {
-        // toggle the type attribute
-        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-        passwordInput.setAttribute('type', type);
-        // toggle the eye slash icon
-        this.classList.toggle('fa-eye-slash');
-    });
-    clearInterval(test123)
+//     togglePassword.addEventListener('click', function (e) {
+//         // toggle the type attribute
+//         const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+//         passwordInput.setAttribute('type', type);
+//         // toggle the eye slash icon
+//         this.classList.toggle('fa-eye-slash');
+//     });
+//     clearInterval(test123)
 
-}, 400)
+// }, 400)
 
 
 var parcoursUpdate = setInterval(function(){
-
 
     var field_parcours = document.querySelector("#register-parcours")
     var field_cohorte = document.querySelector("#register-parcours2")
@@ -210,10 +227,81 @@ var parcoursUpdate = setInterval(function(){
 
 }, 600)
 
-var statut = setInterval(function(){
-    if(document.getElementsByClassName("label-text")[3].innerHTML === "Choix du parcours"){
-        document.getElementsByClassName("label-text")[3].innerHTML = "Statut"
+// var statut = setInterval(function(){
+//     if(document.getElementsByClassName("label-text")[3].innerHTML === "Choix du parcours"){
+//         document.getElementsByClassName("label-text")[3].innerHTML = "Statut"
+//     }
+// }, 100)
+
+// ------------------ 17799 - quentin - re-writing scripts above
+setInterval(() => {
+    if (document.querySelector('label[for="register-parcours"]')){
+
+        const registerParcours = document.querySelector('label[for="register-parcours"]')
+
+        if (registerParcours.innerHTML.includes('parcours')) {
+            registerParcours.innerText = 'Statut (requis)'
+        }
     }
 }, 100)
+
+// --- script for the "afficher le mot de passe" checkbox. The script will check for changes on the webpage and will insert the element to show/hide the password in login and register
+// Create a MutationObserver to detect changes to the DOM
+const observer = new MutationObserver(mutations => {
+
+    // Loop through all mutations that have occurred
+    for (const mutation of mutations) {
+
+        // Loop through all nodes that have been added to the DOM
+        for (const node of mutation.addedNodes) {
+
+            // Check if the added node is an element
+            if (node.nodeType === Node.ELEMENT_NODE) {
+
+                // Check if the added element is or contains the #register-password or #login-password element
+                const passwordInputElement = node.matches('#register-password, #login-password') ? node : node.querySelector('#register-password, #login-password')
+
+                if (passwordInputElement && !passwordInputElement.nextElementSibling.matches('.passwordField')) {
+
+                    // If the #register-password or #login-password element is found and the password field has not already been added after it, insert the password field after it
+                    passwordInputElement.insertAdjacentHTML('afterend', '<div class="passwordField"><div>Afficher le mot de passe</div><input type="checkbox" id="togglePassword" class="buttonToShowHidePassword"></div>')
+
+                    // Get a reference to the checkbox element
+                    const togglePasswordCheckbox = document.querySelector('#togglePassword')
+
+                    // Add an event listener to the checkbox to toggle the visibility of the password
+                    togglePasswordCheckbox.addEventListener('click', () => {
+
+                        // Toggle the type of the password input element between 'password' and 'text'
+                        passwordInputElement.type = passwordInputElement.type === 'password' ? 'text' : 'password'
+                    })
+                    break
+                }
+            }
+        }
+    }
+})
+
+// Start observing changes to the DOM
+observer.observe(document, { childList: true, subtree: true })
+
 </script>
 
+<style>
+    .passwordField{
+        display: flex;
+        font-size: .8rem;
+        font-style: italic;
+        margin-bottom: .5rem !important;
+    }
+    .passwordField > input {
+        height: unset !important;
+        width: unset !important;
+        margin: unset !important;
+        margin-left: .5rem !important;
+        transition: .1s;
+    }
+    .passwordField > input:active {
+        transform: scale(.7);
+    }
+</style>
