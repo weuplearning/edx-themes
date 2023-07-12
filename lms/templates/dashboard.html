@@ -710,36 +710,39 @@ if 'last_visited_course' in custom_fields.keys() :
 </script>
 <script>
   // Display a message if course lists are empty 
-  try {
-    var ongoingCourses = document.getElementById('not-last-courses')
-  
-    if (ongoingCourses.children.length == 0) {
-      ongoingCourses.innerText = 'Cette liste est actuellement vide' 
+  setTimeout(() => {
+    
+    try {
+      var ongoingCourses = document.getElementById('not-last-courses')
+      
+      if (ongoingCourses.children.length == 0) {
+        ongoingCourses.innerText = 'Cette liste est actuellement vide' 
+      }
+    } catch (error) {
+      console.log(error);
     }
-  } catch (error) {
-    console.log(error);
-  }
-
-  try {
-    var finishedCourses = document.getElementById('finished-courses')
-  
-    if (finishedCourses.children.length == 0) {
-      finishedCourses.innerText = 'Cette liste est actuellement vide' 
+    
+    try {
+      var finishedCourses = document.getElementById('finished-courses')
+      
+      if (finishedCourses.children.length == 0) {
+        finishedCourses.innerText = 'Cette liste est actuellement vide' 
+      }
+    } catch (error) {
+      console.log(error);
     }
-  } catch (error) {
-    console.log(error);
-  }
-
-  try {
-    var availableCourses = document.getElementById('available-courses')
-  
-    if (availableCourses.children.length == 0) {
-      availableCourses.innerText = 'Cette liste est actuellement vide' 
+    
+    try {
+      var availableCourses = document.getElementById('available-courses')
+      
+      if (availableCourses.children.length == 0) {
+        availableCourses.innerText = 'Cette liste est actuellement vide' 
+      }
+    } catch (error) {
+      console.log(error);
     }
-  } catch (error) {
-    console.log(error);
-  }
-
+    
+  }, 1000);
 
 </script>
 
