@@ -64,32 +64,6 @@ if 'last_visited_course' in custom_fields.keys() :
       });
     });
 
-    // Replace available course button text
-    setTimeout(function(){
-      let id = document.getElementById("available-courses")
-      let boutons = id.getElementsByClassName('learn-more')
-
-      for (let i = 0; i < boutons.length; i++) {
-        const bouton = boutons[i];
-        bouton.innerText = "S'inscrire au cours"
-      }
-
-      let children = id.children
-
-      for (let i = 0; i < children.length; i++) {
-        const child = children[i];
-
-        let aboutLink = child.children[0].children[0].href
-        fragmentedLink = aboutLink.split('/')
-        courseId = fragmentedLink[fragmentedLink.length - 2]
-
-        let registerLink = '/wul_apps/' + courseId + '/course_registration'
-        child.children[0].children[0].href = registerLink
-      }
-
-    }, 500)
-
-  
   </script>
   <%static:webpack entry="UnenrollmentFactory">
     UnenrollmentFactory({
@@ -630,39 +604,7 @@ if 'last_visited_course' in custom_fields.keys() :
   <div id="finished-courses" style="display: none;">
   </div>
 
-  <div class="secondary-section-block">
-    <h2 class="secondary-section">Toutes nos Formations</h2>
-    <select id="domaine" name="domaine">
-      <option value="All">All</option>
-      <option value="Stratégie">Stratégie</option>
-      <option value="Marketing">Marketing</option>
-      <option value="Gestion D'entreprise">Gestion D'entreprise</option>
-      <option value="Gestion Des Opérations">Gestion Des Opérations</option>
-      <option value="Ventes">Ventes</option>
-      <option value="Tech">Tech</option>
-      <option value="Marketplace">Marketplace</option>
-      <option value="Bootcamp">Bootcamp</option>
-    </select>  
-  </div>
 
-
-  <div id="available-courses" >
-    <%
-    courses = CourseOverview.get_all_courses(orgs=['amazon'])
-    %>
-    %for course in courses:
-      %if (course.start_date) < datetime.now(tz=pytz.UTC) :
-
-        %if not CourseEnrollment.is_enrolled(user, course):
-          <li class="course-item course-item-not-enrolled">
-            <%include file="course.html" args="course=course" />
-            <!-- possible d'ajouter la durée ici ?? -->
-          </li>
-        %endif
-
-      %endif
-    %endfor
-  </div>
 </main>
 
 
@@ -671,27 +613,6 @@ if 'last_visited_course' in custom_fields.keys() :
 
 
 <script>
-  const selectElement = document.getElementById('domaine');
-  
-  function handleSelectChange(event) {
-    const selectedValue = event.target.value.toLowerCase();
-
-    const courseList = document.getElementsByClassName("course-item-not-enrolled");
-
-    for (const course of courseList) {
-      const courseTag = course.firstElementChild.attributes[3].textContent;
-      const shouldHide = selectedValue !== "all" && courseTag !== selectedValue;
-      const isHidden = course.classList.contains("course-item-hide");
-
-      if (shouldHide && !isHidden) {
-        course.classList.add("course-item-hide");
-      } else if (!shouldHide && isHidden) {
-        course.classList.remove("course-item-hide");
-      }
-    }
-  }
-  
-  selectElement.addEventListener('change', handleSelectChange);
 
   // "Reprendre le cours" buttons
   if (document.getElementById("new-section").getElementsByClassName('course-actions')[0].getElementsByClassName('course-target-link')[0].innerText = 'Reprendre le cours') {
@@ -760,16 +681,6 @@ if 'last_visited_course' in custom_fields.keys() :
       console.log(error);
     }
     
-    try {
-      var availableCourses = document.getElementById('available-courses')
-      
-      if (availableCourses.children.length == 0) {
-        availableCourses.innerText = 'Cette liste est actuellement vide' 
-      }
-    } catch (error) {
-      console.log(error);
-    }
-    
   }, 1000);
 
 </script>
@@ -830,7 +741,7 @@ main {
   width: unset !important;
   margin: 0 !important;
 }
-#new-section .wrapper-course-image img, #not-last-courses .course-item img, #not-last-courses .course-item a, #finished-courses .course-item img, #finished-courses .course-item a, #available-courses .course-item img  {
+#new-section .wrapper-course-image img, #not-last-courses .course-item img, #not-last-courses .course-item a, #finished-courses .course-item img, #finished-courses .course-item a  {
   width: 100%;
   object-fit: cover;
   max-height: 200px;
@@ -846,7 +757,7 @@ main {
 .course-title > a {
   color: black
 } 
-#not-last-courses .course-actions .course-target-link, #finished-courses .course-actions .course-target-link, #available-courses .course-item .cover-image > div, #new-section .course-actions .course-target-link {
+#not-last-courses .course-actions .course-target-link, #finished-courses .course-actions .course-target-link, #new-section .course-actions .course-target-link {
   padding: 4px 28px;
   font-size: medium;
   color: white;
@@ -856,7 +767,7 @@ main {
   bottom: -180px;
   left: 30px;
 }
-#not-last-courses .course-actions .course-target-link, #finished-courses .course-actions .course-target-link, #available-courses .course-item .cover-image > div {
+#not-last-courses .course-actions .course-target-link, #finished-courses .course-actions .course-target-link {
   bottom: 30px;
   left: 30px;
   width: unset;
@@ -874,7 +785,7 @@ main {
   align-items: baseline;
   width: 100%;
 }
-.wrapper-course-details , #available-courses .course .course-info {
+.wrapper-course-details {
   height: 130px;
   margin-bottom: 50px !important;
   padding: 25px 30px 0 30px !important;
@@ -894,10 +805,10 @@ main {
   margin-bottom: 70px !important;
   padding: 25px 30px !important; 
 }
-#not-last-courses .course-actions .course-target-link, #finished-courses .course-actions .course-target-link, #available-courses .course-actions .course-target-link {
+#not-last-courses .course-actions .course-target-link, #finished-courses .course-actions .course-target-link {
   padding: 10px 20px;
 }
-#not-last-courses .course-container .course-title .course-target-link, #finished-courses .course-container .course-title .course-target-link, #available-courses .course-item .course-title {
+#not-last-courses .course-container .course-title .course-target-link, #finished-courses .course-container .course-title .course-target-link {
   font-weight: 700;
   font-size: 23px !important;
   line-height: 27px;
@@ -912,13 +823,13 @@ main {
   display: inline-block;
 }
 
-#not-last-courses, #available-courses, #finished-courses {
+#not-last-courses, #finished-courses {
   display: flex;
   flex-wrap: wrap;
   padding: 3vh 7vw 11vh 7vw;
   /* border-bottom: 1px solid grey; */
 }
-#not-last-courses .course-container,#finished-courses .course-container, #available-courses .course {
+#not-last-courses .course-container,#finished-courses .course-container{
   background-color:white;
   min-height: 250px;
   margin: 15px calc(14.33vw - 164px);
@@ -928,7 +839,7 @@ main {
   position: relative;
   box-sizing: border-box;
 }
-#not-last-courses .wrapper-course-image, #finished-courses .wrapper-course-image, #available-courses .wrapper-course-image {
+#not-last-courses .wrapper-course-image, #finished-courses .wrapper-course-image {
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -940,17 +851,17 @@ main {
   font-size: 24px;
   line-height: 2.1vw;
 }
-#not-last-courses .course-title .course-target-link, #finished-courses .course-title .course-target-link, #available-courses .course-info .course-name {
+#not-last-courses .course-title .course-target-link, #finished-courses .course-title .course-target-link {
   font-family: "AmazonEmber" !important;
   font-size: medium;
   color: black; 
 }
-#not-last-courses .wrapper-course-actions, #finished-courses .wrapper-course-actions, #available-courses .wrapper-course-actions  {
+#not-last-courses .wrapper-course-actions, #finished-courses .wrapper-course-actions {
   display: flex;
   justify-content: end;
   align-self: end;  
 }
-#not-last-courses .course-actions, #finished-courses .course-actions, #available-courses .course-actions {
+#not-last-courses .course-actions, #finished-courses .course-actions {
   margin-bottom: 20px;
 }
 #not-last-courses .course-jauge {
@@ -981,40 +892,6 @@ main {
 }
 
 
-/* Availavle courses */
-
-#available-courses {
-  background-color: white;
-}
-#available-courses .course-item .course {
-  position:relative;
-  display: flex;
-  flex-direction: column;
-  /* justify-content: flex-end; */
-
-}
- #available-courses .course .course-info {
-  height: 80px;
-}
-#available-courses .localized_datetime {
-  display: none;
-}
-#available-courses .course-item .cover-image {
-  display: flex;
-}
-#available-courses .course-item .cover-image > div:hover{
-  text-decoration: underline;
-}
-/* #available-courses .course-item .cover-image > div{
-  position: absolute;
-  top: 66%;
-  right: -156%;
-  font-size: medium;
-  color: black;
-  background-color: white;
-  border: 1px solid black;
-  padding: 10px 20px;
-} */
 
 
 /* hide unenroll option */
@@ -1055,9 +932,7 @@ select option:hover {
   background-color: #eee;
   color: #333;
 }
-.course-item-hide, #available-courses .course-code, #available-courses .course-organization {
-  display: none;
-}
+
 .dashboard .main-container .my-courses .course .details .wrapper-course-details .course-info .info-date-block-container{
   font-size: 16px;
 }
