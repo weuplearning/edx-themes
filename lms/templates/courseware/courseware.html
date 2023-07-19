@@ -5,6 +5,7 @@
 <%!
 import six
 import waffle
+import json
 
 from django.conf import settings
 from django.urls import reverse
@@ -14,6 +15,7 @@ from lms.djangoapps.edxnotes.helpers import is_feature_enabled as is_edxnotes_en
 from openedx.core.djangolib.js_utils import js_escaped_string
 from openedx.core.djangolib.markup import HTML
 from openedx.features.course_experience import course_home_page_title, DISABLE_COURSE_OUTLINE_PAGE_FLAG
+
 %>
 <%
    include_special_exams = (
@@ -21,7 +23,20 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
    settings.FEATURES.get('ENABLE_SPECIAL_EXAMS', False) and
    (course.enable_proctored_exams or course.enable_timed_exams)
    )
+
+   custom_fields = {}
+   postal_codes = ["51100", "51110", "51140", "51170", "51220", "51350", "51360", "51370", "51380", "51390", "51400", "51420", "51430", "51450", "51480", "51490", "51500", "51600", "51700"]
+   show_pdf = False
+   custom_fields = json.loads(user.profile.custom_field)
+
+   if 'postal_code' in custom_fields.keys() :
+       if custom_fields['postal_code'] in postal_codes:
+           show_pdf = True
 %>
+
+<script>
+  var show_pdf = "${show_pdf}";
+</script>
 
 <style>
   /* .window-wrap {
