@@ -183,15 +183,6 @@ input[type="submit"], input[type="button"], button, .button {
 <%include file="../footer.html" />
 
 
-<!-- force the redirection => https://github.com/weuplearning/edx-themes/issues/1  -->
-<script>
-if (window.location.href.indexOf("/login") != -1) {
-    if ("${str(request.user)}" != "AnonymousUser") {
-        window.location.replace("courses/course-v1:amazon+amazon001+SP/course/")
-    }
-}
-</script>
-
 <script>
     window.addEventListener("load", function () {
         const productField = document.getElementsByClassName("form-field select-online_sales_products")[0]
