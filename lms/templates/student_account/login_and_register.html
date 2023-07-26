@@ -84,10 +84,12 @@
         const firstElement = document.getElementsByClassName("form-field checkbox-honor_code")[0];
         const secondElement = document.getElementsByClassName("form-field checkbox-email_module")[0];
         const thirdElement = document.getElementsByClassName("form-field checkbox-terms_of_service")[0];
+        const yearOfBirth = document.getElementsByClassName("form-field text-year_of_birth")[0];
+
 
 
         // Correct CGU text and links only Koa-Prod
-        console.log(thirdElement);
+        // for Koa-qualif replace the occurence of afpa bith Afpa that are present in the indexOf and replace functions
         // thirdElement.attributes('required', '')
         if (thirdElement.innerText.indexOf('afpa') != -1 ) {
             thirdElement.innerHTML = thirdElement.innerHTML.replace('<a href=\"/tos\" rel=\"noopener\" target=\"_blank\">Conditions d’utilisation</a> de afpa', '<a href=\"/cgu\" rel=\"noopener\" target=\"_blank\">Conditions d’utilisation</a> de Afpa')
@@ -108,9 +110,17 @@
         //document.getElementsByClassName("label-text")[7].children[0].href = 'https://mooc.afpa.fr/donnees'
         // document.getElementById("register-terms_of_service-optional-label").remove()
 
-        parentElement1.removeChild(firstElement);
+        try {
+            parentElement1.removeChild(yearOfBirth);
+            parentElement1.removeChild(firstElement);
+            console.log('passed');
+        } catch (error) {
+            console.log(error);
+        }
+
         parentElement.insertBefore(firstElement, secondElement);
         parentElement.insertBefore(thirdElement, firstElement);
+        parentElement1.appendChild(yearOfBirth);
     }, 500);
 </script>
 
