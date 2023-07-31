@@ -6,114 +6,281 @@
 
 <%include file="../learner_dashboard/_dashboard_navigation_courses.html" />
 
-<script type="module" crossorigin src="/media/microsites/amazon/react_coach/build/index-f35ce78f.js"></script>
+<script type="module" crossorigin src="/media/microsites/amazon/react_coach/build/test/index-de971ce5.js"></script>
 <link rel="stylesheet" type="text/css" href="${css}" />
-<link rel="stylesheet" href="/media/microsites/amazon/react_coach/build/index-4dd03b4a.css">
+<link rel="stylesheet" href="/media/microsites/amazon/react_coach/build/test/index-ef2f2183.css">
 <link rel="stylesheet" href="https://cdn.fontawesome.com/css/fontawesome.min.css">
 <div id="root"></div>
 
+<!-- <script type="module" crossorigin src="/media/microsites/amazon/react_coach/build/index-f35ce78f.js"></script>
+<link rel="stylesheet" type="text/css" href="${css}" />
+<link rel="stylesheet" href="/media/microsites/amazon/react_coach/build/index-4dd03b4a.css">
+<link rel="stylesheet" href="https://cdn.fontawesome.com/css/fontawesome.min.css">
+<div id="root"></div> -->
+
+<div id="custom-popup" style="display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
+    <div class="custom-popupdiv" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);">
+      <span id="close-popup" style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
+      <p style="font-family: Arial, sans-serif; font-size: 18px; color: #333;">Vous n'avez pas encore accès au coaching. Si vous souhaitez candidater, veuillez remplir le lien suivant :</p>
+       <a href="https://forms.gle/ZpZ85MU3VZybzx6D7" target="_blank" style="color: #0099cc;">https://forms.gle/ZpZ85MU3VZybzx6D7</a> 
+    </div>
+</div>
+
+  
+
 <!-- managing openedx style.. -->
 <style>
-
     /* -------------------- relative to openedx -------------------- */
-    
-    .window-wrap{
+
+    .window-wrap {
         background: none;
     }
-    p{
+
+    p {
         margin: 1rem 0rem;
     }
-    html{
+
+    html {
         background-color: #1E2631;
     }
-    body{
+
+    body {
         color: #262626 !important;
         /* line-height: 1.6rem; */
         font-size: 1.1rem;
     }
-    h2, .home>header .title>.heading-group p, section.outside-app h1{
+
+    h2,
+    .home>header .title>.heading-group p,
+    section.outside-app h1 {
         color: #262626 !important;
     }
-    *{
+
+    * {
         /* font-family: "AmazonEmber" !important; */
     }
-    label{
+
+    label {
         color: #262626 !important;
         font: inherit;
         text-shadow: none;
     }
-    .footerBottom{
+
+    .footerBottom {
         padding: 40px 0 20px;
         border-top: none !important;
         font-size: 1rem;
     }
-    .footer-column.footer_cgu{
+
+    .footer-column.footer_cgu {
         display: flex;
     }
-    .content-wrapper{
+
+    .content-wrapper {
         max-width: unset;
     }
+
     @media screen and (max-width:500px) {
-        .header-left-section{
+        .header-left-section {
             flex-direction: column;
         }
-        #footer > .container1 > .row {
+
+        #footer>.container1>.row {
             flex-direction: column;
         }
-        .footer-column{
+
+        .footer-column {
             width: unset !important;
         }
-        .footer-column.footer_cgu{
+
+        .footer-column.footer_cgu {
             flex-direction: column;
         }
-        .footer-column.footer_cgu > a {
+
+        .footer-column.footer_cgu>a {
             margin: .5rem;
         }
     }
 
     /* -------------------- relative to react app -------------------- */
 
-    .section2_tile{
+    .section2_tile {
         height: 38rem;
     }
-    .section2_tile-themes{
+
+    .section2_tile-themes {
         font-size: 1.15rem;
     }
-    .section2_tile-name{
+
+    .section2_tile-name {
         margin: 2rem 0rem;
     }
+
     .section2-filterButton:before {
         transform: scale(.9);
     }
-    .section2_tile-button:not(.btn):hover, .section2_tile-button:not(.btn):focus, .section2_tile-button:visited:not(.btn):hover, .section2_tile-button:visited:not(.btn):focus{
+
+    .section2_tile-button:not(.btn):hover,
+    .section2_tile-button:not(.btn):focus,
+    .section2_tile-button:visited:not(.btn):hover,
+    .section2_tile-button:visited:not(.btn):focus {
         color: white !important;
         text-decoration: none !important;
     }
-    a.section2_tile-button{
+
+    a.section2_tile-button {
         color: white !important;
         text-decoration: none !important;
     }
-    .section2_tile-name{
+
+    .section2_tile-name {
         color: #262626;
         margin: 1rem 0rem;
     }
-    .section2_tile-jobTitle{
+
+    .section2_tile-jobTitle {
         margin-bottom: 1rem;
     }
-    .section2_tile-buttonShowMore{
+
+    .section2_tile-buttonShowMore {
         margin: -1.6rem 2rem .5rem .5rem;
     }
-    .section2-filterSection-labels{
+
+    .section2-filterSection-labels {
         padding: .4rem .7rem;
     }
-    .section2_tile-moreInfos-popup{
+
+    .section2_tile-moreInfos-popup {
         left: -1.5rem;
         bottom: -26rem;
     }
 
+    .section2-filterSection-labels-checked {
+        color: white !important;
+    }
+
+    .disabledButton:hover{
+
+    }
+
     @media screen and (max-width:500px) {
-        .pageTitleSection{
+        .pageTitleSection {
             margin: 0;
         }
     }
+
+    .custom-popupdiv{
+        border-radius: 10px;
+        text-align: center;
+        width: 50%;
+    }
+    
 </style>
+
+<!-- 17729 - quentin - script to get the current user's mail address and check if it match those of the list below. If it doesn't, then the link buttons to enroll in the coach sessions while be hidden -->
+
+% if user:
+    <% user_email=user.email %>
+
+    <script>
+        window.addEventListener('load', () => {
+
+            // get the current mail of the connected user
+            const currentUserMail = "${user_email}"
+
+            // list of the mail addresses of the people allow to access the link button
+            const allowedEmailList = [
+                "alexandre.berteau@weuplearning.com",
+                "Simrandeep.sng@gmail.com",
+                "metalanimalsproject@hotmail.com",
+                "babadembelet8@gmail.com",
+                "per-claire@hotmail.fr",
+                "allogan619@gmail.com",
+                "arnautmub@gmail.com",
+                "david@origami-sas.fr",
+                "cristina.lamas@live.fr",
+                "georges.heloise@bbox.fr",
+                "m.rosnel@hotmail.fr",
+                "jeremy@goldaia.fr",
+                "feldmanr@hotmail.fr",
+                "cren.annette@gmail.com",
+                "sigao@live.fr",
+                "luciemimerel@gmail.com",
+                "germainfabienne10@gmail.com",
+                "kaddoursabah@yahoo.fr",
+                "lesetatsdamedesusan@gmail.com",
+                "artisanducristal06@gmail.com",
+                "laure@ticky-tacky.fr",
+                "direction@actifalperformance.com",
+                "ccchangch@gmail.com",
+                "d.khelfi@laposte.net",
+                "e.moussio@gmail.com",
+                "naouri.mekdad@gmail.com",
+                "sarahkanj@hotmail.com",
+                "alexandre.philipon@cocoriton.fr",
+                "Elodieswanberg@gmail.com",
+                "info@monepiceriefinedeterroir.fr",
+                "lynda.achoui@live.fr",
+                "group3xm@hotmail.com",
+                "mj@creaz.com",
+                "sandra.baze.hypnotherapeute@gmail.com",
+                "borah@neuf.fr",
+                "mpbertin@outlook.com",
+                "quentin.bejaoui@live.fr",
+                "Anouchka.agbayissah@gmail.com",
+                "elodie.gervaz@gmail.com",
+                "faysaltaskiran@gmail.com",
+                "contact@odyswines.com",
+                "philippegauthierpro@gmail.com",
+                "sharon.rose.maillet@gmail.com",
+                "Forabetterlife4u@gmail.com",
+                "quentin.artaud@weuplearning.com"
+            ]
+
+            // verify if the current user's mail is in the list, and get the value false or true
+            const emailAllowed = allowedEmailList.includes(currentUserMail)
+            console.log('123')
+            console.log(emailAllowed)
+            setTimeout(() => {
+                // the button element to modify if the user isn't not in the vip list
+                const buttonToModify = document.querySelectorAll('.section2_tile-button');
+                // get the popup
+                var popup = document.getElementById("custom-popup");
+
+                // get the close button
+                var closeButton = document.getElementById("close-popup");
+
+                if (!emailAllowed) {
+                    // apply the modifications to each of the buttons on the page
+                    buttonToModify.forEach(buttonsToTurnOff => {
+                        buttonsToTurnOff.style.background='#546266';
+                        buttonsToTurnOff.removeAttribute('href');
+                        buttonsToTurnOff.setAttribute('title',"Vous n'êtes pas autorisé à accéder à ces liens pour l'instant..");
+
+                        // When the user clicks on the button, show the popup
+                        buttonsToTurnOff.onclick = function(event) {
+                            event.preventDefault();
+                            popup.style.display = "block";
+                        }
+                    });
+
+
+                        // When the user clicks on the close button, close the popup
+                        closeButton.onclick = function() {
+                            popup.style.display = "none";
+                        }
+
+                        // When the user clicks anywhere outside of the popup, close it
+                        window.onclick = function(event) {
+                            if (event.target == popup) {
+                                popup.style.display = "none";
+                            }
+                        }
+
+                }
+    
+            }, 2550)
+        })
+    </script>
+
+% endif
