@@ -26,6 +26,7 @@ import time
 from openpyxl import Workbook
 from openpyxl.styles import PatternFill, Font
 
+
 # from datetime import datetime, date, timedelta
 # from django.utils import timezone
 # from dateutil import tz
@@ -34,8 +35,6 @@ from openpyxl.styles import PatternFill, Font
 from opaque_keys.edx.locator import CourseLocator
 from common.djangoapps.student.models import CourseEnrollment
 from lms.djangoapps.courseware.courses import get_course_by_id
-# from lms.djangoapps.grades.context import grading_context_for_course
-# from lms.djangoapps.courseware.user_state_client import DjangoXBlockUserStateClient
 from lms.djangoapps.wul_apps.best_grade.helpers import check_best_grade
 
 
@@ -44,6 +43,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
+
 
 import logging
 log = logging.getLogger()
@@ -68,9 +68,8 @@ for course_id in course_ids:
     user_data = {}
 
     enrollment = course_enrollments[i]
-    # if str(user.email).find('@yopmail') != -1 or str(user.email).find('@weuplearning') != -1 or str(user.email).find('@themoocagency') != -1 :
-    #   continue
-
+    if str(user.email).find('@yopmail') != -1 or str(user.email).find('@weuplearning') != -1 or str(user.email).find('@themoocagency') != -1 :
+      continue
 
     try:
       user_data["id"] = user.id
@@ -84,22 +83,8 @@ for course_id in course_ids:
         user_data["email"] = json.loads(user.profile.custom_field)['email']
       except:
         user_data["email"] = 'n.a.'
-
-    try:
-      user_data["firstname"] = user.first_name.capitalize()
-    except:
-      try:
-        user_data["firstname"] = json.loads(user.profile.custom_field)['first_name'].capitalize()
-      except:
-        user_data["firstname"] = 'n.a.'
-
-    try:
-      user_data["lastname"] = user.last_name.capitalize()
-    except:
-      try:
-        user_data["lastname"] = json.loads(user.profile.custom_field)['last_name'].capitalize()
-      except:
-        user_data["lastname"] = 'n.a.'
+    
+    user_data["name"] = user.profile.name
 
     try:
       user_data["Code"] = json.loads(user.profile.custom_field)['postal_code']
@@ -123,14 +108,14 @@ for course_id in course_ids:
 
   all_users_data[course_id]= course_data
 
-log.info('------------> Finish fetching user data and answers')
-log.info('------------> Begin Calculate grades and write xlsx report')
+# log.info('------------> Finish fetching user data and answers')
+# log.info('------------> Begin Calculate grades and write xlsx report')
 
 # WRITE XLS
 timestr = time.strftime("%Y_%m_%d")
 wb = Workbook()
 sheet = wb.active
-sheet.title= 'Rapport'
+sheet.title= 'Rapport de notes'
 filename = '/home/edxtma/csv/{}_grand-reims_grade_report.xlsx'.format(timestr)
 
 headers = ['ID apprenant', 'Email', 'Nom d\'utilisateur' , 'Note finale', 'Code postal', 'Certificat']
@@ -142,14 +127,16 @@ for i, header in enumerate(headers):
 j=2
 
 for k, course_id in all_users_data.items():
+
   for key, user in course_id.items():
+
     sheet.cell(j, 1, user['general']['id'])
     sheet.cell(j, 2, user['general']['email'])
-    sheet.cell(j, 3, user['general']['firstname'] + ' ' + user['general']['lastname'])
-    sheet.cell(j, 5, user['general']['Code'])
+    sheet.cell(j, 3, user['general']['name'] )
 
     percent = str(user['general']['grade']) + '%'
     sheet.cell(j, 4, percent.replace('.',','))
+    sheet.cell(j, 5, user['general']['Code'])
 
     if int(percent.split('.')[0]) >= 70 : 
       sheet.cell(j, 6, 'Oui')
@@ -163,14 +150,12 @@ for k, course_id in all_users_data.items():
     j += 1
 
 
-
-
 # SEND MAILS
-course_names = []
+# course_names = []
 course_names_html = []
 for course_id in course_ids: 
   course = get_course_by_id(CourseLocator.from_string(course_id)) 
-  course_names.append(course.display_name_with_default)
+  # course_names.append(course.display_name_with_default)
   course_names_html.append("<li>"+ str(course.display_name_with_default)+"</li>")
 
 output = BytesIO()
