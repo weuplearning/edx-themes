@@ -11,12 +11,66 @@
 
 <%block name="pagetitle">${_("Sign in or Register")}</%block>
 <style>
-  input[type="submit"], input[type="button"], button, .button {
+input[type="submit"], input[type="button"], button, .button {
     box-shadow: none !important;
     background-color: var(--primary);
     background-image: none !important;
     text-shadow: none !important;
-  }
+}
+#register-terms_of_service-optional-label {
+    display: none;
+}
+
+/* MODAL */
+#modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 9999;
+}
+#specific-term {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 80%;
+    max-height: 80%;
+    overflow-y: auto;
+}
+#text-specific-term {
+    font-size: 16px;
+    line-height: 1.6;
+    text-align: justify;
+}
+#text-specific-term > h2 {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 45px;
+}
+#modal-button {
+    background-color: #042E58;
+    color: white;
+    padding: 20px;
+    margin: 20px auto;
+    text-align: center;
+    width: 300px;
+    line-height: 1.7;
+}
+#modal-button:hover { 
+    cursor: pointer;
+}
+#modal.active {
+    display: block;
+}
 </style>
 <%block name="js_extra">
     <%static:require_module module_name="js/student_account/logistration_factory" class_name="LogistrationFactory">
@@ -61,7 +115,112 @@
     </main>
 </div>
 
+<div id="modal" >
+    <div id="specific-term" >
+        <div id="text-specific-term">
+            <h2 >Information et recueil du consentement <br>Test du MOOC entrepreneuriat</h2>
+            <p>
+                Vous avez exprimé votre intérêt pour participer au test d’une de formation en ligne à destination des personnes ayant un projet de création d’entreprise.
+            </p>
+            <p>
+                Dans le cadre de ce test, vous serez invité (e) à réaliser l’ensemble des étapes décrites ci-dessous : 
+            </p>
+            <ol>
+                <li>
+                    <strong>Répondre à un sondage </strong>d’une durée de 25 à 30 minutes
+                </li>
+                <li>
+                    <strong>Suivre la première session </strong>de la formation en ligne d’une durée approximative de 60 minutes
+                </li>
+                <li>
+                    <strong>Participer en distanciel </strong>(via Zoom ou Teams) <strong>à un entretien de groupe</strong> d’environ 45 minutes afin d’échanger sur le sondage et la formation 
+
+                </li>
+            </ol>
+            <p>
+                A l’issue de l’entretien de groupe et à la condition d’avoir participé à l’ensemble des étapes décrites ci-dessus, pour vous remercier de votre implication, nous vous offrirons des chèques cadeaux d’une valeur totale de 40 EUR composés comme suit : 2 chèques UpCadhoc dématérialisés d’une valeur unitaire de 20 EUR.  Il vous sera demandé de nous retourner un bon électronique accusant réception de ces chèques cadeaux. Ce dernier vous sera adressé par courriel après envoi des chèques cadeaux.
+            </p>
+            <p>
+                Nous vous informons que, afin de permettre une exploitation fidèle et approfondie les données recueillies dans le cadre de l’entretien de groupe, ce dernier fera l’objet d’un enregistrement vidéo/audio. 
+            </p>
+            <p>
+                Nous nous engageons à ne divulguer aucune information susceptible de vous identifier. Les enregistrements vidéo seront détruits après avoir été retranscrits. Dans tous les cas, les enregistrements vidéo ne seront pas conservés plus de trois mois après leur date de réalisation. Les retranscriptions seront quant à elles conservées pour une durée maximum de deux ans. Elles seront détruites à l’issue de cette période. 
+            </p>
+            <p>
+                L’ensemble des éléments recueillis viendront enrichir une étude académique sur le sujet de l’entrepreneuriat. Les résultats agrégés seront accessibles dans des publications scientifiques. Aucune donnée vous identifiant ne sera présente dans ces publications.
+            </p>
+            <p>
+                Enfin, si vous décidez de quitter le test avant d’avoir accompli les 3 étapes nécessaires à sa réalisation complète, vous ne pourrez pas bénéficier des chèques-cadeaux. Nous vous informons également que dans ce cas, toutes les données recueillies vous concernant seront détruites.
+            </p>
+            <p>
+                Les chercheurs de l'étude à laquelle vous participez sont : Mona Mensmann de l’Université de Cologne (mona.mensmann@wiso.uni-koeln.de) et Mathis Schulte de HEC Paris (<a href="mailto:schulte@hec.fr">schulte@hec.fr</a>). Si vous le souhaitez, vous pourrez recevoir des informations sur les conclusions et résultats agrégés de l'étude.
+            </p>
+            <p>
+                Conformément à la règlementation, nous vous informons que les données à caractère personnel recueillies seront traitées par HEC Paris et l’Université de Cologne afin de gérer votre participation au test de la session de la formation en ligne. 
+            </p>
+            <p>
+                Les données traitées seront vos nom, prénom, adresse email, données pédagogiques telles que réponses aux sondages, quizz, participation aux entretiens, données de connexion et de navigation sur la plateforme.
+            </p>
+            <p>
+                La base légale de ce traitement est la mission d’intérêt général. Les destinataires des données seront les collaborateurs en charge du projet au sein de HEC Paris et de l’Université de Cologne et les prestataires auxquels HEC Paris fait appel dans le cadre de ce test : WeUp Learning opérant la plateforme de formation en ligne et Qualtrics pour les sondages.
+            </p>
+            <p>
+                Les données recueillies seront conservées dans l’Union Européenne.
+            </p>
+            <p>
+                Les données seront conservées 5 ans. Elles seront ensuite archivées pour une durée maximum de 2 ans après la date de dernière publication scientifique. Aucune donnée identifiante ne figurera dans les publications scientifiques. 
+            </p>
+            <p>
+                Vous disposez d'un droit d'accès, de rectification, de limitation du traitement et d’opposition en envoyant un email à <a href="mailto:schulte@hec.fr">schulte@hec.fr</a>.
+            </p>
+            <p>
+                Vous pouvez également vous adresser au délégué à la protection des données de HEC Paris en écrivant à l’adresse : <a href="mailto:donnees-personnelles@hec.fr">donnees-personnelles@hec.fr</a>.
+            </p>
+            <p>
+                Après nous avoir contacté, si vous estimez ne pas avoir reçu de réponse satisfaisante, vous disposez d’un droit de réclamation auprès de l’autorité nationale de protection des données la Commission Nationale de L'informatique Et Des Libertés sur son <a href="https://www.cnil.fr/fr/plaintes" target="_blank">site</a>.
+            </p>
+        </div>
+        <div id="modal-button">J’ai pris connaissance des conditions et j’accepte de participer au test.</div>
+    </div>
+</div>
+
+
 <script>
+
+// Close the modal 
+document.getElementById('modal').addEventListener('click', function (event) {
+    if (event.target === this) {
+        this.classList.remove('active');
+        document.getElementById("register-cgu_1").checked = false
+    }
+});
+document.getElementById('modal-button').addEventListener('click', function (event) {
+    if (event.target === this) {
+        document.getElementById('modal').classList.remove('active');
+        document.getElementById("register-cgu_1").checked = true
+    }
+});
+
+
+// CGU must be required 
+setTimeout(() => {
+    document.getElementById("register-terms_of_service").required = true
+}, 500);
+
+
+// Setup a pop up for this 
+setTimeout(() => {
+    let checkboxHecSpecific = document.getElementById("register-cgu_1")
+
+    checkboxHecSpecific.addEventListener('change', function() {
+        if (this.checked) {
+            document.getElementById('modal').classList.add('active');
+        } 
+    });
+}, 500);
+
+
+// Read Google Drive API 
 setTimeout(() => {
     
     let jsonData = {}

@@ -275,9 +275,9 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     }
 
 
-    #main-course-outline {
+    /* #main-course-outline {
         display: none;
-    }
+    } */
 
     
     @media screen and (max-width: 1024px) {
@@ -361,59 +361,59 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
  
 
-    // Load the YouTube API asynchronously
-    function loadYouTubeAPI() {
-        var tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    // // Load the YouTube API asynchronously
+    // function loadYouTubeAPI() {
+    //     var tag = document.createElement('script');
+    //     tag.src = "https://www.youtube.com/iframe_api";
+    //     var firstScriptTag = document.getElementsByTagName('script')[0];
+    //     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-    }
+    // }
 
-    // Function to execute when the YouTube API is ready
-    function onYouTubeIframeAPIReady() {
-        // Create a new YouTube player instance
-        var player = new YT.Player('player', {
-            height: '360',
-            width: '640',
-            videoId: 'oIo9kAKdVMY',
-            events: {
-                'onStateChange': onPlayerStateChange
-            }
-        });
-    }
+    // // Function to execute when the YouTube API is ready
+    // function onYouTubeIframeAPIReady() {
+    //     // Create a new YouTube player instance
+    //     var player = new YT.Player('player', {
+    //         height: '360',
+    //         width: '640',
+    //         videoId: 'oIo9kAKdVMY',
+    //         events: {
+    //             'onStateChange': onPlayerStateChange
+    //         }
+    //     });
+    // }
 
 
-    if (window.location.href.indexOf('hec-pole-emploi+webinaire+2023') == -1) {
+    // if (window.location.href.indexOf('hec-pole-emploi+webinaire+2023') == -1) {
 
-        if(localStorage.getItem('watchedWebinar') != 'shown'){
+    //     if(localStorage.getItem('watchedWebinar') != 'shown'){
 
-            // Function to handle video state changes
-            function onPlayerStateChange(event) {
+    //         // Function to handle video state changes
+    //         function onPlayerStateChange(event) {
 
-                if (event.data == YT.PlayerState.PLAYING) {
-                    console.log('Video started playing');
-                } else if (event.data == YT.PlayerState.ENDED) {
-                    // console.log('Video ended');
+    //             if (event.data == YT.PlayerState.PLAYING) {
+    //                 console.log('Video started playing');
+    //             } else if (event.data == YT.PlayerState.ENDED) {
+    //                 // console.log('Video ended');
 
-                    const targetedDiv = document.getElementById('main-course-outline')
-                    targetedDiv.style.display = 'flex'
-                    // console.log('course schedule is visible');
+    //                 const targetedDiv = document.getElementById('main-course-outline')
+    //                 targetedDiv.style.display = 'flex'
+    //                 // console.log('course schedule is visible');
 
-                    localStorage.setItem('watchedWebinar','shown')                    
-                }
+    //                 localStorage.setItem('watchedWebinar','shown')                    
+    //             }
       
-            } 
-        } else {
-            setTimeout(() => {            
-                const targetedDiv = document.getElementById('main-course-outline')
-                targetedDiv.style.display = 'flex'
-            }, 500);
-        }
-    }
+    //         } 
+    //     } else {
+    //         setTimeout(() => {            
+    //             const targetedDiv = document.getElementById('main-course-outline')
+    //             targetedDiv.style.display = 'flex'
+    //         }, 500);
+    //     }
+    // }
 
 
-    loadYouTubeAPI();
+    // loadYouTubeAPI();
 
 </script>
 
