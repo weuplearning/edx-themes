@@ -1,0 +1,297 @@
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.urls import reverse
+
+from openedx.core.djangolib.markup import HTML, Text
+%>
+
+<style>
+#main{
+    color: var(--primary);
+}
+.content-wrapper{
+    padding: 0 0 0 0;
+}
+.vertical-align, .horizontal-align {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.vertical-align {
+    flex-direction: column;
+}
+.underlined {
+    text-decoration: underline;
+}
+.centered-text {
+    text-align: center;
+    display: block;
+}
+h1, h2, h3, h4 {
+    font-family: "LidlFontPro","Quicksand" !important;
+}
+.space-bottom {
+    margin-bottom: 50px;
+}
+.space-bottom-double {
+    margin-bottom: 100px;
+}
+.strong {
+    font-weight: bold;
+    font-size: 1.7vw;
+}
+/* TOP */
+#index-top {
+    background-image: url("${static.url('bea-lidl/images/lidl_index_top.png')}");
+    background-size: contain;
+    background-repeat: no-repeat;
+    /* width: 100vw; */
+    height: 40vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+}
+#index-top > h1 {
+    color: white;
+    /* font-weight: bold; */
+    font-size: 70px;
+}
+#index-top > p {
+    font-size: 40px;
+}
+#index-top > img {
+    height: 80px;
+    margin-top: 50px;
+
+}
+
+#index-info-text h3 {
+    font-size: 32px;
+    color: var(--primary);
+    font-weight: bold;
+    
+}
+#index-info-text div div {
+    line-height: 1.3;
+    font-size: 20px;
+}
+/* MIDDLE Pro */
+#encart-pros {
+    box-shadow: 0px 0px 24px rgba(0,0,0,0.6);
+    border-radius: 20px;
+    padding: 10px 15px 35px 15px;
+}
+.vignette-pro {
+    margin: 8px;
+    width: 15vw;
+    height: 520px;
+    border-radius: 25px;
+    color: white;
+    position: relative;
+}
+.vignette-pro p {
+    margin-bottom: 20px;
+}
+.vignette-pro img {
+    width: 75%;
+}
+.vignette-pro div:first-child {
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    margin-bottom: 20px;
+    line-height: 1.3;
+}
+.register-button-pro {
+    position: absolute;
+    bottom: -25px;
+    left: 0;
+    right: 0;
+    margin: auto
+}
+#encart-themes {
+    background-image: url("${static.url('bea-lidl/images/lidl_index_mid.png')}");
+    width: 80vw;
+    height: 26.5vw;
+    background-size: cover;
+    margin: auto;
+}
+#index-profession h3, #index-profession h4 {
+    color: var(--primary);
+    font-size: 24px;
+}
+#index-profession h3 {
+    font-weight: bold;
+}
+#pro-img-1 {
+    background: linear-gradient(transparent, 67%, #46712D, #46712D) ,url("${static.url('bea-lidl/images/lidl_index_mid_1.png')}");
+    background-size: cover;
+}
+#pro-img-2 {
+    background: linear-gradient(transparent, 67%, #005371, #005371) ,url("${static.url('bea-lidl/images/lidl_index_mid_2.png')}");
+    background-size: cover;
+
+}
+#pro-img-3 {
+    background: linear-gradient(transparent, 67%, #46712D, #46712D) ,url("${static.url('bea-lidl/images/lidl_index_mid_3.png')}");
+    background-size: cover;
+}
+#pro-img-4 {
+    background: linear-gradient(transparent, 67%, #005371, #005371) ,url("${static.url('bea-lidl/images/lidl_index_mid_4.png')}");
+    background-size: cover;
+}
+#pro-img-5 {
+    background: linear-gradient(transparent, 67%, #46712D, #46712D) ,url("${static.url('bea-lidl/images/lidl_index_mid_5.png')}");
+    background-size: cover;
+}
+
+
+/* BOTTOM */
+#index-profession-other h3, #index-profession-other h4 {
+    color: var(--primary);
+    font-size: 22px;
+}
+#index-profession-other h3 {
+    font-weight: bold;
+}
+#bottom-section {
+    position: relative;
+}
+#bottom-section > img {
+    width: 80vw;
+    margin: auto;
+
+}
+#right-infobulle > img, #left-infobulle > img {
+    height: 100px;
+}
+#right-infobulle, #left-infobulle {
+    position: absolute;
+    top: 36%;
+    right: -50px;
+    padding: 10px;
+    color: var(--primary);
+    width: fit-content;
+}
+#left-infobulle {
+    left: -50px;
+    color: var(--secondary);
+}
+
+#gradient-to-footer {
+    background: linear-gradient(white, #DBE7EC);
+    height: 60px
+}
+</style>
+
+<main id="main" aria-label="Content" tabindex="-1">
+    <section id="index-top" class="space-bottom">
+        <h1>Bienvenue</h1>
+        <p>sur la plateforme d'information</p>
+        <p>en Bien-être animal</p>
+        <img src="${static.url('bea-lidl/images/logo.png')}" alt="logo-lidl">
+    </section>
+
+    <section id="index-info-text">
+        <div class="vertical-align ">
+            <h3 class="space-bottom">Partageons nos connaissances</h3>
+            <div class="space-bottom-double centered-text">Suivez un parcours adapté à votre filière afin de (re)découvrir toutes les ressources <br> dont vous pourriez avoir besoin pour améliorer le bien-être de vos animaux, et le vôtre ! <br> Instituts techniques, éleveurs, chambres d'agriculture, associations : tous ont mis à disposition leurs travaux pour vous.</div>
+        </div>
+        <div class="vertical-align space-bottom-double">
+            <h3 class="underlined space-bottom">5 thématiques clés sur le bien-être animal</h3>
+            <div id="encart-themes" class="space-bottom-double">
+            </div>
+        </div>
+    </section>
+
+    <section id="index-profession" class="vertical-align">
+        <h4>Vous êtes éleveur.euse ?</h4>
+        <h3 class="underlined space-bottom">Choisissez le parcours qui vous correspond !</h3>
+        <div id="encart-pros" class="horizontal-align space-bottom-double">
+            <div id="pro-img-1" class="vignette-pro vertical-align">
+                <div>
+                    <p>Je suis éleveur.euse de <br><span class="strong">poulets de chair</span></p>
+                    <a class="register-button-pro" href="/register?course_id=course-v1:bea-lidl+VL+01&enrollment_action=enroll">
+                        <img src="${static.url('bea-lidl/images/bt-inscription-vert.png')}" alt="s_inscrire_a_poulets">
+                    </a>
+                </div>
+            </div>
+            <div id="pro-img-2" class="vignette-pro vertical-align">
+                <div>
+                    <p>Je suis éleveur.euse de <br><span class="strong">poules pondeuses</span></p>
+                    <a class="register-button-pro" href="/register?course_id=course-v1:bea-lidl+VL+01&enrollment_action=enroll">
+                        <img src="${static.url('bea-lidl/images/bt-inscription-bleu.png')}" alt="s_inscrire_a_poules">
+                    </a>
+                </div>
+            </div>
+            <div id="pro-img-3" class="vignette-pro vertical-align">
+                <div>
+                    <p>Je suis éleveur.euse de <br><span class="strong">dindes</span></p>
+                    <a class="register-button-pro" href="/register?course_id=course-v1:bea-lidl+VL+01&enrollment_action=enroll">
+                        <img src="${static.url('bea-lidl/images/bt-inscription-vert.png')}" alt="s_inscrire_a_dindes">
+                    </a>
+                </div>
+            </div>
+            <div id="pro-img-4" class="vignette-pro vertical-align">
+                <div>
+                    <p>Je suis éleveur.euse de <br><span class="strong">vaches laitières</span></p>
+                    <a class="register-button-pro" href="/register?course_id=course-v1:bea-lidl+VL+01&enrollment_action=enroll">
+                        <img src="${static.url('bea-lidl/images/bt-inscription-bleu.png')}" alt="s_inscrire_a_vaches">
+                    </a>
+                </div>
+            </div>
+            <div id="pro-img-5" class="vignette-pro vertical-align">
+                <div>
+                    <p>Je suis éleveur.euse de <br><span class="strong">porcs</span></p>
+                    <a class="register-button-pro" href="/register?course_id=course-v1:bea-lidl+VL+01&enrollment_action=enroll">
+                        <img src="${static.url('bea-lidl/images/bt-inscription-vert.png')}" alt="s_inscrire_a_porcs">
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="index-profession-other" class="vertical-align">
+        <h4>Vous n'êtes pas éleveur.euse</h4>
+        <h3>et souhaitez découvrir notre politique Bien-Être Animal</h3>
+        <div id="bottom-section" class="space-bottom">
+            <img src="${static.url('bea-lidl/images/Groupe_1043.png')}" alt="éleveur-avec-ses-bovins">
+            <a id="left-infobulle" href="/courses">
+                <img src="${static.url('bea-lidl/images/bt-en_savoir_plus-contenu.png')}" alt="info_bulle_contenu">
+            </a>
+            <a id="right-infobulle" href="/privacy">
+                <img src="${static.url('bea-lidl/images/bt-en_savoir_plus-politique.png')}" alt="info_bulle_politique">
+            </a>
+        </div>
+
+    </section>
+    <div id="gradient-to-footer"></div>
+</main>
+<!-- FOOTER Alternatif ?  -->
+
+<%block name="js_extra">
+   <script type="text/javascript">
+      $(window).load(function() {
+         if(getParameterByName('next')) {
+              $('#login').trigger("click");
+         }
+      })
+   </script>
+</%block>
+
+% if show_signup_immediately is not UNDEFINED:
+  ## NOTE: This won't work in production, because anonymous views are cached, so it will
+  ## show either with or without this extra js for 3 minutes at a time.
+<script type="text/javascript">
+  $(window).load(function() {$('#signup_action').trigger("click");});
+</script>
+% endif

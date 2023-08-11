@@ -1,0 +1,50 @@
+// Fonts 
+@font-face {
+  font-family: 'LidlFontPro';
+  src: url("/media/fonts/LidlFontPro/LidlFontPro-Regular.eot");
+  src: url("/media/fonts/LidlFontPro/LidlFontPro-Regular.eot") format('embedded-opentype'),
+    url('/media/fonts/LidlFontPro/LidlFontPro-Regular.woff2') format('woff2'),
+    url('/media/fonts/LidlFontPro/LidlFontPro-Regular.woff') format('woff'),
+    url('/media/fonts/LidlFontPro/LidlFontPro-Regular.ttf') format('truetype'),
+    url('/media/fonts/LidlFontPro/LidlFontPro-Regular.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'LidlFontPro';
+  src: url("/media/fonts/LidlFontPro/LidlFontPro-Bold.eot");
+  src: url("/media/fonts/LidlFontPro/LidlFontPro-Bold.eot") format('embedded-opentype'),
+    url('/media/fonts/LidlFontPro/LidlFontPro-Bold.woff2') format('woff2'),
+    url('/media/fonts/LidlFontPro/LidlFontPro-Bold.woff') format('woff'),
+    url('/media/fonts/LidlFontPro/LidlFontPro-Bold.ttf') format('truetype'),
+    url('/media/fonts/LidlFontPro/LidlFontPro-Bold.svg') format('svg');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@import url('https://fonts.googleapis.com"> <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">'); 
+
+
+// Theme colors
+$primary:  #005371;
+$secondary:  #46712d;
+$theme-colors: (
+  "tertiary": #462f1e
+);
+
+
+// Theme fonts
+$font-family-sans-serif: 'LidlFontPro','Quicksand';
+$action-primary-bg: $secondary !default;
+$action-primary-shadow: $secondary !default;
+$action-primary-focused-bg: $secondary !default;
+$action-primary-active-bg: $secondary !default;
+$action-primary-active-fg: $secondary !default;
+$action-primary-active-shadow: $secondary !default;
+$action-primary-active-focused-fg: $secondary !default;
+$action-primary-active-focused-shadow: $secondary !default;
+
+@import 'edx-bootstrap/sass/open-edx/theme';

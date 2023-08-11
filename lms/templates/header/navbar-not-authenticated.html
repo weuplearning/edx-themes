@@ -1,0 +1,49 @@
+## mako
+
+<%page expression_filter="h"/>
+
+<%namespace name='static' file='../static_content.html'/>
+<%namespace file='../main.html' import="login_query"/>
+
+<%!
+from django.conf import settings
+from django.urls import reverse
+from django.utils.translation import ugettext as _
+from six import text_type
+
+from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+
+from openedx.core.djangoapps.user_authn.utils import should_redirect_to_logistration_mircrofrontend
+%>
+
+<%
+  mktg_site_enabled = static.get_value('ENABLE_MKTG_SITE', settings.FEATURES.get('ENABLE_MKTG_SITE', False))
+  courses_are_browsable = configuration_helpers.get_value('COURSES_ARE_BROWSABLE',settings.FEATURES.get('COURSES_ARE_BROWSABLE'))
+  allows_login = not settings.FEATURES['DISABLE_LOGIN_BUTTON'] and not combined_login_and_register
+  can_discover_courses = configuration_helpers.get_value('ENABLE_COURSE_DISCOVERY',settings.FEATURES.get('ENABLE_COURSE_DISCOVERY'))
+  allow_public_account_creation = static.get_value('ALLOW_PUBLIC_ACCOUNT_CREATION', settings.FEATURES.get('ALLOW_PUBLIC_ACCOUNT_CREATION'))
+  should_redirect_to_logistration_mfe = should_redirect_to_logistration_mircrofrontend()
+%>
+<nav class="nav-links" aria-label=${_("Supplemental Links")}>
+  <div class="secondary">
+    <div>
+      <div class="mobile-nav-item hidden-mobile nav-item">
+          <a id="erase-btn" class="sign-in-btn btn" href="/login${login_query()}">
+            <img id="lidl-connect" src="${static.url('bea-lidl/images/bt-connexion_1.png')}" alt="bouton_de_connexion">
+          </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<style>
+  #lidl-connect {
+    height: 50px;
+  }
+  #erase-btn {
+    border: unset ;
+    padding: 0 ;
+    cursor: unset ;
+    background-color: unset;
+  }
+</style>
