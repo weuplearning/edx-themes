@@ -90,6 +90,15 @@ if not all([user_firstname, user_lastname, user_structure]):
       width: 100%;
       max-width: 400px;
     }
+
+    #customFieldsForm select {
+      padding: 5px;
+      margin-bottom: 20px;
+      border-radius: 3px;
+      border: 1px solid #ccc;
+      width: 100%;
+      max-width: 400px;
+    }
   
     #customFieldsForm button[type="submit"] {
       background-color: #007bff;
@@ -116,6 +125,42 @@ if not all([user_firstname, user_lastname, user_structure]):
   
     <label for="structure">Organisme:</label>
     <input type="text" id="structure" name="structure"><br>
+
+    <label for="preparedDiploma">Diplôme préparé:</label>
+    <input type="text" id="preparedDiploma" name="preparedDiploma"><br>
+
+    <label for="status">Statut:</label>
+    <select id="status" name="status">
+        <option value="learner">Apprenant</option>
+        <option value="instructor">Formateur</option>
+        <option value="other">Autre</option>
+    </select>
+
+    <label for="regions">Région:</label>
+    <select id="regions" name="regions">
+        <optgroup label="France métropolitaine">
+          <option value="auvergne">Auvergne-Rhône-Alpes</option>
+          <option value="bourgogne">Bourgogne-Franche-Comté</option>
+          <option value="bretagne">Bretagne</option>
+          <option value="centre">Centre-Val de Loire</option>
+          <option value="corse">Corse</option>
+          <option value="grandest">Grand Est</option>
+          <option value="hautsdefrance">Hauts-de-France</option>
+          <option value="iledefrance">Île-de-France</option>
+          <option value="normandie">Normandie</option>
+          <option value="nouvelleacquitaine">Nouvelle-Aquitaine</option>
+          <option value="occitanie">Occitanie</option>
+          <option value="paysdelaloire">Pays de la Loire</option>
+          <option value="provence">Provence-Alpes-Côte d'Azur</option>
+        </optgroup>
+        <optgroup label="Outre-mer">
+          <option value="guadeloupe">Guadeloupe</option>
+          <option value="martinique">Martinique</option>
+          <option value="guyane">Guyane</option>
+          <option value="reunion">La Réunion</option>
+          <option value="mayotte">Mayotte</option>
+        </optgroup>
+      </select>
   
     <button type="submit">Envoyer</button>
 </form>
@@ -293,11 +338,17 @@ form.addEventListener("submit", function(event) {
   const firstName = document.getElementById("firstName").value;
   const lastName = document.getElementById("lastName").value;
   const structure = document.getElementById("structure").value;
+  const preparedDiploma = document.getElementById("preparedDiploma").value;
+  const regions = document.getElementById("regions").value;
+  const status = document.getElementById("status").value;
 
   const customFields = {
     first_name: firstName,
     last_name: lastName,
     structure: structure,
+    preparedDiploma: preparedDiploma,
+    regions: regions,
+    status: status,
     authorized: true,
   };
 
