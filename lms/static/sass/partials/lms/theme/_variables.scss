@@ -1,15 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sora');
 
 // Theme colors
-$primary:  #004a97;
-$secondary:  #ed4d39;
+$primary:  #007DFF;
+$secondary:  #ED4D39;
 
 $theme-colors: (
-  "tertiary": #334756
+  "tertiary": #FFF500; 
 );
 
 // Theme fonts
 $font-family: 'Manrope', sans-serif;
+$font-family: 'Sora', sans-serif;
 
 $action-primary-bg: $secondary !default;
 $action-primary-shadow: $secondary !default;
