@@ -166,8 +166,9 @@ if 'last_visited_course' in custom_fields.keys() :
       <div class="my-courses" id="my-courses">
 
         % if len(course_entitlements + course_enrollments) > 0:
-
+        <h2 class="information-text"> E-learning en cours</h2>
         <div id="new-section">
+
           <%
           share_settings = configuration_helpers.get_value(
               'SOCIAL_SHARING_SETTINGS',
@@ -347,6 +348,7 @@ if 'last_visited_course' in custom_fields.keys() :
     </div><!-- class="main-container" -->
 
     <div class="side-container" role="complementary" aria-label="messages">
+      <h2 class="information-text"> Recommandé pour vous</h2>
       <div id="top-right-section">
 
         <%include file="wul_apps/gamification.html" args="courses=course_enrollments"/>
@@ -722,6 +724,7 @@ main {
   justify-content: center;
   align-items: center;
   border-radius: 6px;
+  margin-top: -19px;
 }
 
 /* Last course */
@@ -954,6 +957,10 @@ select option:hover {
   padding: 8px;
   border-radius: 9px;
 } 
+
+.information-text{
+  color: #fff;
+}
 
 @media (max-width: 991.98px) {
 
