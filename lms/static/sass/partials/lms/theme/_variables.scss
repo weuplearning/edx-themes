@@ -10,9 +10,7 @@ $theme-colors: (
 );
 
 // Theme fonts
-$font-family: 'Manrope', sans-serif;
-$font-family: 'Sora', sans-serif;
-
+$font-family-sans-serif: 'Manrope','Sora', sans-serif;
 $action-primary-bg: $secondary !default;
 $action-primary-shadow: $secondary !default;
 $action-primary-focused-bg: $secondary !default;

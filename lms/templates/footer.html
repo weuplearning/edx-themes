@@ -11,80 +11,74 @@
 <%namespace name='static' file='static_content.html'/>
 
 <style>
+
   .wrapper-footer {
-    background-color: var(--primary);
+    height: 65px;
+    padding: 5px 5vw;
+    box-shadow: unset;
   }
-
-  body.view-in-course .wrapper-footer {
+  /* body.view-in-course .wrapper-footer {
     background-color: gray;
-  }
-
+  } */
   .wrapper-footer .site-nav, .wrapper-footer footer#footer-openedx .colophon .nav-colophon {
     margin: 0 !important;
   }
-
-  .wrapper-footer .site-nav .nav-link, .wrapper-footer footer#footer-openedx .colophon .nav-colophon li a {
-    color: white !important;
-  }
-
-  #logo_opco {
-    width: 5%;
-  }
-
   .logos {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
   }
+  .logo {
+    max-height: 65px;
+  }
+  #logo_apave {
+    height: 50px;
+  }
+
+
+  @media screen and (max-width: 992px) {
+    .logos {
+      flex-direction: column;
+    }
+    .logo {
+      padding: 6px;
+    }
+  }
+
 </style>
 
-% if uses_bootstrap:
-  <div class="container-fluid wrapper-footer">
-    <footer>
-      <div class="logos">
-        <img id="logo_opco" src="${static.url('{}/images/OPCO_2i-LOGO-RVB.svg'.format(course.org))}" alt="opco logo">
-        <img id="logo_university" src="${static.url('{}/images/Logo_UMN_Blanc.png'.format(course.org))}" alt="university logo">
-        <a href="http://www.monavenirdanslenucleaire.fr/" target="_blank">
-          <img id="logo_nuclear" src="${static.url('{}/images/Logo_Monavenirdanslenucleaire_Blanc.png'.format(course.org))}" alt="nuclear logo">
-        </a>
-      </div>
-      <div class="row">
-        <div class="col-md-9">
-          <nav class="navbar site-nav navbar-expand-sm" aria-label="${_('CGU')}">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="/cgu">Conditions générales d'utilisation</a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-        <div class="col-md-3"></div>
-      </div>
-    </footer>
-  </div>
-% else:
-  <div class="wrapper wrapper-footer">
-    <footer id="footer-openedx" class="grid-container"
-      ## When rendering the footer through the branding API,
-      ## the direction may not be set on the parent element,
-      ## so we set it here.
-      % if bidi:
-        dir=${bidi}
-      % endif
-    >
-      <div class="colophon">
-        <nav class="nav-colophon" aria-label="${_('CGU')}">
-          <ol>
-            <li class="nav-colophon-01">
-              <a id="cgu" href="/cgu">Conditions générales d'utilisation</a>
-            </li>
-          </ol>
-        </nav>
-      </div>
-    </footer>
-  </div>
-% endif
-% if include_dependencies:
+<div class="wrapper wrapper-footer">
+  <footer id="footer-openedx" class="grid-container"
+    ## When rendering the footer through the branding API,
+    ## the direction may not be set on the parent element,
+    ## so we set it here.
+    % if bidi:
+      dir=${bidi}
+    % endif
+  >
+    <div class="logos">
+      <img id="logo_opco" class="logo" src="${static.url('umn/images/OPCO_2i-LOGO-RVB.svg')}" alt="opco logo">
+      <img id="logo_university" class="logo" src="${static.url('umn/images/logo_footer_2.png')}" alt="university logo">
+      <img id="logo_apave" class="logo" src="${static.url('umn/images/logo_apav_quadri.png')}" alt="apave logo">
+      <a href="http://www.monavenirdanslenucleaire.fr/" target="_blank">
+        <img id="logo_nuclear" class="logo" src="${static.url('umn/images/logo_footer_4.png')}" alt="nuclear logo">
+      </a>
+    </div>
+
+    <!-- <div class="colophon">
+      <nav class="nav-colophon" aria-label="${_('CGU')}">
+        <ol>
+          <li class="nav-colophon-01">
+            <a id="cgu" href="/cgu">Conditions générales d'utilisation</a>
+          </li>
+        </ol>
+      </nav>
+    </div> -->
+  </footer>
+</div>
+
+
+  % if include_dependencies:
   <%static:js group='base_vendor'/>
   <%static:css group='style-vendor'/>
   <%include file="widgets/segment-io.html" />
@@ -173,8 +167,25 @@ var textTranslation = setInterval(function() {
 
       }
     } 
-  }
 
+
+    // FULLSCREEN
+    var fullscreen_button = document.getElementsByClassName("js-button-full-screen full-screen-on");
+
+    if(fullscreen_button.length != 0){
+      fullscreen_button[0].innerText = fullscreen_button[0].innerText.replace('Fullscreen', 'Plein écran');
+    }
+
+    var exit_fullscreen_button = document.getElementsByClassName("js-button-full-screen full-screen-off");
+
+    if(exit_fullscreen_button.length != 0){
+      exit_fullscreen_button[0].innerText = exit_fullscreen_button[0].innerText.replace("Exit fullscreen", 'Quitter le plein écran')
+    }
+    // if (fullscreen_button.length != 0 && exit_fullscreen_button.length != 0) {
+    //   clearInterval(textTranslation)
+    // }
+
+  }
 }, 1000)
 
 </script>
