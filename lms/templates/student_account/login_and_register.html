@@ -61,7 +61,9 @@
     </main>
 </div>
 <script>
-    setInterval(() => {
+
+    var updateRegisterForm = setInterval(() => {
+
         // username field
         document.getElementsByClassName("label-text")[0].innerHTML = "Nom d'utilisateur public (pseudo)";
 
@@ -109,13 +111,13 @@
 
         //document.getElementsByClassName("label-text")[7].children[0].href = 'https://mooc.afpa.fr/donnees'
         // document.getElementById("register-terms_of_service-optional-label").remove()
-
         try {
             parentElement1.removeChild(yearOfBirth);
             parentElement1.removeChild(firstElement);
             console.log('passed');
         } catch (error) {
             console.log(error);
+            clearInterval(updateRegisterForm)
         }
 
         parentElement.insertBefore(firstElement, secondElement);
