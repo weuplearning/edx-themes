@@ -301,8 +301,9 @@ from six import string_types
     DateUtilFactory.transform(iterationKey=".localized_datetime");
 </%static:require_module_async>
 
-// 17526 - quentin - script to redirect the page to the enroll link and then allow the user to create an account to access the course
+
 <script>
+  // 17526 - quentin - script to redirect the page to the enroll link and then allow the user to create an account to access the course
     courseId = window.location.href.split('courses/')[1].split('/about')[0]
   
     // the below function is triggered above, line 44
