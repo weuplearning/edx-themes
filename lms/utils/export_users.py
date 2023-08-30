@@ -29,9 +29,8 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
 
-
-
-
+import logging
+log = logging.getLogger(__name__)
 
 
 # sys.setdefaultencoding('utf8')
@@ -110,21 +109,22 @@ def get_time_tracking(enrollment):
 
 
 def get_course_enrollment(course_id, user):
-    course_key = CourseLocator.from_string(course_id)
+    # course_key = CourseLocator.from_string(course_id)
     # course = get_course_by_id(course_key)
-    course_enrollments = CourseEnrollment.objects.filter(course_id=course_key)
+    # course_enrollments = CourseEnrollment.objects.filter(course_id=course_key)
+    # for index, enrollment in enumerate(course_enrollments):
+    #     user_enrollment = course_enrollments[index].user
+    #     if user_enrollment == user:
 
-    for index, enrollment in enumerate(course_enrollments):
+    # -> simplification, trop long sinon
+    enrollment = CourseEnrollment.objects.get(course_id=course_id, user=user)
 
-        user_enrollment = course_enrollments[index].user
-        if user_enrollment == user:
-
-            return get_time_tracking(enrollment)
+    return get_time_tracking(enrollment)
 
 
 #PREPARE LE XLS
 
-filename = '/edx/var/edxapp/media/microsites/afpa/reports{}_export_enroll_afpa.xlsx'.format(timestr)
+filename = '/edx/var/edxapp/media/microsites/afpa/reports_{}_export_enroll_afpa.xlsx'.format(timestr)
 wb = Workbook()
 sheet = wb.active
 sheet.title= 'Enroll'
@@ -236,13 +236,11 @@ output = BytesIO()
 wb.save(output)
 _files_values = output.getvalue()
 
-# envoyer un mail test
 
-html = u"<html><head></head><body><p>Bonjour,<br/><br/>Voici la liste des inscrits Afpa.<br/><br/>Bonne reception<br>The MOOC Agency<br></p></body></html>"
+html = u"<html><head></head><body><p>Bonjour,<br/><br/>Voici la liste des inscrits Afpa.<br/><br/>Bonne reception<br>L'équipe WeUp Learning<br></p></body></html>"
 part2 = MIMEText(html, 'html')
-# TO_EMAILS = ['sysadmin@themoocagency.com','loic.tournedouet@gmail.com']
-#TO_EMAILS = ['cyril.adolf@weuplearning.com','alexandre.berteau@weuplearning.com']
-TO_EMAILS = ['dimitri.hoareau@weuplearning.com','alexandre.berteau@weuplearning.com', 'loic.tournedouet@gmail.com', 'loic.tournedouet@afpa.fr' ]
+TO_EMAILS = sys.argv[1].split(";")
+
 for i in range(len(TO_EMAILS)):
    fromaddr = "no-reply@themoocagency.com"
    toaddr = str(TO_EMAILS[i])
@@ -267,4 +265,7 @@ for i in range(len(TO_EMAILS)):
 
 
 
-# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/afpa/lms/utils/export_users.py
+# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/afpa/lms/utils/export_users.py "loic.tournedouet@gmail.com;loic.tournedouet@afpa.fr;melanie.zunino@weuplearning.com"
+
+
+
