@@ -227,7 +227,7 @@ for user in users:
     for course in course_id:
         global_time += get_course_enrollment(course, user)
 
-    sheet.cell(i, j+1, global_time)
+    sheet.cell(i, j+1, global_time//60)
 
 
 
@@ -266,6 +266,7 @@ for i in range(len(TO_EMAILS)):
 
 
 # /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/afpa/lms/utils/export_users.py "loic.tournedouet@gmail.com;loic.tournedouet@afpa.fr;melanie.zunino@weuplearning.com"
+# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/afpa/lms/utils/export_users.py "cyril.adolf@weuplearning.com"
 
 
 
