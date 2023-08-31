@@ -31,6 +31,7 @@ from openedx.core.djangoapps.user_authn.utils import should_redirect_to_logistra
     .global-header .header-logo a .logo {
       width: 12vw !important;
       height: unset;
+      object-fit: contain;
     }
     .global-header .nav-links .secondary {
       margin: unset !important;
@@ -48,8 +49,14 @@ from openedx.core.djangoapps.user_authn.utils import should_redirect_to_logistra
       /* margin: 0px; */
       height: 90px;
     }
+    .global-header .main-header {
+      display: flex;
+    }
+    .global-header .main-header .header-logo {
+      margin-bottom: unset;
+    }
     .header-red {
-      width: calc( 88vw - 380px );
+      width: calc( 88vw - 365px );
       background-color: #ED4D39;
     }
     .header-grey {
@@ -60,9 +67,13 @@ from openedx.core.djangoapps.user_authn.utils import should_redirect_to_logistra
       width: 100px;
       background-color: #FFF500 ;
     }
+  }
 
-
-
+  .reset-help {
+    display: none !important;
+  }
+  #password-reset {
+    padding: 15px;
   }
 </style>
 
