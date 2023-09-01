@@ -102,6 +102,12 @@ catch(e){window.attachEvent("onload", $buo_f)}
 
     }
 
+    #dashboard-onglet-list li a {
+        padding: 5px;
+    }
+
+
+
 }
 @media (max-width: 520px) {
     #dashboard-onglet-list {
@@ -166,7 +172,8 @@ catch(e){window.attachEvent("onload", $buo_f)}
                     <a href="/dashboard">
                     <!-- <a href="${branding_api.get_home_url()}"> -->
                         <%block name="navigation_logo">
-                        <img  class="logo" src="https://adn.beestk.com/wp-content/uploads/2023/04/logo_adn.png" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}"/>
+                        <img  class="logo" src="https://www.accelerateur-du-numerique.fr/wp-content/uploads/2023/04/logo_ADN-1.png" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}"/>
+                        <!-- <img  class="logo" src="https://adn.beestk.com/wp-content/uploads/2023/04/logo_adn.png" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}"/> -->
                         <!-- <img  class="logo" src="${static.url('amazon/images/logo_white.png')}" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}"/> -->
                         </%block>
                     </a>

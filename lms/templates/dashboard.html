@@ -515,7 +515,6 @@ if 'last_visited_course' in custom_fields.keys() :
                   for (let i = 0; i < elementToMove.length; i++) {
                     const element = elementToMove[i];
 
-
                     const elemtn_2_test = document.getElementById('not-last-courses').getElementsByClassName('course')
 
                     if (element.children[0].children[0]['attributes']['aria-labelledby']['value'].indexOf(course['course_id']) != -1) {
@@ -524,38 +523,17 @@ if 'last_visited_course' in custom_fields.keys() :
 
                   }
 
-                  
-                  // RENDRE DYNAMIQUE CE CODE !!
-
-                  
                   setTimeout(() => {
                     let lien_attestation = '/wul_apps/' + course['course_id'] + '/certificate/generate_pdf'
                     const textAttestationButton = '<a href='+lien_attestation+' target="_blank"><div class="attestationButtonButton"> Attestation</div></a>'
                     const attestationButton = document.createElement('div')
                     attestationButton.setAttribute('class', 'attestationButton')
-
-                    // const onlyFinishedSection = document.getElementById('finished-courses').getElementsByClassName('course-container')
-
-                    // console.log('onlyFinishedSection');
-                    // console.log(onlyFinishedSection);
-
-                    // for (let i = 0; i < onlyFinishedSection.length; i++) {
-                    //   const finishedCourse = onlyFinishedSection[i];
-                    //   console.log('finishedCourse');
-                    //   console.log(finishedCourse);
-                    // }
-                    // const divToIncrustButton = onlyFinishedSection.getElementById('course-title-' + course['course_id'])
                     const divToIncrustButton = document.getElementById('course-title-' + course['course_id'])
-
-
                     attestationButton.innerHTML = textAttestationButton
                     divToIncrustButton.append(attestationButton)
                   }, 400)
 
-
-
                 } else {
-
                   getCourseDetails_second(course);
                 }
               }
@@ -735,7 +713,7 @@ if 'last_visited_course' in custom_fields.keys() :
     let not_finished_courses_area = document.getElementById('not-last-courses')
 
     if (finished_courses_area.style.display === "none") {
-      finished_courses_area.style.display = "block";
+      finished_courses_area.style.display = "flex";
       not_finished_courses_area.style.display = "none"
       button_targetted.style.borderBottom = '4px solid #368093'
       button_targetted_2.style.borderBottom = 'none'

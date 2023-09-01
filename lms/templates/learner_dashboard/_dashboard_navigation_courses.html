@@ -30,13 +30,11 @@ from django.utils.translation import ugettext as _
     text-align: center;
 }
 #dashboard-onglet-list li a {
-    /* display: block; */
     min-width: 10vw;
     line-height: 4;
     color: white ;
     border-radius: 3px;
-    padding: 0 15px;
-    /* clip-path: polygon(10% 0%,90% 0%,100% 100%,0% 100%); */
+    padding: 18px 15px;
 }
 #dashboard-onglet-list  a:not(.btn):hover, #dashboard-onglet-list a:visited:not(.btn):hover {
     /* clip-path: polygon(10% 0%,90% 0%,100% 100%,0% 100%); */
@@ -48,19 +46,3 @@ from django.utils.translation import ugettext as _
 }
 </style>
 
-<!-- <script>
-const url = window.location.href
-let onglets = document.getElementById('dashboard-onglet-list')
-
-for (let i = 0; i < onglets.children.length; i++) {
-    const onglet = onglets.children[i];
-    if (onglet.children[0].href == url) {
-        $('#dashboard-onglet-list li:nth-child('+(i+1)+') a').css('pointer-events', 'none');
-        $('#dashboard-onglet-list li:nth-child('+(i+1)+') a').css('border-bottom', '#f99746 solid 2px');
-        // $('#dashboard-onglet-list li:nth-child('+(i+1)+') a').css('color', 'black');
-        // add style for current onglet here
-    }
-}
-
-
-</script> -->
