@@ -358,7 +358,40 @@ if 'last_visited_course' in custom_fields.keys() :
 
   </div> <!-- class="dashboard" id="dashboard-main" -->
 
+  <div class="section2-filter">
+    <!-- <div class='section2-filterButton'>
+      <i class="fas fa-pencil-alt"></i>
+      <span class="button-text">filtres</span> 
+    </div> -->
+    <div id="filterItems" class='section2-filterItems filter-open'>
+      <!-- <label class="section2-filterSection-labels active">
+          <input type="checkbox" value="All" onchange="handleCategoryChange(event)" />All
+      </label> -->
+      <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Stratégie" onchange="handleCategoryChange(event)" />#Stratégie
+      </label>
+      <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Marketing" onchange="handleCategoryChange(event)" />#Marketing
+      </label>
+      <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Gestion D'entreprise" onchange="handleCategoryChange(event)" />#Gestion D'entreprise
+      </label>
+      <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Gestion Des Opérations" onchange="handleCategoryChange(event)" />#Gestion Des Opérations
+      </label>
+      <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Ventes" onchange="handleCategoryChange(event)" />#Ventes
+      </label>
+      <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Tech" onchange="handleCategoryChange(event)" />#Tech
+      </label>
+      <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Marketplace" onchange="handleCategoryChange(event)" />#Marketplace
+      </label>
+    </div>
+  </div>
   <div id="started-or-finished">
+
     <h3 id="not-last-courses-button" class="header-courses secondary-section" style="border-bottom: 4px solid #368093;">En cours</h3> 
     <h3 id="finished-courses-button" class="header-courses secondary-section">Terminé</h3>
   </div>
@@ -374,223 +407,232 @@ if 'last_visited_course' in custom_fields.keys() :
 
     % for dashboard_index, enrollment in enumerate(course_entitlements + course_enrollments):
 
-      % if ( already_visited and not custom_fields['last_visited_course'] == str(enrollment.course_id) ) or ( not already_visited and dashboard_index != 0 ) :
+      <%
+        # Check if the course run is an entitlement and if it has an associated session
+        entitlement = enrollment if isinstance(enrollment, CourseEntitlement) else None
+        entitlement_session = entitlement.enrollment_course_run if entitlement else None
+        entitlement_days_until_expiration = entitlement.get_days_until_expiration() if entitlement else None
+        entitlement_expiration = datetime.now(tz=pytz.UTC) + timedelta(days=entitlement_days_until_expiration) if (entitlement and entitlement_days_until_expiration < settings.ENTITLEMENT_EXPIRED_ALERT_PERIOD) else None
+        entitlement_expiration_date = strftime_localized(entitlement_expiration, 'SHORT_DATE') if entitlement and entitlement_expiration else None
+        entitlement_expired_at = strftime_localized(entitlement.expired_at_datetime, 'SHORT_DATE') if entitlement and entitlement.expired_at_datetime else None
 
-        <%
-          # Check if the course run is an entitlement and if it has an associated session
-          entitlement = enrollment if isinstance(enrollment, CourseEntitlement) else None
-          entitlement_session = entitlement.enrollment_course_run if entitlement else None
-          entitlement_days_until_expiration = entitlement.get_days_until_expiration() if entitlement else None
-          entitlement_expiration = datetime.now(tz=pytz.UTC) + timedelta(days=entitlement_days_until_expiration) if (entitlement and entitlement_days_until_expiration < settings.ENTITLEMENT_EXPIRED_ALERT_PERIOD) else None
-          entitlement_expiration_date = strftime_localized(entitlement_expiration, 'SHORT_DATE') if entitlement and entitlement_expiration else None
-          entitlement_expired_at = strftime_localized(entitlement.expired_at_datetime, 'SHORT_DATE') if entitlement and entitlement.expired_at_datetime else None
+        is_fulfilled_entitlement = True if entitlement and entitlement_session else False
+        is_unfulfilled_entitlement = True if entitlement and not entitlement_session else False
 
-          is_fulfilled_entitlement = True if entitlement and entitlement_session else False
-          is_unfulfilled_entitlement = True if entitlement and not entitlement_session else False
-
-          entitlement_available_sessions = []
-          if entitlement:
-            # Grab the available, enrollable sessions for a given entitlement and scrape them for relevant attributes
-            entitlement_available_sessions = [{
-              'session_id': course['key'],
-              'enrollment_end': course['enrollment_end'],
-              'pacing_type': course['pacing_type'],
-              'advertised_start': CourseOverview.get_from_id(CourseKey.from_string(course['key'])).advertised_start,
-              'start': CourseOverview.get_from_id(CourseKey.from_string(course['key'])).start,
-              'end': CourseOverview.get_from_id(CourseKey.from_string(course['key'])).end,
-              } for course in course_entitlement_available_sessions[str(entitlement.uuid)]]
-            if is_fulfilled_entitlement:
-              # If the user has a fulfilled entitlement, pass through the entitlements CourseEnrollment object
-              enrollment = entitlement_session
-            else:
-              # If the user has an unfulfilled entitlement, pass through a bare CourseEnrollment object to populate card with metadata
-              pseudo_session = unfulfilled_entitlement_pseudo_sessions[str(entitlement.uuid)]
-              if not pseudo_session:
-                  continue
-              pseudo_key = pseudo_session['key']
-              if not isinstance(pseudo_key, CourseKey):
-                pseudo_key = CourseKey.from_string(pseudo_session['key'])
-              enrollment = CourseEnrollment(user=user, course=CourseOverview.get_from_id(pseudo_key), mode=pseudo_session['type'])
-            # We only show email settings for entitlement cards if the entitlement has an associated enrollment
-            show_email_settings = is_fulfilled_entitlement and (entitlement_session.course_id in show_email_settings_for)
+        entitlement_available_sessions = []
+        if entitlement:
+          # Grab the available, enrollable sessions for a given entitlement and scrape them for relevant attributes
+          entitlement_available_sessions = [{
+            'session_id': course['key'],
+            'enrollment_end': course['enrollment_end'],
+            'pacing_type': course['pacing_type'],
+            'advertised_start': CourseOverview.get_from_id(CourseKey.from_string(course['key'])).advertised_start,
+            'start': CourseOverview.get_from_id(CourseKey.from_string(course['key'])).start,
+            'end': CourseOverview.get_from_id(CourseKey.from_string(course['key'])).end,
+            } for course in course_entitlement_available_sessions[str(entitlement.uuid)]]
+          if is_fulfilled_entitlement:
+            # If the user has a fulfilled entitlement, pass through the entitlements CourseEnrollment object
+            enrollment = entitlement_session
           else:
-            show_email_settings = (enrollment.course_id in show_email_settings_for)
+            # If the user has an unfulfilled entitlement, pass through a bare CourseEnrollment object to populate card with metadata
+            pseudo_session = unfulfilled_entitlement_pseudo_sessions[str(entitlement.uuid)]
+            if not pseudo_session:
+                continue
+            pseudo_key = pseudo_session['key']
+            if not isinstance(pseudo_key, CourseKey):
+              pseudo_key = CourseKey.from_string(pseudo_session['key'])
+            enrollment = CourseEnrollment(user=user, course=CourseOverview.get_from_id(pseudo_key), mode=pseudo_session['type'])
+          # We only show email settings for entitlement cards if the entitlement has an associated enrollment
+          show_email_settings = is_fulfilled_entitlement and (entitlement_session.course_id in show_email_settings_for)
+        else:
+          show_email_settings = (enrollment.course_id in show_email_settings_for)
 
-          session_id = enrollment.course_id
-          show_courseware_link = show_courseware_links_for.get(session_id, False)
-          cert_status = cert_statuses.get(session_id)
-          can_refund_entitlement = entitlement and entitlement.is_entitlement_refundable()
-          partner_managed_enrollment = enrollment.mode == 'masters'
-          can_unenroll = False if partner_managed_enrollment else (not cert_status) or cert_status.get('can_unenroll') if not unfulfilled_entitlement else False
-          credit_status = credit_statuses.get(session_id)
-          course_mode_info = all_course_modes.get(session_id)
-          is_paid_course = True if entitlement else (session_id in enrolled_courses_either_paid)
-          course_verification_status = verification_status_by_course.get(session_id, {})
-          course_requirements = courses_requirements_not_met.get(session_id)
-          related_programs = inverted_programs.get(six.text_type(entitlement.course_uuid if is_unfulfilled_entitlement else session_id))
-          show_consent_link = (session_id in consent_required_courses)
-          course_overview = enrollment.course_overview
-          resume_button_url = resume_button_urls[dashboard_index]
-        %>
-        <%include file='dashboard/_dashboard_course_listing.html' args='course_overview=course_overview, course_card_index=dashboard_index, enrollment=enrollment, is_unfulfilled_entitlement=is_unfulfilled_entitlement, is_fulfilled_entitlement=is_fulfilled_entitlement, entitlement=entitlement, entitlement_session=entitlement_session, entitlement_available_sessions=entitlement_available_sessions, entitlement_expiration_date=entitlement_expiration_date, entitlement_expired_at=entitlement_expired_at, show_courseware_link=show_courseware_link, cert_status=cert_status, can_refund_entitlement=can_refund_entitlement, can_unenroll=can_unenroll, credit_status=credit_status, show_email_settings=show_email_settings, course_mode_info=course_mode_info, is_paid_course=is_paid_course, verification_status=course_verification_status, course_requirements=course_requirements, dashboard_index=dashboard_index, share_settings=share_settings, user=user, related_programs=related_programs, display_course_modes_on_dashboard=display_course_modes_on_dashboard, show_consent_link=show_consent_link, enterprise_customer_name=enterprise_customer_name, resume_button_url=resume_button_url, partner_managed_enrollment=partner_managed_enrollment' />
+        session_id = enrollment.course_id
+        show_courseware_link = show_courseware_links_for.get(session_id, False)
+        cert_status = cert_statuses.get(session_id)
+        can_refund_entitlement = entitlement and entitlement.is_entitlement_refundable()
+        partner_managed_enrollment = enrollment.mode == 'masters'
+        can_unenroll = False if partner_managed_enrollment else (not cert_status) or cert_status.get('can_unenroll') if not unfulfilled_entitlement else False
+        credit_status = credit_statuses.get(session_id)
+        course_mode_info = all_course_modes.get(session_id)
+        is_paid_course = True if entitlement else (session_id in enrolled_courses_either_paid)
+        course_verification_status = verification_status_by_course.get(session_id, {})
+        course_requirements = courses_requirements_not_met.get(session_id)
+        related_programs = inverted_programs.get(six.text_type(entitlement.course_uuid if is_unfulfilled_entitlement else session_id))
+        show_consent_link = (session_id in consent_required_courses)
+        course_overview = enrollment.course_overview
+        resume_button_url = resume_button_urls[dashboard_index]
+      %>
+      <%include file='dashboard/_dashboard_course_listing.html' args='course_overview=course_overview, course_card_index=dashboard_index, enrollment=enrollment, is_unfulfilled_entitlement=is_unfulfilled_entitlement, is_fulfilled_entitlement=is_fulfilled_entitlement, entitlement=entitlement, entitlement_session=entitlement_session, entitlement_available_sessions=entitlement_available_sessions, entitlement_expiration_date=entitlement_expiration_date, entitlement_expired_at=entitlement_expired_at, show_courseware_link=show_courseware_link, cert_status=cert_status, can_refund_entitlement=can_refund_entitlement, can_unenroll=can_unenroll, credit_status=credit_status, show_email_settings=show_email_settings, course_mode_info=course_mode_info, is_paid_course=is_paid_course, verification_status=course_verification_status, course_requirements=course_requirements, dashboard_index=dashboard_index, share_settings=share_settings, user=user, related_programs=related_programs, display_course_modes_on_dashboard=display_course_modes_on_dashboard, show_consent_link=show_consent_link, enterprise_customer_name=enterprise_customer_name, resume_button_url=resume_button_url, partner_managed_enrollment=partner_managed_enrollment' />
 
 
-        <script>
+      <script>
 
-          // Need API to add progress and remaining time
-          function getData() { 
-            return $.ajax({
-              // Courses api
-              url: "/api/courses/v1/courses/",
-              success: function(result) {
+        // Need API to add progress and remaining time
+        function getData() { 
+          return $.ajax({
+            // Courses api
+            url: "/api/courses/v1/courses/",
+            success: function(result) {
 
-                let courses_list = result['results']
-                let course
+              let courses_list = result['results']
+              let course
 
-                for (let index = 0; index < courses_list.length; index++) {
-                  course = courses_list[index];
-                  // Treat only targeted course
-                  if (course["course_id"] == '${enrollment.course_id}') {
-                    checkIfFinished(course) 
-                    // getCourseDetails_second(course);
-                  } 
-                }
-
+              for (let index = 0; index < courses_list.length; index++) {
+                course = courses_list[index];
+                // Treat only targeted course
+                if (course["course_id"] == '${enrollment.course_id}') {
+                  checkIfFinished(course) 
+                  // getCourseDetails_second(course);
+                } 
               }
-            })
-          }
 
-          async function start() {
-            try {
-              const res = await getData()
-            } catch(err) {
-              console.log(err);
             }
+          })
+        }
+
+        async function start() {
+          try {
+            const res = await getData()
+          } catch(err) {
+            console.log(err);
           }
-          start();
+        }
+        start();
 
 
-          function checkIfFinished(course) {
-            $.ajax({
-              url: "/wul_apps/" + course['course_id'] + "/certificate/ensure",
-                success: function(result){
+        function checkIfFinished(course) {
+          $.ajax({
+            url: "/wul_apps/" + course['course_id'] + "/certificate/ensure",
+              success: function(result){
 
-                  if(result.passed){
-
-
-                    const parentElement = document.getElementById('finished-courses')
-                    const elementToMove = document.getElementById('not-last-courses').getElementsByClassName('course-item')
-
-                    for (let i = 0; i < elementToMove.length; i++) {
-                      const element = elementToMove[i];
+                if(result.passed){
 
 
-                      const elemtn_2_test = document.getElementById('not-last-courses').getElementsByClassName('course')
+                  const parentElement = document.getElementById('finished-courses')
+                  const elementToMove = document.getElementById('not-last-courses').getElementsByClassName('course-item')
 
-                      if (element.children[0].children[0]['attributes']['aria-labelledby']['value'].indexOf(course['course_id']) != -1) {
-                        parentElement.prepend(element)
-                      }
+                  for (let i = 0; i < elementToMove.length; i++) {
+                    const element = elementToMove[i];
 
+
+                    const elemtn_2_test = document.getElementById('not-last-courses').getElementsByClassName('course')
+
+                    if (element.children[0].children[0]['attributes']['aria-labelledby']['value'].indexOf(course['course_id']) != -1) {
+                      parentElement.prepend(element)
                     }
 
-                    
-                    // AJOUTER UN BOUTON POUR ACCEDER AU CERTIFICAT DE REUSSITE QUELQUE PART  ICI
-                    
-                    setTimeout(() => {
-                      let lien_attestation = '/wul_apps/' + course['course_id'] + '/certificate/generate_pdf'
-
-                      const textAttestationButton = '<a href='+lien_attestation+' target="_blank"><div class="attestationButtonButton"> Attestation</div></a>'
-
-                      const attestationButton = document.createElement('div')
-                      attestationButton.setAttribute('class', 'attestationButton')
-                      const divToIncrustButton = document.getElementById('course-title-course-v1:amazon+Introduction+AZ_01')
-
-                      attestationButton.innerHTML = textAttestationButton
-                      divToIncrustButton.append(attestationButton)
-                    }, 400)
-
-
-
-                  } else {
-
-                    getCourseDetails_second(course);
                   }
-                }
-            });
-            
-          }
 
-
-          // Function to get completion and progress details for a given course
-          function getCourseDetails_second(course) {
-
-            $.ajax({
-              url: "/api/courses/v1/blocks/?course_id=" + course['course_id'] + "&username=${user.username}&depth=all&requested_fields=completion",
-              success: function(result_2) {
-
-                let max_completion = 0
-                let actual_completion = 0
-                for (const [key, block] of Object.entries(result_2['blocks'])) {
-                  if (block['completion'] || block['completion'] == 0) {
-                    max_completion += 1
-                    actual_completion += block['completion']
-                  }
-                }
-                let completion_ratio = actual_completion / max_completion
-                let progress_remain = 1 - completion_ratio
-                let effort = course['effort']
-                // if effort variable as right format, convert time to min
-                function isValidFormat(time) {
-                  const regex = /^\d{2}:\d{2}$/;
-                  return regex.test(time);
-                }
-
-                if (isValidFormat(effort)) {
-                  // apply progress ratio and convert min to time
-                  let min_effort = Number((String(effort).split(':')[1])) + Number(String(effort).split(':')[0]) * 60
-                  let progessed_min = min_effort * progress_remain
-                  let progessed_hour = (Math.floor(progessed_min / 60)) + ' H' 
-                  // let progessed_hour = (Math.floor(progessed_min / 60)) + 'h' + (Math.floor(progessed_min % 60))
-
-                  // Add completion ratio in the right div 
-                  let not_last_courses = document.getElementById('not-last-courses').getElementsByClassName('course-container')
-                  for (let i = 0; i < not_last_courses.length; i++) {
-                    const course_html = not_last_courses[i];
-                    if (course_html.innerHTML.includes(course["course_id"])) {
-                      course_html.getElementsByClassName("course-jauge")[0].innerText = Math.floor(completion_ratio*100) + ' %'
-                      course_html.getElementsByClassName('wrapper-course-details')[0].getElementsByClassName("info-date-block-container")[0].innerText = "Temps restant : " + progessed_hour
-                    }
-                  }
-                }
-
-                try {
-                  console.log('${dashboard_index}');
-                  console.log('${enrollment.course_id}');
-                  console.log('${dashboard_index - 1}');
-                  console.log('${dashboard_index - 2}');
-
-                  console.log(document.getElementById("not-last-courses").getElementsByClassName("course-container"));
-                  console.log(document.getElementById("not-last-courses").getElementsByClassName("course-container")['${dashboard_index - 2}']);
                   
-                } catch (error) {
-                  console.log('error with dashboard index');
+                  // RENDRE DYNAMIQUE CE CODE !!
 
+                  
+                  setTimeout(() => {
+                    let lien_attestation = '/wul_apps/' + course['course_id'] + '/certificate/generate_pdf'
+                    const textAttestationButton = '<a href='+lien_attestation+' target="_blank"><div class="attestationButtonButton"> Attestation</div></a>'
+                    const attestationButton = document.createElement('div')
+                    attestationButton.setAttribute('class', 'attestationButton')
+
+                    // const onlyFinishedSection = document.getElementById('finished-courses').getElementsByClassName('course-container')
+
+                    // console.log('onlyFinishedSection');
+                    // console.log(onlyFinishedSection);
+
+                    // for (let i = 0; i < onlyFinishedSection.length; i++) {
+                    //   const finishedCourse = onlyFinishedSection[i];
+                    //   console.log('finishedCourse');
+                    //   console.log(finishedCourse);
+                    // }
+                    // const divToIncrustButton = onlyFinishedSection.getElementById('course-title-' + course['course_id'])
+                    const divToIncrustButton = document.getElementById('course-title-' + course['course_id'])
+
+
+                    attestationButton.innerHTML = textAttestationButton
+                    divToIncrustButton.append(attestationButton)
+                  }, 400)
+
+
+
+                } else {
+
+                  getCourseDetails_second(course);
                 }
-
-                // ADD plan du cours button  : 
-                // course_plan = document.createElement("a");
-                // course_plan.classList.add("course-plan");
-                // course_plan.innerHTML = "Plan du cours";
-                // course_plan.href = "/courses/"+ course['course_id'] +"/course/";
-                // document.getElementById("not-last-courses").getElementsByClassName("course-container")[].getElementsByClassName("wrapper-course-image")[0].getElementsByClassName("wrapper-course-actions")[0].getElementsByClassName("course-actions")[0].appendChild(course_plan);
-
-
-
               }
-            });
-          }
-        </script>
-      % endif
+          });
+          
+        }
+
+
+        // Function to get completion and progress details for a given course
+        function getCourseDetails_second(course) {
+
+          $.ajax({
+            url: "/api/courses/v1/blocks/?course_id=" + course['course_id'] + "&username=${user.username}&depth=all&requested_fields=completion",
+            success: function(result_2) {
+
+              let max_completion = 0
+              let actual_completion = 0
+              for (const [key, block] of Object.entries(result_2['blocks'])) {
+                if (block['completion'] || block['completion'] == 0) {
+                  max_completion += 1
+                  actual_completion += block['completion']
+                }
+              }
+              let completion_ratio = actual_completion / max_completion
+              let progress_remain = 1 - completion_ratio
+              let effort = course['effort']
+              // if effort variable as right format, convert time to min
+              function isValidFormat(time) {
+                const regex = /^\d{2}:\d{2}$/;
+                return regex.test(time);
+              }
+
+              if (isValidFormat(effort)) {
+                // apply progress ratio and convert min to time
+                let min_effort = Number((String(effort).split(':')[1])) + Number(String(effort).split(':')[0]) * 60
+                let progessed_min = min_effort * progress_remain
+                let progessed_hour = (Math.floor(progessed_min / 60)) + ' H' 
+                // let progessed_hour = (Math.floor(progessed_min / 60)) + 'h' + (Math.floor(progessed_min % 60))
+
+                // Add completion ratio in the right div 
+                let not_last_courses = document.getElementById('not-last-courses').getElementsByClassName('course-container')
+                for (let i = 0; i < not_last_courses.length; i++) {
+                  const course_html = not_last_courses[i];
+                  if (course_html.innerHTML.includes(course["course_id"])) {
+                    course_html.getElementsByClassName("course-jauge")[0].innerText = Math.floor(completion_ratio*100) + ' %'
+                    course_html.getElementsByClassName('wrapper-course-details')[0].getElementsByClassName("info-date-block-container")[0].innerText = "Temps restant : " + progessed_hour
+                  }
+                }
+              }
+
+              // try {
+              //   console.log('${dashboard_index}');
+              //   console.log('${enrollment.course_id}');
+              //   console.log('${dashboard_index - 1}');
+              //   console.log('${dashboard_index - 2}');
+
+              //   console.log(document.getElementById("not-last-courses").getElementsByClassName("course-container"));
+              //   console.log(document.getElementById("not-last-courses").getElementsByClassName("course-container")['${dashboard_index - 2}']);
+                
+              // } catch (error) {
+              //   console.log('error with dashboard index');
+
+              // }
+
+              // ADD plan du cours button  : 
+              // course_plan = document.createElement("a");
+              // course_plan.classList.add("course-plan");
+              // course_plan.innerHTML = "Plan du cours";
+              // course_plan.href = "/courses/"+ course['course_id'] +"/course/";
+              // document.getElementById("not-last-courses").getElementsByClassName("course-container")[].getElementsByClassName("wrapper-course-image")[0].getElementsByClassName("wrapper-course-actions")[0].getElementsByClassName("course-actions")[0].appendChild(course_plan);
+
+
+
+            }
+          });
+        }
+      </script>
     % endfor
         
     % if show_load_all_courses_link:
@@ -605,14 +647,71 @@ if 'last_visited_course' in custom_fields.keys() :
   </div>
   <div id="finished-courses" style="display: none;">
   </div>
-
-
 </main>
 
 
+<script>
+  // JS FILTER BAR
+  let filteredList = document.getElementById("filterItems");
+  let menuOpen = false;
+  let selectedCategories = [];
+  
+  // function toggleMenu() {
+  //   filteredList.classList.toggle("filter-open");
+  //   menuOpen = !menuOpen;
+  //   const filterItems = document.getElementById('filterItems');
+  //   filterItems.style.display = menuOpen ? 'flex' : 'none';
+  // }
+  
+  function handleCategoryChange(event) {
+    const checkboxValue = event.target.value.toLowerCase();
+    const isChecked = event.target.checked;
+    const labelElement = event.target.parentElement;
 
+    if (isChecked) {
+      // Add category to the selected categories
+      selectedCategories.push(checkboxValue);
+      labelElement.classList.add("active");
+    } else {
+      // Remove category from the selected categories
+      const index = selectedCategories.indexOf(checkboxValue);
+      if (index > -1) {
+        selectedCategories.splice(index, 1);
+      }
+      labelElement.classList.remove("active");
+    }
 
+    // Get all the courses
+    // const courseList = document.getElementsByClassName("course-item-not-enrolled");
+    let courseListEnrolled = document.getElementById('not-last-courses').getElementsByClassName("course-item");
+    let courseListFinishedCourses = document.getElementById('finished-courses').getElementsByClassName("course-item");
 
+    let courseList = [...courseListEnrolled, ...courseListFinishedCourses] 
+
+    // If nothing is selected, show all the courses
+    if (selectedCategories.length === 0) {
+      for (const course of courseList) {
+        course.classList.remove("course-item-hide");
+      }
+    } else {
+      // Show or hide courses depending on whether their category is selected
+      for (const course of courseList) {
+        const courseTag = course.children[0].children[0].attributes[3].textContent.toLowerCase();
+
+        const isHidden = course.classList.contains("course-item-hide");
+
+        // Check if the course tag is in the selected categories
+        const shouldHide = !selectedCategories.includes(courseTag);
+
+        if (shouldHide && !isHidden) {
+          course.classList.add("course-item-hide");
+        } else if (!shouldHide && isHidden) {
+          course.classList.remove("course-item-hide");
+        }
+      }
+    }
+  }
+</script>
 
 <script>
 
@@ -695,7 +794,7 @@ main {
 .content-wrapper {
   max-width: none;
 }
-.mobile-nav-item > .tab-nav-link {
+.mobile-nav-item > .tab-nav-link, .course-item-hide {
     display: none !important;
 }
 #dashboard-main {
@@ -813,7 +912,7 @@ main {
 }
 #not-last-courses .course-container .course-title .course-target-link, #finished-courses .course-container .course-title .course-target-link {
   font-weight: 700;
-  font-size: 23px !important;
+  font-size: 22px !important;
   line-height: 27px;
 }
 .secondary-section {
@@ -829,13 +928,17 @@ main {
 #not-last-courses, #finished-courses {
   display: flex;
   flex-wrap: wrap;
-  padding: 3vh 7vw 11vh 7vw;
+  padding: 3vh 6vw 11vh 6vw;
   /* border-bottom: 1px solid grey; */
+  justify-content: center;
+  max-width: 1420px;
+  margin: auto;
 }
 #not-last-courses .course-container,#finished-courses .course-container{
   background-color:white;
   min-height: 250px;
-  margin: 15px calc(14.33vw - 164px);
+  /* margin: 15px calc(14.33vw - 164px); */
+  margin: 15px 27px;
   width: 320px;
   border: solid 0.5px #6F7373;
   border-radius: 8px;
@@ -962,10 +1065,108 @@ select option:hover {
   color: #fff;
 }
 
+#new-section .attestationButtonButton {
+  display: none;
+}
+
+
+/* FILTER BAR */
+.section2-filter {
+  background-color: #F3F5F5;
+  padding: 2rem 5rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem 0;
+  /* flex-direction: row-reverse;
+  place-self: flex-end; */
+  transition: .15s;
+  font-size: 1rem;
+}
+
+.section2-filterButton {
+  border: .2rem solid #878e8e; 
+  padding: .5rem .7rem;
+  border-radius: .6rem;
+  cursor: pointer;
+  background: #C9CCCC;
+  transition: .15s;
+  display: flex;
+}
+
+.section2-filterButton:hover {
+  filter: brightness(.9);
+}
+
+.section2-filterButton:active {
+  filter: brightness(.9);
+  transform: scale(.95);
+}
+
+.section2-filterItems {
+  list-style: none;
+  /* display: none; */
+  padding: .5rem 1rem;
+  margin-right: 1rem;
+  border-radius: .6rem;
+  flex-wrap: wrap;
+}
+
+
+.section2-filterSection-labels {
+  background: #ececec; 
+  padding: .5rem 1rem;
+  border-radius: .3rem;
+  border: unset;
+  cursor: pointer;
+  transition: .1s;
+  margin: .4rem;
+  font: inherit;
+}
+
+.section2-filterSection-labels:hover {
+  filter: brightness(.95);
+}
+
+.filter-open {
+  display: flex;
+  background: #C9CCCC;
+}
+
+.button-text{
+  margin-left: 15px;
+}
+
+input[type="checkbox"] {
+  pointer-events: none;
+  position: absolute;
+  opacity: 0;
+}
+.section2-filterSection-labels.active {
+  background-color: #44a1b9; 
+  color: #fff;
+}
+
+
+
 @media (max-width: 991.98px) {
 
   .dashboard .main-container, .dashboard .side-container {
     padding: 3vh 10vw ;
   }
 }
+
+@media (max-width: 520px) {
+    #dashboard-main .main-container {
+        display: none ;
+    }
+    #started-or-finished {
+        margin: unset ;
+    }
+    #started-or-finished h3 {
+        width: 150px ;
+    }
+
+}
+
 </style>

@@ -59,12 +59,25 @@ catch(e){window.attachEvent("onload", $buo_f)}
     background-color: #1e2631;
 }
 
-/* .main-header{
-    margin: 0 40px;
-} */
 .global-header .header-logo a .logo {
     height: 66px;
     padding: 1rem 5% !important;
+}
+
+.header-left-section{
+    display: flex;
+    align-items: center;
+}
+
+.header-logo{
+    width: 235px;
+}
+
+#dashboard-onglet-list li {
+    min-width: initial !important;
+}
+.discover-new-link {
+    display: none;
 }
 
 @media (min-width: 992px) {
@@ -82,21 +95,30 @@ catch(e){window.attachEvent("onload", $buo_f)}
     .global-header .header-logo a {
         height: unset !important;
     }
+    #dashboard-onglet-list {
+        flex-direction: column;
+        margin: 0 0 0 12vw !important;
+        width: 150px;
+
+    }
 
 }
-
-.header-left-section{
-    display: flex;
-  align-items: center;
+@media (max-width: 520px) {
+    #dashboard-onglet-list {
+        flex-direction: column;
+        margin: 0 !important;
+        width: 150px;
+    }
+}
+@media (max-width: 400px) {
+    #dashboard-onglet-list {
+        width: 80vw;
+    }
+    .header-logo {
+        display: none !important;
+    }
 }
 
-.header-logo{
-    width: 235px;
-}
-
-#dashboard-onglet-list li {
-  min-width: initial !important;
-}
 
 </style>
 <%
@@ -160,10 +182,10 @@ catch(e){window.attachEvent("onload", $buo_f)}
                 <!-- Display only if connected -->
                 % if user.is_authenticated:
                 <ul id="dashboard-onglet-list">
-                <li class="header-courses"><a href="/dashboard">Tableau de bord</a></li>
-                <li class="header-courses"><a href="/dashboard/elearning">E learning</a></li>
-                <li class="header-courses"><a href="/wul_apps/event">Évenements</a></li>
-                <li class="header-courses"><a href="/wul_apps/coaching">Coaching</a></li>
+                    <li class="header-courses"><a href="/dashboard">Tableau de bord</a></li>
+                    <li class="header-courses"><a href="/dashboard/elearning">E learning</a></li>
+                    <li class="header-courses"><a href="/wul_apps/event">Event</a></li>
+                    <li class="header-courses"><a href="/wul_apps/coaching">Coaching</a></li>
                 </ul>
             </div>
             <div class="header-right-section">
@@ -248,3 +270,10 @@ catch(e){window.attachEvent("onload", $buo_f)}
     }
 </script>
     
+% if user.is_authenticated:
+<script>
+if (window.location.pathname.indexOf('login') == 1 ) {
+    window.location.replace('/dashboard')
+}
+</script>
+% endif

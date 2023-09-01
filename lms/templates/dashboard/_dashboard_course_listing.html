@@ -66,7 +66,7 @@ from lms.djangoapps.grades.api import CourseGradeFactory
           lang="${course_overview.language}"
         % endif
       >
-<article class="course${mode_class}" aria-labelledby="course-title-${enrollment.course_id}" id="course-card-${course_card_index}">
+<article class="course${mode_class}" aria-labelledby="course-title-${enrollment.course_id}" id="course-card-${course_card_index}" tag="${cert_name_short}">
   <% course_target = reverse(course_home_url_name(course_overview.id), args=[six.text_type(course_overview.id)]) %>
   <section class="details" aria-labelledby="details-heading-${enrollment.course_id}">
       <h2 class="hd hd-2 sr" id="details-heading-${enrollment.course_id}">${_('Course details')}</h2>

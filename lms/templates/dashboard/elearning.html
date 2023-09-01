@@ -29,17 +29,6 @@ from lms.djangoapps.course_api.views import CourseListView
   cert_name_long = settings.CERT_NAME_LONG
 %>
 
-<!-- Cyril - Access CF to check last visited course -->
-<%
-custom_fields = {}
-custom_fields = json.loads(user.profile.custom_field)
-already_visited = False
-
-if 'last_visited_course' in custom_fields.keys() :
-  already_visited = True
-
-%>
-
 <%block name="pagetitle">${_("Dashboard")}</%block>
 <%block name="bodyclass">view-dashboard is-authenticated</%block>
 
@@ -204,39 +193,37 @@ if 'last_visited_course' in custom_fields.keys() :
 
 
   <div class="section2-filter">
-    <div onclick="toggleMenu()" class='section2-filterButton'>
+    <!-- <div onclick="toggleMenu()" class='section2-filterButton'>
       <i class="fas fa-pencil-alt"></i>
-      <span class="button-text">
-        filtres
-      </span> 
+      <span class="button-text">filtres</span> 
+    </div> -->
+    <div id="filterItems" class='section2-filterItems filter-open'>
+      <!-- <label class="section2-filterSection-labels active">
+          <input type="checkbox" value="All" onchange="handleCategoryChange(event)" />All
+      </label> -->
+      <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Stratégie" onchange="handleCategoryChange(event)" />#Stratégie
+      </label>
+      <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Marketing" onchange="handleCategoryChange(event)" />#Marketing
+      </label>
+      <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Gestion D'entreprise" onchange="handleCategoryChange(event)" />#Gestion D'entreprise
+      </label>
+      <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Gestion Des Opérations" onchange="handleCategoryChange(event)" />#Gestion Des Opérations
+      </label>
+      <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Ventes" onchange="handleCategoryChange(event)" />#Ventes
+      </label>
+      <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Tech" onchange="handleCategoryChange(event)" />#Tech
+      </label>
+      <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Marketplace" onchange="handleCategoryChange(event)" />#Marketplace
+      </label>
     </div>
-    <div id="filterItems" class='section2-filterItems'>
-        <!-- <label class="section2-filterSection-labels active">
-            <input type="checkbox" value="All" onchange="handleCategoryChange(event)" />All
-        </label> -->
-        <label class="section2-filterSection-labels">
-            <input type="checkbox" value="Stratégie" onchange="handleCategoryChange(event)" />Stratégie
-        </label>
-        <label class="section2-filterSection-labels">
-            <input type="checkbox" value="Marketing" onchange="handleCategoryChange(event)" />Marketing
-        </label>
-        <label class="section2-filterSection-labels">
-            <input type="checkbox" value="Gestion D'entreprise" onchange="handleCategoryChange(event)" />Gestion D'entreprise
-        </label>
-        <label class="section2-filterSection-labels">
-            <input type="checkbox" value="Gestion Des Opérations" onchange="handleCategoryChange(event)" />Gestion Des Opérations
-        </label>
-        <label class="section2-filterSection-labels">
-            <input type="checkbox" value="Ventes" onchange="handleCategoryChange(event)" />Ventes
-        </label>
-        <label class="section2-filterSection-labels">
-            <input type="checkbox" value="Tech" onchange="handleCategoryChange(event)" />Tech
-        </label>
-        <label class="section2-filterSection-labels">
-            <input type="checkbox" value="Marketplace" onchange="handleCategoryChange(event)" />Marketplace
-        </label>
-    </div>
-</div>
+  </div>
 
 
 <script>
@@ -246,57 +233,58 @@ if 'last_visited_course' in custom_fields.keys() :
   let menuOpen = false;
   let selectedCategories = [];
   
-  function toggleMenu() {
-    filteredList.classList.toggle("filter-open");
-    menuOpen = !menuOpen;
-    const filterItems = document.getElementById('filterItems');
-    filterItems.style.display = menuOpen ? 'flex' : 'none';
-  }
+  // function toggleMenu() {
+  //   filteredList.classList.toggle("filter-open");
+  //   menuOpen = !menuOpen;
+  //   const filterItems = document.getElementById('filterItems');
+  //   filterItems.style.display = menuOpen ? 'flex' : 'none';
+  // }
   
   function handleCategoryChange(event) {
-  const checkboxValue = event.target.value.toLowerCase();
-  const isChecked = event.target.checked;
-  const labelElement = event.target.parentElement;
+    const checkboxValue = event.target.value.toLowerCase();
+    const isChecked = event.target.checked;
+    const labelElement = event.target.parentElement;
 
-  if (isChecked) {
-    // Add category to the selected categories
-    selectedCategories.push(checkboxValue);
-    labelElement.classList.add("active");
-  } else {
-    // Remove category from the selected categories
-    const index = selectedCategories.indexOf(checkboxValue);
-    if (index > -1) {
-      selectedCategories.splice(index, 1);
+    if (isChecked) {
+      // Add category to the selected categories
+      selectedCategories.push(checkboxValue);
+      labelElement.classList.add("active");
+    } else {
+      // Remove category from the selected categories
+      const index = selectedCategories.indexOf(checkboxValue);
+      if (index > -1) {
+        selectedCategories.splice(index, 1);
+      }
+      labelElement.classList.remove("active");
     }
-    labelElement.classList.remove("active");
-  }
 
-  // Get all the courses
-  const courseList = document.getElementsByClassName("course-item-not-enrolled");
+    // Get all the courses
+    const courseList = document.getElementsByClassName("course-item-not-enrolled");
 
-  // If nothing is selected, show all the courses
-  if (selectedCategories.length === 0) {
-    for (const course of courseList) {
-      course.classList.remove("course-item-hide");
-    }
-  } else {
-    // Show or hide courses depending on whether their category is selected
-    for (const course of courseList) {
-      const courseTag = course.firstElementChild.attributes[3].textContent.toLowerCase();
-      const isHidden = course.classList.contains("course-item-hide");
-
-      // Check if the course tag is in the selected categories
-      const shouldHide = !selectedCategories.includes(courseTag);
-
-      if (shouldHide && !isHidden) {
-        course.classList.add("course-item-hide");
-      } else if (!shouldHide && isHidden) {
+    // If nothing is selected, show all the courses
+    if (selectedCategories.length === 0) {
+      for (const course of courseList) {
         course.classList.remove("course-item-hide");
+      }
+    } else {
+      // Show or hide courses depending on whether their category is selected
+      for (const course of courseList) {
+
+        const courseTag = course.firstElementChild.attributes[3].textContent.toLowerCase();
+        const isHidden = course.classList.contains("course-item-hide");
+
+        // Check if the course tag is in the selected categories
+        const shouldHide = !selectedCategories.includes(courseTag);
+
+        if (shouldHide && !isHidden) {
+          course.classList.add("course-item-hide");
+        } else if (!shouldHide && isHidden) {
+          course.classList.remove("course-item-hide");
+        }
       }
     }
   }
-}
-    </script>
+</script>
   
 
 
@@ -464,13 +452,17 @@ if 'last_visited_course' in custom_fields.keys() :
   #not-last-courses, #available-courses, #finished-courses {
     display: flex;
     flex-wrap: wrap;
-    padding: 3vh 7vw 11vh 7vw;
+    padding: 3vh 6vw 11vh 6vw;
     /* border-bottom: 1px solid grey; */
+    justify-content: center;
+    max-width: 1420px;
+    margin: auto;
   }
   #not-last-courses .course-container,#finished-courses .course-container, #available-courses .course {
     background-color:white;
     min-height: 250px;
-    margin: 15px calc(14.33vw - 164px);
+    /* margin: 15px calc(14.33vw - 164px); */
+    margin: 15px 27px;
     width: 320px;
     border: solid 0.5px #6F7373;
     border-radius: 8px;
@@ -656,23 +648,22 @@ if 'last_visited_course' in custom_fields.keys() :
   </style>
   
   <style>
-    .section2-filter {
+  .section2-filter {
       padding: 2rem 5rem 0;
       display: flex;
       align-items: center;
+      justify-content: center;
       margin: 1rem 0;
-      place-self: flex-end;
-      flex-direction: row-reverse;
       transition: .15s;
       font-size: 1rem;
   }
   
   .section2-filterButton {
-      border: .2rem solid #878e8e; /* Darken your primary color by 25% */
+      border: .2rem solid #878e8e; 
       padding: .5rem .7rem;
       border-radius: .6rem;
       cursor: pointer;
-      background: #C9CCCC; /* Your primary color */
+      background: #C9CCCC; 
       transition: .15s;
       display: flex;
   }
@@ -687,8 +678,8 @@ if 'last_visited_course' in custom_fields.keys() :
   }
   
   .section2-filterItems {
-    list-style: none;
-      display: none;
+      list-style: none;
+      /* display: none; */
       padding: .5rem 1rem;
       margin-right: 1rem;
       border-radius: .6rem;
@@ -697,7 +688,7 @@ if 'last_visited_course' in custom_fields.keys() :
   
   
   .section2-filterSection-labels {
-      background: #ececec; /* Your secondary color */
+      background: #ececec; 
       padding: .5rem 1rem;
       border-radius: .3rem;
       border: unset;
@@ -726,9 +717,9 @@ if 'last_visited_course' in custom_fields.keys() :
     opacity: 0;
   }
   .section2-filterSection-labels.active {
-  background-color: #44a1b9; /* Change the color to the desired color */
-  color: #fff;
-}
+    background-color: #44a1b9; 
+    color: #fff;
+  }
 
   
   </style>
