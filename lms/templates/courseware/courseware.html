@@ -455,7 +455,8 @@ let finished_exam = setInterval(() => {
           // Replace single quotes with double quotes for JSON
           const jsonString1 = decodedString.replace(/'/g, '"');
           const jsonString2 = jsonString1.replace(/True/g, 'true');
-          const jsonString = jsonString2.replace(/False/g, 'false');
+          const jsonString3 = jsonString2.replace(/False/g, 'false');
+          const jsonString = jsonString3.replace(/None/g, 'null');
           
           // Parse JSON to get a JavaScript object
           return JSON.parse(jsonString);
