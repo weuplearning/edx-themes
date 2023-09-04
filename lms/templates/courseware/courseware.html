@@ -32,7 +32,10 @@ custom_fields = {}
 custom_fields = json.loads(user.profile.custom_field)
 timestamp = int(round(time.time() * 1000))
 
-if (str(course.id) in custom_fields.keys()) and (custom_fields[str(course.id)] != 'NaN'):
+if (str(course.id) in custom_fields.keys()) and (custom_fields[str(course.id)] == 'quizz_completed'):
+  closing_time = 'quizz_completed'
+
+elif (str(course.id) in custom_fields.keys()) and (custom_fields[str(course.id)] != 'NaN'):
   closing_time = int(custom_fields[str(course.id)]) + 1000*60*60*1.25
 
 else :
@@ -394,7 +397,12 @@ ${HTML(fragment.foot_html())}
   var checkTime = setInterval(() => {
 
     currentTime = Date.now();
-    if (closingTime < currentTime) {
+    if (closingTime === "quizz_completed") {
+      clearInterval(checkTime)
+      alert("\nVotre session d'examen est terminée.\n\nToutes vos réponses ont bien été enregistrées.\nNous reviendront prochainement vers vous pour vous communiquer vos résultats.\n\nCordialement, \nl'Équipe BVT\n\n")
+      window.location.replace("/courses/"+$$course_id+"/course/");
+    } 
+    else if (closingTime < currentTime) {
       clearInterval(checkTime)
       alert("\nVotre session d'examen est expirée. Vous avez dépassé la limite de temps allouée.\n\nToutes vos réponses ont cependant bien été enregistrées.\nNous reviendront prochainement vers vous pour vous communiquer vos résultats.\n\nCordialement, \nl'Équipe BVT\n\n")
       window.location.replace("/courses/"+$$course_id+"/course/");
@@ -428,8 +436,55 @@ let finished_exam = setInterval(() => {
   if (div_completion.style.display == "block") {
 
     var logout_button = document.createElement("div");
-    logout_button.innerHTML = "<div id='logout-button-end' ><a href='/logout'>Valider et terminer l'examen</a></div>"
+    // logout_button.innerHTML = "<div id='logout-button-end' ><a href='/logout'>Valider et terminer l'examen</a></div>"
+    logout_button.innerHTML = "<div id='logout-button-end' >Valider et terminer l'examen</div>"
     div_completion.appendChild(logout_button);
+
+    logout_button.addEventListener("click", function(){
+
+      function decodeHtml(html) {
+          var txt = document.createElement("textarea");
+          txt.innerHTML = html;
+          return txt.value;
+      }
+
+      function convertToJsObject(escapedJson) {
+          // Decode HTML entities
+          const decodedString = decodeHtml(escapedJson);
+          
+          // Replace single quotes with double quotes for JSON
+          const jsonString1 = decodedString.replace(/'/g, '"');
+          const jsonString2 = jsonString1.replace(/True/g, 'true');
+          const jsonString = jsonString2.replace(/False/g, 'false');
+          
+          // Parse JSON to get a JavaScript object
+          return JSON.parse(jsonString);
+      }
+
+
+      const customFieldsStr = "${custom_fields}";
+      const customFieldsObj = convertToJsObject(customFieldsStr);
+      const courseID = "${course.id}"
+
+      customFieldsObj[courseID] = "quizz_completed"
+      customFieldsObj["authorized"] = true
+
+      const url = '/wul_apps/custom_field_editor/';
+      const data = JSON.stringify(customFieldsObj);
+      const settings = {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+              "X-CSRFToken": $.cookie('csrftoken'),
+          },
+          body: data
+      };
+
+      fetch(url, settings)
+      .then(() => window.location.reload())
+      .catch((error) => console.error('Error:', error));
+
+    });
 
     clearInterval(finished_exam)
   }
