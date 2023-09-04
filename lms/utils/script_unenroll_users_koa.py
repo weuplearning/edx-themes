@@ -35,7 +35,7 @@ courses_list = sys.argv[1].split(";")
 days_limit = sys.argv[2]
 
 
-admin_list = ['horen.lestang.isabelle@gmail.com','m.ashraf@outlook.fr', 'andrew.funck@hec.edu']
+admin_list = ['horen.lestang.isabelle@gmail.com','m.ashraf@outlook.fr', 'andrew.funck@hec.edu','schulte@hec.fr']
 
 
 
@@ -63,8 +63,7 @@ for course_id in courses_list:
 
 
 
-# qualif 
-# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/hec-pole-emploi/lms/utils/script_unenroll_users_koa.py 'course-v1:hec-pole-emploi+01+2022' 30
+# Run script
+# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/hec-pole-emploi/lms/utils/script_unenroll_users_koa.py 'course-v1:hec-pole-emploi+IP+2023;course-v1:hec-pole-emploi+IP_NEG+2023;course-v1:hec-pole-emploi+webinaire+2023;course-v1:hec-pole-emploi+NEG+2023' 30
 
-# Prod
-# Which course, admin list ? 
+

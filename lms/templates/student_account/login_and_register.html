@@ -17,7 +17,7 @@ input[type="submit"], input[type="button"], button, .button {
     background-image: none !important;
     text-shadow: none !important;
 }
-#register-terms_of_service-optional-label {
+#register-terms_of_service-optional-label, .checkbox-honor_code, .checkbox-terms_of_service  {
     display: none;
 }
 
@@ -202,9 +202,11 @@ document.getElementById('modal-button').addEventListener('click', function (even
 });
 
 
-// CGU must be required 
+// Hide CGU and honor
 setTimeout(() => {
-    document.getElementById("register-terms_of_service").required = true
+    document.getElementById("register-terms_of_service").checked = true
+    document.getElementById("register-honor_code").checked = true
+
 }, 500);
 
 

@@ -96,6 +96,8 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         border-radius: 2px;
         overflow: hidden;
         margin: 0;
+        /* #17735 hide progress bar */
+        display: none;
     }
 
     .page-content .page-content-main { 
@@ -277,9 +279,10 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     #main-course-outline .course-message {
         display: none !important;
     }
-    /* #main-course-outline {
-        display: none;
-    } */
+    #main-course-outline {
+        justify-content: center !important;
+    }
+
 
     
     @media screen and (max-width: 1024px) {
