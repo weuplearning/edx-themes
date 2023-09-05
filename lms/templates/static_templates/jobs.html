@@ -11,7 +11,7 @@ import urllib.request as urllib2
 import xmltodict
 from openedx.core.djangolib.js_utils import dump_js_escaped_json
 
-file = urllib2.urlopen('https://sncf-recrute.talent-soft.com/Handlers/OfferXML.ashx?top=4000&entity=4380,4381')
+file = urllib2.urlopen('https://sncf-recrute.talent-soft.com/Handlers/OfferXML.ashx')
 data_0 = file.read()
 file.close()
 
@@ -353,11 +353,12 @@ const region_dict = {
     "naq" : "Nouvelle Aquitaine",
     "ara" : "Auvergne-Rhône-Alpes",
     "occ" : "Occitanie",
-    "pac" : "Provence-Alpes-Côte d'azur"
+    "pac" : "Provence-Alpes-Côte d'Azur"
 }
 
 function pop_up (url) {
-    url_id = url.split('idOrigin')[0] + 'idOrigine/55386'
+    url_id = url.split('idOrigin')[0] + 'idOrigine/58616'
+    // url_id = url.split('idOrigin')[0] + 'idOrigine/55386'
 
     $('#pop-up-redirect')[0].attributes.href.value = url_id
     $("#exit-pop-up").css('display', 'flex')
@@ -368,7 +369,6 @@ function select_region (event) {
 
     // Remove previous Styling
     for (var key in region_dict) {
-        
         region_id = '#reg-'+ key
         div_region_clicked = $(region_id + " > svg > g .cls-1 ") 
         div_region_clicked.css('fill', 'var(--dark-color)')
@@ -398,15 +398,14 @@ function select_region (event) {
         if (offer.jobDescription.location.regions) {
 
             if (offer.jobDescription.location.regions.region['#text'] == region_value) {
-
+                
                 if (list_clientcode.includes(offer.jobDescription.profile['@clientcode']) && offer.jobDescription.contract['@clientcode'] == "TS_CDI" ) {
-
+                    
                     // Remove Cyno offers
                     let title = offer.jobDescription.title
                     if (title.indexOf('Cyno') != -1) {
                         continue
                     }
-
                     offer_found = true
                     // $('#job-list').append("<li onclick=\"pop_up('"+offer.directUrl+"')\" >"+title+"</li>")
                     $('#job-list').append("<li onclick=\"pop_up('"+offer.directUrl+"')\" >"+title+"<br>Ref. "+offer.reference+" </li>")
