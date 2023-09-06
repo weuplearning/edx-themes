@@ -26,8 +26,8 @@
   .wrapper-footer .site-nav .nav-link, .wrapper-footer footer#footer-openedx .colophon .nav-colophon li a {
     color: white !important;
   }
-  /* Hide course navigation button */
-  .sequence-bottom {
+  /* Hide course navigation and fullscreen buttons */
+  .sequence-bottom , .scorm_button{
     display: none !important;
   }
 </style>
@@ -166,22 +166,6 @@ var textTranslation = setInterval(function() {
     } catch (error) {
       console.log('Translation 1 not found');
     }
-
-
-    // Fullscreen 
-    try {
-      var fullscreenButtons = document.getElementsByClassName('js-scorm-block')[0].getElementsByClassName('scorm_button')[0].children
-  
-      for (let i = 0; i < fullscreenButtons.length; i++) {
-        const fullscreenButton = fullscreenButtons[i];
-        
-        fullscreenButton.innerText = fullscreenButton.innerText.replace('Exit fullscreen', 'Sortir du mode plein écran')
-        fullscreenButton.innerText = fullscreenButton.innerText.replace('Fullscreen', 'Mode plein écran')
-      }
-    } catch (error) {
-      console.log('Translation 2 not found');
-    }
-
 
   }
 

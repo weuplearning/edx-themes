@@ -282,6 +282,9 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     #main-course-outline {
         justify-content: center !important;
     }
+    #banner-img-course {
+        width: 50vw;
+    }
 
 
     
@@ -468,6 +471,17 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         <h2>Bienvenue sur la formation <br> ${course.display_name_with_default}</h2>
     </header>
     <div id="area-player">
+        %if resume_course_url :
+            %if resume_course_url.find("hec-pole-emploi+IP+2023") != -1 :
+                <img id="banner-img-course" src="${static.url('hec-pole-emploi/images/dashboard_mono_bkg.png')}" alt="illu-cours-IP">
+            %elif resume_course_url.find("hec-pole-emploi+IP_NEG+2023") != -1 :
+                <!-- <img id="banner-img-course" src="${static.url('hec-pole-emploi/images/dashboard_mono_bkg.png')}" alt="illu-cours-IP"> -->
+            %elif resume_course_url.find("hec-pole-emploi+NEG+2023") != -1 :
+                <!-- <img id="banner-img-course" src="${static.url('hec-pole-emploi/images/dashboard_mono_bkg.png')}" alt="illu-cours-IP"> -->
+            %elif resume_course_url.find("hec-pole-emploi+webinaire+2023") != -1 :
+                <!-- <img id="banner-img-course" src="${static.url('hec-pole-emploi/images/dashboard_mono_bkg.png')}" alt="illu-cours-IP"> -->                
+            %endif
+        %endif
 
         <div id="player">
             <!-- <iframe id="hec-video" width="420" height="236"
