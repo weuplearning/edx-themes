@@ -241,7 +241,8 @@
             const emailAllowed = allowedEmailList.includes(currentUserMail)
             console.log('123')
             console.log(emailAllowed)
-            setTimeout(() => {
+            // setTimeout(() => {
+            setInterval(() => {
                 // the button element to modify if the user isn't not in the vip list
                 const buttonToModify = document.querySelectorAll('.section2_tile-button');
                 // get the popup
@@ -279,7 +280,7 @@
 
                 }
     
-            }, 2550)
+            }, 150)
         })
     </script>
 
