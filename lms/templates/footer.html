@@ -28,6 +28,7 @@
 
    .footer-column {
       width: 425px !important;
+      text-align: center;
    }
 
    .list-unstyled, .text-center{
@@ -42,13 +43,19 @@
 
    .text-footer{
       color: #fff;
+      line-height: 1.2;
    }
    .text-footer-up{
       margin-bottom: 10px;
    }
 
-   .logoSocialmedia{
+   /* .logoSocialmedia{ */
+   .social-media-links > a {
       margin: 10px 20px 0 0;
+   }
+   .social-media-links > a:last-child {
+      margin: 10px 0px 0 0;
+
    }
 
    .footerBottom{
@@ -64,7 +71,24 @@
    .footer_cgu{
       margin-top: 30px;
    }
+   @media (max-width: 520px) {
+      #footer .container1 .row {
+         flex-direction: column;
+         padding: 7px;
+      } 
+      #footer .container1 .row .footer-column {
+         width: 100% !important;
+         padding: 15px 0;
+      }
+      .footerBottom .footer_cgu {
+         display: flex;
+         flex-direction: column;
+      }
+      .footerBottom .footer_cgu .footer_links {
+         padding: 10px 0;
+      }
 
+   }
 
 
 </style>
@@ -98,11 +122,6 @@
                <a target="_blank" class="footer_links" href="/politique-de-confidentialite/">Politique de confidentialité</a>
                <a target="_blank" class="footer_links" href="/faq/">FAQ</a>
             </div>
-            <div class="footer-column footer_cgu" >
-            </div>
-            <!-- <div class="footer-column footer_cgu" >
-
-            </div> -->
          </div>
       </div>
    </footer>

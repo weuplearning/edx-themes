@@ -6,17 +6,18 @@
 
 <%include file="../learner_dashboard/_dashboard_navigation_courses.html" />
 
-<script type="module" crossorigin src="/media/microsites/amazon/react_coach/build/test/index-de971ce5.js"></script>
+<script type="module" crossorigin src="/media/microsites/amazon/react_coach/build/20230908/index-a9474173.js"></script>
 <link rel="stylesheet" type="text/css" href="${css}" />
-<link rel="stylesheet" href="/media/microsites/amazon/react_coach/build/test/index-ef2f2183.css">
+<link rel="stylesheet" href="/media/microsites/amazon/react_coach/build/20230908/index-17b147d6.css">
 <link rel="stylesheet" href="https://cdn.fontawesome.com/css/fontawesome.min.css">
 <div id="root"></div>
 
-<!-- <script type="module" crossorigin src="/media/microsites/amazon/react_coach/build/index-f35ce78f.js"></script>
+<!-- <script type="module" crossorigin src="/media/microsites/amazon/react_coach/build/test/index-de971ce5.js"></script>
 <link rel="stylesheet" type="text/css" href="${css}" />
-<link rel="stylesheet" href="/media/microsites/amazon/react_coach/build/index-4dd03b4a.css">
+<link rel="stylesheet" href="/media/microsites/amazon/react_coach/build/test/index-ef2f2183.css">
 <link rel="stylesheet" href="https://cdn.fontawesome.com/css/fontawesome.min.css">
 <div id="root"></div> -->
+
 
 <div id="custom-popup" style="display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
     <div class="custom-popupdiv" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);">
@@ -99,6 +100,9 @@
 
         .footer-column.footer_cgu>a {
             margin: .5rem;
+        }
+        .wrapper-header-courses {
+            justify-content: center !important;
         }
     }
 
@@ -239,7 +243,6 @@
 
             // verify if the current user's mail is in the list, and get the value false or true
             const emailAllowed = allowedEmailList.includes(currentUserMail)
-            console.log('123')
             console.log(emailAllowed)
             // setTimeout(() => {
             setInterval(() => {

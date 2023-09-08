@@ -17,14 +17,11 @@ input[type="submit"], input[type="button"], button, .button {
     background-image: none !important;
     text-shadow: none !important;
 }
-
-
 .login-and-registration-container, .login-and-registration-side-article{
     margin: 0 5%;
     border-radius: 5px;
     padding: 15px 40px;
 }
-
 .login-and-registration-side-article_title{
     color: #fff !important;
     font-size: 2.2em !important;
@@ -39,33 +36,29 @@ input[type="submit"], input[type="button"], button, .button {
 .login-and-registration-side-article_list > li {
     padding: 10px;
 }
-
 .login-register-content {
+    background: transparent;
     display: flex;
     flex-direction: row;
     flex-wrap: unset !important;
     -webkit-flex-wrap: unset !important;
     -moz-flex-wrap: unset !important;
 }
-
 .ltr > .window-wrap {
     background: none !important;
     background-color: #1E2631 !important;
     background-image: none !important;
     min-height: 100vh !important;
 }
-
-.login-register {
-  margin: initial;
-  padding: 25px 50px;
-  width: 450px;
-  border-radius: 10px;
+.login-register{
+    margin: initial;
+    padding: 25px 50px;
+    width: 450px;
+    border-radius: 10px;
 }
-
 .meeting-image{
     width: 90%;
 }
-
 .login-and-registration-side-article_liste_element {
     position: relative;
 }
@@ -78,14 +71,20 @@ input[type="submit"], input[type="button"], button, .button {
     min-height: Calc(100vh - 350px - 85px)
 }
 
-/* .login-register{
-  background: transparent;
-} */
 
-.login-register-content {
-
-  background: transparent;
+@media (max-width: 520px) {
+    #content-container {
+        flex-direction: column;
+    }
+    .login-register {
+        margin: 10px;
+        width: auto;
+    }
+    .login-and-registration-side-article_title {
+        margin-bottom: 40px;
+    }
 }
+
 </style>
 <%block name="js_extra">
     <%static:require_module module_name="js/student_account/logistration_factory" class_name="LogistrationFactory">
@@ -190,6 +189,8 @@ input[type="submit"], input[type="button"], button, .button {
 </div>
 
 <%include file="../footer.html" />
+
+
 
 
 <script>
