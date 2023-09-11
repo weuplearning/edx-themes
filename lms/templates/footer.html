@@ -16,6 +16,14 @@
     height: 65px;
     padding: 5px 5vw;
     box-shadow: unset;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+  }
+  .wrapper-footer footer {
+    max-width: unset;
+    margin: unset;
   }
   /* body.view-in-course .wrapper-footer {
     background-color: gray;
@@ -27,6 +35,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+    width: 100vw;
   }
   .logo {
     max-height: 65px;
@@ -34,7 +43,12 @@
   #logo_apave {
     height: 50px;
   }
-
+  #static_template_link {
+    margin-top: 15px;
+  }
+  #static_template_link a {
+    color: #007DFF;
+  }
 
   @media screen and (max-width: 992px) {
     .logos {
@@ -65,16 +79,12 @@
       </a>
     </div>
 
-    <!-- <div class="colophon">
-      <nav class="nav-colophon" aria-label="${_('CGU')}">
-        <ol>
-          <li class="nav-colophon-01">
-            <a id="cgu" href="/cgu">Conditions générales d'utilisation</a>
-          </li>
-        </ol>
-      </nav>
-    </div> -->
   </footer>
+  <div id="static_template_link">
+    <a href="/cgu">
+      Conditions générales d'utilisations
+    </a>
+  </div>
 </div>
 
 

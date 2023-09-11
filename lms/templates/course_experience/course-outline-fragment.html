@@ -123,7 +123,7 @@ if not all([user_firstname, user_lastname, user_structure]):
     <label for="lastName">Prénom:</label>
     <input type="text" id="lastName" name="lastName"><br>
   
-    <label for="structure">Organisme:</label>
+    <label for="structure">Organisme (Lycée, université, entreprise..):</label>
     <input type="text" id="structure" name="structure"><br>
 
     <label for="preparedDiploma">Diplôme préparé:</label>
@@ -160,7 +160,13 @@ if not all([user_firstname, user_lastname, user_structure]):
           <option value="reunion">La Réunion</option>
           <option value="mayotte">Mayotte</option>
         </optgroup>
-      </select>
+    </select>
+  
+    <label for="agreeCgu">J'accepte d'être contacté(e) par l'UMN par e-mail:</label>
+    <select id="agreeCgu" name="agreeCgu">
+        <option value="oui">Oui</option>
+        <option value="non">Non</option>
+    </select>
   
     <button type="submit">Envoyer</button>
 </form>
@@ -340,6 +346,7 @@ form.addEventListener("submit", function(event) {
   const structure = document.getElementById("structure").value;
   const preparedDiploma = document.getElementById("preparedDiploma").value;
   const regions = document.getElementById("regions").value;
+  const agreeCgu = document.getElementById("agreeCgu").value;
   const status = document.getElementById("status").value;
 
   const customFields = {
@@ -348,6 +355,8 @@ form.addEventListener("submit", function(event) {
     structure: structure,
     preparedDiploma: preparedDiploma,
     regions: regions,
+    agreeCgu: agreeCgu,
+    agreeCguDate: '${datetime.now()}',
     status: status,
     authorized: true,
   };

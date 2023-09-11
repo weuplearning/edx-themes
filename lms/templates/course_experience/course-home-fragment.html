@@ -137,12 +137,10 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     	animation: fadeInLeft;
         animation-duration: 0.5s;
     }
-    .wrapper-preview-menu{
-       //display:none;
+
+    .wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary{
+        display:none !important;
     }
-.wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary{
-    display:none !important;
-}
 
 
     .section-title{
@@ -184,7 +182,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     }
 
     .progress-bar-grade {
-        background-color:var(--green);
+        background-color:var(--primary);
         position: absolute;
         height: 100%;
         top:0;
