@@ -29,28 +29,27 @@
   .login-register .form-field select {
     background: #fff;
   }
-
   #main {
     min-height: 71vh;
     height: auto;
   }
-
   #content-container {
     background: url("${static.url('icope/images/bg_img.png')}");
   }
-
   .toggle-form {
     display: none !important;
   }
   .text-profession_autre {
     display: none;
   }
-
   .form-field.select-department{
     display: none;
   }
   a {
     color: #C2C6CA !important;
+  }
+  #register-terms_of_service-optional-label {
+    display: none;
   }
 
 </style>
@@ -108,13 +107,15 @@
 
 <script>
 
-// ________________________________
+// ____________________________________
+// 
 // --------REGISTER FORM UPDATE--------
-// ________________________________
+// ____________________________________
 
 // Hide profession fields :
 var alreadyPassed = false
 var functionForm = setInterval(() => {
+
   $("#register-profession").change(function() {
     var val = $(this).val();
     if(val === "Autre (précisez)") {
@@ -127,6 +128,7 @@ var functionForm = setInterval(() => {
     clearInterval(functionForm)
   }
   alreadyPassed = true
+
 }, 700);
 
 
@@ -165,9 +167,7 @@ var replaceTextField = setInterval(() => {
 }, 400);
 
 
-// ---------------------------------
-// ----- Update Departement field regarding Region field 
-// ---------------------------------
+// Update Departement field regarding Region field 
 
 const table = {
   "Auvergne-rhone-alpes": ["","Ain","Allier","Ardèche","Cantal","Drôme","Isère","Loire","Haute-loire",'Puy-de-Dôme', 'Rhône', 'Savoie', 'Haute-Savoie'],
@@ -207,21 +207,26 @@ function updateDept() {
   $('#register-region').change(function(){
     const sectionDepartment = document.querySelector('.form-field.select-department')
     const regionSelectorValue = document.getElementById('register-region').value
-        
+
     if (document.getElementById('register-region').value != '') {
       document.getElementsByClassName('select-department')[0].style.display = 'block' 
       sectionDepartment.style.display='block'
       $('#register-department').empty()
-        for (const region in table) {
-          if (region == document.getElementById('register-region').value) {
-            for (const departement of table[region]) {
-              $('#register-department').append("<option value='"+ nettoyerValue(departement) + "'>" + departement + "</option>");
-            }
+
+      for (const region in table) {
+        if (region == document.getElementById('register-region').value) {
+          for (const departement of table[region]) {
+
+            $('#register-department').append("<option value='"+ nettoyerValue(departement) + "'>" + departement + "</option>");
+
           }
         }
+      }
     } else if (document.getElementById('register-region').value == '') {
+
       document.getElementsByClassName('select-department')[0].style.display = 'none' 
       sectionDepartment.style.display='none'
+
     } else {
       console.log('🤔 something is not working with hidding department section script');
     }
@@ -233,7 +238,9 @@ const functionToRegion = setTimeout(() => {
 }, 3000);
 
 
+
 window.setTimeout(()=>{
+
   if (document.querySelector('#register-name-required-label')) {
     document.querySelector('#register-name-required-label').previousElementSibling.textContent = 'Nom complet (Prénom + Nom)'
   }
