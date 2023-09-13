@@ -51,7 +51,7 @@ _title = [
     "Adresse",
     "date d'inscription",
     "dernière connexion",
-    "LaPatisserie - MOOCPatisserieAFPA_S1",
+    "LaPatisserie - MOOCPatisserieAFPA_S1", # colonne K
     "LaPatisserie2 - MOOCPatisserieAFPA_S2",
     "MOOC_FLE_AFPA - FLE",
     "Mets et Vins - Saison 3",
@@ -59,23 +59,24 @@ _title = [
     "Les101techniquesdebase - MOOCCUISINEAFPA_S2",
     "Les101techniquesdebase - MOOCCUISINEAFPA_S3",
     "Les101techniquesdebase - Replay 2019",
-    #"Occitanie",
-    "FLI",
-    "Patisserie 2020",
+    "Occitanie",
+    "FLI", 
+    "Patisserie 2020", # colonne U
     "Mets et vins 2020",
     "FLI 2020",
     "Cuisine 2020",
     "Mixite",
     "CPF",
-    "Handicap",
+    "Handicap", # colonne AA
     "TRE",
     "MATU",
     "MOOC Love Food",
+    "Mooc Handicap Afpa 2022" # colonne AE
     "Temps passé"
 ]
 
 _id = [
-    "course-v1:afpa+LaPatisserie+MOOCPatisserieAFPA_S1",
+    "course-v1:afpa+LaPatisserie+MOOCPatisserieAFPA_S1", # colonne K
     "course-v1:afpa+LaPatisserie2+MOOCPatisserieAFPA_S2",
     "course-v1:afpa+MOOC_FLE_AFPA+FLE",
     "course-v1:afpa+Metsetvins+MOOCmetsetvinsAFPA_S3",
@@ -83,18 +84,19 @@ _id = [
     "course-v1:afpa+Les101techniquesdebase+MOOCCUISINEAFPA_S2",
     "course-v1:afpa+Les101techniquesdebase+MOOCCUISINEAFPA_S3",
     "course-v1:afpa+Les101techniquesreplay+2019",
-    #"course-v1:afpa+occitanie+2019_S1",
+    "course-v1:afpa+occitanie+2019_S1",
     "course-v1:afpa+MOOC_FLI+FLI_2019",
-    "course-v1:afpa+La_Patisserie_replay_2020+2020",
+    "course-v1:afpa+La_Patisserie_Replay_2020+2020", # colonne U
     "course-v1:afpa+Mets_et_vins_replay_2020+2020",
-    "course-v1:afpa+MOOC_FLI_replay_2020+2020",
+    "course-v1:afpa+FLI+2023",
     "course-v1:afpa+replay_2020+2020",
     "course-v1:afpa+mixite+mixite_2020",
     "course-v1:afpa+CPF+CPF_2020",
-    "course-v1:afpa+inclusion_sociale+2020",
+    "course-v1:afpa+inclusion_sociale+2020", # colonne AA
     "course-v1:afpa+TRE_2020+2020",
     "course-v1:afpa+MATU+2020",
-    "course-v1:afpa+love_food+2020"
+    "course-v1:afpa+love_food+2020",
+    "course-v1:afpa+inclusion_sociale+2023" # colonne AE
 ]
 
 
@@ -118,7 +120,6 @@ def get_course_enrollment(course_id, user):
 
     # -> simplification, trop long sinon
     enrollment = CourseEnrollment.objects.get(course_id=course_id, user=user)
-
     return get_time_tracking(enrollment)
 
 
@@ -214,7 +215,6 @@ for user in users:
                 q[n] = True
 
 
-
     for n in _id:
         try:
             q[n]
@@ -228,6 +228,8 @@ for user in users:
         global_time += get_course_enrollment(course, user)
 
     sheet.cell(i, j+1, global_time//60)
+
+
 
 
 
@@ -266,6 +268,7 @@ for i in range(len(TO_EMAILS)):
 
 
 # /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/afpa/lms/utils/export_users.py "loic.tournedouet@gmail.com;loic.tournedouet@afpa.fr;melanie.zunino@weuplearning.com"
+
 # /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/afpa/lms/utils/export_users.py "cyril.adolf@weuplearning.com"
 
 
