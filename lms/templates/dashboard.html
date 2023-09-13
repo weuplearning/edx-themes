@@ -123,6 +123,59 @@ if 'last_visited_course' in custom_fields.keys() :
   % endif
 </%block>
 
+<!-- Loader code START -->
+<div class="loader-wrapper">
+    <div class="loader"></div>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Simulate a delay before showing content
+    setTimeout(function () {
+        document.querySelector(".loader-wrapper").style.display = "none";
+        document.querySelector(".window-wrap").style.display = "block";
+    }, 750); 
+});
+</script>
+<style>
+.loader-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #1E2631; 
+    z-index: 999; 
+}
+.loader {
+    border: 5px solid #f3f3f3; 
+    border-top: 5px solid #3498db; 
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite; 
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.content {
+    display: none;
+    text-align: center;
+    padding: 20px;
+    background-color: white;
+    position: relative;
+    z-index: 1000; 
+}
+</style>
+<!-- Loader code END -->
+
+
+
 <div class="dashboard-notifications" tabindex="-1">
 
     %if banner_account_activation_message:
