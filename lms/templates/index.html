@@ -25,12 +25,115 @@ from openedx.core.djangolib.markup import HTML, Text
     height: auto;
     /* background-color: aquamarine; */
     background-image: url("${static.url('vinducentreloire/images/banner_top.png')}");
-  }
-  .container_banner__bloc_image{
+    background-size: cover;
     display: flex;
-    padding-top: 4em;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+
   }
+
+  .container_detailled-image {
+    position: relative;
+    height: 300px;
+    width: 300px;
+    margin: 25px;
+  }
+  .detailled-image {
+    position: absolute;
+    height: 60px;
+    z-index: 5;
+  }
+  #detailled-logo-vague {
+    z-index: 1;
+    height: auto;
+    width: 100%;
+    top: 77px;
+  }
+  #detailled-logo-main {
+    top: 9px;
+    left: 79px;
+  }
+
+  .tooltip-area:hover .tooltip {
+    display: flex;
+  }
+  #detailled-logo-poisson {
+    top: 78px;
+    left: 19px;
+  }
+  #detailled-logo-lune {
+    top: 145px;
+    left: 37px;
+    height: 80px;
+  }
+  #detailled-logo-coeur {
+    top: 147px;
+    left: 87px;
+  }
+  #detailled-logo-coquillage {
+    top: 210px;
+    left: 126px;
+    height: 55px;
+  }
+  #detailled-logo-bouteille_fonce {
+    top: 16px;
+    left: 167px;
+    height: 170px;
+  }
+
+  #detailled-logo-pattes {
+    top: 176px;
+    left: 206px;
+  }
+
+  #detailled-logo-feuille {
+    top: 106px;
+    left: 241px;
+  }
+
+  #detailled-logo-raisin {
+    top: 31px;
+    left: 219px;
+  }
+
+
+
+  .tooltip {
+    display: none;
+    background-color: white;
+    height: 115px;
+    width: 420px;
+    box-shadow: 0px 3px 8px grey;
+    justify-content: space-evenly;
+    align-items: center;  
+    position: absolute;
+    z-index: 99;
+  }
+  .tooltip-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  .tooltip-title {
+    text-transform: uppercase;
+  }
+  .tooltip > img {
+    max-height: 60px;
+    max-width: 100px;
+  }
+
+
+
+
+
+  .container_banner_title {
+    text-transform: uppercase;
+    font-size: 45px;
+    text-align: center;
+  }
+
   .container_banner__bloc_image__image{
     width: 42vw;
 
@@ -263,92 +366,12 @@ from openedx.core.djangolib.markup import HTML, Text
   .container_mooc_card_text{
     text-align: center;
     margin: 1em;
+    line-height: 1.6;
+    font-weight: 200;
   }
 
-  .container_footer{
-    background-color: #212837;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  .container_footer_socials{
-    display: flex;
-    justify-content: space-evenly;
-    width: 1200px;
-    align-items: baseline;
-    margin: 1em;
-  }
-  .container_footer_socials_email{
-    width: 300px;
-    height: 30px;
-    background-color: azure;
-  }
-  .container_footer_socials_network{
-    display: flex;
-    justify-content: center;
-  }
-  .container_footer_socials_network_icon{
-    width: 50px;
-    height: 50px;
-    /* background-color: aliceblue; */
-    border-radius: 100%;
-    margin: 0.4em;
-  }
-  .container_footer_links{
-    display: flex;
-    justify-content: center;
-  }
-  .container_footer_links_text{
-    margin: 1em;
-  }
 
-  .container_footer_locations{
-    display: flex;
-    align-items: center;
-  }
 
-  .container_footer_locations_text{
-    max-width: 544px;
-    width: auto;
-    height: 100%;
-    font-size: 1.5rem;
-    line-height: 1.2em;
-    text-transform: uppercase;
-    color:white;
-  }
-
-  .container_footer_locations_text_title{
-    font-weight: bold;
-  }
-
-  .container_footer_locations_image{
-    width: 220px;
-  }
-
-  .container_footer_locations_text_red__span{
-    color:#ac4117;
-  }
-
-  .container_footer_locations_text_yellow__span{
-    color:#ea9e06;
-  }
-
-  .container_footer_locations_text_blue__span{
-    color:#60707e;
-  }
-
-  .container_footer_links{
-    color:#60707e;
-  }
-
-  .text_underscore{
-    margin-top: 10px;
-  }
-
-  .wrapper-footer{
-    display: none;
-  }
 
   @media screen and (max-width:450px){
     .container_carousel_image{
@@ -412,12 +435,110 @@ from openedx.core.djangolib.markup import HTML, Text
 <main id="main" aria-label="Content" tabindex="-1">
 
   <div class="container_banner">
-    <div class="container_banner__bloc_image">
-      <img class="container_banner__bloc_image__image" src="${static.url('vinducentreloire/images/Logo_vins_centre_loire.png')}" alt="vin centre et loire logo and text" id="vcl-logo"/>
+    <div class="container_detailled-image">
+      <img class="detailled-image" src="${static.url('vinducentreloire/images/vague.png')}" alt="logo vague" id="detailled-logo-vague" />
+
+      <div class="tooltip-area">
+        <img class="detailled-image" src="${static.url('vinducentreloire/images/main.png')}" alt="logo main" id="detailled-logo-main" />
+        <div class="tooltip" style="top:69px;left:140px">
+          <img src="${static.url('vinducentreloire/images/main.png')}" alt="logo main" />
+          <div class="tooltip-text">
+            <span class="tooltip-title">Titre </span>
+            <span class="tooltip-info">texte</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="tooltip-area">
+        <img class="detailled-image" src="${static.url('vinducentreloire/images/poisson.png')}" alt="logo poisson" id="detailled-logo-poisson" />
+        <div class="tooltip" style="top:132px;left:122px">
+          <img src="${static.url('vinducentreloire/images/poisson.png')}" alt="">
+          <div class="tooltip-text">
+            <span class="tooltip-title">Titre </span>
+            <span class="tooltip-info">texte</span>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="tooltip-area">
+        <img class="detailled-image" src="${static.url('vinducentreloire/images/lune.png')}" alt="logo lune" id="detailled-logo-lune" />
+        <div class="tooltip" style="top:230px;left:93px"><img src="${static.url('vinducentreloire/images/lune.png')}" alt="">
+          <div class="tooltip-text">
+            <span class="tooltip-title">Titre </span>
+            <span class="tooltip-info">texte</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tooltip-area">
+        <img class="detailled-image" src="${static.url('vinducentreloire/images/coeur.png')}" alt="logo coeur" id="detailled-logo-coeur" />
+        <div class="tooltip" style="top:210px;left:132px"><img src="${static.url('vinducentreloire/images/coeur.png')}" alt="">
+          <div class="tooltip-text">
+            <span class="tooltip-title">Titre </span>
+            <span class="tooltip-info">texte</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tooltip-area">
+        <img class="detailled-image" src="${static.url('vinducentreloire/images/coquillage.png')}" alt="logo coquillage" id="detailled-logo-coquillage" />
+        <div class="tooltip" style="top:260px;left:203px">
+          <img src="${static.url('vinducentreloire/images/coquillage.png')}" alt="">
+          <div class="tooltip-text">
+            <span class="tooltip-title">Titre </span>
+            <span class="tooltip-info">texte</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tooltip-area">
+        <img class="detailled-image" src="${static.url('vinducentreloire/images/bouteille_fonce.png')}" alt="logo bouteille_fonce" id="detailled-logo-bouteille_fonce" />
+        <div class="tooltip" style="top:181px;left:225px"><img src="${static.url('vinducentreloire/images/bouteille_fonce.png')}" alt="">
+          <div class="tooltip-text">
+            <span class="tooltip-title">Titre </span>
+            <span class="tooltip-info">texte</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tooltip-area">
+        <img class="detailled-image" src="${static.url('vinducentreloire/images/pattes.png')}" alt="logo pattes" id="detailled-logo-pattes" />
+        <div class="tooltip" style="top:245px;left:260px"><img src="${static.url('vinducentreloire/images/pattes.png')}" alt="">
+          <div class="tooltip-text">
+            <span class="tooltip-title">Titre </span>
+            <span class="tooltip-info">texte</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tooltip-area">
+        <img class="detailled-image" src="${static.url('vinducentreloire/images/feuille.png')}" alt="logo feuille" id="detailled-logo-feuille" />
+        <div class="tooltip" style="top:170px;left:280px"><img src="${static.url('vinducentreloire/images/feuille.png')}" alt="">
+          <div class="tooltip-text">
+            <span class="tooltip-title">Titre </span>
+            <span class="tooltip-info">texte</span>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="tooltip-area">
+        <img class="detailled-image" src="${static.url('vinducentreloire/images/raisin.png')}" alt="logo raisin" id="detailled-logo-raisin" />
+        <div class="tooltip" style="top:100px;left:282px"><img src="${static.url('vinducentreloire/images/raisin.png')}" alt="">
+          <div class="tooltip-text">
+            <span class="tooltip-title">Titre </span>
+            <span class="tooltip-info">texte</span>
+          </div>
+        </div>
+      </div>
+
+
+
     </div>
-    <!-- <h1 class="container_banner__title">
-      Vins du centre-Loire
-    </h1> -->
+    <h1 class="container_banner_title">
+      Vins du <br><span style="font-size: 60px;" >Centre-Loire</span> 
+    </h1>
     <div class="container_banner__buttons">
       <div class="container_banner__buttons__button button_register">
         <a style="color: white" href="/register?next=%2F">
@@ -542,35 +663,7 @@ from openedx.core.djangolib.markup import HTML, Text
     </div>
 
   </div>
-  <div class="container_footer">
-    <div class="container_footer_socials">
-      <div class="container_footer_socials_email">
-      </div>
-      <div class="container_footer_socials_network">
-        <img class="container_footer_socials_network_icon" src="${static.url('vinducentreloire/images/footer_phone.png')}" alt="picto phone"/>
-        <img class="container_footer_socials_network_icon" src="${static.url('vinducentreloire/images/footer_fb.png')}" alt="picto fb"/>
-        <img class="container_footer_socials_network_icon" src="${static.url('vinducentreloire/images/footer_insta.png')}" alt="picto insta"/>
-        <img class="container_footer_socials_network_icon" src="${static.url('vinducentreloire/images/footer_yt.png')}" alt="picto yt"/>
-        <img class="container_footer_socials_network_icon" src="${static.url('vinducentreloire/images/footer_linkedin.png')}" alt="picto linkedin"/>
-      </div>
-    </div>
-    <div class="container_footer_locations">
-      <img class="container_footer_locations_image" src="${static.url('vinducentreloire/images/logo.png')}" alt="vin centre et loire" id="vcl-logo"/>
-      <p class="container_footer_locations_text">
-        <span class="container_footer_locations_text_title">Vins du centre loire</span> <br>
-        Sancerre <span class="container_footer_locations_text_red__span">Pouilly-Fumé</span> Menetou-Salon <span class="container_footer_locations_text_blue__span">Quincy</span>
-        Reuilly <span class="container_footer_locations_text_yellow__span">Coteux du Giennois</span> <span class="container_footer_locations_text_red__span">Châteaumeillant</span>
-        <span class="container_footer_locations_text_blue__span">Pouilly-sur-Loire</span> <span class="container_footer_locations_text_red__span">Côtes de la charité</span> <span class="container_footer_locations_text_yellow__span">Coteaux de tannay</span>
-      </p>
-    </div>
-    <div class="container_footer_links">
-      <p class="container_footer_links_text">Conditions générales</p>
-      <p class="container_footer_links_text text_underscore">_</p>
-      <p class="container_footer_links_text">Crédits</p>
-      <p class="container_footer_links_text text_underscore">_</p>
-      <p class="container_footer_links_text">Contact</p>
-    </div>
-  </div>
+
 </main>
 
 <script>

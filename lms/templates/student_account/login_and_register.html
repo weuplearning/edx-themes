@@ -1,0 +1,129 @@
+<%page expression_filter="h"/>
+<%!
+    import json
+    from django.utils.translation import ugettext as _
+    from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+    from openedx.core.djangolib.js_utils import dump_js_escaped_json
+%>
+<%namespace name='static' file='/static_content.html'/>
+
+<%inherit file="../main.html" />
+
+<%block name="pagetitle">${_("Sign in or Register")}</%block>
+<style>
+  #content-container {
+    min-height: calc(100vh - 515px);
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+  input[type="submit"], input[type="button"], button, .button {
+    box-shadow: none !important;
+    background-color: var(--primary);
+    background-image: none !important;
+    text-shadow: none !important;
+    border-radius: 0px;
+  }
+
+  .login-register{
+    margin: unset;
+    max-width: 700px;
+    margin-bottom: 80px;
+  }
+
+  .global-header{
+    border-bottom: none;
+    box-shadow: none;
+  }
+
+  .login-register, .financial-assistance-wrapper .financial-assistance-form{
+    padding: 30px;
+    border: 1px solid #717171;
+  }
+
+  .login-register .action-primary, .financial-assistance-wrapper .financial-assistance-form .action-primary{
+     background-color: var(--secundary);
+
+  }
+
+  .section-bkg-wrapper {
+    background-image: url("${static.url('vinducentreloire/images/Picto_people_1.png')}");
+  }
+  .login-register .form-field label.focus-out{
+    position: relative;
+    padding-left: 0px;
+    padding-top: 0px;
+    opacity: 1;
+  }
+  .login-register-content:after {
+    display: none !important;
+  }
+  .image_people {
+    height: 250px;
+  }
+
+
+  .checkbox-terms_of_service , .checkbox-honor_code {
+    display: none;
+  }
+
+</style>
+<%block name="js_extra">
+    <%static:require_module module_name="js/student_account/logistration_factory" class_name="LogistrationFactory">
+        var options = ${data | n, dump_js_escaped_json};
+        LogistrationFactory(options);
+        if ('newrelic' in window) {
+            newrelic.finished();
+            // Because of a New Relic bug, the finished() event doesn't show up
+            // in Insights, so we have to make a new PageAction that is basically
+            // the same thing. We still want newrelic.finished() for session
+            // traces though.
+            newrelic.addPageAction('xfinished');
+        }
+    </%static:require_module>
+    % if configuration_helpers.get_value('DISPLAY_TOS_IN_MODAL_ON_REGISTRATION_PAGE', False):
+    <script type="text/javascript" src="${static.url('js/student_account/tos_modal.js')}"></script>
+    % endif
+</%block>
+
+<%block name="header_extras">
+    % for template_name in ["account", "access", "form_field", "login", "register", "institution_login", "institution_register", "password_reset", "hinted_login"]:
+        <script type="text/template" id="${template_name}-tpl">
+            <%static:include path="student_account/${template_name}.underscore" />
+        </script>
+    % endfor
+</%block>
+<div class="section-bkg-wrapper">
+    <main id="main" aria-label="Content" tabindex="-1">
+        <div id="content-container" class="login-register-content">
+            % if enable_enterprise_sidebar:
+                <%include file="enterprise_sidebar.html" />
+                <%
+                    border_class = 'border-left'
+                %>
+            % else:
+                <%
+                    border_class = ''
+                %>
+            % endif
+            <img class="image_people" src="${static.url('vinducentreloire/images/Picto_people_1.png')}" alt="picto people"/>
+            <div id="login-and-registration-container" class="login-register ${border_class}"></div>
+        </div>
+    </main>
+</div>
+
+<%include file="../footer.html" />
+
+<script>
+  setTimeout(() => {
+    
+    let checkboxToCheck = document.getElementById('register-honor_code')
+    
+    console.log('checkboxToCheck');
+    console.log(checkboxToCheck);
+
+    checkboxToCheck.checked = true;
+
+  }, 500);
+
+</script>

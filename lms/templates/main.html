@@ -98,6 +98,20 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
   % else:
     <%static:css group='${self.attr.main_css}'/>
   % endif
+  <style>
+    :root {
+      --primary: #202837;
+      --secundary: #AB4218;
+      --ternary : #EB9C05;
+    }
+    h1,h2,h3,h4,h5,h6 {
+      font-family: 'Roboto Slab', 'Roboto', serif !important;
+    }
+    .content-wrapper {
+      max-width: unset !important;
+      padding: unset !important;
+    }
+  </style>
 
   % if disable_courseware_js:
     <%static:js group='base_vendor'/>
@@ -219,3 +233,4 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
     next=urlquote_plus(login_redirect_url if login_redirect_url else request.path)
   ) if (login_redirect_url or (request and not request.path.startswith("/logout"))) else ""
 }</%def>
+
