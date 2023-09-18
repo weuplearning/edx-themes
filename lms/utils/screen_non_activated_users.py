@@ -18,6 +18,7 @@ from opaque_keys.edx.locator import CourseLocator
 from common.djangoapps.student.models import CourseEnrollment
 from student.models import *
 from lms.djangoapps.wul_apps.models import WulCourseEnrollment
+from opaque_keys.edx.keys import CourseKey
 
 
 from openpyxl import Workbook
@@ -41,34 +42,61 @@ timesfr = str(timesfr)
 
 
 
+_id = [
+    "course-v1:afpa+LaPatisserie+MOOCPatisserieAFPA_S1", # colonne K
+    "course-v1:afpa+LaPatisserie2+MOOCPatisserieAFPA_S2",
+    "course-v1:afpa+MOOC_FLE_AFPA+FLE",
+    "course-v1:afpa+Metsetvins+MOOCmetsetvinsAFPA_S3",
+    "course-v1:afpa+Les101techniquesdebase+MOOCCUISINEAFPA",
+    "course-v1:afpa+Les101techniquesdebase+MOOCCUISINEAFPA_S2",
+    "course-v1:afpa+Les101techniquesdebase+MOOCCUISINEAFPA_S3",
+    "course-v1:afpa+Les101techniquesreplay+2019",
+    "course-v1:afpa+occitanie+2019_S1",
+    "course-v1:afpa+MOOC_FLI+FLI_2019",
+    "course-v1:afpa+La_Patisserie_Replay_2020+2020", # colonne U
+    "course-v1:afpa+Mets_et_vins_replay_2020+2020",
+    "course-v1:afpa+FLI+2023",
+    "course-v1:afpa+replay_2020+2020",
+    "course-v1:afpa+mixite+mixite_2020",
+    "course-v1:afpa+CPF+CPF_2020",
+    "course-v1:afpa+inclusion_sociale+2020", # colonne AA
+    "course-v1:afpa+TRE_2020+2020",
+    "course-v1:afpa+MATU+2020",
+    "course-v1:afpa+love_food+2020",
+    "course-v1:afpa+inclusion_sociale+2023" # colonne AE
+]
+
+
+
 
 #PREPARE LE XLS
 
-filename = '/edx/var/edxapp/media/microsites/afpa/non_activated_users.xlsx'.format(timestr)
+filename = '/edx/var/edxapp/media/microsites/afpa/reports_non_activated_afpa_users.xlsx'.format(timestr)
 wb = Workbook()
 sheet = wb.active
 sheet.title= 'Enroll'
 
 
-users = User.objects.all()
-
 i = 1
-for user in users:
+for course_id in _id :
 
-    # log.info(user)
-    # log.info(dir(user))
-    # log.info(user.is_active)
-    # log.info(user["is_active"])
-    if user.email.find('@yopmail') != -1 :
-        continue
+    course_key = CourseKey.from_string(course_id)
+    enrollments = CourseEnrollment.objects.filter(course_id=course_key)
 
-    if user.is_active :
-        continue 
-    else :
-        log.info(user.email)
-        sheet.cell(i, 1,user.email)
-    
-    i = i+1
+    for user in enrollments:
+        user = user.user
+
+        email = user.email.lower()
+        if email.find('@yopmail') != -1 or email.find('@example') != -1 or email.find('@orange.fr') != -1 or email.find('@gmail.com') != -1 or email.find('@live.fr') != -1 or email.find('@yahoo.fr') != -1 or email.find('@hotmail.fr') != -1  :
+            continue
+
+
+        if user.is_active :
+            continue 
+        else :
+            sheet.cell(i, 1, email)
+        
+        i = i+1
 
 
 
