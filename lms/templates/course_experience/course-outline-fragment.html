@@ -16,6 +16,8 @@ from django.utils.translation import ngettext
 from lms.djangoapps.courseware.access import has_access
 from openedx.core.djangolib.markup import HTML, Text
 from openedx.features.course_experience import RELATIVE_DATES_FLAG
+from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+
 %>
 
 <%
@@ -38,137 +40,94 @@ dates_banner_displayed = False
         <ol class="block-tree accordion"
             id="course-outline-block-tree"
             aria-labelledby="expand-collapse-outline-all-button">
-        % for section in course_sections:
+        <!-- % for section in course_sections: -->
+        % for primary_index, section in enumerate(course_sections):
+
             <%
-            section_is_auto_opened = section.get('resume_block') is True
             scored = 'scored' if section.get('scored', False) else ''
+            img_link = 'vinducentreloire/images/' + str(section['id']).split('@')[2] +'.png'
             %>
                 <li class="outline-item section ${scored}">
-                    <button class="section-name accordion-trigger outline-button"
-                            aria-expanded="${ 'true' if section_is_auto_opened else 'false' }"
-                            aria-controls="${ section['id'] }_contents"
-                            id="${ section['id'] }">
-                        <span class="fa fa-chevron-right ${ 'fa-rotate-90' if section_is_auto_opened else '' }" aria-hidden="true"></span>
-                        <h3 class="section-title">${ section['display_name'] }</h3>
-            % if section.get('complete'):
-                            <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
-                            <span class="sr">${_("Completed")}</span>
-            % endif
-                    </button>
-                    <ol class="outline-item accordion-panel ${ '' if section_is_auto_opened else 'is-hidden' }"
-                        id="${ section['id'] }_contents"
-                        aria-labelledby="${ section['id'] }">
-            % for subsection in section.get('children', []):
-                <%
-                gated_subsection = subsection['id'] in gated_content
-                needs_prereqs = not gated_content[subsection['id']]['completed_prereqs'] if gated_subsection else False
-                scored = 'scored' if subsection.get('scored', False) else ''
-                graded = 'graded' if subsection.get('graded') else ''
-                num_graded_problems = subsection.get('num_graded_problems', 0)
-                %>
-                        <li class="subsection accordion ${ 'current' if subsection.get('resume_block') else '' } ${graded} ${scored}">
-                            <a
-                            % if enable_links:
-                                href="${ subsection['lms_web_url'] }"
-                            % else:
-                                aria-disabled="true"
-                            % endif
-                                class="subsection-text outline-button"
-                                id="${ subsection['id'] }"
-                            >
-                            % if graded and scored and 'special_exam_info' not in subsection:
-                                      <span class="icon fa fa-pencil-square-o" aria-hidden="true"></span>
-                            % endif
-                                      <h4 class="subsection-title">
-                                          ${ subsection['display_name'] }
-                            % if num_graded_problems:
-<!--
-                                          ${ngettext("({number} Question)",
-                                                     "({number} Questions)",
-                                                     num_graded_problems).format(number=num_graded_problems)}
--->
-                            % endif
-                                      </h4>
+                    <div>
+                        <img src="${static.url(img_link)}" alt="vignette-section" class="vignette-section">
+                    </div>
+                    <div>
 
-                            % if subsection.get('complete'):
-                                <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
-                                <span class="sr">${_("Completed")}</span>
+                        <button class="section-name accordion-trigger outline-button"
+                                aria-expanded="${ 'true' }"
+                                aria-controls="${ section['id'] }_contents"
+                                id="${ section['id'] }">
+                            <h3 class="section-title">${ section['display_name'] }</h3>
+                        </button>
+                        <ol class="outline-item accordion-panel"
+                            id="${ section['id'] }_contents"
+                            aria-labelledby="${ section['id'] }">
+                % for subsection in section.get('children', []):
+                    <%
+                    gated_subsection = subsection['id'] in gated_content
+                    needs_prereqs = not gated_content[subsection['id']]['completed_prereqs'] if gated_subsection else False
+                    scored = 'scored' if subsection.get('scored', False) else ''
+                    graded = 'graded' if subsection.get('graded') else ''
+                    num_graded_problems = subsection.get('num_graded_problems', 0)
+                    %>
+                            <li class="subsection accordion ${ 'current' if subsection.get('resume_block') else '' } ${graded} ${scored}">
+                                <a
+                                % if enable_links:
+                                    href="${ subsection['lms_web_url'] }"
+                                % else:
+                                    aria-disabled="true"
+                                % endif
+                                    class="subsection-text outline-button"
+                                    id="${ subsection['id'] }"
+                                >
+                                    <h4 class="subsection-title">${ subsection['display_name'] }</h4>
+                                </a>
+                            </li>
+                % endfor
+                        </ol>
+                        
+                        <!-- progress bar start -->
+                        %if configuration_helpers.get_value('COMPLETION_BASED_DASHBOARD_MONO', False):
 
-                            % endif
-                            % if needs_prereqs:
-                                    <div class="details prerequisite">
-                                        <span class="prerequisites-icon icon fa fa-lock" aria-hidden="true"></span>
-                                        ${ _("Prerequisite: ") }
-                                            <%
-                                                prerequisite_id = gated_content[subsection['id']]['prerequisite']
-                                                prerequisite_name = xblock_display_names.get(prerequisite_id)
-                                            %>
-                                            ${ prerequisite_name }
-                                    </div>
-                            % endif
-                                        <div class="details">
+                            <%
+                            total_blocks = 1
+                            completed_blocks = 0
 
-                ## There are behavior differences between rendering of subsections which have
-                ## exams (timed, graded, etc) and those that do not.
-                ##
-                ## Exam subsections expose exam status message field as well as a status icon
-                <%
-                if subsection.get('due') is None or (self_paced and not in_edx_when):
-                    # examples: Homework, Lab, etc.
-                    data_string = subsection.get('format')
-                    data_datetime = ""
-                else:
-                    if 'special_exam_info' in subsection:
-                        data_string = _('due {date}')
-                    else:
-                        data_string = _("{subsection_format} due {{date}}").format(subsection_format=subsection.get('format'))
-                    data_datetime = subsection.get('due')
-                %>
-                % if subsection.get('format') or 'special_exam_info' in subsection:
-                                            <span class="subtitle">
-                    % if 'special_exam_info' in subsection:
-                                                    ## Display the exam status icon and status message
-                                                    <span
-                                                        class="menu-icon icon fa ${subsection['special_exam_info'].get('suggested_icon', 'fa-pencil-square-o')} ${subsection['special_exam_info'].get('status', 'eligible')}"
-                                                        aria-hidden="true"
-                                                    ></span>
-                                                    <span class="subtitle-name">
-                                                        ${subsection['special_exam_info'].get('short_description', '')}
-                                                    </span>
+                            if not section.get('complete'):
+                                total_blocks = 0
+                                completed_blocks = 0
+                                for subsection in section.get('children', []):
+                                    for unitchild in subsection.get('children', []):
+                                        for blockchild in unitchild.get('children', []):
+                                            total_blocks += 1
+                                            if blockchild.get('complete'):
+                                                completed_blocks += 1
 
-                        ## completed exam statuses should not show the due date
-                        ## since the exam has already been submitted by the user
-                        % if not subsection['special_exam_info'].get('in_completed_state', False):
-                                                        <span
-                                                            class="localized-datetime subtitle-name"
-                                                            data-datetime="${data_datetime}"
-                                                            data-string="${data_string}"
-                                                            data-timezone="${user_timezone}"
-                                                            data-language="${user_language}"
-                                                        ></span>
-                        % endif
-                    % else:
-                                                    ## non-graded section, we just show the exam format and the due date
-                                                    ## this is the standard case in edx-platform
-                                                    <span
-                                                        class="localized-datetime subtitle-name"
-                                                        data-datetime="${data_datetime}"
-                                                        data-string="${data_string}"
-                                                        data-timezone="${user_timezone}"
-                                                        data-language="${user_language}"
-                                                    ></span>
+                            if total_blocks == 0:
+                                completion_ratio = 0
+                            else:
+                                completion_ratio = completed_blocks / total_blocks
+                            %>
+                            <div class="progress_bar_and_score">
+                                <div class="progress-bar-full">
+                                    <div style="width:${(completion_ratio * 96)}%;" class="progress-bar-grade progress_bar_index_${primary_index}"></div>
+                                </div>
+                                <h2 class="completed_percent"> ${int(completion_ratio * 100)} %</h2>
+                            </div>
 
-                        % if subsection.get('graded'):
-                                                <span class="sr">&nbsp;${_("This content is graded")}</span>
-                        % endif
-                    % endif
-                                            </span>
-                % endif
-                                        </div> <!-- /details -->
-                            </a>
-                        </li>
-            % endfor
-                    </ol>
+                        %else:
+                            %for index, chapter in enumerate(user_grade.chapter_grades.keys()):
+                                %if section['display_name'] == user_grade.chapter_grades[chapter]['display_name']:
+
+                                <div class="progress-bar-full">
+                                    <div style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade progress_bar_index_${primary_index}"></div>
+                                    <div class="grade-value">${int(user_grade.chapter_percentage(chapter) * 100)}%</div>
+                                </div>
+                                %endif
+                            %endfor
+                        %endif
+                        <!-- progress bar end -->
+                    </div>
                 </li>
         % endfor
         </ol>

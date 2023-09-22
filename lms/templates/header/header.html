@@ -108,3 +108,49 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         </form>
     % endif
 % endif
+
+
+<style>
+
+  /* Not Authenticated */
+  .container_lang_flag{
+    width: auto;
+    max-width: 30px;
+    height: 100%;
+  }
+  .container_lang{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    margin: 21px 85px 0 85px;
+  }
+
+  /* Authenticated */
+  .svg-user {
+    height: 43px;
+    fill: var(--primary);
+    background-color: white;
+    border-radius: 100%;
+    width: 43px;
+    padding: 4px;
+  }
+  .global-header .secondary {
+    display: flex;
+    align-items: center;
+  }
+  .global-header .nav-links .secondary .nav-item {
+    padding: unset !important;
+  }
+  .container_lang_tampon{
+    max-width: 85px;
+    margin-left: 10px;
+  }
+
+  @media screen and (max-width:992px){
+    .container_lang_tampon{
+      max-width: 45px;
+    }
+  }
+
+</style>

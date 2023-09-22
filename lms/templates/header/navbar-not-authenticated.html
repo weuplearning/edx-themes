@@ -47,30 +47,31 @@ from openedx.core.djangoapps.user_authn.utils import should_redirect_to_logistra
     %endif
   % endif
   </div>
-  <!-- <div class="secondary">
-    <div>
-      % if allows_login:
-        % if allow_public_account_creation:
-          % if should_redirect_to_logistration_mfe:
-            <div class="mobile-nav-item hidden-mobile nav-item">
-                <a class="register-btn btn" href="${settings.LOGISTRATION_MICROFRONTEND_URL}/register${login_query()}">${_("Register")}</a>
-            </div>
-          % else:
-            <div class="mobile-nav-item hidden-mobile nav-item">
-                <a class="register-btn btn" href="/register${login_query()}">${_("Register")}</a>
-            </div>
-          % endif
-        % endif
-        % if should_redirect_to_logistration_mfe:
-          <div class="mobile-nav-item hidden-mobile nav-item">
-              <a class="sign-in-btn btn" href="${settings.LOGISTRATION_MICROFRONTEND_URL}/login${login_query()}">${_("Sign in")}</a>
-          </div>
-        % else:
-          <div class="mobile-nav-item hidden-mobile nav-item">
-              <a class="sign-in-btn btn" href="/login${login_query()}">${_("Sign in")}</a>
-          </div>
-        % endif
-      % endif
+  <div class="secondary">
+
+    <div class="container_lang">
+      <img class="container_lang_flag" src="${static.url('vinducentreloire/images/flag_uk.png')}" alt="lang_uk">
+      <img class="container_lang_flag" src="${static.url('vinducentreloire/images/flag_fr.png')}" alt="lang_fr">
+      <img class="container_lang_tampon" src="${static.url('vinducentreloire/images/logo tampon.png')}" alt="tampon">
     </div>
-  </div> -->
+
+  </div>
 </nav>
+
+<style>
+  .container_lang_flag{
+    width: auto;
+    max-width: 30px;
+    height: 100%;
+  }
+
+
+  .container_lang{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    margin: 21px 85px 0 85px;
+  }
+
+</style>
