@@ -1,0 +1,198 @@
+
+<%page expression_filter="h"/>
+<%namespace name='static' file='../static_content.html'/>
+
+<%! 
+import json
+from django.utils.translation import ugettext as _ 
+from openedx.core.djangolib.js_utils import dump_js_escaped_json, js_escaped_string
+from lms.djangoapps.wul_apps.models import WulCourseEnrollment
+%>
+<%page args="courses" expression_filter="h"/>
+<%
+daily_time_tracking = []
+for course in courses:
+    test_123 = WulCourseEnrollment.get_enrollment(str(course.course_id), user)
+    daily_time_tracking.append(test_123.daily_time_tracking)
+%>
+
+
+<main id="gamification-main" aria-label="Content" tabindex="-1">
+    <p id="adsDate">Revoir le webinaire du : <span>25 Juillet</span> </p>
+    <img class="logo-home" src="${static.url('amazon/images/visuel_annonce.png')}" alt="visuel_annonce" />
+    <div class="horizontal-align bottomTextInfo">
+        <div class="vertical-align">
+            <p>Jérôme Savajols</p>
+            <p>Directeur associé de l’Atelier de La Plateforme</p>
+        </div>
+        <a id="enrollmentButton" href="https://www.youtube.com/watch?v=aSwNC2s6pAo&ab_channel=Acc%C3%A9l%C3%A9rateurduNum%C3%A9rique" target='_blank' >
+            ${_("Voir le replay")}
+        </a>
+    </div>
+
+
+    <!-- <h1 id="gamification-title" >
+        Annonce
+    </h1>
+    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi expedita vel quia blanditiis rem molesum? Obcaecati consectetur voluptatem facmollitiaere accusamus asperiores voluptas  nulla distinctio officia suscipit.</p> -->
+    <!-- <p>
+        wul_apps/gamification.html
+        <span id="icone-entreprise" class="hidden-icone" >Success</span>
+    </p>
+    <ul id="list-days">
+        <li class="activity" id="day-0">today</li>
+        <li class="activity" id="day-1">1 day ago</li>
+        <li class="activity" id="day-2">2 days ago</li>
+        <li class="activity" id="day-3">3 days ago</li>
+        <li class="activity" id="day-4">4 days ago</li>
+        <li class="activity" id="day-5">5 days ago</li>
+        <li class="activity" id="day-6">6 days ago</li>
+    </ul> -->
+</main>
+
+<style>
+    #gamification-main {
+        width: 100%;
+        height: 100%;
+        border-radius: 6px 6px 15px 15px;
+        max-height: 405px;
+        position: relative;
+    }
+    #gamification-main img {
+        width: 100%;
+        height: 100% ;
+        /* max-height: 425px; */
+        border-radius: 6px 6px 15px 15px;
+        object-fit: cover;
+    }
+
+    #list-days {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        list-style: none;
+        padding: 20px;
+    }
+    .activity {
+        flex:1;
+        text-align: center;
+    }
+    .hidden-icone {
+        display: none;
+    }
+
+    .vertical-align {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+    }
+    .horizontal-align {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    #adsDate {
+        color: orangered;
+        padding: 10px 15px;
+        background-color: white;
+        border-radius: 0 0 18px 18px;
+        position: absolute;
+        left: 15px;
+    }
+    #adsDate span {
+        color: black;
+        font-weight: 900;
+    }
+    #gamification-main p+p {
+        margin-top: 6px;
+    }
+    .bottomTextInfo {
+        padding: 5px 20px;
+        height: 60px;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        box-sizing: border-box;
+        background-color: white;
+        border-radius: 15px 0 15px 15px;
+        box-shadow: 2px -1px 10px ;
+    }
+
+    #enrollmentButton {
+        padding: 10px;
+        background-color: orangered;
+        color: white;
+        border-radius: 8px;
+        cursor: pointer;
+        text-align: center;
+    }
+
+
+</style>
+
+<!-- <script>
+    // access CF
+    let customField = ${user.profile.custom_field | n, decode.utf8}
+    for (const key in customField) {
+        if (Object.hasOwnProperty.call(customField, key)) {
+            const value = customField[key];
+            // console.log('key - value');
+            // console.log(key);
+            // console.log(value);
+            if (key == 'enterprise' && value == 'weup') {
+                document.getElementById('icone-entreprise').style.display = 'block'
+            }
+        }
+    }
+
+    // generate a list of the last seven days
+    function lastSevenDays() {
+        var dates = [];
+        for (var i = 0; i < 7; i++) {
+            var date = new Date();
+            date.setDate(date.getDate() - i);
+
+            var day = ('0' + date.getDate()).slice(-2);
+            var month = ('0' + (date.getMonth() + 1)).slice(-2);
+
+            var formattedDate = day + '-' + month + '-' + date.getFullYear()
+            dates.push(formattedDate);
+        }
+        return dates;
+    }
+    const last_seven_days = lastSevenDays()
+
+
+    // Format daily_time_tracking Array to Object
+    daily_tt_raw = ${daily_time_tracking | n, decode.utf8}
+    daily_tt = transformToObj(daily_tt_raw)
+    function transformToObj(inputList) {
+        let outputObj = {};
+        for (let i = 0; i < inputList.length; i++) {
+            let innerObj = JSON.parse(inputList[i]);
+            for (let innerKey in innerObj) {
+                // erase key of the same day 
+                outputObj[innerKey] = innerObj[innerKey];
+            }
+            if (Object.keys(innerObj).length === 0) {
+                outputObj[inputList[i]] = 0;
+            }
+        }
+        return outputObj;
+    }
+
+    // Loop over last_seven_days to check time tracking 
+    for (let i = 0; i < last_seven_days.length; i++) {
+        // i = 0 is today
+        const day = last_seven_days[i];
+        if (day in daily_tt) {
+            let targeted_input = document.getElementById('day-'+i)
+            // apply modification
+            targeted_input.style.color = 'red';
+        }
+    }
+
+
+
+</script> -->
+

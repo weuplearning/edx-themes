@@ -1,0 +1,168 @@
+<%page expression_filter="h"/>
+
+<%!
+import json
+
+from django.urls import reverse
+from django.conf import settings
+from django.utils.translation import ugettext as _
+
+from openedx.core.djangolib.js_utils import dump_js_escaped_json, js_escaped_string
+from openedx.core.djangolib.markup import HTML
+from webpack_loader.templatetags.webpack_loader import render_bundle
+from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_feature_enabled
+%>
+
+<%inherit file="/main.html" />
+<%def name="online_help_token()"><% return "learneraccountsettings" %></%def>
+<%namespace name='static' file='/static_content.html'/>
+
+<%block name="pagetitle">${_("Account Settings")}</%block>
+
+% if duplicate_provider:
+    <section>
+        <%include file='/dashboard/_dashboard_third_party_error.html' />
+    </section>
+% endif
+
+<div class="wrapper-account-settings"></div>
+<%block name="headextra">
+    <%static:css group='style-course'/>
+    <link type="text/css" rel="stylesheet" href="${STATIC_URL}paragon/static/paragon.min.css">
+</%block>
+
+<%block name="js_extra">
+<%static:require_module module_name="js/student_account/views/account_settings_factory" class_name="AccountSettingsFactory">
+    var fieldsData = ${ fields | n, dump_js_escaped_json },
+        ordersHistoryData = ${ order_history | n, dump_js_escaped_json },
+        authData = ${ auth | n, dump_js_escaped_json },
+        platformName = '${ static.get_platform_name() | n, js_escaped_string }',
+        contactEmail = '${ static.get_contact_email_address() | n, js_escaped_string }',
+        allowEmailChange = ${ bool(settings.FEATURES['ALLOW_EMAIL_ADDRESS_CHANGE']) | n, dump_js_escaped_json },
+        socialPlatforms = ${ settings.SOCIAL_PLATFORMS | n, dump_js_escaped_json },
+
+        syncLearnerProfileData = ${ bool(sync_learner_profile_data) | n, dump_js_escaped_json },
+        enterpriseName = '${ enterprise_name | n, js_escaped_string }',
+        enterpriseReadonlyAccountFields = ${ enterprise_readonly_account_fields | n, dump_js_escaped_json },
+        edxSupportUrl = '${ edx_support_url | n, js_escaped_string }',
+        extendedProfileFields = ${ extended_profile_fields | n, dump_js_escaped_json },
+        displayAccountDeletion = ${ enable_account_deletion | n, dump_js_escaped_json};
+        isSecondaryEmailFeatureEnabled = ${ bool(is_secondary_email_feature_enabled()) | n, dump_js_escaped_json },
+
+    AccountSettingsFactory(
+        fieldsData,
+        ${ disable_order_history_tab | n, dump_js_escaped_json },
+        ordersHistoryData,
+        authData,
+        '${ password_reset_support_link | n, js_escaped_string }',
+        '${ user_accounts_api_url | n, js_escaped_string }',
+        '${ user_preferences_api_url | n, js_escaped_string }',
+        ${ user.id | n, dump_js_escaped_json },
+        platformName,
+        contactEmail,
+        allowEmailChange,
+        socialPlatforms,
+
+        syncLearnerProfileData,
+        enterpriseName,
+        enterpriseReadonlyAccountFields,
+        edxSupportUrl,
+        extendedProfileFields,
+        displayAccountDeletion,
+        isSecondaryEmailFeatureEnabled,
+        ${ beta_language | n, dump_js_escaped_json },
+    );
+</%static:require_module>
+
+<h1>PPPPPPPPPPPPOOOOOOOOOOOO</h1>
+
+<script type="text/javascript">
+     window.auth = ${ auth | n, dump_js_escaped_json };
+     window.isActive = ${ user.is_active | n, dump_js_escaped_json };
+     window.additionalSiteSpecificDeletionText = "${ static.get_value('SITE_SPECIFIC_DELETION_TEXT', _(' and access to private sites offered by MIT Open Learning, Wharton Executive Education, and Harvard Medical School')) | n, js_escaped_string }";
+     window.mktgRootLink = "${ static.marketing_link('ROOT') | n, js_escaped_string }";
+     window.platformName = "${ platform_name | n, js_escaped_string }";
+     window.siteName = "${ static.get_value('SITE_NAME', settings.SITE_NAME) | n, js_escaped_string }";
+
+</script>
+<%static:webpack entry="StudentAccountDeletionInitializer">
+</%static:webpack>
+</%block>
+
+
+<script>
+
+    window.addEventListener("load", function () {
+            let currentLanguage =  "FR"
+            const titleLanguage = document.getElementsByClassName("header-title")[0].innerText
+            if (titleLanguage == "Account instellingen") {
+                currentLanguage = "nl_nl"
+            }
+            console.log(currentLanguage)
+            if (currentLanguage == 'nl_nl') {
+                document.getElementById("u-field-message-help-username").innerText = "Uw naam op L’Accélérateur du Numérique. U kunt uw gebruikersnaam niet wijzigen"
+                document.getElementById("u-field-message-help-email").innerText = "De berichten die u ontvangt van de website van L'Accélérateur du Numérique en de onderwijsteams worden naar dit adres gestuurd."
+                document.getElementById("u-field-message-help-password").innerText = "Controleer uw inbox voor instructies om uw wachtwoord opnieuw in te stellen."
+                document.getElementById("u-field-help-message-pref-lang").innerText = "De taal die op deze site wordt gebruikt. Deze site is alleen beschikbaar in bepaalde talen. Als u dit veld wijzigt, wordt de pagina automatisch ververst."
+                document.getElementById("u-field-help-message-country").innerText = "Je land of regio van verblijf."
+                document.getElementById("u-field-help-message-time_zone").innerText = "Selecteer de tijdzone voor het weergeven van cursusdata. Als je geen tijdzone opgeeft, worden de cursusdata, inclusief deadlines voor opdrachten, weergegeven volgens de lokale tijdzone van je browser."
+                document.querySelector('label.u-field-title.field-label[for="u-field-select-level_of_education"]').innerText  = "Opleidingsniveau"
+                document.getElementsByClassName("account-settings-header-subtitle-warning")[0].innerText = "Houd er rekening mee dat het verwijderen van je account permanent en onomkeerbaar is: Het verwijderen van je account is permanent en onomkeerbaar. Lees het volgende in detail voordat u verder gaat. Deze actie is onomkeerbaar en je zult niet langer hetzelfde e-mailadres kunnen gebruiken om je opnieuw te registreren op de website van L'Accélérateur du Numérique."
+                document.getElementsByClassName("u-field-order-number")[0].innerText = "BESTELNUMMER"
+                document.getElementsByClassName("u-field-order-date")[0].innerText = "ONTVANGEN BESTELLINGEN"
+                document.getElementsByClassName("u-field-order-price")[0].innerText = "totaal"
+
+                const subTitleList = document.getElementsByClassName("account-settings-header-subtitle")
+
+                for (let subTitle of subTitleList) {
+                    if (subTitle.innerText == "Si vous le souhaitez, vous pouvez relier vos comptes personnels à vos réseaux sociaux") {
+                        subTitle.innerText = "Als u wilt, kunt u uw persoonlijke accounts koppelen aan uw sociale netwerken"
+                    }
+                }
+
+                const leaveMessage = document.getElementsByClassName("account-settings-header-subtitle")
+                for (let section of leaveMessage) {
+                    switch (section.innerText) {
+                        case "Nous sommes navrés de vous voir partir !":
+                            section.innerText = "We vinden het jammer dat je weggaat!";
+                            break;
+                        case "Remarque: la suppression de votre compte et de vos données personnelles est définitive et irréversible. Une fois votre compte supprimé, vous ne pourrez plus utiliser vos identifiants pour acccéder au contenu du site internet L’Accélérateur du Numérique. Vous perdrez également l'accès à vos badges de validation de module.":
+                            section.innerText = "Let op: de verwijdering van je account en je persoonlijke gegevens is definitief en onomkeerbaar. Zodra je account is verwijderd, kun je je inloggegevens niet meer gebruiken om toegang te krijgen tot content op de website van L'Accélérateur du Numérique. Je verliest ook de toegang tot je modulevalidatiebadges.";
+                            break;
+                        case "Cette page contient des informations à propos des commandes que vous avez passés avec L’Accélérateur du Numérique.":
+                            section.innerText = "Deze pagina bevat informatie over de bestellingen die je bij L'Accélérateur du Numérique hebt geplaatst.";
+                            break;
+
+                        case "Vous pouvez également perdre l'accès aux certificats vérifiés et aux autres crédits de programmes comme les certificats MicroMasters. Si vous souhaitez en faire une copie pour vos archives avant de poursuivre la suppression, veuillez suivre les instructions pour imprimer ou télécharger un certificat.":
+                            section.innerText = "Je kunt ook de toegang verliezen tot geverifieerde certificaten en andere programmakredieten zoals MicroMasters-certificaten. Als je een kopie wilt maken voor je administratie voordat je verder gaat met het verwijderen, volg dan de instructies om een certificaat af te drukken of te downloaden.";
+                            break;
+                        case "Une fois votre compte supprimé, vous ne pourrez plus suivre les contenus du site internet L’Accélérateur du Numérique (amazon-belgique.qualif.dev) ou sur quelque terminal que ce soit y compris une éventuelle application mobile de L’Accélérateur du Numérique. Cela inclut l'accès à amazon-belgique.qualif.dev depuis les systèmes de votre entreprise ou établissement d’enseignement and access to private sites offered by MIT Open Learning, Wharton Executive Education, and Harvard Medical School.":
+                            section.innerText = "Zodra uw account is verwijderd, kunt u de inhoud van de website van L'Accélérateur du Numérique (amazon-belgique.qualif.dev) of op welke terminal dan ook, met inbegrip van mobiele toepassingen van L'Accélérateur du Numérique, niet meer volgen. Dit omvat de toegang tot amazon-belgique.qualif.dev vanuit de systemen van uw bedrijf of onderwijsinstelling en de toegang tot privé-sites aangeboden door MIT Open Learning, Wharton Executive Education en Harvard Medical School.";
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+
+                const titleList = document.getElementsByClassName("section-header");
+                for (let title of titleList) {
+                    switch (title.innerText) {
+                        case "Information additionnelle":
+                            title.innerText = "Aanvullende informatie";
+                            break;
+                        case "Liens vers les réseaux sociaux":
+                            title.innerText = "Koppelingen naar sociale netwerken";
+                            break;
+                        case "Mes Commandes":
+                            title.innerText = "Mijn bestellingen";
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+            }
+        }
+        );
+    </script>

@@ -1,0 +1,102 @@
+<!-- Cookie Consent -->
+<%page expression_filter="h"/>
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='../static_content.html'/>
+ 
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.1/cookieconsent.min.css" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.1/cookieconsent.min.js"></script>
+<style>
+a.cc-link:hover,a.cc-btn:hover{
+  color:#f90;
+}
+
+#cookiepopup {
+  position:fixed;
+  top:0;
+  left:0;
+  width:100vw;
+  height:100vh;
+  background:rgba(0,0,0,0.3);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+
+</style>
+<script>
+window.addEventListener("load", function(){
+  window.cookieconsent.initialise({
+    cookie: {expiryDays: 90},
+    window: '<div dir="${static.dir_rtl()}" role="dialog" tabindex="-1" id="cookiepopup" aria-label="cookieconsent" class="cc-window"><div class="cc-window {{classes}}"><!--googleoff: all-->{{children}}<!--googleon: all--></div></div>',
+
+    palette:{
+      popup: {background: "#323538", text: "#ffffff"},
+      button: {background: "#f90", text: "#ffffff"},
+    },
+    "content": {
+      "message": "Amazon Europe Core SARL utilise des cookies sur ce site pour mesurer son audience, analyser les contenus consultés, l’optimiser et pour mesurer la performance des campagnes pour le site effectuées sur les réseaux sociaux.",
+      "dismiss": "Refuser",
+      "allow": "Accepter",
+      "link": "${_('Learn more')}",
+      "href": "/cookies",
+      "policy": "Politique cookies",
+    },
+    elements: {
+      allow: '<a aria-label="allow cookies" tabindex="0" class="cc-btn cc-allow" id="allow">{{allow}}</a>',
+    },
+    theme: "classic",
+    "position": "floating",
+    "type": "opt-in",
+    onStatusChange: function(status) {
+	  if(status == "allow"){
+		gtag('consent', 'update', {
+		  ad_storage: 'granted',
+		  analytics_storage: 'granted',
+		});
+
+		//Facebook Pixel Amazon - 1st feb 2021
+		  !function(f,b,e,v,n,t,s)
+		  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+		  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+		  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+		  n.queue=[];t=b.createElement(e);t.async=!0;
+		  t.src=v;s=b.getElementsByTagName(e)[0];
+		  s.parentNode.insertBefore(t,s)}(window, document,'script',
+		  'https://connect.facebook.net/en_US/fbevents.js');
+		  fbq('init', '727182344599978');
+		  fbq('track', 'PageView');
+
+		//LinkedIn Amazon - 1st feb 2021
+		_linkedin_partner_id = "2919596";
+		window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+		window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+		(function(){var s = document.getElementsByTagName("script")[0];
+		var b = document.createElement("script");
+		b.type = "text/javascript";b.async = true;
+		b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+		s.parentNode.insertBefore(b, s);})();
+		
+		$.ajax({url:"https://services.themoocagency.com/rating/record_vote.php?name=amazon_acceptcookie&user_vote=5"});
+	  }else{
+	    $.ajax({url:"https://services.themoocagency.com/rating/record_vote.php?name=amazon_declinecookie&user_vote=5"});
+	  }
+    }
+  },
+  function(popup){
+    $(".cc-window").on('keydown', function(event) {
+      console.log(event.keyCode)  
+      if (event.keyCode == 27 ){
+        popup.close();
+      } 
+    });
+
+    $("#dismiss").on('keydown', function(event) {
+      if (event.keyCode == 13 || event.keyCode == 32 ) {
+        popup.onButtonClick(event);
+      }
+    });
+  });
+});
+</script>

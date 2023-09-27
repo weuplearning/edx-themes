@@ -1,0 +1,64 @@
+<% css = '/media/wul_apps/dashboard/reset.css' %>
+<%page expression_filter="h"/>
+<%inherit file="../main.html" />
+<%namespace name='static' file='../static_content.html'/>
+<%! from django.utils.translation import ugettext as _ %>
+
+<%include file="../learner_dashboard/_dashboard_navigation_courses.html"/>
+
+
+<script type="module" crossorigin src="/media/microsites/amazon/react_event/build/20230908/index-2d521d6b.js"></script>
+<!-- <script type="module" crossorigin src="/media/microsites/amazon/react_event/assets/index-33137d8a.js"></script> -->
+<link rel="stylesheet" type="text/css" href="${css}" />
+<link rel="stylesheet" href="/media/microsites/amazon/react_event/build/20230908/index-9b7cf009.css">
+<!-- <link rel="stylesheet" href="/media/microsites/amazon/react_event/assets/index-2c7cfbea.css"> -->
+
+<div id="root"></div>
+    
+<style>
+    button:hover:not(:disabled) {
+  background-color: #5c656c;
+  color: #fff;
+}
+
+label {font: inherit;}
+</style>
+
+<script>
+// Read Google Drive API 
+setTimeout(() => {
+    
+    let jsonData = {};
+    const url = '/wul_apps/read_google_drive_file';
+    // Mettre à jour l'ID de fichier à récupérer 
+    const data = {id: '1WHsuIO7MkNR9z57MCLFLgNfULc-EkkDf'};
+    // const data = {id: '1MGSfm55b_ubv28QMcsA98Tl2trukDrOu'};
+
+    const request = new Promise((resolve, reject) => {
+        $.ajax({
+            url: url,
+            method: 'POST',
+            headers: {'Content-Type': 'application/json' },
+            data: JSON.stringify(data),
+            dataType: 'json',
+            success: function(response){
+                resolve(response);
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+                reject(error);
+            }
+        });
+    });
+
+    request.then((response) => {
+        jsonData = response;
+        // What to do with the JSON 
+        // console.log('jsonData');
+        // console.log(jsonData);
+    }).catch((error) => {
+        console.log(error);
+    });
+
+}, 500);
+</script>

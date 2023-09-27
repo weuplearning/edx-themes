@@ -1,0 +1,296 @@
+<style>
+button[type=submit]{
+  background-color:#368093 !important;
+}
+#register h2{
+  color:#000 !important;
+}
+.login-register-content{
+  background: transparent !important;
+}
+.window-wrap {
+    background: url(/media/microsites/amazon/bg.png) !important;
+    min-height: 100vh !important;
+}
+.contact_us {
+background-color:#368093 !important;
+border: none;
+/* background-color: #343a40; */
+padding: 1ex 1em;
+text-transform: none;
+font-weight: 600 !important;
+letter-spacing: normal;
+margin-top: 20px;
+box-shadow: none !important;
+background-image: none !important;
+text-shadow: none !important;
+cursor: pointer;
+-webkit-appearance: button;
+font: normal 1.2rem/1.6rem "Roboto";
+text-align: center;
+text-decoration: none;
+text-align: center;
+text-decoration: none;
+border-radius: 5px;
+color: #fff !important;
+text-decoration: none !important;
+}
+.toggle-form{
+    display: flex;
+align-items: baseline;
+justify-content: space-between;
+}
+.register-button{
+    width: 100%;
+}
+.amazon-register-data{
+    margin-top: 5px;
+}
+
+</style>
+<div class="js-form-feedback" aria-live="assertive" tabindex="-1">
+</div>
+
+
+
+<form id="register" class="register-form" autocomplete="off" tabindex="-1" method="POST">
+    <% if (!context.currentProvider) { %>
+        <% if (context.providers.length > 0 || context.hasSecondaryProviders) { %>
+            <div class="login-providers">
+                <div class="section-title lines">
+                    <h3>
+                        <span class="text"><%- gettext("Create an account using") %></span>
+                    </h3>
+                </div>
+                <%
+                _.each( context.providers, function( provider) {
+                    if ( provider.registerUrl ) { %>
+                        <button type="button" class="button button-primary button-<%- provider.id %> login-provider register-<%- provider.id %>" data-provider-url="<%- provider.registerUrl %>">
+                            <div class="icon <% if ( provider.iconClass ) { %>fa <%- provider.iconClass %><% } %>" aria-hidden="true">
+                                <% if ( provider.iconImage ) { %>
+                                    <img class="icon-image" src="<%- provider.iconImage %>" alt="<%- provider.name %> icon" />
+                                <% } %>
+                            </div>
+                            <span aria-hidden="true"><%- provider.name %></span>
+                            <span class="sr"><%- _.sprintf( gettext("Create account using %(providerName)s."), {providerName: provider.name} ) %></span>
+                        </button>
+                <%  }
+                }); %>
+
+                <% if ( context.hasSecondaryProviders ) { %>
+                    <button type="button" class="button-secondary-login form-toggle" data-type="institution_login">
+                        <%- gettext("Use my institution/campus credentials") %>
+                    </button>
+                <% } %>
+            </div>
+            <div class="section-title lines">
+                <h3>
+                    <span class="text"><%- gettext("or create a new one here") %></span>
+                </h3>
+            </div>
+        <% } else { %>
+            <h2><%- gettext('Create an Account')%></h2>
+        <% } %>
+    <% } else if (context.autoRegisterWelcomeMessage) { %>
+        <span class="auto-register-message"><%- context.autoRegisterWelcomeMessage %></span>
+    <% } %>
+
+    <% if (!context.syncLearnerProfileData) { %>
+        <div class="toggle-form">
+            <p class="text">Vous possédez déja un compte ?</p>
+            <a class="contact_us" href="/login" data-type="login">Se connecter</a>
+        </div>
+    <% } %>
+
+    <%= context.fields /* xss-lint: disable=underscore-not-escaped */ %>
+
+    <div class="form-field checkbox-optional_fields_toggle" style="display:none">
+        <input type="checkbox" id="toggle_optional_fields" class="input-block checkbox"">
+        <label for="toggle_optional_fields">
+            <span class="label-text">
+                <%- gettext("Support education research by providing additional information") %>
+            </span>
+        </label>
+    </div>
+    <p class="amazon-register-data" style="text-align:justify"><br/><br/>
+    Les données personnelles renseignées via ce formulaire seront traitées par Amazon Europe Core SARL et ses sociétés affiliées pour les finalités décrites dans notre 
+    <a href="/privacy" target="_blank">Politique de confidentialité</a> qui vous permet également d’exercer vos droits.
+    </br></p>
+
+    <div style="display: flex;justify-content: space-evenly;">
+    <button type="submit" class="action action-primary action-update js-register register-button">
+    	<% if ( context.registerFormSubmitButtonText ) { %><%- context.registerFormSubmitButtonText %><% } else { %><%- gettext("Create Account") %><% } %>
+    </button>
+
+
+    </div>
+</form>
+
+
+<script>
+
+window.addEventListener("load", function () {
+        let currentLanguage =  "FR"
+        const titleLanguage = document.getElementsByTagName("h2")[0].innerText
+        if (titleLanguage == "Word lid van een gemeenschap van ondernemers") {
+            currentLanguage = "nl_nl"
+        }
+        console.log(currentLanguage)
+        if (currentLanguage == 'nl_nl') {
+            document.getElementsByClassName("text")[0].innerText  = "Heeft u al een account?"
+            document.getElementsByClassName("contact_us")[0].innerText  = "Inloggen"
+            document.querySelector('label[for="register-company"]').innerText = "Onderneming/SIRET (optioneel)"
+            document.querySelector('label[for="register-region"]').innerText = "Regio" 
+            document.querySelector('label[for="register-phone_number"]').innerText = "Telefoonnummer (optioneel)"
+            document.querySelector('label[for="register-online_sales"]').innerText = "Verkoopt u online? (optioneel)"
+            document.querySelector('label[for="register-terms_of_service"]').firstElementChild.firstChild.textContent = "Ik aanvaard de "
+            document.querySelector('a[href="/tos"][rel="noopener"][target="_blank"]').innerText = "van L'Accélérateur du Numérique"
+            document.getElementsByClassName("amazon-register-data")[0].innerText = "De persoonsgegevens die via dit formulier worden verstrekt, zullen worden verwerkt door Amazon Europe Core SARL en de aan haar gelieerde bedrijven voor de doeleinden die worden beschreven in ons Privacybeleid, waarmee u ook uw rechten kunt uitoefenen"
+            document.getElementById("register-name-desc").innerText = "Deze naam komt te staan op elk certificaat dat u behaalt"
+            document.getElementById("register-username-desc").innerText = "De naam waarmee u geïdentificeerd wordt op het platform. Deze kan later niet worden gewijzigd. Gebruikersnamen kunnen alleen letters (A-Z, a-z), cijfers (0-9), liggende streepjes (_) en koppeltekens (-) bevatten."
+        }
+    }
+    );
+setInterval(function(){
+  $("label[for=register-honor_code] span.label-text").html("J'accepte d'être contacté par Amazon dans le cadre de l'Accélérateur du Numérique");
+  $("label[for=register-company] span.label-text").html("Entreprise/SIRET");
+  $("label[for=register-specialty] span.label-text").html("Région");
+//  $(".form-field.checkbox-optional_fields_toggle").hide();
+//  $("#toggle_optional_fields").prop( "checked", true );
+  $("div.optional-fields").first().removeClass( "hidden" );
+  $('.focus-out').css('position', 'relative');
+  $('.focus-out').css('padding-top', 0);
+  $('.focus-out').css('padding-left', 0);
+  $('.focus-out').css('opacity', 1);
+},50);
+</script>
+
+<script id="gtm-jq-ajax-listen" type="text/javascript">
+ (function() {
+
+ 'use strict';
+ var $;
+ var n = 0;
+ init();
+
+ function init(n) {
+
+ // Ensure jQuery is available before anything
+ if (typeof jQuery !== 'undefined') {
+ 
+ // Define our $ shortcut locally
+ $ = jQuery;
+ bindToAjax();
+
+ // Check for up to 10 seconds
+ } else if (n < 20) {
+ 
+ n++;
+ setTimeout(init, 500);
+
+ }
+
+ }
+
+ function bindToAjax() {
+
+ $(document).bind('ajaxComplete', function(evt, jqXhr, opts) {
+
+ // Create a fake a element for magically simple URL parsing
+ var fullUrl = document.createElement('a');
+ fullUrl.href = opts.url;
+
+ // IE9+ strips the leading slash from a.pathname because who wants to get home on time Friday anyways
+ var pathname = fullUrl.pathname[0] === '/' ? fullUrl.pathname : '/' + fullUrl.pathname;
+ // Manually remove the leading question mark, if there is one
+ var queryString = fullUrl.search[0] === '?' ? fullUrl.search.slice(1) : fullUrl.search;
+ // Turn our params and headers into objects for easier reference
+ var queryParameters = objMap(queryString, '&', '=', true);
+ var headers = objMap(jqXhr.getAllResponseHeaders(), '\n', ':');
+
+ // Blindly push to the dataLayer because this fires within GTM
+ dataLayer.push({
+ 'event': 'ajaxComplete',
+ 'attributes': {
+ // Return empty strings to prevent accidental inheritance of old data
+ 'type': opts.type || '',
+ 'url': fullUrl.href || '',
+ 'queryParameters': queryParameters,
+ 'pathname': pathname || '',
+ 'hostname': fullUrl.hostname || '',
+ 'protocol': fullUrl.protocol || '',
+ 'fragment': fullUrl.hash || '',
+ 'statusCode': jqXhr.status || '',
+ 'statusText': jqXhr.statusText || '',
+ 'headers': headers,
+ 'timestamp': evt.timeStamp || '',
+ 'contentType': opts.contentType || '',
+ // Defer to jQuery's handling of the response
+ 'response': (jqXhr.responseJSON || jqXhr.responseXML || jqXhr.responseText || '')
+ }
+ });
+
+ });
+
+ }
+
+ function objMap(data, delim, spl, decode) {
+
+ var obj = {};
+
+ // If one of our parameters is missing, return an empty object
+ if (!data || !delim || !spl) {
+
+ return {};
+
+ }
+
+ var arr = data.split(delim);
+ var i;
+
+ if (arr) {
+
+ for (i = 0; i < arr.length; i++) {
+
+ // If the decode flag is present, URL decode the set
+ var item = decode ? decodeURIComponent(arr[i]) : arr[i];
+ var pair = item.split(spl);
+
+ var key = trim_(pair[0]);
+ var value = trim_(pair[1]);
+
+ if (key && value) {
+
+ obj[key] = value;
+
+ }
+
+ }
+
+ }
+
+ return obj;
+
+ }
+
+ // Basic .trim() polyfill
+ function trim_(str) {
+
+ if (str) {
+
+ return str.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
+
+ }
+
+ }
+
+
+ })();
+ /*
+ * v0.1.0
+ * Created by the Google Analytics consultants at http://www.lunametrics.com
+ * Written by @notdanwilkerson
+ * Documentation: http://www.lunametrics.com/blog/2015/08/27/ajax-event-listener-google-tag-manager/
+ * Licensed under the Creative Commons 4.0 Attribution Public License
+ */
+</script>

@@ -1,0 +1,5 @@
+
+The files are modified directly on the edx-platform, for reasons we don't know, the files used by the loader are not those from edx-themes. The problem appeared after the Amazon update in August 2023.
+
+Go to :
+/edx/app/edxapp/edx-platform/openedx/features/course_experience/templates/course_experience/
