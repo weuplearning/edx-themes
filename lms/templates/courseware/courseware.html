@@ -29,6 +29,9 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
     background-size: contain;
     background-color: var(--light-gray);
   }
+  div.sequence > #seq_content > .xblock > h2 , div.sequence > #seq_content > .xblock > .bookmark-button-wrapper {
+    display: none !important;
+  }
 </style>
 
 % if display_reset_dates_banner:
@@ -187,7 +190,7 @@ ${HTML(fragment.foot_html())}
                         <div class="breadcrumbs">
                             % if not DISABLE_COURSE_OUTLINE_PAGE_FLAG.is_enabled(course.id):
                                 <span class="nav-item nav-item-course">
-                                    <a href="${course_url}">${course_home_page_title(course)}</a>
+                                    <a href="${course_url}">Accueil</a>
                                 </span>
                                 <span class="icon fa fa-angle-right" aria-hidden="true"></span>
                             % endif

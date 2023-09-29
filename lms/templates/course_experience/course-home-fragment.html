@@ -72,6 +72,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         height: 30px;
         position: absolute;
         left: 133px;
+        z-index: 999;
     }
     .search-button {
         background-color: var(--primary);
@@ -142,9 +143,10 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         background: white !important; 
     }
     h4.subsection-title{
-        /* font-size: 1.1rem; */
+        font-size: 1.25rem;
         text-align: center;
-        width: 70%;
+        /* width: 70%; */
+        font-weight: 600 !important;
     }
     button:focus {
         outline: none !important;
@@ -173,12 +175,22 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         display: flex;
         align-items: center;
     }
-    .outline-item:nth-child(odd) > button {
-        background-color: var(--primary) !important;
+    .outline-item:nth-child(odd) > .outline-button {
+        background-image: url("${static.url('bea-lidl/images/trace_bleu.png')}");
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
     }
-    .outline-item:nth-child(even) > button {
-        background-color: var(--secondary) !important;
+    .outline-item:nth-child(even) > .outline-button {
+        background-image: url("${static.url('bea-lidl/images/trace_vert.png')}");
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
     }
+    .outline-item > .accordion-panel {
+        background-image: url("${static.url('bea-lidl/images/trace_blanc.png')}");
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+    }
+    
 
     .page-content-secondary {
         margin-top:25px !important;
@@ -208,7 +220,8 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     .section-title{
        color:white !important;
        flex: 1;
-       font-size: 1.5rem !important;
+       font-size: 1.8rem !important;
+       font-weight: 600 !important;
     }
     h2.hd.hd-3.page-title{
        color:white !important;
@@ -217,7 +230,6 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
        background: var(--light-gray);
     }
     #main, .outline-item.accordion-panel{
-       background: white;
        display: flex;
        justify-content: center;
        flex-wrap: wrap;
@@ -239,11 +251,12 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         width: 200px;
     }
 
-
+/* 
     .course-outline .block-tree .section {
         margin: 0 !important;
         clip-path: polygon(0% 35%, 3% 6%, 5% 4%, 9% 3%, 89% 2%,96% 3%,99% 6%, 100% 9%, 100% 32%, 98% 91%, 97% 95%, 94% 97%, 82% 99%, 58% 99%, 16% 98%, 7% 97%, 4% 96%, 1% 92%);
-    }
+    } 
+*/
 
 
     .grade-block {
