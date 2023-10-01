@@ -23,6 +23,7 @@ from openedx.core.djangoapps.user_authn.utils import should_redirect_to_logistra
   can_discover_courses = configuration_helpers.get_value('ENABLE_COURSE_DISCOVERY',settings.FEATURES.get('ENABLE_COURSE_DISCOVERY'))
   allow_public_account_creation = static.get_value('ALLOW_PUBLIC_ACCOUNT_CREATION', settings.FEATURES.get('ALLOW_PUBLIC_ACCOUNT_CREATION'))
   should_redirect_to_logistration_mfe = should_redirect_to_logistration_mircrofrontend()
+  language_cookie = request.COOKIES.get('openedx-language-preference', 'default_value')
 %>
 
 <style>
@@ -50,6 +51,7 @@ from openedx.core.djangoapps.user_authn.utils import should_redirect_to_logistra
   color: #fff !important;
 }
 </style>
+
 <nav class="nav-links" aria-label=${_("Supplemental Links")}>
   <div class="main">
   % if mktg_site_enabled:
@@ -91,7 +93,12 @@ from openedx.core.djangoapps.user_authn.utils import should_redirect_to_logistra
           </div>
         % else:
           <div class="mobile-nav-item hidden-mobile nav-item">
-              <a class="register-btn btn" href="/register?course_id=course-v1:amazon+Introduction+AZ_01&enrollment_action=enroll">${_("Inscription")}</a>
+            % if language_cookie == "nl-nl":
+            <a class="register-btn btn" href="/register?course_id=course-v1:amazon+Introduction+AZNL_01&enrollment_action=enroll">${_("Inscription")}</a>
+            % else :
+            <a class="register-btn btn" href="/register?course_id=course-v1:amazon+Introduction+AZ_01&enrollment_action=enroll">${_("Inscription")}</a>
+            % endif
+              
           </div>
         % endif
       % endif

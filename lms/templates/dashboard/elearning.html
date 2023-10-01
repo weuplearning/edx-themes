@@ -298,10 +298,16 @@ from lms.djangoapps.course_api.views import CourseListView
       %if (course.start_date) < datetime.now(tz=pytz.UTC) :
 
         %if not CourseEnrollment.is_enrolled(user, course):
-          <li class="course-item course-item-not-enrolled">
-            <%include file="../course.html" args="course=course" />
-            <!-- possible d'ajouter la durée ici ?? -->
-          </li>
+          % if request.LANGUAGE_CODE =="nl-nl" and "AZNL" not in str(course.id):
+            <div></div>
+          % elif request.LANGUAGE_CODE !="nl-nl" and "AZNL" in str(course_overview.id):
+            <div></div>
+          % else:
+            <li class="course-item course-item-not-enrolled">
+              <%include file="../course.html" args="course=course" />
+              <!-- possible d'ajouter la durée ici ?? -->
+            </li>
+          % endif
         %endif
 
       %endif

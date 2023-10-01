@@ -47,6 +47,10 @@ justify-content: space-between;
     margin-top: 5px;
 }
 
+#span_link_fr{
+    display: none;
+}
+
 </style>
 <div class="js-form-feedback" aria-live="assertive" tabindex="-1">
 </div>
@@ -89,6 +93,10 @@ justify-content: space-between;
                 </h3>
             </div>
         <% } else { %>
+            <span id="switch_register_language">Als je je wilt registreren voor het platform in het Frans, volg dan
+                </span>
+                <span id="span_link"><a id="register_link" href="#"> deze link</a></span>
+                <span id="span_link_fr"><a id="register_link_nl" href="#"> ce lien</a></span>
             <h2><%- gettext('Create an Account')%></h2>
         <% } %>
     <% } else if (context.autoRegisterWelcomeMessage) { %>
@@ -129,14 +137,43 @@ justify-content: space-between;
 
 <script>
 
+function getCookie(name) {
+    var value = "; " + document.cookie;
+    var parts = value.split("; " + name + "=");
+    if (parts.length == 2) return parts.pop().split(";").shift();
+}
+
+var myCookieValue = getCookie('openedx-language-preference');
+
 window.addEventListener("load", function () {
-        let currentLanguage =  "FR"
-        const titleLanguage = document.getElementsByTagName("h2")[0].innerText
-        if (titleLanguage == "Word lid van een gemeenschap van ondernemers") {
-            currentLanguage = "nl_nl"
-        }
-        console.log(currentLanguage)
-        if (currentLanguage == 'nl_nl') {
+
+            function setCookie(name, value, days) {
+                var expires = "";
+                if (days) {
+                    var date = new Date();
+                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                    expires = "; expires=" + date.toUTCString();
+                }
+                document.cookie = name + "=" + (value || "") + expires + "; path=/";
+            }
+
+            document.getElementById('register_link').addEventListener('click', function(event) {
+                event.preventDefault();
+                setCookie('openedx-language-preference', 'nl-nl', 365);
+                window.location.href = 'https://amazon-belgique.qualif.dev/register?course_id=course-v1:amazon+Introduction+AZNL_01&enrollment_action=enroll';
+            });
+
+            document.getElementById('register_link_nl').addEventListener('click', function(event) {
+                event.preventDefault();
+                document.cookie = "openedx-language-preference=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                window.location.href = 'https://amazon-belgique.qualif.dev/register?course_id=course-v1:amazon+Introduction+AZ_01&enrollment_action=enroll';
+            });
+
+            if (myCookieValue == 'nl-nl') {
+
+            document.getElementById("switch_register_language").innerText = "Vous souhaitez vous inscrire à la plateforme en Français? suivez"
+            document.getElementById("span_link").style.display = "None"
+            document.getElementById("span_link_fr").style.display = "inline"
             document.getElementsByClassName("text")[0].innerText  = "Heeft u al een account?"
             document.getElementsByClassName("contact_us")[0].innerText  = "Inloggen"
             document.querySelector('label[for="register-company"]').innerText = "Onderneming/SIRET (optioneel)"
@@ -148,6 +185,8 @@ window.addEventListener("load", function () {
             document.getElementsByClassName("amazon-register-data")[0].innerText = "De persoonsgegevens die via dit formulier worden verstrekt, zullen worden verwerkt door Amazon Europe Core SARL en de aan haar gelieerde bedrijven voor de doeleinden die worden beschreven in ons Privacybeleid, waarmee u ook uw rechten kunt uitoefenen"
             document.getElementById("register-name-desc").innerText = "Deze naam komt te staan op elk certificaat dat u behaalt"
             document.getElementById("register-username-desc").innerText = "De naam waarmee u geïdentificeerd wordt op het platform. Deze kan later niet worden gewijzigd. Gebruikersnamen kunnen alleen letters (A-Z, a-z), cijfers (0-9), liggende streepjes (_) en koppeltekens (-) bevatten."
+            document.getElementById("register-username-desc").innerText = ""
+
         }
     }
     );
