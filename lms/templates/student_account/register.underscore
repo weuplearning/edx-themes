@@ -160,13 +160,13 @@ window.addEventListener("load", function () {
             document.getElementById('register_link').addEventListener('click', function(event) {
                 event.preventDefault();
                 setCookie('openedx-language-preference', 'nl-nl', 365);
-                window.location.href = 'https://amazon-belgique.qualif.dev/register?course_id=course-v1:amazon+Introduction+AZNL_01&enrollment_action=enroll';
+                window.location.href = 'https://https://amazon-belgique.weup.in/register?course_id=course-v1:amazon+Introduction+AZNL_01&enrollment_action=enroll';
             });
 
             document.getElementById('register_link_nl').addEventListener('click', function(event) {
                 event.preventDefault();
                 document.cookie = "openedx-language-preference=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                window.location.href = 'https://amazon-belgique.qualif.dev/register?course_id=course-v1:amazon+Introduction+AZ_01&enrollment_action=enroll';
+                window.location.href = 'https://https://amazon-belgique.weup.in/register?course_id=course-v1:amazon+Introduction+AZ_01&enrollment_action=enroll';
             });
 
             if (myCookieValue == 'nl-nl') {
