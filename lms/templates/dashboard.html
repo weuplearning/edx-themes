@@ -692,38 +692,11 @@ if 'last_visited_course' in custom_fields.keys() :
 </script>
 
 <script>
-
-  // const currentLanguage = "${request.LANGUAGE_CODE}"
-  // console.log(currentLanguage)
-  // // "Reprendre le cours" buttons
-  // if (currentLanguage == "nl-nl") {
-  //   if (document.getElementById("new-section").getElementsByClassName('course-actions')[0].getElementsByClassName('course-target-link')[0].innerText = 'De cursus hervatten') {
-    
-  //   document.getElementById("new-section").getElementsByClassName('course-actions')[0].getElementsByClassName('course-target-link')[0].innerText = 'Hervatten'
-  // }
-  // let buttons_list = document.getElementById("not-last-courses").getElementsByClassName('details')
-  // for (let i = 0; i < buttons_list.length; i++) {
-  //   const button = buttons_list[i].getElementsByClassName('wrapper-course-actions')[0].getElementsByClassName('course-target-link')[0];
-  //   if (button.innerText = 'De cursus hervatten') {      
-  //     button.innerText = 'Hervatten' 
-  //   }
-  // }
-  // } else {
-  //   if (document.getElementById("new-section").getElementsByClassName('course-actions')[0].getElementsByClassName('course-target-link')[0].innerText = 'Reprendre le cours') {
-    
-  //   document.getElementById("new-section").getElementsByClassName('course-actions')[0].getElementsByClassName('course-target-link')[0].innerText = 'Reprendre'
-  // }
-  // let buttons_list = document.getElementById("not-last-courses").getElementsByClassName('details')
-  // for (let i = 0; i < buttons_list.length; i++) {
-  //   const button = buttons_list[i].getElementsByClassName('wrapper-course-actions')[0].getElementsByClassName('course-target-link')[0];
-  //   if (button.innerText = 'Reprendre le cours') {      
-  //     button.innerText = 'Reprendre' 
-  //   }
-  // }
-  // }
-
   const currentLanguage = "${request.LANGUAGE_CODE}";
   console.log(currentLanguage);
+  
+window.addEventListener("load", function () {
+
 
   function updateButtonText(sectionId, oldTextNL, newTextNL, oldTextFR, newTextFR) {
       const section = document.getElementById(sectionId);
@@ -741,9 +714,7 @@ if 'last_visited_course' in custom_fields.keys() :
   // Update "Reprendre le cours" buttons
   updateButtonText("new-section", 'De cursus hervatten', 'Hervatten', 'Reprendre le cours', 'Reprendre');
   updateButtonText("not-last-courses", 'De cursus hervatten', 'Hervatten', 'Reprendre le cours', 'Reprendre');
-
-
-
+})
 
   // Switch courses to display
   function switch_section() {

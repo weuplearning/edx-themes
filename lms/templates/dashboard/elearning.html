@@ -300,7 +300,7 @@ from lms.djangoapps.course_api.views import CourseListView
         %if not CourseEnrollment.is_enrolled(user, course):
           % if request.LANGUAGE_CODE =="nl-nl" and "AZNL" not in str(course.id):
             <div></div>
-          % elif request.LANGUAGE_CODE !="nl-nl" and "AZNL" in str(course_overview.id):
+          % elif request.LANGUAGE_CODE !="nl-nl" and "AZNL" in str(course.id):
             <div></div>
           % else:
             <li class="course-item course-item-not-enrolled">
