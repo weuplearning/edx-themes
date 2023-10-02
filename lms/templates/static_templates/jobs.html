@@ -11,7 +11,7 @@ import urllib.request as urllib2
 import xmltodict
 from openedx.core.djangolib.js_utils import dump_js_escaped_json
 
-file = urllib2.urlopen('https://sncf-recrute.talent-soft.com/Handlers/OfferXML.ashx')
+file = urllib2.urlopen('https://sncf-recrute.talent-soft.com/Handlers/OfferXML.ashx?top=2000')
 data_0 = file.read()
 file.close()
 
@@ -147,7 +147,7 @@ data = xmltodict.parse(data_0)
     top: 120px;
     right: 255px;
     width: 16% !important;
-    z-index: 10;
+    z-index: 11;
 }
 #reg-nor {
     position:absolute;
@@ -161,18 +161,19 @@ data = xmltodict.parse(data_0)
     top: 134px;
     right: 439px;
     width: 24% !important;
-    z-index: 10;
 }
 #reg-pdl {
     position:absolute;
     top: 155px;
     right: 316px;
+    z-index: 9;
 }
 #reg-cvl {
     position:absolute;
     top: 134px;
     right: 281px;
     width: 20.5% !important;
+    z-index: 10;
 }
 #reg-bou {
     position:absolute;
