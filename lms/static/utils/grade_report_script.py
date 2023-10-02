@@ -73,7 +73,7 @@ TECHNICAL_HEADER = list(HEADERS_FORM)
 
 
 HEADERS_USER.extend(NICE_HEADER)
-HEADERS_USER.append('Note obtenue')
+HEADERS_USER.append('Note obtenue (en %)')
 HEADER = HEADERS_USER
 
 emails = sys.argv[1].split(";")
@@ -98,8 +98,8 @@ for course_id in course_ids:
 
     user_CF_data = json.loads(user.profile.custom_field)
 
-    # if str(user.email).find('@yopmail') != -1 or str(user.email).find('@weuplearning') != -1 or str(user.email).find('@themoocagency') != -1 :
-    #   continue
+    if str(user.email).find('@yopmail') != -1 or str(user.email).find('@weuplearning') != -1 or str(user.email).find('@themoocagency') != -1 :
+      continue
 
 
     try:
@@ -127,7 +127,7 @@ for course_id in course_ids:
     userPersentGrade = gradesTest.summary['percent']
 
     try:
-      user_data.append(userPersentGrade * 100)
+      user_data.append(userPersentGrade)
     except:
       user_data.append(0)
 
