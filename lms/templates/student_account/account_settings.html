@@ -74,8 +74,6 @@ from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_f
     );
 </%static:require_module>
 
-<h1>PPPPPPPPPPPPOOOOOOOOOOOO</h1>
-
 <script type="text/javascript">
      window.auth = ${ auth | n, dump_js_escaped_json };
      window.isActive = ${ user.is_active | n, dump_js_escaped_json };
@@ -111,6 +109,9 @@ from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_f
                 document.getElementsByClassName("u-field-order-number")[0].innerText = "BESTELNUMMER"
                 document.getElementsByClassName("u-field-order-date")[0].innerText = "ONTVANGEN BESTELLINGEN"
                 document.getElementsByClassName("u-field-order-price")[0].innerText = "totaal"
+                document.getElementById("u-field-message-help-social_links_facebook").innerText = "Voer je Facebook-gebruikersnaam of de URL naar je Facebook-pagina in. Verwijder de URL om de link te verwijderen."
+                document.getElementById("u-field-message-help-social_links_twitter").innerText = "Voer je twitter-gebruikersnaam of de URL naar je twitter-pagina in. Verwijder de URL om de link te verwijderen."
+                document.getElementById("u-field-message-help-social_links_liknkedin").innerText = "Voer je liknkedin-gebruikersnaam of de URL naar je liknkedin-pagina in. Verwijder de URL om de link te verwijderen."
 
                 const subTitleList = document.getElementsByClassName("account-settings-header-subtitle")
 
@@ -132,7 +133,6 @@ from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_f
                         case "Cette page contient des informations à propos des commandes que vous avez passés avec L’Accélérateur du Numérique.":
                             section.innerText = "Deze pagina bevat informatie over de bestellingen die je bij L'Accélérateur du Numérique hebt geplaatst.";
                             break;
-
                         case "Vous pouvez également perdre l'accès aux certificats vérifiés et aux autres crédits de programmes comme les certificats MicroMasters. Si vous souhaitez en faire une copie pour vos archives avant de poursuivre la suppression, veuillez suivre les instructions pour imprimer ou télécharger un certificat.":
                             section.innerText = "Je kunt ook de toegang verliezen tot geverifieerde certificaten en andere programmakredieten zoals MicroMasters-certificaten. Als je een kopie wilt maken voor je administratie voordat je verder gaat met het verwijderen, volg dan de instructies om een certificaat af te drukken of te downloaden.";
                             break;
