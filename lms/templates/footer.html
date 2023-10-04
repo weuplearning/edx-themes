@@ -10,23 +10,8 @@
 <% icp_license_info = getattr(settings, 'ICP_LICENSE_INFO', {})%>
 <%namespace name='static' file='static_content.html'/>
 
+
 <style>
-  /* .wrapper-footer {
-    background-color: var(--primary);
-  }
-
-  body.view-in-course .wrapper-footer {
-    background-color: gray;
-  }
-
-  .wrapper-footer .site-nav, .wrapper-footer footer#footer-openedx .colophon .nav-colophon {
-    margin: 0 !important;
-  }
-
-  .wrapper-footer .site-nav .nav-link, .wrapper-footer footer#footer-openedx .colophon .nav-colophon li a {
-    color: white !important;
-  } */
-
   /* CUSTOM */
   .container_footer{
     background-color: var(--primary);
@@ -36,105 +21,97 @@
     align-items: center;
   }
 
-
   .input-container {
     max-width: 300px; 
-    padding: 20px;
-    display: flex;
-    align-items: center; 
+    margin: 20px;
     position: relative;
   }
-
+  
   .container_footer input[type="text"] {
     flex: 1; 
     padding: 10px;
-    border-radius: 5px 0 0 5px;
+    border-radius: 8px;
     font-size: 16px;
+    height: 37px;
   }
 
   .container_footer button[type="submit"] {
     padding: 10px 20px;
     background-color: #627080;
     color: #fff;
-    border: none;
-    border-radius: 0 5px 5px 0;
+    border: 0;
+    box-shadow: none;
+    border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
-    position: absolute;
-    right: -63px;
-    top: 21px;
     height: 38px;
     width: 85px;
     display: flex;
     justify-content: center;
     background-image: unset !important;
+    position: absolute;
+    bottom: -1px;
+    right: 0;
   }
   .container_footer button[type="submit"]:hover {
     background-color: #515d6a;
   }
-  
+  .input-container > svg {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+  }
+
   .fa {
     text-shadow: unset;
   }
-
-
   .container_footer_socials{
     display: flex;
     justify-content: space-evenly;
     width: 1200px;
-    align-items: baseline;
+    align-items: center;
     margin: 1em;
     width: 100%;
+  }
+  .who-are-we {
+    color: white !important;
   }
   .container_footer_socials_email{
     width: 300px;
     height: 39px;
     background-color: azure;
   }
+  .container_footer_socials_email_label {
+    text-shadow: none;
+    color: white;
+    font-size: 0.8rem;
+  }
+  input:focus-visible {
+    outline: none !important;
+  }
+  .contact-us {
+    color: white;
+  }
+
   .socials_icon{
     width: 50px;
     height: 50px;
-    /* background-color: aliceblue; */
     border-radius: 100%;
     margin: 0.4em;
   }
-  .container_footer_links, .container_footer_locations, .container_footer_socials_network{
+  .container_footer_links, .container_footer_socials_network{
     display: flex;
     justify-content: center;
   }
   .container_footer_links_text{
     margin: 1em;
   }
-
-
-  .container_footer_locations_text{
-    margin: auto 10px;
-    width: auto;
-    height: 100%;
-    font-size: 1.5rem;
-    line-height: 1.7em;
-    text-transform: uppercase;
-    color:white;
+  
+  .container_footer_locations_image {
+    width: 70vw;
   }
 
-  .container_footer_locations_text_title{
-    font-weight: bold;
-    font-size: 1.8rem;
-  }
-
-  .container_footer_locations_image{
-    width: 220px;
-  }
-
-  .container_footer_locations_text_red__span{
-    color:#ac4117;
-  }
-
-  .container_footer_locations_text_yellow__span{
-    color:#ea9e06;
-  }
-
-  .container_footer_links, .container_footer_links_text, .container_footer_locations_text_blue__span{
+  .container_footer_links, .container_footer_links_text {
     color:#60707e;
   }
 
@@ -144,57 +121,55 @@
 
 </style>
 
+
+
 <div class="container_footer">
   <div class="container_footer_socials">
-    <div class="input-container">
+    <a href="https://www.vins-centre-loire.com/fr/1/12/qui-sommes-nous.html" class="who-are-we">
+      Qui sommes-nous ?
+    </a>
 
-      <input class="container_footer_socials_email" type="text" placeholder="Entrez votre mail"></input>
+    <div class="input-container">
+      <div for="" class="container_footer_socials_email_label" >Pour suivre l’actualité des Vins du Centre-Loire, inscrivez-vous à la newsletter</div>
+      <input id="input-newsletter" class="container_footer_socials_email" type="text" placeholder="       Entrez votre mail">
+      <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>
       <button type="submit"><i class="fa fa-chevron-right"></i></button>
     </div>
 
-    <div class="container_footer_socials_network">
-      <a href="https://www.facebook.com" target="_blank">
-        <img class="socials_icon" src="${static.url('vinducentreloire/images/footer_phone.png')}" alt="picto phone"/>
-      </a>
-      <a href="https://www.facebook.com" target="_blank">
+    <div class="contact-us">
 
+      Nous contacter</br>
+      Bureau Interprofessionnel des Vins du Centre-Loire (BIVC)</br>
+      Du lundi au vendredi de 8h30 à 12h30 et 13h30 à 17h30</br>
+      Par téléphone au 02 48 78 51 07</br>
+      Par mail : <a href="mailto:contact@vins-centre-loire.com" style="color: #AB4218;">contact@vins-centre-loire.com</a> 
+
+    </div>
+
+    <div class="container_footer_socials_network">
+      <a href="https://www.facebook.com/vinsducentreloire/" target="_blank">
         <img class="socials_icon" src="${static.url('vinducentreloire/images/footer_fb.png')}" alt="picto fb"/>
       </a>
-      <a href="https://www.facebook.com" target="_blank">
+      <a href="https://www.instagram.com/vinsducentreloire/" target="_blank">
         <img class="socials_icon" src="${static.url('vinducentreloire/images/footer_insta.png')}" alt="picto insta"/>
       </a>
-      <a href="https://www.facebook.com" target="_blank">
+      <a href="https://www.youtube.com/channel/UCEVegcj88PnX_OlI7MiQncg" target="_blank">
         <img class="socials_icon" src="${static.url('vinducentreloire/images/footer_yt.png')}" alt="picto yt"/>
       </a>
-      <a href="https://www.facebook.com" target="_blank">        
+      <a href="https://fr.linkedin.com/company/bivc" target="_blank">        
         <img class="socials_icon" src="${static.url('vinducentreloire/images/footer_linkedin.png')}" alt="picto linkedin"/>
       </a>
     </div>
   </div>
 
-  <div class="container_footer_locations">
-    <img class="container_footer_locations_image" src="${static.url('vinducentreloire/images/logo_white.png')}" alt="vin centre et loire" id="vcl-logo"/>
-    <p class="container_footer_locations_text">
-      <span class="container_footer_locations_text_title">Vins du centre loire</span> <br>
-      Sancerre 
-      <span class="container_footer_locations_text_red__span">Pouilly-Fumé</span> Menetou-Salon 
-      <span class="container_footer_locations_text_blue__span">Quincy</span>
-      <br>
-      Reuilly 
-      <span class="container_footer_locations_text_yellow__span">Coteux du Giennois</span> 
-      <span class="container_footer_locations_text_red__span">Châteaumeillant</span>
-      <br>
-      <span class="container_footer_locations_text_blue__span">Pouilly-sur-Loire</span> 
-      <span class="container_footer_locations_text_red__span">Côtes de la charité</span> 
-      <span class="container_footer_locations_text_yellow__span">Coteaux de tannay</span>
-    </p>
-  </div>
+  <img class="container_footer_locations_image" src="${static.url('vinducentreloire/images/logo_footer.png')}" alt="vin centre et loire" id="vcl-logo"/>
+
   <div class="container_footer_links">
-    <a href="/cgu" target="_blank">
+    <a href="/tos" target="_blank">
       <p class="container_footer_links_text">Conditions générales</p>
     </a>
     <p class="container_footer_links_text text_underscore">_</p>
-    <a href="/credits" target="_blank">
+    <a href="/honor" target="_blank">
       <p class="container_footer_links_text">Crédits</p>
     </a>
     <p class="container_footer_links_text text_underscore">_</p>
@@ -296,5 +271,23 @@ var textTranslation = setInterval(function() {
   }
 
 }, 1000)
+
+</script>
+
+
+
+<script>
+const inputElement = document.getElementById('input-newsletter');
+const searchIcon = document.getElementById('search-icon');
+
+inputElement.addEventListener('input', function() {
+    
+  if (inputElement.value != '') {
+    searchIcon.style.display = 'none';
+  } else {
+    searchIcon.style.display = 'inline-block'; 
+  }
+});
+
 
 </script>

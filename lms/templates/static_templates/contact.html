@@ -1,0 +1,48 @@
+<%page expression_filter="h"/>
+<%! from django.utils.translation import ugettext as _ %>
+<%inherit file="../main.html" />
+
+<%block name="pagetitle">${_("Contact")}</%block>
+
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="container about">
+        <h1>
+            Contact
+        </h1>
+        <p>
+
+            BIVC - Bureau Interprofessionnel des Vins du Centre <br>
+            9, route de Chavignol - F-18300 Sancerre <br>
+            Tél. 02 48 78 51 07  <br>
+            Ce site respecte le droit d'auteur. Tous les droits des auteurs des œuvres protégées reproduites et communiquées sur ce site, sont réservés. Sauf autorisation, toute utilisation des œuvres autres que la reproduction et la consultation individuelles et privées sont interdites : www.sesam.org
+
+
+        </p>
+    </section>
+</main>
+
+<style>
+    #main {
+        min-height: calc( 100vh - 467px);
+
+    }
+    p, li {
+        font-family: Arial, Helvetica, sans-serif !important;
+        margin: 25px 0;
+        font-size: 20px;
+        line-height: 1.6;
+        text-align: justify;
+    }
+    li {
+        margin: 10px 0;
+    }
+    h3 {
+        font-size: 30px;
+    }
+    h4 {
+        font-size: 26px;
+    }
+    a {
+        color: #AB4218 !important;
+    }
+</style>

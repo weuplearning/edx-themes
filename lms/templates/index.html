@@ -23,14 +23,15 @@ from openedx.core.djangolib.markup import HTML, Text
     width: 100%;
     max-height: 881px;
     height: auto;
-    /* background-color: aquamarine; */
     background-image: url("${static.url('vinducentreloire/images/banner_top.png')}");
     background-size: cover;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
+  }
+  p {
+    font-family: Arial, Helvetica, sans-serif !important;
   }
 
   .container_detailled-image {
@@ -55,9 +56,6 @@ from openedx.core.djangolib.markup import HTML, Text
     left: 79px;
   }
 
-  .tooltip-area:hover .tooltip {
-    display: flex;
-  }
   #detailled-logo-poisson {
     top: 78px;
     left: 19px;
@@ -98,14 +96,17 @@ from openedx.core.djangolib.markup import HTML, Text
   }
 
 
+  .tooltip-area:hover .tooltip {
+    display: flex;
+  }
 
   .tooltip {
     display: none;
     background-color: white;
-    height: 115px;
-    width: 420px;
+    max-width: 400px;
+    min-width: 250px;
+    padding: 20px;
     box-shadow: 0px 3px 8px grey;
-    justify-content: space-evenly;
     align-items: center;  
     position: absolute;
     z-index: 99;
@@ -115,13 +116,20 @@ from openedx.core.djangolib.markup import HTML, Text
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
+    max-width: 280px;
   }
   .tooltip-title {
     text-transform: uppercase;
+    padding: 5px;
+  }
+  .tooltip-info {
+    padding: 5px;
+    border-top: 1px solid black;
   }
   .tooltip > img {
-    max-height: 60px;
+    max-height: 85px;
     max-width: 100px;
+    margin-right: 20px;
   }
 
 
@@ -177,11 +185,12 @@ from openedx.core.djangolib.markup import HTML, Text
   }
   .container_welcome_title{
     width: auto;
-    max-width: 871px;
+    max-width: 80vw;
     height: 100%;
     font-size: 4em;
     text-align: center;
     text-transform: uppercase;
+    color: #192234;
   }
   .container_welcome__image{
     width: 200px;
@@ -247,7 +256,7 @@ from openedx.core.djangolib.markup import HTML, Text
   }
 
   .container_caroussel{
-    width: 1200px;
+    width: 85vw;
     height: 500px;
     /* border: black solid 1px; */
     margin: auto;
@@ -256,7 +265,7 @@ from openedx.core.djangolib.markup import HTML, Text
     align-items: center;
     margin-top: 2em;
     margin-bottom: 2em;
-    padding-right: 13em;
+    padding-right: 13vw;
     
   }
 
@@ -349,6 +358,7 @@ from openedx.core.djangolib.markup import HTML, Text
 
   .container_mooc_card_image_cadenas{
     height: 8em;
+    padding: 0 0 0 19px;
   }
 
   .container_mooc_card_image_web{
@@ -443,19 +453,19 @@ from openedx.core.djangolib.markup import HTML, Text
         <div class="tooltip" style="top:69px;left:140px">
           <img src="${static.url('vinducentreloire/images/main.png')}" alt="logo main" />
           <div class="tooltip-text">
-            <span class="tooltip-title">Titre </span>
-            <span class="tooltip-info">texte</span>
+            <span class="tooltip-title">LA MAIN</span>
+            <span class="tooltip-info">La transmission du savoir-faire</span>
           </div>
         </div>
       </div>
       
       <div class="tooltip-area">
         <img class="detailled-image" src="${static.url('vinducentreloire/images/poisson.png')}" alt="logo poisson" id="detailled-logo-poisson" />
-        <div class="tooltip" style="top:132px;left:122px">
+        <div class="tooltip" style="top:132px;left:122px;min-width:320px">
           <img src="${static.url('vinducentreloire/images/poisson.png')}" alt="">
           <div class="tooltip-text">
-            <span class="tooltip-title">Titre </span>
-            <span class="tooltip-info">texte</span>
+            <span class="tooltip-title">le poisson </span>
+            <span class="tooltip-info">La fraîcheur, la vivacité</span>
           </div>
         </div>
       </div>
@@ -465,8 +475,8 @@ from openedx.core.djangolib.markup import HTML, Text
         <img class="detailled-image" src="${static.url('vinducentreloire/images/lune.png')}" alt="logo lune" id="detailled-logo-lune" />
         <div class="tooltip" style="top:230px;left:93px"><img src="${static.url('vinducentreloire/images/lune.png')}" alt="">
           <div class="tooltip-text">
-            <span class="tooltip-title">Titre </span>
-            <span class="tooltip-info">texte</span>
+            <span class="tooltip-title">la lune</span>
+            <span class="tooltip-info">Le cycle de la nature </span>
           </div>
         </div>
       </div>
@@ -475,19 +485,19 @@ from openedx.core.djangolib.markup import HTML, Text
         <img class="detailled-image" src="${static.url('vinducentreloire/images/coeur.png')}" alt="logo coeur" id="detailled-logo-coeur" />
         <div class="tooltip" style="top:210px;left:132px"><img src="${static.url('vinducentreloire/images/coeur.png')}" alt="">
           <div class="tooltip-text">
-            <span class="tooltip-title">Titre </span>
-            <span class="tooltip-info">texte</span>
+            <span class="tooltip-title">le coeur </span>
+            <span class="tooltip-info">L'esprit de famille</span>
           </div>
         </div>
       </div>
 
       <div class="tooltip-area">
         <img class="detailled-image" src="${static.url('vinducentreloire/images/coquillage.png')}" alt="logo coquillage" id="detailled-logo-coquillage" />
-        <div class="tooltip" style="top:260px;left:203px">
+        <div class="tooltip" style="top:260px;left:203px;min-width:320px;">
           <img src="${static.url('vinducentreloire/images/coquillage.png')}" alt="">
           <div class="tooltip-text">
-            <span class="tooltip-title">Titre </span>
-            <span class="tooltip-info">texte</span>
+            <span class="tooltip-title">l'ammonite</span>
+            <span class="tooltip-info">L'histoire des terroirs, la minéralité, la typicité et la limpidité des vins</span>
           </div>
         </div>
       </div>
@@ -496,8 +506,8 @@ from openedx.core.djangolib.markup import HTML, Text
         <img class="detailled-image" src="${static.url('vinducentreloire/images/bouteille_fonce.png')}" alt="logo bouteille_fonce" id="detailled-logo-bouteille_fonce" />
         <div class="tooltip" style="top:181px;left:225px"><img src="${static.url('vinducentreloire/images/bouteille_fonce.png')}" alt="">
           <div class="tooltip-text">
-            <span class="tooltip-title">Titre </span>
-            <span class="tooltip-info">texte</span>
+            <span class="tooltip-title">la bouteille </span>
+            <span class="tooltip-info">Le carcatère des vins</span>
           </div>
         </div>
       </div>
@@ -506,8 +516,8 @@ from openedx.core.djangolib.markup import HTML, Text
         <img class="detailled-image" src="${static.url('vinducentreloire/images/pattes.png')}" alt="logo pattes" id="detailled-logo-pattes" />
         <div class="tooltip" style="top:245px;left:260px"><img src="${static.url('vinducentreloire/images/pattes.png')}" alt="">
           <div class="tooltip-text">
-            <span class="tooltip-title">Titre </span>
-            <span class="tooltip-info">texte</span>
+            <span class="tooltip-title">L'oiseau </span>
+            <span class="tooltip-info">La liberté, l'esprit sauvage</span>
           </div>
         </div>
       </div>
@@ -516,8 +526,8 @@ from openedx.core.djangolib.markup import HTML, Text
         <img class="detailled-image" src="${static.url('vinducentreloire/images/feuille.png')}" alt="logo feuille" id="detailled-logo-feuille" />
         <div class="tooltip" style="top:170px;left:280px"><img src="${static.url('vinducentreloire/images/feuille.png')}" alt="">
           <div class="tooltip-text">
-            <span class="tooltip-title">Titre </span>
-            <span class="tooltip-info">texte</span>
+            <span class="tooltip-title">la feuille</span>
+            <span class="tooltip-info">La naturalité</span>
           </div>
         </div>
       </div>
@@ -527,8 +537,8 @@ from openedx.core.djangolib.markup import HTML, Text
         <img class="detailled-image" src="${static.url('vinducentreloire/images/raisin.png')}" alt="logo raisin" id="detailled-logo-raisin" />
         <div class="tooltip" style="top:100px;left:282px"><img src="${static.url('vinducentreloire/images/raisin.png')}" alt="">
           <div class="tooltip-text">
-            <span class="tooltip-title">Titre </span>
-            <span class="tooltip-info">texte</span>
+            <span class="tooltip-title">Le raisin </span>
+            <span class="tooltip-info">La pureté des cépages</span>
           </div>
         </div>
       </div>
@@ -557,7 +567,7 @@ from openedx.core.djangolib.markup import HTML, Text
 
   <div class="container_welcome">
     <h2 class="container_welcome_title">
-      Bienvenue sur le <span class="container_welcome__span">Mooc des vins</span> du centre-loire
+      Bienvenue sur le <span class="container_welcome__span">Mooc<br>vins du centre-loire</span>
     </h2>
     <img class="container_welcome__image" src="${static.url('vinducentreloire/images/vague.png')}" alt="vague" id="vague-logo"/>
     <h3 class="container_welcome_subtitle">
@@ -568,10 +578,16 @@ from openedx.core.djangolib.markup import HTML, Text
   <div class="container_introduction">
     <div class="container_introduction_bloc_left">
       <p class="container_introduction_bloc_left_paragraph">
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
+        Les vins du Centre-Loire vous invitent à partir à la rencontre de leur vignoble au travers d’une expérience ludique, dynamique et immersive : le MOOC Vins du Centre-Loire. 
       </p>
       <p class="container_introduction_bloc_left_paragraph">
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled
+        Développé par le Bureau Interprofessionnel des Vins du Centre-Loire, ce MOOC a été imaginé et conçu comme un véritable outil pédagogique qui vous permettra d’acquérir de solides connaissances sur les vins du Centre-Loire. 
+      </p>
+      <p class="container_introduction_bloc_left_paragraph">
+        Avec le mitan de la Loire comme terrain de jeu, découvrez les valeurs fondatrices et les éléments qui façonnent l’identité des vins de notre vignoble au travers de 4 modules thématiques rythmés par de courtes vidéos interactives, des infographies, des interviews, des quizz…
+      </p>
+      <p class="container_introduction_bloc_left_paragraph">
+        Fraîcheur et convivialité vous accompagneront tout au long de ce programme qui s’annonce riche et complet ! 
       </p>
     </div>
     <div class="container_introduction_bloc_right">
