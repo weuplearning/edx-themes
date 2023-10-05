@@ -57,12 +57,17 @@ self_paced = context.get('self_paced', False)
 relative_dates_flag_is_enabled = RELATIVE_DATES_FLAG.is_enabled(str(course_key))
 is_course_staff = bool(user and course and has_access(user, 'staff', course, course.id))
 dates_banner_displayed = False
+
 custom_fields_dict = json.loads(custom_fields)
 user_firstname = custom_fields_dict.get('first_name', '')
 user_lastname = custom_fields_dict.get('last_name', '')
 user_structure = custom_fields_dict.get('structure', '')
+user_preparedDiploma = custom_fields_dict.get('preparedDiploma', '')
+user_regions = custom_fields_dict.get('regions', '')
+user_agreeCgu = custom_fields_dict.get('agreeCgu', '')
+
 display_form = False
-if not all([user_firstname, user_lastname, user_structure]):
+if not all([user_firstname, user_lastname, user_structure, user_preparedDiploma, user_regions, user_agreeCgu]):
     display_form = True
 %>
 
@@ -116,6 +121,9 @@ if not all([user_firstname, user_lastname, user_structure]):
 .disabled-link {
   pointer-events: none;
 }
+.required_field {
+    color: red;
+}
 </style>
 
 % if display_form:
@@ -125,19 +133,19 @@ if not all([user_firstname, user_lastname, user_structure]):
     startButton[0].classList.add("disabled-link")
 </script>
 <form id="customFieldsForm">
-    <label for="firstName">Nom:</label>
-    <input type="text" id="firstName" name="firstName"><br>
+    <label for="lastName">Nom : <span class="required_field">*</span></label>
+    <input type="text" id="lastName" name="lastName" onkeydown="if(event.keyCode==32) return false;" required><br>
   
-    <label for="lastName">Prénom:</label>
-    <input type="text" id="lastName" name="lastName"><br>
+    <label for="firstName">Prénom : <span class="required_field">*</span></label>
+    <input type="text" id="firstName" name="firstName" onkeydown="if(event.keyCode==32) return false;" required><br>
   
-    <label for="structure">Organisme (Lycée, université, entreprise..):</label>
-    <input type="text" id="structure" name="structure"><br>
+    <label for="structure">Organisme (Lycée, université, entreprise..) : <span class="required_field">*</span></label>
+    <input type="text" id="structure" name="structure" onkeydown="if(event.keyCode==32) return false;" required><br>
 
-    <label for="preparedDiploma">Diplôme préparé:</label>
-    <input type="text" id="preparedDiploma" name="preparedDiploma"><br>
+    <label for="preparedDiploma">Diplôme préparé : <span class="required_field">*</span></label>
+    <input type="text" id="preparedDiploma" name="preparedDiploma" onkeydown="if(event.keyCode==32) return false;" required><br>
 
-    <label for="status">Statut:</label>
+    <label for="status">Statut : <span class="required_field">*</span></label>
     <select id="status" name="status">
         <option value="learner">Apprenant</option>
         <option value="instructor">Formateur</option>
@@ -145,7 +153,7 @@ if not all([user_firstname, user_lastname, user_structure]):
     </select>
     <br>
 
-    <label for="regions">Région:</label>
+    <label for="regions">Région : <span class="required_field">*</span></label>
     <select id="regions" name="regions">
         <optgroup label="France métropolitaine">
           <option value="auvergne">Auvergne-Rhône-Alpes</option>
@@ -172,12 +180,13 @@ if not all([user_firstname, user_lastname, user_structure]):
     </select>
     <br>
 
-    <label for="agreeCgu">J'accepte d'être contacté(e) par l'UMN par e-mail:</label>
+    <label for="agreeCgu">J'accepte d'être contacté(e) par l'UMN par e-mail : <span class="required_field">*</span></label>
     <select id="agreeCgu" name="agreeCgu">
         <option value="oui">Oui</option>
         <option value="non">Non</option>
     </select>
   
+    <p><span class="required_field">*</span> champs obligatoires</p>
     <button type="submit">Envoyer</button>
 </form>
 
