@@ -140,10 +140,15 @@ justify-content: space-between;
 function getCookie(name) {
     var value = "; " + document.cookie;
     var parts = value.split("; " + name + "=");
-    if (parts.length == 2) return parts.pop().split(";").shift();
+    if (parts.length > 1) {
+        // Return the last occurrence of the cookie
+        return parts[parts.length - 1].split(";")[0];
+    }
+    return undefined;
 }
 
 var myCookieValue = getCookie('openedx-language-preference');
+console.log(myCookieValue);
 
 window.addEventListener("load", function () {
 
@@ -171,25 +176,59 @@ window.addEventListener("load", function () {
 
             if (myCookieValue == 'nl-nl') {
 
-            document.getElementById("switch_register_language").innerText = "Vous souhaitez vous inscrire à la plateforme en Français? suivez"
-            document.getElementById("span_link").style.display = "None"
-            document.getElementById("span_link_fr").style.display = "inline"
-            document.getElementsByClassName("text")[0].innerText  = "Heeft u al een account?"
-            document.getElementsByClassName("contact_us")[0].innerText  = "Inloggen"
-            document.querySelector('label[for="register-company"]').innerText = "Onderneming/SIRET (optioneel)"
-            document.querySelector('label[for="register-region"]').innerText = "Regio" 
-            document.querySelector('label[for="register-phone_number"]').innerText = "Telefoonnummer (optioneel)"
-            document.querySelector('label[for="register-online_sales"]').innerText = "Verkoopt u online? (optioneel)"
-            document.querySelector('label[for="register-terms_of_service"]').firstElementChild.firstChild.textContent = "Ik aanvaard de "
-            document.querySelector('a[href="/tos"][rel="noopener"][target="_blank"]').innerText = "van L'Accélérateur du Numérique"
-            document.getElementsByClassName("amazon-register-data")[0].innerText = "De persoonsgegevens die via dit formulier worden verstrekt, zullen worden verwerkt door Amazon Europe Core SARL en de aan haar gelieerde bedrijven voor de doeleinden die worden beschreven in ons Privacybeleid, waarmee u ook uw rechten kunt uitoefenen"
-            document.getElementById("register-name-desc").innerText = "Deze naam komt te staan op elk certificaat dat u behaalt"
-            document.getElementById("register-username-desc").innerText = "De naam waarmee u geïdentificeerd wordt op het platform. Deze kan later niet worden gewijzigd. Gebruikersnamen kunnen alleen letters (A-Z, a-z), cijfers (0-9), liggende streepjes (_) en koppeltekens (-) bevatten."
-            document.getElementById("register-username-desc").innerText = ""
+                const translations = {
+                    "switch_register_language": "Vous souhaitez vous inscrire à la plateforme en Français? suivez",
+                    "span_link": { property: "style.display", value: "None" },
+                    "span_link_fr": { property: "style.display", value: "inline" },
+                    "text": "Heeft u al een account?",
+                    "contact_us": "Inloggen",
+                    "register-name-desc": "Deze naam komt te staan op elk certificaat dat u behaalt",
+                    "register-username-desc": "De naam waarmee u geïdentificeerd wordt op het platform. Deze kan later niet worden gewijzigd. Gebruikersnamen kunnen alleen letters (A-Z, a-z), cijfers (0-9), liggende streepjes (_) en koppeltekens (-) bevatten."
+                };
 
-        }
-    }
-    );
+                for (let id in translations) {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        if (typeof translations[id] === "object") {
+                            element[translations[id].property] = translations[id].value;
+                        } else {
+                            element.innerText = translations[id];
+                        }
+                    }
+                }
+
+                const labelTranslations = {
+                    "register-company": "Onderneming/SIRET (optioneel)",
+                    "register-region": "Regio",
+                    "register-phone_number": "Telefoonnummer (optioneel)",
+                    "register-online_sales": "Verkoopt u online? (optioneel)"
+                };
+
+                for (let labelFor in labelTranslations) {
+                    const labelElement = document.querySelector(`label[for="${labelFor}"]`);
+                    if (labelElement) {
+                        labelElement.innerText = labelTranslations[labelFor];
+                    }
+                }
+
+                const tosLink = document.querySelector('a[href="/tos"][rel="noopener"][target="_blank"]');
+                if (tosLink) {
+                    tosLink.innerText = "van L'Accélérateur du Numérique";
+                }
+
+                const termsOfServiceLabel = document.querySelector('label[for="register-terms_of_service"]');
+                if (termsOfServiceLabel && termsOfServiceLabel.firstElementChild) {
+                    termsOfServiceLabel.firstElementChild.firstChild.textContent = "Ik aanvaard de ";
+                }
+
+                const amazonRegisterData = document.querySelector(".amazon-register-data");
+                if (amazonRegisterData) {
+                    amazonRegisterData.innerText = "De persoonsgegevens die via dit formulier worden verstrekt, zullen worden verwerkt door Amazon Europe Core SARL en de aan haar gelieerde bedrijven voor de doeleinden die worden beschreven in ons Privacybeleid, waarmee u ook uw rechten kunt uitoefenen";
+                }
+                }
+
+            }
+        );
 setInterval(function(){
   $("label[for=register-honor_code] span.label-text").html("J'accepte d'être contacté par Amazon dans le cadre de l'Accélérateur du Numérique");
   $("label[for=register-company] span.label-text").html("Entreprise/SIRET");

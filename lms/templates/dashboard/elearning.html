@@ -55,12 +55,26 @@ from lms.djangoapps.course_api.views import CourseListView
 
     // Replace available course button text
     setTimeout(function(){
+
+    function getCookie(name) {
+      var value = "; " + document.cookie;
+      var parts = value.split("; " + name + "=");
+      if (parts.length == 2) return parts.pop().split(";").shift();
+    }
+
+    var myCookieValue = getCookie('openedx-language-preference');
+
       let id = document.getElementById("available-courses")
       let boutons = id.getElementsByClassName('learn-more')
 
       for (let i = 0; i < boutons.length; i++) {
         const bouton = boutons[i];
-        bouton.innerText = "Ajouter à mes cours"
+        if (myCookieValue == 'nl-nl') {
+          bouton.innerText = "Toevoegen aan mijn cursussen"
+        }else {
+          bouton.innerText = "Ajouter à mes cours"
+        }
+
       }
 
       let children = id.children
@@ -186,37 +200,34 @@ from lms.djangoapps.course_api.views import CourseListView
 
     <div class="side-container" role="complementary" aria-label="messages">
       <div class="elementor-widget-container">
-        <iframe loading="lazy" class="scorm_object" src="https://accelerateur-du-numerique.qualif.dev/media/microsites/amazon/simulateur/story.html" data-dashlane-frameid="600" width="100%" height="450"></iframe>
-        <!-- <iframe loading="lazy" class="scorm_object" src="/media/microsites/amazon/simulateur/story.html" data-dashlane-frameid="600" width="100%" height="450"></iframe> -->
+        <!-- <iframe loading="lazy" class="scorm_object" src="https://accelerateur-du-numerique.qualif.dev/media/microsites/amazon/simulateur/story.html" data-dashlane-frameid="600" width="100%" height="450"></iframe> -->
+        <img class="alt_simulateur" src="${static.url('amazon-belgique/images/alt_simulateur.png')}" alt="replace simulateur"/>
   		</div>
     </div>
 
   </div> <!-- class="dashboard" id="dashboard-main" -->
 
 
+
   <div class="section2-filter">
-    <!-- <div onclick="toggleMenu()" class='section2-filterButton'>
-      <i class="fas fa-pencil-alt"></i>
-      <span class="button-text">filtres</span> 
-    </div> -->
+
     <div id="filterItems" class='section2-filterItems filter-open'>
-      <!-- <label class="section2-filterSection-labels active">
-          <input type="checkbox" value="All" onchange="handleCategoryChange(event)" />All
-      </label> -->
+
+      % if request.LANGUAGE_CODE == 'nl-nl':
       <label class="section2-filterSection-labels">
-          <input type="checkbox" value="Stratégie" onchange="handleCategoryChange(event)" />#Stratégie
+        <input type="checkbox" value="Stratégie" onchange="handleCategoryChange(event)" />#Strategie
       </label>
       <label class="section2-filterSection-labels">
           <input type="checkbox" value="Marketing" onchange="handleCategoryChange(event)" />#Marketing
       </label>
       <label class="section2-filterSection-labels">
-          <input type="checkbox" value="Gestion D'entreprise" onchange="handleCategoryChange(event)" />#Gestion D'entreprise
+          <input type="checkbox" value="Gestion D'entreprise" onchange="handleCategoryChange(event)" />#Bedrijfsbeheer
       </label>
       <label class="section2-filterSection-labels">
-          <input type="checkbox" value="Gestion Des Opérations" onchange="handleCategoryChange(event)" />#Gestion Des Opérations
+          <input type="checkbox" value="Gestion Des Opérations" onchange="handleCategoryChange(event)" />#Transactiebeheer
       </label>
       <label class="section2-filterSection-labels">
-          <input type="checkbox" value="Ventes" onchange="handleCategoryChange(event)" />#Ventes
+          <input type="checkbox" value="Ventes" onchange="handleCategoryChange(event)" />#Verkoop
       </label>
       <label class="section2-filterSection-labels">
           <input type="checkbox" value="Tech" onchange="handleCategoryChange(event)" />#Tech
@@ -224,6 +235,31 @@ from lms.djangoapps.course_api.views import CourseListView
       <label class="section2-filterSection-labels">
           <input type="checkbox" value="Marketplace" onchange="handleCategoryChange(event)" />#Marketplace
       </label>
+      % else :
+        <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Stratégie" onchange="handleCategoryChange(event)" />#Stratégie
+        </label>
+        <label class="section2-filterSection-labels">
+            <input type="checkbox" value="Marketing" onchange="handleCategoryChange(event)" />#Marketing
+        </label>
+        <label class="section2-filterSection-labels">
+            <input type="checkbox" value="Gestion D'entreprise" onchange="handleCategoryChange(event)" />#Gestion D'entreprise
+        </label>
+        <label class="section2-filterSection-labels">
+            <input type="checkbox" value="Gestion Des Opérations" onchange="handleCategoryChange(event)" />#Gestion Des Opérations
+        </label>
+        <label class="section2-filterSection-labels">
+            <input type="checkbox" value="Ventes" onchange="handleCategoryChange(event)" />#Ventes
+        </label>
+        <label class="section2-filterSection-labels">
+            <input type="checkbox" value="Tech" onchange="handleCategoryChange(event)" />#Tech
+        </label>
+        <label class="section2-filterSection-labels">
+            <input type="checkbox" value="Marketplace" onchange="handleCategoryChange(event)" />#Marketplace
+        </label>
+        
+      % endif
+
     </div>
   </div>
 
@@ -651,7 +687,9 @@ from lms.djangoapps.course_api.views import CourseListView
       padding: 3vh 10vw ;
     }
   }
-  
+  .side-container {
+    text-align: center
+  };
   
   </style>
   

@@ -364,23 +364,21 @@ if 'last_visited_course' in custom_fields.keys() :
       <span class="button-text">filtres</span> 
     </div> -->
     <div id="filterItems" class='section2-filterItems filter-open'>
-      <!-- <label class="section2-filterSection-labels active">
-          <input type="checkbox" value="All" onchange="handleCategoryChange(event)" />All
-      </label> -->
+      % if request.LANGUAGE_CODE == 'nl-nl':
       <label class="section2-filterSection-labels">
-          <input type="checkbox" value="Stratégie" onchange="handleCategoryChange(event)" />#Stratégie
+        <input type="checkbox" value="Stratégie" onchange="handleCategoryChange(event)" />#Strategie
       </label>
       <label class="section2-filterSection-labels">
           <input type="checkbox" value="Marketing" onchange="handleCategoryChange(event)" />#Marketing
       </label>
       <label class="section2-filterSection-labels">
-          <input type="checkbox" value="Gestion D'entreprise" onchange="handleCategoryChange(event)" />#Gestion D'entreprise
+          <input type="checkbox" value="Gestion D'entreprise" onchange="handleCategoryChange(event)" />#Bedrijfsbeheer
       </label>
       <label class="section2-filterSection-labels">
-          <input type="checkbox" value="Gestion Des Opérations" onchange="handleCategoryChange(event)" />#Gestion Des Opérations
+          <input type="checkbox" value="Gestion Des Opérations" onchange="handleCategoryChange(event)" />#Transactiebeheer
       </label>
       <label class="section2-filterSection-labels">
-          <input type="checkbox" value="Ventes" onchange="handleCategoryChange(event)" />#Ventes
+          <input type="checkbox" value="Ventes" onchange="handleCategoryChange(event)" />#Verkoop
       </label>
       <label class="section2-filterSection-labels">
           <input type="checkbox" value="Tech" onchange="handleCategoryChange(event)" />#Tech
@@ -388,6 +386,30 @@ if 'last_visited_course' in custom_fields.keys() :
       <label class="section2-filterSection-labels">
           <input type="checkbox" value="Marketplace" onchange="handleCategoryChange(event)" />#Marketplace
       </label>
+      % else :
+        <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Stratégie" onchange="handleCategoryChange(event)" />#Stratégie
+        </label>
+        <label class="section2-filterSection-labels">
+            <input type="checkbox" value="Marketing" onchange="handleCategoryChange(event)" />#Marketing
+        </label>
+        <label class="section2-filterSection-labels">
+            <input type="checkbox" value="Gestion D'entreprise" onchange="handleCategoryChange(event)" />#Gestion D'entreprise
+        </label>
+        <label class="section2-filterSection-labels">
+            <input type="checkbox" value="Gestion Des Opérations" onchange="handleCategoryChange(event)" />#Gestion Des Opérations
+        </label>
+        <label class="section2-filterSection-labels">
+            <input type="checkbox" value="Ventes" onchange="handleCategoryChange(event)" />#Ventes
+        </label>
+        <label class="section2-filterSection-labels">
+            <input type="checkbox" value="Tech" onchange="handleCategoryChange(event)" />#Tech
+        </label>
+        <label class="section2-filterSection-labels">
+            <input type="checkbox" value="Marketplace" onchange="handleCategoryChange(event)" />#Marketplace
+        </label>
+        
+      % endif
     </div>
   </div>
   <div id="started-or-finished">
@@ -674,7 +696,10 @@ if 'last_visited_course' in custom_fields.keys() :
     } else {
       // Show or hide courses depending on whether their category is selected
       for (const course of courseList) {
-        const courseTag = course.children[0].children[0].attributes[3].textContent.toLowerCase();
+        let courseTag = ''
+        if (course.children[0].children[0]){
+          courseTag = course.children[0].children[0].attributes[3].textContent.toLowerCase();
+        }
 
         const isHidden = course.classList.contains("course-item-hide");
 
