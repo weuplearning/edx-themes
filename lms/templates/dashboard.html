@@ -289,10 +289,19 @@ if 'last_visited_course' in custom_fields.keys() :
                         let progessed_min = min_effort * progress_remain
                         let progessed_hour = (Math.floor(progessed_min / 60)) + ' H'
                         // let progessed_hour = (Math.floor(progessed_min / 60)) + 'h' + (Math.floor(progessed_min % 60))
-
-                        document.getElementById("new-section").getElementsByClassName("wrapper-course-details")[0].getElementsByClassName("info-date-block-container")[0].innerHTML = 'Temps restant : ' + progessed_hour ;
+                        let textDate = document.getElementById("new-section").getElementsByClassName("wrapper-course-details")
+                        if (textDate[0]) {
+                          textDate[0].getElementsByClassName("info-date-block-container")[0].innerHTML = 'Temps restant : ' + progessed_hour ;
+                        }
+                        // document.getElementById("new-section").getElementsByClassName("wrapper-course-details")[0].getElementsByClassName("info-date-block-container")[0].innerHTML = 'Temps restant : ' + progessed_hour ;
                       }
-                      document.getElementById("new-section").getElementsByClassName('course-jauge')[0].innerText = Math.floor(completion_ratio*100) +'%'
+                      let completionRatio = document.getElementById("new-section").getElementsByClassName('course-jauge')
+
+                      if (completionRatio[0]) {
+                        completionRatio[0].innerText = Math.floor(completion_ratio*100) +'%'
+                      }
+
+                      
 
                       course_plan = document.createElement("a");
                       course_plan.classList.add("course-plan");
@@ -348,12 +357,7 @@ if 'last_visited_course' in custom_fields.keys() :
     </div><!-- class="main-container" -->
 
     <div class="side-container" role="complementary" aria-label="messages">
-      <h2 class="information-text"> ${_("Recommandé pour vous")}</h2>
-      <div id="top-right-section">
-
-        <%include file="wul_apps/gamification.html" args="courses=course_enrollments"/>
-
-      </div>
+      <img class="alt_simulateur" src="${static.url('amazon-belgique/images/alt_simulateur.png')}" alt="replace simulateur"/>
     </div>
 
   </div> <!-- class="dashboard" id="dashboard-main" -->
@@ -1193,5 +1197,9 @@ input[type="checkbox"] {
     }
 
 }
+
+.side-container {
+  text-align: center
+};
 
 </style>

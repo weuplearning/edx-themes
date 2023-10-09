@@ -178,8 +178,6 @@ window.addEventListener("load", function () {
 
                 const translations = {
                     "switch_register_language": "Vous souhaitez vous inscrire à la plateforme en Français? suivez",
-                    "span_link": { property: "style.display", value: "None" },
-                    "span_link_fr": { property: "style.display", value: "inline" },
                     "text": "Heeft u al een account?",
                     "contact_us": "Inloggen",
                     "register-name-desc": "Deze naam komt te staan op elk certificaat dat u behaalt",
@@ -189,13 +187,15 @@ window.addEventListener("load", function () {
                 for (let id in translations) {
                     const element = document.getElementById(id);
                     if (element) {
-                        if (typeof translations[id] === "object") {
-                            element[translations[id].property] = translations[id].value;
-                        } else {
-                            element.innerText = translations[id];
-                        }
+                        element.innerText = translations[id];
                     }
+                    console.log(element)
                 }
+
+                const linkFr = document.getElementById("span_link_fr");
+                const linkNl = document.getElementById("span_link");
+                linkFr.style.display = "inline"
+                linkNl.style.display = "None"
 
                 const labelTranslations = {
                     "register-company": "Onderneming/SIRET (optioneel)",
