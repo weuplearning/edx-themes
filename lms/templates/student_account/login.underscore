@@ -111,15 +111,26 @@ a.field-link{
 </form>
 
 <script>
+function getCookie(name) {
+    var value = "; " + document.cookie;
+    var parts = value.split("; " + name + "=");
+    if (parts.length > 1) {
+        // Return the last occurrence of the cookie
+        return parts[parts.length - 1].split(";")[0];
+    }
+    return undefined;
+}
+
+var myCookieValue = getCookie('openedx-language-preference');
+console.log(myCookieValue);
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const ParameterLanguage = urlParams.get('language')
+console.log(ParameterLanguage);
     
 window.addEventListener("load", function () {
-        let currentLanguage =  "FR"
-        const titleLanguage = document.getElementsByTagName("h2")[0].innerText
-        if (titleLanguage == "Leuk u weer te zien") {
-            currentLanguage = "nl_nl"
-        }
-        console.log(currentLanguage)
-        if (currentLanguage == 'nl_nl') {
+
+        if (myCookieValue == 'nl-nl' || ParameterLanguage == 'nl' ) {
             document.getElementsByClassName("form-text text")[0].innerText = "Nog geen account?"
             document.getElementsByClassName("form-text form-toggle")[0].innerText  = "Meld u nu aan"
             document.getElementsByClassName("login-help field-link")[0].innerText = "Hulp nodig bij het aanmelden?"

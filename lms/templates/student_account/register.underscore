@@ -149,6 +149,11 @@ function getCookie(name) {
 
 var myCookieValue = getCookie('openedx-language-preference');
 console.log(myCookieValue);
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const ParameterLanguage = urlParams.get('language')
+console.log(ParameterLanguage);
+
 
 window.addEventListener("load", function () {
 
@@ -174,7 +179,17 @@ window.addEventListener("load", function () {
                 window.location.href = 'https://amazon-belgique.weup.in/register?course_id=course-v1:amazon+Introduction+AZ_01&enrollment_action=enroll';
             });
 
-            if (myCookieValue == 'nl-nl') {
+            if (myCookieValue == 'nl-nl' || ParameterLanguage == 'nl') {
+
+                const accountH2 = document.querySelector('#register > h2')
+                const alreadyRegistered = document.querySelector('p.text');
+                const loginButton = document.querySelector('a.contact_us');
+
+                if (accountH2 && alreadyRegistered && loginButton) {
+                    accountH2.innerText = "Een account aanmaken"
+                    alreadyRegistered.innerText = "Heb je al een account?"
+                    loginButton.innerText = "Aanmelden"
+                }
 
                 const translations = {
                     "switch_register_language": "Vous souhaitez vous inscrire à la plateforme en Français? suivez",
@@ -189,7 +204,6 @@ window.addEventListener("load", function () {
                     if (element) {
                         element.innerText = translations[id];
                     }
-                    console.log(element)
                 }
 
                 const linkFr = document.getElementById("span_link_fr");
