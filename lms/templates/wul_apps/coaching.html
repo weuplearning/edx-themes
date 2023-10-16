@@ -187,86 +187,57 @@
     <% user_email=user.email %>
 
     <script>
+        // Check List of authorized Beta users 
         window.addEventListener('load', () => {
 
-            // get the current mail of the connected user
             const currentUserMail = "${user_email}"
+            let emailAllowed = false
 
-            // list of the mail addresses of the people allow to access the link button
-            const allowedEmailList = [
-                "Simrandeep.sng@gmail.com",
-                "allogan619@gmail.com",
-                "arnautmub@gmail.com",
-                "david@origami-sas.fr",
-                "georges.heloise@bbox.fr",
-                "feldmanr@hotmail.fr",
-                "cren.annette@gmail.com",
-                "sigao@live.fr",
-                "luciemimerel@gmail.com",
-                "germainfabienne10@gmail.com",
-                "kaddoursabah@yahoo.fr",
-                "artisanducristal06@gmail.com",
-                "laure@ticky-tacky.fr",
-                "direction@actifalperformance.com",
-                "ccchangch@gmail.com",
-                "e.moussio@gmail.com",
-                "naouri.mekdad@gmail.com",
-                "Elodieswanberg@gmail.com",
-                "lynda.achoui@live.fr",
-                "group3xm@hotmail.com",
-                "mj@creaz.com",
-                "sandra.baze.hypnotherapeute@gmail.com",
-                "Anouchka.agbayissah@gmail.com",
-                "elodieswanberg@gmail.com",
-                "diarrafantamady4@gmail.com",
-                "jeremy@goldaia.fr",
-                "germainfabienne@protonmail.com"
-            ]
+            fetch("/media/microsites/amazon/react_coach/beta_users_list.json")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("HTTP error " + response.status);
+                    }
+                    return response.json();
+                })
+                .then(jsonData => {
+                    allowedEmailList = jsonData['beta_users_list']
+                    emailAllowed = allowedEmailList.includes(currentUserMail)
+                })
+                .catch(error => {
+                    console.error("Error loading JSON file: " + error);
+                });
 
 
-            // verify if the current user's mail is in the list, and get the value false or true
-            const emailAllowed = allowedEmailList.includes(currentUserMail)
-            console.log(emailAllowed)
-            // setTimeout(() => {
             setInterval(() => {
-                // the button element to modify if the user isn't not in the vip list
                 const buttonToModify = document.querySelectorAll('.section2_tile-button');
-                // get the popup
                 var popup = document.getElementById("custom-popup");
-
-                // get the close button
                 var closeButton = document.getElementById("close-popup");
 
                 if (!emailAllowed) {
-                    // apply the modifications to each of the buttons on the page
                     buttonToModify.forEach(buttonsToTurnOff => {
                         buttonsToTurnOff.style.background='#546266';
                         buttonsToTurnOff.removeAttribute('href');
                         buttonsToTurnOff.setAttribute('title',"Vous n'êtes pas autorisé à accéder à ces liens pour l'instant..");
 
-                        // When the user clicks on the button, show the popup
                         buttonsToTurnOff.onclick = function(event) {
                             event.preventDefault();
                             popup.style.display = "block";
                         }
                     });
 
+                    closeButton.onclick = function() {
+                        popup.style.display = "none";
+                    }
 
-                        // When the user clicks on the close button, close the popup
-                        closeButton.onclick = function() {
+                    window.onclick = function(event) {
+                        if (event.target == popup) {
                             popup.style.display = "none";
                         }
-
-                        // When the user clicks anywhere outside of the popup, close it
-                        window.onclick = function(event) {
-                            if (event.target == popup) {
-                                popup.style.display = "none";
-                            }
-                        }
-
+                    }
                 }
-    
             }, 150)
+            
         })
     </script>
 
