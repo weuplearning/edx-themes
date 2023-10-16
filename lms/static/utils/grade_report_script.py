@@ -144,7 +144,7 @@ timestr = time.strftime("%Y_%m_%d")
 wb = Workbook()
 sheet = wb.active
 sheet.title= 'Rapport de notes'
-filename = '/home/edxtma/csv/{}_grand-reims_grade_report.xlsx'.format(timestr)
+filename = '/home/edxtma/csv/{}_sncf_surete_grade_report.xlsx'.format(timestr)
 
 correspondance_CF = {
   'true' : 'Oui',
