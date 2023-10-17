@@ -8,10 +8,10 @@ from django.urls import reverse
 from openedx.core.djangolib.markup import HTML, Text
 %>
 
-<head>
+<!-- <head>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
-</head>
+</head> -->
 
 <style>
 
@@ -19,16 +19,17 @@ from openedx.core.djangolib.markup import HTML, Text
     padding: 0;
     margin: 0;
   }
-  .container_banner{
+  .container_banner {
     width: 100%;
     max-height: 881px;
     height: auto;
-    background-image: url("${static.url('vinducentreloire/images/banner_top.png')}");
+    /* background-image: url("${static.url('vinducentreloire/images/banner_top.png')}"); */
     background-size: cover;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: relative;
   }
   p {
     font-family: Arial, Helvetica, sans-serif !important;
@@ -132,19 +133,16 @@ from openedx.core.djangolib.markup import HTML, Text
     margin-right: 20px;
   }
 
-
-
-
-
   .container_banner_title {
     text-transform: uppercase;
     font-size: 45px;
     text-align: center;
+    z-index: 3;
+    color: white;
   }
 
   .container_banner__bloc_image__image{
     width: 42vw;
-
   }
   .container_banner__buttons {
     display: flex;
@@ -230,43 +228,16 @@ from openedx.core.djangolib.markup import HTML, Text
     align-items: center;
   }
 
-  .swiper {
-    width: 100%;
-    height: 100%;
+  .container_introduction_bloc_left_paragraph {
+    line-height: 1.1em;
+    text-align: justify;
   }
 
-  .swiper-slide {
-    /* text-align: center; */
-    /* font-size: 18px; */
-    background: #fff;
-
-    /* Center slide text vertically */
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    -webkit-justify-content: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    -webkit-align-items: center;
-    align-items: center;
-  }
-
-  .container_caroussel{
-    width: 85vw;
+  .container_caroussel {
     height: 500px;
-    /* border: black solid 1px; */
     margin: auto;
     display: flex;
-    /* justify-content: center; */
     align-items: center;
-    margin-top: 2em;
-    margin-bottom: 2em;
-    padding-right: 13vw;
-    
   }
 
   .container_carousel_cards {
@@ -274,6 +245,7 @@ from openedx.core.djangolib.markup import HTML, Text
     align-items: center;
     flex-direction: row;
     width: fit-content;
+    margin: auto;
   }
 
   .container_carousel_entry {
@@ -281,7 +253,7 @@ from openedx.core.djangolib.markup import HTML, Text
     align-items: center;
     flex-direction: column;
     position: relative;
-    width: 300px;
+    width: 20vw;
     height: 450px;
     background: #f9eee4;
     margin: 1em;
@@ -302,19 +274,22 @@ from openedx.core.djangolib.markup import HTML, Text
   }
 
   .container_carousel_image{
-    height: auto;
-    width: 100%;
-    max-width: 200px;
+    height: 200px;
+    width: auto;
   }
 
   .container_carousel_name{
-    font-size: 2em;
+    font-size: 1.5em;
     text-align: center;
+    height: 3em;
+    display: flex;
+    align-items: center;
   }
 
   .container_carousel_text{
-    margin-left: 3em;
-    margin-right: 3em;
+    margin: 0 2em;
+    font-size: 0.9em;
+    line-height: 1.3;
   }
 
   .container_carousel_time {
@@ -380,6 +355,19 @@ from openedx.core.djangolib.markup import HTML, Text
     font-weight: 200;
   }
 
+  video {
+    position: absolute;
+    right: 0;
+    top: 0;
+    min-width: 100%;
+    max-height: 100%;
+    height: auto;
+    overflow: hidden;
+    background-size: cover;
+    object-fit: cover;
+  }
+
+
 
 
 
@@ -424,9 +412,6 @@ from openedx.core.djangolib.markup import HTML, Text
       align-items: center;
     }
 
-    .container_caroussel{
-      width: auto;
-    }
 
     .container_carousel_image{
       height: auto;
@@ -444,7 +429,12 @@ from openedx.core.djangolib.markup import HTML, Text
 
 <main id="main" aria-label="Content" tabindex="-1">
 
+  
   <div class="container_banner">
+    <video id="background-video" autoplay="true" loop="true" preload="metadata" muted>
+      <source src="/media/microsites/vinducentreloire/bivc_video_home_1.mp4" type="video/mp4">
+    </video>
+
     <div class="container_detailled-image">
       <img class="detailled-image" src="${static.url('vinducentreloire/images/vague.png')}" alt="logo vague" id="detailled-logo-vague" />
 
@@ -552,13 +542,13 @@ from openedx.core.djangolib.markup import HTML, Text
     <div class="container_banner__buttons">
       <div class="container_banner__buttons__button button_register">
         <a style="color: white" href="/register?next=%2F">
-          <span class="container_banner__buttons__button__link"></span>
+          <!-- <span class="container_banner__buttons__button__link"></span> -->
           Inscription
         </a>
       </div>
       <div class="container_banner__buttons__button button_login">
         <a style="color: white" href="/login">
-          <span class="container_banner__buttons__button__link"></span>
+          <!-- <span class="container_banner__buttons__button__link"></span> -->
           connexion
         </a>
       </div>
@@ -594,55 +584,43 @@ from openedx.core.djangolib.markup import HTML, Text
       <iframe class="container_introduction_bloc_left_video"></iframe>
     </div>
   </div>
-  <div class="container_caroussel swiper mySwiper">
-    <!-- <h1>CAROUSSEL</h1> -->
+
+  <div class="container_caroussel ">
+
     <div class="container_carousel_cards swiper-wrapper">
       <div class="container_carousel_entry swiper-slide slide1">
-        <img class="container_carousel_image" src="${static.url('vinducentreloire/images/picto_leaf.png')}" alt="picto leaf"/>
-        <h2 class="container_carousel_name">Titre du module 1</h2>
-        <p class="container_carousel_text">Delectus qui nulla sint quisquam nihil iste hic. Soluta quam nobis et corrupti non. Qui explicabo iste accusantium. Ut praesentium debitis delectus architecto et libero cum. Voluptas aut temporibus dolores modi velit.</p>
-        <p class="container_carousel_time">10 minutes</p>
+        <img class="container_carousel_image" src="${static.url('vinducentreloire/images/fbc403c079c14cb3acb90676ce65c7d8.png')}" alt="picto chapter 1"/>
+        <h2 class="container_carousel_name">Environnement et Contexte</h2>
+        <p class="container_carousel_text">Situation géographique
+        <br>Histoire géologique et terroirs <br>Les cépages du Centre-Loire <br>La Famille des appellations du Centre-Loire </p>
+        <p class="container_carousel_time">50 minutes</p>
       </div>
       <div class="container_carousel_entry swiper-slide slide2">
-        <img class="container_carousel_image" src="${static.url('vinducentreloire/images/picto_grape.png')}" alt="picto grappe"/>
-        <h2 class="container_carousel_name">Titre du module 2</h2>
-        <p class="container_carousel_text">Delectus qui nulla sint quisquam nihil iste hic. Soluta quam nobis et corrupti non. Qui explicabo iste accusantium. Ut praesentium debitis delectus architecto et libero cum. Voluptas aut temporibus dolores modi velit.</p>
-        <p class="container_carousel_time">10 minutes</p>
+        <img class="container_carousel_image" src="${static.url('vinducentreloire/images/7e45b8a8c74e4441b364c25e7c64d913.png')}" alt="picto chapter 2"/>
+        <h2 class="container_carousel_name">Le Processus de Production</h2>
+        <p class="container_carousel_text">Le Processus de Vinification <br>La Transmission du Modèle d'artisan vigneron </p>
+        <p class="container_carousel_time">20 minutes</p>
       </div>
       <div class="container_carousel_entry swiper-slide slide3">
-        <img class="container_carousel_image" src="${static.url('vinducentreloire/images/picto_fossil.png')}" alt="picto fossil"/>
-        <h2 class="container_carousel_name">Titre du module 3</h2>
-        <p class="container_carousel_text">Delectus qui nulla sint quisquam nihil iste hic. Soluta quam nobis et corrupti non. Qui explicabo iste accusantium. Ut praesentium debitis delectus architecto et libero cum. Voluptas aut temporibus dolores modi velit.</p>
-        <p class="container_carousel_time">10 minutes</p>
+        <img class="container_carousel_image" src="${static.url('vinducentreloire/images/fb2dd43b97d4492388c9223fb892512b.png')}" alt="picto chapter 3"/>
+        <h2 class="container_carousel_name">La Commercialisation</h2>
+        <p class="container_carousel_text">La Commercialisation des Vins du Centre-Loire : une forte présence en France et à l'International <br>La Dégustation </p>
+        <p class="container_carousel_time">30 minutes</p>
       </div>
       <div class="container_carousel_entry swiper-slide slide2">
-        <img class="container_carousel_image" src="${static.url('vinducentreloire/images/picto_grape.png')}" alt="picto grappe"/>
-        <h2 class="container_carousel_name">Titre du module 2</h2>
-        <p class="container_carousel_text">Delectus qui nulla sint quisquam nihil iste hic. Soluta quam nobis et corrupti non. Qui explicabo iste accusantium. Ut praesentium debitis delectus architecto et libero cum. Voluptas aut temporibus dolores modi velit.</p>
-        <p class="container_carousel_time">10 minutes</p>
-      </div>
-      <div class="container_carousel_entry swiper-slide slide1">
-        <img class="container_carousel_image" src="${static.url('vinducentreloire/images/picto_leaf.png')}" alt="picto leaf"/>
-        <h2 class="container_carousel_name">Titre du module 1</h2>
-        <p class="container_carousel_text">Delectus qui nulla sint quisquam nihil iste hic. Soluta quam nobis et corrupti non. Qui explicabo iste accusantium. Ut praesentium debitis delectus architecto et libero cum. Voluptas aut temporibus dolores modi velit.</p>
-        <p class="container_carousel_time">10 minutes</p>
-      </div>
-      <div class="container_carousel_entry swiper-slide slide3">
-        <img class="container_carousel_image" src="${static.url('vinducentreloire/images/picto_fossil.png')}" alt="picto fossil"/>
-        <h2 class="container_carousel_name">Titre du module 3</h2>
-        <p class="container_carousel_text">Delectus qui nulla sint quisquam nihil iste hic. Soluta quam nobis et corrupti non. Qui explicabo iste accusantium. Ut praesentium debitis delectus architecto et libero cum. Voluptas aut temporibus dolores modi velit.</p>
-        <p class="container_carousel_time">10 minutes</p>
+        <img class="container_carousel_image" src="${static.url('vinducentreloire/images/c2027ff570fb4f10bbf24e61c2ca0453.png')}" alt="picto chapter 4"/>
+        <h2 class="container_carousel_name">Les Enjeux Environnementaux</h2>
+        <p class="container_carousel_text">Etat des Lieux de la Région Viticole Centre-Loire <br>Le SICAVAC </p>
+        <p class="container_carousel_time">30 minutes</p>
       </div>
     </div>
-    <div class="container_carousel_back swiper-button-prev"></div>
-    <div class="container_carousel_forward swiper-button-next"></div>
-    <!-- <div class="swiper-pagination"></div> -->
+
   </div>
 
   <div class="container_register">
     <div class="container_register__buttons__register">
       <a style="color: white" href="/register?next=%2F">
-        <span class="container_banner__buttons__button__link"></span>
+        <!-- <span class="container_banner__buttons__button__link"></span> -->
         S'inscrire au MOOC
       </a>
     </div>
@@ -682,44 +660,3 @@ from openedx.core.djangolib.markup import HTML, Text
 
 </main>
 
-<script>
-  var swiper = new Swiper(".mySwiper", {
-  slidesPerView: 1,
-  spaceBetween: 10,
-  initialSlide: 1,
-  loop: false,
-  loopFillGroupWithBlank: false,
-  breakpoints: {
-    "320": {
-        slidesPerView: 1,
-        spaceBetween: 10,
-    },
-	  "480": {
-        slidesPerView: 2,
-        spaceBetween: 10,
-    },
-    "640": {
-        slidesPerView: 2,
-        spaceBetween: 10,
-    },
-    "875": {
-        slidesPerView: 3,
-        spaceBetween: 10,
-    },
-    "1200": {
-        slidesPerView: 3,
-        spaceBetween: 120,
-    },
-  },
-  // pagination: {
-  //   el: ".swiper-pagination",
-  //   clickable: true,
-  // },
-  navigation: {
-    nextEl: ".swiper-button-next",
-    prevEl: ".swiper-button-prev",
-  },
-  });
-
-//https://codepen.io/anon/pen/aLVQom
-</script>
