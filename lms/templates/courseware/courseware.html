@@ -438,47 +438,53 @@ let finished_exam = setInterval(() => {
     var logout_button = document.createElement("div");
     // logout_button.innerHTML = "<div id='logout-button-end' ><a href='/logout'>Valider et terminer l'examen</a></div>"
     logout_button.innerHTML = "<div id='logout-button-end' >Valider et terminer l'examen</div>"
+
     div_completion.appendChild(logout_button);
 
     logout_button.addEventListener("click", function(){
 
       function decodeHtml(html) {
-          var txt = document.createElement("textarea");
-          txt.innerHTML = html;
-          return txt.value;
+        var txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
       }
 
       function convertToJsObject(escapedJson) {
-          // Decode HTML entities
-          const decodedString = decodeHtml(escapedJson);
-          
-          // Replace single quotes with double quotes for JSON
-          const jsonString1 = decodedString.replace(/'/g, '"');
-          const jsonString2 = jsonString1.replace(/True/g, 'true');
-          const jsonString3 = jsonString2.replace(/False/g, 'false');
-          const jsonString = jsonString3.replace(/None/g, 'null');
-          
-          // Parse JSON to get a JavaScript object
-          return JSON.parse(jsonString);
+        // Decode HTML entities
+        const decodedString = decodeHtml(escapedJson);
+        
+        // Replace single quotes with double quotes for JSON
+        const jsonString1 = decodedString.replace(/'/g, '"');
+        const jsonString2 = jsonString1.replace(/True/g, 'true');
+        const jsonString3 = jsonString2.replace(/False/g, 'false');
+        const jsonString = jsonString3.replace(/None/g, 'null');
+        
+        // Parse JSON to get a JavaScript object
+        return JSON.parse(jsonString);
       }
 
-
+      
       const customFieldsStr = "${custom_fields}";
       const customFieldsObj = convertToJsObject(customFieldsStr);
+
       const courseID = "${course.id}"
+      const today = new Date();
+      const timestamp = today.getTime();
 
       customFieldsObj[courseID] = "quizz_completed"
       customFieldsObj["authorized"] = true
+      customFieldsObj['session_date'] = timestamp
+
 
       const url = '/wul_apps/custom_field_editor/';
       const data = JSON.stringify(customFieldsObj);
       const settings = {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json",
-              "X-CSRFToken": $.cookie('csrftoken'),
-          },
-          body: data
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": $.cookie('csrftoken'),
+        },
+        body: data
       };
 
       fetch(url, settings)

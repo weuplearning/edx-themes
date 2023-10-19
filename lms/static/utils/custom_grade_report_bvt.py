@@ -55,7 +55,6 @@ course_ids = [
   'course-v1:bvt+pp_01+2022', 'course-v1:bvt+pp_02+2022', 'course-v1:bvt+pp_03+2022', 'course-v1:bvt+pp_04+2022', 'course-v1:bvt+pp_05+2022', 'course-v1:bvt+pp_06+2022', 'course-v1:bvt+pp_07+2022', 'course-v1:bvt+pp_08+2022', 'course-v1:bvt+pp_09+2022', 'course-v1:bvt+pp_10+2022', 'course-v1:bvt+pp_11+2022', 'course-v1:bvt+pp_12+2022', 'course-v1:bvt+pp_13+2022', 'course-v1:bvt+pp_14+2022', 'course-v1:bvt+pp_15+2022', 'course-v1:bvt+pp_16+2022', 'course-v1:bvt+pp_17+2022', 'course-v1:bvt+pp_18+2022', 'course-v1:bvt+pp_19+2022', 'course-v1:bvt+pp_20+2022' 
 ]
 
-
 emails = sys.argv[1].split(";")
 
 
@@ -102,8 +101,8 @@ no_student = True
 for course_id in course_ids:
   course_key = CourseLocator.from_string(course_id)
   course = get_course_by_id(course_key)
-  course_enrollments = CourseEnrollment.objects.filter(course_id=course_key)
   course_name = course.display_name_with_default
+  course_enrollments = CourseEnrollment.objects.filter(course_id=course_key)
 
   course_data = {}
 
@@ -117,19 +116,26 @@ for course_id in course_ids:
     if str(user.email).find('@yopmail') != -1 or str(user.email).find('@weuplearning') != -1 or str(user.email).find('@themoocagency') != -1 :
       continue
 
+
     # FILTRER LES UTILISATEUR DU JOUR POUR RENDRE UN RAPPORT SANS ANCIENS UTILISATEURS : 
-    now = timezone.now()
+    try :
+      session_date = json.loads(user.profile.custom_field)['session_date']
+      timestamp = session_date // 1000
+      dt_object = datetime.fromtimestamp(timestamp)
+      dt_object_utc = dt_object.replace(tzinfo=timezone.utc)
 
-    try:
-      user_last_login = user.last_login
-    except:
-      continue
-    log.info(user.email)
+    except :
+      # Escape this user
+      continue 
 
-    if not user_last_login:
+
+    if not user.last_login:
       continue
-  
-    if (now - timedelta(days=daysLimit) >= user_last_login ):
+
+
+    now = datetime.now(timezone.utc)
+
+    if (now - timedelta(days=daysLimit) >= dt_object_utc ):
       continue
 
 
@@ -311,7 +317,6 @@ html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous trouverez en pièce j
 for email in emails:
   if no_student :
     log.info('no_student')
-    log.info(no_student)
     break
 
   part2 = MIMEText(html.encode('utf-8'), 'html', 'utf-8')
