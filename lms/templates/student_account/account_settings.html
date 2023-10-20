@@ -111,12 +111,15 @@ from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_f
 
     if (currentLanguage === 'nl_nl') {
         const translations = {
-            "u-field-message-help-username": "Uw naam op L’Accélérateur du Numérique. U kunt uw gebruikersnaam niet wijzigen",
-            "u-field-message-help-email": "De berichten die u ontvangt van de website van L'Accélérateur du Numérique en de onderwijsteams worden naar dit adres gestuurd.",
+            "u-field-message-country": "Uw land of woonplaats.",
+            "u-field-help-message-country": "Uw land of woonplaats.",
+            "u-field-link-password": "Stel je wachtwoord opnieuw in",
+            "u-field-message-help-username": "Uw naam op The E-Academy. U kunt uw gebruikersnaam niet wijzigen",
+            "u-field-message-help-email": "De berichten die u ontvangt van de website van The E-Academy en de onderwijsteams worden naar dit adres gestuurd",
             "u-field-message-help-password": "Controleer uw inbox voor instructies om uw wachtwoord opnieuw in te stellen.",
             "u-field-help-message-pref-lang": "De taal die op deze site wordt gebruikt. Deze site is alleen beschikbaar in bepaalde talen. Als u dit veld wijzigt, wordt de pagina automatisch ververst.",
             "u-field-help-message-country": "Je land of regio van verblijf.",
-            "u-field-help-message-time_zone": "Selecteer de tijdzone voor het weergeven van cursusdata. Als je geen tijdzone opgeeft, worden de cursusdata, inclusief deadlines voor opdrachten, weergegeven volgens de lokale tijdzone van je browser.",
+            "u-field-help-message-time_zone": "Selecteer de tijdzone voor het weergeven van cursusdata. Als u geen tijdzone opgeeft, worden cursusdatums, inclusief einddatums voor opdrachten, weergegeven op basis van de lokale tijdzone van uw browser.",
             "u-field-message-help-social_links_facebook": "Voer je Facebook-gebruikersnaam of de URL naar je Facebook-pagina in. Verwijder de URL om de link te verwijderen.",
             "u-field-message-help-social_links_twitter": "Voer je twitter-gebruikersnaam of de URL naar je twitter-pagina in. Verwijder de URL om de link te verwijderen.",
             "u-field-message-help-social_links_linkedin": "Voer je liknkedin-gebruikersnaam of de URL naar je liknkedin-pagina in. Verwijder de URL om de link te verwijderen."
@@ -139,7 +142,7 @@ from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_f
                     section.innerText = "We vinden het jammer dat je weggaat!";
                     break;
                 case "Remarque: la suppression de votre compte et de vos données personnelles est définitive et irréversible. Une fois votre compte supprimé, vous ne pourrez plus utiliser vos identifiants pour acccéder au contenu du site internet Amazon Belgique. Vous perdrez également l'accès à vos badges de validation de module.":
-                    section.innerText = "Let op: de verwijdering van je account en je persoonlijke gegevens is definitief en onomkeerbaar. Zodra je account is verwijderd, kun je je inloggegevens niet meer gebruiken om toegang te krijgen tot content op de website van L'Accélérateur du Numérique. Je verliest ook de toegang tot je modulevalidatiebadges.";
+                    section.innerText = "Let op: de verwijdering van je account en je persoonlijke gegevens is definitief en onomkeerbaar. Zodra je account is verwijderd, kun je je inloggegevens niet meer gebruiken om toegang te krijgen tot content op de website van The E-Academy. Je verliest ook de toegang tot je modulevalidatiebadges.";
                     break;
                 case "Cette page contient des informations à propos des commandes que vous avez passés avec L’Accélérateur du Numérique.":
                     section.innerText = "Deze pagina bevat informatie over de bestellingen die je bij L'Accélérateur du Numérique hebt geplaatst.";
@@ -148,7 +151,7 @@ from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_f
                     section.innerText = "Je kunt ook de toegang verliezen tot geverifieerde certificaten en andere programmakredieten zoals MicroMasters-certificaten. Als je een kopie wilt maken voor je administratie voordat je verder gaat met het verwijderen, volg dan de instructies om een certificaat af te drukken of te downloaden.";
                     break;
                 case "Une fois votre compte supprimé, vous ne pourrez plus suivre les contenus du site internet Amazon Belgique (amazon-belgique.weup.in) ou sur quelque terminal que ce soit y compris une éventuelle application mobile de Amazon Belgique. Cela inclut l'accès à amazon-belgique.weup.in depuis les systèmes de votre entreprise ou établissement d’enseignement and access to private sites offered by MIT Open Learning, Wharton Executive Education, and Harvard Medical School.":
-                    section.innerText = "Zodra uw account is verwijderd, kunt u de inhoud van de website van L'Accélérateur du Numérique (amazon-belgique.qualif.dev) of op welke terminal dan ook, met inbegrip van mobiele toepassingen van L'Accélérateur du Numérique, niet meer volgen. Dit omvat de toegang tot amazon-belgique.qualif.dev vanuit de systemen van uw bedrijf of onderwijsinstelling en de toegang tot privé-sites aangeboden door MIT Open Learning, Wharton Executive Education en Harvard Medical School.";
+                    section.innerText = "Zodra uw account is verwijderd, kunt u de inhoud van de website van The E-Academy (amazon-belgique.qualif.dev) of op welke terminal dan ook, met inbegrip van mobiele toepassingen van The E-Academy, niet meer volgen. Dit omvat de toegang tot amazon-belgique.qualif.dev vanuit de systemen van uw bedrijf of onderwijsinstelling en de toegang tot privé-sites aangeboden door MIT Open Learning, Wharton Executive Education en Harvard Medical School.";
                     break;
 
                 default:
@@ -177,6 +180,21 @@ from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_f
                     break;
             }
         }
+
+        const timeZone = document.querySelector('label[for="u-field-select-time_zone"]');
+        const timeZoneSelector = document.querySelector('#u-field-select-time_zone option');
+        const studies = document.querySelector('.u-field-title[for="u-field-select-level_of_education"]');
+
+        if (timeZone) {
+            timeZone.innerText = "Tijdzone"
+        }
+        if (timeZoneSelector) {
+            timeZoneSelector.innerText = "lokale tijdzone"
+        }
+        if (studies) {
+            studies.innerText = "Opleidingsniveau"
+        }
+
 
     }
 }

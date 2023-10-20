@@ -170,13 +170,15 @@ window.addEventListener("load", function () {
             document.getElementById('register_link').addEventListener('click', function(event) {
                 event.preventDefault();
                 setCookie('openedx-language-preference', 'nl-nl', 365);
-                window.location.href = 'https://amazon-belgique.weup.in/register?course_id=course-v1:amazon+Introduction+AZNL_01&enrollment_action=enroll';
+                window.location.href = 'https://e-academy.be/register?course_id=course-v1:amazon+Introduction+AZNL_01&enrollment_action=enroll';
             });
 
             document.getElementById('register_link_nl').addEventListener('click', function(event) {
                 event.preventDefault();
+                console.log(document.cookie)
                 document.cookie = "openedx-language-preference=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                window.location.href = 'https://amazon-belgique.weup.in/register?course_id=course-v1:amazon+Introduction+AZ_01&enrollment_action=enroll';
+                console.log(document.cookie)
+                window.location.href = 'https://e-academy.be/register?course_id=course-v1:amazon+Introduction+AZ_01&enrollment_action=enroll';
             });
 
             if (myCookieValue == 'nl-nl' || ParameterLanguage == 'nl') {
@@ -227,12 +229,14 @@ window.addEventListener("load", function () {
 
                 const tosLink = document.querySelector('a[href="/tos"][rel="noopener"][target="_blank"]');
                 if (tosLink) {
-                    tosLink.innerText = "van L'Accélérateur du Numérique";
+                    tosLink.innerText = "de algemenege bruiksvoorwaarden van The E-Academy van";
                 }
 
                 const termsOfServiceLabel = document.querySelector('label[for="register-terms_of_service"]');
                 if (termsOfServiceLabel && termsOfServiceLabel.firstElementChild) {
                     termsOfServiceLabel.firstElementChild.firstChild.textContent = "Ik aanvaard de ";
+                    termsOfServiceLabel.firstElementChild.lastChild.textContent = " van Amazon België"
+
                 }
 
                 const amazonRegisterData = document.querySelector(".amazon-register-data");
