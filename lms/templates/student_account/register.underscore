@@ -170,15 +170,13 @@ window.addEventListener("load", function () {
             document.getElementById('register_link').addEventListener('click', function(event) {
                 event.preventDefault();
                 setCookie('openedx-language-preference', 'nl-nl', 365);
-                window.location.href = 'https://e-academy.be/register?course_id=course-v1:amazon+Introduction+AZNL_01&enrollment_action=enroll';
+                window.location.href = '/register?course_id=course-v1:amazon+Introduction+AZNL_01&enrollment_action=enroll';
             });
 
             document.getElementById('register_link_nl').addEventListener('click', function(event) {
                 event.preventDefault();
-                console.log(document.cookie)
-                document.cookie = "openedx-language-preference=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                console.log(document.cookie)
-                window.location.href = 'https://e-academy.be/register?course_id=course-v1:amazon+Introduction+AZ_01&enrollment_action=enroll';
+                setCookie('openedx-language-preference', 'fr', 365);
+                window.location.href = '/register?course_id=course-v1:amazon+Introduction+AZ_01&enrollment_action=enroll';
             });
 
             if (myCookieValue == 'nl-nl' || ParameterLanguage == 'nl') {
