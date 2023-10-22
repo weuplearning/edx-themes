@@ -242,6 +242,8 @@ if 'last_visited_course' in custom_fields.keys() :
 
               
               <script>
+                  const currentLanguage = "${request.LANGUAGE_CODE}";
+                  console.log(currentLanguage);
                 // Need API to add progress and remaining time
                 $.ajax({
                   // Courses api
@@ -287,11 +289,16 @@ if 'last_visited_course' in custom_fields.keys() :
                         // apply progress ratio and convert min to time
                         let min_effort = Number((String(effort).split(':')[1])) + Number(String(effort).split(':')[0]) * 60
                         let progessed_min = min_effort * progress_remain
-                        let progessed_hour = (Math.floor(progessed_min / 60)) + ' H'
+                        let progessed_hour = (Math.floor(progessed_min / 60)) 
                         // let progessed_hour = (Math.floor(progessed_min / 60)) + 'h' + (Math.floor(progessed_min % 60))
                         let textDate = document.getElementById("new-section").getElementsByClassName("wrapper-course-details")
                         if (textDate[0]) {
-                          textDate[0].getElementsByClassName("info-date-block-container")[0].innerHTML = 'Temps restant : ' + progessed_hour ;
+                          if (currentLanguage == 'nl-nl') {
+                            textDate[0].getElementsByClassName("info-date-block-container")[0].innerHTML = 'Resterende tijd : ' + progessed_hour + ' u' ;
+                          } else {
+                            textDate[0].getElementsByClassName("info-date-block-container")[0].innerHTML = 'Temps restant : ' + progessed_hour + ' H' ;
+                          }
+                          
                         }
                         // document.getElementById("new-section").getElementsByClassName("wrapper-course-details")[0].getElementsByClassName("info-date-block-container")[0].innerHTML = 'Temps restant : ' + progessed_hour ;
                       }
@@ -305,7 +312,12 @@ if 'last_visited_course' in custom_fields.keys() :
 
                       course_plan = document.createElement("a");
                       course_plan.classList.add("course-plan");
-                      course_plan.innerHTML = "Plan du cours";
+                      if (currentLanguage == 'nl-nl') {
+                            course_plan.innerHTML = "Overzicht cursus";
+                          } else {
+                            course_plan.innerHTML = "Plan du cours";
+                          }
+                      
                       course_plan.href = "/courses/"+ course['course_id'] +"/course/";
                       document.getElementById("new-section").getElementsByClassName("course-container")[0].getElementsByClassName("wrapper-course-image")[0].getElementsByClassName("wrapper-course-actions")[0].getElementsByClassName("course-actions")[0].appendChild(course_plan);
 
@@ -388,7 +400,7 @@ if 'last_visited_course' in custom_fields.keys() :
           <input type="checkbox" value="Tech" onchange="handleCategoryChange(event)" />#Tech
       </label>
       <label class="section2-filterSection-labels">
-          <input type="checkbox" value="Marketplace" onchange="handleCategoryChange(event)" />#Marketplace
+          <input type="checkbox" value="Marketplace" onchange="handleCategoryChange(event)" />#marktplaats
       </label>
       % else :
         <label class="section2-filterSection-labels">
@@ -721,8 +733,8 @@ if 'last_visited_course' in custom_fields.keys() :
 </script>
 
 <script>
-  const currentLanguage = "${request.LANGUAGE_CODE}";
-  console.log(currentLanguage);
+  // const currentLanguage = "${request.LANGUAGE_CODE}";
+  // console.log(currentLanguage);
   
 window.addEventListener("load", function () {
 

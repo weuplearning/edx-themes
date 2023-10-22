@@ -194,7 +194,12 @@ from lms.djangoapps.course_api.views import CourseListView
     <div class="main-container">
       <h1 class="header-title">${_("Bienvenue sur l'espace e-learning")}</h1>
       <p class="header-text">${_("Notre page e-learning est conçue pour vous offrir une initiation complète au e-commerce.")}</p>
-      <p class="header-text">${_("Dans cette section, vous pourrez explorer nos cours, suivre votre progression pour apprendre à votre rythme et à votre manière.")}" </p>
+      <!-- <p class="header-text">${_("Dans cette section, vous pourrez explorer nos cours, suivre votre progression pour apprendre à votre rythme et à votre manière.")}" </p> -->
+      % if request.LANGUAGE_CODE == 'nl-nl':
+        <p class="header-text">In dit gedeelte kunt u onze cursussen verkennen, uw voortgang volgen en in uw eigen tempo en op uw eigen manier leren. </p>
+      %else:
+        <p class="header-text">Dans cette section, vous pourrez explorer nos cours, suivre votre progression pour apprendre à votre rythme et à votre manière. </p>
+      %endif
       <p class="header-text">${_("Vous ne savez pas par où commencer ? Utilisez notre simulateur pour obtenir des recommandations personnalisées et commencez dès maintenant votre parcours de formation.")}</p>
     </div><!-- class="main-container" -->
 
@@ -233,7 +238,7 @@ from lms.djangoapps.course_api.views import CourseListView
           <input type="checkbox" value="Tech" onchange="handleCategoryChange(event)" />#Tech
       </label>
       <label class="section2-filterSection-labels">
-          <input type="checkbox" value="Marketplace" onchange="handleCategoryChange(event)" />#Marketplace
+          <input type="checkbox" value="Marketplace" onchange="handleCategoryChange(event)" />#marktplaats
       </label>
       % else :
         <label class="section2-filterSection-labels">

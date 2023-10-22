@@ -95,6 +95,13 @@
 
    }
 
+   .logoFooterRight {
+      width: 190px;
+   }
+
+   #text-footer-right{
+      width: 240px;
+   }
 
 </style>
 
@@ -105,12 +112,12 @@
       <div class="container1">
          <div class="row">
             <div class="footer-column" >
-               <img class="logoFooter text-footer-up" src="${static.url('amazon-belgique/images/logo-e-academy-1.png')}" alt="logoADN"/>
+               <img class="logoFooterRight text-footer-up" src="${static.url('amazon-belgique/images/logo-e-academy-1.png')}" alt="logoADN"/>
                <p class="text-footer">${_("L'Accélérateur du Numérique est un programme éducatif en ligne gratuit destiné à accompagner l'ensemble des entrepreneurs belges à développer leur activité en ligne.")}</p>
             </div>
             <div class="footer-column" >
-                     <p class="text-footer text-footer-up">${_("Un programme initié par")}</p>
-                     <a href="https://services.amazon.fr/" target="_blank"><img src="${static.url('amazon/images/logo_amazon.png')}" class="logoFooter" alt="logo BPI France"></a>
+                     <p  id="text-footer-right" class="text-footer text-footer-up">${_("Un programme initié par")}</p>
+                     <a href="https://services.amazon.fr/" target="_blank"><img src="${static.url('amazon/images/logo_amazon.png')}" class="Right" alt="logo BPI France"></a>
             </div>
             <!-- <div class="footer-column" >
                   <p class="text-footer text-footer-up">${_("Suivez-nous")}</p>
@@ -156,6 +163,11 @@ if (myCookieValue == "nl-nl") {
    var link1 = document.getElementById("footer_link_1");
    var link2 = document.getElementById("footer_link_2");
    var link3 = document.getElementById("footer_link_3");
+   var footerRight = document.getElementById("text-footer-right")
+
+   if (footerRight) {
+      footerRight.innerText = "Een programma opgericht door"
+   }
 
    // Change the href attributes
    link1.href = "/index.php/wettelijke-vermeldingen/";
