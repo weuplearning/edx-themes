@@ -95,7 +95,7 @@ from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_f
     // remove all language except french and dutch
     var options = document.querySelectorAll('#u-field-select-pref-lang option');
     options.forEach(function(option) {
-        if (option.value !== 'fr' && option.value !== 'nl-nl') {
+        if (option.value !== 'fr' && option.value !== 'nl-nl' && option.value !== '') {
             option.remove();
         }
     });
@@ -104,12 +104,12 @@ from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_f
     let currentLanguage = titleLanguageElement ? titleLanguageElement.innerText : "";
 
     if (currentLanguage === "Account instellingen") {
-        currentLanguage = "nl_nl";
+        currentLanguage = "nl-nl";
     }
 
     console.log(currentLanguage);
 
-    if (currentLanguage === 'nl_nl') {
+    if (currentLanguage === 'nl-nl') {
         const translations = {
             "u-field-message-country": "Uw land of woonplaats.",
             "u-field-help-message-country": "Uw land of woonplaats.",
