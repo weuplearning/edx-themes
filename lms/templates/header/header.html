@@ -288,3 +288,11 @@ if (window.location.pathname.indexOf('login') == 1 ) {
 }
 </script>
 % endif
+
+%if not user.is_authenticated:
+<script>
+    if(window.location.pathname.indexOf('wul_apps') == 1) {
+        window.location.replace('/register')
+    }
+</script>
+% endif
