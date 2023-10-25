@@ -11,121 +11,123 @@
 <%namespace name='static' file='static_content.html'/>
 
 <style>
-   #footer {
-      background-color: #1e2631;
-      padding-top: 40px;
-      padding-bottom: 0;
-      background-image: none;
-   }
+    #footer {
+        background-color: #1e2631;
+        padding-top: 40px;
+        padding-bottom: 0;
+        background-image: none;
+    }
 
-   .footer-column .footer-block-padd ul li {
-  list-style-type: none;
-}
+    .footer-column .footer-block-padd ul li {
+        list-style-type: none;
+    }
 
-   .container1 {
-      max-width: inherit;
-   }
+    .container1 {
+        max-width: inherit;
+    }
 
-   .footer-column {
-      width: 425px !important;
-      text-align: center;
-      display: flex;
-   justify-content: center;
-   flex-direction: column;
-   align-items: center;
-   }
+    .footer-column {
+        width: 425px !important;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
 
-   .list-unstyled, .text-center{
-      text-align: inherit !important;
-   }
+    .list-unstyled, .text-center{
+        text-align: inherit !important;
+    }
 
-   .row{
-      display: flex;
-      justify-content: space-around;
-      align-items: baseline;
-   }
+    .row {
+        display: flex;
+        justify-content: space-around;
+        align-items: baseline;
+    }
 
-   .text-footer{
-      color: #fff;
-      line-height: 1.2;
-   }
-   .text-footer-up{
-      margin-bottom: 10px;
-      width: 150px;;
-   }
+    .text-footer{
+        color: #fff;
+        line-height: 1.2;
+    }
+    .text-footer-up{
+        margin-bottom: 10px;
+        width: 150px;;
+    }
 
-   /* .logoSocialmedia{ */
-   .social-media-links > a {
-      margin: 10px 20px 0 0;
-   }
-   .social-media-links > a:last-child {
-      margin: 10px 0px 0 0;
+    .social-media-links > a {
+        margin: 10px 20px 0 0;
+    }
+    .social-media-links > a:last-child {
+        margin: 10px 0px 0 0;
+    }
 
-   }
+    .footerBottom{
+        border-top: solid #fff 1px;
+        margin-top: 40px;
+        padding-bottom: 20px; 
+    }
+    .footer_links{
+        color: #fff !important;
+        padding-right: 20px;
+    }
 
-   .footerBottom{
-      border-top: solid #fff 1px;
-      margin-top: 40px;
-      padding-bottom: 20px; 
-   }
-   .footer_links{
-      color: #fff !important;
-      padding-right: 20px;
-   }
+    .footer_cgu{
+        margin-top: 30px;
+        font-size: small;
+        width: 45vw;
+        display: flex;
+        justify-content: space-around;   
+    }
+    @media (max-width: 520px) {
+        #footer .container1 .row {
+            flex-direction: column;
+            padding: 7px;
+        } 
+        #footer .container1 .row .footer-column {
+            width: 100% !important;
+            padding: 15px 0;
+        }
+        .footerBottom .footer_cgu {
+            display: flex;
+            flex-direction: column;
+        }
+        .footerBottom .footer_cgu .footer_links {
+            padding: 10px 0;
+        }
 
-   .footer_cgu{
-      margin-top: 30px;
-   }
-   @media (max-width: 520px) {
-      #footer .container1 .row {
-         flex-direction: column;
-         padding: 7px;
-      } 
-      #footer .container1 .row .footer-column {
-         width: 100% !important;
-         padding: 15px 0;
-      }
-      .footerBottom .footer_cgu {
-         display: flex;
-         flex-direction: column;
-      }
-      .footerBottom .footer_cgu .footer_links {
-         padding: 10px 0;
-      }
+    }
 
-   }
+    .logoFooterRight {
+        width: 190px;
+    }
 
-   .logoFooterRight {
-      width: 190px;
-   }
-
-   #text-footer-right{
-      width: 240px;
-   }
+    #text-footer-right{
+        width: 240px;
+    }
 
 </style>
 
 ## % if uses_bootstrap:
     <footer id="footer">
-      <div class="container1">
-         <div class="row">
-            <div class="footer-column" >
-               <img class="logoFooterRight text-footer-up" src="${static.url('amazon-belgique/images/logo-e-academy-1.png')}" alt="logoADN"/>
-               <p id="text-footer-left" class="text-footer">${_("La E-academy un programme éducatif en ligne gratuit destiné à accompagner l'ensemble des entrepreneurs belges à développer leur activité en ligne.")}</p>
+        <div class="container1">
+            <div class="row">
+                <div class="footer-column" >
+                    <img class="logoFooterRight text-footer-up" src="${static.url('amazon-belgique/images/logo-e-academy-1.png')}" alt="logoADN"/>
+                    <p id="text-footer-left" class="text-footer">${_("La E-academy un programme éducatif en ligne gratuit destiné à accompagner l'ensemble des entrepreneurs belges à développer leur activité en ligne.")}</p>
+                </div>
+                <div class="footer-column" >
+                    <p  id="text-footer-right" class="text-footer text-footer-up">${_("Un programme initié par")}</p>
+                    <a href="https://services.amazon.fr/" target="_blank"><img src="${static.url('amazon/images/logo_amazon.png')}" class="Right" alt="logo BPI France"></a>
+                </div>
             </div>
-            <div class="footer-column" >
-                     <p  id="text-footer-right" class="text-footer text-footer-up">${_("Un programme initié par")}</p>
-                     <a href="https://services.amazon.fr/" target="_blank"><img src="${static.url('amazon/images/logo_amazon.png')}" class="Right" alt="logo BPI France"></a>
+            <div class="row footerBottom" >
+                <div class="footer_cgu" >
+                    <a id="footer_link_1" target="_blank" class="footer_links" href="/index.php/mentions-legales/">${_("Mentions légales")}</a>
+                    <a id="footer_link_2" target="_blank" class="footer_links" href="/index.php/politique-de-confidentialite/">${_("Politique de confidentialité")}</a>
+                    <a id="footer_link_3" target="_blank" class="footer_links" href="/index.php/faq/">${_("FAQ")}</a>
+                </div>
             </div>
-         </div>
-         <div class="row footerBottom" >
-            <div class="footer-column footer_cgu" >
-                  <a id="footer_link_1" target="_blank" class="footer_links" href="/index.php/mentions-legales/">${_("Mentions légales")}</a>
-                  <a id="footer_link_2" target="_blank" class="footer_links" href="/index.php/politique-de-confidentialite/">${_("Politique de confidentialité")}</a>
-                  <a id="footer_link_3" target="_blank" class="footer_links" href="/index.php/faq/">${_("FAQ")}</a>
-            </div>
-         </div>
-      </div>
+        </div>
    </footer>
 ## % endif
 
@@ -145,27 +147,26 @@ console.log(myCookieValue);
 
 window.addEventListener("load", function () {
 
-if (myCookieValue == "nl-nl") {
-   // Get references to the links by their IDs
-   var link1 = document.getElementById("footer_link_1");
-   var link2 = document.getElementById("footer_link_2");
-   var link3 = document.getElementById("footer_link_3");
-   var footerRight = document.getElementById("text-footer-right")
-   var footerLeft = document.getElementById("text-footer-left")
+    if (myCookieValue == "nl-nl") {
+        // Get references to the links by their IDs
+        var link1 = document.getElementById("footer_link_1");
+        var link2 = document.getElementById("footer_link_2");
+        var link3 = document.getElementById("footer_link_3");
+        var footerRight = document.getElementById("text-footer-right")
+        var footerLeft = document.getElementById("text-footer-left")
 
-   if (footerRight) {
-      footerRight.innerText = "Een programma opgericht door"
-   }
-   if (footerLeft) {
-      footerLeft.innerText = "De E-academy biedt GRATIS leermiddelen om ondernemers te helpen hun bedrijf online op te starten, uit te bouwen, te lanceren en te laten groeien."
-   }
+        if (footerRight) {
+            footerRight.innerText = "Een programma opgericht door"
+        }
+        if (footerLeft) {
+            footerLeft.innerText = "De E-academy biedt GRATIS leermiddelen om ondernemers te helpen hun bedrijf online op te starten, uit te bouwen, te lanceren en te laten groeien."
+        }
 
-   // Change the href attributes
-   link1.href = "/index.php/wettelijke-vermeldingen/";
-   link2.href = "/index.php/privacybeleid/";
-   link3.href = "/index.php/faq/";
-}
+        // Change the href attributes
+        link1.href = "/index.php/wettelijke-vermeldingen/";
+        link2.href = "/index.php/privacybeleid/";
+        link3.href = "/index.php/faq/";
+    }
 
-            }
-        );
+});
 </script>

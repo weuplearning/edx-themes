@@ -566,9 +566,15 @@ if 'last_visited_course' in custom_fields.keys() :
                     const textAttestationButton = '<a href='+lien_attestation+' target="_blank"><div class="attestationButtonButton"> Attestation</div></a>'
                     const attestationButton = document.createElement('div')
                     attestationButton.setAttribute('class', 'attestationButton')
-                    const divToIncrustButton = document.getElementById('course-title-' + course['course_id'])
-                    attestationButton.innerHTML = textAttestationButton
-                    divToIncrustButton.append(attestationButton)
+
+                    let selection = document.querySelectorAll('.course-title')
+                    for (let i = 0; i < selection.length; i++) {
+                      const targeted_course = selection[i];
+                      if (targeted_course.id.indexOf(course['course_id']) != -1) {
+                        attestationButton.innerHTML = textAttestationButton
+                        targeted_course.append(attestationButton)
+                      }
+                    } 
                   }, 400)
 
                 } else {
