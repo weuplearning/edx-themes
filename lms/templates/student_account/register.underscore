@@ -179,10 +179,9 @@ window.addEventListener("load", function () {
                 window.location.href = '/register?course_id=course-v1:amazon+Introduction+AZ_01&enrollment_action=enroll';
             });
 
-            var spanCompany = document.querySelector('.form-field.text-company label span.label-text');
-            console.log(spanCompany.textContent);
+            var spanCompany = document.querySelector("label[for='register-company'].focus-out .label-text");
             if (spanCompany) {
-                spanCompany.innerText = "Entreprise/Numéro de TVA (optionnel)"
+                spanCompany.innerText = "Entreprise/Numéro de TVA"
             }
 
             const termsOfServiceLabel = document.querySelector('label[for="register-terms_of_service"]');
@@ -231,7 +230,7 @@ window.addEventListener("load", function () {
                 linkNl.style.display = "None"
 
                 const labelTranslations = {
-                    "register-company": "Onderneming/SIRET (optioneel)",
+                    "register-company": "Onderneming/BTW-nummer (optioneel)",
                     "register-region": "Regio",
                     "register-phone_number": "Telefoonnummer (optioneel)",
                     "register-online_sales": "Verkoopt u online? (optioneel)"
@@ -295,7 +294,7 @@ window.addEventListener("load", function () {
     );
 setInterval(function(){
   $("label[for=register-honor_code] span.label-text").html("J'accepte d'être contacté par Amazon dans le cadre de l'Accélérateur du Numérique");
-  $("label[for=register-company] span.label-text").html("Entreprise/SIRET");
+//   $("label[for=register-company] span.label-text").html("Entreprise/SIRET");
   $("label[for=register-specialty] span.label-text").html("Région");
 //  $(".form-field.checkbox-optional_fields_toggle").hide();
 //  $("#toggle_optional_fields").prop( "checked", true );
