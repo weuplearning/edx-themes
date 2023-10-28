@@ -144,10 +144,12 @@
 
 var myCookieValue = getCookie('openedx-language-preference');
 console.log(myCookieValue);
+var otherCookieValue = getCookie('django_language');
 
 window.addEventListener("load", function () {
 
-    if (myCookieValue == "nl-nl") {
+    console.log(myCookieValue)
+    if (myCookieValue == "nl-nl"  || otherCookieValue == "nl-nl") {
         // Get references to the links by their IDs
         var link1 = document.getElementById("footer_link_1");
         var link2 = document.getElementById("footer_link_2");

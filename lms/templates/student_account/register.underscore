@@ -93,7 +93,7 @@ justify-content: space-between;
                 </h3>
             </div>
         <% } else { %>
-            <span id="switch_register_language">Als je je wilt registreren voor het platform in het Frans, volg dan
+            <span id="switch_register_language">Als u zich wilt aanmelden voor het platform in het Nederlands, volg dan
                 </span>
                 <span id="span_link"><a id="register_link" href="#"> deze link</a></span>
                 <span id="span_link_fr"><a id="register_link_nl" href="#"> ce lien</a></span>
@@ -179,7 +179,21 @@ window.addEventListener("load", function () {
                 window.location.href = '/register?course_id=course-v1:amazon+Introduction+AZ_01&enrollment_action=enroll';
             });
 
+            var spanCompany = document.querySelector('.form-field.text-company label span.label-text');
+            console.log(spanCompany.textContent);
+            if (spanCompany) {
+                spanCompany.innerText = "Entreprise/Numéro de TVA (optionnel)"
+            }
+
+            const termsOfServiceLabel = document.querySelector('label[for="register-terms_of_service"]');
+            if (termsOfServiceLabel && termsOfServiceLabel.firstElementChild) {
+                    termsOfServiceLabel.firstElementChild.lastChild.textContent = " de la E-academy"
+            }
+
+
             if (myCookieValue == 'nl-nl' || ParameterLanguage == 'nl') {
+
+                spanCompany.innerText = "Onderneming/BTW-nummer (optioneel)"
 
                 const accountH2 = document.querySelector('#register > h2')
                 const alreadyRegistered = document.querySelector('p.text');
@@ -188,19 +202,24 @@ window.addEventListener("load", function () {
                 if (accountH2 && alreadyRegistered && loginButton) {
                     accountH2.innerText = "Een account aanmaken"
                     alreadyRegistered.innerText = "Heb je al een account?"
-                    loginButton.innerText = "Aanmelden"
+                    loginButton.innerText = "Inloggen"
                 }
 
                 const translations = {
-                    "switch_register_language": "Vous souhaitez vous inscrire à la plateforme en Français? suivez",
+                    "switch_register_language": "Vous souhaitez vous inscrire à la plateforme en Français? Suivez",
                     "text": "Heeft u al een account?",
                     "contact_us": "Inloggen",
                     "register-name-desc": "Deze naam komt te staan op elk certificaat dat u behaalt",
-                    "register-username-desc": "De naam waarmee u geïdentificeerd wordt op het platform. Deze kan later niet worden gewijzigd. Gebruikersnamen kunnen alleen letters (A-Z, a-z), cijfers (0-9), liggende streepjes (_) en koppeltekens (-) bevatten."
+                    "register-username-desc": "De naam waarmee u geïdentificeerd wordt op het platform. Deze kan later niet worden gewijzigd. Gebruikersnamen kunnen alleen letters (A-Z, a-z), cijfers (0-9), liggende streepjes (_) en koppeltekens (-) bevatten.",
+                    "register-email-desc": "Wat je gebruikt om verbinding te maken",
+                    "register-password-desc":"Je wachtwoord moet minstens 8 tekens bevatten, waaronder 1 hoofdletter & 1 kleine letter & 1 cijfer."
+
+                    
                 };
 
                 for (let id in translations) {
                     const element = document.getElementById(id);
+                    console.log(element)
                     if (element) {
                         element.innerText = translations[id];
                     }
@@ -227,13 +246,12 @@ window.addEventListener("load", function () {
 
                 const tosLink = document.querySelector('a[href="/tos"][rel="noopener"][target="_blank"]');
                 if (tosLink) {
-                    tosLink.innerText = "de algemenege bruiksvoorwaarden van The E-Academy van";
+                    tosLink.innerText = "de algemene gebruiksvoorwaarden van The E-Academy van";
                 }
 
-                const termsOfServiceLabel = document.querySelector('label[for="register-terms_of_service"]');
                 if (termsOfServiceLabel && termsOfServiceLabel.firstElementChild) {
                     termsOfServiceLabel.firstElementChild.firstChild.textContent = "Ik aanvaard de ";
-                    termsOfServiceLabel.firstElementChild.lastChild.textContent = " van Amazon België"
+                    termsOfServiceLabel.firstElementChild.lastChild.textContent = ""
 
                 }
 
@@ -241,10 +259,40 @@ window.addEventListener("load", function () {
                 if (amazonRegisterData) {
                     amazonRegisterData.innerText = "De persoonsgegevens die via dit formulier worden verstrekt, zullen worden verwerkt door Amazon Europe Core SARL en de aan haar gelieerde bedrijven voor de doeleinden die worden beschreven in ons Privacybeleid, waarmee u ook uw rechten kunt uitoefenen";
                 }
+
+
+                var select = document.getElementById('register-region');
+                for(var i = 0; i < select.options.length; i++) {
+                    var option = select.options[i];
+                    switch(option.value) {
+                        case 'flandres':
+                            option.text = 'Vlaanderen';
+                            break;
+                        case 'wallonie':
+                            option.text = 'Wallonië';
+                            break;
+                        case 'bruxelles':
+                            option.text = 'Brussel';
+                            break;
+                    }
                 }
 
+                var select2 = document.getElementById('register-online_sales');
+                for(var i = 0; i < select2.options.length; i++) {
+                    var option = select2.options[i];
+                    switch(option.value) {
+                        case 'oui':
+                            option.text = 'ja';
+                            break;
+                        case 'non':
+                            option.text = 'nee';
+                            break;
+                    }
+                }
             }
-        );
+            
+        }
+    );
 setInterval(function(){
   $("label[for=register-honor_code] span.label-text").html("J'accepte d'être contacté par Amazon dans le cadre de l'Accélérateur du Numérique");
   $("label[for=register-company] span.label-text").html("Entreprise/SIRET");

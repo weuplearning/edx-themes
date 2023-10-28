@@ -93,12 +93,23 @@ from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_f
     window.addEventListener("load", function () {
 
     // remove all language except french and dutch
-    var options = document.querySelectorAll('#u-field-select-pref-lang option');
-    options.forEach(function(option) {
-        if (option.value !== 'fr' && option.value !== 'nl-nl' && option.value !== '') {
+    var optionsLanguage = document.querySelectorAll('#u-field-select-pref-lang option');
+
+    optionsLanguage.forEach(function(option) {
+        if (option.value == 'fr') {
+            option.innerText = "Français"
+        } else if (option.value == 'nl-nl') {
+            option.innerText = "Nederlands"
+        } else if (option.value == '') {
+            console.log(option)
+        } else {
             option.remove();
         }
-    });
+    })
+
+
+
+    
 
     const titleLanguageElement = document.querySelector(".header-title");
     let currentLanguage = titleLanguageElement ? titleLanguageElement.innerText : "";
@@ -110,6 +121,29 @@ from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_f
     console.log(currentLanguage);
 
     if (currentLanguage === 'nl-nl') {
+        var optionsStudies = document.getElementById('u-field-select-level_of_education');
+    for (option of optionsStudies) {
+        if (option.innerText == 'Doctoraat') {
+            option.innerText = "Doctoraat of phd"
+        } else if (option.innerText == 'Master- of professionele graad') {
+            option.innerText = "Masteropleiding"
+        } else if (option.innerText == 'Bachelorgraad') {
+            option.innerText = "Academische Bachelor"
+        }  else if (option.innerText == 'Associate degree') {
+            option.innerText = "Professionele Bachelor"
+        } else if (option.innerText == 'Middelbare school') {
+            option.innerText = "Graduaat"
+        }  else if (option.innerText == 'Bovenbouw basisschool / onderbouw middelbare school') {
+            option.innerText = "Secundair onderwijs"
+        } else if (option.innerText == 'Basisschool') {
+            option.innerText = "Primair onderwijs"
+        }  else if (option.innerText == 'Geen formele opleiding') {
+            option.innerText = "Geen formele opleiding"
+        } else if (option.innerText == 'Andere opleiding') {
+            option.innerText = "Andere opleiding"
+        } 
+    }
+
         const translations = {
             "u-field-message-country": "Uw land of woonplaats.",
             "u-field-help-message-country": "Uw land of woonplaats.",
@@ -121,8 +155,8 @@ from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_f
             "u-field-help-message-country": "Je land of regio van verblijf.",
             "u-field-help-message-time_zone": "Selecteer de tijdzone voor het weergeven van cursusdata. Als u geen tijdzone opgeeft, worden cursusdatums, inclusief einddatums voor opdrachten, weergegeven op basis van de lokale tijdzone van uw browser.",
             "u-field-message-help-social_links_facebook": "Voer je Facebook-gebruikersnaam of de URL naar je Facebook-pagina in. Verwijder de URL om de link te verwijderen.",
-            "u-field-message-help-social_links_twitter": "Voer je twitter-gebruikersnaam of de URL naar je twitter-pagina in. Verwijder de URL om de link te verwijderen.",
-            "u-field-message-help-social_links_linkedin": "Voer je liknkedin-gebruikersnaam of de URL naar je liknkedin-pagina in. Verwijder de URL om de link te verwijderen."
+            "u-field-message-help-social_links_twitter": "Voer je Twitter-gebruikersnaam of de URL naar je Twitter-pagina in. Verwijder de URL om de link te verwijderen.",
+            "u-field-message-help-social_links_linkedin": "Voer je LinkedIn-gebruikersnaam of de URL naar je LinkedIn-pagina in. Verwijder de URL om de link te verwijderen."
         };
 
         for (let id in translations) {
@@ -133,31 +167,31 @@ from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_f
         }
         const subTitleList = document.getElementsByClassName("account-settings-header-subtitle")
 
-        for (let section of subTitleList) {
-            switch (section.innerText) {
-                case "Si vous le souhaitez, vous pouvez relier vos comptes personnels à vos réseaux sociaux":
-                    section.innerText = "Als u wilt, kunt u uw persoonlijke accounts koppelen aan uw sociale netwerken";
-                    break;
-                case "Nous sommes navrés de vous voir partir !":
-                    section.innerText = "We vinden het jammer dat je weggaat!";
-                    break;
-                case "Remarque: la suppression de votre compte et de vos données personnelles est définitive et irréversible. Une fois votre compte supprimé, vous ne pourrez plus utiliser vos identifiants pour acccéder au contenu du site internet Amazon Belgique. Vous perdrez également l'accès à vos badges de validation de module.":
-                    section.innerText = "Let op: de verwijdering van je account en je persoonlijke gegevens is definitief en onomkeerbaar. Zodra je account is verwijderd, kun je je inloggegevens niet meer gebruiken om toegang te krijgen tot content op de website van The E-Academy. Je verliest ook de toegang tot je modulevalidatiebadges.";
-                    break;
-                case "Cette page contient des informations à propos des commandes que vous avez passés avec L’Accélérateur du Numérique.":
-                    section.innerText = "Deze pagina bevat informatie over de bestellingen die je bij L'Accélérateur du Numérique hebt geplaatst.";
-                    break;
-                case "Vous pouvez également perdre l'accès aux certificats vérifiés et aux autres crédits de programmes comme les certificats MicroMasters. Si vous souhaitez en faire une copie pour vos archives avant de poursuivre la suppression, veuillez suivre les instructions pour imprimer ou télécharger un certificat.":
-                    section.innerText = "Je kunt ook de toegang verliezen tot geverifieerde certificaten en andere programmakredieten zoals MicroMasters-certificaten. Als je een kopie wilt maken voor je administratie voordat je verder gaat met het verwijderen, volg dan de instructies om een certificaat af te drukken of te downloaden.";
-                    break;
-                case "Une fois votre compte supprimé, vous ne pourrez plus suivre les contenus du site internet Amazon Belgique (amazon-belgique.weup.in) ou sur quelque terminal que ce soit y compris une éventuelle application mobile de Amazon Belgique. Cela inclut l'accès à amazon-belgique.weup.in depuis les systèmes de votre entreprise ou établissement d’enseignement and access to private sites offered by MIT Open Learning, Wharton Executive Education, and Harvard Medical School.":
-                    section.innerText = "Zodra uw account is verwijderd, kunt u de inhoud van de website van The E-Academy (amazon-belgique.qualif.dev) of op welke terminal dan ook, met inbegrip van mobiele toepassingen van The E-Academy, niet meer volgen. Dit omvat de toegang tot amazon-belgique.qualif.dev vanuit de systemen van uw bedrijf of onderwijsinstelling en de toegang tot privé-sites aangeboden door MIT Open Learning, Wharton Executive Education en Harvard Medical School.";
-                    break;
+        console.log(subTitleList[7])
+        subTitleList[0].innerText = "Deze pagina bevat informatie over de bestellingen die je bij L'Accélérateur du Numérique hebt geplaatst."
+        subTitleList[1].innerText = "Als u wilt, kunt u uw persoonlijk account koppelen aan uw sociale netwerken"
+        subTitleList[2].innerText = "We vinden het jammer dat je weggaat!"
+        subTitleList[3].innerText = "Let op: de verwijdering van uw account en uw persoonlijke gegevens is definitief en onomkeerbaar. Zodra uw account is verwijderd, kunt u uw inloggegevens niet meer gebruiken om toegang te krijgen tot content op de website van The E-Academy. U verliest ook de toegang tot uw badges ter validatie van het afwerken van de modules."
+        subTitleList[4].innerText = "Zodra uw account is verwijderd, kunt u de inhoud van de website van The E-Academy (www.e-academy.be) of op welke terminal dan ook, met inbegrip van mobiele toepassingen van The E-Academy, niet meer volgen. Dit omvat de toegang tot www.e-academy.be vanuit de systemen van uw bedrijf of onderwijsinstelling."
+        subTitleList[5].innerText = "Je kunt ook de toegang verliezen tot geverifieerde certificaten en andere programmakredieten zoals MicroMasters-certificaten. Als je een kopie wilt maken voor je administratie voordat je verder gaat met het verwijderen, volg dan de instructies om een certificaat af te drukken of te downloaden."
+        subTitleList[6].innerText = "Wilt u niet uw e-mail, naam of wachtwoord veranderen?"
+        subTitleList[7].innerText = "U kunt uw sociale media-accounts koppelen om het inloggen bij The E-Academy te vereenvoudigen."
+        subTitleList[8].innerText = "Deze pagina bevat informatie over de bestellingen die u gedaan heeft bij The E-Academy."
 
-                default:
-                    break;
-            }
+        
+        let basketText1 = document.getElementsByClassName("u-field-order-number")
+        let basketText2 = document.getElementsByClassName("u-field-order-date")
+        let basketText3 = document.getElementsByClassName("u-field-order-price")
+
+        console.log(basketText1)
+
+        if (basketText1 && basketText2 && basketText3) {
+            basketText1[0].innerText = "Bestelnummer"
+            basketText2[0].innerText = "Geregistreerde bestelling"
+            basketText3[0].innerText = "Totaal"
         }
+
+
         const warningMessage =document.getElementsByClassName("account-settings-header-subtitle-warning")
         if (warningMessage) {
             warningMessage[0].innerText = "Houd er rekening mee dat het verwijderen van je account permanent en onomkeerbaar is: Het verwijderen van je account is permanent en onomkeerbaar. Lees het volgende in detail voordat u verder gaat. Deze actie is onomkeerbaar en je zult niet langer hetzelfde e-mailadres kunnen gebruiken om je opnieuw te registreren op de Amazon Belgium website."
@@ -196,6 +230,47 @@ from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_f
         }
 
 
+        function replaceText() {
+            let modalDeleteAccountText1 = document.getElementsByClassName("alert-title")
+            let firstP = document.querySelector(".alert-content p:nth-child(2)")
+            let secondP = document.querySelector(".alert-content p:nth-child(3)")
+            let nextSteps = document.getElementsByClassName("next-steps")
+            let labelPassword = document.getElementById("label-asInput1")
+
+            if (modalDeleteAccountText1[0]  && firstP && secondP && nextSteps) {
+                modalDeleteAccountText1[0].innerText = "Als u nog steeds wenst uw account te verwijderen, gelieve dan het wachtwoord van uw account in te vullen:"
+                firstP.innerText = "Zodra uw account is verwijderd, kunt u de inhoud van de website van The E-Academy (www.e-academy.be) of op welke terminal dan ook, met inbegrip van mobiele toepassingen van The E-Academy, niet meer volgen. Dit omvat de toegang tot www.e-academy.be vanuit de systemen van uw bedrijf of onderwijsinstelling."
+                secondP.innerText = "Je kunt ook de toegang verliezen tot geverifieerde certificaten en andere programmakredieten zoals MicroMasters-certificaten. Als je een kopie wilt maken voor je administratie voordat je verder gaat met het verwijderen, volg dan de instructies om een certificaat af te drukken of te downloaden."
+                nextSteps[0].innerText = "Als je je account toch wilt verwijderen, voer dan het wachtwoord van je account in:"
+                labelPassword.innerText = "Wachtwoord"
+            }
+        }
+        setInterval(replaceText, 200);
+    }  else {
+
+
+        function replaceText() {
+            const subTitleListFr = document.getElementsByClassName("account-settings-header-subtitle")
+            subTitleList[7].innerText = "Vous pouvez lier vos comptes de médias sociaux afin de simplifier la connexion à la E-academy."
+            subTitleList[8].innerText = "Cette page contien des informations à propos des commandes que vous avez passés avec la E-academy."
+
+            for (let section of subTitleListFr) {
+                    let newText = section.innerText.replaceAll("Amazon Belgique", "E-academy")
+                    let newText2 = section.innerText.replaceAll("Cela inclut l'accès à e-academy.be depuis les systèmes de votre entreprise ou établissement d’enseignement and access to private sites offered by MIT Open Learning, Wharton Executive Education, and Harvard Medical School.", "")
+                    section.innerText = newText
+                    section.innerText = newText2   
+            }
+
+            let firstP = document.querySelector(".alert-content p:nth-child(2)")
+
+
+            if ( firstP  && secondP) {
+                
+                firstP.innerText = "If you proceed, you will be unable to use this account to take courses on the Amazon Belgique app, e-academy.be, or any other site hosted by E-academy."
+
+            }
+        }
+        setInterval(replaceText, 200);
     }
 }
 );
