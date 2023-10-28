@@ -166,17 +166,19 @@ from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_f
             }
         }
         const subTitleList = document.getElementsByClassName("account-settings-header-subtitle")
+        if (subTitleList) {
+            subTitleList[0].innerText = "Deze pagina bevat informatie over de bestellingen die je bij L'Accélérateur du Numérique hebt geplaatst."
+            subTitleList[1].innerText = "Als u wilt, kunt u uw persoonlijk account koppelen aan uw sociale netwerken"
+            subTitleList[2].innerText = "We vinden het jammer dat je weggaat!"
+            subTitleList[3].innerText = "Let op: de verwijdering van uw account en uw persoonlijke gegevens is definitief en onomkeerbaar. Zodra uw account is verwijderd, kunt u uw inloggegevens niet meer gebruiken om toegang te krijgen tot content op de website van The E-Academy. U verliest ook de toegang tot uw badges ter validatie van het afwerken van de modules."
+            subTitleList[4].innerText = "Zodra uw account is verwijderd, kunt u de inhoud van de website van The E-Academy (www.e-academy.be) of op welke terminal dan ook, met inbegrip van mobiele toepassingen van The E-Academy, niet meer volgen. Dit omvat de toegang tot www.e-academy.be vanuit de systemen van uw bedrijf of onderwijsinstelling."
+            subTitleList[5].innerText = "Je kunt ook de toegang verliezen tot geverifieerde certificaten en andere programmakredieten zoals MicroMasters-certificaten. Als je een kopie wilt maken voor je administratie voordat je verder gaat met het verwijderen, volg dan de instructies om een certificaat af te drukken of te downloaden."
+            subTitleList[6].innerText = "Wilt u niet uw e-mail, naam of wachtwoord veranderen?"
+            subTitleList[7].innerText = "U kunt uw sociale media-accounts koppelen om het inloggen bij The E-Academy te vereenvoudigen."
+            subTitleList[8].innerText = "Deze pagina bevat informatie over de bestellingen die u gedaan heeft bij The E-Academy."
+        }
 
-        console.log(subTitleList[7])
-        subTitleList[0].innerText = "Deze pagina bevat informatie over de bestellingen die je bij L'Accélérateur du Numérique hebt geplaatst."
-        subTitleList[1].innerText = "Als u wilt, kunt u uw persoonlijk account koppelen aan uw sociale netwerken"
-        subTitleList[2].innerText = "We vinden het jammer dat je weggaat!"
-        subTitleList[3].innerText = "Let op: de verwijdering van uw account en uw persoonlijke gegevens is definitief en onomkeerbaar. Zodra uw account is verwijderd, kunt u uw inloggegevens niet meer gebruiken om toegang te krijgen tot content op de website van The E-Academy. U verliest ook de toegang tot uw badges ter validatie van het afwerken van de modules."
-        subTitleList[4].innerText = "Zodra uw account is verwijderd, kunt u de inhoud van de website van The E-Academy (www.e-academy.be) of op welke terminal dan ook, met inbegrip van mobiele toepassingen van The E-Academy, niet meer volgen. Dit omvat de toegang tot www.e-academy.be vanuit de systemen van uw bedrijf of onderwijsinstelling."
-        subTitleList[5].innerText = "Je kunt ook de toegang verliezen tot geverifieerde certificaten en andere programmakredieten zoals MicroMasters-certificaten. Als je een kopie wilt maken voor je administratie voordat je verder gaat met het verwijderen, volg dan de instructies om een certificaat af te drukken of te downloaden."
-        subTitleList[6].innerText = "Wilt u niet uw e-mail, naam of wachtwoord veranderen?"
-        subTitleList[7].innerText = "U kunt uw sociale media-accounts koppelen om het inloggen bij The E-Academy te vereenvoudigen."
-        subTitleList[8].innerText = "Deze pagina bevat informatie over de bestellingen die u gedaan heeft bij The E-Academy."
+
 
         
         let basketText1 = document.getElementsByClassName("u-field-order-number")
@@ -251,14 +253,15 @@ from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_f
 
         function replaceText() {
             const subTitleListFr = document.getElementsByClassName("account-settings-header-subtitle")
-            subTitleList[7].innerText = "Vous pouvez lier vos comptes de médias sociaux afin de simplifier la connexion à la E-academy."
-            subTitleList[8].innerText = "Cette page contien des informations à propos des commandes que vous avez passés avec la E-academy."
-
-            for (let section of subTitleListFr) {
+            if (subTitleListFr) {
+                subTitleListFr[7].innerText = "Vous pouvez lier vos comptes de médias sociaux afin de simplifier la connexion à la E-academy."
+                subTitleListFr[8].innerText = "Cette page contien des informations à propos des commandes que vous avez passés avec la E-academy."
+                for (let section of subTitleListFr) {
                     let newText = section.innerText.replaceAll("Amazon Belgique", "E-academy")
                     let newText2 = section.innerText.replaceAll("Cela inclut l'accès à e-academy.be depuis les systèmes de votre entreprise ou établissement d’enseignement and access to private sites offered by MIT Open Learning, Wharton Executive Education, and Harvard Medical School.", "")
                     section.innerText = newText
                     section.innerText = newText2   
+                }
             }
 
             let firstP = document.querySelector(".alert-content p:nth-child(2)")
