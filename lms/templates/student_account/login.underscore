@@ -130,12 +130,80 @@ console.log(ParameterLanguage);
     
 window.addEventListener("load", function () {
 
-        if (myCookieValue == 'nl-nl' || ParameterLanguage == 'nl' ) {
-            document.getElementsByClassName("form-text text")[0].innerText = "Nog geen account?"
-            document.getElementsByClassName("form-text form-toggle")[0].innerText  = "Meld u nu aan"
-            document.getElementsByClassName("login-help field-link")[0].innerText = "Hulp nodig bij het aanmelden?"
-            document.getElementsByClassName("field-link form-toggle")[0].innerText = "Wachtwoord vergeten?"
+    if (myCookieValue == 'nl-nl' || ParameterLanguage == 'nl' ) {
+        document.getElementsByClassName("form-text text")[0].innerText = "Nog geen account?"
+        document.getElementsByClassName("form-text form-toggle")[0].innerText  = "Meld u nu aan"
+        document.getElementsByClassName("login-help field-link")[0].innerText = "Hulp nodig bij het inloggen?"
+        document.getElementsByClassName("field-link form-toggle")[0].innerText = "Wachtwoord vergeten?"
+
+        function searchTextAndReplace() {
+            let textToReplace =  document.getElementsByClassName('message-title')
+            if (textToReplace) {
+            if (textToReplace[0]) {
+                textToReplace[0].innerText = "We konden u niet inloggen"
+            }
+            }
+
+            let textToReplace2 =  document.getElementsByClassName('message-copy')
+
+            if(textToReplace2) {
+            if (textToReplace2[0]) {
+                if (textToReplace2[0].firstElementChild.innerText.includes("Email or password is incorrect")) {
+                    textToReplace2[0].firstElementChild.innerHTML = "Email of wachtwoord is niet correct. U heeft nog 3 inlogpogingen alvorens uw account tijdelijk geblokkeerd wordt. Als u uw wachtwoord vergeten bent, klik <a href='/reset'>hier</a> om het opnieuw in te stellen.";
+                }
+            }
+            }
+
+
+            let firstTextResetForm = document.querySelector('#password-reset p');
+            let secondTextResetForm = document.querySelector('#password-reset .form-field #password-reset-email-desc');
+            let buttonText = document.querySelector('#password-reset .js-reset')
+
+            if (firstTextResetForm && secondTextResetForm && buttonText) {
+            firstTextResetForm.innerText = "Gelieve hieronder uw e-mail adres in te vullen dat u gebruikt om in te loggen en we sturen u een e-mail met instructies."
+            secondTextResetForm.innerText = "Het e-mail adres dat gebruikt werd tijdens uw aanmelding op The E-Academy"
+            buttonText.innerText = "Herstel mijn wachtwoord"
+            }
+
+            let afterSendingText = document.getElementsByClassName("message-copy") 
+            if (afterSendingText) {
+                let text = afterSendingText[0].firstElementChild.innerText
+                const emailRegex = /[\w\.-]+@[\w\.-]+\.\w+/;
+                const regexEmail = text.match(emailRegex)[0];
+                afterSendingText[0].firstElementChild.innerText = "U hebt " + regexEmail + " ingevuld. Als dit e-mail adres is gekoppeld aan een The E-Academy account, dan sturen we u een bericht met de instructies om uw wachtwoord te herstellen voor dit e-mail adres."
+                afterSendingText[0].firstElementChild.nextElementSibling.innerText = "Als u binnen de 10 minuten geen bericht hebt ontvangen, controleer dan dat het ingevulde e-mail adres correct is en controleer uw ongewenste e-mails."
+            }
+
+
+            let newLoginFormTitle = document.querySelector('#login-form h2');
+            let newLoginFormText = document.getElementsByClassName("toggle-form")
+            let helpToConnect = document.getElementsByClassName("login-help field-link")
+            let loginButton = document.querySelector('#login .login-button')
+
+            if (newLoginFormTitle && newLoginFormText && helpToConnect && loginButton) {
+                newLoginFormTitle.innerText = "Inloggen"
+                newLoginFormText[0].firstElementChild.innerText = "Nog geen account?"
+                newLoginFormText[0].firstElementChild.nextElementSibling.innerText = "Meld u nu aan"
+                helpToConnect[0].innerText = "Hulp nodig bij het aanmelden?"
+                loginButton.innerText = "Inloggen"
+            }
+
         }
+
+    setInterval(searchTextAndReplace, 200);
+    } else {
+        function replaceOneWordInSentence() {
+        let secondTextResetForm = document.querySelector('#password-reset .form-field #password-reset-email-desc');
+        console.log(secondTextResetForm)
+        if (secondTextResetForm) {
+            secondTextResetForm.innerText = "L'adresse email utilisée lors de votre inscription sur la E-academy"
+            }
+        }
+        setInterval(replaceOneWordInSentence, 200);
     }
-    );
+
+
+
+    }
+);
 </script>
