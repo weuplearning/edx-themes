@@ -259,6 +259,9 @@ from openedx.core.djangolib.markup import HTML, Text
     margin: 1em;
     padding: 0.5em;
   }
+  .container_carousel_entry > ul {
+    padding: 0 0 0 20px !important;
+  }
 
   .container_carousel_back, .container_carousel_forward {
     cursor: pointer;
@@ -591,26 +594,39 @@ from openedx.core.djangolib.markup import HTML, Text
       <div class="container_carousel_entry swiper-slide slide1">
         <img class="container_carousel_image" src="${static.url('vinducentreloire/images/fbc403c079c14cb3acb90676ce65c7d8.png')}" alt="picto chapter 1"/>
         <h2 class="container_carousel_name">Environnement et Contexte</h2>
-        <p class="container_carousel_text">Situation géographique
-        <br>Histoire géologique et terroirs <br>Les cépages du Centre-Loire <br>La Famille des appellations du Centre-Loire </p>
+        <ul class="container_carousel_text">
+          <li>Situation géographique</li>
+          <li>Histoire géologique et terroirs</li>
+          <li>Les cépages du Centre-Loire</li>
+          <li>La Famille des appellations du Centre-Loire</li>
+        </ul>
         <p class="container_carousel_time">50 minutes</p>
       </div>
       <div class="container_carousel_entry swiper-slide slide2">
         <img class="container_carousel_image" src="${static.url('vinducentreloire/images/7e45b8a8c74e4441b364c25e7c64d913.png')}" alt="picto chapter 2"/>
         <h2 class="container_carousel_name">Le Processus de Production</h2>
-        <p class="container_carousel_text">Le Processus de Vinification <br>La Transmission du Modèle d'artisan vigneron </p>
+        <ul class="container_carousel_text">
+          <li>Le Processus de Vinification</li>
+          <li>La Transmission du Modèle d'artisan vigneron </li>
+        </ul>
         <p class="container_carousel_time">20 minutes</p>
       </div>
       <div class="container_carousel_entry swiper-slide slide3">
         <img class="container_carousel_image" src="${static.url('vinducentreloire/images/fb2dd43b97d4492388c9223fb892512b.png')}" alt="picto chapter 3"/>
         <h2 class="container_carousel_name">La Commercialisation</h2>
-        <p class="container_carousel_text">La Commercialisation des Vins du Centre-Loire : une forte présence en France et à l'International <br>La Dégustation </p>
+        <ul class="container_carousel_text">
+          <li>La Commercialisation des Vins du Centre-Loire : une forte présence en France et à l'International</li>
+          <li>La Dégustation </li>
+        </ul>
         <p class="container_carousel_time">30 minutes</p>
       </div>
       <div class="container_carousel_entry swiper-slide slide2">
         <img class="container_carousel_image" src="${static.url('vinducentreloire/images/c2027ff570fb4f10bbf24e61c2ca0453.png')}" alt="picto chapter 4"/>
         <h2 class="container_carousel_name">Les Enjeux Environnementaux</h2>
-        <p class="container_carousel_text">Etat des Lieux de la Région Viticole Centre-Loire <br>Le SICAVAC </p>
+        <ul class="container_carousel_text">
+          <li>État des Lieux de la Région Viticole Centre-Loire</li>
+          <li>Le SICAVAC</li>
+        </ul>
         <p class="container_carousel_time">30 minutes</p>
       </div>
     </div>

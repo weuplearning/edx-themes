@@ -28,6 +28,14 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
     background: url("${static.url('{}/images/background_feuille_froissee.png'.format(course.org))}");
     background-size: contain;
   }
+  .page-header.has-secondary {
+    background-color: #192134;
+    color: white;
+  }
+  .page-header.has-secondary a, .page-header.has-secondary .fa-angle-right {
+    color: white !important;
+  }
+    
 </style>
 
 % if display_reset_dates_banner:

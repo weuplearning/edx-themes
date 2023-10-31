@@ -92,6 +92,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         flex-wrap: wrap;
         width: 100%;
         align-items: center;
+        justify-content: center;
     }
     ol.block-tree > li {
         flex: 30%;
@@ -101,8 +102,20 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         background-color: #F9EEE4 ;
         padding: 10px 17px !important;
     }
+    
     ol.block-tree > li:nth-child(even) {
-        margin-left: 0px !important;
+        margin-right: 45px !important;
+        
+    }
+    ol.block-tree > li:nth-child(odd) {
+        margin-left: 45px !important;
+        
+    }
+
+    ol.block-tree > li:first-child, ol.block-tree > li:last-child {
+        width: 60%;
+        flex:unset;
+        margin: 30px 120px !important;
 
     }
     ol.block-tree > li:last-child {
@@ -146,6 +159,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     }
     .course-outline .block-tree .section .section-name .section-title {
         padding: 0 !important;
+        font-weight: 300;
     }
 
     .page-content {
@@ -176,18 +190,11 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         background-position: center;
         background-size: contain;
     }
-    #raisin-blanc {
-        position: absolute;
-        right: 0;
-        top: 38%;
-        height: 15vw;
-    }
 
 
 
     .progress_bar_and_score {
         display: flex;
-        padding: 0 20px;
         align-items: center;
     }
 
@@ -343,6 +350,27 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         }
     }
 
+    @media screen and (max-width: 1130px) {
+        ol.block-tree {
+            flex-direction: column;
+        }
+        ol.block-tree > li {
+            margin: 10px 15px !important;
+            width: 75% !important;
+        }
+        ol.block-tree > li:nth-child(even) {
+            margin-right: 15px !important ;
+        }
+        ol.block-tree > li:nth-child(odd) {
+            margin-left: 15px !important;
+        }
+        ol.block-tree > li:first-child, ol.block-tree > li:last-child {
+            width: 65% !important;
+            margin: 30px 15px !important;
+            padding: 10px 60px !important;
+        }
+    }
+
   </style>
   <script>
 document.title = "Cours | ${HTML(course.display_name_with_default)}";
@@ -371,7 +399,6 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
         </div>
     </header>
     <div class="page-content">
-        <img src="${static.url('vinducentreloire/images/Grappe_raisin_blanc.png')}" alt="image raisin blanc" id="raisin-blanc">
         <div class="page-content-main">
             % if offer_banner_fragment:
                 ${HTML(offer_banner_fragment.content)}
