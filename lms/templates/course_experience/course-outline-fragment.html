@@ -128,13 +128,13 @@ dates_banner_displayed = False
                 graded = 'graded' if subsection.get('graded') else ''
                 num_graded_problems = subsection.get('num_graded_problems', 0)
 
-                if subsection['id'].find('VL') != 0 :
+                if subsection['id'].find('VL') != -1 :
                     img_link = 'bea-lidl/images/assets/VL/' + str(subsection['id']).split('@')[2] +'.png'
-                elif subsection['id'].find('dindes') != 0 :
+                elif subsection['id'].find('dindes') != -1 :
                     img_link = 'bea-lidl/images/assets/dindes/' + str(subsection['id']).split('@')[2] +'.png'
-                elif subsection['id'].find('porcs') != 0 :
+                elif subsection['id'].find('porcs') != -1 :
                     img_link = 'bea-lidl/images/assets/porcs/' + str(subsection['id']).split('@')[2] +'.png'
-                elif subsection['id'].find('pdc') != 0 :
+                elif subsection['id'].find('pdc') != -1 :
                     img_link = 'bea-lidl/images/assets/pdc/' + str(subsection['id']).split('@')[2] +'.png'
                 else :
                     img_link = 'bea-lidl/images/assets/pp/' + str(subsection['id']).split('@')[2] +'.png'
