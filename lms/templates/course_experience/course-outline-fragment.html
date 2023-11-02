@@ -39,7 +39,23 @@ dates_banner_displayed = False
         <ol class="block-tree accordion"
             id="course-outline-block-tree"
             aria-labelledby="expand-collapse-outline-all-button">
-        <!-- % for section in course_sections: -->
+
+
+            <li class="outline-item section">
+                <div class="full-course" >
+
+                    <p> ${course.display_name}</p>
+                    <div class="progress_bar_and_score">
+
+                        <div class="progress-bar-full " id="final-grade-progress">
+                            <div style="width:${int(user_grade.percent * 100)}%;" class="progress-bar-grade" ></div>                        
+                        </div>
+                        <h2 class="completed_percent"> ${int(user_grade.percent * 100)} %</h2>     
+                    </div>
+                </div>
+            
+
+            </li>
         % for primary_index, section in enumerate(course_sections):
 
             <%
@@ -111,7 +127,21 @@ dates_banner_displayed = False
                 scored = 'scored' if subsection.get('scored', False) else ''
                 graded = 'graded' if subsection.get('graded') else ''
                 num_graded_problems = subsection.get('num_graded_problems', 0)
-                img_link = 'bea-lidl/images/assets/' + str(subsection['id']).split('@')[2] +'.png'
+
+                if subsection['id'].find('VL') != 0 :
+                    img_link = 'bea-lidl/images/assets/VL/' + str(subsection['id']).split('@')[2] +'.png'
+                elif subsection['id'].find('dindes') != 0 :
+                    img_link = 'bea-lidl/images/assets/dindes/' + str(subsection['id']).split('@')[2] +'.png'
+                elif subsection['id'].find('porcs') != 0 :
+                    img_link = 'bea-lidl/images/assets/porcs/' + str(subsection['id']).split('@')[2] +'.png'
+                elif subsection['id'].find('pdc') != 0 :
+                    img_link = 'bea-lidl/images/assets/pdc/' + str(subsection['id']).split('@')[2] +'.png'
+                else :
+                    img_link = 'bea-lidl/images/assets/pp/' + str(subsection['id']).split('@')[2] +'.png'
+
+
+
+
                 %>
                         <li class="subsection accordion ${ 'current' if subsection.get('resume_block') else '' } ${graded} ${scored}">
                             <a href="${ subsection['lms_web_url'] }" class="subsection-text outline-button" id="${ subsection['id'] }" >

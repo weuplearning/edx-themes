@@ -162,8 +162,16 @@ h1, h2, h3, h4 {
 #index-profession-other h3 {
     font-weight: bold;
 }
+#index-profession-other svg {
+    height: 3em;
+    padding: 20px;
+    fill:#005371
+}
 #bottom-section {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 #bottom-section > img {
     width: 80vw;
@@ -171,18 +179,17 @@ h1, h2, h3, h4 {
 
 }
 #right-infobulle > img, #left-infobulle > img {
-    height: 100px;
+    height: 6vw;
 }
 #right-infobulle, #left-infobulle {
     position: absolute;
-    top: 36%;
-    right: -50px;
+    bottom: 0;
     padding: 10px;
     color: var(--primary);
-    width: fit-content;
+    /* left: 30vw; */
 }
 #left-infobulle {
-    left: -50px;
+    bottom: unset;
     color: var(--secondary);
 }
 
@@ -219,7 +226,7 @@ h1, h2, h3, h4 {
             <div id="pro-img-1" class="vignette-pro vertical-align">
                 <div>
                     <p>Je suis éleveur.euse de <br><span class="strong">poulets de chair</span></p>
-                    <a class="register-button-pro" href="/register?course_id=course-v1:bea-lidl+VL+01&enrollment_action=enroll">
+                    <a class="register-button-pro" href="/register?course_id=course-v1:bea-lidl+pdc+01&enrollment_action=enroll">
                         <img src="${static.url('bea-lidl/images/bt-inscription-vert.png')}" alt="s_inscrire_a_poulets">
                     </a>
                 </div>
@@ -227,7 +234,7 @@ h1, h2, h3, h4 {
             <div id="pro-img-2" class="vignette-pro vertical-align">
                 <div>
                     <p>Je suis éleveur.euse de <br><span class="strong">poules pondeuses</span></p>
-                    <a class="register-button-pro" href="/register?course_id=course-v1:bea-lidl+VL+01&enrollment_action=enroll">
+                    <a class="register-button-pro" href="/register?course_id=course-v1:bea-lidl+pp+01&enrollment_action=enroll">
                         <img src="${static.url('bea-lidl/images/bt-inscription-bleu.png')}" alt="s_inscrire_a_poules">
                     </a>
                 </div>
@@ -235,7 +242,7 @@ h1, h2, h3, h4 {
             <div id="pro-img-3" class="vignette-pro vertical-align">
                 <div>
                     <p>Je suis éleveur.euse de <br><span class="strong">dindes</span></p>
-                    <a class="register-button-pro" href="/register?course_id=course-v1:bea-lidl+VL+01&enrollment_action=enroll">
+                    <a class="register-button-pro" href="/register?course_id=course-v1:bea-lidl+dindes+01&enrollment_action=enroll">
                         <img src="${static.url('bea-lidl/images/bt-inscription-vert.png')}" alt="s_inscrire_a_dindes">
                     </a>
                 </div>
@@ -251,7 +258,7 @@ h1, h2, h3, h4 {
             <div id="pro-img-5" class="vignette-pro vertical-align">
                 <div>
                     <p>Je suis éleveur.euse de <br><span class="strong">porcs</span></p>
-                    <a class="register-button-pro" href="/register?course_id=course-v1:bea-lidl+VL+01&enrollment_action=enroll">
+                    <a class="register-button-pro" href="/register?course_id=course-v1:bea-lidl+porcs+01&enrollment_action=enroll">
                         <img src="${static.url('bea-lidl/images/bt-inscription-vert.png')}" alt="s_inscrire_a_porcs">
                     </a>
                 </div>
@@ -263,6 +270,9 @@ h1, h2, h3, h4 {
     <section id="index-profession-other" class="vertical-align">
         <h4>Vous n'êtes pas éleveur.euse</h4>
         <h3>et souhaitez découvrir notre politique Bien-Être Animal</h3>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+            <path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"/>
+        </svg>
         <div id="bottom-section" class="space-bottom">
             <img src="${static.url('bea-lidl/images/Groupe_1043.png')}" alt="éleveur-avec-ses-bovins">
             <a id="left-infobulle" href="/courses">
