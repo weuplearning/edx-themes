@@ -88,7 +88,7 @@ from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_f
 </%block>
 
 <style>
-    #accounts-tab , #orders-tab, .wrapper-header-courses > .header-right-section > .nav-links > .main ,.modal-alert > .alert-content > p:first-child  {
+    #accounts-tab , #orders-tab, .wrapper-header-courses > .header-right-section > .nav-links > .main {
         display: none;
     }
 </style>
@@ -146,6 +146,7 @@ window.addEventListener("load", function () {
         if (actualCookie != currentLanguage) {
             updateCookie("openedx-language-preference", currentLanguage, 365);
         }
+
     } else {
         updateCookie("openedx-language-preference", 'fr', 365);
     }
@@ -154,6 +155,7 @@ window.addEventListener("load", function () {
     console.log(currentLanguage);
 
     if (currentLanguage === 'nl-nl') {
+
         var optionsStudies = document.getElementById('u-field-select-level_of_education');
         for (option of optionsStudies) {
             if (option.innerText == 'Doctoraat') {
@@ -177,113 +179,109 @@ window.addEventListener("load", function () {
             } 
         }
 
-            const translations = {
-                "u-field-message-country": "Uw land of woonplaats.",
-                "u-field-help-message-country": "Uw land of woonplaats.",
-                "u-field-link-password": "Stel je wachtwoord opnieuw in",
-                "u-field-message-help-username": "Uw naam op The E-Academy. U kunt uw gebruikersnaam niet wijzigen",
-                "u-field-message-help-email": "De berichten die u ontvangt van de website van The E-Academy en de onderwijsteams worden naar dit adres gestuurd",
-                "u-field-message-help-password": "Controleer uw inbox voor instructies om uw wachtwoord opnieuw in te stellen.",
-                "u-field-help-message-pref-lang": "De taal die op deze site wordt gebruikt. Deze site is alleen beschikbaar in bepaalde talen. Als u dit veld wijzigt, wordt de pagina automatisch ververst.",
-                "u-field-help-message-country": "Je land of regio van verblijf.",
-                "u-field-help-message-time_zone": "Selecteer de tijdzone voor het weergeven van cursusdata. Als u geen tijdzone opgeeft, worden cursusdatums, inclusief einddatums voor opdrachten, weergegeven op basis van de lokale tijdzone van uw browser.",
-                "u-field-message-help-social_links_facebook": "Voer je Facebook-gebruikersnaam of de URL naar je Facebook-pagina in. Verwijder de URL om de link te verwijderen.",
-                "u-field-message-help-social_links_twitter": "Voer je Twitter-gebruikersnaam of de URL naar je Twitter-pagina in. Verwijder de URL om de link te verwijderen.",
-                "u-field-message-help-social_links_linkedin": "Voer je LinkedIn-gebruikersnaam of de URL naar je LinkedIn-pagina in. Verwijder de URL om de link te verwijderen."
-            };
+        const translations = {
+            "u-field-message-country": "Uw land of woonplaats.",
+            "u-field-help-message-country": "Uw land of woonplaats.",
+            "u-field-link-password": "Stel je wachtwoord opnieuw in",
+            "u-field-message-help-username": "Uw naam op The E-Academy. U kunt uw gebruikersnaam niet wijzigen",
+            "u-field-message-help-email": "De berichten die u ontvangt van de website van The E-Academy en de onderwijsteams worden naar dit adres gestuurd",
+            "u-field-message-help-password": "Controleer uw inbox voor instructies om uw wachtwoord opnieuw in te stellen.",
+            "u-field-help-message-pref-lang": "De taal die op deze site wordt gebruikt. Deze site is alleen beschikbaar in bepaalde talen. Als u dit veld wijzigt, wordt de pagina automatisch ververst.",
+            "u-field-help-message-country": "Je land of regio van verblijf.",
+            "u-field-help-message-time_zone": "Selecteer de tijdzone voor het weergeven van cursusdata. Als u geen tijdzone opgeeft, worden cursusdatums, inclusief einddatums voor opdrachten, weergegeven op basis van de lokale tijdzone van uw browser.",
+            "u-field-message-help-social_links_facebook": "Voer je Facebook-gebruikersnaam of de URL naar je Facebook-pagina in. Verwijder de URL om de link te verwijderen.",
+            "u-field-message-help-social_links_twitter": "Voer je Twitter-gebruikersnaam of de URL naar je Twitter-pagina in. Verwijder de URL om de link te verwijderen.",
+            "u-field-message-help-social_links_linkedin": "Voer je LinkedIn-gebruikersnaam of de URL naar je LinkedIn-pagina in. Verwijder de URL om de link te verwijderen."
+        };
 
-            for (let id in translations) {
-                const element = document.getElementById(id);
-                if (element) {
-                    element.innerText = translations[id];
-                }
+        for (let id in translations) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.innerText = translations[id];
             }
-            const subTitleList = document.getElementsByClassName("account-settings-header-subtitle")
-            if (subTitleList) {
-                subTitleList[0].innerText = "Deze pagina bevat informatie over de bestellingen die je bij L'Accélérateur du Numérique hebt geplaatst."
-                subTitleList[1].innerText = "Als u wilt, kunt u uw persoonlijk account koppelen aan uw sociale netwerken"
-                subTitleList[2].innerText = "We vinden het jammer dat je weggaat!"
-                subTitleList[3].innerText = "Let op: de verwijdering van uw account en uw persoonlijke gegevens is definitief en onomkeerbaar. Zodra uw account is verwijderd, kunt u uw inloggegevens niet meer gebruiken om toegang te krijgen tot content op de website van The E-Academy. U verliest ook de toegang tot uw badges ter validatie van het afwerken van de modules."
-                subTitleList[4].innerText = "Zodra uw account is verwijderd, kunt u de inhoud van de website van The E-Academy (www.e-academy.be) of op welke terminal dan ook, met inbegrip van mobiele toepassingen van The E-Academy, niet meer volgen. Dit omvat de toegang tot www.e-academy.be vanuit de systemen van uw bedrijf of onderwijsinstelling."
-                // subTitleList[5].innerText = "U kunt ook de toegang verliezen tot geverifieerde certificaten en andere programmakredieten zoals MicroMasters-certificaten. Als u een kopie wilt maken voor uw administratie voordat u verder gaat met het verwijderen, volg dan de instructies om een certificaat af te drukken of te downloaden."
-                subTitleList[5].innerText = ""
-                subTitleList[6].innerText = "Wilt u niet uw e-mail, naam of wachtwoord veranderen?"
-                subTitleList[7].innerText = "U kunt uw sociale media-accounts koppelen om het inloggen bij The E-Academy te vereenvoudigen."
-                subTitleList[8].innerText = "Deze pagina bevat informatie over de bestellingen die u gedaan heeft bij The E-Academy."
+        }
+        const subTitleList = document.getElementsByClassName("account-settings-header-subtitle")
+        if (subTitleList) {
+            subTitleList[0].innerText = "Deze pagina bevat informatie over de bestellingen die je bij L'Accélérateur du Numérique hebt geplaatst."
+            subTitleList[1].innerText = "Als u wilt, kunt u uw persoonlijk account koppelen aan uw sociale netwerken"
+            subTitleList[2].innerText = "We vinden het jammer dat je weggaat!"
+            subTitleList[3].innerText = "Let op: de verwijdering van uw account en uw persoonlijke gegevens is definitief en onomkeerbaar. Zodra uw account is verwijderd, kunt u uw inloggegevens niet meer gebruiken om toegang te krijgen tot content op de website van The E-Academy. U verliest ook de toegang tot uw badges ter validatie van het afwerken van de modules."
+            subTitleList[4].innerText = "Zodra uw account is verwijderd, kunt u de inhoud van de website van The E-Academy (www.e-academy.be) of op welke terminal dan ook, met inbegrip van mobiele toepassingen van The E-Academy, niet meer volgen. Dit omvat de toegang tot www.e-academy.be vanuit de systemen van uw bedrijf of onderwijsinstelling."
+            // subTitleList[5].innerText = "U kunt ook de toegang verliezen tot geverifieerde certificaten en andere programmakredieten zoals MicroMasters-certificaten. Als u een kopie wilt maken voor uw administratie voordat u verder gaat met het verwijderen, volg dan de instructies om een certificaat af te drukken of te downloaden."
+            subTitleList[5].innerText = ""
+            subTitleList[6].innerText = "Wilt u niet uw e-mail, naam of wachtwoord veranderen?"
+            subTitleList[7].innerText = "U kunt uw sociale media-accounts koppelen om het inloggen bij The E-Academy te vereenvoudigen."
+            subTitleList[8].innerText = "Deze pagina bevat informatie over de bestellingen die u gedaan heeft bij The E-Academy."
+        }
+        
+        let basketText1 = document.getElementsByClassName("u-field-order-number")
+        let basketText2 = document.getElementsByClassName("u-field-order-date")
+        let basketText3 = document.getElementsByClassName("u-field-order-price")
+
+        if (basketText1 && basketText2 && basketText3) {
+            basketText1[0].innerText = "Bestelnummer"
+            basketText2[0].innerText = "Geregistreerde bestelling"
+            basketText3[0].innerText = "Totaal"
+        }
+
+
+        const warningMessage =document.getElementsByClassName("account-settings-header-subtitle-warning")
+        if (warningMessage) {
+            warningMessage[0].innerText = "Houd er rekening mee dat het verwijderen van je account permanent en onomkeerbaar is: Het verwijderen van je account is permanent en onomkeerbaar. Lees het volgende in detail voordat u verder gaat. Deze actie is onomkeerbaar en je zult niet langer hetzelfde e-mailadres kunnen gebruiken om je opnieuw te registreren op The E-Academy website."
+        }
+
+
+        const titleList = document.getElementsByClassName("section-header");
+        for (let title of titleList) {
+            switch (title.innerText) {
+                case "Information additionnelle":
+                    title.innerText = "Aanvullende informatie";
+                    break;
+                case "Liens vers les réseaux sociaux":
+                    title.innerText = "Koppelingen naar sociale netwerken";
+                    break;
+                case "Mes Commandes":
+                    title.innerText = "Mijn bestellingen";
+                    break;
+                default:
+                    break;
             }
+        }
+
+        const timeZone = document.querySelector('label[for="u-field-select-time_zone"]');
+        const timeZoneSelector = document.querySelector('#u-field-select-time_zone option');
+        const studies = document.querySelector('.u-field-title[for="u-field-select-level_of_education"]');
+
+        if (timeZone) {
+            timeZone.innerText = "Tijdzone"
+        }
+        if (timeZoneSelector) {
+            timeZoneSelector.innerText = "lokale tijdzone"
+        }
+        if (studies) {
+            studies.innerText = "Opleidingsniveau"
+        }
 
 
+        function replaceText() {
+            let modalDeleteAccountText1 = document.getElementsByClassName("alert-title")
+            let firstP = document.querySelector(".alert-content p:nth-child(2)")
+            let secondP = document.querySelector(".alert-content p:nth-child(3)")
+            let nextSteps = document.getElementsByClassName("next-steps")
+            let labelPassword = document.getElementById("label-asInput1")
 
-            
-            let basketText1 = document.getElementsByClassName("u-field-order-number")
-            let basketText2 = document.getElementsByClassName("u-field-order-date")
-            let basketText3 = document.getElementsByClassName("u-field-order-price")
-
-            console.log(basketText1)
-
-            if (basketText1 && basketText2 && basketText3) {
-                basketText1[0].innerText = "Bestelnummer"
-                basketText2[0].innerText = "Geregistreerde bestelling"
-                basketText3[0].innerText = "Totaal"
-            }
-
-
-            const warningMessage =document.getElementsByClassName("account-settings-header-subtitle-warning")
-            if (warningMessage) {
-                warningMessage[0].innerText = "Houd er rekening mee dat het verwijderen van je account permanent en onomkeerbaar is: Het verwijderen van je account is permanent en onomkeerbaar. Lees het volgende in detail voordat u verder gaat. Deze actie is onomkeerbaar en je zult niet langer hetzelfde e-mailadres kunnen gebruiken om je opnieuw te registreren op The E-Academy website."
-            }
-
-
-            const titleList = document.getElementsByClassName("section-header");
-            for (let title of titleList) {
-                switch (title.innerText) {
-                    case "Information additionnelle":
-                        title.innerText = "Aanvullende informatie";
-                        break;
-                    case "Liens vers les réseaux sociaux":
-                        title.innerText = "Koppelingen naar sociale netwerken";
-                        break;
-                    case "Mes Commandes":
-                        title.innerText = "Mijn bestellingen";
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            const timeZone = document.querySelector('label[for="u-field-select-time_zone"]');
-            const timeZoneSelector = document.querySelector('#u-field-select-time_zone option');
-            const studies = document.querySelector('.u-field-title[for="u-field-select-level_of_education"]');
-
-            if (timeZone) {
-                timeZone.innerText = "Tijdzone"
-            }
-            if (timeZoneSelector) {
-                timeZoneSelector.innerText = "lokale tijdzone"
-            }
-            if (studies) {
-                studies.innerText = "Opleidingsniveau"
-            }
-
-
-            function replaceText() {
-                let modalDeleteAccountText1 = document.getElementsByClassName("alert-title")
-                // let firstP = document.querySelector(".alert-content p:nth-child(2)")
-                let secondP = document.querySelector(".alert-content p:nth-child(3)")
-                let nextSteps = document.getElementsByClassName("next-steps")
-                let labelPassword = document.getElementById("label-asInput1")
-
-                if (modalDeleteAccountText1[0] && secondP && nextSteps) {
-                // if (modalDeleteAccountText1[0]  && firstP && secondP && nextSteps) {
+            if (modalDeleteAccountText1[0] && secondP && nextSteps) {
+                if (modalDeleteAccountText1[0]  && firstP && secondP && nextSteps) {
                     modalDeleteAccountText1[0].innerText = "Als u nog steeds wenst uw account te verwijderen, gelieve dan het wachtwoord van uw account in te vullen:"
-                    // firstP.innerText = "Zodra uw account is verwijderd, kunt u de inhoud van de website van The E-Academy (www.e-academy.be) of op welke terminal dan ook, met inbegrip van mobiele toepassingen van The E-Academy, niet meer volgen. Dit omvat de toegang tot www.e-academy.be vanuit de systemen van uw bedrijf of onderwijsinstelling."
+                    firstP.innerText = ""
                     secondP.innerText = "Je kunt ook de toegang verliezen tot geverifieerde certificaten en andere programmakredieten zoals MicroMasters-certificaten. Als je een kopie wilt maken voor je administratie voordat je verder gaat met het verwijderen, volg dan de instructies om een certificaat af te drukken of te downloaden."
                     nextSteps[0].innerText = "Als je je account toch wilt verwijderen, voer dan het wachtwoord van je account in:"
                     labelPassword.innerText = "Wachtwoord"
                 }
             }
-            setInterval(replaceText, 200);
-        }  else {
+        }
+        setInterval(replaceText, 200);
+    }  else {
 
 
         function replaceText() {
