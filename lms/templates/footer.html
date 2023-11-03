@@ -132,7 +132,7 @@
 ## % endif
 
 <script>
-   function getCookie(name) {
+function getCookie(name) {
     var value = "; " + document.cookie;
     var parts = value.split("; " + name + "=");
     if (parts.length > 1) {
@@ -143,13 +143,13 @@
 }
 
 var myCookieValue = getCookie('openedx-language-preference');
-console.log(myCookieValue);
-var otherCookieValue = getCookie('django_language');
+// console.log(myCookieValue);
+// var otherCookieValue = getCookie('django_language');
 
 window.addEventListener("load", function () {
 
-    console.log(myCookieValue)
-    if (myCookieValue == "nl-nl"  || otherCookieValue == "nl-nl") {
+    if (myCookieValue == "nl-nl"  ) {
+    // if (myCookieValue == "nl-nl"  || otherCookieValue == "nl-nl") {
         // Get references to the links by their IDs
         var link1 = document.getElementById("footer_link_1");
         var link2 = document.getElementById("footer_link_2");

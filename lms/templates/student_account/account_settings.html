@@ -87,37 +87,45 @@ from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_f
 </%static:webpack>
 </%block>
 
+<style>
+    #accounts-tab , #orders-tab, .wrapper-header-courses > .header-right-section > .nav-links > .main ,.modal-alert > .alert-content > p:first-child  {
+        display: none;
+    }
+</style>
+
 <script>
+function updateCookie(cookieName, newValue) {
+    document.cookie = cookieName + "=" + newValue;
+}
+function getCookie(name) {
+    var value = "; " + document.cookie;
+    var parts = value.split("; " + name + "=");
+    if (parts.length > 1) {
+        // Return the last occurrence of the cookie
+        return parts[parts.length - 1].split(";")[0];
+    }
+    return undefined;
+}
 
 
-    window.addEventListener("load", function () {
+window.addEventListener("load", function () {
 
-    // remove all language except french and dutch
-    var optionsLanguage = document.querySelectorAll('#u-field-select-pref-lang option');
-
-    optionsLanguage.forEach(function(option) {
-        if (option.value == 'fr') {
-            option.innerText = "Français"
-        } else if (option.value == 'nl-nl') {
-            option.innerText = "Nederlands"
-        } else if (option.value == '') {
-            console.log(option)
-        } else {
-            option.remove();
-        }
-    })
-
-
-
-    
 
     const titleLanguageElement = document.querySelector(".header-title");
     let currentLanguage = titleLanguageElement ? titleLanguageElement.innerText : "";
 
     if (currentLanguage === "Account instellingen") {
         currentLanguage = "nl-nl";
+        actualCookie = getCookie("openedx-language-preference")
+        console.log(actualCookie);
+
+        if (actualCookie != currentLanguage) {
+            updateCookie("openedx-language-preference", currentLanguage);
+            window.location.reload();
+        }
     }
 
+    console.log('currentLanguage');
     console.log(currentLanguage);
 
     if (currentLanguage === 'nl-nl') {
@@ -172,7 +180,8 @@ from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_f
             subTitleList[2].innerText = "We vinden het jammer dat je weggaat!"
             subTitleList[3].innerText = "Let op: de verwijdering van uw account en uw persoonlijke gegevens is definitief en onomkeerbaar. Zodra uw account is verwijderd, kunt u uw inloggegevens niet meer gebruiken om toegang te krijgen tot content op de website van The E-Academy. U verliest ook de toegang tot uw badges ter validatie van het afwerken van de modules."
             subTitleList[4].innerText = "Zodra uw account is verwijderd, kunt u de inhoud van de website van The E-Academy (www.e-academy.be) of op welke terminal dan ook, met inbegrip van mobiele toepassingen van The E-Academy, niet meer volgen. Dit omvat de toegang tot www.e-academy.be vanuit de systemen van uw bedrijf of onderwijsinstelling."
-            subTitleList[5].innerText = "Je kunt ook de toegang verliezen tot geverifieerde certificaten en andere programmakredieten zoals MicroMasters-certificaten. Als je een kopie wilt maken voor je administratie voordat je verder gaat met het verwijderen, volg dan de instructies om een certificaat af te drukken of te downloaden."
+            // subTitleList[5].innerText = "U kunt ook de toegang verliezen tot geverifieerde certificaten en andere programmakredieten zoals MicroMasters-certificaten. Als u een kopie wilt maken voor uw administratie voordat u verder gaat met het verwijderen, volg dan de instructies om een certificaat af te drukken of te downloaden."
+            subTitleList[5].innerText = ""
             subTitleList[6].innerText = "Wilt u niet uw e-mail, naam of wachtwoord veranderen?"
             subTitleList[7].innerText = "U kunt uw sociale media-accounts koppelen om het inloggen bij The E-Academy te vereenvoudigen."
             subTitleList[8].innerText = "Deze pagina bevat informatie over de bestellingen die u gedaan heeft bij The E-Academy."
@@ -196,7 +205,7 @@ from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_f
 
         const warningMessage =document.getElementsByClassName("account-settings-header-subtitle-warning")
         if (warningMessage) {
-            warningMessage[0].innerText = "Houd er rekening mee dat het verwijderen van je account permanent en onomkeerbaar is: Het verwijderen van je account is permanent en onomkeerbaar. Lees het volgende in detail voordat u verder gaat. Deze actie is onomkeerbaar en je zult niet langer hetzelfde e-mailadres kunnen gebruiken om je opnieuw te registreren op de Amazon Belgium website."
+            warningMessage[0].innerText = "Houd er rekening mee dat het verwijderen van je account permanent en onomkeerbaar is: Het verwijderen van je account is permanent en onomkeerbaar. Lees het volgende in detail voordat u verder gaat. Deze actie is onomkeerbaar en je zult niet langer hetzelfde e-mailadres kunnen gebruiken om je opnieuw te registreren op The E-Academy website."
         }
 
 
@@ -234,14 +243,15 @@ from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_f
 
         function replaceText() {
             let modalDeleteAccountText1 = document.getElementsByClassName("alert-title")
-            let firstP = document.querySelector(".alert-content p:nth-child(2)")
+            // let firstP = document.querySelector(".alert-content p:nth-child(2)")
             let secondP = document.querySelector(".alert-content p:nth-child(3)")
             let nextSteps = document.getElementsByClassName("next-steps")
             let labelPassword = document.getElementById("label-asInput1")
 
-            if (modalDeleteAccountText1[0]  && firstP && secondP && nextSteps) {
+            if (modalDeleteAccountText1[0] && secondP && nextSteps) {
+            // if (modalDeleteAccountText1[0]  && firstP && secondP && nextSteps) {
                 modalDeleteAccountText1[0].innerText = "Als u nog steeds wenst uw account te verwijderen, gelieve dan het wachtwoord van uw account in te vullen:"
-                firstP.innerText = "Zodra uw account is verwijderd, kunt u de inhoud van de website van The E-Academy (www.e-academy.be) of op welke terminal dan ook, met inbegrip van mobiele toepassingen van The E-Academy, niet meer volgen. Dit omvat de toegang tot www.e-academy.be vanuit de systemen van uw bedrijf of onderwijsinstelling."
+                // firstP.innerText = "Zodra uw account is verwijderd, kunt u de inhoud van de website van The E-Academy (www.e-academy.be) of op welke terminal dan ook, met inbegrip van mobiele toepassingen van The E-Academy, niet meer volgen. Dit omvat de toegang tot www.e-academy.be vanuit de systemen van uw bedrijf of onderwijsinstelling."
                 secondP.innerText = "Je kunt ook de toegang verliezen tot geverifieerde certificaten en andere programmakredieten zoals MicroMasters-certificaten. Als je een kopie wilt maken voor je administratie voordat je verder gaat met het verwijderen, volg dan de instructies om een certificaat af te drukken of te downloaden."
                 nextSteps[0].innerText = "Als je je account toch wilt verwijderen, voer dan het wachtwoord van je account in:"
                 labelPassword.innerText = "Wachtwoord"
@@ -254,11 +264,11 @@ from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_f
         function replaceText() {
             const subTitleListFr = document.getElementsByClassName("account-settings-header-subtitle")
             if (subTitleListFr) {
-                subTitleListFr[7].innerText = "Vous pouvez lier vos comptes de médias sociaux afin de simplifier la connexion à la E-academy."
-                subTitleListFr[8].innerText = "Cette page contien des informations à propos des commandes que vous avez passés avec la E-academy."
+                subTitleListFr[7].innerText = "Vous pouvez lier vos comptes de médias sociaux afin de simplifier la connexion à The E-academy."
+                subTitleListFr[8].innerText = "Cette page contien des informations à propos des commandes que vous avez passés avec The E-academy."
                 for (let section of subTitleListFr) {
                     let newText = section.innerText.replaceAll("Amazon Belgique", "E-academy")
-                    let newText2 = section.innerText.replaceAll("Cela inclut l'accès à e-academy.be depuis les systèmes de votre entreprise ou établissement d’enseignement and access to private sites offered by MIT Open Learning, Wharton Executive Education, and Harvard Medical School.", "")
+                    let newText2 = section.innerText.replaceAll("Cela inclut l'accès à www.e-academy.be depuis les systèmes de votre entreprise ou établissement d’enseignement and access to private sites offered by MIT Open Learning, Wharton Executive Education, and Harvard Medical School.", "")
                     section.innerText = newText
                     section.innerText = newText2   
                 }
@@ -269,12 +279,11 @@ from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_f
 
             if ( firstP  && secondP) {
                 
-                firstP.innerText = "If you proceed, you will be unable to use this account to take courses on the Amazon Belgique app, e-academy.be, or any other site hosted by E-academy."
+                firstP.innerText = "If you proceed, you will be unable to use this account to take courses on The E-academy app, e-academy.be, or any other site hosted by E-academy."
 
             }
         }
         setInterval(replaceText, 200);
     }
-}
-);
-    </script>
+});
+</script>

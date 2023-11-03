@@ -332,7 +332,7 @@ for user in ordered_users:
     j=j+1
 
 timestr = time.strftime("%Y_%m_%d")
-filename = "Rapport_de_notes_Amazon_{}.xlsx".format(timestr)
+filename = "Rapport_de_notes_Amazon_e-academy_{}.xlsx".format(timestr)
 filepath = '/home/ubuntu/amazon_reports/{}'.format(filename)
 wb.save(filepath)
 
@@ -340,7 +340,7 @@ wb.save(filepath)
 ### Create a new zip file and write the Excel file into it
 
 
-zipname = "rapport_de_notes.zip"
+zipname = "rapport_de_notes_e-academy.zip"
 zippath = '/home/ubuntu/amazon_reports/{}'.format(zipname)
 
 with zipfile.ZipFile(zippath, 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as myzip:
@@ -349,7 +349,7 @@ with zipfile.ZipFile(zippath, 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as myz
 output = BytesIO()
 wb.save(output)
 _files_values = output.getvalue()
-html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous trouverez en pièce jointe le rapport de donn&eacute;es Amazon<br/><br/>Bonne réception<br/>L'équipe WeupLearning"
+html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous trouverez en pièce jointe le rapport de donn&eacute;es Amazon Belgique<br/><br/>Bonne réception<br/>L'équipe WeupLearning"
 
 
 ### Send email
@@ -362,7 +362,7 @@ for email in emails:
     msg = MIMEMultipart()
     msg['From'] = fromaddr
     msg['To'] = email
-    msg['Subject'] = "Rapport de notes Amazon"
+    msg['Subject'] = "Rapport de notes Amazon Belgique"
 
     attachment = _files_values
 
