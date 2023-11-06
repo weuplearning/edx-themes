@@ -205,7 +205,7 @@ window.addEventListener("load", function () {
                 }
 
                 const translations = {
-                    "switch_register_language": "Vous souhaitez vous inscrire à la plateforme en Français? Suivez",
+                    "switch_register_language": "Pour vous inscrire en français, suivez ce lien",
                     "text": "Heeft u al een account?",
                     "contact_us": "Inloggen",
                     "register-name-desc": "Deze naam komt te staan op elk certificaat dat u behaalt",
