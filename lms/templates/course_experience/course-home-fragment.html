@@ -23,6 +23,8 @@ from lms.djangoapps.grades.course_grade import ZeroCourseGrade
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 %>
 
+
+
 <%block name="header_extras">
   <link rel="stylesheet" type="text/css" href="${static.url('paragon/static/paragon.min.css')}" />
   <link rel="stylesheet" type="text/css" href="${static.url('weup/css/animate-4.1.1.min.css')}" />
@@ -32,15 +34,27 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         padding: unset;
     }
     header.page-header.has-secondary{
+
+    %if request.path.find('VL') != -1 :
+        background-image: url("${static.url('bea-lidl/images/assets/VL/courseware_top.png')}");
+    %elif request.path.find('dindes') != -1 :
+        background-image: url("${static.url('bea-lidl/images/assets/dindes/courseware_top.png')}");
+    %elif request.path.find('porcs') != -1 :
+        background-image: url("${static.url('bea-lidl/images/assets/porcs/courseware_top.png')}");
+    %elif request.path.find('pdc') != -1 :
+        background-image: url("${static.url('bea-lidl/images/assets/pdc/courseware_top.png')}");
+    %else :
+        background-image: url("${static.url('bea-lidl/images/assets/pp/courseware_top.png')}");
+    %endif
         background-color: var(--primary);
         padding-top: 10px !important;
         padding-bottom: 10px !important;
         box-shadow: 0 3px 6px rgba(0,0,0,0.16);
         display: flex;
         align-items: center;
-        background-image: url("${static.url('bea-lidl/images/assets/courseware_top.png')}");
         background-size: cover;
-        height: 37vw;
+        height: 24vw;
+        background-position-y: center;
     }
     .page-header-secondary{
         padding: 25px 0 !important;
