@@ -394,3 +394,10 @@ s.parentNode.insertBefore(b, s);})();
     next=urlquote_plus(login_redirect_url if login_redirect_url else request.path)
   ) if (login_redirect_url or (request and not request.path.startswith("/logout"))) else ""
 }</%def>
+
+<script>
+  if ( window.location.href == "https://e-academy.be/courses" ) {
+    window.location.href = "https://e-academy.be/" 
+  } 
+</script>
+

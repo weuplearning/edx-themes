@@ -47,7 +47,7 @@ justify-content: space-between;
     margin-top: 5px;
 }
 
-#span_link_fr{
+#span_link {
     display: none;
 }
 
@@ -93,10 +93,9 @@ justify-content: space-between;
                 </h3>
             </div>
         <% } else { %>
-            <span id="switch_register_language">Als u zich wilt aanmelden voor het platform in het Nederlands, volg dan
-                </span>
-                <span id="span_link"><a id="register_link" href="#"> deze link</a></span>
-                <span id="span_link_fr"><a id="register_link_nl" href="#"> ce lien</a></span>
+            <span id="switch_register_language">Pour vous inscrire en français, suivez </span>
+            <span id="span_link"><a id="register_link" href="#"> deze link</a></span>
+            <span id="span_link_fr"><a id="register_link_nl" href="#"> ce lien</a></span>
             <h2><%- gettext('Create an Account')%></h2>
         <% } %>
     <% } else if (context.autoRegisterWelcomeMessage) { %>
@@ -105,7 +104,7 @@ justify-content: space-between;
 
     <% if (!context.syncLearnerProfileData) { %>
         <div class="toggle-form">
-            <p class="text">Vous possédez déja un compte ?</p>
+            <p class="text" >Vous possédez déja un compte ?</p>
             <a class="contact_us" href="/login" data-type="login">Se connecter</a>
         </div>
     <% } %>
@@ -157,141 +156,139 @@ console.log(ParameterLanguage);
 
 window.addEventListener("load", function () {
 
-            function setCookie(name, value, days) {
-                var expires = "";
-                if (days) {
-                    var date = new Date();
-                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                    expires = "; expires=" + date.toUTCString();
-                }
-                document.cookie = name + "=" + (value || "") + expires + "; path=/";
-            }
-
-            document.getElementById('register_link').addEventListener('click', function(event) {
-                event.preventDefault();
-                setCookie('openedx-language-preference', 'nl-nl', 365);
-                window.location.href = '/register?course_id=course-v1:amazon+Introduction+AZNL_01&enrollment_action=enroll';
-            });
-
-            document.getElementById('register_link_nl').addEventListener('click', function(event) {
-                event.preventDefault();
-                setCookie('openedx-language-preference', 'fr', 365);
-                window.location.href = '/register?course_id=course-v1:amazon+Introduction+AZ_01&enrollment_action=enroll';
-            });
-
-            var spanCompany = document.querySelector("label[for='register-company'].focus-out .label-text");
-            if (spanCompany) {
-                spanCompany.innerText = "Entreprise/Numéro de TVA"
-            }
-
-            const termsOfServiceLabel = document.querySelector('label[for="register-terms_of_service"]');
-            if (termsOfServiceLabel && termsOfServiceLabel.firstElementChild) {
-                    termsOfServiceLabel.firstElementChild.lastChild.textContent = " de la E-academy"
-            }
-
-
-            if (myCookieValue == 'nl-nl' || ParameterLanguage == 'nl') {
-
-                spanCompany.innerText = "Onderneming/BTW-nummer (optioneel)"
-
-                const accountH2 = document.querySelector('#register > h2')
-                const alreadyRegistered = document.querySelector('p.text');
-                const loginButton = document.querySelector('a.contact_us');
-
-                if (accountH2 && alreadyRegistered && loginButton) {
-                    accountH2.innerText = "Een account aanmaken"
-                    alreadyRegistered.innerText = "Heb je al een account?"
-                    loginButton.innerText = "Inloggen"
-                }
-
-                const translations = {
-                    "switch_register_language": "Pour vous inscrire en français, suivez ce lien",
-                    "text": "Heeft u al een account?",
-                    "contact_us": "Inloggen",
-                    "register-name-desc": "Deze naam komt te staan op elk certificaat dat u behaalt",
-                    "register-username-desc": "De naam waarmee u geïdentificeerd wordt op het platform. Deze kan later niet worden gewijzigd. Gebruikersnamen kunnen alleen letters (A-Z, a-z), cijfers (0-9), liggende streepjes (_) en koppeltekens (-) bevatten.",
-                    "register-email-desc": "Wat je gebruikt om verbinding te maken",
-                    "register-password-desc":"Je wachtwoord moet minstens 8 tekens bevatten, waaronder 1 hoofdletter & 1 kleine letter & 1 cijfer."
-
-                    
-                };
-
-                for (let id in translations) {
-                    const element = document.getElementById(id);
-                    console.log(element)
-                    if (element) {
-                        element.innerText = translations[id];
-                    }
-                }
-
-                const linkFr = document.getElementById("span_link_fr");
-                const linkNl = document.getElementById("span_link");
-                linkFr.style.display = "inline"
-                linkNl.style.display = "None"
-
-                const labelTranslations = {
-                    "register-company": "Onderneming/BTW-nummer (optioneel)",
-                    "register-region": "Regio",
-                    "register-phone_number": "Telefoonnummer (optioneel)",
-                    "register-online_sales": "Verkoopt u online? (optioneel)"
-                };
-
-                for (let labelFor in labelTranslations) {
-                    const labelElement = document.querySelector(`label[for="${labelFor}"]`);
-                    if (labelElement) {
-                        labelElement.innerText = labelTranslations[labelFor];
-                    }
-                }
-
-                const tosLink = document.querySelector('a[href="/tos"][rel="noopener"][target="_blank"]');
-                if (tosLink) {
-                    tosLink.innerText = "de algemene gebruiksvoorwaarden van The E-Academy van";
-                }
-
-                if (termsOfServiceLabel && termsOfServiceLabel.firstElementChild) {
-                    termsOfServiceLabel.firstElementChild.firstChild.textContent = "Ik aanvaard de ";
-                    termsOfServiceLabel.firstElementChild.lastChild.textContent = ""
-
-                }
-
-                const amazonRegisterData = document.querySelector(".amazon-register-data");
-                if (amazonRegisterData) {
-                    amazonRegisterData.innerText = "De persoonsgegevens die via dit formulier worden verstrekt, zullen worden verwerkt door Amazon Europe Core SARL en de aan haar gelieerde bedrijven voor de doeleinden die worden beschreven in ons Privacybeleid, waarmee u ook uw rechten kunt uitoefenen";
-                }
-
-
-                var select = document.getElementById('register-region');
-                for(var i = 0; i < select.options.length; i++) {
-                    var option = select.options[i];
-                    switch(option.value) {
-                        case 'flandres':
-                            option.text = 'Vlaanderen';
-                            break;
-                        case 'wallonie':
-                            option.text = 'Wallonië';
-                            break;
-                        case 'bruxelles':
-                            option.text = 'Brussel';
-                            break;
-                    }
-                }
-
-                var select2 = document.getElementById('register-online_sales');
-                for(var i = 0; i < select2.options.length; i++) {
-                    var option = select2.options[i];
-                    switch(option.value) {
-                        case 'oui':
-                            option.text = 'ja';
-                            break;
-                        case 'non':
-                            option.text = 'nee';
-                            break;
-                    }
-                }
-            }
-            
+    function setCookie(name, value, days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
         }
-    );
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+
+    document.getElementById('register_link').addEventListener('click', function(event) {
+        event.preventDefault();
+        setCookie('openedx-language-preference', 'nl-nl', 365);
+        window.location.href = '/register?course_id=course-v1:amazon+Introduction+AZNL_01&enrollment_action=enroll';
+    });
+
+    document.getElementById('register_link_nl').addEventListener('click', function(event) {
+        event.preventDefault();
+        setCookie('openedx-language-preference', 'fr', 365);
+        window.location.href = '/register?course_id=course-v1:amazon+Introduction+AZ_01&enrollment_action=enroll';
+    });
+
+    var spanCompany = document.querySelector("label[for='register-company'].focus-out .label-text");
+    if (spanCompany) {
+        spanCompany.innerText = "Entreprise/Numéro de TVA"
+    }
+
+    const termsOfServiceLabel = document.querySelector('label[for="register-terms_of_service"]');
+    if (termsOfServiceLabel && termsOfServiceLabel.firstElementChild) {
+            termsOfServiceLabel.firstElementChild.lastChild.textContent = " de The E-Academy"
+    }
+
+
+    if (myCookieValue == 'nl-nl' || ParameterLanguage == 'nl') {
+
+        spanCompany.innerText = "Onderneming/BTW-nummer (optioneel)"
+
+        const accountH2 = document.querySelector('#register > h2')
+        const alreadyRegistered = document.querySelector('p.text');
+        const loginButton = document.querySelector('a.contact_us');
+
+        if (accountH2 && alreadyRegistered && loginButton) {
+            accountH2.innerText = "Een account aanmaken"
+            alreadyRegistered.innerText = "Heb je al een account?"
+            loginButton.innerText = "Inloggen"
+        }
+
+        const translations = {
+            "switch_register_language": "Als u zich wilt aanmelden voor het platform in het Nederlands, volg dan",
+            "text": "Heeft u al een account?",
+            "contact_us": "Inloggen",
+            "register-name-desc": "Deze naam komt te staan op elk certificaat dat u behaalt",
+            "register-username-desc": "De naam waarmee u geïdentificeerd wordt op het platform. Deze kan later niet worden gewijzigd. Gebruikersnamen kunnen alleen letters (A-Z, a-z), cijfers (0-9), liggende streepjes (_) en koppeltekens (-) bevatten.",
+            "register-email-desc": "Wat je gebruikt om verbinding te maken",
+            "register-password-desc":"Je wachtwoord moet minstens 8 tekens bevatten, waaronder 1 hoofdletter & 1 kleine letter & 1 cijfer."
+
+            
+        };
+
+
+        for (let id in translations) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.innerText = translations[id];
+            }
+        }
+
+        const linkFr = document.getElementById("span_link_fr");
+        const linkNl = document.getElementById("span_link");
+        linkFr.style.display = "None"
+        linkNl.style.display = "inline"
+
+        const labelTranslations = {
+            "register-company": "Onderneming/BTW-nummer (optioneel)",
+            "register-region": "Regio",
+            "register-phone_number": "Telefoonnummer (optioneel)",
+            "register-online_sales": "Verkoopt u online? (optioneel)"
+        };
+
+        for (let labelFor in labelTranslations) {
+            const labelElement = document.querySelector(`label[for="${labelFor}"]`);
+            if (labelElement) {
+                labelElement.innerText = labelTranslations[labelFor];
+            }
+        }
+
+        const tosLink = document.querySelector('a[href="/tos"][rel="noopener"][target="_blank"]');
+        if (tosLink) {
+            tosLink.innerText = "de algemene gebruiksvoorwaarden van The E-Academy ";
+        }
+
+        if (termsOfServiceLabel && termsOfServiceLabel.firstElementChild) {
+            termsOfServiceLabel.firstElementChild.firstChild.textContent = "Ik aanvaard ";
+            termsOfServiceLabel.firstElementChild.lastChild.textContent = ""
+
+        }
+
+        const amazonRegisterData = document.querySelector(".amazon-register-data");
+        if (amazonRegisterData) {
+            amazonRegisterData.innerText = "De persoonsgegevens die via dit formulier worden verstrekt, zullen worden verwerkt door Amazon Europe Core SARL en de aan haar gelieerde bedrijven voor de doeleinden die worden beschreven in ons Privacybeleid, waarmee u ook uw rechten kunt uitoefenen";
+        }
+
+
+        var select = document.getElementById('register-region');
+        for(var i = 0; i < select.options.length; i++) {
+            var option = select.options[i];
+            switch(option.value) {
+                case 'flandres':
+                    option.text = 'Vlaanderen';
+                    break;
+                case 'wallonie':
+                    option.text = 'Wallonië';
+                    break;
+                case 'bruxelles':
+                    option.text = 'Brussel';
+                    break;
+            }
+        }
+
+        var select2 = document.getElementById('register-online_sales');
+        for(var i = 0; i < select2.options.length; i++) {
+            var option = select2.options[i];
+            switch(option.value) {
+                case 'oui':
+                    option.text = 'ja';
+                    break;
+                case 'non':
+                    option.text = 'nee';
+                    break;
+            }
+        }
+    }           
+});
 setInterval(function(){
   $("label[for=register-honor_code] span.label-text").html("J'accepte d'être contacté par Amazon dans le cadre de l'Accélérateur du Numérique");
 //   $("label[for=register-company] span.label-text").html("Entreprise/SIRET");
@@ -303,7 +300,7 @@ setInterval(function(){
   $('.focus-out').css('padding-top', 0);
   $('.focus-out').css('padding-left', 0);
   $('.focus-out').css('opacity', 1);
-},50);
+},250);
 </script>
 
 <script id="gtm-jq-ajax-listen" type="text/javascript">

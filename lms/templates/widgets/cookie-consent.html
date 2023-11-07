@@ -29,11 +29,9 @@ a.cc-link:hover,a.cc-btn:hover{
 window.addEventListener("load", function(){
 
 var myCookieValue = getCookie('openedx-language-preference');
-console.log(myCookieValue);
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const ParameterLanguage = urlParams.get('language')
-console.log(ParameterLanguage);
 
 let messageContent = "Amazon Europe Core SARL utilise des cookies sur ce site pour mesurer son audience, analyser les contenus consultés, l’optimiser et pour mesurer la performance des campagnes pour le site effectuées sur les réseaux sociaux.";
 
@@ -42,7 +40,7 @@ let accept = "accepter"
 let refuse = "refuser"
 
 if (myCookieValue == "nl-nl" || ParameterLanguage == "nl") {
-    messageContent = "pour les cookies : Amazon Europe SARL gebruikt cookies op deze website om het publiek te meten, de bezochte inhoud te analyseren, te optimaliseren en de prestaties van de op de website uitgevoerde campagnes op sociale media te meten";
+    messageContent = "Amazon Europe SARL gebruikt cookies op deze website om het publiek te meten, de bezochte inhoud te analyseren, te optimaliseren en de prestaties van de op de website uitgevoerde campagnes op sociale media te meten";
     linkToConfidentiality = '/index.php/privacybeleid/'
     accept = 'accepteren'
     refuse = 'Afval'
@@ -108,7 +106,6 @@ if (myCookieValue == "nl-nl" || ParameterLanguage == "nl") {
   },
   function(popup){
     $(".cc-window").on('keydown', function(event) {
-      console.log(event.keyCode)  
       if (event.keyCode == 27 ){
         popup.close();
       } 
