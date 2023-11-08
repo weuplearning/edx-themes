@@ -47,7 +47,7 @@ justify-content: space-between;
     margin-top: 5px;
 }
 
-#span_link {
+#span_link_fr {
     display: none;
 }
 
@@ -93,7 +93,7 @@ justify-content: space-between;
                 </h3>
             </div>
         <% } else { %>
-            <span id="switch_register_language">Pour vous inscrire en français, suivez </span>
+            <span id="switch_register_language">Als u zich wilt aanmelden voor het platform in het Nederlands, volg dan </span>
             <span id="span_link"><a id="register_link" href="#"> deze link</a></span>
             <span id="span_link_fr"><a id="register_link_nl" href="#"> ce lien</a></span>
             <h2><%- gettext('Create an Account')%></h2>
@@ -204,7 +204,7 @@ window.addEventListener("load", function () {
         }
 
         const translations = {
-            "switch_register_language": "Als u zich wilt aanmelden voor het platform in het Nederlands, volg dan",
+            "switch_register_language": "Pour vous inscrire en français, suivez ",
             "text": "Heeft u al een account?",
             "contact_us": "Inloggen",
             "register-name-desc": "Deze naam komt te staan op elk certificaat dat u behaalt",
@@ -225,8 +225,8 @@ window.addEventListener("load", function () {
 
         const linkFr = document.getElementById("span_link_fr");
         const linkNl = document.getElementById("span_link");
-        linkFr.style.display = "None"
-        linkNl.style.display = "inline"
+        linkFr.style.display = "inline"
+        linkNl.style.display = "none"
 
         const labelTranslations = {
             "register-company": "Onderneming/BTW-nummer (optioneel)",
