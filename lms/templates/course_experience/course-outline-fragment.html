@@ -34,6 +34,12 @@ dates_banner_displayed = False
 	.page-content .page-content-secondary h4{
 		background-color: var(--primary) !important;
 	}
+    button.outline-button {
+        display: flex !important;
+        align-items: center;
+    }
+
+
 </style>
 
 <main role="main" class="course-outline" id="main" tabindex="-1">
@@ -59,7 +65,14 @@ dates_banner_displayed = False
                             aria-expanded="${ 'true' if section_is_auto_opened else 'false' }"
                             aria-controls="${ section['id'] }_contents"
                             id="${ section['id'] }">
-                        <span class="fa fa-chevron-right ${ 'fa-rotate-90' if section_is_auto_opened else '' }" aria-hidden="true"></span>
+
+
+                            <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 512 512" style="${ 'display:none!important' if section_is_auto_opened else 'display:inline!important' }" ><style>svg{fill:#ffffff}</style><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344V280H168c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H280v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 512 512" style="${ 'display:inline!important' if section_is_auto_opened else 'display:none!important' }" ><style>svg{fill:#ffffff}</style><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM184 232H328c13.3 0 24 10.7 24 24s-10.7 24-24 24H184c-13.3 0-24-10.7-24-24s10.7-24 24-24z"/></svg>
+
+
+                            
+
                         <h3 class="section-title">${ section['display_name'] }</h3>
             % if section.get('complete'):
                             <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
@@ -191,3 +204,26 @@ dates_banner_displayed = False
 <%static:webpack entry="CourseOutline">
     new CourseOutline();
 </%static:webpack>
+
+
+<script>
+setInterval(() => {
+    array = document.getElementById('course-outline-block-tree').children
+
+    for (let i = 0; i < array.length; i++) {
+        const element = array[i];
+
+        if (element.children[0].ariaExpanded == 'true') {
+            
+            element.children[0].children[0].style.display = 'none'
+            element.children[0].children[1].style.display = 'inline'
+
+        } else {
+            
+            element.children[0].children[1].style.display = 'none'
+            element.children[0].children[0].style.display = 'inline'
+            
+        }
+    }
+}, 100);
+</script>
