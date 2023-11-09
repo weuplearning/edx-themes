@@ -203,11 +203,33 @@ document.getElementById('modal-button').addEventListener('click', function (even
 
 
 // Hide CGU and honor
-setTimeout(() => {
-    document.getElementById("register-terms_of_service").checked = true
-    document.getElementById("register-honor_code").checked = true
+const ckeckAndHide = setInterval(checkerFunction, 300);
 
-}, 500);
+function checkerFunction() {
+    const termsCheckbox = document.getElementById("register-terms_of_service");
+    const honorCheckbox = document.getElementById("register-honor_code");
+    let checker1 = false
+    let checker2 = false
+
+    if (termsCheckbox) {
+        termsCheckbox.checked = true;
+        checker1 = true
+    } else {
+        console.error("Terms checkboxes not found");
+    }
+    
+    if (honorCheckbox) {
+        honorCheckbox.checked = true;
+        checker2 = true
+    } else {
+        console.error("Honor checkboxes not found");
+    }
+
+    if (checker1 && checker2) {
+        clearInterval(ckeckAndHide)
+    }
+
+}
 
 
 // Setup a pop up for this 
