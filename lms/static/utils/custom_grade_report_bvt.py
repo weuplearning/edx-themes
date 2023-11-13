@@ -64,32 +64,64 @@ daysLimit = int(sys.argv[2].split(";")[1])
 
 
 def updateGrade(problemNum, choices, answer_list):
-
   answered_true = 0
   grade = 0
 
-  if choices == 'n.a.' or choices == []:
+
+  problemRef = 'problem' + problemNum
+
+  # SI TOUTES LES PROPOSITIONS SONT COCHEES
+  if len(choices) == 4:
     return grade
+
+  # SI AUCUNE PROPOSITION COCHEE
+  if choices == 'n.a.' or not choices:
+    return grade
+
 
   translated_list = []
   for choice in choices:
     index = choice.split('_')[1]
     translated_list.append(index)
 
-  for choice in translated_list :
-    problemRef = 'problem'+ problemNum 
+  correct_answers = int(answer_list[problemRef])
+  correct_count = len(correct_answers)
 
-    if choice in answer_list[problemRef]:
+  for choice in translated_list:
+    if choice in correct_answers:
       answered_true += 1
-    else:
-      return grade
 
-  if answered_true == len(answer_list[problemRef]):
-    grade = 1
-  else:
-    grade = 0.5
+
+  incorrect_count = len(translated_list) - answered_true
+
+  if correct_count == 3:
+    if answered_true == correct_count:
+      grade = 4
+    elif answered_true == correct_count - 1 and incorrect_count == 1:
+      grade = 2
+    elif answered_true == correct_count - 2 and incorrect_count == 2:
+      grade = 1
+
+  elif correct_count == 2:
+    if answered_true == correct_count:
+      grade = 4
+    elif answered_true == correct_count - 1 and incorrect_count == 1:
+      grade = 3
+    elif answered_true == correct_count - 2 and incorrect_count == 2:
+      grade = 1
+
+  elif correct_count == 1:
+    if answered_true == correct_count:
+      grade = 4
+    elif answered_true == correct_count - 1 and incorrect_count == 1:
+      grade = 3
+    elif answered_true == correct_count - 2 and incorrect_count == 2:
+      grade = 2
 
   return grade
+
+
+
 
 
 
@@ -290,7 +322,8 @@ for k, course_id in all_users_data.items():
       correctedExamGrade += float(correctedGrade)
 
     sheet.cell(j, i, correctedExamGrade)
-    if correctedExamGrade >= 21: 
+
+    if correctedExamGrade >= 84: 
       sheet.cell(j, i+1, 'oui')
     else :
       sheet.cell(j, i+1, 'non')
