@@ -62,7 +62,8 @@ from lms.djangoapps.course_api.views import CourseListView
         if (parts.length == 2) return parts.pop().split(";").shift();
       }
 
-      var myCookieValue = getCookie('openedx-language-preference');
+      var myCookieValue = getCookie('django_language');
+      // var myCookieValue = getCookie('openedx-language-preference');
 
       let id = document.getElementById("available-courses")
       let boutons = id.getElementsByClassName('learn-more')
