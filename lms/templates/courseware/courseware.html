@@ -26,7 +26,7 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
 
 <!-- Cyril - Save or erase last visited course -->
 <%
-if course.id != 'course-v1:amazon+webinaire+AZ_2023' :
+if str(course.id) != 'course-v1:amazon+webinaire+AZ_2023' :
   custom_fields = {}
   custom_fields = json.loads(user.profile.custom_field)
 
