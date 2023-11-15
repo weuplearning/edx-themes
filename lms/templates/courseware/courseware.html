@@ -26,13 +26,14 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
 
 <!-- Cyril - Save or erase last visited course -->
 <%
-custom_fields = {}
-custom_fields = json.loads(user.profile.custom_field)
+if course.id != 'course-v1:amazon+webinaire+AZ_2023' :
+  custom_fields = {}
+  custom_fields = json.loads(user.profile.custom_field)
 
-custom_fields['last_visited_course'] = str(course.id)
+  custom_fields['last_visited_course'] = str(course.id)
 
-user.profile.custom_field = json.dumps(custom_fields)
-user.profile.save()
+  user.profile.custom_field = json.dumps(custom_fields)
+  user.profile.save()
 %>
 
 % if display_reset_dates_banner:
