@@ -409,7 +409,7 @@ for email in emails:
 ## delete old files
 two_weeks_ago = datetime.datetime.today() - datetime.timedelta(days=14)
 try:
-    os.remove('/edx/app/edxapp/edx-themes/hec-pole-emploi/lms/utils/reports/Rapport_hec_{}.xlsx'.format(two_weeks_ago.strftime("%Y_%m_%d")))
+    os.remove('/edx/var/edxapp/media/microsites/hec-pole-emploi/reports/Rapport_hec_{}.xlsx'.format(two_weeks_ago.strftime("%Y_%m_%d")))
 except:
     pass
 
