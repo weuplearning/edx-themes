@@ -368,7 +368,7 @@ for course_id in course_ids:
 
 timestr = time.strftime("%Y_%m_%d")
 filename = "Rapport_hec_{}.xlsx".format(timestr)
-filepath = '/edx/app/edxapp/edx-themes/hec-pole-emploi/lms/utils/reports/{}'.format(filename)
+filepath = '/edx/var/edxapp/media/microsites/hec-pole-emploi/reports/{}'.format(filename)
 wb.save(filepath)
 output = BytesIO()
 _files_values = output.getvalue()
