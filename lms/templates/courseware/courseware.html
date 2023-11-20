@@ -5,6 +5,7 @@
 <%!
 import six
 import waffle
+import json
 
 from django.conf import settings
 from django.urls import reverse
@@ -21,6 +22,20 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
    settings.FEATURES.get('ENABLE_SPECIAL_EXAMS', False) and
    (course.enable_proctored_exams or course.enable_timed_exams)
    )
+%>
+
+<!-- Cyril - Update matricule_cpam CF -->
+<%
+custom_fields = {}
+custom_fields = json.loads(user.profile.custom_field)
+
+if 'matricule_cpam' in custom_fields.keys() :
+  if str(custom_fields['matricule_cpam']).find('n° ') == -1 : 
+    update = 'n° ' + str(custom_fields['matricule_cpam'])
+    custom_fields['matricule_cpam'] = update
+
+user.profile.custom_field = json.dumps(custom_fields)
+user.profile.save()
 %>
 
 <style>
