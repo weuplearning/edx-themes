@@ -372,7 +372,7 @@ filepath = '/edx/var/edxapp/media/microsites/hec-pole-emploi/reports/{}'.format(
 wb.save(filepath)
 output = BytesIO()
 _files_values = output.getvalue()
-html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous trouverez en pièce jointe le rapport de donn&eacute;es Amazon"
+html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous trouverez en pièce jointe le rapport de donn&eacute;es HEC pôle-emploi"
 
 ## Send email
 for email in emails:
