@@ -65,7 +65,7 @@
     var updateRegisterForm = setInterval(() => {
 
         // username field
-        document.getElementsByClassName("label-text")[0].innerHTML = "Nom d'utilisateur public (pseudo)";
+        document.getElementsByClassName("label-text")[1].innerHTML = "Nom d'utilisateur public (pseudo)";
 
         // fullname indications
         if(document.getElementById("usernameTextInfo") === null){
@@ -94,12 +94,12 @@
         // for Koa-qualif replace the occurence of afpa bith Afpa that are present in the indexOf and replace functions
         // thirdElement.attributes('required', '')
         if (thirdElement.innerText.indexOf('afpa') != -1 ) {
-            thirdElement.innerHTML = thirdElement.innerHTML.replace('<a href=\"/tos\" rel=\"noopener\" target=\"_blank\">Conditions d’utilisation</a> de afpa', '<a href=\"/cgu\" rel=\"noopener\" target=\"_blank\">Conditions d’utilisation</a> de Afpa')
+            thirdElement.innerHTML = thirdElement.innerHTML.replace('<a href=\"/tos\" rel=\"noopener\" target=\"_blank\">Conditions d’utilisation</a> de afpa', '<a href=\"/cgu\" rel=\"noopener\" target=\"_blank\">Conditions d’utilisation</a> de l\'Afpa')
             thirdElement.innerHTML = thirdElement.innerHTML.replace('<span class=\"label-optional\" id=\"register-terms_of_service-optional-label\">(optionnel)</span>', '')    
         }
 
         if (firstElement.innerText.indexOf('afpa') != -1 ) {
-            firstElement.innerHTML = firstElement.innerHTML.replace("les <a href=\"/honor\" rel=\"noopener\" target=\"_blank\">Code d'honneur</a> de afpa", "la <a href=\"/donnees\" rel=\"noopener\" target=\"_blank\">Politique de confidentialité</a> de Afpa")
+            firstElement.innerHTML = firstElement.innerHTML.replace("J'accepte les <a href=\"/honor\" rel=\"noopener\" target=\"_blank\">Code d'honneur</a> de afpa", "J'ai lu la <a href=\"/donnees\" rel=\"noopener\" target=\"_blank\">Politique de confidentialité</a> de l'Afpa")
             firstElement.innerHTML = firstElement.innerHTML.replace('<span class=\"label-optional\" id=\"register-terms_of_service-optional-label\">(optionnel)</span>', '')    
         }
 
