@@ -115,10 +115,7 @@ def updateGrade(problemNum, choices, answer_list):
     elif answered_true == correct_count - 2 and incorrect_count == 2:
       grade = 2
 
-
   return grade
-
-
 
 
 
@@ -149,11 +146,10 @@ for course_id in course_ids:
 
     # FILTRER LES UTILISATEUR DU JOUR POUR RENDRE UN RAPPORT SANS ANCIENS UTILISATEURS : 
     try :
-      session_date = json.loads(user.profile.custom_field)['session_date_'+session]
+      session_date = json.loads(user.profile.custom_field)['session_date_'+course_id]
       timestamp = session_date // 1000
       dt_object = datetime.fromtimestamp(timestamp)
       dt_object_utc = dt_object.replace(tzinfo=timezone.utc)
-
     except :
       # Escape this user
       continue 
