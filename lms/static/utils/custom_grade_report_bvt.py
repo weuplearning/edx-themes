@@ -66,8 +66,6 @@ daysLimit = int(sys.argv[2].split(";")[1])
 def updateGrade(problemNum, choices, answer_list):
   answered_true = 0
   grade = 0
-
-
   problemRef = 'problem' + problemNum
 
   # SI TOUTES LES PROPOSITIONS SONT COCHEES
@@ -84,13 +82,12 @@ def updateGrade(problemNum, choices, answer_list):
     index = choice.split('_')[1]
     translated_list.append(index)
 
-  correct_answers = int(answer_list[problemRef])
+  correct_answers = answer_list[problemRef]
   correct_count = len(correct_answers)
 
   for choice in translated_list:
     if choice in correct_answers:
       answered_true += 1
-
 
   incorrect_count = len(translated_list) - answered_true
 
@@ -117,6 +114,7 @@ def updateGrade(problemNum, choices, answer_list):
       grade = 3
     elif answered_true == correct_count - 2 and incorrect_count == 2:
       grade = 2
+
 
   return grade
 
@@ -151,7 +149,7 @@ for course_id in course_ids:
 
     # FILTRER LES UTILISATEUR DU JOUR POUR RENDRE UN RAPPORT SANS ANCIENS UTILISATEURS : 
     try :
-      session_date = json.loads(user.profile.custom_field)['session_date']
+      session_date = json.loads(user.profile.custom_field)['session_date_'+session]
       timestamp = session_date // 1000
       dt_object = datetime.fromtimestamp(timestamp)
       dt_object_utc = dt_object.replace(tzinfo=timezone.utc)
@@ -159,6 +157,7 @@ for course_id in course_ids:
     except :
       # Escape this user
       continue 
+
 
 
     if not user.last_login:
@@ -383,7 +382,7 @@ log.info('------------> Finish calculate grades and write xlsx report')
 
 
 # first day of every month at 6
-# 0 5 1 * * /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/bvt/lms/static/utils/custom_grade_report_bvt.py 'cyril.adolf@weuplearning.com;alexandre.berteau@weuplearning.com' 'timePeriodToCheck;31'
+# 0 5 1 * * /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/bvt/lms/static/utils/custom_grade_report_bvt.py 'cyril.adolf@weuplearning.com' 'timePeriodToCheck;31'
 
 # once a year the 1st of january at 6
-# 0 5 1 1 * /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/bvt/lms/static/utils/custom_grade_report_bvt.py 'cyril.adolf@weuplearning.com;alexandre.berteau@weuplearning.com' 'timePeriodToCheck;365'
+# 0 5 1 1 * /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/bvt/lms/static/utils/custom_grade_report_bvt.py 'cyril.adolf@weuplearning.com' 'timePeriodToCheck;365'

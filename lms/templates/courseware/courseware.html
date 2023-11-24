@@ -473,8 +473,7 @@ let finished_exam = setInterval(() => {
 
       customFieldsObj[courseID] = "quizz_completed"
       customFieldsObj["authorized"] = true
-      customFieldsObj['session_date'] = timestamp
-
+      customFieldsObj['session_date_'+courseID] = timestamp
 
       const url = '/wul_apps/custom_field_editor/';
       const data = JSON.stringify(customFieldsObj);
