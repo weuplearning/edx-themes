@@ -1,0 +1,177 @@
+## mako
+
+<%page expression_filter="h"/>
+
+<%!
+from django.utils.translation import ugettext as _
+from openedx.core.djangolib.markup import HTML
+%>
+
+<%inherit file="/main.html" />
+<%block name="bodyclass">view-in-course view-statictab ${course.css_class or ''}</%block>
+<%namespace name='static' file='/static_content.html'/>
+
+<%block name="head_extra">
+<%static:css group='style-course-vendor'/>
+<%static:css group='style-course'/>
+${HTML(fragment.head_html())}
+
+<!-- WEBINAIRES AND REPLAYS-->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+
+<style>
+.static_tab_wrapper{
+ padding-left:0px !important;
+ padding-right:0px !important;
+ border-left: 0px !important;
+ border-right: 0px !important;
+}
+@media screen and (max-width : 600px) {
+  div.static_tab_wrapper{
+    max-width: 100vw !important;
+  }
+}
+#replay-switch-container{
+  margin-left: calc( -42.5vw + 264px );
+}
+@media screen and (max-width : 1000px) {
+  #replay-switch-container{
+    margin-top: 25px;
+    margin-left: 0px;
+  }
+}
+.switches{
+ cursor:pointer !important;
+ border: 1px solid rgb(200, 200, 200);
+ border-bottom:0px;
+ padding: 10px 10px;
+}
+#webinaires,#replays{
+ border: 1px solid rgb(200, 200, 200);
+ padding: 2em 2.5em;
+ margin-top:-14px;
+}
+#webinaires-switch{
+/*  border-right: 3px #ed7d31 solid;*/
+  padding-right: 15px;
+  color: #ed7d31;
+}
+#replay-switch{
+  padding-left: 15px;
+  color:black;
+}
+
+#replays h1, #webinaires h1{
+  font-size:1.2em !important;
+  font-weight: bold;
+}
+.replay-title{
+  font-size: 14.0pt !important;
+  color: #ed7d31 !important;
+  font-weight:bold !important;
+}
+.replay-description{
+  color: #222222 !important;
+  font-size:16px !important;
+}
+</style>
+<!-- END OF WEBINAIRE AND REPLAYS-->
+
+<style>
+div.static_tab_wrapper{
+    max-width: 85vw !important;
+}
+div.window-wrap{
+    background: url(/media/microsites/amazon/bg.png) !important;
+}
+@media screen and (max-width : 600px) {
+  div.static_tab_wrapper{
+    max-width: 100vw !important;
+  }
+}
+
+
+
+.container_toggle_xscorm{
+      display: none;
+  }
+  
+  .title_toggle_xscorm{
+      cursor: pointer;
+  }
+  .show_content{
+      display: block;
+  }
+
+</style>
+
+</%block>
+
+<%block name="footer_extra">
+<%include file="/mathjax_include.html" args="disable_fast_preview=True"/>
+${HTML(fragment.foot_html())}
+</%block>
+
+<%block name="pagetitle">${_(tab['name'])} | ${course.display_number_with_default}</%block>
+
+% if str(request.user) != "AnonymousUser":
+  <%include file="/courseware/course_navigation.html" args="active_page=active_page" />
+% endif
+
+
+<%static:css group='style-student-notes'/>
+
+% if str(request.user) != "AnonymousUser":
+
+  % if request.path == "/courses/course-v1:amazon+amazon001+SP/0c78fdee4f0c447ebceb300f2a44a891/" or request.path == "/courses/course-v1:amazon+amazon001+SP/6f99bd87c01a4a1383e1b73fba057666/":
+    <%include file="/wul_apps/landing_page.html" args="webinaire_replay=False" />
+
+  % elif request.path == "/courses/course-v1:amazon+amazon001+SP/24b326c7def14a7f86a0cb15cf7eea51/" or request.path == "/courses/course-v1:amazon+amazon001+SP/1ae7488e68504c708c53d5e8e676b683/":
+    <%include file="/wul_apps/landing_page.html" args="webinaire_replay=True" />
+
+  % else:
+    <main id="main" aria-label="Content" tabindex="-1">
+      <section class="container"
+      % if getattr(course, 'language'):
+        lang=${course.language}
+      % endif
+      >
+      <section class="container">
+        <div class="static_tab_wrapper">
+          ${HTML(fragment.body_html())}
+        </div>
+      </section>
+    </main>
+  % endif
+
+% endif 
+
+<script>
+    window.addEventListener("load", function(event) {
+      let toggleTitle = document.getElementsByClassName("title_toggle_xscorm")
+      console.log(toggleTitle)
+          let toggleContainer  = document.getElementsByClassName("container_toggle_xscorm")
+          console.log(toggleContainer)
+
+          for (let i =0; i < toggleTitle.length; i++){
+              toggleTitle[i].addEventListener("click", function(){
+                  toggleContainer[i].classList.toggle("show_content")
+              });
+          }
+  });
+</script>
+
+<style>
+
+  .troisatelier {
+      display:flex;
+      justify-content:space-evenly;
+      text-align: center;  
+  }
+
+  @media screen and (max-width: 768px) {
+      .troisatelier {
+          display:block;
+      }
+  }
+</style>

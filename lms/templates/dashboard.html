@@ -1,0 +1,1185 @@
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%def name="online_help_token()"><% return "learnerdashboard" %></%def>
+<%namespace name='static' file='static_content.html'/>
+<%!
+import pytz
+import six
+import json
+
+from datetime import datetime, timedelta
+from django.urls import reverse
+from django.utils.translation import ugettext as _
+from django.template import RequestContext
+from common.djangoapps.entitlements.models import CourseEntitlement
+from common.djangoapps.third_party_auth import pipeline
+from common.djangoapps.util.date_utils import strftime_localized
+from opaque_keys.edx.keys import CourseKey
+from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
+from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+from openedx.core.djangolib.js_utils import dump_js_escaped_json, js_escaped_string
+from openedx.core.djangolib.markup import HTML, Text
+
+from common.djangoapps.student.models import CourseEnrollment
+from lms.djangoapps.course_api.views import CourseListView
+%>
+
+<%
+  cert_name_short = settings.CERT_NAME_SHORT
+  cert_name_long = settings.CERT_NAME_LONG
+%>
+
+<!-- Cyril - Access CF to check last visited course -->
+<%
+custom_fields = {}
+custom_fields = json.loads(user.profile.custom_field)
+already_visited = False
+
+if 'last_visited_course' in custom_fields.keys() :
+  already_visited = True
+
+%>
+
+<%block name="pagetitle">${_("Dashboard")}</%block>
+<%block name="bodyclass">view-dashboard is-authenticated</%block>
+
+<%block name="header_extras">
+% for template_name in ["donation"]:
+<script type="text/template" id="${template_name}-tpl">
+  <%static:include path="dashboard/${template_name}.underscore" />
+
+</script>
+% endfor
+</%block>
+
+<%block name="js_extra">
+  <script src="${static.url('js/commerce/credit.js')}"></script>
+  <%static:js group='dashboard'/>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      edx.dashboard.legacy.init({
+        dashboard: "${reverse('dashboard') | n, js_escaped_string}",
+        signInUser: "${reverse('signin_user') | n, js_escaped_string}",
+        changeEmailSettings: "${reverse('change_email_settings') | n, js_escaped_string}"
+      });
+    });
+
+  </script>
+  <%static:webpack entry="UnenrollmentFactory">
+    UnenrollmentFactory({
+      urls: {
+        dashboard: "${reverse('dashboard') | n, js_escaped_string}",
+        signInUser: "${reverse('signin_user') | n, js_escaped_string}",
+        changeEmailSettings: "${reverse('change_email_settings') | n, js_escaped_string}",
+        browseCourses: "${marketing_link('COURSES') | n, js_escaped_string}"
+      },
+      isEdx: false
+    });
+  </%static:webpack>
+  <%static:webpack entry="EntitlementUnenrollmentFactory">
+    ## Wait until the document is fully loaded before initializing the EntitlementUnenrollmentView
+    ## to ensure events are setup correctly.
+    $(document).ready(function() {
+      EntitlementUnenrollmentFactory({
+        dashboardPath: "${reverse('dashboard') | n, js_escaped_string}",
+        signInPath: "${reverse('signin_user') | n, js_escaped_string}",
+        browseCourses: "${marketing_link('COURSES') | n, js_escaped_string}",
+        isEdx: false
+      });
+    });
+  </%static:webpack>
+  % if settings.FEATURES.get('ENABLE_DASHBOARD_SEARCH'):
+    <%static:require_module module_name="course_search/js/dashboard_search_factory" class_name="DashboardSearchFactory">
+        DashboardSearchFactory();
+    </%static:require_module>
+  % endif
+  % if redirect_message:
+    <%static:require_module module_name="js/views/message_banner" class_name="MessageBannerView">
+        var banner = new MessageBannerView({urgency: 'low', type: 'warning'});
+        $('#content').prepend(banner.$el);
+        banner.showMessage(${redirect_message | n, dump_js_escaped_json})
+    </%static:require_module>
+  % endif
+  % if recovery_email_message:
+      <%static:require_module module_name="js/views/message_banner" class_name="MessageBannerView">
+        var banner = new MessageBannerView({urgency: 'low', type: 'warning', hideCloseBtn: false, isRecoveryEmailMsg: true});
+        $('#content').prepend(banner.$el);
+        banner.showMessage(${recovery_email_message | n, dump_js_escaped_json})
+      </%static:require_module>
+  % endif
+  % if recovery_email_activation_message:
+      <%static:require_module module_name="js/views/message_banner" class_name="MessageBannerView">
+        var banner = new MessageBannerView({urgency: 'low', type: 'warning', isRecoveryEmailMsg: true});
+        $('#content').prepend(banner.$el);
+        banner.showMessage(${recovery_email_activation_message | n, dump_js_escaped_json})
+      </%static:require_module>
+  % endif
+  % if enterprise_learner_portal_enabled_message:
+      <%static:require_module module_name="js/views/message_banner" class_name="MessageBannerView">
+        var banner = new MessageBannerView({urgency: 'low', type: 'warning', isLearnerPortalEnabled: true});
+        $('#content').prepend(banner.$el);
+        banner.showMessage(${enterprise_learner_portal_enabled_message | n, dump_js_escaped_json})
+      </%static:require_module>
+  % endif
+</%block>
+
+<!-- Loader code START -->
+<div class="loader-wrapper">
+    <div class="loader"></div>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Simulate a delay before showing content
+    setTimeout(function () {
+        document.querySelector(".loader-wrapper").style.display = "none";
+        document.querySelector(".window-wrap").style.display = "block";
+    }, 750); 
+});
+</script>
+<style>
+.loader-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #1E2631; 
+    z-index: 999; 
+}
+.loader {
+    border: 5px solid #f3f3f3; 
+    border-top: 5px solid #3498db; 
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite; 
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.content {
+    display: none;
+    text-align: center;
+    padding: 20px;
+    background-color: white;
+    position: relative;
+    z-index: 1000; 
+}
+</style>
+<!-- Loader code END -->
+
+
+
+<div class="dashboard-notifications" tabindex="-1">
+
+    %if banner_account_activation_message:
+        <div class="dashboard-banner">
+            ${banner_account_activation_message | n, decode.utf8}
+        </div>
+    %endif
+
+    %if enrollment_message:
+        <div class="dashboard-banner">
+            ${enrollment_message | n,  decode.utf8}
+        </div>
+    %endif
+
+    %if enterprise_message:
+        <div class="dashboard-banner">
+            ${ enterprise_message | n, decode.utf8 }
+        </div>
+    %endif
+
+    %if account_activation_messages:
+      <div class="activation-message-container">
+        % for account_activation_message in account_activation_messages:
+          <div class="account-activation ${account_activation_message.tags}" role="alert" aria-label="Account Activation Message" tabindex="-1">
+            <div class="message-copy" >
+              ${ account_activation_message | n, decode.utf8 }
+            </div>
+          </div>
+        % endfor
+      </div>
+    %endif
+
+</div>
+
+<main id="main" aria-label="Content" tabindex="-1">
+  
+  <%include file="learner_dashboard/_dashboard_navigation_courses.html"/>
+
+  <div class="dashboard" id="dashboard-main">  <!-- Flex -->
+    <div class="main-container">
+      <div class="my-courses" id="my-courses">
+
+        % if len(course_entitlements + course_enrollments) > 0:
+        <h2 class="information-text"> E-learning en cours</h2>
+        <div id="new-section">
+
+          <%
+          share_settings = configuration_helpers.get_value(
+              'SOCIAL_SHARING_SETTINGS',
+              getattr(settings, 'SOCIAL_SHARING_SETTINGS', {})
+          )
+          %>
+
+          % for dashboard_index, enrollment in enumerate(course_entitlements + course_enrollments):
+
+            % if (( already_visited and custom_fields['last_visited_course'] == str(enrollment.course_id) ) or ( not already_visited and dashboard_index == 0 )) and not str(enrollment.course_id) == 'course-v1:amazon+webinaire+AZ_2023':
+              <%
+                # Check if the course run is an entitlement and if it has an associated session
+                entitlement = enrollment if isinstance(enrollment, CourseEntitlement) else None
+                entitlement_session = entitlement.enrollment_course_run if entitlement else None
+                entitlement_days_until_expiration = entitlement.get_days_until_expiration() if entitlement else None
+                entitlement_expiration = datetime.now(tz=pytz.UTC) + timedelta(days=entitlement_days_until_expiration) if (entitlement and entitlement_days_until_expiration < settings.ENTITLEMENT_EXPIRED_ALERT_PERIOD) else None
+                entitlement_expiration_date = strftime_localized(entitlement_expiration, 'SHORT_DATE') if entitlement and entitlement_expiration else None
+                entitlement_expired_at = strftime_localized(entitlement.expired_at_datetime, 'SHORT_DATE') if entitlement and entitlement.expired_at_datetime else None
+
+                is_fulfilled_entitlement = True if entitlement and entitlement_session else False
+                is_unfulfilled_entitlement = True if entitlement and not entitlement_session else False
+
+                entitlement_available_sessions = []
+                if entitlement:
+                  # Grab the available, enrollable sessions for a given entitlement and scrape them for relevant attributes
+                  entitlement_available_sessions = [{
+                    'session_id': course['key'],
+                    'enrollment_end': course['enrollment_end'],
+                    'pacing_type': course['pacing_type'],
+                    'advertised_start': CourseOverview.get_from_id(CourseKey.from_string(course['key'])).advertised_start,
+                    'start': CourseOverview.get_from_id(CourseKey.from_string(course['key'])).start,
+                    'end': CourseOverview.get_from_id(CourseKey.from_string(course['key'])).end,
+                    } for course in course_entitlement_available_sessions[str(entitlement.uuid)]]
+                  if is_fulfilled_entitlement:
+                    # If the user has a fulfilled entitlement, pass through the entitlements CourseEnrollment object
+                    enrollment = entitlement_session
+                  else:
+                    # If the user has an unfulfilled entitlement, pass through a bare CourseEnrollment object to populate card with metadata
+                    pseudo_session = unfulfilled_entitlement_pseudo_sessions[str(entitlement.uuid)]
+                    if not pseudo_session:
+                        continue
+                    pseudo_key = pseudo_session['key']
+                    if not isinstance(pseudo_key, CourseKey):
+                      pseudo_key = CourseKey.from_string(pseudo_session['key'])
+                    enrollment = CourseEnrollment(user=user, course=CourseOverview.get_from_id(pseudo_key), mode=pseudo_session['type'])
+                  # We only show email settings for entitlement cards if the entitlement has an associated enrollment
+                  show_email_settings = is_fulfilled_entitlement and (entitlement_session.course_id in show_email_settings_for)
+                else:
+                  show_email_settings = (enrollment.course_id in show_email_settings_for)
+
+                session_id = enrollment.course_id
+                show_courseware_link = show_courseware_links_for.get(session_id, False)
+                cert_status = cert_statuses.get(session_id)
+                can_refund_entitlement = entitlement and entitlement.is_entitlement_refundable()
+                partner_managed_enrollment = enrollment.mode == 'masters'
+                can_unenroll = False if partner_managed_enrollment else (not cert_status) or cert_status.get('can_unenroll') if not unfulfilled_entitlement else False
+                credit_status = credit_statuses.get(session_id)
+                course_mode_info = all_course_modes.get(session_id)
+                is_paid_course = True if entitlement else (session_id in enrolled_courses_either_paid)
+                course_verification_status = verification_status_by_course.get(session_id, {})
+                course_requirements = courses_requirements_not_met.get(session_id)
+                related_programs = inverted_programs.get(six.text_type(entitlement.course_uuid if is_unfulfilled_entitlement else session_id))
+                show_consent_link = (session_id in consent_required_courses)
+                course_overview = enrollment.course_overview
+                resume_button_url = resume_button_urls[dashboard_index]
+              %>
+
+              
+
+              <%include file='dashboard/_dashboard_course_listing.html' args='course_overview=course_overview, course_card_index=dashboard_index, enrollment=enrollment, is_unfulfilled_entitlement=is_unfulfilled_entitlement, is_fulfilled_entitlement=is_fulfilled_entitlement, entitlement=entitlement, entitlement_session=entitlement_session, entitlement_available_sessions=entitlement_available_sessions, entitlement_expiration_date=entitlement_expiration_date, entitlement_expired_at=entitlement_expired_at, show_courseware_link=show_courseware_link, cert_status=cert_status, can_refund_entitlement=can_refund_entitlement, can_unenroll=can_unenroll, credit_status=credit_status, show_email_settings=show_email_settings, course_mode_info=course_mode_info, is_paid_course=is_paid_course, verification_status=course_verification_status, course_requirements=course_requirements, dashboard_index=dashboard_index, share_settings=share_settings, user=user, related_programs=related_programs, display_course_modes_on_dashboard=display_course_modes_on_dashboard, show_consent_link=show_consent_link, enterprise_customer_name=enterprise_customer_name, resume_button_url=resume_button_url, partner_managed_enrollment=partner_managed_enrollment' />
+
+              
+              <script>
+                // Need API to add progress and remaining time
+                $.ajax({
+                  // Courses api
+                  url: "/api/courses/v1/courses/",
+                  success: function(result) {
+
+                    let courses_list = result['results']
+                    let course
+                    for (let index = 0; index < courses_list.length; index++) {
+                      course = courses_list[index];
+                      // Treat only targeted course
+                      if (course["course_id"] == '${enrollment.course_id}') {
+                        getCourseDetails_first(course);
+                      } 
+                    }
+                  }
+                });
+
+                // Function to get completion and progress details for a given course
+                function getCourseDetails_first(course) {
+                  $.ajax({
+                    url: "/api/courses/v1/blocks/?course_id=" + course['course_id'] + "&username=${user.username}&depth=all&requested_fields=completion",
+                    success: function(result_2) {
+
+                      let max_completion = 0
+                      let actual_completion = 0
+                      for (const [key, block] of Object.entries(result_2['blocks'])) {
+                        if (block['completion'] || block['completion'] == 0) {
+                          max_completion += 1
+                          actual_completion += block['completion']
+                        }
+                      }
+                      let completion_ratio = actual_completion / max_completion
+                      let progress_remain = 1 - completion_ratio
+                      let effort = course['effort']
+                      // if effort variable as right format, convert time to min
+                      function isValidFormat(time) {
+                        const regex = /^\d{2}:\d{2}$/;
+                        return regex.test(time);
+                      }
+
+                      if (isValidFormat(effort)) {
+                        // apply progress ratio and convert min to time
+                        let min_effort = Number((String(effort).split(':')[1])) + Number(String(effort).split(':')[0]) * 60
+                        let progessed_min = min_effort * progress_remain
+                        let progessed_hour = (Math.floor(progessed_min / 60)) + ' H'
+                        // let progessed_hour = (Math.floor(progessed_min / 60)) + 'h' + (Math.floor(progessed_min % 60))
+
+                        document.getElementById("new-section").getElementsByClassName("wrapper-course-details")[0].getElementsByClassName("info-date-block-container")[0].innerHTML = 'Temps restant : ' + progessed_hour ;
+                      }
+                      document.getElementById("new-section").getElementsByClassName('course-jauge')[0].innerText = Math.floor(completion_ratio*100) +'%'
+
+                      course_plan = document.createElement("a");
+                      course_plan.classList.add("course-plan");
+                      course_plan.innerHTML = "Plan du cours";
+                      course_plan.href = "/courses/"+ course['course_id'] +"/course/";
+                      document.getElementById("new-section").getElementsByClassName("course-container")[0].getElementsByClassName("wrapper-course-image")[0].getElementsByClassName("wrapper-course-actions")[0].getElementsByClassName("course-actions")[0].appendChild(course_plan);
+
+                    }
+                  });
+                }         
+                
+                
+              </script>
+            % endif
+          % endfor
+          </div>
+        % else:
+          <div class="empty-dashboard-message">
+            % if display_dashboard_courses:
+              <p>${_("You are not enrolled in any courses yet.")}</p>
+              % if empty_dashboard_message:
+                <p class="custom-message">${empty_dashboard_message | n, decode.utf8}</p>
+              %endif
+              % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
+                <a class="btn btn-primary" href="${marketing_link('COURSES')}">
+                  ${_("Explore courses")}
+                </a>
+              %endif
+            % else:
+            <p>${_("Activate your account!")}</p>
+            <p class="custom-message">${ activate_account_message | n, decode.utf8 }</p>
+            % endif
+        </div>
+        % endif
+
+        % if staff_access and len(errored_courses) > 0:
+          <div id="course-errors">
+            <h2>${_("Course-loading errors")}</h2>
+
+          % for course_dir, errors in errored_courses.items():
+              <h3>${course_dir}</h3>
+                  <ul>
+                % for (msg, err) in errors:
+                    <li>${msg}
+                      <ul><li><pre>${err}</pre></li></ul>
+                    </li>
+                % endfor
+                  </ul>
+          % endfor
+          </div>
+        % endif
+      </div>
+    </div><!-- class="main-container" -->
+
+    <div class="side-container" role="complementary" aria-label="messages">
+      <h2 class="information-text"> Recommandé pour vous</h2>
+      <div id="top-right-section">
+
+        <%include file="wul_apps/gamification.html" args="courses=course_enrollments"/>
+
+      </div>
+    </div>
+
+  </div> <!-- class="dashboard" id="dashboard-main" -->
+
+  <div class="section2-filter">
+    <!-- <div class='section2-filterButton'>
+      <i class="fas fa-pencil-alt"></i>
+      <span class="button-text">filtres</span> 
+    </div> -->
+    <div id="filterItems" class='section2-filterItems filter-open'>
+      <!-- <label class="section2-filterSection-labels active">
+          <input type="checkbox" value="All" onchange="handleCategoryChange(event)" />All
+      </label> -->
+      <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Stratégie" onchange="handleCategoryChange(event)" />#Stratégie
+      </label>
+      <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Marketing" onchange="handleCategoryChange(event)" />#Marketing
+      </label>
+      <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Gestion D'entreprise" onchange="handleCategoryChange(event)" />#Gestion D'entreprise
+      </label>
+      <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Gestion Des Opérations" onchange="handleCategoryChange(event)" />#Gestion Des Opérations
+      </label>
+      <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Ventes" onchange="handleCategoryChange(event)" />#Ventes
+      </label>
+      <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Tech" onchange="handleCategoryChange(event)" />#Tech
+      </label>
+      <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Marketplace" onchange="handleCategoryChange(event)" />#Marketplace
+      </label>
+    </div>
+  </div>
+  <div id="started-or-finished">
+
+    <h3 id="not-last-courses-button" class="header-courses secondary-section" style="border-bottom: 4px solid #368093;">En cours</h3> 
+    <h3 id="finished-courses-button" class="header-courses secondary-section">Terminé</h3>
+  </div>
+  
+  <div id="not-last-courses">
+
+    <%
+      share_settings = configuration_helpers.get_value(
+        'SOCIAL_SHARING_SETTINGS',
+        getattr(settings, 'SOCIAL_SHARING_SETTINGS', {})
+      )
+    %>
+
+    % for dashboard_index, enrollment in enumerate(course_entitlements + course_enrollments):
+
+      %if ( str(enrollment.course_id) != 'course-v1:amazon+webinaire+AZ_2023' ) :
+
+
+        <%
+          # Check if the course run is an entitlement and if it has an associated session
+          entitlement = enrollment if isinstance(enrollment, CourseEntitlement) else None
+          entitlement_session = entitlement.enrollment_course_run if entitlement else None
+          entitlement_days_until_expiration = entitlement.get_days_until_expiration() if entitlement else None
+          entitlement_expiration = datetime.now(tz=pytz.UTC) + timedelta(days=entitlement_days_until_expiration) if (entitlement and entitlement_days_until_expiration < settings.ENTITLEMENT_EXPIRED_ALERT_PERIOD) else None
+          entitlement_expiration_date = strftime_localized(entitlement_expiration, 'SHORT_DATE') if entitlement and entitlement_expiration else None
+          entitlement_expired_at = strftime_localized(entitlement.expired_at_datetime, 'SHORT_DATE') if entitlement and entitlement.expired_at_datetime else None
+
+          is_fulfilled_entitlement = True if entitlement and entitlement_session else False
+          is_unfulfilled_entitlement = True if entitlement and not entitlement_session else False
+
+          entitlement_available_sessions = []
+          if entitlement:
+            # Grab the available, enrollable sessions for a given entitlement and scrape them for relevant attributes
+            entitlement_available_sessions = [{
+              'session_id': course['key'],
+              'enrollment_end': course['enrollment_end'],
+              'pacing_type': course['pacing_type'],
+              'advertised_start': CourseOverview.get_from_id(CourseKey.from_string(course['key'])).advertised_start,
+              'start': CourseOverview.get_from_id(CourseKey.from_string(course['key'])).start,
+              'end': CourseOverview.get_from_id(CourseKey.from_string(course['key'])).end,
+              } for course in course_entitlement_available_sessions[str(entitlement.uuid)]]
+            if is_fulfilled_entitlement:
+              # If the user has a fulfilled entitlement, pass through the entitlements CourseEnrollment object
+              enrollment = entitlement_session
+            else:
+              # If the user has an unfulfilled entitlement, pass through a bare CourseEnrollment object to populate card with metadata
+              pseudo_session = unfulfilled_entitlement_pseudo_sessions[str(entitlement.uuid)]
+              if not pseudo_session:
+                  continue
+              pseudo_key = pseudo_session['key']
+              if not isinstance(pseudo_key, CourseKey):
+                pseudo_key = CourseKey.from_string(pseudo_session['key'])
+              enrollment = CourseEnrollment(user=user, course=CourseOverview.get_from_id(pseudo_key), mode=pseudo_session['type'])
+            # We only show email settings for entitlement cards if the entitlement has an associated enrollment
+            show_email_settings = is_fulfilled_entitlement and (entitlement_session.course_id in show_email_settings_for)
+          else:
+            show_email_settings = (enrollment.course_id in show_email_settings_for)
+
+          session_id = enrollment.course_id
+          show_courseware_link = show_courseware_links_for.get(session_id, False)
+          cert_status = cert_statuses.get(session_id)
+          can_refund_entitlement = entitlement and entitlement.is_entitlement_refundable()
+          partner_managed_enrollment = enrollment.mode == 'masters'
+          can_unenroll = False if partner_managed_enrollment else (not cert_status) or cert_status.get('can_unenroll') if not unfulfilled_entitlement else False
+          credit_status = credit_statuses.get(session_id)
+          course_mode_info = all_course_modes.get(session_id)
+          is_paid_course = True if entitlement else (session_id in enrolled_courses_either_paid)
+          course_verification_status = verification_status_by_course.get(session_id, {})
+          course_requirements = courses_requirements_not_met.get(session_id)
+          related_programs = inverted_programs.get(six.text_type(entitlement.course_uuid if is_unfulfilled_entitlement else session_id))
+          show_consent_link = (session_id in consent_required_courses)
+          course_overview = enrollment.course_overview
+          resume_button_url = resume_button_urls[dashboard_index]
+        %>
+        <%include file='dashboard/_dashboard_course_listing.html' args='course_overview=course_overview, course_card_index=dashboard_index, enrollment=enrollment, is_unfulfilled_entitlement=is_unfulfilled_entitlement, is_fulfilled_entitlement=is_fulfilled_entitlement, entitlement=entitlement, entitlement_session=entitlement_session, entitlement_available_sessions=entitlement_available_sessions, entitlement_expiration_date=entitlement_expiration_date, entitlement_expired_at=entitlement_expired_at, show_courseware_link=show_courseware_link, cert_status=cert_status, can_refund_entitlement=can_refund_entitlement, can_unenroll=can_unenroll, credit_status=credit_status, show_email_settings=show_email_settings, course_mode_info=course_mode_info, is_paid_course=is_paid_course, verification_status=course_verification_status, course_requirements=course_requirements, dashboard_index=dashboard_index, share_settings=share_settings, user=user, related_programs=related_programs, display_course_modes_on_dashboard=display_course_modes_on_dashboard, show_consent_link=show_consent_link, enterprise_customer_name=enterprise_customer_name, resume_button_url=resume_button_url, partner_managed_enrollment=partner_managed_enrollment' />
+
+
+        <script>
+
+          // Need API to add progress and remaining time
+          function getData() { 
+            return $.ajax({
+              // Courses api
+              url: "/api/courses/v1/courses/",
+              success: function(result) {
+
+                let courses_list = result['results']
+                let course
+
+                for (let index = 0; index < courses_list.length; index++) {
+                  course = courses_list[index];
+                  // Treat only targeted course
+                  if (course["course_id"] == '${enrollment.course_id}') {
+                    checkIfFinished(course) 
+                    // getCourseDetails_second(course);
+                  } 
+                }
+
+              }
+            })
+          }
+
+          async function start() {
+            try {
+              const res = await getData()
+            } catch(err) {
+              console.log(err);
+            }
+          }
+          start();
+
+
+          function checkIfFinished(course) {
+            $.ajax({
+              url: "/wul_apps/" + course['course_id'] + "/certificate/ensure",
+                success: function(result){
+
+                  if(result.passed){
+
+                    const parentElement = document.getElementById('finished-courses')
+                    const elementToMove = document.getElementById('not-last-courses').getElementsByClassName('course-item')
+
+                    for (let i = 0; i < elementToMove.length; i++) {
+                      const element = elementToMove[i];
+
+                      const elemtn_2_test = document.getElementById('not-last-courses').getElementsByClassName('course')
+
+                      if (element.children[0].children[0]['attributes']['aria-labelledby']['value'].indexOf(course['course_id']) != -1) {
+                        parentElement.prepend(element)
+                      }
+
+                    }
+
+                    setTimeout(() => {
+                      let lien_attestation = '/wul_apps/' + course['course_id'] + '/certificate/generate_pdf'
+                      const textAttestationButton = '<a href='+lien_attestation+' target="_blank"><div class="attestationButtonButton"> Attestation</div></a>'
+                      const attestationButton = document.createElement('div')
+                      attestationButton.setAttribute('class', 'attestationButton')
+                      const divToIncrustButton = document.getElementById('course-title-' + course['course_id'])
+                      attestationButton.innerHTML = textAttestationButton
+                      divToIncrustButton.append(attestationButton)
+                    }, 400)
+
+                  } else {
+                    getCourseDetails_second(course);
+                  }
+
+                }
+            });
+            
+          }
+
+
+          // Function to get completion and progress details for a given course
+          function getCourseDetails_second(course) {
+
+            $.ajax({
+              url: "/api/courses/v1/blocks/?course_id=" + course['course_id'] + "&username=${user.username}&depth=all&requested_fields=completion",
+              success: function(result_2) {
+
+                let max_completion = 0
+                let actual_completion = 0
+                for (const [key, block] of Object.entries(result_2['blocks'])) {
+                  if (block['completion'] || block['completion'] == 0) {
+                    max_completion += 1
+                    actual_completion += block['completion']
+                  }
+                }
+                let completion_ratio = actual_completion / max_completion
+                let progress_remain = 1 - completion_ratio
+                let effort = course['effort']
+                // if effort variable as right format, convert time to min
+                function isValidFormat(time) {
+                  const regex = /^\d{2}:\d{2}$/;
+                  return regex.test(time);
+                }
+
+                if (isValidFormat(effort)) {
+                  // apply progress ratio and convert min to time
+                  let min_effort = Number((String(effort).split(':')[1])) + Number(String(effort).split(':')[0]) * 60
+                  let progessed_min = min_effort * progress_remain
+                  let progessed_hour = (Math.floor(progessed_min / 60)) + ' H' 
+                  // let progessed_hour = (Math.floor(progessed_min / 60)) + 'h' + (Math.floor(progessed_min % 60))
+
+                  // Add completion ratio in the right div 
+                  let not_last_courses = document.getElementById('not-last-courses').getElementsByClassName('course-container')
+                  for (let i = 0; i < not_last_courses.length; i++) {
+                    const course_html = not_last_courses[i];
+                    if (course_html.innerHTML.includes(course["course_id"])) {
+                      course_html.getElementsByClassName("course-jauge")[0].innerText = Math.floor(completion_ratio*100) + ' %'
+                      course_html.getElementsByClassName('wrapper-course-details')[0].getElementsByClassName("info-date-block-container")[0].innerText = "Temps restant : " + progessed_hour
+                    }
+                  }
+                }
+
+              }
+            });
+          }
+        </script>
+      %endif
+
+    % endfor
+        
+    % if show_load_all_courses_link:
+    <br/>
+    ${len(course_enrollments)} ${_("results successfully populated,")}
+    <a href="${reverse('dashboard')}?course_limit=None">
+      ${_("Click to load all enrolled courses")}
+    </a>
+    % endif
+        
+
+  </div>
+  <div id="finished-courses" style="display: none;">
+  </div>
+</main>
+
+
+<script>
+  // JS FILTER BAR
+  let filteredList = document.getElementById("filterItems");
+  let menuOpen = false;
+  let selectedCategories = [];
+  
+  // function toggleMenu() {
+  //   filteredList.classList.toggle("filter-open");
+  //   menuOpen = !menuOpen;
+  //   const filterItems = document.getElementById('filterItems');
+  //   filterItems.style.display = menuOpen ? 'flex' : 'none';
+  // }
+  
+  function handleCategoryChange(event) {
+    const checkboxValue = event.target.value.toLowerCase();
+    const isChecked = event.target.checked;
+    const labelElement = event.target.parentElement;
+
+    if (isChecked) {
+      // Add category to the selected categories
+      selectedCategories.push(checkboxValue);
+      labelElement.classList.add("active");
+    } else {
+      // Remove category from the selected categories
+      const index = selectedCategories.indexOf(checkboxValue);
+      if (index > -1) {
+        selectedCategories.splice(index, 1);
+      }
+      labelElement.classList.remove("active");
+    }
+
+    // Get all the courses
+    // const courseList = document.getElementsByClassName("course-item-not-enrolled");
+    let courseListEnrolled = document.getElementById('not-last-courses').getElementsByClassName("course-item");
+    let courseListFinishedCourses = document.getElementById('finished-courses').getElementsByClassName("course-item");
+
+    let courseList = [...courseListEnrolled, ...courseListFinishedCourses] 
+
+    // If nothing is selected, show all the courses
+    if (selectedCategories.length === 0) {
+      for (const course of courseList) {
+        course.classList.remove("course-item-hide");
+      }
+    } else {
+      // Show or hide courses depending on whether their category is selected
+      for (const course of courseList) {
+        const courseTag = course.children[0].children[0].attributes[3].textContent.toLowerCase();
+
+        const isHidden = course.classList.contains("course-item-hide");
+
+        // Check if the course tag is in the selected categories
+        const shouldHide = !selectedCategories.includes(courseTag);
+
+        if (shouldHide && !isHidden) {
+          course.classList.add("course-item-hide");
+        } else if (!shouldHide && isHidden) {
+          course.classList.remove("course-item-hide");
+        }
+      }
+    }
+  }
+</script>
+
+<script>
+
+  // "Reprendre le cours" buttons
+  if (document.getElementById("new-section").getElementsByClassName('course-actions')[0].getElementsByClassName('course-target-link')[0].innerText = 'Reprendre le cours') {
+    
+    document.getElementById("new-section").getElementsByClassName('course-actions')[0].getElementsByClassName('course-target-link')[0].innerText = 'Reprendre'
+  }
+  let buttons_list = document.getElementById("not-last-courses").getElementsByClassName('details')
+  for (let i = 0; i < buttons_list.length; i++) {
+    const button = buttons_list[i].getElementsByClassName('wrapper-course-actions')[0].getElementsByClassName('course-target-link')[0];
+    if (button.innerText = 'Reprendre le cours') {      
+      button.innerText = 'Reprendre' 
+    }
+  }
+
+  // Switch courses to display
+  function switch_section() {
+
+    let finished_courses_area = document.getElementById('finished-courses')
+    let not_finished_courses_area = document.getElementById('not-last-courses')
+
+    if (finished_courses_area.style.display === "none") {
+      finished_courses_area.style.display = "flex";
+      not_finished_courses_area.style.display = "none"
+      button_targetted.style.borderBottom = '4px solid #368093'
+      button_targetted_2.style.borderBottom = 'none'
+    } else {
+      finished_courses_area.style.display = "none";
+      not_finished_courses_area.style.display = "flex"
+      button_targetted.style.borderBottom = 'none'
+      button_targetted_2.style.borderBottom = '4px solid #368093'
+    }
+  }
+
+  let button_targetted = document.getElementById("finished-courses-button")
+  let button_targetted_2 = document.getElementById("not-last-courses-button")
+
+  button_targetted.onclick = function() {
+    switch_section()
+  }
+  button_targetted_2.onclick = function() {
+    switch_section()
+  }
+
+</script>
+<script>
+  // Display a message if course lists are empty 
+  setTimeout(() => {
+    
+    try {
+      var ongoingCourses = document.getElementById('not-last-courses')
+      
+      if (ongoingCourses.children.length == 0) {
+        ongoingCourses.innerText = 'Cette liste est actuellement vide' 
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    
+    try {
+      var finishedCourses = document.getElementById('finished-courses')
+      
+      if (finishedCourses.children.length == 0) {
+        finishedCourses.innerText = 'Cette liste est actuellement vide' 
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    
+  }, 1000);
+
+</script>
+
+<style>
+/* Global */
+main {
+  background-color: #F4F5F5;
+}
+.content-wrapper {
+  max-width: none;
+}
+.mobile-nav-item > .tab-nav-link, .course-item-hide {
+    display: none !important;
+}
+#dashboard-main {
+  background-color: #1E2631;
+  padding-bottom: 30px;
+  box-shadow: 0px 8px 15px;
+}
+#not-last-courses, h3.header-courses {
+  /* background-color: #F4F5F5; */
+  margin: 0;
+}
+.dashboard .main-container, .dashboard .side-container {
+  flex: 1;
+  max-width: unset !important;
+  padding: 30px 15vw 20px 30px;
+}
+.dashboard .main-container {
+  
+  padding: 30px 30px 20px 15vw;
+}
+/* Annonce */
+#top-right-section {
+  box-sizing: border-box;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+  margin-top: -19px;
+}
+
+/* Last course */
+#new-section {
+  background-color: white;
+  border-radius: 8px;
+}
+.details {
+  display: flex;
+  flex-direction: column;
+}
+.wrapper-course-image{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  max-height: none !important;
+  width: unset !important;
+  margin: 0 !important;
+}
+#new-section .wrapper-course-image img, #not-last-courses .course-item img, #not-last-courses .course-item a, #finished-courses .course-item img, #finished-courses .course-item a  {
+  width: 100%;
+  object-fit: cover;
+  max-height: 200px;
+  border-radius: 8px 8px 0 0;
+}
+#new-section .wrapper-course-actions {
+  display: flex;
+  justify-content: end;
+  align-items: flex-end;
+  height: 100%;
+  position: absolute;
+}
+.course-title > a {
+  color: black
+} 
+#not-last-courses .course-actions .course-target-link, #finished-courses .course-actions .course-target-link, #new-section .course-actions .course-target-link {
+  padding: 4px 28px;
+  font-size: medium;
+  color: white;
+  background-color: #3B4854;
+  border-radius: 105px;
+  position: absolute;
+  bottom: -180px;
+  left: 30px;
+}
+#not-last-courses .course-actions .course-target-link, #finished-courses .course-actions .course-target-link {
+  bottom: 30px;
+  left: 30px;
+  width: unset;
+}
+#new-section .course-jauge {
+  display: block !important;
+  padding: 5px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #F99746
+}
+.course-item .details .course-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 100%;
+}
+.wrapper-course-details {
+  height: 130px;
+  margin-bottom: 50px !important;
+  padding: 25px 30px 0 30px !important;
+}
+#new-section .wrapper-course-image > a {
+  width: 100%;
+}
+
+
+/* Already enrolled courses */
+#not-last-courses-button:hover , #finished-courses-button:hover {
+  cursor: pointer;
+  color: #6F7373;
+}
+#not-last-courses .wrapper-course-details, #finished-courses .wrapper-course-details {
+  height: 59px;
+  margin-bottom: 70px !important;
+  padding: 25px 30px !important; 
+}
+#not-last-courses .course-actions .course-target-link, #finished-courses .course-actions .course-target-link {
+  padding: 10px 20px;
+}
+#not-last-courses .course-container .course-title .course-target-link, #finished-courses .course-container .course-title .course-target-link {
+  font-weight: 700;
+  font-size: 22px !important;
+  line-height: 27px;
+}
+.secondary-section {
+  padding: 40px 80px 0 0;
+  font-family: "AmazonEmber" !important;
+  font-weight: 800;
+  font-size: 38px;
+  line-height: 45px;
+  color: #000;
+  display: inline-block;
+}
+
+#not-last-courses, #finished-courses {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 3vh 6vw 11vh 6vw;
+  /* border-bottom: 1px solid grey; */
+  justify-content: center;
+  max-width: 1420px;
+  margin: auto;
+}
+#not-last-courses .course-container,#finished-courses .course-container{
+  background-color:white;
+  min-height: 250px;
+  /* margin: 15px calc(14.33vw - 164px); */
+  margin: 15px 27px;
+  width: 320px;
+  border: solid 0.5px #6F7373;
+  border-radius: 8px;
+  position: relative;
+  box-sizing: border-box;
+}
+#not-last-courses .wrapper-course-image, #finished-courses .wrapper-course-image {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+#new-section .course-title .course-target-link  {
+  color: #212121; 
+  width: 100%;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 2.1vw;
+}
+#not-last-courses .course-title .course-target-link, #finished-courses .course-title .course-target-link {
+  font-family: "AmazonEmber" !important;
+  font-size: medium;
+  color: black; 
+}
+#not-last-courses .wrapper-course-actions, #finished-courses .wrapper-course-actions {
+  display: flex;
+  justify-content: end;
+  align-self: end;  
+}
+#not-last-courses .course-actions, #finished-courses .course-actions {
+  margin-bottom: 20px;
+}
+#not-last-courses .course-jauge {
+  display: block !important;
+  padding: 5px;
+  font-size: 14px;
+  color: #F99746
+}
+#started-or-finished {
+  margin: 65px calc(21.33vw - 160px) 0px calc(21.33vw - 160px);
+  border-bottom: 1px solid;
+  /* padding-bottom: 8px; */
+}
+#started-or-finished > h3 {
+  font-size: 30px;
+  width: 200px;
+  text-align: center;
+  padding: 0 !important;
+}
+
+#not-last-courses h3.course-title , #finished-courses h3.course-title {
+  font-size: 18px !important;
+  line-height: 20px !important;
+}
+.info-date-block-container , .info-date-block-container {
+  font-size: 0.9vw;
+  color: #48515a;
+}
+
+
+
+
+/* hide unenroll option */
+.wrapper-action-more {
+  display: none !important;
+}
+
+/* selector style */
+.secondary-section-block{
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 65px calc(21.33vw - 160px) 0 calc(21.33vw - 160px);
+  background-color: white;
+}
+select {
+  font-size: 16px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #333;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.075) inset;
+  width: 200px;
+  max-width: 100%;
+  margin-right: 20px;
+}
+select:hover, select:focus {
+  border-color: #999;
+  outline: none;
+}
+select option {
+  font-size: 16px;
+  background-color: #fff;
+  color: #333;
+}
+select option:hover {
+  background-color: #eee;
+  color: #333;
+}
+
+.dashboard .main-container .my-courses .course .details .wrapper-course-details .course-info .info-date-block-container{
+  font-size: 16px;
+}
+.course-plan{
+  position: relative;
+  bottom: -170px;
+  left: 200px;
+}
+
+.attestationButton {
+  position: absolute;
+  bottom: 30px;
+  right: 10px;
+}
+.attestationButtonButton {
+  background-color: orange;
+  color: white;
+  font-size: 10px;
+  padding: 8px;
+  border-radius: 9px;
+} 
+
+.information-text{
+  color: #fff;
+}
+
+#new-section .attestationButtonButton {
+  display: none;
+}
+
+
+/* FILTER BAR */
+.section2-filter {
+  background-color: #F3F5F5;
+  padding: 2rem 5rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem 0;
+  /* flex-direction: row-reverse;
+  place-self: flex-end; */
+  transition: .15s;
+  font-size: 1rem;
+}
+
+.section2-filterButton {
+  border: .2rem solid #878e8e; 
+  padding: .5rem .7rem;
+  border-radius: .6rem;
+  cursor: pointer;
+  background: #C9CCCC;
+  transition: .15s;
+  display: flex;
+}
+
+.section2-filterButton:hover {
+  filter: brightness(.9);
+}
+
+.section2-filterButton:active {
+  filter: brightness(.9);
+  transform: scale(.95);
+}
+
+.section2-filterItems {
+  list-style: none;
+  /* display: none; */
+  padding: .5rem 1rem;
+  margin-right: 1rem;
+  border-radius: .6rem;
+  flex-wrap: wrap;
+}
+
+
+.section2-filterSection-labels {
+  background: #ececec; 
+  padding: .5rem 1rem;
+  border-radius: .3rem;
+  border: unset;
+  cursor: pointer;
+  transition: .1s;
+  margin: .4rem;
+  font: inherit;
+}
+
+.section2-filterSection-labels:hover {
+  filter: brightness(.95);
+}
+
+.filter-open {
+  display: flex;
+  background: #C9CCCC;
+}
+
+.button-text{
+  margin-left: 15px;
+}
+
+input[type="checkbox"] {
+  pointer-events: none;
+  position: absolute;
+  opacity: 0;
+}
+.section2-filterSection-labels.active {
+  background-color: #44a1b9; 
+  color: #fff;
+}
+
+
+
+@media (max-width: 991.98px) {
+
+  .dashboard .main-container, .dashboard .side-container {
+    padding: 3vh 10vw ;
+  }
+}
+
+@media (max-width: 520px) {
+    #dashboard-main .main-container {
+        display: none ;
+    }
+    #started-or-finished {
+        margin: unset ;
+    }
+    #started-or-finished h3 {
+        width: 150px ;
+    }
+
+}
+
+</style>

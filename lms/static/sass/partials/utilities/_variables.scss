@@ -1,0 +1,15 @@
+$yellow: rgb(255, 153, 0) !default;
+ 
+$theme-colors: (
+ 'primary': #343a40,
+ 'secondary': $yellow,
+);
+ 
+$action-primary-bg: $yellow !default;
+$action-primary-shadow: $yellow !default;
+$action-primary-focused-bg: $yellow !default;
+$action-primary-active-bg: $yellow !default;
+$action-primary-active-fg: $yellow !default;
+$action-primary-active-shadow: $yellow !default;
+$action-primary-active-focused-fg: $yellow !default;
+$action-primary-active-focused-shadow: $yellow !default;

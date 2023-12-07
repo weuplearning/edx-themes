@@ -1,0 +1,728 @@
+<%page expression_filter="h"/>
+<%inherit file="../main.html" />
+<%def name="online_help_token()"><% return "learnerdashboard" %></%def>
+<%namespace name='static' file='../static_content.html'/>
+<%!
+import pytz
+import six
+import json
+
+from datetime import datetime, timedelta
+from django.urls import reverse
+from django.utils.translation import ugettext as _
+from django.template import RequestContext
+from common.djangoapps.entitlements.models import CourseEntitlement
+from common.djangoapps.third_party_auth import pipeline
+from common.djangoapps.util.date_utils import strftime_localized
+from opaque_keys.edx.keys import CourseKey
+from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
+from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+from openedx.core.djangolib.js_utils import dump_js_escaped_json, js_escaped_string
+from openedx.core.djangolib.markup import HTML, Text
+
+from common.djangoapps.student.models import CourseEnrollment
+from lms.djangoapps.course_api.views import CourseListView
+%>
+
+<%
+  cert_name_short = settings.CERT_NAME_SHORT
+  cert_name_long = settings.CERT_NAME_LONG
+%>
+
+<%block name="pagetitle">${_("Dashboard")}</%block>
+<%block name="bodyclass">view-dashboard is-authenticated</%block>
+
+<%block name="header_extras">
+% for template_name in ["donation"]:
+<script type="text/template" id="${template_name}-tpl">
+  <%static:include path="dashboard/${template_name}.underscore" />
+
+</script>
+% endfor
+</%block>
+
+<%block name="js_extra">
+  <script src="${static.url('js/commerce/credit.js')}"></script>
+  <%static:js group='dashboard'/>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      edx.dashboard.legacy.init({
+        dashboard: "${reverse('dashboard') | n, js_escaped_string}",
+        signInUser: "${reverse('signin_user') | n, js_escaped_string}",
+        changeEmailSettings: "${reverse('change_email_settings') | n, js_escaped_string}"
+      });
+    });
+
+    // Replace available course button text
+    setTimeout(function(){
+      let id = document.getElementById("available-courses")
+      let boutons = id.getElementsByClassName('learn-more')
+
+      for (let i = 0; i < boutons.length; i++) {
+        const bouton = boutons[i];
+        bouton.innerText = "Ajouter à mes cours"
+      }
+
+      let children = id.children
+
+      for (let i = 0; i < children.length; i++) {
+        const child = children[i];
+
+        let aboutLink = child.children[0].children[0].href
+        fragmentedLink = aboutLink.split('/')
+        courseId = fragmentedLink[fragmentedLink.length - 2]
+
+        let registerLink = '/wul_apps/' + courseId + '/course_registration'
+        child.children[0].children[0].href = registerLink
+      }
+
+    }, 500)
+
+  
+  </script>
+  <%static:webpack entry="UnenrollmentFactory">
+    UnenrollmentFactory({
+      urls: {
+        dashboard: "${reverse('dashboard') | n, js_escaped_string}",
+        signInUser: "${reverse('signin_user') | n, js_escaped_string}",
+        changeEmailSettings: "${reverse('change_email_settings') | n, js_escaped_string}",
+        browseCourses: "${marketing_link('COURSES') | n, js_escaped_string}"
+      },
+      isEdx: false
+    });
+  </%static:webpack>
+  <%static:webpack entry="EntitlementUnenrollmentFactory">
+    ## Wait until the document is fully loaded before initializing the EntitlementUnenrollmentView
+    ## to ensure events are setup correctly.
+    $(document).ready(function() {
+      EntitlementUnenrollmentFactory({
+        dashboardPath: "${reverse('dashboard') | n, js_escaped_string}",
+        signInPath: "${reverse('signin_user') | n, js_escaped_string}",
+        browseCourses: "${marketing_link('COURSES') | n, js_escaped_string}",
+        isEdx: false
+      });
+    });
+  </%static:webpack>
+  % if settings.FEATURES.get('ENABLE_DASHBOARD_SEARCH'):
+    <%static:require_module module_name="course_search/js/dashboard_search_factory" class_name="DashboardSearchFactory">
+        DashboardSearchFactory();
+    </%static:require_module>
+  % endif
+  % if redirect_message:
+    <%static:require_module module_name="js/views/message_banner" class_name="MessageBannerView">
+        var banner = new MessageBannerView({urgency: 'low', type: 'warning'});
+        $('#content').prepend(banner.$el);
+        banner.showMessage(${redirect_message | n, dump_js_escaped_json})
+    </%static:require_module>
+  % endif
+  % if recovery_email_message:
+      <%static:require_module module_name="js/views/message_banner" class_name="MessageBannerView">
+        var banner = new MessageBannerView({urgency: 'low', type: 'warning', hideCloseBtn: false, isRecoveryEmailMsg: true});
+        $('#content').prepend(banner.$el);
+        banner.showMessage(${recovery_email_message | n, dump_js_escaped_json})
+      </%static:require_module>
+  % endif
+  % if recovery_email_activation_message:
+      <%static:require_module module_name="js/views/message_banner" class_name="MessageBannerView">
+        var banner = new MessageBannerView({urgency: 'low', type: 'warning', isRecoveryEmailMsg: true});
+        $('#content').prepend(banner.$el);
+        banner.showMessage(${recovery_email_activation_message | n, dump_js_escaped_json})
+      </%static:require_module>
+  % endif
+  % if enterprise_learner_portal_enabled_message:
+      <%static:require_module module_name="js/views/message_banner" class_name="MessageBannerView">
+        var banner = new MessageBannerView({urgency: 'low', type: 'warning', isLearnerPortalEnabled: true});
+        $('#content').prepend(banner.$el);
+        banner.showMessage(${enterprise_learner_portal_enabled_message | n, dump_js_escaped_json})
+      </%static:require_module>
+  % endif
+</%block>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+<div class="dashboard-notifications" tabindex="-1">
+
+    %if banner_account_activation_message:
+        <div class="dashboard-banner">
+            ${banner_account_activation_message | n, decode.utf8}
+        </div>
+    %endif
+
+    %if enrollment_message:
+        <div class="dashboard-banner">
+            ${enrollment_message | n,  decode.utf8}
+        </div>
+    %endif
+
+    %if enterprise_message:
+        <div class="dashboard-banner">
+            ${ enterprise_message | n, decode.utf8 }
+        </div>
+    %endif
+
+    %if account_activation_messages:
+      <div class="activation-message-container">
+        % for account_activation_message in account_activation_messages:
+          <div class="account-activation ${account_activation_message.tags}" role="alert" aria-label="Account Activation Message" tabindex="-1">
+            <div class="message-copy" >
+              ${ account_activation_message | n, decode.utf8 }
+            </div>
+          </div>
+        % endfor
+      </div>
+    %endif
+
+</div>
+
+<main id="main" aria-label="Content" tabindex="-1">
+  
+  <%include file="../learner_dashboard/_dashboard_navigation_courses.html"/>
+
+  <div class="dashboard" id="dashboard-main">  <!-- Flex -->
+    <div class="main-container">
+      <h1 class="header-title">Bienvenue sur l'espace e-learning</h1>
+      <p class="header-text">Notre page e-learning est conçue pour vous offrir une initiation complète au e-commerce.</p>
+      <p class="header-text">Dans cette section, vous pourrez explorer nos cours, suivre votre progression pour apprendre à votre rythme et à votre manière. </p>
+      <p class="header-text">Vous ne savez pas par où commencer ? Utilisez notre simulateur pour obtenir des recommandations personnalisées et commencez dès maintenant votre parcours de formation.</p>
+    </div><!-- class="main-container" -->
+
+    <div class="side-container" role="complementary" aria-label="messages">
+      <div class="elementor-widget-container">
+        <iframe loading="lazy" class="scorm_object" src="https://amazon-it.qualif.dev/media/microsites/amazon/simulateur/story.html" data-dashlane-frameid="600" width="100%" height="450"></iframe> 
+        <!-- <iframe loading="lazy" class="scorm_object" src="/media/microsites/amazon/simulateur/story.html" data-dashlane-frameid="600" width="100%" height="450"></iframe> 
+        19/09/23 - hosted on different server because of api limitation -->
+      </div>
+    </div>
+
+  </div> <!-- class="dashboard" id="dashboard-main" -->
+
+
+  <div class="section2-filter">
+    <!-- <div onclick="toggleMenu()" class='section2-filterButton'>
+      <i class="fas fa-pencil-alt"></i>
+      <span class="button-text">filtres</span> 
+    </div> -->
+    <div id="filterItems" class='section2-filterItems filter-open'>
+      <!-- <label class="section2-filterSection-labels active">
+          <input type="checkbox" value="All" onchange="handleCategoryChange(event)" />All
+      </label> -->
+      <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Stratégie" onchange="handleCategoryChange(event)" />#Stratégie
+      </label>
+      <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Marketing" onchange="handleCategoryChange(event)" />#Marketing
+      </label>
+      <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Gestion D'entreprise" onchange="handleCategoryChange(event)" />#Gestion D'entreprise
+      </label>
+      <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Gestion Des Opérations" onchange="handleCategoryChange(event)" />#Gestion Des Opérations
+      </label>
+      <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Ventes" onchange="handleCategoryChange(event)" />#Ventes
+      </label>
+      <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Tech" onchange="handleCategoryChange(event)" />#Tech
+      </label>
+      <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Marketplace" onchange="handleCategoryChange(event)" />#Marketplace
+      </label>
+    </div>
+  </div>
+
+
+<script>
+  let filteredList = document.getElementById("filterItems");
+  
+  
+  let menuOpen = false;
+  let selectedCategories = [];
+  
+  // function toggleMenu() {
+  //   filteredList.classList.toggle("filter-open");
+  //   menuOpen = !menuOpen;
+  //   const filterItems = document.getElementById('filterItems');
+  //   filterItems.style.display = menuOpen ? 'flex' : 'none';
+  // }
+  
+  function handleCategoryChange(event) {
+    const checkboxValue = event.target.value.toLowerCase();
+    const isChecked = event.target.checked;
+    const labelElement = event.target.parentElement;
+
+    if (isChecked) {
+      // Add category to the selected categories
+      selectedCategories.push(checkboxValue);
+      labelElement.classList.add("active");
+    } else {
+      // Remove category from the selected categories
+      const index = selectedCategories.indexOf(checkboxValue);
+      if (index > -1) {
+        selectedCategories.splice(index, 1);
+      }
+      labelElement.classList.remove("active");
+    }
+
+    // Get all the courses
+    const courseList = document.getElementsByClassName("course-item-not-enrolled");
+
+    // If nothing is selected, show all the courses
+    if (selectedCategories.length === 0) {
+      for (const course of courseList) {
+        course.classList.remove("course-item-hide");
+      }
+    } else {
+      // Show or hide courses depending on whether their category is selected
+      for (const course of courseList) {
+
+        const courseTag = course.firstElementChild.attributes[3].textContent.toLowerCase();
+        const isHidden = course.classList.contains("course-item-hide");
+
+        // Check if the course tag is in the selected categories
+        const shouldHide = !selectedCategories.includes(courseTag);
+
+        if (shouldHide && !isHidden) {
+          course.classList.add("course-item-hide");
+        } else if (!shouldHide && isHidden) {
+          course.classList.remove("course-item-hide");
+        }
+      }
+    }
+  }
+</script>
+  
+
+
+  <div id="available-courses" >
+    <%
+    courses = CourseOverview.get_all_courses(orgs=['amazon'])
+    %>
+    %for course in courses:
+      %if (course.start_date) < datetime.now(tz=pytz.UTC) :
+
+        %if not CourseEnrollment.is_enrolled(user, course):
+          <li class="course-item course-item-not-enrolled">
+            <%include file="../course.html" args="course=course" />
+            <!-- possible d'ajouter la durée ici ?? -->
+          </li>
+        %endif
+
+      %endif
+    %endfor
+  </div>
+</main>
+
+
+<style>
+  /* Global */
+  main {
+    background-color: #F4F5F5;
+  }
+  .content-wrapper {
+    max-width: none;
+  }
+  .mobile-nav-item > .tab-nav-link {
+      display: none !important;
+  }
+  #dashboard-main {
+    background-color: #1E2631;
+    padding-bottom: 30px;
+    box-shadow: 0px 8px 15px;
+  }
+  #not-last-courses, h3.header-courses {
+    /* background-color: #F4F5F5; */
+    margin: 0;
+  }
+  .dashboard .main-container, .dashboard .side-container {
+    flex: 1;
+    max-width: unset !important;
+    padding: 30px 15vw 20px 30px;
+  }
+  .dashboard .main-container {
+    
+    padding: 30px 30px 20px 15vw;
+  }
+  /* Annonce */
+  #top-right-section {
+    box-sizing: border-box;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+  }
+  
+  /* Last course */
+  #new-section {
+    background-color: white;
+    border-radius: 8px;
+  }
+  .details {
+    display: flex;
+    flex-direction: column;
+  }
+  .wrapper-course-image{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    max-height: none !important;
+    width: unset !important;
+    margin: 0 !important;
+  }
+  .course-item {
+    list-style: none;
+  }
+  #new-section .wrapper-course-image img, #not-last-courses .course-item img, #not-last-courses .course-item a, #finished-courses .course-item img, #finished-courses .course-item a, #available-courses .course-item img  {
+    width: 100%;
+    object-fit: cover;
+    max-height: 200px;
+    border-radius: 8px 8px 0 0;
+  }
+  #new-section .wrapper-course-actions {
+    display: flex;
+    justify-content: end;
+    align-items: flex-end;
+    height: 100%;
+    position: absolute;
+  }
+  .course-title > a {
+    color: black
+  } 
+  #not-last-courses .course-actions .course-target-link, #finished-courses .course-actions .course-target-link, #available-courses .course-item .cover-image > div, #new-section .course-actions .course-target-link {
+    padding: 4px 28px;
+    font-size: medium;
+    color: white;
+    background-color: #3B4854;
+    border-radius: 105px;
+    position: absolute;
+    bottom: -180px;
+    left: 30px;
+  }
+  #not-last-courses .course-actions .course-target-link, #finished-courses .course-actions .course-target-link, #available-courses .course-item .cover-image > div {
+    bottom: 30px;
+    left: 30px;
+    width: unset;
+  }
+  #new-section .course-jauge {
+    display: block !important;
+    padding: 5px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #F99746
+  }
+  .course-item .details .course-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    width: 100%;
+  }
+  .wrapper-course-details , #available-courses .course .course-info {
+    height: 130px;
+    margin-bottom: 50px !important;
+    padding: 25px 30px 0 30px !important;
+  }
+  #new-section .wrapper-course-image > a {
+    width: 100%;
+  }
+  
+  
+  /* Already enrolled courses */
+  #not-last-courses-button:hover , #finished-courses-button:hover {
+    cursor: pointer;
+    color: #6F7373;
+  }
+  #not-last-courses .wrapper-course-details, #finished-courses .wrapper-course-details {
+    height: 59px;
+    margin-bottom: 70px !important;
+    padding: 25px 30px !important; 
+  }
+  #not-last-courses .course-actions .course-target-link, #finished-courses .course-actions .course-target-link, #available-courses .course-actions .course-target-link {
+    padding: 10px 20px;
+  }
+  #not-last-courses .course-container .course-title .course-target-link, #finished-courses .course-container .course-title .course-target-link, #available-courses .course-item .course-title {
+    font-weight: 700;
+    font-size: 23px !important;
+    line-height: 27px;
+  }
+  .secondary-section {
+    padding: 40px 80px 0 0;
+    font-family: "AmazonEmber" !important;
+    font-weight: 800;
+    font-size: 38px;
+    line-height: 45px;
+    color: #000;
+    display: inline-block;
+  }
+  
+  #not-last-courses, #available-courses, #finished-courses {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 3vh 6vw 11vh 6vw;
+    /* border-bottom: 1px solid grey; */
+    justify-content: center;
+    max-width: 1420px;
+    margin: auto;
+  }
+  #not-last-courses .course-container,#finished-courses .course-container, #available-courses .course {
+    background-color:white;
+    min-height: 250px;
+    /* margin: 15px calc(14.33vw - 164px); */
+    margin: 15px 27px;
+    width: 320px;
+    border: solid 0.5px #6F7373;
+    border-radius: 8px;
+    position: relative;
+    box-sizing: border-box;
+  }
+  #not-last-courses .wrapper-course-image, #finished-courses .wrapper-course-image, #available-courses .wrapper-course-image {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  #new-section .course-title .course-target-link  {
+    color: #212121; 
+    width: 100%;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 2.1vw;
+  }
+  #not-last-courses .course-title .course-target-link, #finished-courses .course-title .course-target-link, #available-courses .course-info .course-name {
+    font-family: "AmazonEmber" !important;
+    font-size: medium;
+    color: black; 
+  }
+  #not-last-courses .wrapper-course-actions, #finished-courses .wrapper-course-actions, #available-courses .wrapper-course-actions  {
+    display: flex;
+    justify-content: end;
+    align-self: end;  
+  }
+  #not-last-courses .course-actions, #finished-courses .course-actions, #available-courses .course-actions {
+    margin-bottom: 20px;
+  }
+  #not-last-courses .course-jauge {
+    display: block !important;
+    padding: 5px;
+    font-size: 14px;
+    color: #F99746
+  }
+  #started-or-finished {
+    margin: 65px calc(21.33vw - 160px) 0px calc(21.33vw - 160px);
+    border-bottom: 1px solid;
+    /* padding-bottom: 8px; */
+  }
+  #started-or-finished > h3 {
+    font-size: 30px;
+    width: 200px;
+    text-align: center;
+    padding: 0 !important;
+  }
+  
+  #not-last-courses h3.course-title , #finished-courses h3.course-title {
+    font-size: 18px !important;
+    line-height: 20px !important;
+  }
+  .info-date-block-container , .info-date-block-container {
+    font-size: 0.9vw;
+    color: #48515a;
+  }
+  
+  
+  /* Availavle courses */
+  
+  #available-courses {
+    background-color: white;
+  }
+  #available-courses .course-item .course {
+    position:relative;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: flex-end; */
+  
+  }
+   #available-courses .course .course-info {
+    height: 80px;
+  }
+  #available-courses .localized_datetime {
+    display: none;
+  }
+  #available-courses .course-item .cover-image {
+    display: flex;
+  }
+  #available-courses .course-item .cover-image > div:hover{
+    text-decoration: underline;
+  }
+  /* #available-courses .course-item .cover-image > div{
+    position: absolute;
+    top: 66%;
+    right: -156%;
+    font-size: medium;
+    color: black;
+    background-color: white;
+    border: 1px solid black;
+    padding: 10px 20px;
+  } */
+  
+  
+  /* hide unenroll option */
+  .wrapper-action-more {
+    display: none !important;
+  }
+  
+  /* selector style */
+  .secondary-section-block{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 65px calc(21.33vw - 160px) 0 calc(21.33vw - 160px);
+    background-color: white;
+  }
+  select {
+    font-size: 16px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #333;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.075) inset;
+    width: 200px;
+    max-width: 100%;
+    margin-right: 20px;
+  }
+  select:hover, select:focus {
+    border-color: #999;
+    outline: none;
+  }
+  select option {
+    font-size: 16px;
+    background-color: #fff;
+    color: #333;
+  }
+  select option:hover {
+    background-color: #eee;
+    color: #333;
+  }
+  .course-item-hide, #available-courses .course-code, #available-courses .course-organization {
+    display: none;
+  }
+  .dashboard .main-container .my-courses .course .details .wrapper-course-details .course-info .info-date-block-container{
+    font-size: 16px;
+  }
+  .course-plan{
+    position: relative;
+    bottom: -170px;
+    left: 200px;
+  }
+  
+  .attestationButton {
+    position: absolute;
+    bottom: 30px;
+    right: 10px;
+  }
+  .attestationButtonButton {
+    background-color: orange;
+    color: white;
+    font-size: 10px;
+    padding: 8px;
+    border-radius: 9px;
+  } 
+  
+  .header-title {
+    color: #fff;
+    text-align: initial;
+  }
+  
+  .header-text {
+    color: #fff;
+  line-height: 30px;
+  }
+  
+  .dashboard{align-items: center;}
+  
+  .elementor-widget-container{
+    color: transparent;
+  }
+  
+  @media (max-width: 991.98px) {
+  
+    .dashboard .main-container, .dashboard .side-container {
+      padding: 3vh 10vw ;
+    }
+  }
+  
+  
+  </style>
+  
+  <style>
+  .section2-filter {
+      padding: 2rem 5rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 1rem 0;
+      transition: .15s;
+      font-size: 1rem;
+  }
+  
+  .section2-filterButton {
+      border: .2rem solid #878e8e; 
+      padding: .5rem .7rem;
+      border-radius: .6rem;
+      cursor: pointer;
+      background: #C9CCCC; 
+      transition: .15s;
+      display: flex;
+  }
+  
+  .section2-filterButton:hover {
+      filter: brightness(.9);
+  }
+  
+  .section2-filterButton:active {
+      filter: brightness(.9);
+      transform: scale(.95);
+  }
+  
+  .section2-filterItems {
+      list-style: none;
+      /* display: none; */
+      padding: .5rem 1rem;
+      margin-right: 1rem;
+      border-radius: .6rem;
+      flex-wrap: wrap;
+  }
+  
+  
+  .section2-filterSection-labels {
+      background: #ececec; 
+      padding: .5rem 1rem;
+      border-radius: .3rem;
+      border: unset;
+      cursor: pointer;
+      transition: .1s;
+      margin: .4rem;
+      font: inherit;
+  }
+  
+  .section2-filterSection-labels:hover {
+      filter: brightness(.95);
+  }
+  
+  .filter-open {
+    display: flex;
+    background: #C9CCCC;
+  }
+  
+  .button-text{
+    margin-left: 15px;
+  }
+  
+  input[type="checkbox"] {
+    pointer-events: none;
+    position: absolute;
+    opacity: 0;
+  }
+  .section2-filterSection-labels.active {
+    background-color: #44a1b9; 
+    color: #fff;
+  }
+
+  
+  </style>
