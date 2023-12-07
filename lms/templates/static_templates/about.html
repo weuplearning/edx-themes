@@ -1,0 +1,79 @@
+<%page expression_filter="h"/>
+<%! from django.utils.translation import ugettext as _ %>
+<%inherit file="../main.html" />
+
+<%block name="header_extras">
+<!-- Event snippet for ADN Sign-up (Performics) conversion page -->
+<script>
+  gtag('event', 'conversion', {'send_to': 'AW-880903564/ABdwCNXvwvQBEIyLhqQD'});
+</script>
+</%block>
+
+
+<%block name="pagetitle">${_("About")}</%block>
+<style>
+#main .container.about h3{
+  font-family: "Roboto" !important;
+}
+</style>
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="container about">
+        <h1>
+            <%block name="pageheader">Merci pour votre inscription !</%block>
+        </h1>
+        <p>
+            <%block name="pagecontent"><br/><h3>Vous allez être redirigé.e vers vos contenus dans <span id="seconds_timer"></span> secondes.<br/><br/>Pensez à activer votre compte via le lien d'activation reçu par mail !</h3></%block>
+        </p>
+    </section>
+</main>
+
+<!-- Facebook singup complete 1 Fev 2021 AMAZON-->
+<!-- Facebook Pixel Code -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '727182344599978');
+  fbq('track', 'CompleteRegistration');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=727182344599978&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
+
+
+<script>
+// Set the date we're counting down to
+var countDownDate = new Date().getTime() + 5000;
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+  // Get today's date and time
+  var now = new Date().getTime();
+
+  // Find the distance between now and the count down date
+  var distance = countDownDate - now;
+
+  // Time calculations for days, hours, minutes and seconds
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  // If the count down is finished, write some text
+  if (distance < 0) {
+    clearInterval(x);
+    window.location.replace("/dashboard");
+  }
+
+  // Display the result in the element
+  document.getElementById("seconds_timer").innerHTML = seconds;
+
+}, 500);
+</script>

@@ -1,0 +1,209 @@
+<%page expression_filter="h"/>
+<%!
+    import json
+    from django.utils.translation import ugettext as _
+    from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+    from openedx.core.djangolib.js_utils import dump_js_escaped_json
+%>
+<%namespace name='static' file='/static_content.html'/>
+
+<%inherit file="../main.html" />
+
+<%block name="pagetitle">${_("Sign in or Register")}</%block>
+<style>
+input[type="submit"], input[type="button"], button, .button {
+    box-shadow: none !important;
+    background-color: var(--primary);
+    background-image: none !important;
+    text-shadow: none !important;
+}
+.login-and-registration-container, .login-and-registration-side-article{
+    margin: 0 5%;
+    border-radius: 5px;
+    padding: 15px 40px;
+}
+.login-and-registration-side-article_title{
+    color: #fff !important;
+    font-size: 2.2em !important;
+    font-weight: bold !important;
+    margin-bottom: 100px;
+    margin-top: 0;
+}
+.login-and-registration-side-article_list {
+    color: #fff !important;
+    list-style: none;
+}
+.login-and-registration-side-article_list > li {
+    padding: 10px;
+}
+.login-register-content {
+    background: transparent;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: unset !important;
+    -webkit-flex-wrap: unset !important;
+    -moz-flex-wrap: unset !important;
+}
+.ltr > .window-wrap {
+    background: none !important;
+    background-color: #1E2631 !important;
+    background-image: none !important;
+    min-height: 100vh !important;
+}
+.login-register{
+    margin: initial;
+    padding: 25px 50px;
+    width: 450px;
+    border-radius: 10px;
+}
+.meeting-image{
+    width: 90%;
+}
+.login-and-registration-side-article_liste_element {
+    position: relative;
+}
+#list-check {
+    position: absolute;
+    top: 15.5px;
+    left: 14px;
+}
+.section-bkg-wrapper {
+    min-height: Calc(100vh - 350px - 85px)
+}
+
+
+@media (max-width: 520px) {
+    #content-container {
+        flex-direction: column;
+    }
+    .login-register {
+        margin: 10px;
+        width: auto;
+    }
+    .login-and-registration-side-article_title {
+        margin-bottom: 40px;
+    }
+}
+
+</style>
+<%block name="js_extra">
+    <%static:require_module module_name="js/student_account/logistration_factory" class_name="LogistrationFactory">
+        var options = ${data | n, dump_js_escaped_json};
+        LogistrationFactory(options);
+        if ('newrelic' in window) {
+            newrelic.finished();
+            // Because of a New Relic bug, the finished() event doesn't show up
+            // in Insights, so we have to make a new PageAction that is basically
+            // the same thing. We still want newrelic.finished() for session
+            // traces though.
+            newrelic.addPageAction('xfinished');
+        }
+    </%static:require_module>
+    % if configuration_helpers.get_value('DISPLAY_TOS_IN_MODAL_ON_REGISTRATION_PAGE', False):
+    <script type="text/javascript" src="${static.url('js/student_account/tos_modal.js')}"></script>
+    % endif
+</%block>
+
+<%block name="header_extras">
+    % for template_name in ["account", "access", "form_field", "login", "register", "institution_login", "institution_register", "password_reset", "hinted_login"]:
+        <script type="text/template" id="${template_name}-tpl">
+            <%static:include path="student_account/${template_name}.underscore" />
+        </script>
+    % endfor
+</%block>
+<div class="section-bkg-wrapper">
+    <main id="main" aria-label="Content" tabindex="-1">
+        <div id="content-container" class="login-register-content">
+            % if enable_enterprise_sidebar:
+                <%include file="enterprise_sidebar.html" />
+                <%
+                    border_class = 'border-left'
+                %>
+            % else:
+                <%
+                    border_class = ''
+                %>
+            % endif
+
+
+            % if "/login" in request.path:
+            <div class="login-and-registration-side-article">
+                <h2 class="login-and-registration-side-article_title">Ravi de vous revoir</h2>
+                <div>
+                    <img src="${static.url('amazon/images/meeting_image.png')}" class="meeting-image" alt="image de réunion">
+                </div>
+            </div>
+
+            % elif "/register" in request.path:
+            <div class="login-and-registration-side-article">
+                <h2 class="login-and-registration-side-article_title">Rejoignez une communauté d'entrepreneurs</h2>
+                <ul class="login-and-registration-side-article_list">
+                    <li class="login-and-registration-side-article_liste_element">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" >
+                            <circle cx="9" cy="9" r="9" fill="#368093"/>
+                        </svg> 
+                        <svg width="11" height="8" viewBox="0 0 11 8" fill="none" xmlns="http://www.w3.org/2000/svg" id="list-check">
+                            <path d="M1 3.5L4 6.5L9.5 1" stroke="#1E2631" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+
+                        100% gratuit
+                    </li>
+                    <li class="login-and-registration-side-article_liste_element">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" >
+                            <circle cx="9" cy="9" r="9" fill="#368093"/>
+                        </svg> 
+                        <svg width="11" height="8" viewBox="0 0 11 8" fill="none" xmlns="http://www.w3.org/2000/svg" id="list-check">
+                            <path d="M1 3.5L4 6.5L9.5 1" stroke="#1E2631" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Accès libre 7j/7
+                    </li>
+                    <li class="login-and-registration-side-article_liste_element">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" >
+                            <circle cx="9" cy="9" r="9" fill="#368093"/>
+                        </svg> 
+                        <svg width="11" height="8" viewBox="0 0 11 8" fill="none" xmlns="http://www.w3.org/2000/svg" id="list-check">
+                            <path d="M1 3.5L4 6.5L9.5 1" stroke="#1E2631" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Inscription aux webinaires et événements en quelques clics
+                    </li>
+                    <li class="login-and-registration-side-article_liste_element">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" >
+                            <circle cx="9" cy="9" r="9" fill="#368093"/>
+                        </svg> 
+                        <svg width="11" height="8" viewBox="0 0 11 8" fill="none" xmlns="http://www.w3.org/2000/svg" id="list-check">
+                            <path d="M1 3.5L4 6.5L9.5 1" stroke="#1E2631" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Soyez les premiers à découvrir nos nouvelles formations
+                    </li>
+                </ul>
+                <div>
+                    <img src="${static.url('amazon/images/meeting_image.png')}" class="meeting-image" alt="image de réunion">
+                </div>
+            </div>
+            % endif
+
+
+            <div id="login-and-registration-container" class="login-register ${border_class}"></div>
+        </div>
+    </main>
+</div>
+
+<%include file="../footer.html" />
+
+
+
+
+<script>
+    window.addEventListener("load", function () {
+        const productField = document.getElementsByClassName("form-field select-online_sales_products")[0]
+        productField.style.display = "none"
+        const selectorField = document.getElementById("register-online_sales")
+        selectorField.addEventListener("click", function () {
+        if (selectorField.value === "oui") {
+            productField.style.display = "block"
+        } else {
+            productField.style.display = "none"
+        }
+        });
+    });
+</script>

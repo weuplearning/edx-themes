@@ -1,0 +1,145 @@
+<% css = '/media/wul_apps/dashboard/reset.css' %>
+<%page args="webinaire_replay"/>
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width,initial-scale=1"/>
+        <meta name="theme-color" content="#000000"/>
+        <meta name="description" content="Web site created using create-react-app"/>
+        <link rel="apple-touch-icon" href="/logo192.png"/>
+        <link rel="manifest" href="/manifest.json"/>
+        <title>React App</title>
+        <link rel="stylesheet" type="text/css" href="${css}" />
+        <link href="/media/microsites/amazon/react_static/static/css/main.d7cf5090.css" rel="stylesheet">
+    </head>
+    <body>
+        <div id="root"></div>
+
+        <!-- fix to get window.props before the react is loaded -->
+        % if webinaire_replay:
+        <script>
+            let pageType = "webinaire"
+        </script>
+        % else:
+        <script>
+            let pageType = "accueil"
+        </script>
+        %endif
+        <script>
+            $.getJSON("/media/microsites/amazon/media_react/props.json", function(response) {
+                window.props = response
+                window.props.type = pageType
+                var script  = document.createElement('script'),
+                head = document.head || document.getElementsByTagName('head')[0];
+                script.src = '/media/microsites/amazon/react_static/static/js/main.b36d11a1.js';
+                head.insertBefore(script, head.firstChild);
+            });  
+        </script>
+    </body>
+</html>
+
+<style>
+    .content-wrapper {
+        padding: 0;
+        background-color: #fff;
+        margin-top: 0 !important;
+    }
+
+    h3 {
+    margin-top: inherit !important;
+    }
+    /* a:not(.btn), a:visited:not(.btn) {
+    color: #000 !important;
+} */
+
+.scorm_object{
+    width: 800px;
+    margin: auto;
+    display: block;
+    margin-top: 2em;
+}
+
+@media screen and (max-width: 950px) {
+    .scorm_object{
+    width: 90%;
+}
+  }
+
+    .adn-banner{
+        display: none;
+    }
+
+    .adn-top_content-top-button {
+        background-color: #2e3946 !important;
+        color: #fff !important;
+        font-size: 16px !important;
+    }
+
+    .adn-top_content-top-button {
+  color: #fff !important;
+}
+
+.tabs a {
+  color: #313131 !important;
+}
+.adn-main-thumbnail-button-link {
+  color: #313131 !important;
+}
+</style>
+
+% if webinaire_replay:
+
+<style>
+    .adn-top_content,
+    .adn-content {
+        display: none;
+    }
+    .adn-category{
+        margin-top: 2em;
+    }
+    .adn-banner_img {
+        cursor: pointer;
+    }
+</style>
+
+% endif
+
+<script>
+
+window.addEventListener('load', function() {
+
+    document.getElementsByClassName('adn-banner')[0].addEventListener('click', function(){
+
+        window.open("https://www.amazon.fr/b?ie=UTF8&node=28970997031&ref_=ADN_BANNIERE")
+    })
+
+    // Get the parent element
+var parentElement = document.querySelector('.adn-top_content');
+
+// Create a new image element
+var imageElement = document.createElement('img');
+imageElement.src = '/media/microsites/amazon/media_react/images/bootcamp-bordeaux.png';
+imageElement.alt = 'image bootcamp bordeaux';
+imageElement.className = 'adn-top_content-top-image';
+
+// Create a new button element
+var buttonElement = document.createElement('button');
+buttonElement.textContent = "Je m'inscris";
+buttonElement.className = 'adn-top_content-top-button';
+buttonElement.style.cssText = 'text-align: center; color: #f90;';
+
+// Replace the existing content with the new elements
+parentElement.innerHTML = '';
+parentElement.appendChild(imageElement);
+parentElement.appendChild(buttonElement);
+
+// Add an event listener to the button
+buttonElement.addEventListener('click', function() {
+    window.open('https://docs.google.com/forms/d/e/1FAIpQLSdSFG1JPDkmcnuJQ41TI6qFfNvtxXxKnkKdzyQ3kjNfFfUu6g/viewform', '_blank');
+});
+
+})
+
+</script>
