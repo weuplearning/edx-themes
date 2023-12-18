@@ -1,0 +1,150 @@
+<%page expression_filter="h"/>
+<%! from django.utils.translation import ugettext as _ %>
+<%inherit file="../main.html" />
+
+<%block name="pagetitle">${_("Help")}</%block>
+
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="container about">
+        <h1>Déclaration d'accessibilité</h1>
+        <p>L'Agence nationale pour la formation professionnelle s'engage à rendre ce site Internet accessible conformément à l'article 47 de la loi n° 2005-102 du 11 février 2005.</p>
+        <p>À cette fin, il met en œuvre la stratégie et les actions suivantes :</p>
+        <ul>
+            <li>Publication du schéma pluriannuel de mise en accessibilité (en cours de rédaction) ;</li>
+            <li>Publication du plan d’action annuel (en cours de rédaction).</li>
+        </ul>
+        <p>Cette déclaration d'accessibilité s'applique au site <a href="https://mooc.afpa.fr">mooc.afpa.fr</a>.</p>
+        <h2>État de conformité</h2>
+        <p>Le site <a href="https://mooc.afpa.fr">mooc.afpa.fr</a> n'est pas en conformité avec <a href="https://accessibilite.numerique.gouv.fr/" target="_blank">le Référentiel Général d'Amélioration de l'Accessibilité (RGAA)</a>.</p>
+        <h2>Résultats des tests</h2>
+        <p>L'audit de conformité réalisé par l'agence <a href="https://www.accessprod.com" target="_blank" title="AccessProd (nouvelle fenêtre)">AccessProd</a> révèle que :</p>
+        <ul>
+            <li><strong>46,87% des critères du RGAA version 4.1.2 sont respectés ;</strong></li>
+            <li>le taux moyen de conformité du service en ligne s'élève à 69,5%. Il s'agit de la moyenne du score de conformité obtenu sur chacune des pages de l'échantillon.</li>
+        </ul>
+        <p>Ce pourcentage correspond à :</p>
+        <ul>
+            <li>34 critères non conformes ;</li>
+            <li>30 critères conformes ;</li>
+            <li>42 critères non applicables.</li>
+        </ul>
+        <h2>Contenus non accessibles</h2>
+        <p>Les contenus listés ci-dessous ne sont pas accessibles pour les raisons suivantes.</p>
+        <h3>Non-conformités</h3>
+        <ul>
+            <li>Les images ne sont pas toutes correctement ignorées par les technologies d’assistance lorsqu'elles sont décoratives ;</li>
+            <li>Les alternatives textuelles des images ne sont pas toutes pertinentes ;</li>
+            <li>Certaines images ne disposent pas de description détaillée ;</li>
+            <li>Les cadres des lecteurs vidéo, de certains modules d’apprentissage et du système de notations par étoile ne sont pas clairement identifiables par une synthèse vocale ;</li>
+            <li>Les rapports de contraste de certains textes et composants d’interface ne sont pas toujours suffisamment élevés ;</li>
+            <li>Il n’existe aucune transcription textuelle des vidéos ;</li>
+            <li>Les vidéos ne sont pas toutes sous-titrées lorsque cela est nécessaire ;</li>
+            <li>Le contenu textuel adjacent aux vidéos ne permet pas d'identifier clairement chaque média ;</li>
+            <li>Des tableaux possèdent des titres qui ne sont pas correctement associés ou des en-têtes qui ne sont pas techniquement déclarées ;</li>
+            <li>Le lien « En savoir plus » du bandeau cookies est restitué en anglais aux lecteurs d’écran ;</li>
+            <li>Les liens des vignettes de la page d’accueil ne sont pas explicites car des informations techniques sont vocalisées ;</li>
+            <li>Certains scripts doivent être corrigés pour être compatibles avec les technologies d'assistance et à la navigation au clavier, comme par exemple :
+                <ul>
+                    <li>le bouton « OK ! » du bandeau cookies ;</li>
+                    <li>le bouton permettant d’ouvrir et de fermer le menu « Burger » en version mobile ;</li>
+                    <li>les différents menus en version mobile ;</li>
+                    <li>le bouton « Inscrivez-vous maintenant » d’un MOOC et son message d’erreur ;</li>
+                    <li>le bouton « Besoin d'aide pour vous enregistrer ? » de la page de connexion ;</li>
+                    <li>le bouton « Terminé » en haut de page d’un cours ;</li>
+                    <li>de nombreux boutons du module « Handicap ou Situation de handicap » ;</li>
+                    <li>le système de notation par étoiles et son message de statut ;</li>
+                    <li>la fonctionnalité permettant de faire tourner les images du module « Handicap ou Situation de handicap ».</li>
+                </ul>
+            </li>
+            <li>Le code source des pages n’est pas toujours valide et peut poser des problèmes de restitution ;</li>
+            <li>Le titre de la page d’accueil (onglet du navigateur) n’est pas explicite ;</li>
+            <li>Des balises de structure sont utilisées pour afficher des paragraphes de texte ;</li>
+            <li>Des paragraphes vides sont utilisés uniquement à des fins de présentation ;</li>
+            <li>Des sauts de ligne sont utilisés uniquement à des fins de présentation ;</li>
+            <li>Certains niveaux de titres ne suivent pas un ordre logique, provoquant des erreurs de hiérarchie entre les titres ;</li>
+            <li>La zone des liens du pied de page n’est pas correctement structurée d’un point de vue technique ;</li>
+            <li>Certaines listes d’éléments ne sont pas correctement structurées ;</li>
+            <li>Certaines balises et certains attributs servant à la présentation de l’information sont présents dans le code source généré de certaines pages ;</li>
+            <li>Les déclarations de couleurs de fond d’élément et de police ne sont pas correctement utilisées ;</li>
+            <li>La navigation au clavier n’est pas toujours visible ;</li>
+            <li>Le menu secondaire du cours ne s’affiche pas entièrement sur petits écrans (320px de large), il est présenté avec un défilement horizontal ;</li>
+            <li>Les infobulles personnalisées ne sont plus disponibles si le pointeur n’est plus sur le composant ou sur cette infobulle ;</li>
+            <li>Les infobulles personnalisées ne s’ouvrent qu’à la souris et pas au clavier ;</li>
+            <li>De nombreux champs de formulaire des quiz n’ont pas d’étiquettes correctement associées ou elles ne sont pas pertinentes ;</li>
+            <li>Les champs du formulaire de connexion n’ont pas d’indication visible de champs obligatoires ;</li>
+            <li>Le remplissage automatique des champs de formulaire contenant les données de l’utilisateur n’est pas conforme ;</li>
+            <li>Les zones de la page ne sont pas identifiables et ne peuvent donc pas être atteintes ou évitées ;</li>
+            <li>Les fichiers en téléchargement ne sont pas tous compatibles avec les technologies d’assistance ;</li>
+            <li>Certaines évaluations nécessitent l’utilisation de gestes complexes sans alternative réalisable au moyen de gestes simples.</li>
+        </ul>
+        <h3>Dérogations pour charge disproportionnée</h3>
+        <p>Aucune dérogation.</p>
+        <h3>Contenus non soumis à l'obligation d'accessibilité</h3>
+        <p>Les contenus vidéos publiés avant le 23 septembre 2020 et les fichiers disponibles dans des formats bureautiques publiés avant le 23 septembre 2018 ne sont pas soumis à l'obligation d'accessibilité.</p>
+        <h2>Établissement de cette déclaration d'accessibilité</h2>
+        <p>Cette déclaration a été établie le 12 mai 2023.</p>
+        <h3>Technologies utilisées pour la réalisation du site web</h3>
+        <ul>
+            <li>HTML 5</li>
+            <li>CSS</li>
+            <li>JavaScript</li>
+        </ul>
+        <h3>Agents utilisateurs, technologies d'assistance et outils utilisés pour vérifier l'accessibilité</h3>
+        <p>Les vérifications de restitution de contenus ont été réalisées sur la base des combinaisons de navigateurs web et lecteurs d'écran suivants :</p>
+        <ul>
+            <li>Firefox 113 et NVDA 2023.1</li>
+            <li>Chrome 113 et NVDA 2023.1</li>
+            <li>Firefox 113 et JAWS 2022</li>
+            <li>Safari 16.4 et VoiceOver (OS 13.3)</li>
+            <li>Chrome 113 et TalkBack 14 (Android 13)</li>
+        </ul>
+        <h3>Outils pour évaluer l'accessibilité</h3>
+        <p>Les outils suivants ont été utilisés lors de l'évaluation :</p>
+        <ul>
+            <li>Color Contrast Analyser</li>
+            <li>Outils pour développeurs intégrés aux navigateurs</li>
+            <li>Barre Web Developer</li>
+        </ul>
+        <h3>Pages du site ayant fait l'objet de la vérification de conformité</h3>
+        <ul>
+            <li>Page « Accueil »</li>
+            <li>Gabarit « Présentation d’un MOOC »</li>
+            <li>Page « Mentions légales »</li>
+            <li>Page « FAQ »</li>
+            <li>Page « Inscription »</li>
+            <li>Page « Connexion »</li>
+            <li>Page « Dashboard »</li>
+            <li>Gabarit « Présentation du MOOC »</li>
+            <li>Gabarit « Contenu textuel »</li>
+            <li>Gabarit « Contenu PDF »</li>
+            <li>Gabarit « Lecteur vidéo »</li>
+            <li>Gabarit « Progression »</li>
+            <li>Gabarit « Glossaire »</li>
+            <li>Gabarit « Discussion »</li>
+            <li>Gabarit « Quiz »</li>
+            <li>Page « Paramètres du compte »</li>
+            <li>Gabarit « Module SCORM »</li>
+        </ul>
+        <h2>Retour d'informations et contact</h2>
+        <p>Si vous n'arrivez pas à accéder à un contenu ou à un service, vous pouvez contacter le responsable du site <a href="https://mooc.afpa.fr">mooc.afpa.fr</a> pour être orienté vers une alternative accessible ou obtenir le contenu sous une autre forme.</p>
+        <ul>
+            <li>Envoyer un message électronique à <a href="mailto:accessibilite@afpa.fr">l'Agence nationale pour la formation professionnelle : accessibilite@afpa.fr</a></li>
+            <li>Contacter l'Agence nationale pour la formation professionnelle par courrier :<br />
+                Tour Cityscope,<br />
+                3 rue Franklin,<br />
+                93100 Montreuil
+            </li>
+        </ul>
+        <h2>Voie de recours</h2>
+        <p>Cette procédure est à utiliser dans le cas suivant.</p>
+        <p>Vous avez signalé au responsable du site internet un défaut d'accessibilité qui vous empêche d'accéder à un contenu ou à un des services du portail et vous n'avez pas obtenu de réponse satisfaisante.</p>
+        <p>Écrire un message au Défenseur des droits (<a href="https://formulaire.defenseurdesdroits.fr/">https://formulaire.defenseurdesdroits.fr/</a>)</p>
+        <ul>
+            <li>Contacter le délégué du Défenseur des droits dans votre région (<a href="https://www.defenseurdesdroits.fr/saisir/delegues">https://www.defenseurdesdroits.fr/saisir/delegues</a>)</li>
+            <li>Envoyer un courrier par la poste (gratuit, ne pas mettre de timbre)<br />
+                Défenseur des droits<br />
+                Libre réponse 71120<br />
+                75342 Paris CEDEX 07</li>
+        </ul>
+    </section>
+</main>
