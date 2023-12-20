@@ -154,6 +154,7 @@ for user in users:
 
     global_time = 0
 
+
     try:
         registration_date = user.date_joined.strftime('%d %b %y')
     except:
@@ -166,19 +167,35 @@ for user in users:
 
 
     _email = user.email
+
+    if ( _email.find('@weuple') != -1 ) :
+        continue
+
     try:
         _custom = json.loads(user.custom_field)
     except:
         _custom = {}
 
+
     if _custom.get('last_name') is not None:
         _last_name = _custom.get('last_name')
     else:
-        _last_name = user.last_name
+        try :
+            _last_name = user.name.split(' ')[1]
+        except :
+            _last_name = user.last_name
+
+
+
+
     if _custom.get('first_name') is not None:
         _first_name = _custom.get('first_name')
     else:
-        _first_name = user.first_name
+        try : 
+            _first_name = user.name.split(' ')[0]
+        except :
+            _first_name = user.first_name
+
 
     values = [
         _last_name,
