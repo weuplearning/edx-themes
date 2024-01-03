@@ -9,6 +9,7 @@
 }
 </style>
 
+
 <section class="courses-container">
   <section class="highlighted-courses">
 
@@ -16,11 +17,13 @@
       <section class="courses">
         <ul class="courses-listing">
           ## limiting the course number by using HOMEPAGE_COURSE_MAX as the maximum number of courses
-          %for course in courses[:homepage_course_max]:
-          <li class="courses-listing-item">
-              <%include file="course.html" args="course=course" />
-          </li>
-        %endfor
+          %for course in courses:
+            %if str(course.id).find('inscription') != -1 :
+              <li class="courses-listing-item">
+                  <%include file="course.html" args="course=course" />
+              </li>
+            %endif
+          %endfor
         </ul>
       </section>
 
