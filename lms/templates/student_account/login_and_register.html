@@ -61,11 +61,15 @@
     </main>
 </div>
 <script>
-
+   
     var updateRegisterForm = setInterval(() => {
 
         // username field
-        document.getElementsByClassName("label-text")[1].innerHTML = "Nom d'utilisateur public (pseudo)";
+        if (window.location.pathname.indexOf('/login') == -1) {
+            document.getElementsByClassName("label-text")[1].innerHTML = "Nom d'utilisateur public (pseudo)";
+        } else {
+            clearInterval(updateRegisterForm)
+        }
 
         // fullname indications
         if(document.getElementById("usernameTextInfo") === null){
@@ -124,6 +128,7 @@
         parentElement.insertBefore(thirdElement, firstElement);
         parentElement1.appendChild(yearOfBirth);
     }, 500);
+
 </script>
 
 
