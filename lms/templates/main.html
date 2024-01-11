@@ -40,29 +40,12 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
 ## embedding theme conditionals into templates. All inheriting
 ## templates have access to these functions, and we can import these
 ## into non-inheriting templates via the %namespace tag.
-<!-- <script>
-  if(document.referrer.includes("login") || document.referrer.includes("about")) {
-    // window.location.replace("https://amazon.koa.qualif.dev/courses/course-v1:amazon+amazon001+SP/ebb748c209af46d7a082b78bb85b93cc/"); // qualif
-    window.location.replace("https://www.accelerateur-du-numerique.fr/courses/course-v1:amazon+amazon001+SP/6f99bd87c01a4a1383e1b73fba057666/"); // prod
-  }
-</script> -->
-## this needs to be here to prevent the title from mysteriously appearing in the body, in one case
+
 <%def name="pagetitle()" />
   <%block name="title">
-
-    % if request.path == "/courses/course-v1:amazon+amazon001+SP/1a96e2a921634a8ca74c23670fc41cdf/":
     <title>
-      Bootcamp
-     </title>
-    % elif request.path == "/courses/course-v1:amazon+amazon001+SP/c35c81be41c34ad3814a6ffae7515b0f/":
-    <title>
-      Webinaire
-     </title>
-    % else:
-      <title>
-       ${static.get_page_title_breadcrumbs(self.pagetitle())}
-      </title>
-    %endif
+      ${static.get_page_title_breadcrumbs(self.pagetitle())}
+    </title>
   </%block>
 
   % if not allow_iframing:
@@ -106,26 +89,21 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
   <!-- HIDE unneeded explore courses -->
   <style>
   nav.nav-links div.main, header.global-header a.help-link,div.course-header{
-     display:none !important;
+    display:none !important;
   }
-  </style>
-
-
-<style>
   .content-wrapper{
     max-width: none !important;
   }
   @font-face {
-   font-family: 'AmazonEmber';
-   src: url("/media/microsites/amazon/fonts/AmazonEmberDisplay_W_Md.woff");
-   font-weight: normal;
+    font-family: 'AmazonEmber';
+    src: url("/media/microsites/amazon/fonts/AmazonEmberDisplay_W_Md.woff");
+    font-weight: normal;
   }
 
   /* div, span, section, h1, h2, h3, h4, h5, h6, p, header { */
-    h1, h2, h3, h4, h5, h6, p, div {
-   font-family:"AmazonEmber" !important;
- }
-
+  h1, h2, h3, h4, h5, h6, p, div {
+    font-family:"AmazonEmber" !important;
+  }
   </style>
 
   <%static:css group='style-vendor'/>
@@ -188,7 +166,9 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
 
   <meta name="openedx-release-line" content="${RELEASE_LINE}" />
 
-<% ga_acct = configuration_helpers.get_value('GOOGLE_ANALYTICS_ACCOUNT',static.get_value("GOOGLE_ANALYTICS_ACCOUNT", settings.GOOGLE_ANALYTICS_ACCOUNT)) %>
+<!-- <% ga_acct = configuration_helpers.get_value('GOOGLE_ANALYTICS_ACCOUNT',static.get_value("GOOGLE_ANALYTICS_ACCOUNT", settings.GOOGLE_ANALYTICS_ACCOUNT)) %> -->
+<% ga_acct = False %>
+
 % if ga_acct:
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=${ga_acct}"></script>
@@ -248,15 +228,6 @@ twq('track','PageView');
   gtag('config', '${ga_acct}');
 </script>
 
-<!-- TIK TOK SCRIPT 09/09/2021-->
-<script>
-  !function (w, d, t) {
-    w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var i="https://analytics.tiktok.com/i18n/pixel/events.js";ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=i,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};var o=document.createElement("script");o.type="text/javascript",o.async=!0,o.src=i+"?sdkid="+e+"&lib="+t;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(o,a)};
-    ttq.load('C4ADRG4FMUHSRH2U3LC0');
-    ttq.page();
-  }(window, document, 'ttq');
-</script>
-<!-- END OF TIKTOK SCRIPT -->
 
 <!-- Amazon GTAG Global site tag (gtag.js) - Google Ads: 880903564 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-880903564"></script>
@@ -283,24 +254,6 @@ twq('track','PageView');
 </script>
 
 
-<!-- PIXEL AMAZON st Feb 
-<!-- Facebook Pixel Code Fev 2021 -->
-<script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '727182344599978');
-  fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=727182344599978&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Facebook Pixel Code -->
 
 <script type="text/javascript">
 if(window.location.href.indexOf("/login")>-1 || window.location.href.indexOf("/register")>-1){
@@ -367,7 +320,7 @@ if(window.location.href.indexOf("/login")>-1 || window.location.href.indexOf("/r
   <script type="text/javascript" src="${static.url('js/src/jquery_extend_patch.js')}"></script>
 
 
-<!-- LINKED Insight AMAZON 1 Fev 2021 --> 
+<!-- LINKED Insight AMAZON 1 Fev 2021
 <script type="text/javascript">
 _linkedin_partner_id = "2919596";
 window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
@@ -382,7 +335,7 @@ s.parentNode.insertBefore(b, s);})();
 <noscript>
 <img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=2919596&fmt=gif" />
 </noscript>
-
+-->
 
 
 
