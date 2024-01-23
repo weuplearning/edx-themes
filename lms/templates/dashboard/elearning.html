@@ -60,7 +60,7 @@ from lms.djangoapps.course_api.views import CourseListView
 
       for (let i = 0; i < boutons.length; i++) {
         const bouton = boutons[i];
-        bouton.innerText = "Ajouter à mes cours"
+        bouton.innerText = "Aggiungi ai miei corsi"
       }
 
       let children = id.children
@@ -175,25 +175,6 @@ from lms.djangoapps.course_api.views import CourseListView
 <main id="main" aria-label="Content" tabindex="-1">
   
   <%include file="../learner_dashboard/_dashboard_navigation_courses.html"/>
-
-  <div class="dashboard" id="dashboard-main">  <!-- Flex -->
-    <div class="main-container">
-      <h1 class="header-title">Bienvenue sur l'espace e-learning</h1>
-      <p class="header-text">Notre page e-learning est conçue pour vous offrir une initiation complète au e-commerce.</p>
-      <p class="header-text">Dans cette section, vous pourrez explorer nos cours, suivre votre progression pour apprendre à votre rythme et à votre manière. </p>
-      <p class="header-text">Vous ne savez pas par où commencer ? Utilisez notre simulateur pour obtenir des recommandations personnalisées et commencez dès maintenant votre parcours de formation.</p>
-    </div><!-- class="main-container" -->
-
-    <div class="side-container" role="complementary" aria-label="messages">
-      <div class="elementor-widget-container">
-        <iframe loading="lazy" class="scorm_object" src="https://amazon-it.qualif.dev/media/microsites/amazon/simulateur/story.html" data-dashlane-frameid="600" width="100%" height="450"></iframe> 
-        <!-- <iframe loading="lazy" class="scorm_object" src="/media/microsites/amazon/simulateur/story.html" data-dashlane-frameid="600" width="100%" height="450"></iframe> 
-        19/09/23 - hosted on different server because of api limitation -->
-      </div>
-    </div>
-
-  </div> <!-- class="dashboard" id="dashboard-main" -->
-
 
   <div class="section2-filter">
     <!-- <div onclick="toggleMenu()" class='section2-filterButton'>

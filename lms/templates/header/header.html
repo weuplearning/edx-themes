@@ -60,7 +60,8 @@ catch(e){window.attachEvent("onload", $buo_f)}
 }
 
 .global-header .header-logo a .logo {
-    height: 66px;
+    /* height: 66px; */
+    height: 19px;
     padding: 1rem 5% !important;
 }
 
@@ -176,7 +177,7 @@ catch(e){window.attachEvent("onload", $buo_f)}
                     <a href="/dashboard">
                     <!-- <a href="${branding_api.get_home_url()}"> -->
                         <%block name="navigation_logo">
-                        <img  class="logo" src="https://www.accelerateur-du-numerique.fr/wp-content/uploads/2023/04/logo_ADN-1.png" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}"/>
+                        <img  class="logo" src="https://amazon-it.qualif.dev/media/microsites/amazon-italie/amazon_logo.png" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}"/>
                         <!-- <img  class="logo" src="https://adn.beestk.com/wp-content/uploads/2023/04/logo_adn.png" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}"/> -->
                         <!-- <img  class="logo" src="${static.url('amazon/images/logo_white.png')}" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}"/> -->
                         </%block>
@@ -193,10 +194,8 @@ catch(e){window.attachEvent("onload", $buo_f)}
                 <!-- Display only if connected -->
                 % if user.is_authenticated:
                 <ul id="dashboard-onglet-list">
-                    <li class="header-courses"><a href="/dashboard">Tableau de bord</a></li>
+                    <li class="header-courses"><a href="/dashboard">Dashboard</a></li>
                     <li class="header-courses"><a href="/dashboard/elearning">E-learning</a></li>
-                    <li class="header-courses"><a href="/wul_apps/event">Événements</a></li>
-                    <li class="header-courses"><a href="/wul_apps/coaching">Coaching</a></li>
                 </ul>
             </div>
             <div class="header-right-section">

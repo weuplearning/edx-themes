@@ -133,7 +133,7 @@
     <% } %>
 
     <% if( form === 'login' && name === 'password' ) { %>
-        <button type="button" class="login-help field-link"><i class="fa fa-caret-right" />Besoin d'aide pour vous connecter ?</button>
+        <button type="button" class="login-help field-link"><i class="fa fa-caret-right" />Hai bisogno di aiuto per accedere?</button>
         <div id="login-help" style="display:none">
             <button type="button" class="field-link form-toggle" data-type="password-reset">Mot de passe oublié</button>
             <span><a class="field-link" href="https://support.edx.org/hc/en-us/sections/115004153367-Solve-a-Sign-in-Problem"><%- gettext("Other sign-in issues") %></a></span>
