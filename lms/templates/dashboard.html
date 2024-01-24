@@ -211,205 +211,6 @@ document.addEventListener("DOMContentLoaded", function () {
 </div>
 
 <main id="main" aria-label="Content" tabindex="-1">
-  
-  <%include file="learner_dashboard/_dashboard_navigation_courses.html"/>
-
-  <div class="dashboard" id="dashboard-main">  <!-- Flex -->
-    <div class="main-container">
-      <div class="my-courses" id="my-courses">
-
-        % if len(course_entitlements + course_enrollments) > 0:
-        <h2 class="information-text"> E-learning en cours</h2>
-        <div id="new-section">
-
-          <%
-          share_settings = configuration_helpers.get_value(
-              'SOCIAL_SHARING_SETTINGS',
-              getattr(settings, 'SOCIAL_SHARING_SETTINGS', {})
-          )
-          %>
-
-          % for dashboard_index, enrollment in enumerate(course_entitlements + course_enrollments):
-
-            % if (( already_visited and custom_fields['last_visited_course'] == str(enrollment.course_id) ) or ( not already_visited and dashboard_index == 0 )) and not str(enrollment.course_id) == 'course-v1:amazon+webinaire+AZ_2023':
-              <%
-                # Check if the course run is an entitlement and if it has an associated session
-                entitlement = enrollment if isinstance(enrollment, CourseEntitlement) else None
-                entitlement_session = entitlement.enrollment_course_run if entitlement else None
-                entitlement_days_until_expiration = entitlement.get_days_until_expiration() if entitlement else None
-                entitlement_expiration = datetime.now(tz=pytz.UTC) + timedelta(days=entitlement_days_until_expiration) if (entitlement and entitlement_days_until_expiration < settings.ENTITLEMENT_EXPIRED_ALERT_PERIOD) else None
-                entitlement_expiration_date = strftime_localized(entitlement_expiration, 'SHORT_DATE') if entitlement and entitlement_expiration else None
-                entitlement_expired_at = strftime_localized(entitlement.expired_at_datetime, 'SHORT_DATE') if entitlement and entitlement.expired_at_datetime else None
-
-                is_fulfilled_entitlement = True if entitlement and entitlement_session else False
-                is_unfulfilled_entitlement = True if entitlement and not entitlement_session else False
-
-                entitlement_available_sessions = []
-                if entitlement:
-                  # Grab the available, enrollable sessions for a given entitlement and scrape them for relevant attributes
-                  entitlement_available_sessions = [{
-                    'session_id': course['key'],
-                    'enrollment_end': course['enrollment_end'],
-                    'pacing_type': course['pacing_type'],
-                    'advertised_start': CourseOverview.get_from_id(CourseKey.from_string(course['key'])).advertised_start,
-                    'start': CourseOverview.get_from_id(CourseKey.from_string(course['key'])).start,
-                    'end': CourseOverview.get_from_id(CourseKey.from_string(course['key'])).end,
-                    } for course in course_entitlement_available_sessions[str(entitlement.uuid)]]
-                  if is_fulfilled_entitlement:
-                    # If the user has a fulfilled entitlement, pass through the entitlements CourseEnrollment object
-                    enrollment = entitlement_session
-                  else:
-                    # If the user has an unfulfilled entitlement, pass through a bare CourseEnrollment object to populate card with metadata
-                    pseudo_session = unfulfilled_entitlement_pseudo_sessions[str(entitlement.uuid)]
-                    if not pseudo_session:
-                        continue
-                    pseudo_key = pseudo_session['key']
-                    if not isinstance(pseudo_key, CourseKey):
-                      pseudo_key = CourseKey.from_string(pseudo_session['key'])
-                    enrollment = CourseEnrollment(user=user, course=CourseOverview.get_from_id(pseudo_key), mode=pseudo_session['type'])
-                  # We only show email settings for entitlement cards if the entitlement has an associated enrollment
-                  show_email_settings = is_fulfilled_entitlement and (entitlement_session.course_id in show_email_settings_for)
-                else:
-                  show_email_settings = (enrollment.course_id in show_email_settings_for)
-
-                session_id = enrollment.course_id
-                show_courseware_link = show_courseware_links_for.get(session_id, False)
-                cert_status = cert_statuses.get(session_id)
-                can_refund_entitlement = entitlement and entitlement.is_entitlement_refundable()
-                partner_managed_enrollment = enrollment.mode == 'masters'
-                can_unenroll = False if partner_managed_enrollment else (not cert_status) or cert_status.get('can_unenroll') if not unfulfilled_entitlement else False
-                credit_status = credit_statuses.get(session_id)
-                course_mode_info = all_course_modes.get(session_id)
-                is_paid_course = True if entitlement else (session_id in enrolled_courses_either_paid)
-                course_verification_status = verification_status_by_course.get(session_id, {})
-                course_requirements = courses_requirements_not_met.get(session_id)
-                related_programs = inverted_programs.get(six.text_type(entitlement.course_uuid if is_unfulfilled_entitlement else session_id))
-                show_consent_link = (session_id in consent_required_courses)
-                course_overview = enrollment.course_overview
-                resume_button_url = resume_button_urls[dashboard_index]
-              %>
-
-              
-
-              <%include file='dashboard/_dashboard_course_listing.html' args='course_overview=course_overview, course_card_index=dashboard_index, enrollment=enrollment, is_unfulfilled_entitlement=is_unfulfilled_entitlement, is_fulfilled_entitlement=is_fulfilled_entitlement, entitlement=entitlement, entitlement_session=entitlement_session, entitlement_available_sessions=entitlement_available_sessions, entitlement_expiration_date=entitlement_expiration_date, entitlement_expired_at=entitlement_expired_at, show_courseware_link=show_courseware_link, cert_status=cert_status, can_refund_entitlement=can_refund_entitlement, can_unenroll=can_unenroll, credit_status=credit_status, show_email_settings=show_email_settings, course_mode_info=course_mode_info, is_paid_course=is_paid_course, verification_status=course_verification_status, course_requirements=course_requirements, dashboard_index=dashboard_index, share_settings=share_settings, user=user, related_programs=related_programs, display_course_modes_on_dashboard=display_course_modes_on_dashboard, show_consent_link=show_consent_link, enterprise_customer_name=enterprise_customer_name, resume_button_url=resume_button_url, partner_managed_enrollment=partner_managed_enrollment' />
-
-              
-              <script>
-                // Need API to add progress and remaining time
-                $.ajax({
-                  // Courses api
-                  url: "/api/courses/v1/courses/",
-                  success: function(result) {
-
-                    let courses_list = result['results']
-                    let course
-                    for (let index = 0; index < courses_list.length; index++) {
-                      course = courses_list[index];
-                      // Treat only targeted course
-                      if (course["course_id"] == '${enrollment.course_id}') {
-                        getCourseDetails_first(course);
-                      } 
-                    }
-                  }
-                });
-
-                // Function to get completion and progress details for a given course
-                function getCourseDetails_first(course) {
-                  $.ajax({
-                    url: "/api/courses/v1/blocks/?course_id=" + course['course_id'] + "&username=${user.username}&depth=all&requested_fields=completion",
-                    success: function(result_2) {
-
-                      let max_completion = 0
-                      let actual_completion = 0
-                      for (const [key, block] of Object.entries(result_2['blocks'])) {
-                        if (block['completion'] || block['completion'] == 0) {
-                          max_completion += 1
-                          actual_completion += block['completion']
-                        }
-                      }
-                      let completion_ratio = actual_completion / max_completion
-                      let progress_remain = 1 - completion_ratio
-                      let effort = course['effort']
-                      // if effort variable as right format, convert time to min
-                      function isValidFormat(time) {
-                        const regex = /^\d{2}:\d{2}$/;
-                        return regex.test(time);
-                      }
-
-                      if (isValidFormat(effort)) {
-                        // apply progress ratio and convert min to time
-                        let min_effort = Number((String(effort).split(':')[1])) + Number(String(effort).split(':')[0]) * 60
-                        let progessed_min = min_effort * progress_remain
-                        let progessed_hour = (Math.floor(progessed_min / 60)) + ' H'
-                        // let progessed_hour = (Math.floor(progessed_min / 60)) + 'h' + (Math.floor(progessed_min % 60))
-
-                        document.getElementById("new-section").getElementsByClassName("wrapper-course-details")[0].getElementsByClassName("info-date-block-container")[0].innerHTML = 'Temps restant : ' + progessed_hour ;
-                      }
-                      document.getElementById("new-section").getElementsByClassName('course-jauge')[0].innerText = Math.floor(completion_ratio*100) +'%'
-
-                      course_plan = document.createElement("a");
-                      course_plan.classList.add("course-plan");
-                      course_plan.innerHTML = "Plan du cours";
-                      course_plan.href = "/courses/"+ course['course_id'] +"/course/";
-                      document.getElementById("new-section").getElementsByClassName("course-container")[0].getElementsByClassName("wrapper-course-image")[0].getElementsByClassName("wrapper-course-actions")[0].getElementsByClassName("course-actions")[0].appendChild(course_plan);
-
-                    }
-                  });
-                }         
-                
-                
-              </script>
-            % endif
-          % endfor
-          </div>
-        % else:
-          <div class="empty-dashboard-message">
-            % if display_dashboard_courses:
-              <p>${_("You are not enrolled in any courses yet.")}</p>
-              % if empty_dashboard_message:
-                <p class="custom-message">${empty_dashboard_message | n, decode.utf8}</p>
-              %endif
-              % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
-                <a class="btn btn-primary" href="${marketing_link('COURSES')}">
-                  ${_("Explore courses")}
-                </a>
-              %endif
-            % else:
-            <p>${_("Activate your account!")}</p>
-            <p class="custom-message">${ activate_account_message | n, decode.utf8 }</p>
-            % endif
-        </div>
-        % endif
-
-        % if staff_access and len(errored_courses) > 0:
-          <div id="course-errors">
-            <h2>${_("Course-loading errors")}</h2>
-
-          % for course_dir, errors in errored_courses.items():
-              <h3>${course_dir}</h3>
-                  <ul>
-                % for (msg, err) in errors:
-                    <li>${msg}
-                      <ul><li><pre>${err}</pre></li></ul>
-                    </li>
-                % endfor
-                  </ul>
-          % endfor
-          </div>
-        % endif
-      </div>
-    </div><!-- class="main-container" -->
-
-    <div class="side-container" role="complementary" aria-label="messages">
-      <h2 class="information-text"> Recommandé pour vous</h2>
-      <div id="top-right-section">
-
-        <%include file="wul_apps/gamification.html" args="courses=course_enrollments"/>
-
-      </div>
-    </div>
-
-  </div> <!-- class="dashboard" id="dashboard-main" -->
 
   <div class="section2-filter">
     <!-- <div class='section2-filterButton'>
@@ -445,8 +246,8 @@ document.addEventListener("DOMContentLoaded", function () {
   </div>
   <div id="started-or-finished">
 
-    <h3 id="not-last-courses-button" class="header-courses secondary-section" style="border-bottom: 4px solid #368093;">En cours</h3> 
-    <h3 id="finished-courses-button" class="header-courses secondary-section">Terminé</h3>
+    <h3 id="not-last-courses-button" class="header-courses secondary-section" style="border-bottom: 4px solid #368093;">En curso</h3> 
+    <h3 id="finished-courses-button" class="header-courses secondary-section">Completado</h3>
   </div>
   
   <div id="not-last-courses">
@@ -635,7 +436,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     const course_html = not_last_courses[i];
                     if (course_html.innerHTML.includes(course["course_id"])) {
                       course_html.getElementsByClassName("course-jauge")[0].innerText = Math.floor(completion_ratio*100) + ' %'
-                      course_html.getElementsByClassName('wrapper-course-details')[0].getElementsByClassName("info-date-block-container")[0].innerText = "Temps restant : " + progessed_hour
+                      // course_html.getElementsByClassName('wrapper-course-details')[0].getElementsByClassName("info-date-block-container")[0].innerText = "Temps restant : " + progessed_hour
                     }
                   }
                 }

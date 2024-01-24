@@ -52,8 +52,8 @@ a.field-link{
 
 <% if ( context.createAccountOption !== false && !context.syncLearnerProfileData && !(context.enterpriseName && context.currentProvider) ) { %>
     <div class="toggle-form">
-        <p class="form-text text">Vous n'avez pas encore de compte ?</p>
-        <a href="/register?course_id=course-v1%3Aamazon%2BIntroduction%2BAZ_01&enrollment_action=enroll" class="form-text form-toggle" data-type="register">Inscrivez vous dès maintenant</a>
+        <p class="form-text text">¿Aún no tienes una cuenta?</p>
+        <a href="/register?course_id=course-v1%3Aamazon%2BIntroduction%2BAZ_01&enrollment_action=enroll" class="form-text form-toggle" data-type="register">Regístrese ahora</a>
     </div>
     <% } %>
 

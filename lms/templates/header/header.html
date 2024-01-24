@@ -193,10 +193,8 @@ catch(e){window.attachEvent("onload", $buo_f)}
                 <!-- Display only if connected -->
                 % if user.is_authenticated:
                 <ul id="dashboard-onglet-list">
-                    <li class="header-courses"><a href="/dashboard">Tableau de bord</a></li>
+                    <li class="header-courses"><a href="/dashboard">Panel de control</a></li>
                     <li class="header-courses"><a href="/dashboard/elearning">E-learning</a></li>
-                    <li class="header-courses"><a href="/wul_apps/event">Événements</a></li>
-                    <li class="header-courses"><a href="/wul_apps/coaching">Coaching</a></li>
                 </ul>
             </div>
             <div class="header-right-section">
@@ -204,8 +202,8 @@ catch(e){window.attachEvent("onload", $buo_f)}
                 <%include file="navbar-authenticated.html" args="online_help_token=online_help_token"/>
                 % else:
                 <ul id="dashboard-onglet-list">
-                    <li class="header-courses"><a href="#">A propos</a></li>
-                    <li class="header-courses"><a href="#">A venir</a></li>
+                    <li class="header-courses"><a href="#">Catálogo de cursos</a></li>
+                    <li class="header-courses"><a href="#">Preguntas frecuentes</a></li>
                     </ul>
                     <h1 style="color:white;"></h1>
                 </div>
