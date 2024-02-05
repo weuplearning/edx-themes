@@ -274,7 +274,7 @@ from lms.djangoapps.course_api.views import CourseListView
 
   <div id="available-courses" >
     <%
-    courses = CourseOverview.get_all_courses(orgs=['amazon'])
+    courses = CourseOverview.get_all_courses(orgs=['amazon-it'])
     %>
     %for course in courses:
       %if (course.start_date) < datetime.now(tz=pytz.UTC) :
