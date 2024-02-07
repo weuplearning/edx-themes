@@ -184,26 +184,38 @@ from lms.djangoapps.course_api.views import CourseListView
           <input type="checkbox" value="All" onchange="handleCategoryChange(event)" />All
       </label> -->
       <label class="section2-filterSection-labels">
-          <input type="checkbox" value="Stratégie" onchange="handleCategoryChange(event)" />#Stratégie
+          <input type="checkbox" value="Amazon Masterclasses" onchange="handleCategoryChange(event)" />#Amazon Masterclasses
+      </label>
+      <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Crecimiento" onchange="handleCategoryChange(event)" />#Crecimiento
+      </label>
+      <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Expansión internacional" onchange="handleCategoryChange(event)" />#Expansión internacional
+      </label>
+      <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Finanzas" onchange="handleCategoryChange(event)" />#Finanzas
+      </label>
+      <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Gestión de clientes" onchange="handleCategoryChange(event)" />#Gestión de clientes
+      </label>
+      <label class="section2-filterSection-labels">
+          <input type="checkbox" value="Marca" onchange="handleCategoryChange(event)" />#Marca
       </label>
       <label class="section2-filterSection-labels">
           <input type="checkbox" value="Marketing" onchange="handleCategoryChange(event)" />#Marketing
       </label>
       <label class="section2-filterSection-labels">
-          <input type="checkbox" value="Gestion D'entreprise" onchange="handleCategoryChange(event)" />#Gestion D'entreprise
-      </label>
-      <label class="section2-filterSection-labels">
-          <input type="checkbox" value="Gestion Des Opérations" onchange="handleCategoryChange(event)" />#Gestion Des Opérations
-      </label>
-      <label class="section2-filterSection-labels">
-          <input type="checkbox" value="Ventes" onchange="handleCategoryChange(event)" />#Ventes
-      </label>
-      <label class="section2-filterSection-labels">
-          <input type="checkbox" value="Tech" onchange="handleCategoryChange(event)" />#Tech
-      </label>
-      <label class="section2-filterSection-labels">
-          <input type="checkbox" value="Marketplace" onchange="handleCategoryChange(event)" />#Marketplace
-      </label>
+        <input type="checkbox" value="Operaciones" onchange="handleCategoryChange(event)" />#Operaciones
+    </label>
+    <label class="section2-filterSection-labels">
+      <input type="checkbox" value="Primeros Pasos" onchange="handleCategoryChange(event)" />#Primeros Pasos
+    </label>
+    <label class="section2-filterSection-labels">
+      <input type="checkbox" value="Recursos Humanos" onchange="handleCategoryChange(event)" />#Recursos Humanos
+    </label>
+    <label class="section2-filterSection-labels">
+      <input type="checkbox" value="Ventas" onchange="handleCategoryChange(event)" />#Ventas
+    </label>
     </div>
   </div>
 
@@ -272,7 +284,7 @@ from lms.djangoapps.course_api.views import CourseListView
 
   <div id="available-courses" >
     <%
-    courses = CourseOverview.get_all_courses(orgs=['amazon'])
+    courses = CourseOverview.get_all_courses(orgs=['amazon-es'])
     %>
     %for course in courses:
       %if (course.start_date) < datetime.now(tz=pytz.UTC) :
@@ -671,12 +683,12 @@ from lms.djangoapps.course_api.views import CourseListView
   
   .section2-filterSection-labels {
       background: #ececec; 
-      padding: .5rem 1rem;
+      padding: .5rem 0.5rem;
       border-radius: .3rem;
       border: unset;
       cursor: pointer;
       transition: .1s;
-      margin: .4rem;
+      margin: .2rem;
       font: inherit;
   }
   

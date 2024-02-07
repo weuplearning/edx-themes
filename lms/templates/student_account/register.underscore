@@ -94,8 +94,8 @@ justify-content: space-between;
 
     <% if (!context.syncLearnerProfileData) { %>
         <div class="toggle-form">
-            <p class="text">Vous possédez déja un compte ?</p>
-            <a class="contact_us" href="/login" data-type="login">Se connecter</a>
+            <p class="text">¿Ya tiene cuenta de usuario?</p>
+            <a class="contact_us" href="/login" data-type="login">ENTRAR</a>
         </div>
     <% } %>
 
@@ -110,8 +110,8 @@ justify-content: space-between;
         </label>
     </div>
     <p style="text-align:justify"><br/>
-    Les données personnelles renseignées via ce formulaire seront traitées par Amazon Europe Core SARL et ses sociétés affiliées pour les finalités décrites dans notre 
-    <a href="/privacy" target="_blank">Politique de confidentialité</a> qui vous permet également d’exercer vos droits.
+    Los datos personales facilitados a través de este formulario serán tratados por Amazon Europe Core SARL y sus empresas afiliadas para los fines descritos en nuestra 
+    <a href="/privacy" target="_blank">Política de Privacidad</a>, que también le permite ejercer sus derechos.
     </br></p>
 
     <div style="display: flex;justify-content: space-evenly;">
