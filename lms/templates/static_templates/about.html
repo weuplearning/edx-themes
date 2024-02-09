@@ -3,10 +3,7 @@
 <%inherit file="../main.html" />
 
 <%block name="header_extras">
-<!-- Event snippet for ADN Sign-up (Performics) conversion page -->
-<script>
-  gtag('event', 'conversion', {'send_to': 'AW-880903564/ABdwCNXvwvQBEIyLhqQD'});
-</script>
+
 </%block>
 
 
@@ -27,24 +24,6 @@
     </section>
 </main>
 
-<!-- Facebook singup complete 1 Fev 2021 AMAZON-->
-<!-- Facebook Pixel Code -->
-<script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '727182344599978');
-  fbq('track', 'CompleteRegistration');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=727182344599978&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Facebook Pixel Code -->
 
 
 <script>
@@ -69,7 +48,6 @@ var x = setInterval(function() {
   // If the count down is finished, write some text
   if (distance < 0) {
     clearInterval(x);
-    window.location.replace("/dashboard");
   }
 
   // Display the result in the element
