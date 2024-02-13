@@ -66,6 +66,23 @@ _id = [
     "course-v1:afpa+inclusion_sociale+2023" # colonne AE
 ]
 
+domain_name_ok = [
+    '@yopmail',
+    '@example',
+    '@orange.fr',
+    '@gmail.com',
+    '@live.fr',
+    '@yahoo.fr', 
+    '@yahoo.com',
+    '@hotmail.fr',
+    '@sfr.fr',
+    '@laposte.fr',
+    '@afpa.fr',
+    '@wanadoo.fr',
+    '@mail.ru',
+    '@free.fr',
+    '@laposte.net'
+]
 
 
 
@@ -87,11 +104,19 @@ for course_id in _id :
         user = user.user
 
         email = user.email.lower()
-        if email.find('@yopmail') != -1 or email.find('@example') != -1 or email.find('@orange.fr') != -1 or email.find('@gmail.com') != -1 or email.find('@live.fr') != -1 or email.find('@yahoo.fr') != -1 or email.find('@hotmail.fr') != -1  :
-            continue
+        suspect_email = False
+        for domain in domain_name_ok :
+            if email.find(domain) != -1 :
+                suspect_email = True
+        # if email.find('@yopmail') != -1 or email.find('@example') != -1 or email.find('@orange.fr') != -1 or email.find('@gmail.com') != -1 or email.find('@live.fr') != -1 or email.find('@yahoo.fr') != -1 or email.find('@hotmail.fr') != -1  :
+        #     continue
+
+        if suspect_email :
+            continue        
 
 
-        if user.is_active :
+        #if user.is_active :
+        if user.last_login :
             continue 
         else :
             sheet.cell(i, 1, email)

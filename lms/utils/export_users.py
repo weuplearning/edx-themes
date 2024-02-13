@@ -121,7 +121,10 @@ def get_course_enrollment(course_id, user):
     #     if user_enrollment == user:
 
     # -> simplification, trop long sinon
-    enrollment = CourseEnrollment.objects.get(course_id=course_id, user=user)
+    try:
+        enrollment = CourseEnrollment.objects.get(course_id=course_id, user=user)
+    except:
+        return 0
     return get_time_tracking(enrollment)
 
 
