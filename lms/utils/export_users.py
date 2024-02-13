@@ -71,7 +71,8 @@ _title = [
     "TRE",
     "MATU",
     "MOOC Love Food",
-    "Mooc Handicap Afpa 2022" # colonne AE
+    "Mooc Handicap Afpa 2022", # colonne AE
+    "Au coeur de la cuisine Corse",
     "Temps passé"
 ]
 
@@ -96,7 +97,8 @@ _id = [
     "course-v1:afpa+TRE_2020+2020",
     "course-v1:afpa+MATU+2020",
     "course-v1:afpa+love_food+2020",
-    "course-v1:afpa+inclusion_sociale+2023" # colonne AE
+    "course-v1:afpa+inclusion_sociale+2023", # colonne AE
+    "course-v1:afpa+corse+2024"
 ]
 
 
@@ -186,8 +188,6 @@ for user in users:
             _last_name = user.last_name
 
 
-
-
     if _custom.get('first_name') is not None:
         _first_name = _custom.get('first_name')
     else:
@@ -195,6 +195,9 @@ for user in users:
             _first_name = user.name.split(' ')[0]
         except :
             _first_name = user.first_name
+
+
+
 
 
     values = [

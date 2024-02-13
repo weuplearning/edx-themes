@@ -24,7 +24,301 @@ self_paced = context.get('self_paced', False)
 relative_dates_flag_is_enabled = RELATIVE_DATES_FLAG.is_enabled(str(course_key))
 is_course_staff = bool(user and course and has_access(user, 'staff', course, course.id))
 dates_banner_displayed = False
+
+
+custom_fields_dict = json.loads(custom_fields)
+user_firstname = custom_fields_dict.get('first_name', '')
+user_lastname = custom_fields_dict.get('last_name', '')
+user_country = custom_fields_dict.get('country', '')
+user_gender = custom_fields_dict.get('gender', '')
+user_year_of_birth = custom_fields_dict.get('year_of_birth', '')
+
+
+display_form = False
+if not all([user_firstname, user_lastname, user_country, user_gender, user_year_of_birth]):
+    display_form = True
 %>
+
+<style>
+#customFieldsForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#customFieldsForm label {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+#customFieldsForm input[type="text"] {
+    padding: 5px;
+    margin-bottom: 20px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 400px;
+}
+
+#customFieldsForm select {
+    padding: 5px;
+    margin-bottom: 20px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 400px;
+}
+
+#customFieldsForm button[type="submit"] {
+    background-color: #f9610b;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+#customFieldsForm button[type="submit"]:hover {
+    background-color: #cd520b;
+}
+
+.disabled-link {
+    pointer-events: none;
+}
+.required_field {
+    color: red;
+}
+</style>
+
+% if display_form:
+
+<script>
+    let startButton = document.getElementsByClassName('action-resume-course')
+    startButton[0].classList.add("disabled-link")
+</script>
+<form id="customFieldsForm">
+    <label for="lastName">Nom : <span class="required_field">*</span></label>
+    <input type="text" id="lastName" name="lastName" onkeydown="if(event.keyCode==32) return false;" required><br>
+  
+    <label for="firstName">Prénom : <span class="required_field">*</span></label>
+    <input type="text" id="firstName" name="firstName" onkeydown="if(event.keyCode==32) return false;" required><br>
+  
+    <label for="year_of_birth">Année de naissance : <span class="required_field">*</span></label>
+    <input type="text" id="year_of_birth" name="year_of_birth" onkeydown="if(event.keyCode==32) return false;" required><br>
+
+    <label for="gender">Genre : <span class="required_field">*</span></label>
+    <select id="gender" name="gender">
+        <option value="femme">Femme</option>
+        <option value="homme">Homme</option>
+    </select>
+    <br>
+
+    <label for="country">Pays : <span class="required_field">*</span></label>
+    <select id="country" name="country">
+
+        <optgroup label="Europe">
+            <option value="albanie">Albanie</option>
+            <option value="allemagne">Allemagne</option>
+            <option value="andorre">Andorre</option>
+            <option value="autriche">Autriche</option>
+            <option value="belgique">Belgique</option>
+            <option value="bielorussie">Biélorussie</option>
+            <option value="bosnieherzegovine">Bosnie-Herzégovine</option>
+            <option value="bulgarie">Bulgarie</option>
+            <option value="croatie">Croatie</option>
+            <option value="danemark">Danemark</option>
+            <option value="espagne">Espagne</option>
+            <option value="estonie">Estonie</option>
+            <option value="finlande">Finlande</option>
+            <option value="france">France</option>
+            <option value="grece">Grèce</option>
+            <option value="hongrie">Hongrie</option>
+            <option value="irlande">Irlande</option>
+            <option value="islande">Islande</option>
+            <option value="italie">Italie</option>
+            <option value="lettonie">Lettonie</option>
+            <option value="liechtenstein">Liechtenstein</option>
+            <option value="lituanie">Lituanie</option>
+            <option value="luxembourg">Luxembourg</option>
+            <option value="malte">Malte</option>
+            <option value="moldavie">Moldavie</option>
+            <option value="monaco">Monaco</option>
+            <option value="montenegro">Monténégro</option>
+            <option value="paysbas">Pays-Bas</option>
+            <option value="pologne">Pologne</option>
+            <option value="portugal">Portugal</option>
+            <option value="republiquetcheque">République tchèque</option>
+            <option value="roumanie">Roumanie</option>
+            <option value="royaumeuni">Royaume-Uni</option>
+            <option value="russie">Russie</option>
+            <option value="saintmarin">Saint-Marin</option>
+            <option value="serbie">Serbie</option>
+            <option value="slovaquie">Slovaquie</option>
+            <option value="slovenie">Slovénie</option>
+            <option value="suede">Suède</option>
+            <option value="suisse">Suisse</option>
+            <option value="ukraine">Ukraine</option>
+            <option value="vatican">Vatican</option>
+        </optgroup>
+        <optgroup label="Afrique">
+            <option value="algerie">Algérie</option>
+            <option value="angola">Angola</option>
+            <option value="benin">Bénin</option>
+            <option value="botswana">Botswana</option>
+            <option value="burkinafaso">Burkina Faso</option>
+            <option value="burundi">Burundi</option>
+            <option value="cameroun">Cameroun</option>
+            <option value="capvert">Cap-Vert</option>
+            <option value="comores">Comores</option>
+            <option value="djibouti">Djibouti</option>
+            <option value="egypte">Égypte</option>
+            <option value="ethiopie">Éthiopie</option>
+            <option value="gabon">Gabon</option>
+            <option value="gambie">Gambie</option>
+            <option value="ghana">Ghana</option>
+            <option value="guinee">Guinée</option>
+            <option value="guineebissau">Guinée-Bissau</option>
+            <option value="guineeequatoriale">Guinée équatoriale</option>
+            <option value="kenya">Kenya</option>
+            <option value="lesotho">Lesotho</option>
+            <option value="liberia">Libéria</option>
+            <option value="libye">Libye</option>
+            <option value="madagascar">Madagascar</option>
+            <option value="malawi">Malawi</option>
+            <option value="mali">Mali</option>
+            <option value="maroc">Maroc</option>
+            <option value="maurice">Maurice</option>
+            <option value="mauritanie">Mauritanie</option>
+            <option value="mozambique">Mozambique</option>
+            <option value="namibie">Namibie</option>
+            <option value="niger">Niger</option>
+            <option value="nigeria">Nigeria</option>
+            <option value="ouganda">Ouganda</option>
+            <option value="rwanda">Rwanda</option>
+            <option value="saintetome">Sao Tomé-et-Principe</option>
+            <option value="senegal">Sénégal</option>
+            <option value="seychelles">Seychelles</option>
+            <option value="sierra">Sierra Leone</option>
+            <option value="somalie">Somalie</option>
+            <option value="soudan">Soudan</option>
+            <option value="soudansud">Soudan du Sud</option>
+            <option value="swaziland">Swaziland</option>
+            <option value="tanzanie">Tanzanie</option>
+            <option value="tchad">Tchad</option>
+            <option value="togo">Togo</option>
+            <option value="tunisie">Tunisie</option>
+            <option value="zambie">Zambie</option>
+            <option value="zimbabwe">Zimbabwe</option>
+        </optgroup>
+        <optgroup label="Amérique du Nord">
+            <option value="canada">Canada</option>
+            <option value="etatsunis">États-Unis</option>
+            <option value="mexique">Mexique</option>
+        </optgroup>
+        <optgroup label="Amérique du Sud">
+            <option value="argentine">Argentine</option>
+            <option value="bresil">Brésil</option>
+            <option value="chili">Chili</option>
+            <option value="colombie">Colombie</option>
+            <option value="equateur">Équateur</option>
+            <option value="guyane">Guyane</option>
+            <option value="paraguay">Paraguay</option>
+            <option value="perou">Pérou</option>
+            <option value="suriname">Suriname</option>
+            <option value="uruguay">Uruguay</option>
+            <option value="venezuela">Venezuela</option>
+        </optgroup>
+        <optgroup label="Asie">
+            <option value="afghanistan">Afghanistan</option>
+            <option value="arabiesaoudite">Arabie saoudite</option>
+            <option value="armenie">Arménie</option>
+            <option value="azerbaidjan">Azerbaïdjan</option>
+            <option value="bahrein">Bahreïn</option>
+            <option value="bangladesh">Bangladesh</option>
+            <option value="bhoutan">Bhoutan</option>
+            <option value="birmanie">Birmanie</option>
+            <option value="brunei">Brunéi</option>
+            <option value="cambodge">Cambodge</option>
+            <option value="chine">Chine</option>
+            <option value="coreedunord">Corée du Nord</option>
+            <option value="coreedusud">Corée du Sud</option>
+            <option value="emiratsarabesunis">Émirats arabes unis</option>
+            <option value="georgie">Géorgie</option>
+            <option value="inde">Inde</option>
+            <option value="indonesie">Indonésie</option>
+            <option value="irak">Irak</option>
+            <option value="iran">Iran</option>
+            <option value="israel">Israël</option>
+            <option value="japon">Japon</option>
+            <option value="jordanie">Jordanie</option>
+            <option value="kazakhstan">Kazakhstan</option>
+            <option value="kirghizistan">Kirghizistan</option>
+            <option value="koweit">Koweït</option>
+            <option value="laos">Laos</option>
+            <option value="liban">Liban</option>
+            <option value="malaisie">Malaisie</option>
+            <option value="maldives">Maldives</option>
+            <option value="mongolie">Mongolie</option>
+            <option value="nepal">Népal</option>
+            <option value="oman">Oman</option>
+            <option value="ouzbekistan">Ouzbékistan</option>
+            <option value="pakistan">Pakistan</option>
+            <option value="philippines">Philippines</option>
+            <option value="qatar">Qatar</option>
+            <option value="singapour">Singapour</option>
+            <option value="sri lanka">Sri Lanka</option>
+            <option value="syrie">Syrie</option>
+            <option value="tadjikistan">Tadjikistan</option>
+            <option value="taiwan">Taïwan</option>
+            <option value="thailande">Thaïlande</option>
+            <option value="timor oriental">Timor oriental</option>
+            <option value="turkmenistan">Turkménistan</option>
+            <option value="turquie">Turquie</option>
+            <option value="vietnam">Viêt Nam</option>
+            <option value="yemen">Yémen</option>
+        </optgroup>
+        <optgroup label="Océanie">
+            <option value="australie">Australie</option>
+            <option value="fidji">Fidji</option>
+            <option value="kiribati">Kiribati</option>
+            <option value="marshall">Îles Marshall</option>
+            <option value="micronesie">Micronésie</option>
+            <option value="nauru">Nauru</option>
+            <option value="nouvellezelande">Nouvelle-Zélande</option>
+            <option value="palaos">Palaos</option>
+            <option value="papouasienouvelleguinee">Papouasie-Nouvelle-Guinée</option>
+            <option value="salomon">Salomon</option>
+            <option value="samoa">Samoa</option>
+            <option value="tonga">Tonga</option>
+            <option value="tuvalu">Tuvalu</option>
+            <option value="vanuatu">Vanuatu</option>
+        </optgroup>
+
+    </select>
+    <br>
+
+    <label for="email_module">J'accepte de recevoir par e-mail des informations sur les autres Mooc & modules Afpa :<span class="required_field">*</span></label>
+    <select id="email_module" name="email_module">
+        <option value="true">Oui</option>
+        <option value="false">Non</option>
+    </select>
+  
+    <label for="email_event">J'accepte de recevoir par e-mail d'autres informations concernant des évènements organisés par l'Afpa (journées portes ouvertes,...) : <span class="required_field">*</span></label>
+    <select id="email_event" name="email_event">
+        <option value="true">Oui</option>
+        <option value="false">Non</option>
+    </select>
+  
+    <p><span class="required_field">*</span> champs obligatoires</p>
+    <button type="submit">Envoyer</button>
+</form>
+
+%else :
+
+
 <main role="main" class="course-outline" id="main" tabindex="-1">
     <%include file="/dates_banner.html" />
     % if course_sections is not None:
@@ -175,6 +469,8 @@ dates_banner_displayed = False
     % endif
 </main>
 
+% endif
+
 <%static:require_module_async module_name="js/dateutil_factory" class_name="DateUtilFactory">
     DateUtilFactory.transform('.localized-datetime');
 </%static:require_module_async>
@@ -182,3 +478,48 @@ dates_banner_displayed = False
 <%static:webpack entry="CourseOutline">
     new CourseOutline();
 </%static:webpack>
+
+
+<script>
+const form = document.getElementById("customFieldsForm");
+
+form.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const firstName = document.getElementById("firstName").value;
+    const lastName = document.getElementById("lastName").value;
+    const country = document.getElementById("country").value;
+    const gender = document.getElementById("gender").value;
+    const year_of_birth = document.getElementById("year_of_birth").value;
+    const email_module = document.getElementById("email_module").value;
+    const email_event = document.getElementById("email_event").value;
+    const customFields = {
+        first_name: firstName,
+        last_name: lastName,
+        country: country,
+        gender: gender,
+        year_of_birth: year_of_birth,
+        email_event: email_event,
+        email_module: email_module,
+        authorized: true,
+    };
+    const url = '/wul_apps/custom_field_editor/';
+    const data = JSON.stringify(customFields);
+    const settings = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": $.cookie('csrftoken'),
+        },
+        body: data
+    };
+
+    
+    fetch(url, settings)
+    .then(() => window.location.reload())
+    .catch((error) => console.error('Error:', error));
+
+
+});
+
+</script>
