@@ -55,3 +55,7 @@ should_show_order_history = should_redirect_to_order_history_microfrontend() and
         <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="${reverse('logout')}" role="menuitem">${_("Sign Out")}</a></div>
     </div>
 </div>
+
+<script type="text/javascript">
+  var $$connected_user = "${self.real_user.email}"
+</script>

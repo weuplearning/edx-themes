@@ -14,8 +14,11 @@ from lms.djangoapps.edxnotes.helpers import is_feature_enabled as is_edxnotes_en
 from openedx.core.djangolib.js_utils import js_escaped_string
 from openedx.core.djangolib.markup import HTML
 from openedx.features.course_experience import course_home_page_title, DISABLE_COURSE_OUTLINE_PAGE_FLAG
+from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 import json
 import time
+
+allowed_users = configuration_helpers.get_value('WUL_DASHBOARD_ACCESS')
 %>
 <%
   include_special_exams = (
@@ -48,8 +51,8 @@ else :
 <script type="text/javascript">
   var $$course_id = "${course.id | n, js_escaped_string}";
   var courseId = "${course.id}";
+  var list_admin_str = "${allowed_users}"
 </script>
-
 
 <style>
   .window-wrap {
@@ -391,18 +394,25 @@ ${HTML(fragment.foot_html())}
   let link_progression = '/courses/'+$$course_id+"/courseware/d4a9392d58cb49fba5afe41b33aa8f9e/310e3b2e46784b028a88a55034f35ce7/?child=first"
   document.getElementById('link_progression').setAttribute('href', link_progression)
 
+
   const userName = "${user_name}"
-  const closingTime = "${closing_time}"
+  let closingTime = "${closing_time}"
   let currentTime 
+
   var checkTime = setInterval(() => {
 
     currentTime = Date.now();
+
+    if (list_admin_str.indexOf($$connected_user) != -1) {
+      closingTime = currentTime
+      clearInterval(checkTime)
+    }
+
     if (closingTime === "quizz_completed") {
       clearInterval(checkTime)
       alert("\nVotre session d'examen est terminée.\n\nToutes vos réponses ont bien été enregistrées.\nNous reviendront prochainement vers vous pour vous communiquer vos résultats.\n\nCordialement, \nl'Équipe BVT\n\n")
       window.location.replace("/courses/"+$$course_id+"/course/");
-    } 
-    else if (closingTime < currentTime) {
+    } else if (closingTime < currentTime) {
       clearInterval(checkTime)
       alert("\nVotre session d'examen est expirée. Vous avez dépassé la limite de temps allouée.\n\nToutes vos réponses ont cependant bien été enregistrées.\nNous reviendront prochainement vers vous pour vous communiquer vos résultats.\n\nCordialement, \nl'Équipe BVT\n\n")
       window.location.replace("/courses/"+$$course_id+"/course/");
