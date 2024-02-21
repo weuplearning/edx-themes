@@ -94,7 +94,7 @@ justify-content: space-between;
 
     <% if (!context.syncLearnerProfileData) { %>
         <div class="toggle-form">
-            <p class="text">¿Ya tiene cuenta de usuario?</p>
+            <p class="text">¿Tienes ya una cuenta de usuario?</p>
             <a class="contact_us" href="/login" data-type="login">ENTRAR</a>
         </div>
     <% } %>
