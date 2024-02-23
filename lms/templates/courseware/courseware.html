@@ -5,6 +5,7 @@
 <%!
 import six
 import waffle
+import json
 
 from django.conf import settings
 from django.urls import reverse
@@ -14,14 +15,35 @@ from lms.djangoapps.edxnotes.helpers import is_feature_enabled as is_edxnotes_en
 from openedx.core.djangolib.js_utils import js_escaped_string
 from openedx.core.djangolib.markup import HTML
 from openedx.features.course_experience import course_home_page_title, DISABLE_COURSE_OUTLINE_PAGE_FLAG
+
 %>
 <%
-   include_special_exams = (
-   request.user.is_authenticated and
-   settings.FEATURES.get('ENABLE_SPECIAL_EXAMS', False) and
-   (course.enable_proctored_exams or course.enable_timed_exams)
-   )
+  include_special_exams = (
+    request.user.is_authenticated and
+    settings.FEATURES.get('ENABLE_SPECIAL_EXAMS', False) and
+    (course.enable_proctored_exams or course.enable_timed_exams)
+  )
+
+  custom_fields_dict = json.loads(request.user.profile.custom_field)
+  user_firstname = custom_fields_dict.get('first_name', '')
+  user_lastname = custom_fields_dict.get('last_name', '')
+  user_country = custom_fields_dict.get('country', '')
+  user_gender = custom_fields_dict.get('gender', '')
+  user_year_of_birth = custom_fields_dict.get('year_of_birth', '')
+
+  check_CF_filled = True
+  if user_firstname is "" or user_lastname is "" or user_country is "" or user_gender is "" or user_year_of_birth is "":
+    check_CF_filled = False
 %>
+
+
+<script>
+setTimeout(() => {
+  if ('${check_CF_filled}' == 'False') {
+    location.replace(location.pathname.split('courseware')[0]+ 'course/')
+  }
+}, 500);
+</script>
 
 <style>
   .window-wrap {
