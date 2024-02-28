@@ -159,6 +159,7 @@ setInterval(function(){
 
   <script type="text/javascript">
     var $$course_id = "${course.id | n, js_escaped_string}";
+    var $$userName = "${user.username}"
   </script>
 
   % if not request.user.is_authenticated:
