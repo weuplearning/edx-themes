@@ -24,6 +24,11 @@ from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_f
         <%include file='/dashboard/_dashboard_third_party_error.html' />
     </section>
 % endif
+<style>
+.tab-nav-link {
+    display: none !important;
+}
+</style>
 
 <div class="wrapper-account-settings"></div>
 <%block name="headextra">

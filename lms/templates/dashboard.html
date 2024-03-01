@@ -616,6 +616,7 @@ document.addEventListener("DOMContentLoaded", function () {
 /* Global */
 main {
   background-color: #F4F5F5;
+  min-height: calc( 100vh - 405px );
 }
 .content-wrapper {
   max-width: none;
@@ -712,6 +713,7 @@ main {
   justify-content: space-between;
   align-items: baseline;
   width: 100%;
+  display: none;
 }
 .wrapper-course-details {
   height: 130px;
@@ -729,7 +731,7 @@ main {
   color: #6F7373;
 }
 #not-last-courses .wrapper-course-details, #finished-courses .wrapper-course-details {
-  height: 59px;
+  height: 80px;
   margin-bottom: 70px !important;
   padding: 25px 30px !important; 
 }
@@ -821,6 +823,7 @@ main {
 .info-date-block-container , .info-date-block-container {
   font-size: 0.9vw;
   color: #48515a;
+  display: none;
 }
 
 
