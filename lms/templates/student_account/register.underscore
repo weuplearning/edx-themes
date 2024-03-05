@@ -111,7 +111,8 @@ justify-content: space-between;
     </div>
     <p style="text-align:justify"><br/>
     I dati personali forniti tramite questo modulo saranno trattati da Amazon Europe Core SARL e dalle sue società affiliate per le finalità descritte nella nostra 
-    <a href="/privacy" target="_blank">Informativa sulla privacy</a>, che consente anche di esercitare i propri diritti.
+    <a href="/politique-de-confidentialite/" target="_blank">Informativa sulla privacy</a>
+    , che ti consente anche di esercitare i tuoi diritti.
     </br></p>
 
     <div style="display: flex;justify-content: space-evenly;">
@@ -123,21 +124,6 @@ justify-content: space-between;
     </div>
 </form>
 
-
-<script>
-setInterval(function(){
-  $("label[for=register-honor_code] span.label-text").html("J'accepte d'être contacté par Amazon dans le cadre de l'Accélérateur du Numérique");
-  $("label[for=register-company] span.label-text").html("Entreprise/SIRET");
-  $("label[for=register-specialty] span.label-text").html("Région");
-//  $(".form-field.checkbox-optional_fields_toggle").hide();
-//  $("#toggle_optional_fields").prop( "checked", true );
-  $("div.optional-fields").first().removeClass( "hidden" );
-  $('.focus-out').css('position', 'relative');
-  $('.focus-out').css('padding-top', 0);
-  $('.focus-out').css('padding-left', 0);
-  $('.focus-out').css('opacity', 1);
-},50);
-</script>
 
 <script id="gtm-jq-ajax-listen" type="text/javascript">
  (function() {

@@ -58,6 +58,7 @@ input[type="submit"], input[type="button"], button, .button {
 }
 .meeting-image{
     width: 90%;
+    margin-top: 40px;
 }
 .login-and-registration-side-article_liste_element {
     position: relative;
@@ -136,7 +137,7 @@ input[type="submit"], input[type="button"], button, .button {
 
             % elif "/register" in request.path:
             <div class="login-and-registration-side-article">
-                <h2 class="login-and-registration-side-article_title">Unirsi a una comunità di imprenditori</h2>
+                <h2 class="login-and-registration-side-article_title">Iscriviti al programma di formazione gratuito Accelera con Amazon</h2>
                 <ul class="login-and-registration-side-article_list">
                     <li class="login-and-registration-side-article_liste_element">
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" >
@@ -145,8 +146,7 @@ input[type="submit"], input[type="button"], button, .button {
                         <svg width="11" height="8" viewBox="0 0 11 8" fill="none" xmlns="http://www.w3.org/2000/svg" id="list-check">
                             <path d="M1 3.5L4 6.5L9.5 1" stroke="#1E2631" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-
-                        100% gratuito
+                        Esperienza di apprendimento al tuo ritmo e contenuti sempre disponibili, senza date e orari prestabiliti. 
                     </li>
                     <li class="login-and-registration-side-article_liste_element">
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" >
@@ -155,17 +155,8 @@ input[type="submit"], input[type="button"], button, .button {
                         <svg width="11" height="8" viewBox="0 0 11 8" fill="none" xmlns="http://www.w3.org/2000/svg" id="list-check">
                             <path d="M1 3.5L4 6.5L9.5 1" stroke="#1E2631" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                        Accesso gratuito 7 giorni su 7
+                        Visione a 360 gradi sul marketing digitale e commercio elettronico
                     </li>
-                    <!-- <li class="login-and-registration-side-article_liste_element">
-                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" >
-                            <circle cx="9" cy="9" r="9" fill="#368093"/>
-                        </svg> 
-                        <svg width="11" height="8" viewBox="0 0 11 8" fill="none" xmlns="http://www.w3.org/2000/svg" id="list-check">
-                            <path d="M1 3.5L4 6.5L9.5 1" stroke="#1E2631" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        Inscription aux webinaires et événements en quelques clics
-                    </li> -->
                     <li class="login-and-registration-side-article_liste_element">
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" >
                             <circle cx="9" cy="9" r="9" fill="#368093"/>
@@ -173,7 +164,16 @@ input[type="submit"], input[type="button"], button, .button {
                         <svg width="11" height="8" viewBox="0 0 11 8" fill="none" xmlns="http://www.w3.org/2000/svg" id="list-check">
                             <path d="M1 3.5L4 6.5L9.5 1" stroke="#1E2631" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                        Scoprite per primi i nostri nuovi corsi di formazione
+                        Certificato finale di superamento del corso
+                    </li>
+                    <li class="login-and-registration-side-article_liste_element">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" >
+                            <circle cx="9" cy="9" r="9" fill="#368093"/>
+                        </svg> 
+                        <svg width="11" height="8" viewBox="0 0 11 8" fill="none" xmlns="http://www.w3.org/2000/svg" id="list-check">
+                            <path d="M1 3.5L4 6.5L9.5 1" stroke="#1E2631" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        20 corsi online sempre disponibili gratuitamente
                     </li>
                 </ul>
                 <div>
@@ -191,8 +191,7 @@ input[type="submit"], input[type="button"], button, .button {
 <%include file="../footer.html" />
 
 
-
-
+<!-- 
 <script>
     window.addEventListener("load", function () {
         const productField = document.getElementsByClassName("form-field select-online_sales_products")[0]
@@ -206,4 +205,17 @@ input[type="submit"], input[type="button"], button, .button {
         }
         });
     });
+</script> 
+-->
+
+<script>
+
+window.addEventListener("load", function(){
+    $("label[for=register-terms_of_service] span.label-text").html('Accetto i <a href="/politique-de-confidentialite/" rel="noopener" target="_blank">termini del servizio</a> di Accelera con Amazon');
+});
+
+// setInterval(function(){
+
+
+// },50);
 </script>

@@ -591,7 +591,7 @@ document.addEventListener("DOMContentLoaded", function () {
       var ongoingCourses = document.getElementById('not-last-courses')
       
       if (ongoingCourses.children.length == 0) {
-        ongoingCourses.innerText = 'Questo elenco è attualmente vuoto ?' 
+        ongoingCourses.innerHTML = '<a href="/dashboard/elearning"> Inizia ad imparare</a>' 
       }
     } catch (error) {
       console.log(error);
@@ -707,10 +707,10 @@ main {
   color: #F99746
 }
 .course-item .details .course-info {
-  display: flex;
-  justify-content: space-between;
+  display: none;
+  /* justify-content: space-between;
   align-items: baseline;
-  width: 100%;
+  width: 100%; */
 }
 .wrapper-course-details {
   height: 130px;
@@ -728,7 +728,7 @@ main {
   color: #6F7373;
 }
 #not-last-courses .wrapper-course-details, #finished-courses .wrapper-course-details {
-  height: 59px;
+  height: 90px;
   margin-bottom: 70px !important;
   padding: 25px 30px !important; 
 }
@@ -816,6 +816,7 @@ main {
 #not-last-courses h3.course-title , #finished-courses h3.course-title {
   font-size: 18px !important;
   line-height: 20px !important;
+  height: 105px;
 }
 .info-date-block-container , .info-date-block-container {
   font-size: 0.9vw;

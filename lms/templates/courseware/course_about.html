@@ -34,7 +34,7 @@ from six import string_types
     background-image: unset !important;
     box-shadow: unset !important;
     text-shadow: none !important;
-    width: 100%;
+    width: 60%;
     box-sizing: border-box;
     border-radius: 3px;
     font: normal 1.2rem/1.6rem "Roboto";
@@ -44,6 +44,7 @@ from six import string_types
   }
   #section-header-intro {
     width: 42% !important;
+    padding-left: 10vw;
   }
   #section-header-intro > .heading-group {
     border-bottom: none !important;
@@ -52,22 +53,29 @@ from six import string_types
   #image {
     width: 100%;
   }
-
   .course-info header.course-profile .intro-inner-wrapper, .course-info header.course-profile {
     max-width: none !important;
     border: unset !important;
   }
+  .course-info header.course-profile {
+    margin-bottom: 100px;
+    margin-top: 100px;
+  }
 
-  .container2 {
-    display: flex;
-    flex-direction: row;
+  .container {
+    margin-bottom: 200px;
   }
 
   .media {
     width: 100%;
-    padding: 20px;
+    padding: 20px 6vw 20px 0 !important;
   }
-
+  .course-info .details p {
+    font-size: large;
+  }
+  .course-info .details h2 {
+    font-size: x-large;
+  }
   .hero {
     height: 100%;
     border: 1px solid #646464;
@@ -131,11 +139,6 @@ from six import string_types
     font-weight: 700;
   }
 
-  .main-cta {
-  }
-
-  .about-register-button {
-  }
 
 </style>
 
@@ -149,7 +152,6 @@ from six import string_types
         <div class="heading-group">
           <h1>
             ${course.display_name_with_default}
-            test
           </h1>
           <br />
         </div>
@@ -338,106 +340,6 @@ from six import string_types
   </div>
 %endif
 
-<div class="container2">
-
-  <div class="media">
-    <div class="hero">
-      <img id="image" src="${course_image_urls['large']}" alt="" />
-    </div>
-  </div>
-
-  <div class="description">
-
-    <%block name="course_about_details">
-    <div class="details">
-      % if staff_access and studio_url is not None:
-        <div class="wrap-instructor-info studio-view">
-          <a class="instructor-info-action" href="${studio_url}">${_("View About Page in studio")}</a>
-        </div>
-      % endif
-
-      <div class="inner-wrapper">
-        ${clean_dangerous_html(get_course_about_section(request, course, "overview"))}
-      </div>
-    </div>
-    </%block>
-
-    <div class="course-sidebar">
-      <div class="course-summary">
-
-        <!-- <%include file="course_about_sidebar_header.html" /> -->
-
-        <%block name="course_about_important_dates">
-        <ol class="important-dates">
-
-          % if get_course_about_section(request, course, "effort"):
-            <p class="important-dates-item-title">Durata</p><span class="important-dates-item-text effort">${get_course_about_section(request, course, "effort")}</span></li>
-          % endif
-
-          ##<li class="important-dates-item"><span class="icon fa fa-clock-o" aria-hidden="true"></span><p class="important-dates-item-title">${_('Course Length')}</p><span class="important-dates-item-text course-length">${_('{number} weeks').format(number=15)}</span></li>
-        </ol>
-        </%block>
-    </div>
-
-    % if sidebar_html_enabled:
-      % if get_course_about_section(request, course, "about_sidebar_html"):
-        <section class="about-sidebar-html">
-          ${get_course_about_section(request, course, "about_sidebar_html")}
-        </section>
-      % endif
-    %endif
-  </div>
-
-  <div class="main-cta">
-    %if user.is_authenticated and registered:
-      %if show_courseware_link:
-        <a href="${course_target}">
-      %endif
-
-      <span class="register disabled">${_("You are enrolled in this course")}</span>
-
-      %if show_courseware_link:
-        <strong id="already-register-button">${_("View Course")}</strong>
-        </a>
-      %endif
-
-    % elif is_course_full:
-      <span class="register disabled">
-        ${_("Course is full")}
-      </span>
-    % elif invitation_only and not can_enroll:
-      <span class="register disabled">${_("Enrollment in this course is by invitation only")}</span>
-    ## Shib courses need the enrollment button to be displayed even when can_enroll is False,
-    ## because AnonymousUsers cause can_enroll for shib courses to be False, but we need them to be able to click
-    ## so that they can register and become a real user that can enroll.
-    % elif not is_shib_course and not can_enroll:
-      <span class="register disabled">${_("Enrollment is Closed")}</span>
-    %elif allow_anonymous:
-      %if show_courseware_link:
-        <a href="${course_target}">
-        <strong>${_("View Course")}</strong>
-        </a>
-      %endif
-    %else:
-      <%
-        if ecommerce_checkout:
-          reg_href = ecommerce_checkout_link
-        else:
-          reg_href="#"
-        if single_paid_mode:
-          href_class = "add-to-cart"
-        else:
-          href_class = "register"
-      %>
-      <a href="/register?course_id=${course.id}&enrollment_action=enroll" class="${href_class}" id="about-register-button">
-      <!-- <a href="${reg_href}" class="${href_class}"> -->
-        <!-- ${_("Enroll Now")} -->
-        Registrati ora
-      </a>
-      <div id="register_error"></div>
-    %endif
-    </div>
-</div>
 
 </div>
 
@@ -448,10 +350,5 @@ from six import string_types
 </%static:require_module_async>
 
 
-<script>
-  const courseID = "${course.id}"
-  const courseUrl = "/courses/" + courseID + "/course/"
-  //window.location.replace(courseUrl)
-</script>
 
 
