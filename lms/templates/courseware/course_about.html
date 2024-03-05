@@ -27,12 +27,20 @@ from six import string_types
 
 <style>
   #about-register-button, #already-register-button {
+    display: block !important;
     background-color: #ff9900;
     color: #232f3e;
     border: none;
     background-image: unset !important;
     box-shadow: unset !important;
     text-shadow: none !important;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 3px;
+    font: normal 1.2rem/1.6rem "Roboto";
+    letter-spacing: 1px;
+    padding: 10px 0;
+    text-align: center;
   }
   #section-header-intro {
     width: 42% !important;
@@ -40,10 +48,95 @@ from six import string_types
   #section-header-intro > .heading-group {
     border-bottom: none !important;
   }
+
+  #image {
+    width: 100%;
+  }
+
   .course-info header.course-profile .intro-inner-wrapper, .course-info header.course-profile {
     max-width: none !important;
     border: unset !important;
   }
+
+  .container2 {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .media {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .hero {
+    height: 100%;
+    border: 1px solid #646464;
+  }
+
+  .register .disabled {
+    background: #eee;
+    border: 1px solid #6f6f6f;
+    box-sizing: border-box;
+    color: #6f6f6f;
+    display: block;
+    letter-spacing: 1px;
+    padding: 10px 0 8px;
+    text-align: center;
+    float: left;
+    margin: 1px 3.57866% 0 0;
+    transition: none;
+    width: 61.158%;
+}
+
+  h2 {
+    margin-bottom: 15px;
+    margin-top: 30px;
+  }
+
+  .inner-wrapper {
+    font: normal 1em/1.6em Georgia,Cambria,"Times New Roman",Times,serif;
+  }
+
+  .description {
+    padding-left: 20px;
+    padding-right: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .important-dates {
+    list-style: none;
+    padding-right: 20px !important;
+  }
+
+  .important-dates-item-title {
+    float: left;
+    margin-right: 10px;
+  }
+
+  .course-summary {
+    float: right;
+    padding-top: 20px;
+  }
+
+  .course-info .course-sidebar .important-dates li .icon {
+    float: left;
+    padding: 1px;
+    margin: 4px 10px 0 0;
+    opacity: 0.6;
+  }
+
+  .important-dates-item-text .effort {
+    float: right;
+    font-weight: 700;
+  }
+
+  .main-cta {
+  }
+
+  .about-register-button {
+  }
+
 </style>
 
 <section class="course-info">
@@ -56,6 +149,7 @@ from six import string_types
         <div class="heading-group">
           <h1>
             ${course.display_name_with_default}
+            test
           </h1>
           <br />
         </div>
@@ -132,7 +226,7 @@ from six import string_types
 
   <div class="container">
 
-    <%block name="course_about_details">
+    <!-- course_about_details -->
     <div class="details">
       % if staff_access and studio_url is not None:
         <div class="wrap-instructor-info studio-view">
@@ -144,14 +238,14 @@ from six import string_types
         ${clean_dangerous_html(get_course_about_section(request, course, "overview"))}
       </div>
     </div>
-    </%block>
+    <!-- block -->
 
     <div class="course-sidebar">
       <div class="course-summary">
 
         <!-- <%include file="course_about_sidebar_header.html" /> -->
 
-        <%block name="course_about_important_dates">
+        <!-- course_about_important_dates -->
         <ol class="important-dates">
 
           % if get_course_about_section(request, course, "effort"):
@@ -189,7 +283,7 @@ from six import string_types
             <li class="important-dates-item"><span class="icon fa fa-book" aria-hidden="true"></span><p class="important-dates-item-title">${_("Requirements")}</p><span class="important-dates-item-text prerequisites">${get_course_about_section(request, course, "prerequisites")}</span></li>
           % endif
         </ol>
-        </%block>
+        <!-- block -->
     </div>
 
       <%block name="course_about_reviews_tool">
@@ -243,6 +337,109 @@ from six import string_types
     </form>
   </div>
 %endif
+
+<div class="container2">
+
+  <div class="media">
+    <div class="hero">
+      <img id="image" src="${course_image_urls['large']}" alt="" />
+    </div>
+  </div>
+
+  <div class="description">
+
+    <%block name="course_about_details">
+    <div class="details">
+      % if staff_access and studio_url is not None:
+        <div class="wrap-instructor-info studio-view">
+          <a class="instructor-info-action" href="${studio_url}">${_("View About Page in studio")}</a>
+        </div>
+      % endif
+
+      <div class="inner-wrapper">
+        ${clean_dangerous_html(get_course_about_section(request, course, "overview"))}
+      </div>
+    </div>
+    </%block>
+
+    <div class="course-sidebar">
+      <div class="course-summary">
+
+        <!-- <%include file="course_about_sidebar_header.html" /> -->
+
+        <%block name="course_about_important_dates">
+        <ol class="important-dates">
+
+          % if get_course_about_section(request, course, "effort"):
+            <p class="important-dates-item-title">Durata</p><span class="important-dates-item-text effort">${get_course_about_section(request, course, "effort")}</span></li>
+          % endif
+
+          ##<li class="important-dates-item"><span class="icon fa fa-clock-o" aria-hidden="true"></span><p class="important-dates-item-title">${_('Course Length')}</p><span class="important-dates-item-text course-length">${_('{number} weeks').format(number=15)}</span></li>
+        </ol>
+        </%block>
+    </div>
+
+    % if sidebar_html_enabled:
+      % if get_course_about_section(request, course, "about_sidebar_html"):
+        <section class="about-sidebar-html">
+          ${get_course_about_section(request, course, "about_sidebar_html")}
+        </section>
+      % endif
+    %endif
+  </div>
+
+  <div class="main-cta">
+    %if user.is_authenticated and registered:
+      %if show_courseware_link:
+        <a href="${course_target}">
+      %endif
+
+      <span class="register disabled">${_("You are enrolled in this course")}</span>
+
+      %if show_courseware_link:
+        <strong id="already-register-button">${_("View Course")}</strong>
+        </a>
+      %endif
+
+    % elif is_course_full:
+      <span class="register disabled">
+        ${_("Course is full")}
+      </span>
+    % elif invitation_only and not can_enroll:
+      <span class="register disabled">${_("Enrollment in this course is by invitation only")}</span>
+    ## Shib courses need the enrollment button to be displayed even when can_enroll is False,
+    ## because AnonymousUsers cause can_enroll for shib courses to be False, but we need them to be able to click
+    ## so that they can register and become a real user that can enroll.
+    % elif not is_shib_course and not can_enroll:
+      <span class="register disabled">${_("Enrollment is Closed")}</span>
+    %elif allow_anonymous:
+      %if show_courseware_link:
+        <a href="${course_target}">
+        <strong>${_("View Course")}</strong>
+        </a>
+      %endif
+    %else:
+      <%
+        if ecommerce_checkout:
+          reg_href = ecommerce_checkout_link
+        else:
+          reg_href="#"
+        if single_paid_mode:
+          href_class = "add-to-cart"
+        else:
+          href_class = "register"
+      %>
+      <a href="/register?course_id=${course.id}&enrollment_action=enroll" class="${href_class}" id="about-register-button">
+      <!-- <a href="${reg_href}" class="${href_class}"> -->
+        <!-- ${_("Enroll Now")} -->
+        Registrati ora
+      </a>
+      <div id="register_error"></div>
+    %endif
+    </div>
+</div>
+
+</div>
 
 <%include file="../video_modal.html" />
 
