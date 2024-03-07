@@ -33,9 +33,19 @@ from six import string_types
     background-image: unset !important;
     box-shadow: unset !important;
     text-shadow: none !important;
+    box-sizing: border-box;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    padding: 10px 0;
+    text-align: center;
+    display: block;
+
   }
   #section-header-intro {
-    width: 42% !important;
+    width: 46vw !important;
+    padding: 0vw 3vw;
+    align-self: baseline;
+    margin-top: 10px;
   }
   #section-header-intro > .heading-group {
     border-bottom: none !important;
@@ -44,23 +54,100 @@ from six import string_types
     max-width: none !important;
     border: unset !important;
   }
+  .course-info {
+    min-height: calc( 100vh - 391px ) !important;
+  }
+
+  .media {
+    width: 40vw !important;
+    padding: 20px 0 !important;
+    flex: 1;
+  }
+  .media > img {
+    width: 100%;
+  }
+  .details {
+    width: 100% !important;
+    float: unset !important;
+    margin: unset !important;
+    text-align: justify;
+  }
+  .important-dates-item {
+    margin: 24px 33px;
+    align-self: end;
+  }
+  .important-dates-item-title {
+    float: left;
+    margin-right: 25px;
+    color: #646464;
+  }
+
+  .main-cta {
+    width: 93%;
+  }
+
+  .register .disabled {
+    background: #eee;
+    border: 1px solid #6f6f6f;
+    box-sizing: border-box;
+    color: #6f6f6f;
+    display: block;
+    letter-spacing: 1px;
+    padding: 10px 0 8px;
+    text-align: center;
+    float: left;
+    margin: 1px 3.57866% 0 0;
+    transition: none;
+    width: 61.158%;
+  }
+  .container {
+    padding-bottom: unset !important;
+  }
+  .vertical-align, .horizontal-align {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .vertical-align {
+    flex-direction: column !important;
+  }
 </style>
 
 <section class="course-info">
-
   <%block name="course_about_header">
   <header class="course-profile">
-    <div class="intro-inner-wrapper">
-      <div class="table">
-      <section class="intro" id="section-header-intro">
-        <div class="heading-group">
-          <h1>
-            ${course.display_name_with_default}
-          </h1>
-          <br />
+    <div class="intro-inner-wrapper horizontal-align">
+
+      <div class="media">
+        <img src="${course_image_urls['large']}" alt="" />
+      </div>
+
+      <div class="vertical-align" id="section-header-intro">
+        <div class="details">
+          % if staff_access and studio_url is not None:
+            <div class="wrap-instructor-info studio-view">
+              <a class="instructor-info-action" href="${studio_url}">${_("View About Page in studio")}</a>
+            </div>
+          % endif
+
+          <div class="inner-wrapper">
+            ${clean_dangerous_html(get_course_about_section(request, course, "overview"))}
+          </div>
         </div>
 
+
+        % if get_course_about_section(request, course, "effort"):
+        <div class="important-dates-item">
+          <p class="important-dates-item-title">Duración</p>
+          <span class="important-dates-item-text effort">${get_course_about_section(request, course, "effort")}</span>
+        </div>
+        % endif
+
+
+
+
         <div class="main-cta">
+
         %if user.is_authenticated and registered:
           %if show_courseware_link:
             <a href="${course_target}">
@@ -77,19 +164,20 @@ from six import string_types
           <span class="register disabled">
             ${_("Course is full")}
           </span>
+
         % elif invitation_only and not can_enroll:
           <span class="register disabled">${_("Enrollment in this course is by invitation only")}</span>
-        ## Shib courses need the enrollment button to be displayed even when can_enroll is False,
-        ## because AnonymousUsers cause can_enroll for shib courses to be False, but we need them to be able to click
-        ## so that they can register and become a real user that can enroll.
+
         % elif not is_shib_course and not can_enroll:
           <span class="register disabled">${_("Enrollment is Closed")}</span>
+
         %elif allow_anonymous:
           %if show_courseware_link:
             <a href="${course_target}">
             <strong>${_("View Course")}</strong>
             </a>
           %endif
+
         %else:
           <%
             if ecommerce_checkout:
@@ -102,93 +190,24 @@ from six import string_types
               href_class = "register"
           %>
           <a href="/register?course_id=${course.id}&enrollment_action=enroll" class="${href_class}" id="about-register-button">
-            Regístrese ahora
+            Regístrate ahora
           </a>
           <div id="register_error"></div>
+
         %endif
         </div>
 
-      </section>
-      % if get_course_about_section(request, course, "video"):
-      <a href="#video-modal" class="media" rel="leanModal">
-        <div class="hero">
-          <img src="${course_image_urls['large']}" alt="" />
-          <div class="play-intro"></div>
-        </div>
-      </a>
-      %else:
-      <div class="media">
-        <div class="hero">
-          <img src="${course_image_urls['large']}" alt="" />
-        </div>
       </div>
-      % endif
     </div>
-      </div>
   </header>
   </%block>
 
+
   <div class="container">
 
-    <%block name="course_about_details">
-    <div class="details">
-      % if staff_access and studio_url is not None:
-        <div class="wrap-instructor-info studio-view">
-          <a class="instructor-info-action" href="${studio_url}">${_("View About Page in studio")}</a>
-        </div>
-      % endif
 
-      <div class="inner-wrapper">
-        ${clean_dangerous_html(get_course_about_section(request, course, "overview"))}
-      </div>
-    </div>
-    </%block>
 
     <div class="course-sidebar">
-      <div class="course-summary">
-
-        <!-- <%include file="course_about_sidebar_header.html" /> -->
-
-        <%block name="course_about_important_dates">
-        <ol class="important-dates">
-
-          % if get_course_about_section(request, course, "effort"):
-            <li class="important-dates-item"><span class="icon fa fa-pencil" aria-hidden="true"></span><p class="important-dates-item-title">Duración</p><span class="important-dates-item-text effort">${get_course_about_section(request, course, "effort")}</span></li>
-          % endif
-
-          ##<li class="important-dates-item"><span class="icon fa fa-clock-o" aria-hidden="true"></span><p class="important-dates-item-title">${_('Course Length')}</p><span class="important-dates-item-text course-length">${_('{number} weeks').format(number=15)}</span></li>
-
-          %if course_price and (is_cosmetic_price_enabled):
-            <li class="important-dates-item">
-              <span class="icon fa fa-money" aria-hidden="true"></span>
-              <p class="important-dates-item-title">${_("Price")}</p>
-              <span class="important-dates-item-text">${course_price}</span>
-            </li>
-          %endif
-
-          % if pre_requisite_courses:
-          <% prc_target = reverse('about_course', args=[text_type(pre_requisite_courses[0]['key'])]) %>
-          <li class="prerequisite-course important-dates-item">
-            <span class="icon fa fa-list-ul" aria-hidden="true"></span>
-            <p class="important-dates-item-title">${_("Prerequisites")}</p>
-            ## Multiple pre-requisite courses are not supported on frontend that's why we are pulling first element
-            <span class="important-dates-item-text pre-requisite"><a href="${prc_target}">${pre_requisite_courses[0]['display']}</a></span>
-            <p class="tip">
-            ${Text(_("You must successfully complete {link_start}{prc_display}{link_end} before you begin this course.")).format(
-              link_start=HTML('<a href="{}">').format(prc_target),
-              link_end=HTML('</a>'),
-              prc_display=pre_requisite_courses[0]['display'],
-            )}
-            </p>
-          </li>
-          % endif
-
-          % if get_course_about_section(request, course, "prerequisites"):
-            <li class="important-dates-item"><span class="icon fa fa-book" aria-hidden="true"></span><p class="important-dates-item-title">${_("Requirements")}</p><span class="important-dates-item-text prerequisites">${get_course_about_section(request, course, "prerequisites")}</span></li>
-          % endif
-        </ol>
-        </%block>
-    </div>
 
       <%block name="course_about_reviews_tool">
       ## Course reviews tool
@@ -221,8 +240,7 @@ from six import string_types
     %endif
   </div>
 
-  </div>
-</div>
+</section>
 
 ## Need to put this hidden form on the page so that the registration button works.
 ## Since it's no harm to display a hidden form, we display it with the most permissive conditional
@@ -248,11 +266,5 @@ from six import string_types
     DateUtilFactory.transform(iterationKey=".localized_datetime");
 </%static:require_module_async>
 
-
-<script>
-  const courseID = "${course.id}"
-  const courseUrl = "/courses/" + courseID + "/course/"
-  // window.location.replace(courseUrl)
-</script>
 
 

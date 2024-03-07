@@ -197,4 +197,16 @@ input[type="submit"], input[type="button"], button, .button {
         }
         });
     });
+
+
+
+    setInterval(() => {
+        var targettedText = document.getElementById('password-reset').getElementsByClassName('action-label')[0].innerText
+
+        if (targettedText) {
+
+            document.getElementById('password-reset').getElementsByClassName('action-label')[0].innerText = targettedText.replace("acontinuac","a continuac")
+        }
+    }, 500);
+
 </script>
