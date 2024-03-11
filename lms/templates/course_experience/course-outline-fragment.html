@@ -65,14 +65,18 @@ user_structure = custom_fields_dict.get('structure', '')
 user_preparedDiploma = custom_fields_dict.get('preparedDiploma', '')
 user_regions = custom_fields_dict.get('regions', '')
 user_agreeCgu = custom_fields_dict.get('agreeCgu', '')
+user_status = custom_fields_dict.get('status', '')
 
 display_form = False
-if not all([user_firstname, user_lastname, user_structure, user_preparedDiploma, user_regions, user_agreeCgu]):
+if not all([user_firstname, user_lastname, user_structure, user_preparedDiploma, user_regions, user_agreeCgu, user_status]):
     display_form = True
 %>
 
 
 <style>
+.content-wrapper {
+    min-height: calc(100vh - 284px);
+}
 #customFieldsForm {
     display: flex;
     flex-direction: column;
@@ -149,6 +153,7 @@ if not all([user_firstname, user_lastname, user_structure, user_preparedDiploma,
     <select id="status" name="status">
         <option value="learner">Apprenant</option>
         <option value="instructor">Formateur</option>
+        <option value="convert">Demandeur d'emploi ou salarié en reconversion</option>
         <option value="other">Autre</option>
     </select>
     <br>
