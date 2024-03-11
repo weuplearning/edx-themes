@@ -26,25 +26,6 @@ for course in courses:
         </div>
         <a id="enrollmentButton" href="https://register.gotowebinar.com/register/459485246650792793?source=Website" target="_blank">Inscrivez-vous</a>
     </div>
-
-
-    <!-- <h1 id="gamification-title" >
-        Annonce
-    </h1>
-    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi expedita vel quia blanditiis rem molesum? Obcaecati consectetur voluptatem facmollitiaere accusamus asperiores voluptas  nulla distinctio officia suscipit.</p> -->
-    <!-- <p>
-        wul_apps/gamification.html
-        <span id="icone-entreprise" class="hidden-icone" >Success</span>
-    </p>
-    <ul id="list-days">
-        <li class="activity" id="day-0">today</li>
-        <li class="activity" id="day-1">1 day ago</li>
-        <li class="activity" id="day-2">2 days ago</li>
-        <li class="activity" id="day-3">3 days ago</li>
-        <li class="activity" id="day-4">4 days ago</li>
-        <li class="activity" id="day-5">5 days ago</li>
-        <li class="activity" id="day-6">6 days ago</li>
-    </ul> -->
 </main>
 
 <style>
@@ -127,78 +108,18 @@ for course in courses:
 
 </style>
 
-<!-- <script>
-    // access CF
-    let customField = ${user.profile.custom_field | n, decode.utf8}
-    for (const key in customField) {
-        if (Object.hasOwnProperty.call(customField, key)) {
-            const value = customField[key];
-            // console.log('key - value');
-            // console.log(key);
-            // console.log(value);
-            if (key == 'enterprise' && value == 'weup') {
-                document.getElementById('icone-entreprise').style.display = 'block'
-            }
-        }
-    }
-
-    // generate a list of the last seven days
-    function lastSevenDays() {
-        var dates = [];
-        for (var i = 0; i < 7; i++) {
-            var date = new Date();
-            date.setDate(date.getDate() - i);
-
-            var day = ('0' + date.getDate()).slice(-2);
-            var month = ('0' + (date.getMonth() + 1)).slice(-2);
-
-            var formattedDate = day + '-' + month + '-' + date.getFullYear()
-            dates.push(formattedDate);
-        }
-        return dates;
-    }
-    const last_seven_days = lastSevenDays()
-
-    // Format daily_time_tracking Array to Object
-    daily_tt_raw = ${daily_time_tracking | n, decode.utf8}
-    daily_tt = transformToObj(daily_tt_raw)
-    function transformToObj(inputList) {
-        let outputObj = {};
-        for (let i = 0; i < inputList.length; i++) {
-            let innerObj = JSON.parse(inputList[i]);
-            for (let innerKey in innerObj) {
-                // erase key of the same day 
-                outputObj[innerKey] = innerObj[innerKey];
-            }
-            if (Object.keys(innerObj).length === 0) {
-                outputObj[inputList[i]] = 0;
-            }
-        }
-        return outputObj;
-    }
-
-    // Loop over last_seven_days to check time tracking 
-    for (let i = 0; i < last_seven_days.length; i++) {
-        // i = 0 is today
-        const day = last_seven_days[i];
-        if (day in daily_tt) {
-            let targeted_input = document.getElementById('day-'+i)
-            // apply modification
-            targeted_input.style.color = 'red';
-        }
-    }
-</script> -->
 
 <script>
 // URL of the JSON file
-const jsonUrl = "https://"+window.location.hostname +"/media/microsites/amazon/react_event/data.json";
+const jsonUrl = "https://www.accelerateur-du-numerique.fr/media/microsites/amazon/react_event/data.json";
 let jsonData;
 
 // Function to fetch JSON data
 async function fetchJSON(url) {
 
     try {
-        const response = await fetch(url);
+        const response = await fetch(url+"?"+Date.now());
+
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
