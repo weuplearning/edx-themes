@@ -205,6 +205,39 @@ html {
   width: 500px;
   clip: rect(1px, 500px, 500px, 0px);
 }
+
+#notif-closure
+{
+  background: var(--secundary) !important;
+  border-radius: 4.5px;
+  text-align: center;
+  font-size: 25px;
+  font-size: 2.3vh;
+  margin: 0.5em 2em;
+  width: 700px;
+  padding: 0em 1em;
+  line-height: normal;
+  margin-bottom: 1em;
+}
+
+
+#notif-closure p:first-child
+{
+  font-size: 3vh;
+  margin: 0;
+  margin-top: 24px;
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+
+#notif-closure p
+{
+  padding: 0;
+  margin: 3.5px 0;
+  color: white;
+}
+
+
 /* FOOTER */
 .wrapper-footer {
   display: none;
@@ -221,6 +254,7 @@ html {
   font-size: 2vh;
   text-decoration: none;
 }
+
 
 
 /* MEDIA */
@@ -270,6 +304,14 @@ html {
   #illu-ter-2 {
     right: -160px
   }
+
+  #notif-closure{
+    margin: 0 0.5em;
+    margin-bottom: 1em;
+    text-wrap: wrap;
+    word-wrap: break-word;
+    max-width: 90%;
+  }
 }
 
 
@@ -312,6 +354,18 @@ html {
           </div>
         </div>
 
+        <div class="vertical-align" id="notif-closure">
+          <p>Le Mooc fait peau neuve !</p>
+          <p>En date du 22/03/2024 la session en cours fermera ses portes et les données seront mises à jour.</p>
+          </p>
+            
+          <p>Rendez-vous ici dès le 25/03/2024 pour débuter une nouvelle session de formation.</p>
+          
+          <p>A très vite ! </p>
+          
+
+      </div>
+
         <div class="home-page-2 vertical-align space-between">
           <img src="${static.url('sncf-voyageurs/images/logo_destination_conduite.svg')}" alt="Destination conduite">
           <p>LE MÉTIER DE CONDUCTRICE OU CONDUCTEUR DE TRAIN VOUS INTÉRESSE ?</p>
@@ -320,9 +374,10 @@ html {
 
       </div>
     </div>
-
     <div id="center-container" class="vertical-align">
+
       <div class="horizontal-align">
+        
         <p id="center-container-text">
           SNCF vous propose son nouveau MOOC consacré aux métiers de la conduite ! Que vous soyez néophyte ou expert, futur candidat ou simple curieux, ce cours vous enseignera tout ce que vous devez savoir du métier de conductrice ou conducteur de train. <br>Au fil des cinq séquences proposées, nous vous ferons découvrir le monde du ferroviaire : 
         </p>
