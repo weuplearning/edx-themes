@@ -366,31 +366,74 @@ ${HTML(fragment.foot_html())}
 </%static:require_module_async>
 
 
-<!-- get time tracking for video => useless, already saved in wul course enrollment -->
-<!-- <script>
-  let videoTimeStampBeforeUnload = 0
+<script>
+  function update_finished() {
+    
+    
+    var only_certificate_block = document.getElementById('quiz_passed')
+    if (only_certificate_block) {
 
-  window.addEventListener('load', function() {
-
-    window.addEventListener("click", function(){
-        if (document.getElementsByClassName("progress-handle").length > 0) {
-          videoTimeStampBeforeUnload = document.getElementsByClassName("progress-handle")[0].attributes[6].value
-          console.log(videoTimeStampBeforeUnload)
-        }
-      })
-
-    window.onbeforeunload=function(){
-      console.log("test")
-      if(document.getElementsByClassName("progress-handle").length > 0) {
-        console.log(document.getElementsByClassName("progress-handle")[0].attributes[6].value)
-      } else {
-        console.log(videoTimeStampBeforeUnload)
+      function decodeHtml(html) {
+        var txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
       }
-      return "Are you sure to leave this page?";
+      function convertToJsObject(escapedJson) {
+        // Decode HTML entities
+        const decodedString = decodeHtml(escapedJson);
+        
+        // Replace single quotes with double quotes for JSON
+        const jsonString1 = decodedString.replace(/'/g, '"');
+        const jsonString2 = jsonString1.replace(/True/g, 'true');
+        const jsonString3 = jsonString2.replace(/False/g, 'false');
+        const jsonString = jsonString3.replace(/None/g, 'null');
+        
+        // Parse JSON to get a JavaScript object
+        return JSON.parse(jsonString);
+      }
+
+      const customFieldsStr = "${custom_fields}";
+      const customFieldsObj = convertToJsObject(customFieldsStr);
+      const courseID = "${course.id}"
+      if (customFieldsObj["finished_courses"]) {
+        console.log('CF')
+
+      } else {
+        customFieldsObj['finished_courses'] = []
+        
+      }
+
+      const isPresent = customFieldsObj['finished_courses'].includes(courseID);
+      if (!isPresent) {
+        customFieldsObj['finished_courses'].push(courseID)
+      } else {
+        clearInterval(myInterv)
+        
+      }
+
+
+      customFieldsObj["authorized"] = true
+      customFieldsObj["user_id_for_api"] = '${user.id}'
+
+      const url = '/wul_apps/custom_field_editor/';
+      const data = JSON.stringify(customFieldsObj);
+      const settings = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": $.cookie('csrftoken'),
+        },
+        body: data
+      };
+
+      fetch(url, settings)
+        .then(() => clearInterval(myInterv))
+        .catch((error) => console.error('Error:', error));
+
     }
+  }
+  const myInterv = setInterval( update_finished , 300);
+</script>
 
-  })
-  
-  </script> -->
 
-  <%include file="/wul_apps/wul_time_tracking.html" />
+<%include file="/wul_apps/wul_time_tracking.html" />

@@ -34,9 +34,12 @@ from lms.djangoapps.course_api.views import CourseListView
 custom_fields = {}
 custom_fields = json.loads(user.profile.custom_field)
 already_visited = False
-
+finished_courses = []
 if 'last_visited_course' in custom_fields.keys() :
   already_visited = True
+
+if 'finished_courses' in custom_fields.keys() :
+  finished_courses = custom_fields["finished_courses"]
 
 %>
 
@@ -129,47 +132,49 @@ if 'last_visited_course' in custom_fields.keys() :
 </div>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    // Simulate a delay before showing content
-    setTimeout(function () {
-        document.querySelector(".loader-wrapper").style.display = "none";
-        document.querySelector(".window-wrap").style.display = "block";
-    }, 750); 
+  // Simulate a delay before showing content
+  setTimeout(function () {
+    document.querySelector(".loader-wrapper").style.display = "none";
+    document.querySelector(".window-wrap").style.display = "block";
+  }, 500); 
 });
+
+let list_finished_courses = "${finished_courses}"
 </script>
 <style>
 .loader-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #1E2631; 
-    z-index: 999; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #1E2631; 
+  z-index: 999; 
 }
 .loader {
-    border: 5px solid #f3f3f3; 
-    border-top: 5px solid #3498db; 
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    animation: spin 1s linear infinite; 
+  border: 5px solid #f3f3f3; 
+  border-top: 5px solid #3498db; 
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite; 
 }
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .content {
-    display: none;
-    text-align: center;
-    padding: 20px;
-    background-color: white;
-    position: relative;
-    z-index: 1000; 
+  display: none;
+  text-align: center;
+  padding: 20px;
+  background-color: white;
+  position: relative;
+  z-index: 1000; 
 }
 </style>
 <!-- Loader code END -->
@@ -222,7 +227,7 @@ document.addEventListener("DOMContentLoaded", function () {
           <input type="checkbox" value="All" onchange="handleCategoryChange(event)" />All
       </label> -->
       <label class="section2-filterSection-labels">
-        <input type="checkbox" value="Amazon Masterclasses" onchange="handleCategoryChange(event)" />Amazon Masterclasses
+        <input type="checkbox" value="Amazon masterclasses" onchange="handleCategoryChange(event)" />Amazon masterclasses
       </label>
       <label class="section2-filterSection-labels">
         <input type="checkbox" value="Crecimiento" onchange="handleCategoryChange(event)" />Crecimiento
@@ -246,7 +251,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <input type="checkbox" value="Operaciones" onchange="handleCategoryChange(event)" />Operaciones
       </label>
       <label class="section2-filterSection-labels">
-        <input type="checkbox" value="Primeros Pasos" onchange="handleCategoryChange(event)" />Primeros Pasos
+        <input type="checkbox" value="Primeros pasos" onchange="handleCategoryChange(event)" />Primeros pasos
       </label>
       <label class="section2-filterSection-labels">
         <input type="checkbox" value="Recursos Humanos" onchange="handleCategoryChange(event)" />Recursos Humanos
@@ -272,8 +277,6 @@ document.addEventListener("DOMContentLoaded", function () {
     %>
 
     % for dashboard_index, enrollment in enumerate(course_entitlements + course_enrollments):
-
-      %if ( str(enrollment.course_id) != 'course-v1:amazon+webinaire+AZ_2023' ) :
 
 
         <%
@@ -334,130 +337,45 @@ document.addEventListener("DOMContentLoaded", function () {
         %>
         <%include file='dashboard/_dashboard_course_listing.html' args='course_overview=course_overview, course_card_index=dashboard_index, enrollment=enrollment, is_unfulfilled_entitlement=is_unfulfilled_entitlement, is_fulfilled_entitlement=is_fulfilled_entitlement, entitlement=entitlement, entitlement_session=entitlement_session, entitlement_available_sessions=entitlement_available_sessions, entitlement_expiration_date=entitlement_expiration_date, entitlement_expired_at=entitlement_expired_at, show_courseware_link=show_courseware_link, cert_status=cert_status, can_refund_entitlement=can_refund_entitlement, can_unenroll=can_unenroll, credit_status=credit_status, show_email_settings=show_email_settings, course_mode_info=course_mode_info, is_paid_course=is_paid_course, verification_status=course_verification_status, course_requirements=course_requirements, dashboard_index=dashboard_index, share_settings=share_settings, user=user, related_programs=related_programs, display_course_modes_on_dashboard=display_course_modes_on_dashboard, show_consent_link=show_consent_link, enterprise_customer_name=enterprise_customer_name, resume_button_url=resume_button_url, partner_managed_enrollment=partner_managed_enrollment' />
 
-
         <script>
-
-          // Need API to add progress and remaining time
-          function getData() { 
-            return $.ajax({
-              // Courses api
-              url: "/api/courses/v1/courses/",
-              success: function(result) {
-
-                let courses_list = result['results']
-                let course
-
-                for (let index = 0; index < courses_list.length; index++) {
-                  course = courses_list[index];
-                  // Treat only targeted course
-                  if (course["course_id"] == '${enrollment.course_id}') {
-                    checkIfFinished(course) 
-                    // getCourseDetails_second(course);
-                  } 
-                }
-
-              }
-            })
-          }
-
-          async function start() {
-            try {
-              const res = await getData()
-            } catch(err) {
-              console.log(err);
-            }
-          }
-          start();
-
+          setTimeout(() => {
+            
+            checkIfFinished('${enrollment.course_id}');
+          }, 150);
+          
 
           function checkIfFinished(course) {
-            $.ajax({
-              url: "/wul_apps/" + course['course_id'] + "/certificate/ensure",
-                success: function(result){
 
-                  if(result.passed){
+            if(list_finished_courses.indexOf(course) != -1){
 
-                    const parentElement = document.getElementById('finished-courses')
-                    const elementToMove = document.getElementById('not-last-courses').getElementsByClassName('course-item')
+              const parentElement = document.getElementById('finished-courses')
+              const elementToMove = document.getElementById('not-last-courses').getElementsByClassName('course-item')
 
-                    for (let i = 0; i < elementToMove.length; i++) {
-                      const element = elementToMove[i];
+              for (let i = 0; i < elementToMove.length; i++) {
+                const element = elementToMove[i];
 
-                      const elemtn_2_test = document.getElementById('not-last-courses').getElementsByClassName('course')
-
-                      if (element.children[0].children[0]['attributes']['aria-labelledby']['value'].indexOf(course['course_id']) != -1) {
-                        parentElement.prepend(element)
-                      }
-
-                    }
-
-                    setTimeout(() => {
-                      let lien_attestation = '/wul_apps/' + course['course_id'] + '/certificate/generate_pdf'
-                      const textAttestationButton = '<a href='+lien_attestation+' target="_blank"><div class="attestationButtonButton"> Attestation</div></a>'
-                      const attestationButton = document.createElement('div')
-                      attestationButton.setAttribute('class', 'attestationButton')
-                      const divToIncrustButton = document.getElementById('course-title-' + course['course_id'])
-                      attestationButton.innerHTML = textAttestationButton
-                      divToIncrustButton.append(attestationButton)
-                    }, 400)
-
-                  } else {
-                    getCourseDetails_second(course);
-                  }
-
-                }
-            });
-            
-          }
-
-
-          // Function to get completion and progress details for a given course
-          function getCourseDetails_second(course) {
-
-            $.ajax({
-              url: "/api/courses/v1/blocks/?course_id=" + course['course_id'] + "&username=${user.username}&depth=all&requested_fields=completion",
-              success: function(result_2) {
-
-                let max_completion = 0
-                let actual_completion = 0
-                for (const [key, block] of Object.entries(result_2['blocks'])) {
-                  if (block['completion'] || block['completion'] == 0) {
-                    max_completion += 1
-                    actual_completion += block['completion']
-                  }
-                }
-                let completion_ratio = actual_completion / max_completion
-                let progress_remain = 1 - completion_ratio
-                let effort = course['effort']
-                // if effort variable as right format, convert time to min
-                function isValidFormat(time) {
-                  const regex = /^\d{2}:\d{2}$/;
-                  return regex.test(time);
-                }
-
-                if (isValidFormat(effort)) {
-                  // apply progress ratio and convert min to time
-                  let min_effort = Number((String(effort).split(':')[1])) + Number(String(effort).split(':')[0]) * 60
-                  let progessed_min = min_effort * progress_remain
-                  let progessed_hour = (Math.floor(progessed_min / 60)) + ' H' 
-                  // let progessed_hour = (Math.floor(progessed_min / 60)) + 'h' + (Math.floor(progessed_min % 60))
-
-                  // Add completion ratio in the right div 
-                  let not_last_courses = document.getElementById('not-last-courses').getElementsByClassName('course-container')
-                  for (let i = 0; i < not_last_courses.length; i++) {
-                    const course_html = not_last_courses[i];
-                    if (course_html.innerHTML.includes(course["course_id"])) {
-                      course_html.getElementsByClassName("course-jauge")[0].innerText = Math.floor(completion_ratio*100) + ' %'
-                      // course_html.getElementsByClassName('wrapper-course-details')[0].getElementsByClassName("info-date-block-container")[0].innerText = "Temps restant : " + progessed_hour
-                    }
-                  }
+                if (element.children[0].children[0]['attributes']['aria-labelledby']['value'].indexOf(course) != -1) {
+                  parentElement.prepend(element)
                 }
 
               }
-            });
+
+              setTimeout(() => {
+                let lien_attestation = '/wul_apps/' + course + '/certificate/generate_pdf'
+                const textAttestationButton = '<a href='+lien_attestation+' target="_blank"><div class="attestationButtonButton"> Certificado</div></a>'
+                const attestationButton = document.createElement('div')
+                attestationButton.setAttribute('class', 'attestationButton')
+                const divToIncrustButton = document.getElementById('course-title-' + course)
+                attestationButton.innerHTML = textAttestationButton
+                divToIncrustButton.append(attestationButton)
+              }, 400)
+
+            } 
           }
+
+
         </script>
-      %endif
+
 
     % endfor
         
@@ -541,18 +459,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <script>
 
-  // "Reprendre le cours" buttons
-  if (document.getElementById("new-section").getElementsByClassName('course-actions')[0].getElementsByClassName('course-target-link')[0].innerText = 'Reprendre le cours') {
-    
-    document.getElementById("new-section").getElementsByClassName('course-actions')[0].getElementsByClassName('course-target-link')[0].innerText = 'Reprendre'
-  }
-  let buttons_list = document.getElementById("not-last-courses").getElementsByClassName('details')
-  for (let i = 0; i < buttons_list.length; i++) {
-    const button = buttons_list[i].getElementsByClassName('wrapper-course-actions')[0].getElementsByClassName('course-target-link')[0];
-    if (button.innerText = 'Reprendre le cours') {      
-      button.innerText = 'Reprendre' 
-    }
-  }
 
   // Switch courses to display
   function switch_section() {
@@ -986,7 +892,7 @@ input[type="checkbox"] {
 }
 
 @media (max-width: 520px) {
-    #dashboard-main .main-container {
+    #dashboard-main .main-container , .section2-filter{
         display: none ;
     }
     #started-or-finished {
@@ -995,6 +901,7 @@ input[type="checkbox"] {
     #started-or-finished h3 {
         width: 150px ;
     }
+    
 
 }
 
