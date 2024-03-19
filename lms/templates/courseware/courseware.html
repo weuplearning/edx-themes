@@ -390,6 +390,11 @@ ${HTML(fragment.foot_html())}
       const customFieldsStr = "${custom_fields}";
       const customFieldsObj = convertToJsObject(customFieldsStr);
       const courseID = "${course.id}"
+      if (customFieldsObj["finished_courses"]) {
+        console.log('CF')
+      } else {
+        customFieldsObj['finished_courses'] = []        
+      }
 
       const isPresent = customFieldsObj['finished_courses'].includes(courseID);
       if (!isPresent) {
