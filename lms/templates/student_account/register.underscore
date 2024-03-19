@@ -44,6 +44,7 @@ justify-content: space-between;
     width: 100%;
 }
 
+
 </style>
 <div class="js-form-feedback" aria-live="assertive" tabindex="-1">
 </div>
@@ -94,7 +95,7 @@ justify-content: space-between;
 
     <% if (!context.syncLearnerProfileData) { %>
         <div class="toggle-form">
-            <p class="text">Avete già un account?</p>
+            <p class="text">Hai già un account?</p>
             <a class="contact_us" href="/login" data-type="login">ACCEDI</a>
         </div>
     <% } %>

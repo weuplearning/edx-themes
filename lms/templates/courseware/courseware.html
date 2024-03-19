@@ -46,11 +46,6 @@ if str(course.id) != 'course-v1:amazon+webinaire+AZ_2023' :
 </%def>
 <%block name="bodyclass">view-in-course view-courseware courseware ${course.css_class or ''}</%block>
 
-<%block name="title">
-<title data-base-title="${static.get_page_title_breadcrumbs(section_title, course_name())}">
-  ${static.get_page_title_breadcrumbs(sequence_title, section_title, course_name())}
-</title>
-</%block>
 
 <%block name="header_extras">
 
@@ -68,6 +63,7 @@ if str(course.id) != 'course-v1:amazon+webinaire+AZ_2023' :
   % endfor
 % endif
 
+
 <style>
 body.view-in-course .container{
        max-width: 65vw;
@@ -79,9 +75,6 @@ body.view-in-course .container{
 }
 .window-wrap {
     background-color: #f6f7f7;
-}
-.wrapper-preview-menu,.course-header{
-//    display:none !important;
 }
 .wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary{
     display:none !important;
@@ -366,31 +359,70 @@ ${HTML(fragment.foot_html())}
 </%static:require_module_async>
 
 
-<!-- get time tracking for video => useless, already saved in wul course enrollment -->
-<!-- <script>
-  let videoTimeStampBeforeUnload = 0
 
-  window.addEventListener('load', function() {
+<script>
+  function update_finished() {
+    
+    document.title = 'Accelera con Amazon'
+    
+    var only_certificate_block = document.getElementById('quiz_passed')
+    if (only_certificate_block) {
 
-    window.addEventListener("click", function(){
-        if (document.getElementsByClassName("progress-handle").length > 0) {
-          videoTimeStampBeforeUnload = document.getElementsByClassName("progress-handle")[0].attributes[6].value
-          console.log(videoTimeStampBeforeUnload)
-        }
-      })
-
-    window.onbeforeunload=function(){
-      console.log("test")
-      if(document.getElementsByClassName("progress-handle").length > 0) {
-        console.log(document.getElementsByClassName("progress-handle")[0].attributes[6].value)
-      } else {
-        console.log(videoTimeStampBeforeUnload)
+      function decodeHtml(html) {
+        var txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
       }
-      return "Are you sure to leave this page?";
+      function convertToJsObject(escapedJson) {
+        // Decode HTML entities
+        const decodedString = decodeHtml(escapedJson);
+        
+        // Replace single quotes with double quotes for JSON
+        const jsonString1 = decodedString.replace(/'/g, '"');
+        const jsonString2 = jsonString1.replace(/True/g, 'true');
+        const jsonString3 = jsonString2.replace(/False/g, 'false');
+        const jsonString = jsonString3.replace(/None/g, 'null');
+        
+        // Parse JSON to get a JavaScript object
+        return JSON.parse(jsonString);
+      }
+
+      const customFieldsStr = "${custom_fields}";
+      const customFieldsObj = convertToJsObject(customFieldsStr);
+      const courseID = "${course.id}"
+
+      const isPresent = customFieldsObj['finished_courses'].includes(courseID);
+      if (!isPresent) {
+        customFieldsObj['finished_courses'].push(courseID)
+      } else {
+        clearInterval(myInterv)
+        
+      }
+
+
+
+      customFieldsObj["authorized"] = true
+      customFieldsObj["user_id_for_api"] = '${user.id}'
+
+      const url = '/wul_apps/custom_field_editor/';
+      const data = JSON.stringify(customFieldsObj);
+      const settings = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": $.cookie('csrftoken'),
+        },
+        body: data
+      };
+
+      fetch(url, settings)
+        .then(() => clearInterval(myInterv))
+        .catch((error) => console.error('Error:', error));
+
     }
+  }
+  const myInterv = setInterval( update_finished , 300);
+</script>
 
-  })
-  
-  </script> -->
 
-  <%include file="/wul_apps/wul_time_tracking.html" />
+<%include file="/wul_apps/wul_time_tracking.html" />

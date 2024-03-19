@@ -163,7 +163,6 @@ class StudentAccountDeletionConfirmationModal extends React.Component {
                       <h3 className="alert-title">{noteDeletion}</h3>
                       <p>
                         <span>{bodyDeletion} </span>
-                        <span>{bodyDeletion2}</span>
                       </p>
                       <p dangerouslySetInnerHTML={{ __html: loseAccessText }} />
                     </div>
