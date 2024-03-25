@@ -5,19 +5,6 @@
 <%block name="pagetitle">${_("Jobs")}</%block>
 <%namespace name='static' file='../static_content.html'/>
 
-<%
-# DEAL WITH XML DATA
-import urllib.request as urllib2
-import xmltodict
-from openedx.core.djangolib.js_utils import dump_js_escaped_json
-
-file = urllib2.urlopen('https://sncf-recrute.talent-soft.com/Handlers/OfferXML.ashx?top=4000&entity=4380,4381')
-data_0 = file.read()
-file.close()
-
-data = xmltodict.parse(data_0)
-%>
-
 
 <main id="main" aria-label="Content" tabindex="-1">
     <section class="container-jobs about">
@@ -77,9 +64,9 @@ data = xmltodict.parse(data_0)
         </div>
 
         <div id="exit-pop-up">
-            <div id="container-pop-up">
+            <div class="container-pop-up">
                 <p>
-                    <span id="pop-up-alert" >Attention !</span><br> <br>
+                    <span class="pop-up-alert" >Attention !</span><br> <br>
                     Vous allez être redirigé vers le site de recrutement SNCF. <br>
                     Veillez à avoir votre CV à disposition. <br>
                 </p>
@@ -89,6 +76,15 @@ data = xmltodict.parse(data_0)
                     <div onclick='$("#exit-pop-up").hide()' >Rester sur le MOOC</div>
                     <a href="to_fill" id="pop-up-redirect" >Continuer</a>
                 </div>
+            </div>
+        </div>
+
+
+        <div id="loading-pop-up">
+            <div class="container-pop-up">
+                <p>
+                    Chargement...                    
+                </p>
             </div>
         </div>
 
@@ -261,7 +257,7 @@ svg > g:hover .cls-2 {
     height: 100%;
 }
 /* POP UP */
-#exit-pop-up {
+#exit-pop-up, #loading-pop-up {
     display: none;
     position: absolute;
     top: 0;
@@ -272,11 +268,11 @@ svg > g:hover .cls-2 {
     background-color: rgba(0, 100, 100, 0.2);
 
 }
-#container-pop-up p {
+.container-pop-up p {
     font-size: 22px;
     font-weight: 800;
 }
-#container-pop-up {
+.container-pop-up {
     margin: auto;
     display: flex;
     flex-direction: column;
@@ -291,7 +287,7 @@ svg > g:hover .cls-2 {
     padding: 44px;
     line-height: 1.5;
 }
-#pop-up-alert {
+.pop-up-alert {
     /* color: yellow; */
     font-size: 26px;
     font-weight: 900;
@@ -335,40 +331,129 @@ svg > g:hover .cls-2 {
     color: var(--dark-green);
     cursor: pointer;
 }
+
+#loading-pop-up p
+{
+    display: flex;
+    align-content: center;
+    align-items: center;
+    font-size: 26px;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin: auto auto;
+}
+
+#loading-pop-up div
+{
+    height: auto;
+    width: auto;
+}
+
 </style>
 
+
+
+
 <script>
-// Access XML data
-let offers = ${dump_js_escaped_json(data) | n, decode.utf8};
+    let ui_enabled = false;
+
+    // auto get url host
+    const currentUrl = window.location.href;
+    const hostname =  currentUrl.replace("/jobs", "");
+    const ressourceId = '_conduite'
+    const url = hostname + "/wul_apps/get_sncf_jobs" +  ressourceId
+    
+
+
+    let jobs;
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+            throw new Error('Network response was not ok');
+            ui_enabled = false;
+        }
+   
+          
+            return response.json();
+        })
+        .then(data => {
+            // Process the fetched data here
+             jobs = JSON.parse(data);
+             ui_enabled = true;
+
+        })
+        .catch(error => {
+            console.
+            error('There was a problem with the fetch operation:', error);
+        });
 
 const region_dict = {
     "hdf" : "Hauts-de-France",
-    "ges" : "Grand-Est",
-    "idf" : "Ile-de-France",
+    "ges" : "Grand Est",
+    "idf" : "Ile de France",
     "nor" : "Normandie",
     "bre" : "Bretagne",
-    "pdl" : "Pays de la Loire",
-    "cvl" : "Centre - Val de Loire",
+    "pdl" : "Pays de Loire",
+    "cvl" : "Centre-Val de Loire",
     "bou" : "Bourgogne-Franche-Comté",
-    "naq" : "Nouvelle Aquitaine",
+    "naq" : "Nouvelle-Aquitaine",
     "ara" : "Auvergne-Rhône-Alpes",
     "occ" : "Occitanie",
     "pac" : "Provence-Alpes-Côte d'Azur"
 }
 
 function pop_up (url) {
-    url_id = url.split('idOrigin')[0] + 'idOrigine/57346'
+    console.log(url)
+    url_id = url.split('idOrigin')[0] + '?idOrigine=57346'
 
     $('#pop-up-redirect')[0].attributes.href.value = url_id
     $("#exit-pop-up").css('display', 'flex')
 }
 
+function enable_pop_up_loading(enable)
+{
+    if(enable === true)
+    {
+        $("#loading-pop-up").css('display', 'flex')
+    }
+    else
+    {
+        $("#loading-pop-up").css('display', 'none')
+    }
+
+}
+
 function select_region (event) {
+
     event.preventDefault()
+
+    if(ui_enabled === false){
+        enable_pop_up_loading(true)
+    
+        var ui_enabled_cache=ui_enabled;
+
+        function ui_watcher() {
+            if(ui_enabled===ui_enabled_cache)
+            {
+                setTimeout(ui_watcher, 500);
+                return;
+            }
+            // got API request after some time
+            ui_enabled_cache=ui_enabled;
+            enable_pop_up_loading(false)
+            // relaunch function with previous user intent
+            select_region(event)
+        }
+
+        ui_watcher();
+    }
+
+    if(ui_enabled === true){
 
     // Remove previous Styling
     for (var key in region_dict) {
-        
+
         region_id = '#reg-'+ key
         div_region_clicked = $(region_id + " > svg > g .cls-1 ") 
         div_region_clicked.css('fill', 'var(--dark-green)')
@@ -388,38 +473,49 @@ function select_region (event) {
     $('#empty_list').hide()
     $('#region_not_selected').hide()
 
-    let offer_found = false
-    let list_clientcode = ['852','470','854','301','853','599','303','310']
+    let job_found = false
 
-    for (let index = 0; index < offers["offers"]["offer"].length; index++) {
+    for (let index = 0; index < jobs.length; index++) {
+        const job = jobs[index];
 
-        const offer = offers["offers"]["offer"][index];
 
-        if (offer.jobDescription.location.regions) {
-
-            if (offer.jobDescription.location.regions.region['#text'] == region_value) {
-                
-                if (list_clientcode.includes(offer.jobDescription.profile['@clientcode'])) {
-
-                    let title = offer.jobDescription.title
-                    if (offer.jobDescription.title.slice(-1) == ')') {
-                        title = offer.jobDescription.title.slice(0,-5)
-                    } 
-
-                    // Remove FRET offers
-                    if (title.indexOf('FRET') != -1) {
-                        continue
-                    }
-
-                    offer_found = true
-                    $('#job-list').append("<li onclick=\"pop_up('"+offer.directUrl+"')\" >"+title+"<br>Ref. "+offer.reference+" </li>")
-                }
-            }
+        // filter out jobs not from matchin region_dict
+        if(job.region !== region_value)
+        {
+            continue;
         }
-    }
-    if (!offer_found) {
-        $('#empty_list').show()
-    }
-}
 
+        let title = job.title
+        
+        
+        // remove (F/H) from end of job title
+        if (job.title.slice(-1) == ')') {
+            title = job.title.slice(0,-5)
+        }
+
+        // remove 'F/H' from end of job title
+        if (job.title.slice(-3) == 'H/F') {
+            title = job.title.slice(0,-3)
+        }
+
+        
+        
+        if(job.city !== undefined)
+        {
+
+            title = title + ' - ' + job.city
+        }
+        
+
+
+        job_found = true
+        $('#job-list').append("<li onclick=\"pop_up('"+job.jobUrl+"')\" >"+title+"<br>Ref. "+job.reference+" </li>")
+        } // FOR
+            
+        if (!job_found) {
+            $('#empty_list').show()
+        }
+
+    } // UI enabled
+}
 </script>
