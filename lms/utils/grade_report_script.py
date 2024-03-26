@@ -29,16 +29,12 @@ from openpyxl import Workbook
 from openpyxl.styles import PatternFill, Font
 
 
-# from datetime import datetime, date, timedelta
-# from django.utils import timezone
-# from dateutil import tz
-
-
 from opaque_keys.edx.locator import CourseLocator
 from common.djangoapps.student.models import CourseEnrollment
 from lms.djangoapps.courseware.courses import get_course_by_id
 from lms.djangoapps.wul_apps.best_grade.helpers import check_best_grade
 from lms.djangoapps.wul_apps.models import WulCourseEnrollment
+from lms.djangoapps.courseware.models import StudentModule
 
 
 import smtplib
@@ -60,9 +56,9 @@ all_users_data = {}
 
 for course_id in course_ids:
   course_key = CourseLocator.from_string(course_id)
-  course = get_course_by_id(course_key)
+  # course = get_course_by_id(course_key)
   course_enrollments = CourseEnrollment.objects.filter(course_id=course_key)
-  course_name = course.display_name_with_default
+  # course_name = course.display_name_with_default
 
   course_data = {}
 
@@ -71,8 +67,8 @@ for course_id in course_ids:
     user_data = {}
 
     enrollment = course_enrollments[i]
-    # if str(user.email).find('@yopmail') != -1 or str(user.email).find('@weuplearning') != -1 or str(user.email).find('@themoocagency') != -1 :
-    #   continue
+    if str(user.email).find('@yopmail') != -1 or str(user.email).find('@weuplearning') != -1 or str(user.email).find('@themoocagency') != -1 :
+      continue
 
     # try:
     #   user_data["id"] = user.id
@@ -134,34 +130,75 @@ for course_id in course_ids:
     try:
       wul_course_enrollment = WulCourseEnrollment.objects.get(course_enrollment_edx__user=user, course_enrollment_edx__course_id=course_key)
       global_time_tracking = wul_course_enrollment.global_time_tracking
-      # global_time_tracking_cumul += global_time_tracking
     except:
       global_time_tracking = 0
       
 
-    user_data['timetracking'] = global_time_tracking
-
     user_data['timetracking'] = datetime.timedelta(seconds=global_time_tracking)
 
 
-
-
-
-
     # Grade
+    list_of_student_modules = StudentModule.objects.filter(course_id__exact=course_id, module_type__exact="scorm", student_id=user.id).order_by().values('module_state_key', 'state')
     grade_list = []
 
-    gradesTest = check_best_grade(user, course, force_best_grade=True)
+    umn_test_test_scorm_list = {
+      "umn_test_test_scorm_list_1" : [
+        'block-v1:umn+test+test+type@scorm+block@fd4f25a734734497bc0111f6fd549a26', 
+        'block-v1:umn+test+test+type@scorm+block@5fae2b299b0e47a48e8112d3b11aa615', 
+        'block-v1:umn+test+test+type@scorm+block@dc3e413d33234a1dafd0bca06ae0c5e1', 
+        'block-v1:umn+test+test+type@scorm+block@02915ef6d75747d1a04d87689a60542d', 
+        'block-v1:umn+test+test+type@scorm+block@b320c1c95f1f47cd8a9f63a441766f9a'
+      ],
+      "umn_test_test_scorm_list_2" : [
+        'block-v1:umn+test+test+type@scorm+block@f67c1876fa8c46e49f37596711c1768b', 
+        'block-v1:umn+test+test+type@scorm+block@cede2c08a2b24c09aeeab327522c1b09', 
+        'block-v1:umn+test+test+type@scorm+block@67c2292f054f4ad68702733b411dc6ca', 
+        'block-v1:umn+test+test+type@scorm+block@21c4ca65a2d54879bf843db10f1842f3'
+      ],
+      "umn_test_test_scorm_list_3" : [
+        'block-v1:umn+test+test+type@scorm+block@4e5ac4aba3cc4466b909ccc2246edc9a', 
+        'block-v1:umn+test+test+type@scorm+block@e618a3a9f7374586bb24ce31b0fd06bf', 
+        'block-v1:umn+test+test+type@scorm+block@0513ab9c8ac7434787e95b8e1085a549', 
+        'block-v1:umn+test+test+type@scorm+block@def1b70b68e4422cbe52694e68b3afa6', 
+        'block-v1:umn+test+test+type@scorm+block@9d02fb2863954a3d95b867ee0e066c7c', 
+        'block-v1:umn+test+test+type@scorm+block@72922a0c6c054283b8e554baffa121d0', 
+        'block-v1:umn+test+test+type@scorm+block@c347c583b97c45748d8e96674dce61ba'
+      ],
+      "umn_test_test_scorm_list_4" : [      
+        'block-v1:umn+test+test+type@scorm+block@5d1cf5d6f4794bc1ad8821efee50c85b',
+        'block-v1:umn+test+test+type@scorm+block@daa34dbada1441268b2106bfcf91817b'
+      ]
+    }
 
-    for module in gradesTest.summary['section_breakdown'] :
-      grade_list.append(module['percent'])
+    final_grade_score = 0
+    for module in umn_test_test_scorm_list :
+      total_module_score = 0
 
-    userPersentGrade = gradesTest.summary['percent']
-    grade_list.append(userPersentGrade)
+      for scorm_id in umn_test_test_scorm_list[module] :
+        module_score = 'n.a.'
+
+        for scorm in list_of_student_modules:
+
+          if str(scorm['module_state_key']) == str(scorm_id) :
+            dictionarisation  = json.loads(scorm["state"])
+
+            try :
+              module_score = round(dictionarisation['lesson_score'] * 100, 2)
+              total_module_score += module_score
+            except:
+              module_score = 'n.a.'
+
+        grade_list.append(module_score)
+
+      module_average = round(total_module_score / len(umn_test_test_scorm_list[module]), 2)
+      final_grade_score += module_average
+      grade_list.append(module_average)
+
+    final_grade = round(final_grade_score / len(umn_test_test_scorm_list), 2)
+    grade_list.append(final_grade)
 
 
     user_data['grade_list'] = grade_list 
-
 
     data = { "general": user_data }
     course_data[str(user.id)]= data
@@ -207,10 +244,14 @@ for k, course_id in all_users_data.items():
       i += 1
       save_grade = grade
 
-      percent = str(grade) + '%'
+      if grade != 'n.a.' :
+        percent = str(grade) + '%'
+      else :
+        percent = grade
+
       sheet.cell(j, i, percent.replace('.',','))
 
-    if int(save_grade) >= 70 : 
+    if float(save_grade) >= 70 : 
       sheet.cell(j, i).fill = PatternFill("solid", fgColor="21ad73")
       sheet.cell(j, i).font = Font(b=False, color="FFFFFF")
     else:
