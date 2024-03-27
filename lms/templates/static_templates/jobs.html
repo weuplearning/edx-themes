@@ -358,12 +358,9 @@ svg > g:hover .cls-2 {
     let ui_enabled = false;
 
     // auto get url host
-    const currentUrl = window.location.href;
-    const hostname =  currentUrl.replace("/jobs", "");
+    const hostname =  window.location.hostname;
     const ressourceId = '_conduite'
     const url = hostname + "/wul_apps/get_sncf_jobs" +  ressourceId
-    
-
 
     let jobs;
 
@@ -388,6 +385,7 @@ svg > g:hover .cls-2 {
             error('There was a problem with the fetch operation:', error);
         });
 
+
 const region_dict = {
     "hdf" : "Hauts-de-France",
     "ges" : "Grand Est",
@@ -404,7 +402,6 @@ const region_dict = {
 }
 
 function pop_up (url) {
-    console.log(url)
     url_id = url.split('idOrigin')[0] + '?idOrigine=57346'
 
     $('#pop-up-redirect')[0].attributes.href.value = url_id
@@ -479,7 +476,7 @@ function select_region (event) {
         const job = jobs[index];
 
 
-        // filter out jobs not from matchin region_dict
+        // filter out jobs not from matching region_dict
         if(job.region !== region_value)
         {
             continue;
