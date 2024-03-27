@@ -310,6 +310,26 @@ document.addEventListener("DOMContentLoaded", function () {
                         getCourseDetails_first(course);
                       } 
                     }
+                    if (result['pagination']) {
+                      $.ajax({
+                        url: result['pagination']['next'],
+                        success : function (result_3) {
+
+                          let courses_list_3 = result_3['results']
+                          let course
+
+                          for (let index = 0; index < courses_list_3.length; index++) {
+                            course = courses_list_3[index];
+                            // Treat only targeted course
+
+                            if (course["course_id"] == '${enrollment.course_id}') {
+                              getCourseDetails_first(course);
+                              // getCourseDetails_second(course);
+                            } 
+                          }
+                        }
+                      })
+                    }
                   }
                 });
 
@@ -533,7 +553,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 let courses_list = result['results']
                 let course
-
                 for (let index = 0; index < courses_list.length; index++) {
                   course = courses_list[index];
                   // Treat only targeted course
@@ -543,6 +562,26 @@ document.addEventListener("DOMContentLoaded", function () {
                   } 
                 }
 
+                if (result['pagination']) {
+                  $.ajax({
+                    url: result['pagination']['next'],
+                    success : function (result_3) {
+
+                      let courses_list_3 = result_3['results']
+                      let course
+
+                      for (let index = 0; index < courses_list_3.length; index++) {
+                        course = courses_list_3[index];
+                        // Treat only targeted course
+
+                        if (course["course_id"] == '${enrollment.course_id}') {
+                          checkIfFinished(course) 
+                          // getCourseDetails_second(course);
+                        }
+                      }
+                    }
+                  })
+                }
               }
             })
           }
@@ -563,7 +602,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 success: function(result){
 
                   if(result.passed){
-
                     const parentElement = document.getElementById('finished-courses')
                     const elementToMove = document.getElementById('not-last-courses').getElementsByClassName('course-item')
 
@@ -1008,7 +1046,7 @@ main {
 .info-date-block-container {
   font-size: 0.9vw;
   color: #48515a;
-  display: none;
+  display: none !important;
 }
 
 
