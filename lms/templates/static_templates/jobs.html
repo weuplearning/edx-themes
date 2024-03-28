@@ -64,9 +64,9 @@
         </div>
 
         <div id="exit-pop-up">
-            <div id="container-pop-up">
+            <div class="container-pop-up">
                 <p>
-                    <span id="pop-up-alert" >Attention !</span><br> <br>
+                    <span class="pop-up-alert" >Attention !</span><br> <br>
                     Vous allez être redirigé vers le site de recrutement SNCF. <br>
                     Veillez à avoir votre CV à disposition. <br>
                 </p>
@@ -258,7 +258,7 @@ svg > g:hover .cls-2 {
     height: 100%;
 }
 /* POP UP */
-#exit-pop-up {
+#exit-pop-up, #loading-pop-up{
     display: none;
     position: absolute;
     top: 0;
@@ -269,11 +269,11 @@ svg > g:hover .cls-2 {
     background-color: rgba(13, 40, 124, 0.2);
 
 }
-#container-pop-up p {
+.container-pop-up p {
     font-size: 22px;
     font-weight: 800;
 }
-#container-pop-up {
+.container-pop-up {
     margin: auto;
     display: flex;
     flex-direction: column;
@@ -288,7 +288,7 @@ svg > g:hover .cls-2 {
     padding: 44px;
     line-height: 1.5;
 }
-#pop-up-alert {
+.pop-up-alert {
     /* color: yellow; */
     font-size: 26px;
     font-weight: 900;
