@@ -60,7 +60,7 @@ from six import text_type
     .course-button-cta a:hover {
 
         text-decoration: none;
-        color: #FFD661;;
+        color: #FFD661;
     }
     .course-button {
       
@@ -100,7 +100,7 @@ from six import text_type
             <p class="course-button-text">${course.display_name_with_default}</p>
         </div>
         <div class="course-button-cta">
-            <a href="/register?course_id=${course.id}&enrollment_action=enroll"
+            <a class="btn" href="/register?course_id=${course.id}&enrollment_action=enroll"
                 >Inscription
                 <span class="arrow">
                     <svg
