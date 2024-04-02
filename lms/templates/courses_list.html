@@ -2,28 +2,130 @@
 <%namespace name='static' file='static_content.html'/>
 <%! from django.utils.translation import ugettext as _ %>
 
+<%courses_whitelist = ["course-v1:formation-securite-incendie+BI05+2024_T2_TEST"]%>
+
+
 <style>
 .courses-listing{
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: row;
 }
+
+.courses-listing-item{
+  padding: 0 2rem !important;
+}
+
+
+.arrow {
+  color: yellow;
+}
+
+.course-button-title {
+  margin: 0;
+  padding: 0;
+}
+
+.course-button-content {
+  font-family: 'Quicksand';
+  font-weight: 600;
+  font-size: large;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  margin: 0.5rem 0rem 0rem 0.5rem;
+  padding-top: 1rem;
+}
+.course-button-content > p {
+  margin: 0.1rem;
+  padding: 0.1rem 0.5rem;
+  text-align: center;
+}
+.course-button-cta {
+  width: 100%;
+  background-color: pink;
+  color: white;
+  padding: 0;
+  text-align: center;
+  margin: 0;
+}
+
+.course-button-cta a {
+  font-family: 'AvenirBlack';
+  font-weight: 900;
+  display: block;
+  background-color: #004580;
+  margin: 0;
+  padding: 1rem 0 1rem 0;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  text-decoration: none;
+  color: white;
+}
+
+.course-button-cta a:hover {
+
+  text-decoration: none;
+  color: #FFD661;
+}
+.course-button {
+
+
+  flex-basis: 10rem;
+  overflow: hidden;
+  display: flex;
+  margin: 1rem;
+  width: 10rem;
+  height: 10rem;
+  border-radius: 47px 0px 47px 0px;
+  padding: 0;
+  box-shadow: -2px 2px 0px 2px rgba(0, 68, 128, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  justify-items: stretch;
+  align-items: center;
+  background-color: white;
+}
+
+/*
+.course-button-container
+{
+  height: fit-content;
+  width: 25%;
+ 
+}
+*/
 </style>
 
 
 <section class="courses-container">
   <section class="highlighted-courses">
+    % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
 
       <section class="courses">
         <ul class="courses-listing">
           ## limiting the course number by using HOMEPAGE_COURSE_MAX as the maximum number of courses
+          %for i in range(0,12):
+
           %for course in courses:
+              % if str(course.id) in courses_whitelist :
+       
+            
               <li class="courses-listing-item">
                   <%include file="course.html" args="course=course" />
               </li>
+              %endif
+ 
           %endfor
+          %endfor
+
         </ul>
       </section>
-
+    %endif
 
   </section>
 </section>
