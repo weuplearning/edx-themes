@@ -1,0 +1,55 @@
+
+$font-family-sans-serif: 'Quicksand';
+
+.font-quicksand{
+    font-family: 'Quicksand';
+}
+
+
+
+@font-face {
+    font-family: 'Quicksand';
+    src: url('/media/fonts/Quicksand/Quicksand-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+.font-quicksand{
+    font-family: 'Quicksand';
+}
+  
+
+
+  @font-face {
+    font-family: 'AvenirBlack';
+    src: url('/media/fonts/Avenir/Avenir-Black.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+
+
+.font-avenir-bold{
+    font-family: 'AvenirBlack';
+}
+
+
+$fsi_blue : #85b0d8;
+$fsi_darkblue : #004580;
+$fsi_yellow : #ffd661;
+$fsi_green : #4a9c87;
+$fsi_red : #cc7354;
+
+$primary:  #85b0d8;
+$secondary:  #004580;
+$tertiary: #4a9c87;
+$theme-colors: (
+  "tertiary": $tertiary,
+  "primary" : $primary,
+
+);
+
+
+@import 'edx-bootstrap/sass/open-edx/theme';

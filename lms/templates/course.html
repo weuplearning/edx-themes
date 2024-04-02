@@ -1,0 +1,122 @@
+<%def name="online_help_token()"><% return "course" %></%def>
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.urls import reverse
+from six import text_type
+%>
+<%page args="course"/>
+
+
+<style>
+    .arrow {
+        color: yellow;
+    }
+
+    .course-button-title {
+        margin: 0;
+        padding: 0;
+    }
+
+    .course-button-content {
+        font-family: 'Quicksand';
+        font-weight: 600;
+        font-size: large;
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+        margin: 0.5rem 0rem 0rem 0.5rem;
+        padding-top: 1rem;
+    }
+    .course-button-content > p {
+        margin: 0.1rem;
+        padding: 0.1rem 0.5rem;
+        text-align: center;
+    }
+    .course-button-cta {
+        width: 100%;
+        background-color: pink;
+        color: white;
+        padding: 0;
+        text-align: center;
+        margin: 0;
+    }
+
+    .course-button-cta a {
+        font-family: 'AvenirBlack';
+        font-weight: 900;
+        display: block;
+        background-color: #004580;
+        margin: 0;
+        padding: 1rem 0 1rem 0;
+        height: 100%;
+        width: 100%;
+        text-align: center;
+        text-decoration: none;
+        color: white;
+    }
+
+    .course-button-cta a:hover {
+
+        text-decoration: none;
+        color: #FFD661;;
+    }
+    .course-button {
+      
+
+        flex-basis: 10rem;
+        overflow: hidden;
+        display: flex;
+        margin: 1rem;
+        width: 10rem;
+        height: 10rem;
+        border-radius: 47px 0px 47px 0px;
+        padding: 0;
+        box-shadow: -2px 2px 0px 2px rgba(0, 68, 128, 0.2);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        justify-items: stretch;
+        align-items: center;
+        background-color: white;
+    }
+
+    /*
+    .course-button-container
+    {
+        height: fit-content;
+        width: 25%;
+       
+    }
+    */
+</style>
+
+
+<div class="course-button-container">
+    <div class="course-button">
+        <div class="course-button-content">
+            <p class="course-button-title">${course.display_number_with_default}</p>
+            <p class="course-button-text">${course.display_name_with_default}</p>
+        </div>
+        <div class="course-button-cta">
+            <a href="/register?course_id=${course.id}&enrollment_action=enroll"
+                >Inscription
+                <span class="arrow">
+                    <svg
+                        height="10"
+                        width="10"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <polygon
+                            points="0.5,0.5 0.5,10.5 7.5,5.25"
+                            style="fill:#FFD661;"
+                        />
+                        Sorry, your browser does not support inline SVG.
+                    </svg>
+                </span>
+            </a>
+        </div>
+    </div>
+</div>
+
