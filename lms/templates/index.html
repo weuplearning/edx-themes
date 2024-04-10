@@ -51,6 +51,7 @@ from openedx.core.djangolib.markup import HTML, Text
     height: auto;
     width: 100%;
     top: 77px;
+    transform: scaleX(-1);
   }
   #detailled-logo-main {
     top: 9px;
@@ -105,7 +106,7 @@ from openedx.core.djangolib.markup import HTML, Text
     display: none;
     background-color: white;
     max-width: 400px;
-    min-width: 250px;
+    min-width: 255px;
     padding: 20px;
     box-shadow: 0px 3px 8px grey;
     align-items: center;  
@@ -221,6 +222,10 @@ from openedx.core.djangolib.markup import HTML, Text
     width: 100%;
     height: 100%;
   }
+  #info-duree-cours {
+    color :#ac4117;
+    text-align: center;
+  }
 
   .container_register{
     display: flex;
@@ -231,6 +236,10 @@ from openedx.core.djangolib.markup import HTML, Text
   .container_introduction_bloc_left_paragraph {
     line-height: 1.1em;
     text-align: justify;
+  }
+  #title-mooc-content {
+    text-align: center;
+    margin: 15px auto;
   }
 
   .container_caroussel {
@@ -588,6 +597,8 @@ from openedx.core.djangolib.markup import HTML, Text
     </div>
   </div>
 
+  <h2 id="title-mooc-content" >Découvrir le contenu du MOOC</h2>
+
   <div class="container_caroussel ">
 
     <div class="container_carousel_cards swiper-wrapper">
@@ -600,7 +611,7 @@ from openedx.core.djangolib.markup import HTML, Text
           <li>Les cépages du Centre-Loire</li>
           <li>La Famille des appellations du Centre-Loire</li>
         </ul>
-        <p class="container_carousel_time">50 minutes</p>
+        <p class="container_carousel_time">40 minutes</p>
       </div>
       <div class="container_carousel_entry swiper-slide slide2">
         <img class="container_carousel_image" src="${static.url('vinducentreloire/images/7e45b8a8c74e4441b364c25e7c64d913.png')}" alt="picto chapter 2"/>
@@ -633,6 +644,8 @@ from openedx.core.djangolib.markup import HTML, Text
 
   </div>
 
+  <h3 id="info-duree-cours" >D’une durée totale de 2 heures, ce MOOC est gratuit et accessible à tous, en français et en anglais.</h3>
+
   <div class="container_register">
     <div class="container_register__buttons__register">
       <a style="color: white" href="/register?next=%2F">
@@ -641,6 +654,8 @@ from openedx.core.djangolib.markup import HTML, Text
       </a>
     </div>
   </div>
+
+  <h2 id="title-mooc-content" >MOOC, qu’est ce que c’est ?</h2>
 
   <div class="container_mooc">
     <div class="container_mooc_card">

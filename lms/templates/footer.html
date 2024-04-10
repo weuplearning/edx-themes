@@ -125,18 +125,15 @@
 
 <div class="container_footer">
   <div class="container_footer_socials">
-    <a href="https://www.vins-centre-loire.com/fr/1/12/qui-sommes-nous.html" class="who-are-we">
-      Qui sommes-nous ?
-    </a>
 
     <div class="input-container">
       <div for="" class="container_footer_socials_email_label" >Pour suivre l’actualité des Vins du Centre-Loire, inscrivez-vous à la newsletter</div>
       <input id="input-newsletter" class="container_footer_socials_email" type="text" placeholder="       Entrez votre mail">
       <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>
-      <button type="submit"><i class="fa fa-chevron-right"></i></button>
+      <button type="submit" onclick="alert('Il n\'est actuellement pas possible d\'ajouter votre adresse email à la liste d\'abonnement à la newsletter, veuillez nous excuser pour le dérangement.')" ><i class="fa fa-chevron-right"></i></button>
     </div>
 
-    <div class="contact-us">
+    <!-- <div class="contact-us">
 
       Nous contacter</br>
       Bureau Interprofessionnel des Vins du Centre-Loire (BIVC)</br>
@@ -144,7 +141,7 @@
       Par téléphone au 02 48 78 51 07</br>
       Par mail : <a href="mailto:contact@vins-centre-loire.com" style="color: #AB4218;">contact@vins-centre-loire.com</a> 
 
-    </div>
+    </div> -->
 
     <div class="container_footer_socials_network">
       <a href="https://www.facebook.com/vinsducentreloire/" target="_blank">
@@ -160,6 +157,11 @@
         <img class="socials_icon" src="${static.url('vinducentreloire/images/footer_linkedin.png')}" alt="picto linkedin"/>
       </a>
     </div>
+
+    <a href="https://www.vins-centre-loire.com/fr/1/12/qui-sommes-nous.html" class="who-are-we">
+      Qui sommes-nous ?
+    </a>
+
   </div>
 
   <img class="container_footer_locations_image" src="${static.url('vinducentreloire/images/logo_footer.png')}" alt="vin centre et loire" id="vcl-logo"/>
