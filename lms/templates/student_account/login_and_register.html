@@ -241,55 +241,47 @@ setTimeout(() => {
             document.getElementById('modal').classList.add('active');
         } 
     });
-}, 500);
+}, 1000);
 
 
-// Read Google Drive API 
 setTimeout(() => {
     
-    let jsonData = {}
-    const url = '/wul_apps/read_google_drive_file';
-    const data = {id : '1MGSfm55b_ubv28QMcsA98Tl2trukDrOu'};
-
-    $.ajax({
-        url: url,
-        method: 'POST',
-        headers: {'Content-Type': 'application/json' },
-        data: JSON.stringify(data),
-        dataType: 'json',
-        success: function(response){
-            jsonData = response
-        },
-        error: function(xhr, status, error) {
-            // Gestion des erreurs
-            console.error(error);
-        }
-    })
-
-
     // Add an event listener to capture changes in the input field
     let emailInput = document.getElementById("register-email")
 
     emailInput.addEventListener("change", function() {
+
         var emailValue = emailInput.value;
         var authorizedEmail = false
 
-        for (let i = 0; i < jsonData['email_list_hec_pole_emploi'].length; i++) {
 
-            const email = jsonData['email_list_hec_pole_emploi'][i];
+        let jsonData = {}
+        const url = '/wul_apps/hec_pe_check_email';
+        const data = {'email' : emailValue};
+    
+        $.ajax({
+            url: url,
+            method: 'POST',
+            headers: {'Content-Type': 'application/json' },
+            data: JSON.stringify(data),
+            dataType: 'json',
+            success: function(response){
+                jsonData = response
+                authorizedEmail = jsonData.isValid
 
-            if (email.toLowerCase() == emailValue.toLowerCase()) {
-                authorizedEmail = true
-                continue
+                if (!authorizedEmail) {
+                    emailInput.value = ""
+                    alert("Cette adresse n'est pas connue par nos services. Êtes-vous sûr d'avoir renseigné l'adresse fournie par Pôle-Emploi pour rejoindre cette formation ?")
+                }
+            },
+            error: function(xhr, status, error) {
+                // Gestion des erreurs
+                console.error(error);
             }
-        }
+        })
 
-        if (!authorizedEmail) {
-            emailInput.value = ""
-            alert("Cette adresse n'est pas connue par nos services. Êtes-vous sûr d'avoir renseigné l'adresse fournie par Pôle-Emploi pour rejoindre cette formation ?")
-        }
     });
 
-}, 500);
+}, 1000);
 
 </script>
