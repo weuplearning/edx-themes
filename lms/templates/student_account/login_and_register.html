@@ -287,6 +287,15 @@ observer.observe(document, { childList: true, subtree: true })
 
 </script>
 
+<script>
+    var username_update_desc = setTimeout(() => {
+        var description = document.getElementById("register-username-desc");
+        let descriptionContent = $(description).text()
+        let descriptionExtra = "Le nom d'utilisateur public ne peut pas contenir d'espace"
+        $(description).text(descriptionContent + descriptionExtra )
+    }, 300);
+</script>
+
 <style>
     .passwordField{
         display: flex;
