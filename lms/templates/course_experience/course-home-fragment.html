@@ -26,6 +26,25 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 <%block name="header_extras">
   <link rel="stylesheet" type="text/css" href="${static.url('paragon/static/paragon.min.css')}" />
   <link rel="stylesheet" type="text/css" href="${static.url('weup/css/animate-4.1.1.min.css')}" />
+
+  % if str(request.get_full_path).index('+test+test') != -1 :
+    <style>
+        .page-content-secondary {
+            display: none !important;
+        }
+        .page-content .page-content-main {
+            max-width: unset !important;
+            margin: 0 8vw;
+        }
+        ol {
+            display: block !important;
+        }
+        .fa-chevron-right {
+            display: none;
+        }
+    </style>
+  % endif
+
   <style>
     header.page-header.has-secondary{
         background-color: var(--primary);
@@ -50,8 +69,8 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         color: var(--secondary) !important;
     }
     .course-outline .block-tree .outline-button .complete-checkmark {
-        background-color: var(--secondary);
-        border-color: var(--secondary);
+        background-color: var(--primary);
+        border-color: var(--primary);
         color: white !important;
         padding: 2px;
     }
