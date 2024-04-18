@@ -167,7 +167,7 @@ if not all([user_firstname, user_lastname, user_structure, user_preparedDiploma,
 
     <!-- Scorm did not receive completion status so we have to check for grade details -->
 
-    % if str(request.get_full_path).index('+test+test') != -1 :
+    % if str(request.get_full_path).find('+test+test') != -1 :
 <script>
     async function getData(ajaxurl) {
         return $.ajax({
@@ -201,39 +201,40 @@ if not all([user_firstname, user_lastname, user_structure, user_preparedDiploma,
     })();
 </script>
 
-    % elif str(request.get_full_path).index('umn+pn+02') != -1 :
-<!-- <script>
-    async function getData(ajaxurl) {
-        return $.ajax({
-            url: ajaxurl,
-            type: 'GET',
-            dataType: 'json',
-        });
-    };
+    % elif str(request.get_full_path).find('umn+pn+02') != -1 :
+    <script>
+    // async function getData(ajaxurl) {
+    //     return $.ajax({
+    //         url: ajaxurl,
+    //         type: 'GET',
+    //         dataType: 'json',
+    //     });
+    // };
 
-    (async () => {
-        const url = "/api/grades/v1/courses/course-v1:umn+pn+02/?username=${user.username}";
-        const result = await getData(url);
+    // (async () => {
+    //     const url = "/api/grades/v1/courses/course-v1:umn+pn+02/?username=${user.username}";
+    //     const result = await getData(url);
 
-        let module_list = result[0]['summay']['section_breakdown']
-        let section = document.getElementsByClassName("subsection")
+    //     let module_list = result[0]['summay']['section_breakdown']
+    //     let section = document.getElementsByClassName("subsection")
 
-        for (let i = 0; i < section.length; i++) {
-            const element = section[i];
-            let subsection_title = element.children[0].children[0].innerText
+    //     for (let i = 0; i < section.length; i++) {
+    //         const element = section[i];
+    //         let subsection_title = element.children[0].children[0].innerText
 
-            for (let j = 0; j < module_list.length; j++) {
-                const module = module_list[j];
+    //         for (let j = 0; j < module_list.length; j++) {
+    //             const module = module_list[j];
 
-                if (module.detail.indexOf(subsection_title) != -1) {
-                    if (module.percent == 1) {
-                        element.children[0].children[1].style.display = 'block'
-                    }
-                }
-            }
-        }
-    })();
-</script> -->
+    //             if (module.detail.indexOf(subsection_title) != -1) {
+    //                 if (module.percent == 1) {
+    //                     element.children[0].children[1].style.display = 'block'
+    //                 }
+    //             }
+    //         }
+    //     }
+    // })();
+        console.log('new course')
+    </script> 
 
     % endif
 
@@ -258,7 +259,7 @@ if not all([user_firstname, user_lastname, user_structure, user_preparedDiploma,
             %>
                 <li class="outline-item section ${scored}">
 
-                % if str(request.get_full_path).index('+test+test') != -1 :
+                % if str(request.get_full_path).find('+test+test') != -1 :
                     <button class="section-name outline-button"
                         aria-controls="${ section['id'] }_contents"
                         id="${ section['id'] }">

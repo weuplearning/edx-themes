@@ -27,7 +27,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
   <link rel="stylesheet" type="text/css" href="${static.url('paragon/static/paragon.min.css')}" />
   <link rel="stylesheet" type="text/css" href="${static.url('weup/css/animate-4.1.1.min.css')}" />
 
-  % if str(request.get_full_path).index('+test+test') != -1 :
+  % if str(request.get_full_path).find('+test+test') != -1 :
     <style>
         .page-content-secondary {
             display: none !important;
