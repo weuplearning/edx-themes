@@ -357,4 +357,22 @@ var wording_update = setInterval(() => {
   }
 }, 300);
 
+var fullscreen_fixer = setTimeout(() => {
+  var exit_fullscreen_button = document.getElementsByClassName("js-button-full-screen full-screen-off");
+  let css_fix_mooc_fullscreen_overlap = {
+    "position": "absolute",
+    "z-index": "10500",
+    "margin-top": "0",
+    "margin-bottom": "0",
+    "margin-left": "0",
+    "margin-right": "0",
+
+    "top": "10px",
+    "width": "auto",
+  }
+  $(exit_fullscreen_button).css(css_fix_mooc_fullscreen_overlap)
+  $(exit_fullscreen_button).find('br').remove();
+
+}, 300);
+
 </script>
