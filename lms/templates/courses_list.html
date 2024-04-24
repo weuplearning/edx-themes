@@ -2,7 +2,7 @@
 <%namespace name='static' file='static_content.html'/>
 <%! from django.utils.translation import ugettext as _ %>
 
-<%courses_whitelist = ["course-v1:formation-securite-incendie+BI05+2024_T2_TEST"]%>
+<%courses_whitelist = ["course-v1:formation-securite-incendie+BI05+2024"]%>
 
 
 <style>
@@ -109,7 +109,6 @@
       <section class="courses">
         <ul class="courses-listing">
           ## limiting the course number by using HOMEPAGE_COURSE_MAX as the maximum number of courses
-          %for i in range(0,12):
 
           %for course in courses:
               % if str(course.id) in courses_whitelist :
@@ -120,7 +119,6 @@
               </li>
               %endif
  
-          %endfor
           %endfor
 
         </ul>
