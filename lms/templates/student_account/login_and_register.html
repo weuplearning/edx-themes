@@ -22,6 +22,12 @@
     border-radius: 0!important;
   }
 </style>
+<style>
+ .field-link
+{
+    color: #2d5173!important;
+}
+</style>
 <%block name="js_extra">
     <%static:require_module module_name="js/student_account/logistration_factory" class_name="LogistrationFactory">
         var options = ${data | n, dump_js_escaped_json};
