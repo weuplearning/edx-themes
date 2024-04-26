@@ -19,15 +19,15 @@
    }
 
    .footer-column .footer-block-padd ul li {
-  list-style-type: none;
-}
+      list-style-type: none;
+   }
 
    .container1 {
       max-width: inherit;
    }
 
    .footer-column {
-      width: 425px !important;
+      min-width: 425px !important;
       text-align: center;
    }
 
@@ -96,23 +96,21 @@
 
 <!-- <link rel="stylesheet" href="https://amazon.the-mooc-agency.com/media/microsite/amazon/css/style.css?v=25nov"> -->
 
-## % if uses_bootstrap:
-    <footer id="footer">
-      <div class="container1">
-         <div class="row">
-            <div class="footer-column" >
-                     <p class="text-footer text-footer-up">Un programma di</p>
-                     <a href="https://services.amazon.fr/" target="_blank"><img src="${static.url('amazon/images/logo_amazon.png')}" class="logoFooter" alt="logo BPI France"></a>
-            </div>
-         </div>
-         <div class="row footerBottom" >
-            <div class="footer-column footer_cgu" >
-               <a target="_blank" class="footer_links" href="/note-legali/">Note legali</a>
-               <a target="_blank" class="footer_links" href="/informativa-sulla-privacy/">Informativa sulla privacy</a>
-               <a target="_blank" class="footer_links" href="/dati-personali/">dati-personali</a>
-            </div>
+<footer id="footer">
+   <div class="container1">
+      <div class="row">
+         <div class="footer-column" >
+            <p class="text-footer text-footer-up">Un programma di</p>
+            <a href="https://sell.amazon.it/accelera-con-amazon" target="_blank"><img src="${static.url('amazon/images/logo_amazon.png')}" class="logoFooter" alt="Amazon logo"></a>
          </div>
       </div>
-   </footer>
-## % endif
+      <div class="row footerBottom" >
+         <div class="footer-column footer_cgu" >
+            <a target="_blank" class="footer_links" href="/note-legali/">Note legali</a>
+            <a target="_blank" class="footer_links" href="/informativa-sulla-privacy/">Informativa sulla privacy</a>
+            <a target="_blank" class="footer_links" href="/dati-personali/">dati-personali</a>
+         </div>
+      </div>
+   </div>
+</footer>
 
