@@ -114,15 +114,25 @@ from six import string_types
 
 
   /* MEDIA */
-  @media (max-width: 520px) {
-    .intro-inner-wrapper {
+  @media screen and (max-width: 680px) {
+
+    .course-info header.course-profile .intro-inner-wrapper {
       flex-direction: column;
     }
-    .intro-inner-wrapper #section-header-intro, .intro-inner-wrapper .media {
-      width: 85vw !important;
+    #section-header-intro, .intro-inner-wrapper .media {
+      width: 80vw !important;
+      margin: auto;
+    }
+
+    #dashboard-onglet-list {
+      margin: 0 0 0 1vw !important;
+    }
+    #dashboard-onglet-list li {
+      min-width: 34vw !important;
     }
 
   }
+
 
 </style>
 
