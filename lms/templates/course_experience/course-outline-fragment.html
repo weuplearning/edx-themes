@@ -191,7 +191,7 @@ if not all([user_firstname, user_lastname, user_structure, user_preparedDiploma,
             for (let j = 0; j < module_list.length; j++) {
                 const module = module_list[j];
 
-                if (module.detail.indexOf(subsection_title) != -1) {
+                if (module.detail.replace("&#39;","'").indexOf(subsection_title) != -1) {
                     if (module.percent == 1) {
                         element.children[0].children[1].style.display = 'block'
                     }
