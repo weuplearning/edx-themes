@@ -57,7 +57,7 @@
 </style>
 
 
-%if request.get_full_path().find('/register?course-v1:icope+soins_bucco_dentaires+2024') !=  -1 :  
+%if request.get_full_path().find('/register?course_id=course-v1:icope+soins_bucco_dentaires+2024&enrollment_action=enroll') !=  -1 :  
 <script>
   setTimeout(() => {
     $('#register-parcours').removeAttr('required');
