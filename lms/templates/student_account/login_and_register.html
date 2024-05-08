@@ -291,4 +291,15 @@ window.setTimeout(()=>{
  
 }, 500)
 
+// Reset password feature
+var resetLink = setInterval(() => {
+
+  let newResetLink = "To protect your account, it’s been temporarily locked. Try again in 30 minutes.<br> To be on the safe side, you can reset your password <button type='button' class='field-link form-toggle' data-type='password-reset' style='border:none;color:black;padding:0;font-size:inherit;font-weight:700;vertical-align:unset;'>here</button> before you try again."
+  let oldResetLink = document.getElementsByClassName('message-copy')[0].children
+
+  if (oldResetLink[0].innerHTML.indexOf('/reset') != -1) {
+    oldResetLink[0].innerHTML = newResetLink
+  }
+}, 400);
+
 </script>
