@@ -35,6 +35,8 @@
   }
   #content-container {
     background: url("${static.url('icope/images/bg_img.png')}");
+    display: flex;
+    flex-direction: column;
   }
   .toggle-form {
     display: none !important;
@@ -53,6 +55,45 @@
   }
 
 </style>
+
+
+%if request.get_full_path().find('/register?course-v1:icope+soins_bucco_dentaires+2024') !=  -1 :  
+<script>
+  setTimeout(() => {
+    $('#register-parcours').removeAttr('required');
+  }, 1000);
+</script>
+<style>
+  .required-fields > .select-parcours {
+    display: none;
+  }
+  #bucco-dentaire-msg {
+    display: block !important;
+    background: #fff;
+    margin: 0 auto;
+    padding: 40px 10px 0 10px;
+    font-size: larger;
+    max-width: 500px;
+    color: #F2816F;
+    line-height: 1.5;
+    text-align: justify;
+  }
+  #bucco-dentaire-msg > a {
+    text-decoration: underline !important;
+    color: #206892 !important;
+  }
+</style>
+%endif
+
+%if request.get_full_path().find('soins_bucco_dentaires') !=  -1 :  
+<style>
+  nav.position-header {
+    display: none;
+  }
+</style>
+%endif
+
+
 
 <%block name="js_extra">
 
@@ -97,6 +138,9 @@
                     border_class = ''
                 %>
             % endif
+            <div id="bucco-dentaire-msg" style="display: none;">
+              <strong>ATTENTION :</strong> Si vous possédez déjà un compte sur la plateforme icope-formation.com vous pouvez accéder directement à la formation bucco-dentaire en vous <a href="/login?course-v1:icope+soins_bucco_dentaires+2024&enrollment_action=enroll">connectant ici</a>  
+            </div>
             <div id="login-and-registration-container" class="login-register ${border_class}"></div>
         </div>
     </main>
