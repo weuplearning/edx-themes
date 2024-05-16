@@ -1,17 +1,395 @@
 <%page expression_filter="h"/>
 <%! from django.utils.translation import ugettext as _ %>
-
 <%inherit file="../main.html" />
+<%block name="pagetitle">Ressources et Actualités</%block>
+<%!
+import datetime
+import six
+import json
 
-<%block name="pagetitle">Vos données personnelles</%block>
+from django.utils.html import format_html
 
+%>
+
+<%namespace name='static' file='../static_content.html'/>
+
+<%
+file_path = '/edx/var/edxapp/media/microsites/umn/fichiers_json/ressources.json'
+with open(file_path, 'r') as file:
+  data = json.load(file)
+%>
+
+
+
+
+<div id="top-line-banner"></div>
 <main id="main" aria-label="Content" tabindex="-1">
-    <section class="container about">
-        <h1>
-            Vos données personnelles
-        </h1>
-        <p>
-            <%block name="pagecontent">${page_content or _("This page left intentionally blank. Feel free to add your own content.")}</%block>
-        </p>
+
+  <div id="header-ressources-actualites">
+    <div class="title-header">
+      <span id="pointer_icon_top"></span>
+      Ressources et actualités
+    </div>
+    <div>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam voluptatem commodi repudiandae dignissimos corrupti. A voluptatum, enim fuga architecto rem sit itaque eos consectetur nemo, eveniet qui, vel beatae sequi?
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam voluptatem commodi repudiandae dignissimos corrupti. A voluptatum, enim fuga architecto rem sit itaque eos consectetur nemo, eveniet qui, vel beatae sequi?
+    </div>
+  </div>
+
+  <div id="main-ressources-actualites">
+    <div class="titles">
+      <h1 class="title" id="title-ressources" onclick="showSection('ressources')">Ressources</h1>
+      <h1 class="title" id="title-actualites" onclick="showSection('actualites')">Actualités</h1>
+    </div>
+    <section class="section-content " id="ressources">           
+      <div class="tags">
+        <span class="tag horizontal-align" onclick="toggleTag('ressources', 'ingénieur')">#ingénieur</span>
+        <span class="tag horizontal-align" onclick="toggleTag('ressources', 'nucléaire')">#nucléaire</span>
+        <span class="tag horizontal-align" onclick="toggleTag('ressources', 'réacteur')">#réacteur</span>
+        <span class="tag horizontal-align" onclick="toggleTag('ressources', 'uranium')">#uranium</span>
+        <span class="tag horizontal-align" onclick="toggleTag('ressources', 'centrale')">#centrale</span>
+      </div>
+      
+      <div class="vignettes" id="vignettes-ressources">
+      %for value in data["ressources"] :
+        <div class="vignette ${value['tag']}">
+          <div class="vignette-background" style="background-image: url('/media/microsites/umn/fichiers_json/image_ressources/${value['image']}');">
+            %for tag in value['tag'].split(' '):
+            <p>#${tag}</p>
+            %endfor
+          </div>
+          <div class="vignette-details">
+            <p>${value['title']}</p>
+            <p>${value['sub_title']}</p>
+            <div ></div>
+            <p>${value['text']}</p>
+            <div class="vignette-link-button">
+              <a href="${value['url_link']}" target="_blank">Regarder</a>
+            </div>
+          </div>
+        </div>
+      %endfor
+      </div>
+
     </section>
+
+    <section class="section-content" id="actualites">
+      <div class="tags">
+        <span class="tag" onclick="toggleTag('actualites', 'ingénieur')">#ingénieur</span>
+        <span class="tag" onclick="toggleTag('actualites', 'nucléaire')">#nucléaire</span>
+        <span class="tag" onclick="toggleTag('actualites', 'réacteur')">#réacteur</span>
+        <span class="tag" onclick="toggleTag('actualites', 'uranium')">#uranium</span>
+        <span class="tag" onclick="toggleTag('actualites', 'centrale')">#centrale</span>
+      </div>
+
+      <div class="vignettes" id="vignettes-actualites">
+      %for value in data["actualites"] :
+        <div class="vignette ${value['tag']}">
+          <div class="vignette-background" style="background-image: url('/media/microsites/umn/fichiers_json/image_ressources/${value['image']}');">
+            %for tag in value['tag'].split(' '):
+            <p>#${tag}</p>
+            %endfor
+          </div>
+          <div class="vignette-details">
+            <p>${value['title']}</p>
+            <p>${value['sub_title']}</p>
+            <div ></div>
+            <p>${value['text']}</p>
+            <div class="vignette-link-button">
+              <a href="${value['url_link']}" target="_blank">Regarder</a>
+            </div>
+          </div>
+        </div>
+      %endfor
+      </div>
+
+    </section>
+  </div>
 </main>
+
+<style>
+
+  :root {
+    --primary : #007dff;
+    --secondary: #FFF500; 
+    --tertiary : #ED4D39;
+    --charcoil : #334756;
+  }
+  #content {
+    min-height: calc(100vh - 214px);
+    padding: 0 0 50px 0;
+    width: 100vw;
+    background-size: cover;
+    background-image: url("${static.url('umn/images/fond_page3.png')}");
+  }
+  .horizontal-align {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+
+  /* HEADER */
+  .content-wrapper {
+    margin-top: 0px !important;
+  }
+  #top-line-banner {
+    width: 100vw;
+    height: 20px;
+    background-size: cover;
+    background-position: right;
+    background-image: url("${static.url('umn/images/barre_couleurs.png')}");
+  }
+  #header-ressources-actualites {
+    padding: 70px 10vw;
+    background-image: url("${static.url('umn/images/img_bandeau_page3.png')}");
+    background-size: cover;
+    color: white;
+    font-size: larger;
+    line-height: 1.2;
+  }
+  .title-header {
+    text-decoration: underline;
+    margin-bottom: 22px;
+    position: relative;
+    font-size: x-large;
+    font-family: "Sora";
+    font-weight: 800;
+  }
+  #pointer_icon_top {
+    position: absolute;
+    left: -90px;
+    top: -15px;
+    height: 43px;
+    width: 56px;
+    background-size: cover;
+    background-image: url("${static.url('umn/images/motif3_bleu.png')}");
+  }
+
+
+  /* MAIN */
+  #main-ressources-actualites {
+    margin: 0 10vw ;
+  }
+  .main-container {
+    min-height: calc( 100vh - 190px);
+    padding: unset ;
+  }
+  .titles {
+    display: flex;
+    gap: 20px;
+    margin: 25px 0;
+    border-bottom: var(--charcoil) 1px solid ;
+  }
+  .title {
+    cursor: pointer;
+    color: var(--charcoil);
+    padding: 8px 40px;
+    margin: 0px;
+    font-weight: bold;
+  }
+  .title.active {
+    border-bottom: var(--charcoil) 7px solid ;
+  }
+  .section-content {
+    display: none;
+  }
+  .section-content.active {
+    display: block;
+  }
+  /* TAG */
+  .tags {
+    margin-bottom: 20px;
+    background-color: var(--primary);
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+  }
+  .tag {
+    font-size: large;
+    padding: 15px;
+    margin: 10px;
+    width : 140px;
+    background-color: var(--primary);
+    cursor: pointer;
+    border: 1px solid white;
+    color: white;
+  }
+  .tag.active {
+    background-color: white;
+    color: var(--primary);
+  }
+
+  /* VIGNETTES */
+  .vignettes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+  }
+  .vignette {
+    width: calc( (80vw - 60px)/3 );
+    box-sizing: border-box;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+    border: 1px solid var(--charcoil);
+  }
+  .vignette-background {
+    height: 250px;
+    background-size: cover;
+  }
+  .vignette-background > p {
+    color: white;
+    border: solid 1px white;
+    padding: 5px 10px;
+    display: inline-block;
+    margin: 7px;
+    font-size: small;
+  }
+  .vignette-details {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    box-sizing: border-box;
+    max-height: 350px;
+  }
+  .vignette-details p:nth-child(1) {
+    font-size: larger;
+    font-weight: 700;
+  }
+  .vignette-details p:nth-child(2) {
+    font-size: medium;
+    font-weight: 700;
+    margin-top: 8px;
+  }
+  .vignette-details div:nth-child(3) {
+    border-bottom : 2px var(--charcoil) solid;
+    width: 65%;
+    margin: 12px 0 ;
+  }
+  .vignette-details p:nth-child(4) {
+    font-size: 15px;
+    line-height: 1.2;
+    text-align: justify;
+    overflow-y: scroll;
+  }
+  .vignette-link-button {
+    display: flex;
+    align-items: center;
+    align-self: center;
+    padding: 10px 20px;
+    background-position: center;
+    background-size: cover;
+    height: 25px;
+    margin-top: 30px;
+    font-weight: 700;
+    background-image: url("${static.url('umn/images/bouton_commencer.svg')}");
+  }
+  .vignette-link-button a {
+    color: white;
+  }
+</style>
+<style>
+@media screen and (max-width: 768px) {
+  #header-ressources-actualites {
+    padding: 70px 15vw;
+
+  }
+  .vignette {
+    width: calc( (80vw - 30px)/2 );
+  }
+  .tag {
+    font-size: medium;
+    width : 110px;
+  }
+  #pointer_icon_top {
+    left: -60px;
+    top: -5px;;
+  }
+  .title {
+    font-size: medium;
+    padding: 8px 20px;
+  }
+
+}
+@media screen and (max-width: 425px) {
+  #header-ressources-actualites {
+    padding: 40px 13vw;
+  }
+  .vignette {
+    width: 100%;
+  }
+  .title {
+    font-size: small;
+  }
+  .tag {
+    width : 75px;
+  }
+
+}
+</style>
+
+
+<script>
+  function showSection(sectionId) {
+    // Masquer toutes les sections et désactiver tous les titres
+    const sections = document.querySelectorAll('.section-content');
+    sections.forEach(section => section.classList.remove('active'));
+
+    const titles = document.querySelectorAll('.title');
+    titles.forEach(title => title.classList.remove('active'));
+
+    // Afficher la section sélectionnée et activer le titre correspondant
+    const selectedSection = document.getElementById(sectionId);
+    selectedSection.classList.add('active');
+
+    const selectedTitle = document.getElementById('title-' + sectionId);
+    selectedTitle.classList.add('active');
+  }
+
+  function toggleTag(sectionId, tag) {
+
+    // const tagElement = document.querySelector('#'+sectionId+' .tag:nth-child("'+tag+'")');
+    // const tagElement = document.querySelector('#'+sectionId+' .tag:contains("'+tag+'")');
+    const tagElement = event.target
+    const isActive = tagElement.classList.contains('active');
+
+    // Deselect all tags and show all vignettes if tag is already active
+    if (isActive) {
+      resetTags(sectionId);
+    } else {
+      filterVignettes(sectionId, tag);
+    }
+  }
+
+  function filterVignettes(sectionId, tag) {
+    resetTags(sectionId);
+
+    const tags = document.querySelectorAll('#'+sectionId+' .tag');
+    const selectedTag = Array.from(tags).find(t => t.textContent.toLowerCase().indexOf(tag) != -1);
+    if (selectedTag) selectedTag.classList.add('active');
+
+    const vignettes = document.querySelectorAll('#vignettes-'+sectionId+' .vignette');
+    vignettes.forEach(vignette => {
+      if (vignette.classList.contains(tag)) {
+        vignette.style.display = 'block';
+      } else {
+        vignette.style.display = 'none';
+      }
+    });
+  }
+
+  function resetTags(sectionId) {
+    const tags = document.querySelectorAll('#'+sectionId+' .tag');
+    tags.forEach(tag => tag.classList.remove('active'));
+
+    const vignettes = document.querySelectorAll('#vignettes-'+sectionId+' .vignette');
+    vignettes.forEach(vignette => vignette.style.display = 'block');
+  }
+
+  // Par défaut, afficher la première section et activer le premier titre
+  document.addEventListener('DOMContentLoaded', () => {
+    showSection('ressources');
+  });
+</script>

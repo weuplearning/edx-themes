@@ -108,3 +108,28 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         </form>
     % endif
 % endif
+
+<style>
+    .global-header .header-logo a .logo {
+        height: 55px !important;
+    }
+    .secondary .nav-item {
+        padding: 0 !important;
+    }
+    .global-header {
+        padding-bottom: 30px;
+    }
+    .discover-new-link {
+        display: none;
+    }
+
+    @media screen and (max-width: 768px) {
+        .user-logo {
+            display: none;
+        }
+        #toggle-dashboard-ressources {
+            display: none;
+        }
+    }
+
+</style>

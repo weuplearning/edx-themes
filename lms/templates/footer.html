@@ -11,15 +11,18 @@
 <%namespace name='static' file='static_content.html'/>
 
 <style>
+  /* Needed */
+  .content-wrapper {
+    max-width: none;
+  }
 
   .wrapper-footer {
-    height: 65px;
-    padding: 5px 5vw;
+    padding: 5px 5vw 15px 5vw;
     box-shadow: unset;
     display: flex;
     flex-direction: column;
     align-items: center;
-
+    border-top: unset ;
   }
   .wrapper-footer footer {
     max-width: unset !important;
@@ -35,10 +38,10 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    width: 100vw;
+    /* width: 100vw; */
   }
   .logo {
-    max-height: 65px;
+    max-height: 55px;
   }
   #logo_apave {
     height: 50px;
@@ -50,12 +53,35 @@
     color: #007DFF;
   }
 
+  .logos-subsection {
+    width: 50vw;
+    display: flex;
+    justify-content: space-around;
+  }
+  #logo_opco {
+    margin: 0 50px ;
+  }
+
+
   @media screen and (max-width: 992px) {
     .logos {
-      flex-direction: column;
+      flex-wrap: wrap;
+      width: unset;
+
+    }
+    .logos-subsection {
+      width: 85vw;
     }
     .logo {
       padding: 6px;
+    }
+  }
+
+  @media screen and (max-width: 380px) {
+    .logos-subsection {
+      width: 85vw;
+      flex-direction: column;
+      align-items: center;
     }
   }
 
@@ -63,6 +89,7 @@
   #scrollable-auto-tabpanel-1  .MuiGrid-item > .jss9 div:last-child > div:nth-child(2) {
     display: none !important;
   }
+
 </style>
 
 <div class="wrapper wrapper-footer">
@@ -75,12 +102,19 @@
     % endif
   >
     <div class="logos">
-      <img id="logo_opco" class="logo" src="${static.url('umn/images/OPCO_2i-LOGO-RVB.svg')}" alt="opco logo">
-      <img id="logo_university" class="logo" src="${static.url('umn/images/logo_footer_2.png')}" alt="university logo">
-      <img id="logo_apave" class="logo" src="${static.url('umn/images/logo_apav_quadri.png')}" alt="apave logo">
-      <a href="http://www.monavenirdanslenucleaire.fr/" target="_blank">
-        <img id="logo_nuclear" class="logo" src="${static.url('umn/images/logo_footer_4.png')}" alt="nuclear logo">
-      </a>
+      
+      <div class="logos-subsection">
+        <img id="logo_opco" class="logo" src="${static.url('umn/images/OPCO_2i-LOGO-RVB.svg')}" alt="opco logo">
+        <img id="logo_university" class="logo" src="${static.url('umn/images/logo_footer_2.png')}" alt="university logo">
+      </div>
+
+      <div class="logos-subsection">
+        <img id="logo_apave" class="logo" src="${static.url('umn/images/logo_apav_quadri.png')}" alt="apave logo">
+        <a href="http://www.monavenirdanslenucleaire.fr/" target="_blank">
+          <img id="logo_nuclear" class="logo" src="${static.url('umn/images/logo_footer_4.png')}" alt="nuclear logo">
+        </a>
+      </div>
+
     </div>
 
   </footer>

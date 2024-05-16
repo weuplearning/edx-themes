@@ -1,0 +1,249 @@
+<%page args="course_overview, enrollment, entitlement, entitlement_session, course_card_index, is_unfulfilled_entitlement, is_fulfilled_entitlement, entitlement_available_sessions, entitlement_expiration_date, entitlement_expired_at, show_courseware_link, cert_status, can_refund_entitlement, can_unenroll, credit_status, show_email_settings, course_mode_info, is_paid_course, verification_status, course_requirements, dashboard_index, share_settings, related_programs, display_course_modes_on_dashboard, show_consent_link, enterprise_customer_name, resume_button_url, partner_managed_enrollment" expression_filter="h"/>
+
+<%!
+import datetime
+import six
+import json
+
+from django.conf import settings
+from django.utils.http import urlencode, urlquote_plus
+from django.utils.translation import ugettext as _
+from django.utils.translation import ungettext
+from django.urls import reverse
+from django.utils.html import format_html
+
+from common.djangoapps.course_modes.models import CourseMode
+from common.djangoapps.course_modes.helpers import enrollment_mode_display
+from lms.djangoapps.verify_student.services import IDVerificationService
+from openedx.core.djangolib.js_utils import dump_js_escaped_json, js_escaped_string
+from openedx.core.djangolib.markup import HTML, Text
+from openedx.features.course_experience import course_home_url_name
+from common.djangoapps.student.helpers import (
+  VERIFY_STATUS_NEED_TO_VERIFY,
+  VERIFY_STATUS_SUBMITTED,
+  VERIFY_STATUS_RESUBMITTED,
+  VERIFY_STATUS_APPROVED,
+  VERIFY_STATUS_MISSED_DEADLINE,
+  VERIFY_STATUS_NEED_TO_REVERIFY,
+  DISABLE_UNENROLL_CERT_STATES,
+)
+from common.djangoapps.util.course import get_link_for_about_page, get_encoded_course_sharing_utm_params
+from lms.djangoapps.experiments.utils import UPSELL_TRACKING_FLAG
+%>
+
+<%
+  reverify_link = IDVerificationService.get_verify_location('verify_student_reverify')
+  cert_name_short = course_overview.cert_name_short
+  if cert_name_short == "":
+    cert_name_short = settings.CERT_NAME_SHORT
+
+  cert_name_long = course_overview.cert_name_long
+  if cert_name_long == "":
+    cert_name_long = settings.CERT_NAME_LONG
+
+  is_course_expired = hasattr(show_courseware_link, 'error_code') and show_courseware_link.error_code == 'audit_expired'
+%>
+
+<%namespace name='static' file='../static_content.html'/>
+
+
+
+<li class="course-item">
+  % if display_course_modes_on_dashboard:
+    <%
+        course_verified_certs = enrollment_mode_display(
+            enrollment.mode,
+            verification_status.get('status'),
+            course_overview.id
+        )
+    %>
+    <%
+        mode_class = course_verified_certs.get('display_mode', '')
+        if mode_class:
+            mode_class = ' ' + mode_class ;
+    %>
+  % else:
+    <% mode_class = '' %>
+  % endif
+  <div class="course-container"
+    % if getattr(course_overview, 'language'):
+      lang="${course_overview.language}"
+    % endif
+  >
+    <article class="course${mode_class}" aria-labelledby="course-title-${enrollment.course_id}" id="course-card-${course_card_index}">
+      <% course_target = reverse(course_home_url_name(course_overview.id), args=[six.text_type(course_overview.id)]) %>
+      <!-- <section class="details vertical-align" aria-labelledby="details-heading-${enrollment.course_id}"> -->
+      <section class="vertical-align" aria-labelledby="details-heading-${enrollment.course_id}">
+
+        <div class="wrapper-course-image" aria-hidden="true">
+          % if show_courseware_link and not is_unfulfilled_entitlement:
+            % if not is_course_expired:
+                <a href="${course_target}" data-course-key="${enrollment.course_id}" class="cover course-target-link" tabindex="-1">
+                  <img src="${course_overview.image_urls['small']}" class="course-image" alt="${_('{course_number} {course_name} Home Page').format(course_number=course_overview.number, course_name=course_overview.display_name_with_default)}" />
+                </a>
+            % else:
+                <a class="fade-cover">
+                  <img src="${course_overview.image_urls['small']}" class="course-image" alt="${_('{course_number} {course_name} Cover Image').format(course_number=course_overview.number, course_name=course_overview.display_name_with_default)}" />
+                </a>
+            % endif
+          % else:
+            <a class="cover">
+              <img src="${course_overview.image_urls['small']}" class="course-image" alt="${_('{course_number} {course_name} Cover Image').format(course_number=course_overview.number, course_name=course_overview.display_name_with_default)}" />
+            </a>
+          % endif
+          % if display_course_modes_on_dashboard and course_verified_certs.get('display_mode') != 'audit':
+            <span class="sts-enrollment" title="${course_verified_certs.get('enrollment_title')}">
+              <span class="label">${_("Enrolled as: ")}</span>
+              % if course_verified_certs.get('show_image'):
+                  <img class="deco-graphic" src="${static.url('images/verified-ribbon.png')}" alt="${course_verified_certs.get('image_alt')}" />
+              % endif
+              <div class="sts-enrollment-value">${course_verified_certs.get('enrollment_value')}</div>
+            </span>
+          % endif
+        </div>
+        <div class="wrapper-course-details vertical-align" id="json-${enrollment.course_id}">
+          <div class="course-title" id="course-title-${enrollment.course_id}">
+            % if show_courseware_link and not is_unfulfilled_entitlement:
+              % if not is_course_expired:
+                <a data-course-key="${enrollment.course_id}" href="${course_target}" class="course-target-link json-title"></a>
+              % else:
+                <a class="disable-look json-title" data-course-key="${enrollment.course_id}"></a>
+              % endif
+            % else:
+              <span class="json-title"></span>
+            % endif
+          </div>
+          <p class="json-subtitle"></p>
+          <span class="json-spotlight"></span>
+          <span class="json-spotlight-empty"></span>
+          <div class="json-description"></div>
+
+          <!-- progress-bar -->
+          <div id="progress-${enrollment.course_id}" class="progress-bar-course-id">
+
+            <div class="progress-bar-dashboard-container">
+              <div class="progress-bar-dashboard"></div>
+            </div>
+            <span class="grade-percent" >0%</span>
+          </div>
+
+          <div class="resume-start-button">
+            % if (show_courseware_link or is_unfulfilled_entitlement) and not is_course_expired:
+              % if course_overview.has_ended():
+                % if not is_unfulfilled_entitlement:
+                  <a href="${course_target}" class="enter-course archived course-target-link" data-course-key="${enrollment.course_id}">${_('View Archived Course')}<span class="sr">&nbsp;${course_overview.display_name_with_default}</span></a>
+                % endif
+
+              % else:
+                <%include file="_dashboard_course_resume.html" args="resume_button_url=resume_button_url, course_overview=course_overview, enrollment=enrollment, is_unfulfilled_entitlement=is_unfulfilled_entitlement, course_target=course_target, related_programs=related_programs"/>
+              % endif
+            % endif
+          </div>
+
+
+
+        </div>
+      </section>
+    </article>
+  </div>
+</li>
+
+% if share_settings.get('DASHBOARD_FACEBOOK', False) and share_settings.get('DASHBOARD_TWITTER', False):
+    <%static:require_module_async module_name="js/course_sharing/course_sharing_events" class_name="CourseSharingEvents">
+        CourseSharingEvents("${course_overview.id | n, js_escaped_string}");
+    </%static:require_module_async>
+%endif
+
+<%static:require_module_async module_name="js/dateutil_factory" class_name="DateUtilFactory">
+    DateUtilFactory.transform(iterationKey=".localized-datetime");
+</%static:require_module_async>
+
+% if UPSELL_TRACKING_FLAG.is_enabled():
+    <%static:require_module_async module_name="js/commerce/track_ecommerce_events" class_name="TrackECommerceEvents">
+      if (window.loadedECommerceEvents === undefined) {
+        window.loadedECommerceEvents = true;
+
+        TrackECommerceEvents.trackUpsellClick($(".track_course_dashboard_green_button"), 'course_dashboard_green', {
+          pageName: "course_dashboard",
+          linkType: "button",
+          linkCategory: "green_upgrade"
+        });
+      }
+
+    </%static:require_module_async>
+%endif
+
+
+
+<script>
+  function checkIfFinished(course) {
+    $.ajax({
+      url: "/wul_apps/" + course + "/certificate/ensure",
+      success: function(result){
+        if (result.grade != 0) {
+          
+          var targetBar = document.getElementById("progress-${enrollment.course_id}").getElementsByClassName('progress-bar-dashboard')[0]
+          var targetPercent = document.getElementById("progress-${enrollment.course_id}").getElementsByClassName('grade-percent')[0]
+  
+          targetBar.style.width = result.grade*100 + '%'
+          targetPercent.innerHTML = result.grade*100 + '%'        
+        }
+      }
+    });
+  }
+  checkIfFinished('${enrollment.course_id}');
+</script>
+
+<script>
+// Fonction pour récupérer les données JSON et insérer les valeurs dans le HTML
+async function loadCourseOverview() {
+  try {
+    const response = await fetch('/media/microsites/umn/fichiers_json/course_overview.json');
+    const data = await response.json();
+
+    for (const [key, value] of Object.entries(data)) {
+      selector_id = 'json-'+key
+      const target_details = document.getElementById(selector_id)
+
+      const json_title = value["title"];
+      const json_subtitle = value["subtitle"];
+      const json_spotlight = value["spotlight"];
+      const json_description = value["description"];
+      
+      const array_title = document.getElementById(selector_id).getElementsByClassName('json-title')
+
+      for (let i = 0; i < array_title.length; i++) {
+        const element = array_title[i];
+        element.innerHTML = json_title;
+      }
+
+      document.getElementById(selector_id).getElementsByClassName('json-subtitle')[0].textContent = json_subtitle;
+
+      if (json_spotlight) {
+        document.getElementById(selector_id).getElementsByClassName('json-spotlight')[0].textContent = json_spotlight;
+        document.getElementById(selector_id).getElementsByClassName('json-spotlight-empty')[0].style.display = 'none';
+      } else {
+        document.getElementById(selector_id).getElementsByClassName('json-spotlight-empty')[0].textContent = '';
+        document.getElementById(selector_id).getElementsByClassName('json-spotlight')[0].style.display = 'none';
+      }
+
+      document.getElementById(selector_id).getElementsByClassName('json-description')[0].innerHTML = json_description;      
+    }
+  } catch (error) {
+    console.error('Error loading course overview:', error);
+  }
+}
+
+// Appeler la fonction pour charger et afficher les données
+setTimeout(() => {
+  
+  loadCourseOverview();
+}, 250);
+
+// // Fonction de formatage HTML simulée pour cet exemple
+// function format_html(content) {
+//   return content;  // Ajoutez le formatage souhaité ici
+// }
+
+</script>
+

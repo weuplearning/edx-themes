@@ -16,6 +16,7 @@ from django.utils.translation import ngettext
 from lms.djangoapps.courseware.access import has_access
 from openedx.core.djangolib.markup import HTML, Text
 from openedx.features.course_experience import RELATIVE_DATES_FLAG
+from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 %>
 
 <%
@@ -24,297 +25,124 @@ self_paced = context.get('self_paced', False)
 relative_dates_flag_is_enabled = RELATIVE_DATES_FLAG.is_enabled(str(course_key))
 is_course_staff = bool(user and course and has_access(user, 'staff', course, course.id))
 dates_banner_displayed = False
-
-custom_fields_dict = json.loads(custom_fields)
-user_firstname = custom_fields_dict.get('first_name', '')
-user_lastname = custom_fields_dict.get('last_name', '')
-user_structure = custom_fields_dict.get('structure', '')
-user_preparedDiploma = custom_fields_dict.get('preparedDiploma', '')
-user_regions = custom_fields_dict.get('regions', '')
-user_agreeCgu = custom_fields_dict.get('agreeCgu', '')
-user_status = custom_fields_dict.get('status', '')
-
-display_form = False
-if not all([user_firstname, user_lastname, user_structure, user_preparedDiploma, user_regions, user_agreeCgu, user_status]):
-    display_form = True
 %>
 
+<%
+file_path = '/edx/var/edxapp/media/microsites/umn/fichiers_json/course_overview.json'
+with open(file_path, 'r') as file:
+  data = json.load(file)
 
-<style>
-.content-wrapper {
-    min-height: calc(100vh - 284px);
-}
-#customFieldsForm {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-#customFieldsForm label {
-    margin-bottom: 10px;
-    font-weight: bold;
-}
-
-#customFieldsForm input[type="text"] {
-    padding: 5px;
-    margin-bottom: 20px;
-    border-radius: 3px;
-    border: 1px solid #ccc;
-    width: 100%;
-    max-width: 400px;
-}
-
-#customFieldsForm select {
-    padding: 5px;
-    margin-bottom: 20px;
-    border-radius: 3px;
-    border: 1px solid #ccc;
-    width: 100%;
-    max-width: 400px;
-}
-
-#customFieldsForm button[type="submit"] {
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-}
-
-#customFieldsForm button[type="submit"]:hover {
-    background-color: #0056b3;
-}
-
-.disabled-link {
-  pointer-events: none;
-}
-.required_field {
-    color: red;
-}
-</style>
-
-% if display_form:
-
-<script>
-    let startButton = document.getElementsByClassName('action-resume-course')
-    startButton[0].classList.add("disabled-link")
-</script>
-<form id="customFieldsForm">
-    <label for="lastName">Nom : <span class="required_field">*</span></label>
-    <input type="text" id="lastName" name="lastName" onkeydown="if(event.keyCode==32) return false;" required><br>
-  
-    <label for="firstName">Prénom : <span class="required_field">*</span></label>
-    <input type="text" id="firstName" name="firstName" onkeydown="if(event.keyCode==32) return false;" required><br>
-  
-    <label for="structure">Organisme (Lycée, université, entreprise..) : <span class="required_field">*</span></label>
-    <input type="text" id="structure" name="structure" onkeydown="if(event.keyCode==32) return false;" required><br>
-
-    <label for="preparedDiploma">Diplôme préparé : <span class="required_field">*</span></label>
-    <input type="text" id="preparedDiploma" name="preparedDiploma" onkeydown="if(event.keyCode==32) return false;" required><br>
-
-    <label for="status">Statut : <span class="required_field">*</span></label>
-    <select id="status" name="status">
-        <option value="learner">Apprenant</option>
-        <option value="instructor">Formateur</option>
-        <option value="convert">Demandeur d'emploi ou salarié en reconversion</option>
-        <option value="other">Autre</option>
-    </select>
-    <br>
-
-    <label for="regions">Région : <span class="required_field">*</span></label>
-    <select id="regions" name="regions">
-        <optgroup label="France métropolitaine">
-          <option value="auvergne">Auvergne-Rhône-Alpes</option>
-          <option value="bourgogne">Bourgogne-Franche-Comté</option>
-          <option value="bretagne">Bretagne</option>
-          <option value="centre">Centre-Val de Loire</option>
-          <option value="corse">Corse</option>
-          <option value="grandest">Grand Est</option>
-          <option value="hautsdefrance">Hauts-de-France</option>
-          <option value="iledefrance">Île-de-France</option>
-          <option value="normandie">Normandie</option>
-          <option value="nouvelleacquitaine">Nouvelle-Aquitaine</option>
-          <option value="occitanie">Occitanie</option>
-          <option value="paysdelaloire">Pays de la Loire</option>
-          <option value="provence">Provence-Alpes-Côte d'Azur</option>
-        </optgroup>
-        <optgroup label="Outre-mer">
-          <option value="guadeloupe">Guadeloupe</option>
-          <option value="martinique">Martinique</option>
-          <option value="guyane">Guyane</option>
-          <option value="reunion">La Réunion</option>
-          <option value="mayotte">Mayotte</option>
-        </optgroup>
-    </select>
-    <br>
-
-    <label for="agreeCgu">J'accepte d'être contacté(e) par l'UMN par e-mail : <span class="required_field">*</span></label>
-    <select id="agreeCgu" name="agreeCgu">
-        <option value="oui">Oui</option>
-        <option value="non">Non</option>
-    </select>
-  
-    <p><span class="required_field">*</span> champs obligatoires</p>
-    <button type="submit">Envoyer</button>
-</form>
-
-%else :
-
-
-    <!-- Scorm did not receive completion status so we have to check for grade details -->
-
-    % if str(request.get_full_path).find('+test+test') != -1 :
-<script>
-    async function getData(ajaxurl) {
-        return $.ajax({
-            url: ajaxurl,
-            type: 'GET',
-            dataType: 'json',
-        });
-    };
-
-    (async () => {
-        const url = "/api/grades/v1/courses/course-v1:umn+test+test/?username=${user.username}";
-        const result = await getData(url);
-
-        let module_list = result[0]['summay']['section_breakdown']
-        let section = document.getElementsByClassName("subsection")
-
-        for (let i = 0; i < section.length; i++) {
-            const element = section[i];
-            let subsection_title = element.children[0].children[0].innerText
-
-            for (let j = 0; j < module_list.length; j++) {
-                const module = module_list[j];
-
-                if (module.detail.replace("&#39;","'").indexOf(subsection_title) != -1) {
-                    if (module.percent == 1) {
-                        element.children[0].children[1].style.display = 'block'
-                    }
-                }
-            }
-        }
-    })();
-</script>
-
-    % elif str(request.get_full_path).find('umn+pn+02') != -1 :
-    <script>
-    // async function getData(ajaxurl) {
-    //     return $.ajax({
-    //         url: ajaxurl,
-    //         type: 'GET',
-    //         dataType: 'json',
-    //     });
-    // };
-
-    // (async () => {
-    //     const url = "/api/grades/v1/courses/course-v1:umn+pn+02/?username=${user.username}";
-    //     const result = await getData(url);
-
-    //     let module_list = result[0]['summay']['section_breakdown']
-    //     let section = document.getElementsByClassName("subsection")
-
-    //     for (let i = 0; i < section.length; i++) {
-    //         const element = section[i];
-    //         let subsection_title = element.children[0].children[0].innerText
-
-    //         for (let j = 0; j < module_list.length; j++) {
-    //             const module = module_list[j];
-
-    //             if (module.detail.indexOf(subsection_title) != -1) {
-    //                 if (module.percent == 1) {
-    //                     element.children[0].children[1].style.display = 'block'
-    //                 }
-    //             }
-    //         }
-    //     }
-    // })();
-        console.log('new course')
-    </script> 
-
-    % endif
-
+for key, value in data.items() :
+  if key == str(course.id) :
+    json_img_link = value["img_link"]
+%>
 
 <main role="main" class="course-outline" id="main" tabindex="-1">
     <%include file="/dates_banner.html" />
     % if course_sections is not None:
-        <button class="btn btn-primary"
-                id="expand-collapse-outline-all-button"
-                aria-expanded="false"
-                aria-controls="course-outline-block-tree"
-                >
+        <button class="btn btn-primary" id="expand-collapse-outline-all-button" aria-expanded="false" aria-controls="course-outline-block-tree" >
           <span class="expand-collapse-outline-all-extra-padding" id="expand-collapse-outline-all-span">${_("Expand All")}</span>
         </button>
-        <ol class="block-tree accordion"
-            id="course-outline-block-tree"
-            aria-labelledby="expand-collapse-outline-all-button">
-        % for section in course_sections:
+        <ol class="block-tree accordion vertical-align" id="course-outline-block-tree" aria-labelledby="expand-collapse-outline-all-button">
+
+        % for primary_index, section in enumerate(course_sections):
             <%
             section_is_auto_opened = section.get('resume_block') is True
             scored = 'scored' if section.get('scored', False) else ''
             %>
-                <li class="outline-item section ${scored}">
-
-                % if str(request.get_full_path).find('+test+test') != -1 :
-                    <button class="section-name outline-button"
-                        aria-controls="${ section['id'] }_contents"
-                        id="${ section['id'] }">
-                % else :
-                    <button class="section-name accordion-trigger outline-button"
-                        aria-expanded="${ 'true' if section_is_auto_opened else 'false' }"
-                        aria-controls="${ section['id'] }_contents"
-                        id="${ section['id'] }">
-                % endif
-
-                        <span class="fa fa-chevron-right ${ 'fa-rotate-90' if section_is_auto_opened else '' }" aria-hidden="true"></span>
+            <li class="outline-item section ${scored}">
+                <img class="vignette-section-img" src="${static.url(json_img_link[primary_index])}" alt="section-image">
+                <div class="right-panel">
+                    <button class="section-name accordion-trigger outline-button" aria-expanded="${ 'true' if section_is_auto_opened else 'false' }" aria-controls="${ section['id'] }_contents" id="${ section['id'] }">
                         <h3 class="section-title">${ section['display_name'] }</h3>
-                % if section.get('complete'):
-                        <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
-                        <span class="sr">${_("Completed")}</span>
-                % endif
+                        <span class="fa fa-chevron-right ${ 'fa-rotate-90' if section_is_auto_opened else '' }" aria-hidden="true"></span>
+
+                        <!-- Insérer les jauges ici -->
+                        %if configuration_helpers.get_value('COMPLETION_BASED_DASHBOARD_MONO', False):
+
+                            <%
+                            total_blocks = 1
+                            completed_blocks = 0
+
+                            if not section.get('complete'):
+                                total_blocks = 0
+                                completed_blocks = 0
+                                for subsection in section.get('children', []):
+                                    for unitchild in subsection.get('children', []):
+                                        for blockchild in unitchild.get('children', []):
+                                            total_blocks += 1
+                                            if blockchild.get('complete'):
+                                                completed_blocks += 1
+                            if total_blocks == 0:
+                                completion_ratio = 0
+                            else:
+                                completion_ratio = completed_blocks / total_blocks
+                            %>
+
+                            <div class="progress_bar_and_score">
+                                <div class="progress-bar-full animate">
+                                    <span style="width:${(completion_ratio * 100)}%;" class="progress-bar-grade progress_bar_index_${primary_index}"><span></span></span>
+                                </div>
+                                <h2 class="completed_percent"> ${int(completion_ratio * 100)} %</h2>
+                            </div>
+
+                        %else:
+
+                            %for index, chapter in enumerate(user_grade.chapter_grades.keys()):
+                                %if section['display_name'] == user_grade.chapter_grades[chapter]['display_name']:
+
+                                    %if user_grade.chapter_percentage(chapter) != 1 :
+                                    <div class="progress_bar_and_score">
+                                        <div class="progress-bar-full animate">
+                                            <span style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade progress_bar_index_${primary_index}"><span></span> </span>
+                                        </div>
+                                        <h2 class="completed_percent"> ${int(user_grade.chapter_percentage(chapter) * 100)} %</h2>  
+                                        <span id="checkmark-ongoing" ></span>
+                                    </div>
+                                    %else :
+                                    <div class="progress_bar_and_score finish">
+                                        <div class="progress-bar-full animate">
+                                            <span style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade progress_bar_index_${primary_index}"><span></span></span>
+                                        </div>
+                                        <h2 class="completed_percent"> ${int(user_grade.chapter_percentage(chapter) * 100)} %</h2>
+                                        <span id="checkmark-finish" ></span>
+                                    </div>
+                                    %endif 
+
+                                %endif
+                            %endfor
+
+                        %endif
                     </button>
+
                     <ol class="outline-item accordion-panel ${ '' if section_is_auto_opened else 'is-hidden' }"
                         id="${ section['id'] }_contents"
                         aria-labelledby="${ section['id'] }">
+                    % for subsection in section.get('children', []):
+                        <%
+                        gated_subsection = subsection['id'] in gated_content
+                        needs_prereqs = not gated_content[subsection['id']]['completed_prereqs'] if gated_subsection else False
+                        scored = 'scored' if subsection.get('scored', False) else ''
+                        graded = 'graded' if subsection.get('graded') else ''
+                        num_graded_problems = subsection.get('num_graded_problems', 0)
 
-                % for subsection in section.get('children', []):
-                    <%
-                    gated_subsection = subsection['id'] in gated_content
-                    scored = 'scored' if subsection.get('scored', False) else ''
-                    graded = 'graded' if subsection.get('graded') else ''
-                    num_graded_problems = subsection.get('num_graded_problems', 0)
-                    %>
-
-                        <li class="subsection accordion ${ 'current' if subsection.get('resume_block') else '' } ${graded} ${scored}">
-                            <a
-                                href="${ subsection['lms_web_url'] }"
-                                class="subsection-text outline-button"
-                                id="${ subsection['id'] }"
-                            >
-
-                                <h4 class="subsection-title">${ subsection['display_name'] } </h4>
-
-                            % if subsection.get('complete'):
-                                <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
-                            % else :
-                                <span class="complete-checkmark fa fa-check" aria-hidden="true" style="display: none;"></span>
-                            % endif
-
+                        %>
+                        <li class="subsection accordion ${ 'current' if subsection.get('resume_block') else '' } ${graded} ${scored}" style="position: relative;">
+                            <a href="${ subsection['lms_web_url'] }" class="subsection-text outline-button horizontal-align" id="${ subsection['id'] }" >
+                                <h4 class="subsection-title">${ subsection['display_name'] }</h4>
+                                %if subsection['complete'] :
+                                <span id="checkmark-finish-sub" ></span>
+                                %endif
                             </a>
                         </li>
-                % endfor
+                    % endfor
                     </ol>
-                </li>
+                </div>
+            </li>
         % endfor
         </ol>
     % endif
 </main>
-
-% endif
 
 <%static:require_module_async module_name="js/dateutil_factory" class_name="DateUtilFactory">
     DateUtilFactory.transform('.localized-datetime');
@@ -323,48 +151,3 @@ if not all([user_firstname, user_lastname, user_structure, user_preparedDiploma,
 <%static:webpack entry="CourseOutline">
     new CourseOutline();
 </%static:webpack>
-
-
-<script>
-const form = document.getElementById("customFieldsForm");
-
-form.addEventListener("submit", function(event) {
-    event.preventDefault();
-
-    const firstName = document.getElementById("firstName").value;
-    const lastName = document.getElementById("lastName").value;
-    const structure = document.getElementById("structure").value;
-    const preparedDiploma = document.getElementById("preparedDiploma").value;
-    const regions = document.getElementById("regions").value;
-    const agreeCgu = document.getElementById("agreeCgu").value;
-    const status = document.getElementById("status").value;
-
-    const customFields = {
-        first_name: firstName,
-        last_name: lastName,
-        structure: structure,
-        preparedDiploma: preparedDiploma,
-        regions: regions,
-        agreeCgu: agreeCgu,
-        agreeCguDate: '${datetime.now()}',
-        status: status,
-        authorized: true,
-    };
-
-    const url = '/wul_apps/custom_field_editor/';
-    const data = JSON.stringify(customFields);
-    const settings = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": $.cookie('csrftoken'),
-        },
-        body: data
-    };
-
-    fetch(url, settings)
-        .then(() => window.location.reload())
-        .catch((error) => console.error('Error:', error));
-
-});
-</script>

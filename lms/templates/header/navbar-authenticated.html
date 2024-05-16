@@ -14,55 +14,89 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
   show_explore_courses = configuration_helpers.get_value('COURSES_ARE_BROWSABLE',settings.FEATURES.get('COURSES_ARE_BROWSABLE'))
   show_sysadmin_dashboard = configuration_helpers.get_value('ENABLE_SYSADMIN_DASHBOARD',settings.FEATURES.get('ENABLE_SYSADMIN_DASHBOARD','')) and user.is_staff
   self.real_user = getattr(user, 'real_user', user)
-
-  support_link = configuration_helpers.get_value('SUPPORT_SITE_LINK', settings.SUPPORT_SITE_LINK)
-  doc_link = get_online_help_info(online_help_token)['doc_url']
-
-  if online_help_token == "instructor":
-    help_link = doc_link
-  elif support_link:
-    help_link = support_link
-  else:
-    help_link = doc_link
 %>
+
+<style>
+
+  #toggle-dashboard-ressources {
+    margin-left: 80px;
+    display: flex;
+    align-items: end;
+  }
+  #toggle-dashboard-ressources > a {
+    color: #334756 !important;
+    font-weight: 900;
+    text-align: center;
+    width: 160px;
+    font-size: large;
+    padding: 10px;
+  }
+  #toggle-dashboard-ressources > a:last-child {
+    width: 300px;
+  }
+  #toggle-dashboard-ressources > a:hover {
+    text-decoration: none !important;
+    color: #ED4D39 !important;
+  }
+
+  .user-logo {
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+    background-size: cover;
+    background-image: url(${static.url('umn/images/avatar.png')});
+  }
+  .nav-links .secondary  {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .nav-links .secondary .nav-item:last-child {
+    padding: 0px;
+  }
+  .nav-links .secondary .nav-item:last-child .username {
+    font-weight: 700;
+    margin-right: 10px;
+  }
+</style>
 
 <div class="nav-links">
   <div class="main">
-    % if show_dashboard_tabs:
-      <div class="mobile-nav-item hidden-mobile nav-item nav-tab">
-        <a class="${'active ' if reverse('dashboard') == request.path else ''}tab-nav-link" href="${reverse('dashboard')}"
-             aria-current="${'page' if reverse('dashboard') == request.path else 'false'}">
-             ${_("Courses")}
-        </a>
+    
+    %if request.path == '/dashboard' :
+      <div id="toggle-dashboard-ressources" class="horizontal-align" >
+        <a href="/dashboard" style="border-bottom: 5px solid #334756 ;">Accueil</a>
+        <a href="/donnees"  style="border-bottom: 1px solid #334756 ;">Ressources et actualités</a>
       </div>
-      % if show_program_listing:
-        <div class="mobile-nav-item hidden-mobile nav-item nav-tab">
-          <a class="${'active ' if reverse('program_listing_view') in request.path else ''}tab-nav-link" href="${reverse('program_listing_view')}"
-             aria-current="${'page' if reverse('program_listing_view') == request.path else 'false'}">
-             ${_("Programs")}
-          </a>
-        </div>
-      % endif
-    % endif
+    %elif  request.path == '/donnees' :
+      <div id="toggle-dashboard-ressources" class="horizontal-align" >
+        <a href="/dashboard"  style="border-bottom: 1px solid #334756 ;">Accueil</a>
+        <a href="/donnees"  style="border-bottom: 5px solid #334756 ;">Ressources et actualités</a>
+      </div>
+    %else :
+      <div id="toggle-dashboard-ressources" class="horizontal-align" >
+        <a href="/dashboard"  style="border-bottom: 1px solid #334756 ;">Accueil</a>
+        <a href="/donnees"  style="border-bottom: 1px solid #334756 ;">Ressources et actualités</a>
+      </div>
+    %endif
+
     % if show_explore_courses:
       <div class="mobile-nav-item hidden-mobile nav-item nav-tab">
-          <a class="tab-nav-link discover-new-link" href="${marketing_link('COURSES')}"
-             aria-current="${'page' if '/courses' in request.path else 'false'}">
-             ${_('Discover New')}
-          </a>
+        <a class="tab-nav-link discover-new-link" href="${marketing_link('COURSES')}" aria-current="${'page' if '/courses' in request.path else 'false'}">
+          ${_('Discover New')}
+        </a>
       </div>
     % endif
+
     % if show_sysadmin_dashboard:
       <div class="mobile-nav-item hidden-mobile nav-item nav-tab">
-        ## Translators: This is short for "System administration".
         <a class="tab-nav-link" href="${reverse('sysadmin')}">${_("Sysadmin")}</a>
       </div>
     % endif
   </div>
   <div class="secondary">
-    <div class="mobile-nav-item hidden-mobile nav-item">
-      <!-- <a class="help-link" href="${help_link}" rel="noopener" target="_blank">${_("Help")}</a> -->
-    </div>
+    <div class="mobile-nav-item hidden-mobile nav-item"></div>
     <%include file="user_dropdown.html"/>
   </div>
 </div>
+
