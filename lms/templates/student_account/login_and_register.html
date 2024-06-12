@@ -78,6 +78,12 @@
     // Peut etre voir ce qui a été fait dans icope ? 
     var alreadyPassed = false
     var functionForm = setInterval(() => {
+        if (window.location.pathname.indexOf('/login') == -1) {
+            document.getElementsByClassName("label-text")[2].innerHTML = "Email (adresse professionnelle)";
+        }
+        optionnal = document.getElementById('register-terms_of_service-optional-label');
+        optionnal.parentNode.removeChild(optionnal);
+
         $("#register-parcours").change(function() {
             var val = $(this).val();
             console.log(val);
