@@ -17,10 +17,9 @@
     background-image: none !important;
     text-shadow: none !important;
   }
-  .text-matricule_cpam, .register-matricule_cpam-optional-label {
+  .text-matricule_cpam, .register-matricule_cpam-optional-label, .checkbox-terms_of_service {
     display: none;
   }
-   
 </style>
 <%block name="js_extra">
     <%static:require_module module_name="js/student_account/logistration_factory" class_name="LogistrationFactory">
@@ -65,40 +64,32 @@
     </main>
 </div>
 
+%if request.path == "/register" :
 <script>
-    // console.log('123');
-    // var selector = document.getElementById('')
-    // var cpam_field = document.getElementById('')
+    // Si selector prend la valeur CPAM > on affiche le champs matricule
+    // Si le champs est modifié > on le masque à nouveau (et on efface le contenu)
 
-    // Si selector prend la valeur CPAM 
-    // On affiche le champs matricule
-    // Si le champs est modifié:
-    // On le masque à nouveau (et on efface le contenu)
-
-    // Peut etre voir ce qui a été fait dans icope ? 
     var alreadyPassed = false
     var functionForm = setInterval(() => {
-        if (window.location.pathname.indexOf('/login') == -1) {
-            document.getElementsByClassName("label-text")[2].innerHTML = "Email (adresse professionnelle)";
-        }
-        optionnal = document.getElementById('register-terms_of_service-optional-label');
-        optionnal.parentNode.removeChild(optionnal);
+        
+        document.getElementsByClassName("label-text")[2].innerHTML = "Email (adresse professionnelle)";
+        document.getElementById('register-terms_of_service').checked = true ;
 
         $("#register-parcours").change(function() {
             var val = $(this).val();
-            console.log(val);
             if (val === "Parcours Personnels Assurance Maladie") {
-                console.log('456');
                 $(".text-matricule_cpam").show();
+                $("#register-matricule_cpam").attr("required", "true");
             } else {
                 $(".text-matricule_cpam").hide();
+                $("#register-matricule_cpam").removeAttr('required');
             }
         })
         if (alreadyPassed) {
             clearInterval(functionForm)
         }
         alreadyPassed = true
-    }, 700);
+    }, 200);
     
-    // Masquer le champs par défaut 
 </script>
+%endif
