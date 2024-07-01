@@ -8,22 +8,22 @@ $font-family-sans-serif: 'Quicksand';
 
 
 @font-face {
-    font-family: 'Quicksand';
-    src: url('/media/fonts/Quicksand/Quicksand-Regular.ttf') format('truetype');
+    font-family: 'LibreBodoni-regular';
+    src: url('/media/fonts/LibreBodoni/LibreBodoni-Regular') format('truetype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
   }
 
-.font-quicksand{
-    font-family: 'Quicksand';
+.font-librebodoni{
+    font-family: 'LibreBodoni';
 }
   
 
 
   @font-face {
-    font-family: 'AvenirBlack';
-    src: url('/media/fonts/Avenir/Avenir-Black.ttf') format('truetype');
+    font-family: 'LibreBodoni';
+    src: url('/media/fonts/LibreBodoni/LibreBodoni-VariableFont_wght.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -31,8 +31,8 @@ $font-family-sans-serif: 'Quicksand';
   
 
 
-.font-avenir-bold{
-    font-family: 'AvenirBlack';
+.font-librebodoni-bold{
+    font-family: 'LibreBodoni';
 }
 
 
@@ -42,13 +42,13 @@ $fsi_yellow : #ffd661;
 $fsi_green : #4a9c87;
 $fsi_red : #cc7354;
 
-$primary:  #85b0d8;
-$secondary:  #004580;
+$primary:  #e1000f;
+$secondary:  #ffffff ;
 $tertiary: #4a9c87;
 $theme-colors: (
   "tertiary": $tertiary,
   "primary" : $primary,
-
+  "secondary" : $secondary,
 );
 
 
