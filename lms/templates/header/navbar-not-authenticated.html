@@ -1,0 +1,95 @@
+## mako
+
+<%page expression_filter="h"/>
+
+<%namespace name='static' file='../static_content.html'/>
+<%namespace file='../main.html' import="login_query"/>
+
+<%!
+from django.conf import settings
+from django.urls import reverse
+from django.utils.translation import ugettext as _
+from six import text_type
+
+from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+
+from openedx.core.djangoapps.user_authn.utils import should_redirect_to_logistration_mircrofrontend
+%>
+
+<%
+  mktg_site_enabled = static.get_value('ENABLE_MKTG_SITE', settings.FEATURES.get('ENABLE_MKTG_SITE', False))
+  courses_are_browsable = configuration_helpers.get_value('COURSES_ARE_BROWSABLE',settings.FEATURES.get('COURSES_ARE_BROWSABLE'))
+  allows_login = not settings.FEATURES['DISABLE_LOGIN_BUTTON'] and not combined_login_and_register
+  can_discover_courses = configuration_helpers.get_value('ENABLE_COURSE_DISCOVERY',settings.FEATURES.get('ENABLE_COURSE_DISCOVERY'))
+  allow_public_account_creation = static.get_value('ALLOW_PUBLIC_ACCOUNT_CREATION', settings.FEATURES.get('ALLOW_PUBLIC_ACCOUNT_CREATION'))
+  should_redirect_to_logistration_mfe = should_redirect_to_logistration_mircrofrontend()
+%>
+<nav class="nav-links" aria-label=${_("Supplemental Links")}>
+  <div class="secondary">
+    <div>
+      <div class="mobile-nav-item hidden-mobile nav-item">
+
+
+
+          
+          <div class="header-right-wrapper">
+            <a href="/login${login_query()}">Connexion
+            <span class="arrow">
+    
+                <svg height="10" width="10" xmlns="http://www.w3.org/2000/svg">
+                    <polygon points="0.5,0.5 0.5,10.5 7.5,5.25" style="fill:#FFD661;" />
+                  </svg>
+        
+            </span>
+            </a>
+            
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</nav>
+
+<style>
+  #lidl-connect {
+    height: 50px;
+    cursor: pointer;
+  }
+
+
+  .arrow
+  {
+      color: yellow;
+      margin-left: 0.2rem;
+  }
+
+  .header-right-wrapper{
+      font-size:larger
+      padding: 0;
+      margin: 0;
+      text-align: center;
+      height: fit-content;
+  }
+
+  .header-right-wrapper a {
+      font-weight: 900!important;
+      display: flex;
+      background-color: #004580;
+      padding: 0.3rem  1.5rem 0.3rem 1.5rem!important;
+      width: auto;
+      text-align: center;
+      text-decoration: none;
+      color: white!important;
+      font-family: 'AvenirBlack';
+      padding: 0 ;
+
+  }
+
+.header-right-wrapper a:hover {
+
+    text-decoration: none;
+    color: #FFD661;
+}
+
+</style>
