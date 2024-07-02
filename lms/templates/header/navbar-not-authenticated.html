@@ -25,71 +25,52 @@ from openedx.core.djangoapps.user_authn.utils import should_redirect_to_logistra
   should_redirect_to_logistration_mfe = should_redirect_to_logistration_mircrofrontend()
 %>
 <nav class="nav-links" aria-label=${_("Supplemental Links")}>
+  <div class="main">
+  % if mktg_site_enabled:
+    <div class="mobile-nav-item hidden-mobile nav-item">
+      <a href="${marketing_link('HOW_IT_WORKS')}">${_("How it Works")}</a>
+    </div>
+    % if courses_are_browsable:
+      <div class="mobile-nav-item hidden-mobile nav-item">
+        <a href="${marketing_link('COURSES')}">${_("Courses")}</a>
+      </div>
+    % endif
+    <div class="mobile-nav-item hidden-mobile nav-item">
+      <a href="${marketing_link('SCHOOLS')}">${_("Schools")}</a>
+    </div>
+  % endif
+  % if allows_login:
+    % if can_discover_courses and courses_are_browsable:
+      <div class="mobile-nav-item hidden-mobile nav-item">
+        <a href="/courses">${_('Explore courses')}</a>
+      </div>
+    %endif
+  % endif
+  </div>
   <div class="secondary">
     <div>
-      <div class="mobile-nav-item hidden-mobile nav-item">
-
-
-
-          
-          <div class="header-right-wrapper">
-            <a href="/login${login_query()}">Connexion
-            <span class="arrow">
-    
-                <svg height="10" width="10" xmlns="http://www.w3.org/2000/svg">
-                    <polygon points="0.5,0.5 0.5,10.5 7.5,5.25" style="fill:#FFD661;" />
-                  </svg>
-        
-            </span>
-            </a>
-            
-        </div>
-
-
-      </div>
+      % if allows_login:
+        % if allow_public_account_creation:
+          % if should_redirect_to_logistration_mfe:
+            <div class="mobile-nav-item hidden-mobile nav-item">
+                <a class="register-btn btn" href="${settings.LOGISTRATION_MICROFRONTEND_URL}/register${login_query()}">${_("Register")}</a>
+            </div>
+          % else:
+            <div class="mobile-nav-item hidden-mobile nav-item">
+                <a class="register-btn btn" href="/register${login_query()}">${_("Register")}</a>
+            </div>
+          % endif
+        % endif
+        % if should_redirect_to_logistration_mfe:
+          <div class="mobile-nav-item hidden-mobile nav-item">
+              <a class="sign-in-btn btn" href="${settings.LOGISTRATION_MICROFRONTEND_URL}/login${login_query()}">${_("Sign in")}</a>
+          </div>
+        % else:
+          <div class="mobile-nav-item hidden-mobile nav-item">
+              <a class="sign-in-btn btn" href="/login${login_query()}">${_("Sign in")}</a>
+          </div>
+        % endif
+      % endif
     </div>
   </div>
 </nav>
-
-<style>
-  #lidl-connect {
-    height: 50px;
-    cursor: pointer;
-  }
-
-
-  .arrow
-  {
-      color: yellow;
-      margin-left: 0.2rem;
-  }
-
-  .header-right-wrapper{
-      font-size:larger
-      padding: 0;
-      margin: 0;
-      text-align: center;
-      height: fit-content;
-  }
-
-  .header-right-wrapper a {
-      font-weight: 900!important;
-      display: flex;
-      background-color: #004580;
-      padding: 0.3rem  1.5rem 0.3rem 1.5rem!important;
-      width: auto;
-      text-align: center;
-      text-decoration: none;
-      color: white!important;
-      font-family: 'AvenirBlack';
-      padding: 0 ;
-
-  }
-
-.header-right-wrapper a:hover {
-
-    text-decoration: none;
-    color: #FFD661;
-}
-
-</style>

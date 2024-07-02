@@ -28,14 +28,30 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
 <div class="nav-links">
   <div class="main">
-
-    <div class="mobile-nav-item hidden-mobile nav-item nav-tab">
-      <a class="tab-nav-link discover-new-link" href="${marketing_link('COURSES')}"
-          aria-current="${'page' if '/courses' in request.path else 'false'}">
-          Autres filières
-      </a>
-    </div>
-
+    % if show_dashboard_tabs:
+      <div class="mobile-nav-item hidden-mobile nav-item nav-tab">
+        <a class="${'active ' if reverse('dashboard') == request.path else ''}tab-nav-link" href="${reverse('dashboard')}"
+             aria-current="${'page' if reverse('dashboard') == request.path else 'false'}">
+             ${_("Courses")}
+        </a>
+      </div>
+      % if show_program_listing:
+        <div class="mobile-nav-item hidden-mobile nav-item nav-tab">
+          <a class="${'active ' if reverse('program_listing_view') in request.path else ''}tab-nav-link" href="${reverse('program_listing_view')}"
+             aria-current="${'page' if reverse('program_listing_view') == request.path else 'false'}">
+             ${_("Programs")}
+          </a>
+        </div>
+      % endif
+    % endif
+    % if show_explore_courses:
+      <div class="mobile-nav-item hidden-mobile nav-item nav-tab">
+          <a class="tab-nav-link discover-new-link" href="${marketing_link('COURSES')}"
+             aria-current="${'page' if '/courses' in request.path else 'false'}">
+             ${_('Discover New')}
+          </a>
+      </div>
+    % endif
     % if show_sysadmin_dashboard:
       <div class="mobile-nav-item hidden-mobile nav-item nav-tab">
         ## Translators: This is short for "System administration".
@@ -45,29 +61,8 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
   </div>
   <div class="secondary">
     <div class="mobile-nav-item hidden-mobile nav-item">
-      
-      <svg xmlns="http://www.w3.org/2000/svg" class="svg-user" viewBox="0 0 448 512"><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/></svg>
-
-      <!-- <a class="help-link" href="${help_link}" rel="noopener" target="_blank">${_("Help")}</a> -->
+      <a class="help-link" href="${help_link}" rel="noopener" target="_blank">${_("Help")}</a>
     </div>
     <%include file="user_dropdown.html"/>
   </div>
 </div>
-
-<style>
-  .svg-user {
-    height: 43px;
-    fill: var(--primary);
-    background-color: #54DEFD;
-    border-radius: 100%;
-    width: 43px;
-    padding: 4px;
-  }
-  .global-header .secondary {
-    display: flex;
-    align-items: center;
-  }
-  .global-header .nav-links .secondary .nav-item {
-    padding: unset !important;
-  }
-</style>

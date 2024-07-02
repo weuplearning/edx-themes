@@ -126,14 +126,6 @@
   <div id="seq_content" role="tabpanel"></div>
 % endif
 
-
-  <div id="back-to-dashboard">
-    <a href="${ajax_url.split('/xblock')[0]}/course/">
-      Retour au menu principal
-    </a>
-  </div>
-
-
 % if not exclude_units:
   <nav class="sequence-bottom" aria-label="${_('Section')}">
     <button class="sequence-nav-button button-previous">
@@ -149,19 +141,3 @@
   </nav>
 </div>
 % endif
-
-
-<style>
-  #back-to-dashboard {
-    background-color: #005470;
-    border-radius: 5px;
-    padding: 10px;
-    width: 35%;
-    text-align: center;
-    margin: 0 auto;
-  }
-  #back-to-dashboard > a {
-    color: white;
-  }
-
-</style>

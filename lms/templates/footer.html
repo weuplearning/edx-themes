@@ -12,10 +12,7 @@
 
 <style>
   .wrapper-footer {
-    /* background-color: #BDDDE9; */
-    background: linear-gradient(#DBE7EC, #BDDDE9);
-    border-top: none !important;
-    box-shadow: none !important;
+    background-color: var(--primary);
   }
 
   body.view-in-course .wrapper-footer {
@@ -29,45 +26,47 @@
   .wrapper-footer .site-nav .nav-link, .wrapper-footer footer#footer-openedx .colophon .nav-colophon li a {
     color: white !important;
   }
-  #slash {
-    height: 100px;
-    border-left: 2px solid var(--primary);
-    margin: 0 60px;
-  }
-  .vertical-align, .horizontal-align {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .vertical-align {
-    flex-direction: column !important;
-  }
-
-  #right-footer {
-    color: var(--primary) !important;
-  }
-
-  .footer-link
-  {
-   color: #00a2ff!important
-  }
 </style>
 
-<div class="container-fluid wrapper-footer">
-  <footer>
-    <div class="row">
-      <div class="col-md-9">
-        <nav class="navbar site-nav navbar-expand-sm" aria-label="${_('CGU')}">
-          <ul class="navbar-nav">
-            <li class="nav-item">
+% if uses_bootstrap:
+  <div class="container-fluid wrapper-footer">
+    <footer>
+      <div class="row">
+        <div class="col-md-9">
+          <nav class="navbar site-nav navbar-expand-sm" aria-label="${_('CGU')}">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="/cgu">Conditions générales d'utilisation</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <div class="col-md-3"></div>
+      </div>
+    </footer>
+  </div>
+% else:
+  <div class="wrapper wrapper-footer">
+    <footer id="footer-openedx" class="grid-container"
+      ## When rendering the footer through the branding API,
+      ## the direction may not be set on the parent element,
+      ## so we set it here.
+      % if bidi:
+        dir=${bidi}
+      % endif
+    >
+      <div class="colophon">
+        <nav class="nav-colophon" aria-label="${_('CGU')}">
+          <ol>
+            <li class="nav-colophon-01">
+              <a id="cgu" href="/cgu">Conditions générales d'utilisation</a>
             </li>
-          </ul>
+          </ol>
         </nav>
       </div>
-    </div>
-  </footer>
-</div>
-
+    </footer>
+  </div>
+% endif
 % if include_dependencies:
   <%static:js group='base_vendor'/>
   <%static:css group='style-vendor'/>
@@ -80,4 +79,85 @@
   % endfor
 % endif
 
+<script>
+setInterval(function () {
+    if ($('.iframe_video').length > 0) {
+        $('.xmodule_display.xmodule_SequenceModule .sequence-nav ol li button.seq_other .icon').addClass('icon_video')
+    }
+}, 500);
 
+// CA - 29032022
+// FR Translation for drag n drop problem
+var textTranslation = setInterval(function() {
+
+  var lang = "${LANGUAGE_CODE}"
+  if (lang == 'fr') {
+
+    // Drag n drop attempts infos
+    var targetedDiv = document.getElementsByClassName('submission-feedback')
+    for (let i = 0; i < targetedDiv.length; i++) {
+      const element = targetedDiv[i];
+      var targetedText = element.innerHTML 
+      if (targetedText.indexOf('essais') != -1 ) {
+        element.innerHTML = element.innerHTML.replace('essais', 'essai')      
+      }
+    }
+
+    // Drag n drop buttons
+    var dragNDropDiv = document.getElementsByClassName('xblock--drag-and-drop')  
+    for (let i = 0; i < dragNDropDiv.length; i++) {
+      const element = dragNDropDiv[i];
+
+      if (element.getElementsByClassName('submit-answer-button')) { 
+        var dragNDropSubmit = element.getElementsByClassName('submit-answer-button')
+        dragNDropSubmit[0].innerText = "Soumettre"
+      }
+
+      if (element.getElementsByClassName('attempts-used').length > 0) {
+        var dragNDropAttempt = element.getElementsByClassName('attempts-used')
+        var correctedText = dragNDropAttempt[0].innerText
+        correctedText = correctedText.replace('You have used','Vous avez utilisé')
+        correctedText = correctedText.replace('of','essai(s) sur')
+        correctedText = correctedText.replace('attempts','')
+        dragNDropAttempt[0].innerText = correctedText
+      }
+
+      if (element.getElementsByClassName('reset-button').length > 0) {
+        var dragNDropReset = element.getElementsByClassName('reset-button')
+        dragNDropReset[0].innerHTML = '<span class="btn-icon fa fa-refresh" aria-hidden="true"></span>Recommencer'
+      }
+
+      if (element.getElementsByClassName('show-answer-button').length > 0) { 
+        var dragNDropAnswer = element.getElementsByClassName('show-answer-button')
+        dragNDropAnswer[0].innerHTML = '<span class="btn-icon fa fa-info-circle" aria-hidden="true"></span>Voir la réponse'
+      }
+
+    }
+
+    // FEEDBACK
+    var feedBackContent = document.getElementsByClassName('feedback-content')
+    if (feedBackContent.length > 0) {
+
+      for (let i = 0; i < feedBackContent.length; i++) {
+
+        const element = feedBackContent[i];
+        phrases = element.querySelectorAll('.message')
+        phrases.forEach(function(phrase) {
+          phrase.innerText = phrase.innerText.replace('Misplaced items were returned to item bank.', 'Ces éléments ont été replacé dans la zone initiale.')          
+          phrase.innerText = phrase.innerText.replace('Did not place', 'Il manque')
+          phrase.innerText = phrase.innerText.replace('Final attempt was used', 'Dernier essai utilisé')
+          phrase.innerText = phrase.innerText.replace('highest score is', 'meilleur score')
+          phrase.innerText = phrase.innerText.replace('required', '')
+          phrase.innerText = phrase.innerText.replace('Correctly placed', 'Correctement placé')
+          phrase.innerText = phrase.innerText.replace('Misplaced', 'Mal placé')
+          phrase.innerText = phrase.innerText.replace('item', 'élément')
+          phrase.innerText = phrase.innerText.replace('items', 'éléments')
+        })
+
+      }
+    } 
+  }
+
+}, 1000)
+
+</script>
