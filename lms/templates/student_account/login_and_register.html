@@ -60,3 +60,55 @@
         </div>
     </main>
 </div>
+</div>
+<style>
+
+
+  body.view-in-course .wrapper-footer {
+   /* background-color: gray; */
+    background-color: #cf152d;
+  }
+
+  .wrapper-footer .site-nav, .wrapper-footer footer#footer-openedx .colophon .nav-colophon {
+    margin: 0 !important;
+  }
+
+  .wrapper-footer .site-nav .nav-link, .wrapper-footer footer#footer-openedx .colophon .nav-colophon li a {
+    color: white !important;
+  }
+
+  .c-footer{
+    color: white!important;
+  }
+  .c-footer-a{
+    color: white!important;
+  }
+
+
+</style>
+<div class="container-fluid wrapper-footer c-footer" style="background-color: #cf152d;">
+   
+    <footer id="footer-openedx" class="grid-container"
+      ## When rendering the footer through the branding API,
+      ## the direction may not be set on the parent element,
+      ## so we set it here.
+      % if bidi:
+        dir=${bidi}
+      % endif
+    >
+      <div style="display: flex;flex-direction: column;">
+            <div style="display: flex;flex-direction: row;justify-content: space-between;flex-wrap: wrap;">
+
+              <img style="max-width: 25%;" src="${static.url('af-brazil/images/cpn_banner.png')}" >
+
+              <div style="display: flex;flex-direction: column;justify-content: flex-start;">
+                <a id="cgu" style="margin-top:0.5rem" class="c-footer-a" href="/cgu">Termos de serviço</a>
+  
+                <a id="cgu" style="margin-top:0.5rem" class="c-footer-a" href="/cgu">Termos de serviço</a>
+              </div>
+            </div>
+
+      </div>
+    </footer>
+  
+  </div>

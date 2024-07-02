@@ -12,11 +12,13 @@
 
 <style>
   .wrapper-footer {
-    background-color: var(--primary);
+    background-color: #cf152d;
+
   }
 
   body.view-in-course .wrapper-footer {
-    background-color: gray;
+   /* background-color: gray; */
+    background-color: #cf152d;
   }
 
   .wrapper-footer .site-nav, .wrapper-footer footer#footer-openedx .colophon .nav-colophon {
@@ -28,24 +30,7 @@
   }
 </style>
 
-% if uses_bootstrap:
-  <div class="container-fluid wrapper-footer">
-    <footer>
-      <div class="row">
-        <div class="col-md-9">
-          <nav class="navbar site-nav navbar-expand-sm" aria-label="${_('CGU')}">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="/cgu">Conditions générales d'utilisation</a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-        <div class="col-md-3"></div>
-      </div>
-    </footer>
-  </div>
-% else:
+
   <div class="wrapper wrapper-footer">
     <footer id="footer-openedx" class="grid-container"
       ## When rendering the footer through the branding API,
@@ -55,18 +40,20 @@
         dir=${bidi}
       % endif
     >
-      <div class="colophon">
-        <nav class="nav-colophon" aria-label="${_('CGU')}">
-          <ol>
-            <li class="nav-colophon-01">
+      <div style="display: flex;flex-direction: column;">
+            <div style="display: flex;flex-direction: column;">
+
+              <img style="max-width: 25%;" src="${static.url('af-brazil/images/cpn_banner.png')}"
+            </div>
+            <div style="display: flex;flex-direction: column;">
               <a id="cgu" href="/cgu">Conditions générales d'utilisation</a>
-            </li>
-          </ol>
-        </nav>
+
+              <a id="cgu" href="/cgu">Conditions générales d'utilisation</a>
+            </div>
       </div>
     </footer>
   </div>
-% endif
+  
 % if include_dependencies:
   <%static:js group='base_vendor'/>
   <%static:css group='style-vendor'/>

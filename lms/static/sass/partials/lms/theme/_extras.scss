@@ -5,3 +5,24 @@
 // to add any custom rules that you need. You can also import
 // partials directly into this file so that you can break your
 // rules into modular pieces.
+
+
+
+.login-register .action-primary{
+    background-color: #e1000f;
+    color: #fff;
+}
+
+.login-register .action-primary:hover{
+    background-color: #ca001b ;
+    color: #fff;
+}
+
+#content{
+    min-height: 85vh !important;
+}
+
+a:hover{
+    color:black!important;
+    
+}
