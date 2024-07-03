@@ -207,13 +207,13 @@ catch(e){window.attachEvent("onload", $buo_f)}
                 <%include file="navbar-authenticated.html" args="online_help_token=online_help_token"/>
                 % else:
                 <ul id="dashboard-onglet-list">
-                    <li class="header-courses"><a href="/">Catalogo dei corsi</a></li>
-                    <li class="header-courses"><a href="/faq/">Domande frequenti</a></li>
-                    </ul>
-                    <h1 style="color:white;"></h1>
-                </div>
-                <div class="header-right-section">
-                    <%include file="navbar-not-authenticated.html" args="online_help_token=online_help_token"/>
+                    <li class="header-courses"><a href="/catalogo-dei-corsi/">Catalogo dei corsi</a></li>
+                    <li class="header-courses"><a href="/domande-frequenti/">Domande frequenti</a></li>
+                </ul>
+                <h1 style="color:white;"></h1>
+            </div>
+            <div class="header-right-section">
+                <%include file="navbar-not-authenticated.html" args="online_help_token=online_help_token"/>
                 % endif
             </div>
           </header>
