@@ -85,6 +85,42 @@
   }
 
 
+  .footer-links-container
+  {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .footer-links-container a
+  {
+    display: inline-block;
+    width: fit-content!important;
+    border-bottom: dotted 1px transparent!important;
+    margin-bottom: 0.809rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    
+  }
+
+  .footer-links-container a:hover
+  {
+    color: white!important;
+    border-bottom: solid 1px white!important;
+
+  }
+
+
+  .footer-wrapper
+  {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+
+
 </style>
 <div class="container-fluid wrapper-footer c-footer" style="background-color: #cf152d;">
    
@@ -96,19 +132,14 @@
         dir=${bidi}
       % endif
     >
-      <div style="display: flex;flex-direction: column;">
-            <div style="display: flex;flex-direction: row;justify-content: space-between;flex-wrap: wrap;">
-
-              <img style="max-width: 25%;" src="${static.url('af-brazil/images/cpn_banner.png')}" >
-
-              <div style="display: flex;flex-direction: column;justify-content: flex-start;">
-                <a id="cgu" style="margin-top:0.5rem" class="c-footer-a" href="/cgu">Termos de serviço</a>
-  
-                <a id="cgu" style="margin-top:0.5rem" class="c-footer-a" href="/cgu">Termos de serviço</a>
-              </div>
-            </div>
-
+    <div class="footer-wrapper">
+      <img style="max-width: 25%;" src="${static.url('af-brazil/images/cpn_banner.png')}" >
+      <div class="footer-links-container">
+        <a id="cgu"  class="c-footer-a" href="/cgu">Termos de serviço</a>
+        <a id="cgu"  class="c-footer-a" href="/cgu">Lorem ipsum dolor sit,</a>
       </div>
+    </div>
+
     </footer>
   
   </div>
