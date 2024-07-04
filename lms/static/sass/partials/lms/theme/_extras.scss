@@ -71,3 +71,13 @@ a:hover{
     color: #fff!important;
 
 }
+
+.btn-outline-primary:hover{
+    color: black!important;
+}
+
+.btn-primary:hover, .btn-brand:hover, .btn-primary.is-hovered, .is-hovered.btn-brand, .btn-primary:focus, .btn-brand:focus, .btn-primary.is-focused, .is-focused.btn-brand {
+    border-color: #cf152d!important;
+    background-color: #cf152d!important;
+    color: black!important;
+}
