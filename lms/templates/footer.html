@@ -9,12 +9,8 @@
 <% footer = get_footer(is_secure=is_secure) %>
 <% icp_license_info = getattr(settings, 'ICP_LICENSE_INFO', {})%>
 <%namespace name='static' file='static_content.html'/>
-
 <style>
-  .wrapper-footer {
-    background-color: #cf152d;
 
-  }
 
   body.view-in-course .wrapper-footer {
    /* background-color: gray; */
@@ -28,10 +24,54 @@
   .wrapper-footer .site-nav .nav-link, .wrapper-footer footer#footer-openedx .colophon .nav-colophon li a {
     color: white !important;
   }
+
+  .c-footer{
+    color: white!important;
+  }
+  .c-footer-a{
+    color: white!important;
+  }
+
+
+  .footer-links-container
+  {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .footer-links-container a
+  {
+    display: inline-block;
+    width: fit-content!important;
+    border-bottom: dotted 1px transparent!important;
+    margin-bottom: 0.809rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    
+  }
+
+  .footer-links-container a:hover
+  {
+    color: white!important;
+    border-bottom: solid 1px white!important;
+
+  }
+
+
+  .footer-wrapper
+  {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+
+
 </style>
+<div class="container-fluid wrapper-footer c-footer" style="background-color: #cf152d;">
 
-
-  <div class="wrapper wrapper-footer">
     <footer id="footer-openedx" class="grid-container"
       ## When rendering the footer through the branding API,
       ## the direction may not be set on the parent element,
@@ -40,18 +80,15 @@
         dir=${bidi}
       % endif
     >
-      <div style="display: flex;flex-direction: column;">
-            <div style="display: flex;flex-direction: column;">
-
-              <img style="max-width: 25%;" src="${static.url('af-brazil/images/cpn_banner.png')}"
-            </div>
-            <div style="display: flex;flex-direction: column;">
-              <a id="cgu" href="/cgu">Conditions générales d'utilisation</a>
-
-              <a id="cgu" href="/cgu">Conditions générales d'utilisation</a>
-            </div>
+    <div class="footer-wrapper">
+      <img style="max-width: 25%;" src="${static.url('af-brazil/images/cpn_banner_crop.png')}" >
+      <div class="footer-links-container">
+        <a id="cgu"  class="c-footer-a" href="/cgu">Termos de serviço</a>
       </div>
+    </div>
+
     </footer>
+  
   </div>
   
 % if include_dependencies:

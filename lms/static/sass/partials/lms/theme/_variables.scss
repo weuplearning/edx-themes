@@ -7,7 +7,7 @@ $font-family-sans-serif: 'Lato';
 $header-sans-serif: 'Lato', Arial, Helvetica, sans-serif !default;
 
 
-$red-soft : #cf152d;
+
 
 @font-face {
   font-family: 'Lato';
@@ -99,7 +99,9 @@ $red-soft : #cf152d;
 .font-librebodoni-bold{
     font-family: 'LibreBodoni';
 }
+$red-footer : #b7042f;
 
+$red-soft : #cf152d;
 
 $fsi_blue : #85b0d8;
 $fsi_darkblue : #004580;
@@ -107,8 +109,11 @@ $fsi_yellow : #ffd661;
 $fsi_green : #4a9c87;
 $fsi_red : #cc7354;
 
-$primary:  #e1000f;
-$secondary:  #e1000f ;
+/*$primary:  #e1000f; */
+
+$primary:  #b7042f; 
+
+$secondary:  #b7042f ;
 $tertiary: #d0ff00;
 $theme-colors: (
   "tertiary": $tertiary,

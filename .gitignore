@@ -1,1 +1,17 @@
 lms/static/css/css/
+lms/static/css/lms-course-rtl.css
+lms/static/css/lms-course.css
+lms/static/css/lms-footer-edx-rtl.css
+lms/static/css/lms-footer-edx.css
+lms/static/css/lms-footer-rtl.css
+lms/static/css/lms-footer.css
+lms/static/css/lms-main-v1-rtl.css
+lms/static/css/lms-main-v1.css
+lms/static/css/lms-mobile-rtl.css
+lms/static/css/lms-mobile.css
+lms/static/css/bootstrap/lms-main-rtl.css
+lms/static/css/bootstrap/lms-main.css
+lms/static/css/discussion/inline-discussion-rtl.css
+lms/static/css/discussion/inline-discussion.css
+lms/static/css/discussion/lms-discussion-bootstrap-rtl.css
+lms/static/css/discussion/lms-discussion-bootstrap.css
