@@ -18,7 +18,8 @@ from lms.djangoapps.branding import api as branding_api
 enterprise_customer_link = get_enterprise_learner_portal(request)
 %>
 
-<h1 class="header-logo">
+<div class="header-logo">
+
   % if enterprise_customer_link:
     <a href="${settings.ENTERPRISE_LEARNER_PORTAL_BASE_URL}/${enterprise_customer_link.get('slug')}">
       <img class="logo" src="${enterprise_customer_link.get('logo')}" alt="${_('{name} Dashboard').format(name=enterprise_customer_link.get('name'))}"/>
@@ -30,7 +31,7 @@ enterprise_customer_link = get_enterprise_learner_portal(request)
       </%block>
     </a>
   % endif
-</h1>
+  </div>
 % if enable_enterprise_sidebar:
   <div class="enterprise-tagline">
     <% tagline = configuration_helpers.get_value('ENTERPRISE_TAGLINE', settings.ENTERPRISE_TAGLINE) %>
@@ -39,3 +40,42 @@ enterprise_customer_link = get_enterprise_learner_portal(request)
     % endif
   </div>
 % endif
+<style>
+
+  .header-logo
+  {
+    display: block;
+  }
+
+  .header-logo a
+  {
+    float:none;
+    max-width: 20%;
+    width: 20%;
+    margin: 0px 0 0 40px!important;
+    display: block!important;
+  }
+
+  .header-logo a .logo
+  {
+    height: auto!important;
+    width: 100%;
+  }
+
+  @media (max-width: 991.98px) {
+    
+    .global-header .header-logo a{
+    float: none!important;
+      height: auto!important;
+    }
+    
+    .global-header .header-logo a .logo {
+         margin-left: 0%!important;
+         width: 60%!important;
+         float: right;
+    }
+  }
+
+
+  
+</style>
