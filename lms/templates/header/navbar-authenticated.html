@@ -9,7 +9,9 @@ from django.urls import reverse
 from django.utils.translation import ugettext as _
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 %>
-
+<%
+allowed_users = configuration_helpers.get_value('WUL_DASHBOARD_ACCESS')
+%>
 <%
   show_explore_courses = configuration_helpers.get_value('COURSES_ARE_BROWSABLE',settings.FEATURES.get('COURSES_ARE_BROWSABLE'))
   show_sysadmin_dashboard = configuration_helpers.get_value('ENABLE_SYSADMIN_DASHBOARD',settings.FEATURES.get('ENABLE_SYSADMIN_DASHBOARD','')) and user.is_staff
@@ -44,6 +46,11 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     % endif
   </div>
   <div class="secondary">
+    % if user.email.lower() in allowed_users:
+    <div class="tab-nav-item nav-item">
+      <a class="btn" href="/wul_apps/dashboard/home/">Administration</a>
+    </div>
+    % endif
     <div class="mobile-nav-item hidden-mobile nav-item">
       
       <svg xmlns="http://www.w3.org/2000/svg" class="svg-user" viewBox="0 0 448 512"><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/></svg>
