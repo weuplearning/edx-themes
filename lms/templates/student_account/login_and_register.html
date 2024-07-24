@@ -177,6 +177,8 @@ function register_form_displayer_function(){
         }
     })
 
+    var CguField = document.getElementsByClassName('checkbox-terms_of_service')[0].innerHTML = '  <input id="register-terms_of_service" type="checkbox" name="terms_of_service" class="input-block checkbox" data-errormsg-required="Vous devez accepter les conditions générales d’utilisation du site " value="false" required=""><label for="register-terms_of_service"><span class="label-text">J\'ai lu et accepté les <a href="/tos" rel="noopener" target="_blank">conditions générales d’utilisation</a> du site&nbsp;</span>                         </label>        <span id="register-terms_of_service-validation-error" class="tip error" aria-live="assertive">            <span class="sr-only"></span>            <span id="register-terms_of_service-validation-error-msg"><ul class="fa-ul"></ul></span> </span>'
+
     clearInterval(register_form_displayer)
 }
 </script>

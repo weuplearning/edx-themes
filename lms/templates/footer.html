@@ -86,6 +86,30 @@
   #right-footer {
     color: var(--primary) !important;
   }
+
+  @media screen and (max-width: 1150px) {
+    footer > div {
+      flex-direction: column;
+    }
+    #slash {
+      border-left: unset;
+      height: 45px;
+    }
+    .lidl-links {
+      display: flex;
+      list-style-type: none;
+      align-items: center !important;
+    }
+    .lidl-links > li {
+      margin-right: 20px;
+    }
+  }
+
+  @media screen and (max-width: 450px) {
+    #right-footer > div > div {
+      flex-direction: column;
+    }
+  }
 </style>
 
 <div class="container-fluid wrapper-footer">
@@ -112,16 +136,28 @@
         <p>EN COLLABORATION AVEC</p>
         <div>
           <div class="horizontal-align">
-            <img id="logo-lidl" src="${static.url('bea-lidl/images/logo.png')}" alt="logo-lidl">
-            <img id="logo-ca_bretagne" src="${static.url('bea-lidl/images/ca_bretagne.png')}" alt="logo-ca_bretagne">
-            <img id="logo-itavi" src="${static.url('bea-lidl/images/itavi.jpg')}" alt="logo-itavi">
+            <a href="https://corporate.lidl.fr/" target="_blank">
+              <img id="logo-lidl" src="${static.url('bea-lidl/images/logo.png')}" alt="logo-lidl">
+            </a>
+            <a href="https://bretagne.chambres-agriculture.fr/" target="_blank">
+              <img id="logo-ca_bretagne" src="${static.url('bea-lidl/images/ca_bretagne.png')}" alt="logo-ca_bretagne">
+            </a>
+            <a href="https://www.itavi.asso.fr/" target="_blank">
+              <img id="logo-itavi" src="${static.url('bea-lidl/images/itavi.jpg')}" alt="logo-itavi">
+            </a>
           </div>
           <div class="horizontal-align">
-            <img id="logo-idele" src="${static.url('bea-lidl/images/idele.jpg')}" alt="logo-idele">
-            <img id="logo-vetagro" src="${static.url('bea-lidl/images/vetagro.jpg')}" alt="logo-vetagro">
+            <a href="https://www.idele.fr/" target="_blank">
+              <img id="logo-idele" src="${static.url('bea-lidl/images/idele.jpg')}" alt="logo-idele">
+            </a>
+            <a href="https://chaire-bea.vetagro-sup.fr/" target="_blank">
+              <img id="logo-vetagro" src="${static.url('bea-lidl/images/vetagro.jpg')}" alt="logo-vetagro">
+            </a>
           </div>
           <div class="horizontal-align">
-            <img id="logo-ifip" src="${static.url('bea-lidl/images/logo_ifip.jpg')}" alt="logo-ifip">
+            <a href="https://ifip.asso.fr/" target="_blank">
+              <img id="logo-ifip" src="${static.url('bea-lidl/images/logo_ifip.jpg')}" alt="logo-ifip">
+            </a>
           </div>
         </div>
       </div>
@@ -130,8 +166,12 @@
         <p>AVEC LA PARTICIPATION DE</p>
         <div>
           <div class="horizontal-align">
-            <img id="logo-compassion" src="${static.url('bea-lidl/images/logo_compassion.png')}" alt="logo-compassion">
-            <img id="logo-welfarm" src="${static.url('bea-lidl/images/logo_welfarm.png')}" alt="logo-welfarm">
+            <a href="https://www.ciwf.fr/" target="_blank">
+              <img id="logo-compassion" src="${static.url('bea-lidl/images/logo_compassion.png')}" alt="logo-compassion">
+            </a>
+            <a href="https://welfarm.fr/" target="_blank">
+              <img id="logo-welfarm" src="${static.url('bea-lidl/images/logo_welfarm.png')}" alt="logo-welfarm">
+            </a>
           </div>
         </div>
       </div>
