@@ -34,6 +34,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         padding: unset;
     }
     header.page-header.has-secondary{
+        background-position-y: center;
 
     %if request.path.find('VL') != -1 :
         background-image: url("${static.url('bea-lidl/images/assets/VL/courseware_top.png')}");
@@ -43,6 +44,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         background-image: url("${static.url('bea-lidl/images/assets/porcs/courseware_top.jpeg')}");
     %elif request.path.find('pdc') != -1 :
         background-image: url("${static.url('bea-lidl/images/assets/pdc/courseware_top.png')}");
+        background-position-y: bottom;
     %else :
         background-image: url("${static.url('bea-lidl/images/assets/pp/courseware_top.png')}");
     %endif
@@ -54,7 +56,6 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         align-items: center;
         background-size: cover;
         height: 24vw;
-        background-position-y: center;
     }
     .page-header-secondary{
         padding: 25px 0 !important;
