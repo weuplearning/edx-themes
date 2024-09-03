@@ -137,12 +137,12 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     	animation: fadeInLeft;
         animation-duration: 0.5s;
     }
-    .wrapper-preview-menu{
-       //display:none;
+    /* .wrapper-preview-menu{
+       display:none;
+    } */
+    .wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary{
+        display:none !important;
     }
-.wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary{
-    display:none !important;
-}
 
 
     .section-title{
@@ -236,9 +236,9 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         color: #343a40;
     }
 
-    #badges {
+    /* #badges {
         padding: 0 25px 25px 25px;
-    }
+    } */
 
     .page-content .page-content-secondary h4{
         padding:15px;
@@ -259,7 +259,8 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         height: 40px;
     }
 
-    
+
+
     @media screen and (max-width: 1024px) {
         .page-content .page-content-secondary { 
             min-width: calc(50% - 15px);
@@ -284,6 +285,13 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         }
 
     }
+    @media screen and (min-width: 768px) {
+        .collapsible-content {
+
+            padding: 0 25px 25px 25px;
+        }
+    }
+    
     @media screen and (max-width: 768px) {
         .page-content .page-content-secondary { 
             min-width: 100%;
@@ -297,12 +305,47 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         }
 
         .page-content {
-            flex-direction: column;
+            display: flex;
+            flex-direction: column-reverse;
         }
 
         .page-content .page-content-secondary h4{
             font-size:16px;
         }
+
+
+        /* specific */
+        .collapsible {
+            cursor: pointer;
+            position: relative;
+            padding-right: 20px; /* Pour éviter que la flèche chevauche le texte */
+        }
+
+        .collapsible::after {
+            content: '↙'; /* Flèche vers le bas */
+            position: absolute;
+            right: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .collapsible-content.expanded {
+            max-height: 1000px; /* Une grande valeur pour permettre l'expansion */
+            transition: max-height 0.5s ease-in;
+            padding: 0 25px 25px 25px;
+        }
+
+        .collapsible.expanded::after {
+            transform: rotate(180deg); /* Tourner la flèche vers le haut */
+        }
+
+
+
     }
 
     @media screen and (max-width: 500px) {
@@ -334,8 +377,19 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
   </style>
   <script>
-document.title = "Cours | ${HTML(course.display_name_with_default)}";
+    document.title = "Cours | ${HTML(course.display_name_with_default)}";
+    document.addEventListener('DOMContentLoaded', function () {
+        const collapsible = document.querySelector('.collapsible');
+        const content = document.querySelector('.collapsible-content');
+
+        collapsible.addEventListener('click', function () {
+            content.classList.toggle('expanded');
+            collapsible.classList.toggle('expanded');
+        });
+    });
+
   </script>
+  
 
 </%block>
 
@@ -400,8 +454,8 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
             % endif
         </div>
         <aside class="page-content-secondary course-sidebar">
-            <h4>Avez-vous bien retenu ?</h4>
-            <div class="section" id="badges">
+            <h4 class="collapsible">Você se lembrou bem ?</h4>
+            <div class="section collapsible-content" id="badges">
                     <div class="grade-block">       
                         <div class="grade-section-title">
                             %if user_grade.passed:

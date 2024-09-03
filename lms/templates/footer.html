@@ -33,16 +33,14 @@
   }
 
 
-  .footer-links-container
-  {
+  .footer-links-container  {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     flex-wrap: wrap;
   }
 
-  .footer-links-container a
-  {
+  .footer-links-container a {
     display: inline-block;
     width: fit-content!important;
     border-bottom: dotted 1px transparent!important;
@@ -53,8 +51,7 @@
 
   }
 
-  .footer-links-container a:hover
-  {
+  .footer-links-container a:hover {
     color: white!important;
     border-bottom: solid 1px white!important;
     text-decoration: none!important;
@@ -62,15 +59,20 @@
   }
 
 
-  .footer-wrapper
-  {
+  .footer-wrapper{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     flex-wrap: wrap;
+    align-items: center;
   }
-
-
+  .social-network img {
+    height: 30px;
+    margin: 0 10px;
+  }
+  #cgu {
+    margin: unset !important;
+  }
 </style>
 <div class="container-fluid wrapper-footer c-footer" style="background-color: #cf152d;">
 
@@ -83,7 +85,16 @@
       % endif
     >
     <div class="footer-wrapper">
-      <img style="max-width: 20%;" src="${static.url('af-brazil/images/cpn_banner_crop.png')}" >
+      <img style="max-width: 20%;" src="${static.url('af-brazil/images/cpn_banner_crop.png')}" alt="logotipo do rodapé Alianca Francesa" >
+      <div class="social-network">
+
+        <a href="https://www.instagram.com/aliancafrancesaonline/">
+          <img src="${static.url('af-brazil/images/instagram.png')}" alt="logotipo do Instagram" >
+        </a>
+        <a href="https://www.facebook.com/aliancafrancesaonline/">
+          <img src="${static.url('af-brazil/images/facebook.png')}" alt="logotipo do Facebook" >
+        </a>
+      </div>
       <div class="footer-links-container">
         <a id="cgu"  class="c-footer-a" href="/cgu">Termos de serviço</a>
       </div>

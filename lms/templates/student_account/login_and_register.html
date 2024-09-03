@@ -56,6 +56,10 @@
                     border_class = ''
                 %>
             % endif
+            <div id="side-login-and-registration-container">
+              <img style="max-width: 100%;" src="${static.url('af-brazil/images/af_online_login.gif')}" alt="logotipo do rodapé Alianca Francesa">
+
+            </div>
             <div id="login-and-registration-container" class="login-register ${border_class}"></div>
         </div>
     </main>
@@ -63,11 +67,25 @@
 </div>
 <style>
 
-
-  body.view-in-course .wrapper-footer {
-   /* background-color: gray; */
-    background-color: #cf152d;
-  }
+/* EXTRA STYLE */
+body.view-in-course .wrapper-footer {
+  /* background-color: gray; */
+  background-color: #cf152d;
+}
+.login-register-content {
+  margin-top: 0px !important;
+}
+#content {
+  min-height: 72vh !important;
+}
+.social-network img {
+  height: 30px;
+  margin: 0 10px;
+}
+#cgu {
+  margin: unset !important;
+}
+/* EXTRA STYLE */
 
   .wrapper-footer .site-nav, .wrapper-footer footer#footer-openedx .colophon .nav-colophon {
     margin: 0 !important;
@@ -77,6 +95,9 @@
     color: white !important;
   }
 
+  #side-login-and-registration-container {
+    max-width: 50vw;
+  }
   .c-footer{
     color: white!important;
   }
@@ -113,12 +134,12 @@
   }
 
 
-  .footer-wrapper
-  {
+  .footer-wrapper{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     flex-wrap: wrap;
+    align-items: center;
   }
 
 
@@ -133,12 +154,21 @@
         dir=${bidi}
       % endif
     >
-    <div class="footer-wrapper">
-      <img style="max-width: 20%;" src="${static.url('af-brazil/images/cpn_banner_crop.png')}" >
-      <div class="footer-links-container">
+      <div class="footer-wrapper">
+        <img style="max-width: 20%;" src="${static.url('af-brazil/images/cpn_banner_crop.png')}" alt="logotipo do rodapé Alianca Francesa" >
+        <div class="social-network">
+
+          <a href="https://www.instagram.com/aliancafrancesaonline/">
+            <img src="${static.url('af-brazil/images/instagram.png')}" alt="logotipo do Instagram" >
+          </a>
+          <a href="https://www.facebook.com/aliancafrancesaonline/">
+            <img src="${static.url('af-brazil/images/facebook.png')}" alt="logotipo do Facebook" >
+          </a>
+        </div>
+        <div class="footer-links-container">
         <a id="cgu"  class="c-footer-a" href="/cgu">Termos de serviço</a>
+        </div>
       </div>
-    </div>
 
     </footer>
   
