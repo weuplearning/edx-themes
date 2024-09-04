@@ -50,12 +50,6 @@ username = get_enterprise_learner_generic_name(request) or student.username
 
 <main id="main" aria-label="Content" tabindex="-1">
     <div class="container">
-
-        <!-- FACEBOOK -->
-
-
-        <!-- FACEBOOK -->
-
         <div class="profile-wrapper">
             <section class="course-info" id="course-info-progress"
               % if getattr(course, 'language'):
@@ -143,7 +137,10 @@ username = get_enterprise_learner_generic_name(request) or student.username
                 <section class="chapters" >
                     <h2 class="sr">${_('Details for each chapter')}</h2>
                     %for chapter in courseware_summary:
-                        <% badge_section = loop.index + 1 %>
+                        <% 
+                        badge_section = loop.index 
+                        course_with_badge_list = ["course-v1:af-brasil+PP+2024","course-v1:af-brasil+PP+CPB01","course-v1:af-brasil+PP+CPB","course-v1:af-brasil+PP+TB","course-v1:af-brazil+afbrazil-test+2024"]
+                        %>
                         %if not chapter['display_name'] == "hidden":
                         <section aria-labelledby="chapter_${loop.index}" >
                             <h3 class="hd hd-3" id="chapter_${loop.index}">${ chapter['display_name']}</h3>
@@ -151,7 +148,6 @@ username = get_enterprise_learner_generic_name(request) or student.username
                                 %for section in chapter['sections']:
                                     <div class="sections_partioner">
                                         <div>
-
                                             <%
                                             earned = section.graded_total.earned
                                             total = section.graded_total.possible
@@ -219,41 +215,43 @@ username = get_enterprise_learner_generic_name(request) or student.username
                                             %endif
                                         </div>
 
-                                        <%
-                                        earned = section.graded_total.earned
-                                        total = section.graded_total.possible
-                                        %>
-                                        %if  (total > 0 and earned > 0.5*total) :
-                                        <div class="badge_area">
-                                            %if loop.index == 0 :
-                                                <img src="/media/microsites/af-brazil/badge/CFL${badge_section}.png" alt="Troféu lição ${badge_section} desbloqueado" >
-                                                <div class="social_button">
-                                                    <button>
-                                                        <a  href="https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=78q5gg85e2lgb9&redirect_uri=https://af-brazil.weup.in/wul_apps/social_network/share_linkedin?section=CFL${badge_section}${course.id}&scope=profile%20email%20openid%20w_member_social" >
-                                                            Compartilhar no LinkedIn 
-                                                        </a>
-                                                    </button>
-                                                </div>
+                                        %if section.display_name != "Bienvenue" and section.display_name != "É rapidinho! São só 3 minutos!" and section.display_name != "Obtenha seu certificado" and course.id in course_with_badge_list :
+                                            <%
+                                            earned = section.graded_total.earned
+                                            total = section.graded_total.possible
+                                            %>
+                                            %if  (total > 0 and earned > 0.5*total) :
+                                            <div class="badge_area">
+                                                %if loop.index == 0 :
+                                                    <img src="/media/microsites/af-brazil/badge/CFL${badge_section}.png" alt="Troféu lição ${badge_section} desbloqueado" >
+                                                    <div class="social_button">
+                                                        <button>
+                                                            <a  href="https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=78q5gg85e2lgb9&redirect_uri=https://cursos.aliancafrancesaonline.com.br/wul_apps/social_network/share_linkedin?section=CFL${badge_section}${course.id}&scope=profile%20email%20openid%20w_member_social" >
+                                                                Compartilhar no LinkedIn 
+                                                            </a>
+                                                        </button>
+                                                    </div>
 
+                                                %else :
+                                                    <img src="/media/microsites/af-brazil/badge/DFL${badge_section}.png" alt="Medalha lição ${badge_section} desbloqueado" >
+                                                    <div class="social_button">
+                                                        <button>
+                                                            <a  href="https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=78q5gg85e2lgb9&redirect_uri=https://cursos.aliancafrancesaonline.com.br/wul_apps/social_network/share_linkedin?section=DFL${badge_section}${course.id}&scope=profile%20email%20openid%20w_member_social" >
+                                                                Compartilhar no LinkedIn 
+                                                            </a>
+                                                        </button>
+                                                    </div>
+                                                %endif
+                                            </div>
                                             %else :
-                                                <img src="/media/microsites/af-brazil/badge/DFL${badge_section}.png" alt="Medalha lição ${badge_section} desbloqueado" >
-                                                <div class="social_button">
-                                                    <button>
-                                                        <a  href="https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=78q5gg85e2lgb9&redirect_uri=https://af-brazil.weup.in/wul_apps/social_network/share_linkedin?section=DFL${badge_section}${course.id}&scope=profile%20email%20openid%20w_member_social" >
-                                                            Compartilhar no LinkedIn 
-                                                        </a>
-                                                    </button>
-                                                </div>
+                                            <div class="badge_area">
+                                                %if loop.index == 0 :
+                                                    <img src="/media/microsites/af-brazil/badge/CFL${badge_section}-modified.png" alt="Troféu lição ${badge_section} bloqueado" >
+                                                %else :
+                                                    <img src="/media/microsites/af-brazil/badge/DFL${badge_section}-modified.png" alt="Medalha lição ${badge_section} bloqueado" >
+                                                %endif
+                                            </div>
                                             %endif
-                                        </div>
-                                        %else :
-                                        <div class="badge_area">
-                                            %if loop.index == 0 :
-                                                <img src="/media/microsites/af-brazil/badge/CFL${badge_section}-modified.png" alt="Troféu lição ${badge_section} bloqueado" >
-                                            %else :
-                                                <img src="/media/microsites/af-brazil/badge/DFL${badge_section}-modified.png" alt="Medalha lição ${badge_section} bloqueado" >
-                                            %endif
-                                        </div>
                                         %endif
                                     </div>
                                 %endfor
