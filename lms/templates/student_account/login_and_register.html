@@ -65,86 +65,8 @@
     </main>
 </div>
 </div>
-<style>
 
-/* EXTRA STYLE */
-body.view-in-course .wrapper-footer {
-  /* background-color: gray; */
-  background-color: #cf152d;
-}
-.login-register-content {
-  margin-top: 0px !important;
-}
-#content {
-  min-height: 72vh !important;
-}
-.social-network img {
-  height: 30px;
-  margin: 0 10px;
-}
-#cgu {
-  margin: unset !important;
-}
-/* EXTRA STYLE */
-
-  .wrapper-footer .site-nav, .wrapper-footer footer#footer-openedx .colophon .nav-colophon {
-    margin: 0 !important;
-  }
-
-  .wrapper-footer .site-nav .nav-link, .wrapper-footer footer#footer-openedx .colophon .nav-colophon li a {
-    color: white !important;
-  }
-
-  #side-login-and-registration-container {
-    max-width: 50vw;
-  }
-  .c-footer{
-    color: white!important;
-  }
-  .c-footer-a{
-    color: white!important;
-  }
-
-
-  .footer-links-container
-  {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-  }
-
-  .footer-links-container a
-  {
-    display: inline-block;
-    width: fit-content!important;
-    border-bottom: dotted 1px transparent!important;
-    margin-bottom: 0.809rem;
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
-    text-decoration: none!important;
-
-  }
-
-  .footer-links-container a:hover
-  {
-    color: white!important;
-    border-bottom: solid 1px white!important;
-    text-decoration: none!important;
-  }
-
-
-  .footer-wrapper{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-
-
-</style>
-<div class="container-fluid wrapper-footer c-footer" style="background-color: #cf152d;">
+<div class="container-fluid wrapper-footer c-footer" style="background-color: #e1000f;">
 
     <footer id="footer-openedx" class="grid-container"
       ## When rendering the footer through the branding API,
@@ -155,7 +77,7 @@ body.view-in-course .wrapper-footer {
       % endif
     >
       <div class="footer-wrapper">
-        <img style="max-width: 20%;" src="${static.url('af-brazil/images/cpn_banner_crop.png')}" alt="logotipo do rodapé Alianca Francesa" >
+        <img style="max-width: 100px;" src="${static.url('af-brazil/images/logo.png')}" alt="logotipo do rodapé Alianca Francesa" >
         <div class="social-network">
 
           <a href="https://www.instagram.com/aliancafrancesaonline/">
@@ -165,14 +87,14 @@ body.view-in-course .wrapper-footer {
             <img src="${static.url('af-brazil/images/facebook.png')}" alt="logotipo do Facebook" >
           </a>
         </div>
-        <div class="footer-links-container">
+        <!-- <div class="footer-links-container">
         <a id="cgu"  class="c-footer-a" href="/cgu">Termos de serviço</a>
-        </div>
+        </div> -->
       </div>
 
     </footer>
   
-  </div>
+</div>
 <script>
 function setCookie(name, value, days) {
     var expires = "";
@@ -215,3 +137,100 @@ if (!getCookie("pageReloaded")) {
 }
 
 </script>
+<style>
+
+/* EXTRA STYLE START */
+.window-wrap {
+  background-color: #9d0d17;
+}
+body.view-in-course .wrapper-footer, .login-register .action-primary {
+  background-color: #e1000f;
+  border-radius: 10px;
+}
+#login-and-registration-container, #content-container {
+  background-color: #9d0d17 !important;
+}
+.login-form, .toggle-form, .form-toggle, #login-form h2, #login div, .label-text, .login-help , #register h2, .focus-in > span, .login-register .form-field span.error, .tip-input  {
+  color: white !important;
+}
+.input-block {
+  /* color: #9d0d17; */
+  border-radius: 8px !important;
+}
+input, select, textarea, textarea:focus, input:focus{
+  color: #9d0d17;
+}
+
+
+#login-email-desc {
+  display: none;
+}
+.login-register-content {
+  margin-top: 0px !important;
+}
+#content {
+  min-height: unset !important;
+  padding: unset !important;
+}
+.social-network img {
+  height: 16px;
+  margin: 0 2px;
+}
+#cgu {
+  margin: unset !important;
+}
+/* EXTRA STYLE END */
+
+  .wrapper-footer .site-nav, .wrapper-footer footer#footer-openedx .colophon .nav-colophon {
+    margin: 0 !important;
+  }
+
+  .wrapper-footer .site-nav .nav-link, .wrapper-footer footer#footer-openedx .colophon .nav-colophon li a {
+    color: white !important;
+  }
+
+  #side-login-and-registration-container {
+    max-width: 50vw;
+  }
+  .c-footer{
+    color: white!important;
+  }
+  .c-footer-a{
+    color: white!important;
+  }
+
+
+  .footer-links-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .footer-links-container a  {
+    display: inline-block;
+    width: fit-content!important;
+    border-bottom: dotted 1px transparent!important;
+    margin-bottom: 0.809rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    text-decoration: none!important;
+
+  }
+
+  .footer-links-container a:hover  {
+    color: white!important;
+    border-bottom: solid 1px white!important;
+    text-decoration: none!important;
+  }
+
+
+  .footer-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+</style>

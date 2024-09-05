@@ -60,9 +60,32 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     % endif
   </div>
   <div class="secondary">
+
+    <div class="mobile-nav-item hidden-mobile nav-item nav-tab">
+      <img id="folder-icon" src="${static.url('af-brazil/images/cursos_icon.png')}" alt="ícone do pasta" >
+      <a class="${'active ' if reverse('dashboard') == request.path else ''}tab-nav-link" href="${reverse('dashboard')}"
+            aria-current="${'page' if reverse('dashboard') == request.path else 'false'}">
+            MEUS CURSOS
+      </a>
+    </div>
+
     <div class="mobile-nav-item hidden-mobile nav-item">
-      <a class="help-link" href="${help_link}" rel="noopener" target="_blank">${_("Help")}</a>
+
+      <img id="user-icon" src="${static.url('af-brazil/images/user_icon.png')}" alt="ícone do usuário" >
+      <!-- <a class="help-link" href="${help_link}" rel="noopener" target="_blank">${_("Help")}</a> -->
     </div>
     <%include file="user_dropdown.html"/>
   </div>
 </div>
+
+<style>
+  .username , .toggle-user-dropdown, .tab-nav-link {
+    color: white !important;
+  }
+  #user-icon , #folder-icon{
+    max-width: 25px;
+  }
+  #user-icon {
+    margin-right: -18px;
+  }
+</style>

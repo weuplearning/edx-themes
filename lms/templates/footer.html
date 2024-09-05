@@ -14,7 +14,7 @@
 
   body.view-in-course .wrapper-footer {
    /* background-color: gray; */
-    background-color: #cf152d;
+    background-color: #e1000f;
   }
 
   .wrapper-footer .site-nav, .wrapper-footer footer#footer-openedx .colophon .nav-colophon {
@@ -59,22 +59,23 @@
   }
 
 
+
   .footer-wrapper{
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
   }
   .social-network img {
-    height: 30px;
-    margin: 0 10px;
+    height: 16px;
+    margin: 0 2px;
   }
+  
   #cgu {
     margin: unset !important;
   }
 </style>
-<div class="container-fluid wrapper-footer c-footer" style="background-color: #cf152d;">
+<!-- <div class="container-fluid wrapper-footer c-footer" style="background-color: #cf152d;">
 
     <footer id="footer-openedx" class="grid-container"
       ## When rendering the footer through the branding API,
@@ -102,8 +103,41 @@
 
     </footer>
   
-  </div>
+</div> -->
+
+<div class="container-fluid wrapper-footer c-footer" style="background-color: #e1000f;">
+
+  <footer id="footer-openedx" class="grid-container"
+    ## When rendering the footer through the branding API,
+    ## the direction may not be set on the parent element,
+    ## so we set it here.
+    % if bidi:
+      dir=${bidi}
+    % endif
+  >
+    <div class="footer-wrapper">
+      <img style="max-width: 100px;" src="${static.url('af-brazil/images/logo.png')}" alt="logotipo do rodapé Alianca Francesa" >
+      <div class="social-network">
+
+        <a href="https://www.instagram.com/aliancafrancesaonline/">
+          <img src="${static.url('af-brazil/images/instagram.png')}" alt="logotipo do Instagram" >
+        </a>
+        <a href="https://www.facebook.com/aliancafrancesaonline/">
+          <img src="${static.url('af-brazil/images/facebook.png')}" alt="logotipo do Facebook" >
+        </a>
+      </div>
+      <!-- <div class="footer-links-container">
+      <a id="cgu"  class="c-footer-a" href="/cgu">Termos de serviço</a>
+      </div> -->
+    </div>
+
+  </footer>
   
+</div>
+
+
+
+
 % if include_dependencies:
   <%static:js group='base_vendor'/>
   <%static:css group='style-vendor'/>
