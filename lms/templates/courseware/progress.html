@@ -134,12 +134,14 @@ username = get_enterprise_learner_generic_name(request) or student.username
                 %endif
 
                 %if courseware_summary:
+                <% badge_section_OFM = 0 %>
                 <section class="chapters" >
                     <h2 class="sr">${_('Details for each chapter')}</h2>
                     %for chapter in courseware_summary:
                         <% 
-                        badge_section = loop.index 
-                        course_with_badge_list = ["course-v1:af-brasil+PP+2024","course-v1:af-brasil+PP+CPB01","course-v1:af-brasil+PP+CPB","course-v1:af-brasil+PP+TB","course-v1:af-brazil+afbrazil-test+2024"]
+                        badge_section = loop.index
+                        course_with_badge_list_regular = ["course-v1:af-brasil+PP+2024","course-v1:af-brasil+PP+CPB01","course-v1:af-brasil+PP+CPB","course-v1:af-brasil+PP+TB","course-v1:af-brazil+afbrazil-test+2024"]
+                        course_with_badge_list_militar = ["course-v1:af-brasil+OFM+01","course-v1:af-brazil+2+2024"]
                         %>
                         %if not chapter['display_name'] == "hidden":
                         <section aria-labelledby="chapter_${loop.index}" >
@@ -215,7 +217,8 @@ username = get_enterprise_learner_generic_name(request) or student.username
                                             %endif
                                         </div>
 
-                                        %if section.display_name != "Bienvenue" and section.display_name != "É rapidinho! São só 3 minutos!" and section.display_name != "Obtenha seu certificado" and course.id in course_with_badge_list :
+
+                                        %if section.display_name != "Bienvenue" and section.display_name != "É rapidinho! São só 3 minutos!" and section.display_name != "Obtenha seu certificado" and str(course.id) in course_with_badge_list_regular :
                                             <%
                                             earned = section.graded_total.earned
                                             total = section.graded_total.possible
@@ -250,6 +253,32 @@ username = get_enterprise_learner_generic_name(request) or student.username
                                                 %else :
                                                     <img src="/media/microsites/af-brazil/badge/DFL${badge_section}-modified.png" alt="Medalha lição ${badge_section} bloqueado" >
                                                 %endif
+                                            </div>
+                                            %endif
+
+                                        %elif section.display_name == "Point de contrôle" and str(course.id) in course_with_badge_list_militar :
+                                            <%
+                                            earned = section.graded_total.earned
+                                            total = section.graded_total.possible
+                                            badge_section_OFM += 1
+                                            %>
+                                            %if  (total > 0 and earned > 0.5*total) :
+                                            <div class="badge_area">
+                                                <img src="/media/microsites/af-brazil/badge/OFM${badge_section_OFM}.png" alt="Troféu lição ${badge_section_OFM} desbloqueado" >
+                                                <div class="social_button">
+                                                    <button>
+                                                        <a  href="https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=78q5gg85e2lgb9&redirect_uri=https://cursos.aliancafrancesaonline.com.br/wul_apps/social_network/share_linkedin?section=OFM_${badge_section_OFM}${course.id}&scope=profile%20email%20openid%20w_member_social" >
+                                                            Compartilhar no LinkedIn 
+                                                        </a>
+                                                    </button>
+                                                </div>
+
+
+                                            </div>
+                                            %else :
+                                            <div class="badge_area">
+                                                On n'a pas de visuel grisé pour le moment 
+                                                <!-- <img src="/media/microsites/af-brazil/badge/OFM${badge_section_OFM}-modified.png" alt="Medalha lição ${badge_section_OFM} bloqueado" > -->
                                             </div>
                                             %endif
                                         %endif
