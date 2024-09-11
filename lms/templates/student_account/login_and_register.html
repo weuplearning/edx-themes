@@ -137,6 +137,22 @@ if (!getCookie("pageReloaded")) {
 }
 
 </script>
+<script>
+
+  setTimeout(() => {
+    
+    var target_text_1 = document.getElementById('register-email-desc')
+    console.log("target_text_1");
+    console.log(target_text_1);
+    console.log(target_text_1.textContent);
+    
+    target_text_1.textContent = 'Hello '
+  }, 200);
+
+
+
+</script>
+
 <style>
 
 /* EXTRA STYLE START */
@@ -153,6 +169,10 @@ body.view-in-course .wrapper-footer, .login-register .action-primary {
 .login-form, .toggle-form, .form-toggle, #login-form h2, #login div, .label-text, .login-help , #register h2, .focus-in > span, .login-register .form-field span.error, .tip-input  {
   color: white !important;
 }
+label.focus-out > .label-text {
+  color: red !important;
+
+}
 .input-block {
   /* color: #9d0d17; */
   border-radius: 8px !important;
@@ -160,11 +180,14 @@ body.view-in-course .wrapper-footer, .login-register .action-primary {
 input, select, textarea, textarea:focus, input:focus{
   color: #9d0d17;
 }
-
-
-#login-email-desc {
-  display: none;
+#register-agency {
+  border-radius: 8px;
+  background: none !important;
 }
+/* 
+#login-email-desc, #register-email-desc, .tip-input {
+  display: none;
+} */
 .login-register-content {
   margin-top: 0px !important;
 }
