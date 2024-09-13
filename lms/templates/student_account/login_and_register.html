@@ -141,15 +141,83 @@ if (!getCookie("pageReloaded")) {
 
   setTimeout(() => {
     
-    var target_text_1 = document.getElementById('register-email-desc')
-    console.log("target_text_1");
-    console.log(target_text_1);
-    console.log(target_text_1.textContent);
+    var target_text_1 = document.getElementById('register-username-desc')
+    target_text_1.textContent = 'O nome que irá identificá-lo na plataforma. Não pode ser alterado posteriormente. Os nomes de usuário só podem conter letras (A-Z, a-z), números (0-9), sublinhados (_) e hifens (-).'
     
-    target_text_1.textContent = 'Hello '
+    var target_text_2 = document.getElementById('register-email-desc')
+    target_text_2.textContent = 'O que você usará para fazer login'
+    
+    var target_text_3 = document.getElementById('register-password-desc')
+    target_text_3.textContent = 'Sua senha deve conter pelo menos 8 caracteres, incluindo 1 letra maiúscula, 1 letra minúscula e 1 número.'
+    
+    var target_text_4 = document.getElementById('register-name-desc')
+    target_text_4.textContent = 'Este nome aparecerá em qualquer certificado que você obtiver.'
+
+   
+
+  }, 800);
+
+  // Update text in error list
+  setInterval(() => {
+    var ulElement = document.getElementsByClassName('message-copy')[0];
+
+    if (ulElement) {
+      var liElements = ulElement.getElementsByTagName('li');
+
+      // Loop through each li element and modify it
+      for (var i = 0; i < liElements.length; i++) {
+        
+        li_text = liElements[i].textContent
+        // console.log(li_text);
+        // console.log(li_text == "Insira seu Senha.");
+        if (li_text == "Insira seu Senha.") {
+          liElements[i].textContent = "Insira sua senha."
+        }
+        // liElements[i].textContent = "Modified text " + (i + 1);
+      }
+
+      // Log the modified li elements
+      // console.log(liElements);
+    }
   }, 200);
 
+  // // Update text in error list
+  // setInterval(() => {
+  //   var ulElement = document.getElementsByClassName('error');
 
+  //   console.log(ulElement);
+  //   for (let i = 0; i < ulElement.length; i++) {
+  //     const element = ulElement[i];
+  //     // console.log('eeeeee');
+  //     // console.log(element.children);
+  //     // console.log(element.children);
+
+
+  //     // console.log("element.getElementsByTagName('lu')");
+  //     // console.log(element.getElementsByTagName('lu'));
+      
+  //     if (element) {
+  //       var liElements = element.children[1].getElementsByTagName('li');
+  //       console.log("liElements");
+  //       console.log(liElements);
+        
+  //       // Loop through each li element and modify it
+  //       for (var i = 0; i < liElements.length; i++) {
+          
+  //         li_text = liElements[i].textContent
+  //         console.log(li_text);
+  //         console.log(li_text == "Insira seu Senha.");
+  //         if (li_text == "Insira seu Senha.") {
+  //           liElements[i].textContent = "Insira sua senha."
+  //         }
+  //       }
+  //       // liElements[i].textContent = "Modified text " + (i + 1);
+  //     }
+
+  //     // Log the modified li elements
+  //     // console.log(liElements);
+  //   }
+  // }, 1000);
 
 </script>
 
@@ -182,12 +250,15 @@ input, select, textarea, textarea:focus, input:focus{
 }
 #register-agency {
   border-radius: 8px;
-  background: none !important;
+  background: white !important;
 }
-/* 
-#login-email-desc, #register-email-desc, .tip-input {
+#login-and-registration-container {
+  width: 430px;
+}
+
+#register-username-validation-error, #register-password-validation-error, #register-email-validation-error, #register-name-validation-error  {
   display: none;
-} */
+}
 .login-register-content {
   margin-top: 0px !important;
 }

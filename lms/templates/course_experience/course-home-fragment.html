@@ -23,6 +23,9 @@ from lms.djangoapps.grades.course_grade import ZeroCourseGrade
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 %>
 
+
+
+
 <%block name="header_extras">
   <link rel="stylesheet" type="text/css" href="${static.url('paragon/static/paragon.min.css')}" />
   <link rel="stylesheet" type="text/css" href="${static.url('weup/css/animate-4.1.1.min.css')}" />
@@ -458,17 +461,17 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
             <div class="section collapsible-content" id="badges">
                     <div class="grade-block">       
                         <div class="grade-section-title">
-                            %if user_grade.passed:
+                            %if user_grade.passed :
                                 <img src="${static.url('images/medal_on.svg')}" class="main-badge"/>
                             %else: 
                                 <img src="${static.url('images/medal_off.svg')}" class="main-badge"/>
                             %endif
                             <div style="text-transform: uppercase;">${course.display_name_with_default}</div>
                             <div class="grade-value">${int(user_grade.percent * 100)}%</div>
+
                         </div>
                         <div class="progress-bar-full" id="final-grade-progress">
                             <div style="width:${int(user_grade.percent * 100)}%;" class="progress-bar-grade" ></div>
-                            
                         </div>                    
                     </div>
 
@@ -510,23 +513,29 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
                     %endfor
                  %else:
+                    
 
 
                     %for index, chapter in enumerate(user_grade.chapter_grades.keys()):
-                        <div class="grade-block">
-                            <div class="grade-section-title">
-                                %if user_grade.chapter_percentage(chapter) >= 0.7:
-                                    <img src="${static.url('images/medal_on.svg')}" class="small-badge"/>
-                                %else: 
-                                    <img src="${static.url('images/medal_off.svg')}" class="small-badge"/>
-                                %endif
-                                <div class="chapter-title" >${user_grade.chapter_grades[chapter]['display_name']}</div>
-                                <div class="grade-value">${int(user_grade.chapter_percentage(chapter) * 100)}%</div>
+
+                        <script>
+                            console.log("${user_grade.chapter_grades[chapter]['display_name']}");
+                        </script>
+
+                            <div class="grade-block">
+                                <div class="grade-section-title">
+                                    %if user_grade.chapter_percentage(chapter) >= 0.7:
+                                        <img src="${static.url('images/medal_on.svg')}" class="small-badge"/>
+                                    %else: 
+                                        <img src="${static.url('images/medal_off.svg')}" class="small-badge"/>
+                                    %endif
+                                    <div class="chapter-title" >${user_grade.chapter_grades[chapter]['display_name']}</div>
+                                    <div class="grade-value">${int(user_grade.chapter_percentage(chapter) * 100)}%</div>
+                                </div>
+                                <div class="progress-bar-full">
+                                    <div style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade"></div>
+                                </div>                    
                             </div>
-                            <div class="progress-bar-full">
-                                <div style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade"></div>
-                            </div>                    
-                        </div>
                     %endfor
 
                  %endif

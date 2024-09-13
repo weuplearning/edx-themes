@@ -7,6 +7,7 @@
 <%!
 import json
 import pytz
+import csv
 from datetime import date, datetime, timedelta
 
 from django.utils import timezone
@@ -25,6 +26,31 @@ relative_dates_flag_is_enabled = RELATIVE_DATES_FLAG.is_enabled(str(course_key))
 is_course_staff = bool(user and course and has_access(user, 'staff', course, course.id))
 dates_banner_displayed = False
 %>
+
+<%
+csv_file_path = '/edx/var/edxapp/media/microsites/af-brazil/data/' + str(course.id) +'.csv'
+csv_data = False
+csv_user_grade = []
+csv_grade_index = 0
+
+
+try :
+    with open(csv_file_path, newline='') as csvfile:
+        csvreader = csv.reader(csvfile, delimiter=';')
+        csv_data = []
+        for row in csvreader:
+            csv_data.append(row)
+except :
+    csv_data = False
+
+if csv_data :
+    for user_data in csv_data :
+        if len(user_data)>1 and user.email == user_data[1] :
+            csv_user_grade = user_data[3:-7]
+
+%>
+
+
 <main role="main" class="course-outline" id="main" tabindex="-1">
     <%include file="/dates_banner.html" />
     % if course_sections is not None:
@@ -77,36 +103,30 @@ dates_banner_displayed = False
                                 id="${ subsection['id'] }"
                             >
                             % if graded and scored and 'special_exam_info' not in subsection:
-                                      <span class="icon fa fa-pencil-square-o" aria-hidden="true"></span>
+                                <span class="icon fa fa-pencil-square-o" aria-hidden="true"></span>
                             % endif
-                                      <h4 class="subsection-title">
-                                          ${ subsection['display_name'] }
-                            % if num_graded_problems:
-<!--
-                                          ${ngettext("({number} Question)",
-                                                     "({number} Questions)",
-                                                     num_graded_problems).format(number=num_graded_problems)}
--->
-                            % endif
-                                      </h4>
+                                <h4 class="subsection-title"> ${ subsection['display_name'] }</h4>
 
-                            % if subsection.get('complete'):
+                            % if subsection.get('complete') or (subsection['display_name'].find('Minha lição ')!=-1 and csv_grade_index+1 < len(csv_user_grade) and float(csv_user_grade[csv_grade_index+1]) >= 0.7):
+                                <% csv_grade_index += 1 %>
                                 <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
                                 <span class="sr">${_("Completed")}</span>
+                            %elif subsection['display_name'].find('Minha lição ')!=-1 :
+                                <% csv_grade_index += 1 %>
+                            % endif
 
-                            % endif
                             % if needs_prereqs:
-                                    <div class="details prerequisite">
-                                        <span class="prerequisites-icon icon fa fa-lock" aria-hidden="true"></span>
-                                        ${ _("Prerequisite: ") }
-                                            <%
-                                                prerequisite_id = gated_content[subsection['id']]['prerequisite']
-                                                prerequisite_name = xblock_display_names.get(prerequisite_id)
-                                            %>
-                                            ${ prerequisite_name }
-                                    </div>
+                                <div class="details prerequisite">
+                                    <span class="prerequisites-icon icon fa fa-lock" aria-hidden="true"></span>
+                                    ${ _("Prerequisite: ") }
+                                        <%
+                                            prerequisite_id = gated_content[subsection['id']]['prerequisite']
+                                            prerequisite_name = xblock_display_names.get(prerequisite_id)
+                                        %>
+                                        ${ prerequisite_name }
+                                </div>
                             % endif
-                                        <div class="details">
+                                <div class="details">
 
                 ## There are behavior differences between rendering of subsections which have
                 ## exams (timed, graded, etc) and those that do not.
