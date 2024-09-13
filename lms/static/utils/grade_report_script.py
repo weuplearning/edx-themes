@@ -124,7 +124,7 @@ for course_id in course_ids:
 
     # Grade
     gradesTest = check_best_grade(user, course, force_best_grade=True)
-    userPersentGrade = gradesTest.summary['percent']
+    userPersentGrade = gradesTest.summary['percent']*100
 
     try:
       user_data.append(userPersentGrade)
@@ -136,8 +136,6 @@ for course_id in course_ids:
 
   all_users_data[course_id]= course_data
 
-# log.info('------------> Finish fetching user data and answers')
-# log.info('------------> Begin Calculate grades and write xlsx report')
 
 # WRITE XLS
 timestr = time.strftime("%Y_%m_%d")
@@ -173,8 +171,6 @@ j=2
 for k, course_id in all_users_data.items():
   
   for key, user in course_id.items():
-    log.info('user')
-    log.info(user)
     for i in range(len(user['general'])):
 
       if user['general'][i] in correspondance_CF:
@@ -228,7 +224,8 @@ log.info('------------> Finish calculate grades and write xlsx report')
 
 
 # Qualif
-# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/sncf-voyageurs/lms/static/utils/grade_report_script.py 'cyril.adolf@weuplearning.com' course-v1:sncf-voyageurs+01+2023
+# pas de cours .... 
 
 # PROD
-# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/sncf-voyageurs/lms/static/utils/grade_report_script.py 'cyril.adolf@weuplearning.com' course-v1:sncf-voyageurs+01+2023
+# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/sncf-voyageurs/lms/static/utils/grade_report_script.py 'cyril.adolf@weuplearning.com' course-v1:sncf-voyageurs+DC2+2024
+
