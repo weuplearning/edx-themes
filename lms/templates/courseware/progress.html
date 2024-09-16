@@ -24,7 +24,7 @@ username = get_enterprise_learner_generic_name(request) or student.username
 <%
 csv_file_path = '/edx/var/edxapp/media/microsites/af-brazil/data/' + str(course.id) +'.csv'
 csv_data = False
-csv_user_grade = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+csv_user_grade = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 csv_grade_index = 0
 
 try :
@@ -173,15 +173,25 @@ if csv_data :
                             <div class="sections" >
                                 %for section in chapter['sections']:
                                     <div class="sections_partioner">
+
                                         <div>
                                             <%
                                             earned = section.graded_total.earned
-                                            if float(csv_user_grade[csv_grade_index+1]) > section.graded_total.earned :
-                                                earned = float(csv_user_grade[csv_grade_index+1]) 
-
                                             total = section.graded_total.possible
-
                                             percentageString = "{0:.0%}".format(section.percent_graded) if total > 0 or earned > 0 else ""
+
+                                            if section.display_name != "Bienvenue" and section.display_name != "É rapidinho! São só 3 minutos!" and section.display_name != "Obtenha seu certificado" and str(course.id) in course_with_badge_list_regular and csv_grade_index+1 < len(csv_user_grade)  :
+                                                if (float(csv_user_grade[csv_grade_index+1]) > section.graded_total.earned) :
+                                                    earned = float(csv_user_grade[csv_grade_index+1]) 
+                                                    percentageString = "{0:.0%}".format(earned) 
+
+
+                                            if section.display_name == "Point de contrôle" and str(course.id) in course_with_badge_list_militar and badge_section_OFM+1 < len(csv_user_grade)  :
+                                                if (float(csv_user_grade[badge_section_OFM+1]) > section.graded_total.earned) :
+                                                    percent = float(csv_user_grade[badge_section_OFM+1]) 
+                                                    percentageString = "{0:.0%}".format(percent) 
+                                                    earned = int(percent * total)
+
                                             %>
                                             <h4 class="hd hd-4">
                                                 <a href="${reverse('courseware_section', kwargs=dict(course_id=text_type(course.id), chapter=chapter['url_name'], section=section.url_name))}">
@@ -292,6 +302,7 @@ if csv_data :
                                             total = section.graded_total.possible
                                             badge_section_OFM += 1
                                             %>
+
                                             %if (total > 0 and earned > 0.7*total) or (csv_user_grade and float(csv_user_grade[badge_section_OFM]) >= 0.7 ):
                                                 <div class="badge_area">
                                                     <img src="/media/microsites/af-brazil/badge/OFM${badge_section_OFM}.png" alt="Troféu lição ${badge_section_OFM} desbloqueado" >

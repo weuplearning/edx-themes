@@ -107,7 +107,7 @@ if csv_data :
                             % endif
                                 <h4 class="subsection-title"> ${ subsection['display_name'] }</h4>
 
-                            % if subsection.get('complete') or (subsection['display_name'].find('Minha lição ')!=-1 and csv_grade_index+1 < len(csv_user_grade) and float(csv_user_grade[csv_grade_index+1]) >= 0.7):
+                            % if subsection.get('complete') or (subsection['display_name'].find('Minha lição ')!=-1 and csv_grade_index+1 < len(csv_user_grade) and float(csv_user_grade[csv_grade_index]) >= 0.7):
                                 <% csv_grade_index += 1 %>
                                 <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
                                 <span class="sr">${_("Completed")}</span>

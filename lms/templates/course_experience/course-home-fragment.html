@@ -6,7 +6,7 @@
 <%!
 import json
 import six
-
+import csv
 from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.template.defaultfilters import escapejs
@@ -24,6 +24,68 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 %>
 
 
+<%
+csv_file_path = '/edx/var/edxapp/media/microsites/af-brazil/data/' + str(course.id) +'.csv'
+csv_data = False
+csv_user_grade = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+csv_grade_index = 0
+csv_user_tester = False
+course_with_csv_data = ["course-v1:af-brasil+OFM+01","course-v1:af-brasil+PP+2024","course-v1:af-brasil+PP+CPB01","course-v1:af-brasil+PP+CPB","course-v1:af-brasil+PP+TB","course-v1:af-brazil+afbrazil-test+2024"]
+
+try :
+    with open(csv_file_path, newline='') as csvfile:
+        csvreader = csv.reader(csvfile, delimiter=';')
+        csv_data = []
+        for row in csvreader:
+            csv_data.append(row)
+except :
+    csv_data = False
+
+if csv_data :
+    for user_data in csv_data :
+        if len(user_data)>1 and user.email == user_data[1] :
+            csv_user_grade = user_data[3:-7]
+            csv_user_tester = True
+%>
+
+%if str(course.id) in course_with_csv_data :
+<script>
+    let str = '${csv_user_grade}'
+    let list = JSON.parse(str.replace(/&#39;/g, '"'));
+    let jsonList = list.map(item => item === "Not Attempted" ? 0 : item);
+
+    setTimeout(() => {
+
+        // DATA WONT BE RELIABLE
+        // Global grade
+        var target = document.getElementsByClassName('grade-block')
+        grade = parseFloat('${csv_user_grade[0]}') *100
+
+        check_grade = target[0].children[0].children[2].innerText
+        check_grade_value = check_grade.split('%')[0]
+
+        if (grade > check_grade_value) {
+            target[0].children[0].children[2].innerText = grade+'%';
+            target[0].children[1].children[0].style.width = grade+'%';
+        }
+
+        // section grade
+        let j=2
+        for (let i = 0; i < jsonList.length; i+=2) {
+            
+            var grade_section = Math.floor((parseFloat(jsonList[i+1]) + parseFloat(jsonList[i+2])) *50);
+            var section_target = target[j]
+            var check_grade_section = section_target.children[0].children[2].innerText.split('%')[0]
+            
+            if (grade_section > check_grade_section) {   
+                section_target.children[0].children[2].innerText = grade_section+'%'
+                section_target.children[1].children[0].style.width = grade_section+'%'            
+            }
+            j+=1
+        }
+    }, 500); 
+</script>
+%endif
 
 
 <%block name="header_extras">
@@ -459,23 +521,25 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         <aside class="page-content-secondary course-sidebar">
             <h4 class="collapsible">Você se lembrou bem ?</h4>
             <div class="section collapsible-content" id="badges">
-                    <div class="grade-block">       
-                        <div class="grade-section-title">
-                            %if user_grade.passed :
-                                <img src="${static.url('images/medal_on.svg')}" class="main-badge"/>
-                            %else: 
-                                <img src="${static.url('images/medal_off.svg')}" class="main-badge"/>
-                            %endif
-                            <div style="text-transform: uppercase;">${course.display_name_with_default}</div>
-                            <div class="grade-value">${int(user_grade.percent * 100)}%</div>
 
-                        </div>
-                        <div class="progress-bar-full" id="final-grade-progress">
-                            <div style="width:${int(user_grade.percent * 100)}%;" class="progress-bar-grade" ></div>
-                        </div>                    
+                <div class="grade-block">       
+                    <div class="grade-section-title">
+                        %if user_grade.passed :
+                            <img src="${static.url('images/medal_on.svg')}" class="main-badge"/>
+                        %else: 
+                            <img src="${static.url('images/medal_off.svg')}" class="main-badge"/>
+                        %endif
+                        <div style="text-transform: uppercase;">${course.display_name_with_default}</div>
+                        <div class="grade-value">${int(user_grade.percent * 100)}%</div>
+
                     </div>
+                    <div class="progress-bar-full" id="final-grade-progress">
+                        <div style="width:${int(user_grade.percent * 100)}%;" class="progress-bar-grade" ></div>
+                    </div>                    
+                </div>
 
-                 %if configuration_helpers.get_value('COMPLETION_BASED_DASHBOARD_MONO', False):
+
+                %if configuration_helpers.get_value('COMPLETION_BASED_DASHBOARD_MONO', False):
 
                     % for section in course_block_tree.get('children'):
                       <%
@@ -517,10 +581,6 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
 
                     %for index, chapter in enumerate(user_grade.chapter_grades.keys()):
-
-                        <script>
-                            console.log("${user_grade.chapter_grades[chapter]['display_name']}");
-                        </script>
 
                             <div class="grade-block">
                                 <div class="grade-section-title">
