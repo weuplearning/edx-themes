@@ -54,25 +54,22 @@ log = logging.getLogger()
 
 
 
+emails = sys.argv[1].split(";")
+course_ids = sys.argv[2].split(";")
 
 
-
-
-
-
-
-
-
-
-org = "af-brazil"
+org = "af-brasil"
 register_form = configuration_helpers.get_value_for_org(org, 'FORM_EXTRA')
 
 # Get headers
 HEADERS_GLOBAL = []
-HEADERS_USER = [u"Email", u"Nom complet"]
+HEADERS_USER = [u"ID", u"Email", u"Nom complet"]
 
 HEADERS_FORM = []
 NICE_HEADERS_FORM = []
+
+
+
 if register_form is not None:
   for row in register_form:
     if row.get('type') is not None:
@@ -83,29 +80,37 @@ if register_form is not None:
 NICE_HEADER = list(NICE_HEADERS_FORM)
 TECHNICAL_HEADER = list(HEADERS_FORM)
 
-
-
 HEADERS_USER.extend(NICE_HEADER)
-HEADERS_USER.append('Note obtenue (en %)')
+HEADERS_USER.append('Note globale (en %)')
+
+
+if course_ids[0] == 'course-v1:af-brasil+PP+CPB' :
+  HEADERS_SECTION = ['Quiz Primeiros Passos', 'Quiz Destination Paris', 'Quiz Apresentações', 'Quiz Tour Eiffel & Champ de Mars', 'Quiz Família & Pets', 'Quiz Château de Versailles', 'Quiz Tempo', 'Quiz Stade de France', 'Quiz Festas & Tradições', 'Quiz Yvelines', 'Quiz Estudos', 'Quiz Seine-Saint-Denis', 'Quiz Trabalho', 'Quiz Paris La Défense Arena', 'Quiz Lazer', 'Quiz Stades en France', 'Quiz Saúde', 'Quiz Invalides & Pont d\'Iéna', 'Quiz Viagem', 'Quiz Arenas Paris Sud', 'Quiz Cidade', 'Quiz Ailleurs en France', 'Quiz Casa', 'Quiz La Concorde', 'Quiz Gastronomia', 'Quiz Arena Bercy', 'Quiz Moda', 'Quiz Grand Palais', 'Quiz DELF A1', 'Quiz Arena Porte de La Chapelle']
+elif course_ids[0] == 'course-v1:af-brasil+PP+CPB01' :
+  HEADERS_SECTION = ['Quiz Primeiros Passos', 'Quiz Destination Paris', 'Quiz Apresentações', 'Quiz Tour Eiffel & Champ de Mars', 'Quiz Família & Pets', 'Quiz Château de Versailles', 'Quiz Tempo', 'Quiz Stade de France', 'Quiz Festas & Tradições', 'Quiz Yvelines', 'Quiz Estudos', 'Quiz Seine-Saint-Denis', 'Quiz Trabalho', 'Quiz Paris La Défense Arena', 'Quiz Lazer', 'Quiz Stades en France', 'Quiz Saúde', 'Quiz Invalides & Pont d\'Iéna', 'Quiz Viagem', 'Quiz Arenas Paris Sud', 'Quiz Cidade', 'Quiz Ailleurs en France', 'Quiz Casa', 'Quiz La Concorde', 'Quiz Gastronomia', 'Quiz Arena Bercy', 'Quiz Moda', 'Quiz Grand Palais', 'Quiz DELF A1', 'Quiz Arena Porte de La Chapelle']
+
+elif course_ids[0] == 'course-v1:af-brasil+PP+TB' :
+  HEADERS_SECTION = ['Quiz Primeiros Passos', 'Quiz Destination Paris', 'Quiz Apresentações', 'Quiz Tour Eiffel & Champ de Mars', 'Quiz Família & Pets', 'Quiz Château de Versailles', 'Quiz Tempo', 'Quiz Stade de France', 'Quiz Festas & Tradições', 'Quiz Yvelines', 'Quiz Estudos', 'Quiz Seine-Saint-Denis', 'Quiz Trabalho', 'Quiz Paris La Défense Arena', 'Quiz Lazer', 'Quiz Stades en France', 'Quiz Saúde', 'Quiz Invalides & Pont d\'Iéna', 'Quiz Viagem', 'Quiz Arenas Paris Sud', 'Quiz Cidade', 'Quiz Ailleurs en France', 'Quiz Casa', 'Quiz La Concorde', 'Quiz Gastronomia', 'Quiz Arena Bercy', 'Quiz Moda', 'Quiz Grand Palais', 'Quiz DELF A1', 'Quiz Arena Porte de La Chapelle']
+
+elif course_ids[0] == 'course-v1:af-brasil+OFM+01' :
+  HEADERS_SECTION = ['Quiz Unité 1', 'Quiz Unité 2','Quiz Unité 3','Quiz Unité 4','Quiz Unité 5']
+else  :
+
+  HEADERS_SECTION = ['Quiz Primeiros Passos', 'Quiz Destination Paris', 'Quiz Apresentações', 'Quiz Tour Eiffel & Champ de Mars', 'Quiz Família & Pets', 'Quiz Château de Versailles', 'Quiz Tempo', 'Quiz Stade de France', 'Quiz Festas & Tradições', 'Quiz Yvelines', 'Quiz Estudos', 'Quiz Seine-Saint-Denis', 'Quiz Trabalho', 'Quiz Paris La Défense Arena', 'Quiz Lazer', 'Quiz Stades en France', 'Quiz Saúde', 'Quiz Invalides & Pont d\'Iéna', 'Quiz Viagem', 'Quiz Arenas Paris Sud', 'Quiz Cidade', 'Quiz Ailleurs en France', 'Quiz Casa', 'Quiz La Concorde', 'Quiz Gastronomia', 'Quiz Arena Bercy', 'Quiz Moda', 'Quiz Grand Palais', 'Quiz DELF A1', 'Quiz Arena Porte de La Chapelle']
+
+
+
+HEADERS_USER.extend(HEADERS_SECTION)
+
+
 HEADER = HEADERS_USER
 
-emails = sys.argv[1].split(";")
-course_ids = sys.argv[2].split(";")
 
 all_users_data = {}
 
 
-
-
-
-
-
-
-
 for course_id in course_ids:
 
-
-  ##################
   csv_file_path = '/edx/var/edxapp/media/microsites/af-brazil/data/' + str(course_id) +'.csv'
   csv_data = False
   csv_user_grade = []
@@ -119,16 +124,6 @@ for course_id in course_ids:
         csv_data.append(row)
   except :
     csv_data = False
-
-  if csv_data :
-    for user_data in csv_data :
-      if len(user_data)>1 and user.email == user_data[1] :
-        csv_user_grade = user_data[3:-7]
-  log.info("csv_user_grade")
-  log.info(csv_user_grade)
-  ##################
-
-
 
 
   course_key = CourseLocator.from_string(course_id)
@@ -144,11 +139,15 @@ for course_id in course_ids:
 
     enrollment = course_enrollments[i]
 
+    UserGrade = ['CFL1','DFL1','CFL2','DFL2','CFL3','DFL3','CFL4','DFL4','CFL5','DFL5','CFL6','DFL6','CFL7','DFL7','CFL8','DFL8','CFL9','DFL9','CFL10','DFL10','CFL11','DFL11','CFL12','DFL12','CFL13','DFL13','CFL14','DFL14','CFL15','DFL15']
+
     user_CF_data = json.loads(user.profile.custom_field)
 
-    if str(user.email).find('@yopmail') != -1 or str(user.email).find('@weuplearning') != -1 or str(user.email).find('@themoocagency') != -1 :
-      continue
+    # if str(user.email).find('@yopmail') != -1 or str(user.email).find('@weuplearning') != -1 or str(user.email).find('@themoocagency') != -1 :
+    #   continue
 
+
+    user_data.append(user.id)
 
     try:
       user_data.append(user.email)
@@ -161,7 +160,6 @@ for course_id in course_ids:
     user_data.append(user.profile.name)
 
 
-
     for key in TECHNICAL_HEADER :
 
       try :
@@ -170,16 +168,47 @@ for course_id in course_ids:
         user_data.append('n.a.')
 
 
+
     # Grade
+    # Il faut re-calculer la note pour prendre en compte l'historique des données 
     gradesTest = check_best_grade(user, course, force_best_grade=True)
-    userPersentGrade = gradesTest.summary['percent']*100
+
+    for section in gradesTest.summary['section_breakdown'] :
+      UserGrade = [str(section['percent']) if grade == section['label'] else grade for grade in UserGrade]
+
+
+
+    csv_user_grade = []
+    if csv_data :
+      for user_data_csv in csv_data :
+        if len(user_data_csv)>1 and user.email == user_data_csv[1] :
+
+          csv_user_grade = user_data_csv[4:-7]
+          i=0
+          for grade_section_csv in csv_user_grade : 
+            if grade_section_csv > UserGrade[i] :
+              UserGrade[i] = grade_section_csv
+            i+=1
+
+          continue
+    
+
+    # Calculer la note globale à partir des notes agglomérées
+    sumGrade = 0
+    numGrade = 0
+    for grade in UserGrade :
+      sumGrade += float(grade)*100
+      numGrade +=1 
 
     try:
-      user_data.append(userPersentGrade)
+      globalGrade = int(sumGrade / numGrade )
+      globalGradeStr = str(globalGrade) +'%'
     except:
-      user_data.append(0)
+      globalGradeStr = '0%'
 
-    data = { "general": user_data }
+
+    data = { "general": user_data, "grade_section": UserGrade, "grade_global" :globalGradeStr }
+
     course_data[str(user.id)] = data
 
   all_users_data[course_id]= course_data
@@ -190,7 +219,7 @@ timestr = time.strftime("%Y_%m_%d")
 wb = Workbook()
 sheet = wb.active
 sheet.title= 'Rapport de notes'
-filename = '/home/edxtma/csv/{}_sncf_voyageurs_grade_report.xlsx'.format(timestr)
+filename = '/home/edxtma/csv/{}_af-brasil_grade_report.xlsx'.format(timestr)
 
 
 correspondance_CF = {
@@ -226,6 +255,11 @@ for k, course_id in all_users_data.items():
       else :
         sheet.cell(j, i+1, user['general'][i])
 
+    sheet.cell(j, 6, user['grade_global'])
+
+    for i in range(len(user['grade_section'])):
+      sheet.cell(j, i+7, user['grade_section'][i])
+
     j += 1
 
 
@@ -251,7 +285,7 @@ for email in emails:
   msg = MIMEMultipart()
   msg['From'] = fromaddr
   msg['To'] = email
-  msg['Subject'] = u"Rapport de notes Sureté SNCF"
+  msg['Subject'] = u"Rapport de notes AF Brasil"
   attachment = _files_values
   part = MIMEBase('application', 'octet-stream')
   part.set_payload(attachment)
@@ -275,5 +309,5 @@ log.info('------------> Finish calculate grades and write xlsx report')
 # pas de cours .... 
 
 # PROD
-# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/af-brazil/lms/utils/grade_report_script.py 'cyril.adolf@weuplearning.com' course-v1_af-brasil+PP+CPB
+# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/af-brazil/lms/utils/grade_report_script.py 'cyril.adolf@weuplearning.com' course-v1:af-brasil+PP+CPB
 
