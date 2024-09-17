@@ -5,6 +5,7 @@
 <%!
 import six
 import waffle
+import csv
 
 from django.conf import settings
 from django.urls import reverse
@@ -22,6 +23,31 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
    (course.enable_proctored_exams or course.enable_timed_exams)
    )
 %>
+
+
+<%
+csv_file_path = '/edx/var/edxapp/media/microsites/af-brazil/data/' + str(course.id) +'.csv'
+csv_data = False
+csv_user_grade = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+csv_grade_index = 0
+
+try :
+    with open(csv_file_path, newline='') as csvfile:
+        csvreader = csv.reader(csvfile, delimiter=';')
+        csv_data = []
+        for row in csvreader:
+            csv_data.append(row)
+except :
+    csv_data = False
+
+if csv_data :
+    for user_data in csv_data :
+        if len(user_data)>1 and user.email == user_data[1] :
+            csv_user_grade = user_data[3:-7]
+%>
+<script>
+  var $$data_user = '${csv_user_grade}'
+</script>
 
 <style>
   .window-wrap {
