@@ -37,6 +37,810 @@ for key, value in data.items() :
     json_img_link = value["img_link"]
 %>
 
+<%
+# available schools
+file_path = '/edx/app/edxapp/edx-platform/lms/djangoapps/wul_apps/custom_fields_editor_umn/umn_schools.json'
+with open(file_path, 'r',encoding='utf-8') as file:
+    schools = json.load(file)
+#cp /edx/app/edxapp/edx-platform/lms/djangoapps/wul_apps/umn_schools/*.json /edx/var/edxapp/media/microsites/umn/fichiers_json/
+
+def get_schools_options(school_data):
+    options = []
+    for region, schools in school_data.items():
+        for school in schools:
+            options.append((region, school))
+    return options
+
+%>
+
+<%
+# available formations
+file_path = '/edx/app/edxapp/edx-platform/lms/djangoapps/wul_apps/custom_fields_editor_umn/umn_formations_safe.json'
+with open(file_path, 'r',encoding='utf-8') as file:
+    formations = json.load(file)
+    
+
+#cp /edx/app/edxapp/edx-platform/lms/djangoapps/wul_apps/umn_schools/*.json /edx/var/edxapp/media/microsites/umn/fichiers_json/
+%>
+<!---
+
+<div id="umn_schools">
+<% #${schools}
+%>
+</div>
+
+<div id="umn_formations">
+<% #${formations}
+%>
+</div>
+-->
+<style>
+#umn_formations,#umn_schools{
+font-size: 10px !important;
+  font-family: mono;
+  background: white;
+  border: gray solid 0.5px;
+  margin: 1rem;
+  padding: 0.2rem;
+}
+
+
+
+</style>
+
+<%
+custom_fields_dict = json.loads(custom_fields)
+user_firstname = custom_fields_dict.get('first_name', '')
+user_lastname = custom_fields_dict.get('last_name', '')
+user_structure = custom_fields_dict.get('structure', '')
+user_preparedDiploma = custom_fields_dict.get('preparedDiploma', '')
+user_status = custom_fields_dict.get('status', '')
+
+user_regions = custom_fields_dict.get('regions', '')
+user_schoolregion = custom_fields_dict.get('schoolregion', '')
+user_school = custom_fields_dict.get('school',None)
+user_formation = custom_fields_dict.get('formation',None)
+user_class = custom_fields_dict.get('class',None)
+user_year = custom_fields_dict.get('year',None)
+user_diplomalvl = custom_fields_dict.get('diplomalvl',None)
+
+
+user_agreeCgu = custom_fields_dict.get('agreeCgu', '')
+
+display_form = False
+if not all([user_firstname, user_lastname, user_structure, user_preparedDiploma, user_agreeCgu, user_status]):
+    display_form = True
+%>
+<!--
+<div id="umn_formations">
+ ${custom_fields_dict} 
+</div>
+-->
+
+ % if display_form == True:
+
+<style>
+.content-wrapper {
+    min-height: calc(100vh - 284px);
+}
+#customFieldsForm{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.schoolSection
+{
+     display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    /*border: 1px solid #ccc;*/
+    width: 100%;
+    border-radius: 5px;   
+}
+
+#customFieldsForm label {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+#customFieldsForm input[type="text"] {
+    padding: 5px;
+    margin-bottom: 20px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 400px;
+}
+
+#customFieldsForm select {
+    padding: 5px;
+    margin-bottom: 20px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 400px;
+}
+
+#customFieldsForm button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+#customFieldsForm button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.disabled-link {
+  pointer-events: none;
+}
+.required_field {
+    color: red;
+}
+</style>
+
+<script>
+let startButton = document.getElementsByClassName('action-resume-course')
+startButton[0].classList.add("disabled-link")
+</script>
+<form id="customFieldsForm">
+    <label for="lastName">Nom : <span class="required_field">*</span></label>
+    <input type="text" id="lastName" name="lastName" onkeydown="if(event.keyCode==32) return false;" value="${user_lastname}" required><br>
+  
+    <label for="firstName">Prénom : <span class="required_field">*</span></label>
+    <input type="text" id="firstName" name="firstName" onkeydown="if(event.keyCode==32) return false;" value="${user_firstname}" required><br>
+  
+    <label for="structure">Etablissement de formation : <span class="required_field">*</span></label>
+
+    <input type="text" id="structure" name="structure" onkeydown="if(event.keyCode==32) return false;" value="${user_structure}" required><br>
+
+    <label for="preparedDiploma">Diplôme préparé : <span class="required_field">*</span></label>
+    <input type="text" id="preparedDiploma" name="preparedDiploma" onkeydown="if(event.keyCode==32) return false;" value="${user_preparedDiploma}"  required><br>
+
+    <label for="status">Statut : <span class="required_field">*</span></label>
+    <select id="status" name="status">
+        <option value="learner" ${'selected' if user_status == 'learner' else ''}>Apprenant</option>
+        <option value="instructor" ${'selected' if user_status == 'instructor' else ''}>Formateur</option>
+        <option value="applicant" ${'selected' if user_status == 'applicant' else ''}>Demandeur d'emploi</option>
+        <option value="retraining" ${'selected' if user_status == 'retraining' else ''}>Salarié en reconversion</option>
+        <option value="other" ${'selected' if user_status == 'other' else ''}>Autre</option>
+    </select>
+
+    <br>
+
+
+    <label for="regions">Région de résidence : <span class="required_field">*</span></label>
+    <select id="regions" name="regions" >
+
+        <optgroup label="France métropolitaine">
+          <option value="auvergne">Auvergne-Rhône-Alpes</option>
+          <option value="bourgogne">Bourgogne-Franche-Comté</option>
+          <option value="bretagne">Bretagne</option>
+          <option value="centre">Centre-Val de Loire</option>
+          <option value="corse">Corse</option>
+          <option value="grandest">Grand Est</option>
+          <option value="hautsdefrance">Hauts-de-France</option>
+          <option value="iledefrance">Île-de-France</option>
+          <option value="normandie">Normandie</option>
+          <option value="nouvelleacquitaine">Nouvelle-Aquitaine</option>
+          <option value="occitanie">Occitanie</option>
+          <option value="paysdelaloire">Pays de la Loire</option>
+          <option value="provence">Provence-Alpes-Côte d'Azur</option>
+        </optgroup>
+        <optgroup label="Outre-mer">
+          <option value="guadeloupe">Guadeloupe</option>
+          <option value="martinique">Martinique</option>
+          <option value="guyane">Guyane</option>
+          <option value="reunion">La Réunion</option>
+          <option value="mayotte">Mayotte</option>
+        </optgroup>
+        
+    </select>
+
+    <div class="schoolSection">
+    <label for="schoolregion ">Région de l'établissement :</label>
+    <select id="schoolregion" name="schoolregion" onchange="updateSchools('schoolregionselect')">
+          <option selected value="">Sélectionnez une région</option>
+
+        % for region in schools.keys():
+                <option value="${region}">${region}</option>
+        % endfor
+    </select>
+    <!--
+    <button type="button" onclick="updateSchools('button')">updateSchools</button>
+    <button type="button" onclick="updateDiplomalevel('button')">updateDiplomalevel</button>
+    <button type="button" onclick="evalSchoolSelect('button')">evalSchoolSelect</button>
+    <button type="button" onclick="debugFormations()">debugFormations</button>
+    <button type="button" onclick="console.clear()">CLEAR</button>
+    -->
+
+
+
+
+        <label id="schoolLabel" for="school">Etablissement :</label>
+        <select name="school" id="school" onchange="evalSchoolSelect('schoolselect')">
+        % if user_school:
+            <option value="${user_school}">${user_school}</option>
+        % endif
+        </select>
+
+        <label id="diplomalevelLabel" for="diplomalevel">Niveau de diplôme :</label>
+        <select name="diplomalevel" id="diplomalevel" onchange="updateFormations('diplomalevelselect')">
+        % if user_diplomalvl:
+            <option value="${user_diplomalvl}">${user_diplomalvl}</option>
+        % endif
+        </select>
+
+        <label id="formationLabel" for="formation">Formation :</label>
+        <select name="formation" id="formation" onchange="updateClasses('formationselect')">
+        % if user_formation:
+            <option value="${user_formation}">${user_formation}</option>
+        % endif
+        </select>
+
+        <label id="classLabel" for="class">Classe :</label>
+        <select name="class" id="class">
+        % if user_class:
+            <option value="${user_class}">${user_class}</option>
+        % endif
+        </select>
+
+
+
+
+        <label id="yearLabel" for="year">Année :</label>
+        <select name="year" id="year">
+        % if user_year:
+            <option value="${user_year}">${user_year}</option>
+        % endif
+        </select>
+    </div>
+    <br>
+    <label for="agreeCgu">J'accepte d'être contacté(e) par l'UMN par e-mail : <span class="required_field">*</span></label>
+    <select id="agreeCgu" name="agreeCgu">
+        <option value="oui">Oui</option>
+        <option value="non">Non</option>
+    </select>
+  
+    <p><span class="required_field">*</span> champs obligatoires</p>
+    <button type="submit">Envoyer</button>
+     <p>
+     <!-- Referent : "${custom_fields_dict.get('referent',"null")}" --> 
+     
+    </p>
+    <p>
+    <!-- ${custom_fields_dict} -->
+    </p>
+</form>
+
+<script>
+console.clear()
+var schoolData = ${ json.dumps(schools) | n};
+var formationsData = ${ json.dumps(formations) | n};
+
+
+var regionSelect = document.getElementById('schoolregion');
+var schoolSelect = document.getElementById('school');
+var diplomalevelSelect = document.getElementById('diplomalevel');
+var formationSelect = document.getElementById('formation');
+var classSelect = document.getElementById('class');
+var yearSelect = document.getElementById('year');
+
+
+schoolSelect.disabled = true;
+diplomalevelSelect.disabled = true;
+formationSelect.disabled = true;
+classSelect.disabled = true;
+yearSelect.disabled = true;
+
+// debug -> empty all selects
+/*
+if (regionSelect.value === '') {
+    schoolSelect.innerHTML = '';
+    diplomalevelSelect.innerHTML = '';
+    formationSelect.innerHTML = '';
+    classSelect.innerHTML = '';
+    yearSelect.innerHTML = '';
+}
+*/
+
+function clearSelect(object)
+{
+    console.log("cleared select " + object.id )
+    object.innerHTML = ''
+}
+
+function originLogger(str,origin)
+{
+    let msg = "%c" + str + ' from \u001b[32m ' + origin
+    console.log(msg, "color: orange")
+}
+
+/**
+User has selected a school region
+Display available schools for this region
+*/
+function updateSchools(origin="none") {
+    console.clear()
+    originLogger("updateSchools",origin)
+
+    // Clear current school options
+    clearSelect(schoolSelect)
+    clearSelect(diplomalevelSelect)
+    clearSelect(formationSelect)
+    clearSelect(classSelect)
+    clearSelect(yearSelect)
+
+    diplomalevelSelect.disabled = true;
+    schoolSelect.disabled = true;
+    formationSelect.disabled = true;
+
+    if (regionSelect.value && schoolData[regionSelect.value]) {
+        var cur_schools = schoolData[regionSelect.value];
+        //console.table(cur_schools)
+        for (var i = 0; i < cur_schools.length; i++) {
+            var option = document.createElement('option');
+            option.value = cur_schools[i];
+            option.text = cur_schools[i];
+            schoolSelect.appendChild(option);
+        }
+        schoolSelect.disabled = false;
+    }
+
+    document.getElementById('formation').innerHTML = '';
+    document.getElementById('class').innerHTML = '';
+    document.getElementById('year').innerHTML = '';
+    document.getElementById('diplomalevel').innerHTML = '';
+    evalSchoolSelect("updateSchools")
+    evalOptionsAmount('updateschools')
+    if (regionSelect.value === '') {
+        clearSelect(formationSelect)
+        clearSelect(classSelect)
+        clearSelect(yearSelect)
+    }
+
+}
+
+/*
+Read currently selected school
+Update Diploma level field or formation field according to data
+*/
+function evalSchoolSelect(origin="none")
+{
+    clearSelect(diplomalevel)
+
+    originLogger("evalSchoolSelect",origin)
+    var inconsistentDiplomas = false;
+
+    let availableFormations = formationsData[schoolSelect.value];
+
+    if (availableFormations)
+    {
+        
+
+        let uniqueDiplomaLevels = new Set();
+        // first scan just in case
+        for (var i = 0; i < availableFormations.length; i++) {
+            let diplomaLevelEntry = availableFormations[i].diplomalvl;
+            // caught entry with empty diplomalevel
+            // add empty option and prevent restrictions
+            // this must be fixed in backend (gigo)
+            if(formation.diplomalvl == '' )
+            {
+                inconsistentDiplomas = true;
+            }
+        }
+
+
+
+        for (var i = 0; i < availableFormations.length; i++) {
+            let diplomaLevelEntry = availableFormations[i].diplomalvl;
+            
+
+
+            // fill diploma levels fields with available data
+            if (!uniqueDiplomaLevels.has(diplomaLevelEntry)) {
+                
+                uniqueDiplomaLevels.add(diplomaLevelEntry);
+                let option = document.createElement('option');
+                option.value = diplomaLevelEntry;
+                if(diplomaLevelEntry == '')
+                {
+                option.text = 'N/A';
+
+                }
+                else
+                {option.text = diplomaLevelEntry;
+                }
+                
+                diplomalevelSelect.appendChild(option);
+                diplomalevelSelect.disabled = false;
+            }
+        }
+
+        if(inconsistentDiplomas)
+        {
+        console.log("caught inconsistent diploma !")
+        let blankOption = document.createElement('option');
+        blankOption.value = "";
+        blankOption.text = "N/A";
+        clearSelect(diplomalevel)
+        diplomalevelSelect.appendChild(blankOption);
+        diplomalevelSelect.disabled = false;
+        }
+        
+
+
+    }
+    updateFormations("evalschoolselect")
+    evalOptionsAmount("evalschoolselect")
+}
+
+function debugFormations()
+{
+    let formations = formationsData[schoolSelect.value];
+    console.table(formations)
+}
+
+/**
+User has selected a school region
+Display available schools for this region
+*/
+function updateDiplomalevel(origin="none") {
+    originLogger("updateDiplomalevel",origin)
+
+    console.clear()
+    console.log("------------------")
+    console.log("%cUpdate Diplomalevel", "color: green")
+
+    console.log(schoolSelect)
+
+    // Clear current diploma options
+
+
+    if (schoolSelect.value && formationsData[schoolSelect.value]) {
+        console.log("Diplomalevel: eval selectedschoo ")
+        
+        var formations = formationsData[schoolSelect.value];
+        var uniqueFormations = new Set();
+
+        for (var i = 0; i < formations.length; i++) {
+            var formation = formations[i];
+
+            if (!uniqueFormations.has(formation.diplomalvl)) {
+                
+                uniqueFormations.add(formation.diplomalvl);
+                var option = document.createElement('option');
+                option.value = formation.diplomalvl;
+                option.text = formation.diplomalvl;
+                diplomalevelSelect.appendChild(option);
+            }
+
+            if(formation.diplomalvl != '' )
+            {
+                diplomalevelSelect.disabled = false;
+    
+
+            }
+        }
+        
+    }
+    diplomalevelSelect.disabled = false;
+    evalOptionsAmount("updatediplomalevel")
+}
+/*
+Dispaly available formations using current school and optionally diploma level
+No diploma -> display all formations
+if there are formations without diploma
+ */
+function updateFormations(origin="none") {
+    originLogger("updateFormations",origin)
+    
+
+    clearSelect(formationSelect)
+    clearSelect(classSelect)
+    clearSelect(yearSelect)
+    
+
+    if (schoolSelect.value && formationsData[schoolSelect.value]) {
+        var formations = formationsData[schoolSelect.value];
+        var uniqueFormations = new Set();
+
+        for (var i = 0; i < formations.length; i++) {
+            var formation = formations[i];
+            console.log(formation.title)
+            if (!uniqueFormations.has(formation.title)) {
+                if(diplomalevelSelect.innerHTML == '<option value=""></option>' || diplomalevelSelect.innerHTML == ''  )
+                {
+                uniqueFormations.add(formation.title);
+                let option = document.createElement('option');
+                option.value = formation.title;
+                option.text = formation.title;
+                formationSelect.appendChild(option);
+                }
+                else
+                {
+                if( formation.diplomalvl == diplomalevelSelect.value )
+                {
+                uniqueFormations.add(formation.title);
+                let option = document.createElement('option');
+                option.value = formation.title;
+                option.text = formation.title;
+                formationSelect.appendChild(option);
+                
+                }
+   
+                }
+
+            }
+        }
+        formationSelect.disabled = false;
+    }
+    updateClasses("updateformations")
+    evalOptionsAmount("updateformations")
+}
+
+/*
+
+*/
+function updateClasses(origin="none") {
+    originLogger("updateClasses",origin)
+
+    // Clear current class and year options
+    clearSelect(classSelect)
+    clearSelect(yearSelect)
+
+    if (formationSelect.value && schoolSelect.value && formationsData[schoolSelect.value]) {
+        let formations = formationsData[schoolSelect.value];
+        let validformations = []
+
+        for (var i = 0; i < formations.length; i++) {
+            if (formations[i].title === formationSelect.value) {
+            validformations.push(formations[i])
+            }
+        }
+        console.log(validformations)
+
+        let uniqueClasses = new Set()
+        let uniqueYears = new Set()
+
+
+        for (var i = 0; i < validformations.length; i++) {
+            let formation = validformations[i]
+
+             if (!uniqueClasses.has(formation.class)) {
+               uniqueClasses.add(formation.class);
+                let option = document.createElement('option');
+                option.value = formation.class;
+                if(formation.class =='')
+                {
+                    option.text = 'N/A';
+                }
+                else
+                {
+                option.text = formation.class;
+                }
+                classSelect.appendChild(option);
+                classSelect.disabled = false;
+             }
+
+            if (!uniqueYears.has(formation.year)) {
+               uniqueYears.add(formation.year);
+                let option = document.createElement('option');
+                option.value = formation.year;
+                if(formation.year =='')
+                {
+                    option.text = 'N/A';
+                }
+                else
+                {
+                option.text = formation.year;
+                }
+                option.text = formation.year;
+                yearSelect.appendChild(option);
+                yearSelect.disabled = false;
+             }
+        }
+    evalOptionsAmount("updateclasses")
+}
+}
+
+
+function updateYears(origin="none") {
+    originLogger("updateClasses",origin)
+
+    // Clear current class and year options
+    clearSelect(yearSelect)
+
+    if (formationSelect.value && schoolSelect.value && formationsData[schoolSelect.value]) {
+        let formations = formationsData[schoolSelect.value];
+        let validformations = []
+        let validformationYears = []
+
+        for (var i = 0; i < formations.length; i++) {
+            if (formations[i].title === formationSelect.value) {
+            validformations.push(formations[i])
+            }
+        }
+        console.log(validformations)
+
+        let uniqueYears = new Set()
+
+
+        for (var i = 0; i < validformations.length; i++) {
+            if (validformations[i].title === formationSelect.value) {
+            validformationYears.push(validformations[i])
+            }
+        }
+
+
+        for (var i = 0; i < validformationYears.length; i++) {
+            let formation = validformationYears[i]
+
+
+
+            if (!uniqueYears.has(formation.year)) {
+               uniqueYears.add(formation.year);
+                let option = document.createElement('option');
+                option.value = formation.year;
+                if(formation.year =='')
+                {
+                    option.text = 'N/A';
+                }
+                else
+                {
+                option.text = formation.year;
+                }
+                option.text = formation.year;
+                yearSelect.appendChild(option);
+                yearSelect.disabled = false;
+             }
+        }
+    evalOptionsAmount("updateYears")
+}
+}
+
+
+// Prevent useless dropdown, ran at every form selection
+function evalOptionsAmount(origin="none")
+{
+    originLogger("evalOptionsAmount",origin)
+    /*
+    let userSelects = [ schoolSelect, formationSelect, classSelect, yearSelect]
+    for (let i = 0; i < userSelects.length; i++) {
+        if (userSelects[i].options.length < 2) {
+            // Disable the select element if it has less than 2 options
+            userSelects[i].disabled = true;
+        }
+    }*/
+
+    smartOptionDisable(regionSelect)
+    smartOptionDisable(schoolSelect)
+    smartOptionDisable(diplomalevelSelect)
+    smartOptionDisable(formationSelect)
+    smartOptionDisable(classSelect)
+    smartOptionDisable(yearSelect)
+
+}
+
+function smartOptionDisable(field)
+{
+ if(field.options == undefined){
+    field.disabled = true
+ }else if (field.options.length < 2){
+    field.disabled = true
+ }
+}
+
+// Function to remove 'required' attribute from all form fields
+function makeFieldsNotRequired() {
+    // Select all input, select, and textarea elements
+    var fields = document.querySelectorAll('input, select, textarea');
+
+    // Loop through each field and remove the 'required' attribute
+    fields.forEach(function(field) {
+        field.removeAttribute('required');
+    });
+}
+
+// Call the function to make all fields not required
+//makeFieldsNotRequired();
+
+
+  
+
+
+
+
+async function performSubmit(request,data) {
+    event.preventDefault();
+
+    const settings = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": $.cookie('csrftoken'),
+        },
+        body: data
+    };
+
+    fetch(request, settings)
+       .then(() => window.location.reload())
+       .catch((error) => console.error('Error:', error));
+}
+
+const form = document.getElementById("customFieldsForm");
+
+// ON SUBMIT
+form.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const firstName = document.getElementById("firstName").value;
+    const lastName = document.getElementById("lastName").value;
+    const structure = document.getElementById("structure").value;
+    const preparedDiploma = document.getElementById("preparedDiploma").value;
+
+    const status = document.getElementById("status").value;
+    const regions = document.getElementById("regions").value;
+    const schoolregion = document.getElementById("schoolregion").value;
+
+    const school = document.getElementById("school").value;
+    const diplomalvl = document.getElementById("diplomalevel").value;
+    const formation = document.getElementById("formation").value;
+    const formation_class = document.getElementById("class").value;
+    const year = document.getElementById("year").value;
+    
+    const agreeCgu = document.getElementById("agreeCgu").value;
+    
+    const customFields = {
+        first_name: firstName,
+        last_name: lastName,
+        structure: structure,
+        preparedDiploma: preparedDiploma,
+        status: status,
+        schoolregion: schoolregion ,
+        school: school,
+        diplomalvl: diplomalvl,
+        formation: formation,
+        class: formation_class,
+        year: year,
+        agreeCgu: agreeCgu,
+        agreeCguDate: '${datetime.now()}',
+        authorized: true,
+    };
+    console.log(customFields)
+
+    const url = '/wul_apps/custom_field_editor_umn/';
+    const data = JSON.stringify(customFields);
+    const settings = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": $.cookie('csrftoken'),
+        },
+        body: data
+    };
+
+
+    performSubmit(url,data)
+
+
+})
+
+// STARTUP 
+updateSchools("startup")
+</script>
+
+%else :
+
 <main role="main" class="course-outline" id="main" tabindex="-1">
     <%include file="/dates_banner.html" />
     % if course_sections is not None:
@@ -125,7 +929,6 @@ for key, value in data.items() :
                         scored = 'scored' if subsection.get('scored', False) else ''
                         graded = 'graded' if subsection.get('graded') else ''
                         num_graded_problems = subsection.get('num_graded_problems', 0)
-
                         %>
                         <li class="subsection accordion ${ 'current' if subsection.get('resume_block') else '' } ${graded} ${scored}" style="position: relative;">
                             <a href="${ subsection['lms_web_url'] }" class="subsection-text outline-button horizontal-align" id="${ subsection['id'] }" >
@@ -143,6 +946,8 @@ for key, value in data.items() :
         </ol>
     % endif
 </main>
+
+% endif
 
 <%static:require_module_async module_name="js/dateutil_factory" class_name="DateUtilFactory">
     DateUtilFactory.transform('.localized-datetime');

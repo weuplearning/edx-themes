@@ -28,9 +28,15 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
     background: url("${static.url('umn/images/background.png')}");
     background-size: contain;
   }
-  .completion_status {
-    display: none;
+  .completion_status, .bookmark-button-wrapper {
+    display: none !important;
   }
+  @media screen and (max-width: 768px) {
+    body.view-in-course .container {
+      max-width: none !important;
+    }
+  }
+
 </style>
 
 % if display_reset_dates_banner:
@@ -110,6 +116,34 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
 
   <script type="text/javascript">
     var $$course_id = "${course.id | n, js_escaped_string}";
+    
+    setTimeout(() => {
+      var target_block = document.getElementsByClassName('vert-mod')[0].children[0].attributes[1].value
+      var section_name = document.getElementsByClassName('nav-item-section')[0].innerText
+
+      if (target_block) {
+
+        var href = '/courses/course-v1:' + target_block.split(":")[1].split('+type')[0] +"/jump_to/"+ target_block
+        customFields = {
+          last_visited_block : href,
+          last_visited_name : section_name,
+          authorized: true,
+        }
+        const url = '/wul_apps/custom_field_editor/';
+        const data = JSON.stringify(customFields);
+        const settings = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": $.cookie('csrftoken'),
+          },
+          body: data
+        };
+
+        fetch(url, settings)
+          .catch((error) => console.error('Error:', error));
+      }
+    }, 1000);
   </script>
 
   % if not request.user.is_authenticated:

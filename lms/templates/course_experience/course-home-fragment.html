@@ -94,21 +94,37 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         background-size: cover;
         background-position-y: bottom;
         min-height: 160px;
-
     }
+    %if request.path == '/courses/course-v1:umn+pn+02/course/' or request.path == '/courses/course-v1:umn+055+2024/course/' : 
+    header.has-secondary {
+        background-image: url("${static.url('umn/images/bandeau_gris_cours2.png')}");
+        background-size: cover;
+        background-position-y: bottom;
+    }
+
+    %elif request.path == '/courses/course-v1:umn+pi+01/course/' or request.path == '/courses/course-v1:umn+05+2024/course/' :
+    header.has-secondary {
+        background-image: url("${static.url('umn/images/bandeau_gris_cours1.png')}");
+        background-size: cover;
+        background-position-y: bottom;
+    }
+    %endif
+
+
     .page-header-main {
         display: flex;
         justify-content: space-evenly;
         align-items: center;
         color: white;
         font-weight: 700;
+        font-size: x-large;
         width: 80vw;
         height: 70%;
         padding-top: 25px;
     }
     #medal-first {
-        height: 48px;
-        width: 40px;
+        height: 96px;
+        width: 80px;
         margin-right:20px;
     }
     .page-header-main .progress_bar_and_score {
@@ -145,6 +161,9 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     .page-header-secondary {
         margin-left: 150px !important;
         padding: 25px;
+    }
+    .page-content {
+        min-height: calc( 100vh - 488px );
     }
 
 
@@ -296,8 +315,8 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     background-image: none;
 }
 </style>
-
-<!-- %if request.path == '/courses/course-v1:umn+pn+02/course/' or request.path == '/courses/course-v1:umn+test+test/course/' : -->
+<!-- 
+%if request.path == '/courses/course-v1:umn+pn+02/course/' or request.path == '/courses/course-v1:umn+055+2024/course/' : 
 <style>
 ol> li:last-child .accordion-trigger {
     background-color: var(--charcoil) !important;
@@ -306,7 +325,8 @@ ol> li:last-child .progress-bar-full > span {
     background-color: red;
 }
 </style>
-<!-- %endif -->
+%endif 
+-->
 
 <style>
 
@@ -325,6 +345,10 @@ ol> li:last-child .progress-bar-full > span {
         margin : 20px !important;
         flex-direction: column;
     }
+    .progress-bar-full{
+        width: 100%;
+        margin: 0 0 20px 0  !important;
+    }
     .progress_bar_and_score {
         flex-direction: column;
     }
@@ -341,6 +365,17 @@ ol> li:last-child .progress-bar-full > span {
         width: 100%;
         margin-bottom: 10px;
     }
+    .section-name {
+        height: 140px;
+        padding: 20px 10px !important;
+    }
+    #checkmark-finish, #checkmark-ongoing, #checkmark-finish-sub {
+        height: 15px;
+        width: 15px;
+        background-size: cover;
+    }
+
+
 }
 @media screen and (max-width: 425px) {
     .page-content {
@@ -377,7 +412,10 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
     <header class="page-header has-secondary">
         <div class="page-header-main">
             <div class="horizontal-align header-medal-title">
+
+                %if float(user_grade.percent) >= 0.8 :
                 <img id="medal-first" src="${static.url('umn/images/medaille.png')}" alt="médaille">
+                % endif
                 <p style="max-width: 350px;margin: 0;" > ${course.display_name}</p>
             </div>
             <div class="progress_bar_and_score">

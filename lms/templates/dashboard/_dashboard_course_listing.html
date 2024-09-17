@@ -177,6 +177,7 @@ from lms.djangoapps.experiments.utils import UPSELL_TRACKING_FLAG
 
 <script>
   function checkIfFinished(course) {
+    
     $.ajax({
       url: "/wul_apps/" + course + "/certificate/ensure",
       success: function(result){
@@ -186,7 +187,7 @@ from lms.djangoapps.experiments.utils import UPSELL_TRACKING_FLAG
           var targetPercent = document.getElementById("progress-${enrollment.course_id}").getElementsByClassName('grade-percent')[0]
   
           targetBar.style.width = result.grade*100 + '%'
-          targetPercent.innerHTML = result.grade*100 + '%'        
+          targetPercent.innerHTML = Math.round(result.grade*100) + '%'        
         }
       }
     });
@@ -194,56 +195,4 @@ from lms.djangoapps.experiments.utils import UPSELL_TRACKING_FLAG
   checkIfFinished('${enrollment.course_id}');
 </script>
 
-<script>
-// Fonction pour récupérer les données JSON et insérer les valeurs dans le HTML
-async function loadCourseOverview() {
-  try {
-    const response = await fetch('/media/microsites/umn/fichiers_json/course_overview.json');
-    const data = await response.json();
-
-    for (const [key, value] of Object.entries(data)) {
-      selector_id = 'json-'+key
-      const target_details = document.getElementById(selector_id)
-
-      const json_title = value["title"];
-      const json_subtitle = value["subtitle"];
-      const json_spotlight = value["spotlight"];
-      const json_description = value["description"];
-      
-      const array_title = document.getElementById(selector_id).getElementsByClassName('json-title')
-
-      for (let i = 0; i < array_title.length; i++) {
-        const element = array_title[i];
-        element.innerHTML = json_title;
-      }
-
-      document.getElementById(selector_id).getElementsByClassName('json-subtitle')[0].textContent = json_subtitle;
-
-      if (json_spotlight) {
-        document.getElementById(selector_id).getElementsByClassName('json-spotlight')[0].textContent = json_spotlight;
-        document.getElementById(selector_id).getElementsByClassName('json-spotlight-empty')[0].style.display = 'none';
-      } else {
-        document.getElementById(selector_id).getElementsByClassName('json-spotlight-empty')[0].textContent = '';
-        document.getElementById(selector_id).getElementsByClassName('json-spotlight')[0].style.display = 'none';
-      }
-
-      document.getElementById(selector_id).getElementsByClassName('json-description')[0].innerHTML = json_description;      
-    }
-  } catch (error) {
-    console.error('Error loading course overview:', error);
-  }
-}
-
-// Appeler la fonction pour charger et afficher les données
-setTimeout(() => {
-  
-  loadCourseOverview();
-}, 250);
-
-// // Fonction de formatage HTML simulée pour cet exemple
-// function format_html(content) {
-//   return content;  // Ajoutez le formatage souhaité ici
-// }
-
-</script>
 

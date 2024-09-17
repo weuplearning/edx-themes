@@ -1,7 +1,7 @@
 <%page expression_filter="h"/>
 <%! from django.utils.translation import ugettext as _ %>
 <%inherit file="../main.html" />
-<%block name="pagetitle">Ressources et Actualités</%block>
+<%block name="pagetitle">Ressources</%block>
 <%!
 import datetime
 import six
@@ -28,26 +28,34 @@ with open(file_path, 'r') as file:
   <div id="header-ressources-actualites">
     <div class="title-header">
       <span id="pointer_icon_top"></span>
-      Ressources et actualités
+      Ressources complémentaires
     </div>
     <div>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam voluptatem commodi repudiandae dignissimos corrupti. A voluptatum, enim fuga architecto rem sit itaque eos consectetur nemo, eveniet qui, vel beatae sequi?
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam voluptatem commodi repudiandae dignissimos corrupti. A voluptatum, enim fuga architecto rem sit itaque eos consectetur nemo, eveniet qui, vel beatae sequi?
+      Bienvenue dans l’espace dédié à la consultation et au téléchargement des ressources complémentaires (Travaux Pratiques,…) Découvre tous les contenus correspondants à ta formation ou tes domaines de compétence. De nouveaux contenus sont fréquemment ajoutés, n’oublie pas de revenir régulièrement pour ne rien manquer.
     </div>
   </div>
 
   <div id="main-ressources-actualites">
     <div class="titles">
       <h1 class="title" id="title-ressources" onclick="showSection('ressources')">Ressources</h1>
-      <h1 class="title" id="title-actualites" onclick="showSection('actualites')">Actualités</h1>
+      <!-- <h1 class="title" id="title-actualites" onclick="showSection('actualites')">Actualités</h1> -->
     </div>
     <section class="section-content " id="ressources">           
       <div class="tags">
-        <span class="tag horizontal-align" onclick="toggleTag('ressources', 'ingénieur')">#ingénieur</span>
+        <span class="tag horizontal-align" onclick="toggleTag('ressources', 'Automatismes/contrôle_industriel')">#Automatismes/contrôle industriel</span>
+        <span class="tag horizontal-align" onclick="toggleTag('ressources', 'Electricité/électrotechnique')">#Electricité/électrotechnique</span>
+        <span class="tag horizontal-align" onclick="toggleTag('ressources', 'Maintenance')">#Maintenance</span>
+        <span class="tag horizontal-align" onclick="toggleTag('ressources', 'BAC_PRO_MELEC')">#BAC PRO MELEC</span>
+        <span class="tag horizontal-align" onclick="toggleTag('ressources', 'BAC_PRO_MSPC')">#BAC PRO MSPC</span>
+        <span class="tag horizontal-align" onclick="toggleTag('ressources', 'BTS_CIRA')">#BTS CIRA</span>
+        <span class="tag horizontal-align" onclick="toggleTag('ressources', 'BTS_ELECTROTECHNIQUE')">#BTS ELECTROTECHNIQUE</span>
+        <span class="tag horizontal-align" onclick="toggleTag('ressources', 'BTS_MS')">#BTS MS</span>
+
+        <!-- <span class="tag horizontal-align" onclick="toggleTag('ressources', 'ingénieur')">#ingénieur</span>
         <span class="tag horizontal-align" onclick="toggleTag('ressources', 'nucléaire')">#nucléaire</span>
         <span class="tag horizontal-align" onclick="toggleTag('ressources', 'réacteur')">#réacteur</span>
         <span class="tag horizontal-align" onclick="toggleTag('ressources', 'uranium')">#uranium</span>
-        <span class="tag horizontal-align" onclick="toggleTag('ressources', 'centrale')">#centrale</span>
+        <span class="tag horizontal-align" onclick="toggleTag('ressources', 'centrale')">#centrale</span> -->
       </div>
       
       <div class="vignettes" id="vignettes-ressources">
@@ -55,16 +63,22 @@ with open(file_path, 'r') as file:
         <div class="vignette ${value['tag']}">
           <div class="vignette-background" style="background-image: url('/media/microsites/umn/fichiers_json/image_ressources/${value['image']}');">
             %for tag in value['tag'].split(' '):
-            <p>#${tag}</p>
+            <p>#${tag.replace('_', ' ')}</p>
             %endfor
           </div>
           <div class="vignette-details">
             <p>${value['title']}</p>
             <p>${value['sub_title']}</p>
             <div ></div>
-            <p>${value['text']}</p>
+            % if value['text'] != "" :            
+            <p class="description">${value['text']}</p>
+            %endif
             <div class="vignette-link-button">
+              % if value['sub_title'] == "TP" :
+              <a href="${value['url_link']}" target="_blank">Télécharger</a>
+              %else :
               <a href="${value['url_link']}" target="_blank">Regarder</a>
+              %endif
             </div>
           </div>
         </div>
@@ -74,21 +88,23 @@ with open(file_path, 'r') as file:
     </section>
 
     <section class="section-content" id="actualites">
-      <div class="tags">
+      <!-- <div class="tags">
         <span class="tag" onclick="toggleTag('actualites', 'ingénieur')">#ingénieur</span>
         <span class="tag" onclick="toggleTag('actualites', 'nucléaire')">#nucléaire</span>
         <span class="tag" onclick="toggleTag('actualites', 'réacteur')">#réacteur</span>
         <span class="tag" onclick="toggleTag('actualites', 'uranium')">#uranium</span>
         <span class="tag" onclick="toggleTag('actualites', 'centrale')">#centrale</span>
-      </div>
+      </div> -->
 
       <div class="vignettes" id="vignettes-actualites">
       %for value in data["actualites"] :
         <div class="vignette ${value['tag']}">
           <div class="vignette-background" style="background-image: url('/media/microsites/umn/fichiers_json/image_ressources/${value['image']}');">
+<!-- 
             %for tag in value['tag'].split(' '):
             <p>#${tag}</p>
             %endfor
+ -->
           </div>
           <div class="vignette-details">
             <p>${value['title']}</p>
@@ -211,7 +227,6 @@ with open(file_path, 'r') as file:
     font-size: large;
     padding: 15px;
     margin: 10px;
-    width : 140px;
     background-color: var(--primary);
     cursor: pointer;
     border: 1px solid white;
@@ -257,6 +272,8 @@ with open(file_path, 'r') as file:
   .vignette-details p:nth-child(1) {
     font-size: larger;
     font-weight: 700;
+    min-height: 57px;
+    line-height: 1.2;
   }
   .vignette-details p:nth-child(2) {
     font-size: medium;
@@ -268,11 +285,12 @@ with open(file_path, 'r') as file:
     width: 65%;
     margin: 12px 0 ;
   }
-  .vignette-details p:nth-child(4) {
+  .vignette-details .description {
     font-size: 15px;
     line-height: 1.2;
     text-align: justify;
     overflow-y: scroll;
+    min-height: 65px;
   }
   .vignette-link-button {
     display: flex;
@@ -294,7 +312,6 @@ with open(file_path, 'r') as file:
 @media screen and (max-width: 768px) {
   #header-ressources-actualites {
     padding: 70px 15vw;
-
   }
   .vignette {
     width: calc( (80vw - 30px)/2 );
@@ -311,7 +328,6 @@ with open(file_path, 'r') as file:
     font-size: medium;
     padding: 8px 20px;
   }
-
 }
 @media screen and (max-width: 425px) {
   #header-ressources-actualites {
@@ -326,12 +342,13 @@ with open(file_path, 'r') as file:
   .tag {
     width : 75px;
   }
-
 }
 </style>
 
 
 <script>
+  let activeTags = [];
+
   function showSection(sectionId) {
     // Masquer toutes les sections et désactiver tous les titres
     const sections = document.querySelectorAll('.section-content');
@@ -349,42 +366,45 @@ with open(file_path, 'r') as file:
   }
 
   function toggleTag(sectionId, tag) {
-
-    // const tagElement = document.querySelector('#'+sectionId+' .tag:nth-child("'+tag+'")');
-    // const tagElement = document.querySelector('#'+sectionId+' .tag:contains("'+tag+'")');
-    const tagElement = event.target
+    const tagElement = event.target;
     const isActive = tagElement.classList.contains('active');
 
-    // Deselect all tags and show all vignettes if tag is already active
     if (isActive) {
-      resetTags(sectionId);
+      // Si le tag est actif, le retirer de la liste des tags actifs
+      activeTags = activeTags.filter(activeTag => activeTag !== tag);
+      tagElement.classList.remove('active');
     } else {
-      filterVignettes(sectionId, tag);
+      // Ajouter le tag à la liste des tags actifs
+      activeTags.push(tag);
+      tagElement.classList.add('active');
+    }
+
+    // Filtrer les vignettes en fonction des tags actifs
+    filterVignettes(sectionId);
+  }
+
+  function filterVignettes(sectionId) {
+    const vignettes = document.querySelectorAll('#vignettes-' + sectionId + ' .vignette');
+    
+    if (activeTags.length === 0) {
+      // Si aucun tag n'est actif, afficher toutes les vignettes
+      vignettes.forEach(vignette => vignette.style.display = 'block');
+    } else {
+      // Afficher les vignettes qui contiennent tous les tags actifs
+      vignettes.forEach(vignette => {
+        const vignetteTags = vignette.classList;
+        const matches = activeTags.some(tag => vignetteTags.contains(tag));
+        vignette.style.display = matches ? 'block' : 'none';
+      });
     }
   }
 
-  function filterVignettes(sectionId, tag) {
-    resetTags(sectionId);
-
-    const tags = document.querySelectorAll('#'+sectionId+' .tag');
-    const selectedTag = Array.from(tags).find(t => t.textContent.toLowerCase().indexOf(tag) != -1);
-    if (selectedTag) selectedTag.classList.add('active');
-
-    const vignettes = document.querySelectorAll('#vignettes-'+sectionId+' .vignette');
-    vignettes.forEach(vignette => {
-      if (vignette.classList.contains(tag)) {
-        vignette.style.display = 'block';
-      } else {
-        vignette.style.display = 'none';
-      }
-    });
-  }
-
   function resetTags(sectionId) {
-    const tags = document.querySelectorAll('#'+sectionId+' .tag');
+    activeTags = [];
+    const tags = document.querySelectorAll('#' + sectionId + ' .tag');
     tags.forEach(tag => tag.classList.remove('active'));
 
-    const vignettes = document.querySelectorAll('#vignettes-'+sectionId+' .vignette');
+    const vignettes = document.querySelectorAll('#vignettes-' + sectionId + ' .vignette');
     vignettes.forEach(vignette => vignette.style.display = 'block');
   }
 

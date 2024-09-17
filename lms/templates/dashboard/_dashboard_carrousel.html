@@ -1,0 +1,235 @@
+<%page expression_filter="h"/>
+<%namespace name='static' file='/static_content.html'/>
+
+<%!
+from django.utils.translation import ugettext as _
+from django.urls import reverse
+from openedx.core.djangolib.markup import HTML, Text
+import json
+import time
+%>
+<%
+time.sleep(1)
+custom_fields = {}
+custom_fields = json.loads(user.profile.custom_field)
+%>
+
+<div class="carousel-container">
+    <div class="prev fa fa-angle-left" onclick="moveSlide(-1)">
+    </div>
+    <div class="carousel-slide">
+
+        %if custom_fields.get("last_visited_name") and custom_fields.get("last_visited_block"):
+        <div class="vignette">
+            <div>
+                <span class="logo-jaune" ></span>
+                <div class="title-vignette">
+                    <p>Je me lance dans le Passeport Nucléaire avec le cours '${custom_fields["last_visited_name"]}' </p>
+                </div>
+            </div>
+            <div class="resume-button" >
+                <a href='${custom_fields["last_visited_block"]}'> 
+                    C’est parti ! 🚀
+                </a>
+            </div>
+        </div>
+        %else :
+        <div class="vignette">
+            <div>
+                <span class="logo-jaune" ></span>
+                <div class="title-vignette">
+                    <p>Commencer votre cours </p>
+                </div>
+            </div>
+            <div class="resume-button" >
+                <a href='#main-container-title'>
+                    C’est parti ! 🚀
+                </a>
+            </div>
+        </div>
+        %endif
+
+        <div class="vignette">
+            <div>
+                <span class="logo-jaune" ></span>
+                <div class="title-vignette">
+                    <p>Les ressources complémentaires : des contenus pédagogiques à découvrir !</p>
+                </div>
+            </div>
+            <div class="resume-button" >
+                <a href='/donnees'> 
+                    Je jette un œil 👀
+                </a>
+            </div>
+        </div>
+
+        <!-- <div class="vignette">
+            <div>
+                <span class="logo-jaune" ></span>
+                <div class="title-vignette">
+                    <p>Qu'est ce que l'on affiche ici ?? </p>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div class="next fa fa-angle-right" onclick="moveSlide(1)">
+    </div>
+</div>
+
+<style>
+.carousel-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    max-width: 1000px; /* Adjust the max-width as needed */
+    overflow: hidden;
+    border-radius: 10px;
+}
+.carousel-slide {
+    display: flex;
+    align-items: center;
+    width: 200%;
+    /*width: 300%;*/
+    height: 120%;
+    transition: transform 0.5s ease-in-out;
+}
+.carousel-slide .vignette {
+    width: 50%;
+    /*width: 33.333%;*/
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* background-color: white; */
+    margin: 0px 10vw;
+    color: #334756;
+}
+.carousel-slide .vignette > div {
+    position: relative;
+}
+.logo-jaune {
+    height: 14vw;
+    width: 14vw;
+    background-image: url("${static.url('umn/images/logo_jaune.svg')}");
+    position: absolute;
+    top: -6vw;
+    left: -7vw;
+    z-index: -1;
+}
+.prev, .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 7px;
+    z-index: 9;
+}
+.prev {
+    left: 10px;
+}
+.next {
+    right: 10px;
+}
+.prev:hover, .next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+.resume-button {
+    display: flex;
+    align-items: center;
+    align-self: center;
+    padding: 20px 30px;
+    background-position: center;
+    background-size: cover;
+    height: 25px;
+    background-image: url("${static.url('umn/images/bouton_commencer.svg')}");
+    margin-top: 25px;
+}
+.resume-button a {
+    font-weight: 700;
+    color: white !important;
+    font-size: 15px;
+}
+
+.vignette .title-vignette {
+    background-color: white;
+    padding: 30px 45px;
+    /* width: 30vw; */
+    height: 7vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1.3;
+    text-align: center;
+}
+
+
+
+@media screen and (max-width: 768px) {
+    .vignette .title-vignette {
+        padding: 30px 15px;
+        height: 80px;
+        margin-top: 40px;
+    }
+    .carousel-slide {
+        height: 80%;
+    }
+    #top-container {
+        height: 200px;
+    }
+    .logo-jaune {
+        display: none;
+    }
+    .next {
+        right: 30px;
+    }
+}
+
+</style>
+
+<script>
+const carouselSlide = document.querySelector('.carousel-slide');
+const vignettes = document.querySelectorAll('.carousel-slide .vignette');
+
+let counter = 1;
+let size = carouselSlide.clientWidth / 2;
+// let size = carouselSlide.clientWidth / 3;
+
+window.addEventListener('resize', () => {
+    size = carouselSlide.clientWidth / 2;
+    // size = carouselSlide.clientWidth / 3;
+    carouselSlide.style.transform = 'translateX(' + (-size * counter) + 'px)';
+});
+
+function startCarousel() {
+    carouselSlide.style.transform = 'translateX(' + (-size * counter) + 'px)';
+
+
+    setInterval(() => {
+        moveSlide(1);
+    }, 4500);
+}
+
+function moveSlide(direction) {
+    if (direction === 1 && counter >= vignettes.length - 1) {
+        counter = -1;
+    } else if (direction === -1 && counter <= 0) {
+        counter = vignettes.length;
+    }
+
+    carouselSlide.style.transition = 'transform 0.5s ease-in-out';
+    counter += direction;
+    carouselSlide.style.transform = 'translateX(' + (-size * counter) + 'px)';
+}
+
+// window.onload = startCarousel;
+setTimeout(() => {
+    startCarousel();
+}, 3000);
+</script>

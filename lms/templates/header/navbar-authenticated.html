@@ -58,6 +58,23 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     font-weight: 700;
     margin-right: 10px;
   }
+
+  @media screen and (max-width: 991px) {
+    .user-logo {
+      display: none;
+    }
+    /* .global-header .header-logo a {
+      margin-left: 18%;
+    } */
+    .global-header .main-header {
+      height: unset;
+      display: flex;
+      flex-direction: column;
+    }
+
+    
+  }
+
 </style>
 
 <div class="nav-links">
@@ -66,17 +83,17 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     %if request.path == '/dashboard' :
       <div id="toggle-dashboard-ressources" class="horizontal-align" >
         <a href="/dashboard" style="border-bottom: 5px solid #334756 ;">Accueil</a>
-        <a href="/donnees"  style="border-bottom: 1px solid #334756 ;">Ressources et actualités</a>
+        <a href="/donnees"  style="border-bottom: 1px solid #334756 ;">Ressources complémentaires</a>
       </div>
     %elif  request.path == '/donnees' :
       <div id="toggle-dashboard-ressources" class="horizontal-align" >
         <a href="/dashboard"  style="border-bottom: 1px solid #334756 ;">Accueil</a>
-        <a href="/donnees"  style="border-bottom: 5px solid #334756 ;">Ressources et actualités</a>
+        <a href="/donnees"  style="border-bottom: 5px solid #334756 ;">Ressources complémentaires</a>
       </div>
     %else :
       <div id="toggle-dashboard-ressources" class="horizontal-align" >
         <a href="/dashboard"  style="border-bottom: 1px solid #334756 ;">Accueil</a>
-        <a href="/donnees"  style="border-bottom: 1px solid #334756 ;">Ressources et actualités</a>
+        <a href="/donnees"  style="border-bottom: 1px solid #334756 ;">Ressources complémentaires</a>
       </div>
     %endif
 
