@@ -30,7 +30,7 @@ csv_data = False
 csv_user_grade = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 csv_grade_index = 0
 csv_user_tester = False
-course_with_csv_data = ["course-v1:af-brasil+OFM+01","course-v1:af-brasil+PP+2024","course-v1:af-brasil+PP+CPB01","course-v1:af-brasil+PP+CPB","course-v1:af-brasil+PP+TB","course-v1:af-brazil+afbrazil-test+2024"]
+course_with_csv_data = ["course-v1:af-brasil+PP+2024","course-v1:af-brasil+PP+CPB01","course-v1:af-brasil+PP+CPB","course-v1:af-brasil+PP+TB","course-v1:af-brazil+afbrazil-test+2024"]
 
 try :
     with open(csv_file_path, newline='') as csvfile:
@@ -50,9 +50,9 @@ if csv_data :
 
 %if str(course.id) in course_with_csv_data :
 <script>
-    let str = '${csv_user_grade}'
-    let list = JSON.parse(str.replace(/&#39;/g, '"'));
-    let jsonList = list.map(item => item === "Not Attempted" ? 0 : item);
+    let stringData = '${csv_user_grade}'
+    let listData = JSON.parse(stringData.replace(/&#39;/g, '"'));
+    let jsonList = listData.map(item => item === "Not Attempted" ? 0 : item);
 
     setTimeout(() => {
 
@@ -70,10 +70,48 @@ if csv_data :
         }
 
         // section grade
-        let j=2
+        let j=2 //pass "Bonjour !" section
         for (let i = 0; i < jsonList.length; i+=2) {
             
             var grade_section = Math.floor((parseFloat(jsonList[i+1]) + parseFloat(jsonList[i+2])) *50);
+            var section_target = target[j]
+            var check_grade_section = section_target.children[0].children[2].innerText.split('%')[0]
+            
+            if (grade_section > check_grade_section) {   
+                section_target.children[0].children[2].innerText = grade_section+'%'
+                section_target.children[1].children[0].style.width = grade_section+'%'            
+            }
+            j+=1
+        }
+    }, 500); 
+</script>
+
+%elif str(course.id) == "course-v1:af-brasil+OFM+01" :
+<script>
+    let stringData = '${csv_user_grade}'
+    let listData = JSON.parse(stringData.replace(/&#39;/g, '"'));
+    let jsonList = listData.map(item => item === "Not Attempted" ? 0 : item);
+
+    setTimeout(() => {
+
+        // DATA WONT BE RELIABLE
+        // Global grade
+        var target = document.getElementsByClassName('grade-block')
+        grade = parseFloat('${csv_user_grade[0]}') *100
+
+        check_grade = target[0].children[0].children[2].innerText
+        check_grade_value = check_grade.split('%')[0]
+
+        if (grade > check_grade_value) {
+            target[0].children[0].children[2].innerText = grade+'%';
+            target[0].children[1].children[0].style.width = grade+'%';
+        }
+
+        // section grade
+        let j=3 //pass "Bonjour !" and "lecon 0" section
+        for (let i = 0; i < jsonList.length; i+=1) {
+            
+            var grade_section = Math.floor((parseFloat(jsonList[i+1])) *100);
             var section_target = target[j]
             var check_grade_section = section_target.children[0].children[2].innerText.split('%')[0]
             
