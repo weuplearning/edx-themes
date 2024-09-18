@@ -135,7 +135,7 @@ with open(file_path, 'r') as file:
     min-height: calc(100vh - 214px);
     padding: 0 0 50px 0;
     width: 100vw;
-    background-size: cover;
+    background-size: contain;
     background-image: url("${static.url('umn/images/fond_page3.png')}");
   }
   .horizontal-align {
@@ -413,3 +413,11 @@ with open(file_path, 'r') as file:
     showSection('ressources');
   });
 </script>
+
+%if not user.is_authenticated:
+<script>
+    if(window.location.pathname.indexOf('donnees') == 1) {
+        window.location.replace('/login')
+    }
+</script>
+% endif
