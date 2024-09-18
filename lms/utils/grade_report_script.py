@@ -44,10 +44,12 @@ from email import encoders
 import logging
 log = logging.getLogger()
 
+course_ids = sys.argv[1].split(";")
 
-
-emails = sys.argv[1].split(";")
-course_ids = sys.argv[2].split(";")
+try :
+  emails = sys.argv[2].split(";")
+except :
+  emails = []
 
 
 org = "af-brasil"
@@ -214,7 +216,7 @@ timestr = time.strftime("%Y_%m_%d")
 wb = Workbook()
 sheet = wb.active
 sheet.title= 'Rapport de notes'
-filename = '/home/edxtma/csv/{}_af-brasil_grade_report.xlsx'.format(timestr)
+filename = '/edx/var/edxapp/media/microsites/af-brazil/csv/{}_af-brasil_grade_report.xlsx'.format(timestr)
 
 
 correspondance_CF = {
@@ -270,6 +272,23 @@ for course_id in course_ids:
 
 output = BytesIO()
 wb.save(output)
+
+
+# Supprimer les anciens fichiers xlsx en ne gardant que les 2 plus récents
+folder_path = '/edx/var/edxapp/media/microsites/af-brazil/csv/'
+file_extension = '*.xlsx'
+files = glob.glob(os.path.join(folder_path, file_extension))
+files.sort(key=os.path.getmtime)
+if len(files) > 2:
+  for old_file in files[:-2]:
+    try:
+      os.remove(old_file)
+      log.info(f"Fichier supprimé : {old_file}")
+    except OSError as e:
+      log.error(f"Erreur lors de la suppression du fichier {old_file}: {e}")
+
+wb.save(filename)
+
 _files_values = output.getvalue()
 course_names_html = ''.join(course_names_html)
 
@@ -302,9 +321,16 @@ for email in emails:
 log.info('------------> Finish calculate grades and write xlsx report')
 
 
+
+
+
 # Qualif
 # pas de cours .... 
 
 # PROD
-# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/af-brazil/lms/utils/grade_report_script.py 'cyril.adolf@weuplearning.com' course-v1:af-brasil+PP+CPB
+# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/af-brazil/lms/utils/grade_report_script.py course-v1:af-brasil+PP+CPB 'cyril.adolf@weuplearning.com' 
+
+
+# New grade report every 2 hours
+# 0 */2 * * * /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/af-brazil/lms/utils/grade_report_script.py course-v1:af-brasil+PP+CPB 
 
