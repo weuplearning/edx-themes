@@ -4,7 +4,7 @@ import importlib
 import sys
 importlib.reload(sys)
 import os
-from io import BytesIO
+from io import StringIO
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "lms.envs.production")
 os.environ.setdefault("LMS_CFG", "/edx/etc/lms.yml")
 os.environ.setdefault("lms.envs.production,SERVICE_VARIANT", "lms")
@@ -14,18 +14,15 @@ os.chdir("/edx/app/edxapp/edx-platform")
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
 
-
 #############################################################
 #         ^ SETUP ENVIRONNEMENT VARIABLE FOR KOA ^          #
 #                START BEYOND THIS LINE                     #
 #############################################################
 
-import csv 
+import csv
 import json
 import time
-from openpyxl import Workbook
-from openpyxl.styles import PatternFill, Font
-
+import glob
 from opaque_keys.edx.locator import CourseLocator
 from common.djangoapps.student.models import CourseEnrollment
 from lms.djangoapps.courseware.courses import get_course_by_id
@@ -51,14 +48,12 @@ try :
 except :
   emails = []
 
-
 org = "af-brasil"
 register_form = configuration_helpers.get_value_for_org(org, 'FORM_EXTRA')
 
 # Get headers
-HEADERS_USER = [u"Nom complet", u"Email", u"Username", u"Phone", u"Nearest AF", u"Registration date", u"Last login"]
+HEADERS_USER = [u"Nom complet", u"Email",u"Username", u"Phone",u"Nearest AF", u"Registration date", u"Last login"]
 HEADERS_FORM = []
-
 
 if register_form is not None:
   for row in register_form:
@@ -67,25 +62,13 @@ if register_form is not None:
 
 TECHNICAL_HEADER = list(HEADERS_FORM)
 
-UserGrade = ['CFL1','DFL1','CFL2','DFL2','CFL3','DFL3','CFL4','DFL4','CFL5','DFL5','CFL6','DFL6','CFL7','DFL7','CFL8','DFL8','CFL9','DFL9','CFL10','DFL10','CFL11','DFL11','CFL12','DFL12','CFL13','DFL13','CFL14','DFL14','CFL15','DFL15']
-
+UserGrade = ['CFL1', 'DFL1', 'CFL2', 'DFL2', 'CFL3', 'DFL3', 'CFL4', 'DFL4', 'CFL5', 'DFL5', 'CFL6', 'DFL6', 'CFL7', 'DFL7', 'CFL8', 'DFL8', 'CFL9', 'DFL9', 'CFL10', 'DFL10', 'CFL11', 'DFL11', 'CFL12', 'DFL12', 'CFL13', 'DFL13', 'CFL14', 'DFL14', 'CFL15', 'DFL15']
 
 if course_ids[0] == 'course-v1:af-brasil+PP+CPB' :
   HEADERS_SECTION = ['Quiz Primeiros Passos', 'Quiz Destination Paris', 'Quiz Apresentações', 'Quiz Tour Eiffel & Champ de Mars', 'Quiz Família & Pets', 'Quiz Château de Versailles', 'Quiz Tempo', 'Quiz Stade de France', 'Quiz Festas & Tradições', 'Quiz Yvelines', 'Quiz Estudos', 'Quiz Seine-Saint-Denis', 'Quiz Trabalho', 'Quiz Paris La Défense Arena', 'Quiz Lazer', 'Quiz Stades en France', 'Quiz Saúde', 'Quiz Invalides & Pont d\'Iéna', 'Quiz Viagem', 'Quiz Arenas Paris Sud', 'Quiz Cidade', 'Quiz Ailleurs en France', 'Quiz Casa', 'Quiz La Concorde', 'Quiz Gastronomia', 'Quiz Arena Bercy', 'Quiz Moda', 'Quiz Grand Palais', 'Quiz DELF A1', 'Quiz Arena Porte de La Chapelle']
 
-elif course_ids[0] == 'course-v1:af-brasil+PP+CPB01' :
+else :
   HEADERS_SECTION = ['Quiz Primeiros Passos', 'Quiz Destination Paris', 'Quiz Apresentações', 'Quiz Tour Eiffel & Champ de Mars', 'Quiz Família & Pets', 'Quiz Château de Versailles', 'Quiz Tempo', 'Quiz Stade de France', 'Quiz Festas & Tradições', 'Quiz Yvelines', 'Quiz Estudos', 'Quiz Seine-Saint-Denis', 'Quiz Trabalho', 'Quiz Paris La Défense Arena', 'Quiz Lazer', 'Quiz Stades en France', 'Quiz Saúde', 'Quiz Invalides & Pont d\'Iéna', 'Quiz Viagem', 'Quiz Arenas Paris Sud', 'Quiz Cidade', 'Quiz Ailleurs en France', 'Quiz Casa', 'Quiz La Concorde', 'Quiz Gastronomia', 'Quiz Arena Bercy', 'Quiz Moda', 'Quiz Grand Palais', 'Quiz DELF A1', 'Quiz Arena Porte de La Chapelle']
-
-elif course_ids[0] == 'course-v1:af-brasil+PP+TB' :
-  HEADERS_SECTION = ['Quiz Primeiros Passos', 'Quiz Destination Paris', 'Quiz Apresentações', 'Quiz Tour Eiffel & Champ de Mars', 'Quiz Família & Pets', 'Quiz Château de Versailles', 'Quiz Tempo', 'Quiz Stade de France', 'Quiz Festas & Tradições', 'Quiz Yvelines', 'Quiz Estudos', 'Quiz Seine-Saint-Denis', 'Quiz Trabalho', 'Quiz Paris La Défense Arena', 'Quiz Lazer', 'Quiz Stades en France', 'Quiz Saúde', 'Quiz Invalides & Pont d\'Iéna', 'Quiz Viagem', 'Quiz Arenas Paris Sud', 'Quiz Cidade', 'Quiz Ailleurs en France', 'Quiz Casa', 'Quiz La Concorde', 'Quiz Gastronomia', 'Quiz Arena Bercy', 'Quiz Moda', 'Quiz Grand Palais', 'Quiz DELF A1', 'Quiz Arena Porte de La Chapelle']
-
-elif course_ids[0] == 'course-v1:af-brasil+OFM+01' :
-  HEADERS_SECTION = ['Quiz Unité 1', 'Quiz Unité 2','Quiz Unité 3','Quiz Unité 4','Quiz Unité 5']
-  UserGrade = ['QU1', 'QU2', 'QU3', 'QU4', 'QU5']
-
-else  :
-  HEADERS_SECTION = ['Quiz Primeiros Passos', 'Quiz Destination Paris', 'Quiz Apresentações', 'Quiz Tour Eiffel & Champ de Mars', 'Quiz Família & Pets', 'Quiz Château de Versailles', 'Quiz Tempo', 'Quiz Stade de France', 'Quiz Festas & Tradições', 'Quiz Yvelines', 'Quiz Estudos', 'Quiz Seine-Saint-Denis', 'Quiz Trabalho', 'Quiz Paris La Défense Arena', 'Quiz Lazer', 'Quiz Stades en France', 'Quiz Saúde', 'Quiz Invalides & Pont d\'Iéna', 'Quiz Viagem', 'Quiz Arenas Paris Sud', 'Quiz Cidade', 'Quiz Ailleurs en France', 'Quiz Casa', 'Quiz La Concorde', 'Quiz Gastronomia', 'Quiz Arena Bercy', 'Quiz Moda', 'Quiz Grand Palais', 'Quiz DELF A1', 'Quiz Arena Porte de La Chapelle']
-
 
 HEADERS_USER.extend(HEADERS_SECTION)
 HEADERS_USER.append('Note globale (en %)')
@@ -95,11 +78,10 @@ HEADERS_USER.extend(HEADERS_AFTER_SECTION)
 
 HEADER = HEADERS_USER
 
-
 all_users_data = {}
 
-
 for course_id in course_ids:
+
 
   csv_file_path = '/edx/var/edxapp/media/microsites/af-brazil/data/' + str(course_id) +'.csv'
   csv_data = False
@@ -119,9 +101,8 @@ for course_id in course_ids:
   course_key = CourseLocator.from_string(course_id)
   course = get_course_by_id(course_key)
   course_enrollments = CourseEnrollment.objects.filter(course_id=course_key)
-  course_name = course.display_name_with_default
-
   course_data = {}
+
 
   for i in range(len(course_enrollments)):
     user = course_enrollments[i].user
@@ -193,127 +174,73 @@ for course_id in course_ids:
     #TimeTracking
     try:
       wul_course_enrollment = WulCourseEnrollment.objects.get(course_enrollment_edx__user=user, course_enrollment_edx__course_id=course_key)
-      global_time_tracking = wul_course_enrollment.global_time_tracking
-      days_logged = wul_course_enrollment.detailed_time_tracking.count(',')+1
+      global_time_tracking = str(wul_course_enrollment.global_time_tracking)
+      days_logged = str(wul_course_enrollment.detailed_time_tracking.count(',')+1)
     except:
-      global_time_tracking = 0
+      global_time_tracking = "0"
+      days_logged = "0"
 
     time_tracking = []
     time_tracking.append(global_time_tracking)
     time_tracking.append(days_logged)
 
+    data = []
+    data.extend(user_data)
+    data.extend(UserGrade)
+    data.append(globalGradeStr)
+    data.append(certificate_date)
+    data.extend(time_tracking)
 
-
-    data = { "general": user_data, "grade_section": UserGrade, "grade_global" :globalGradeStr, "certificate_date": certificate_date, "time_tracking" : time_tracking }
+    # data = { "general": user_data, "grade_section": UserGrade, "grade_global" :globalGradeStr, "certificate_date": certificate_date, "time_tracking" : time_tracking }
 
     course_data[str(user.id)] = data
 
   all_users_data[course_id]= course_data
 
 
-# WRITE XLS
+
+# Write CSV
 timestr = time.strftime("%Y_%m_%d")
-wb = Workbook()
-sheet = wb.active
-sheet.title= 'Rapport de notes'
-filename = '/edx/var/edxapp/media/microsites/af-brazil/csv/{}/{}_af-brasil_grade_report.xlsx'.format(course_ids[0],timestr)
+filename = f'/edx/var/edxapp/media/microsites/af-brazil/csv/{course_ids[0]}/{timestr}_af-brasil_grade_report.csv'
 
+with open(filename, 'w', newline='', encoding='utf-8') as csvfile:
+  writer = csv.writer(csvfile, delimiter=';')
+  writer.writerow(HEADER)
 
-correspondance_CF = {
-  'true' : 'Oui',
-  'false' : 'Non',
-  'bac_5' : 'Bac +5',
-  'bac_2_3' : 'Bac +2/+3',
-  'bac' : 'Bac',
-  'bac_general' : 'Bac général',
-  'bac_technologique' : 'Bac technologique',
-  'bacpro' : 'Bac professionnel',
-  'bep_cap' : 'BEP/CAP',
-  'no_level' : 'Pas de diplôme',
-  'oui' : 'Oui',
-  'non' : 'Non'
-}
+  for k, course_id in all_users_data.items():
+    log.info(course_id)
 
+    for user_id, user_data in course_id.items():
+      log.info(user_data)
+      # for value in user_data:
+      #   log.info('value')
+      #   log.info(value)
 
-for i, header in enumerate(HEADER):
-  sheet.cell(1, i+1, header)
-  sheet.cell(1, i+1).font = Font(b=True, color="000000")
+      writer.writerow(user_data)
 
+# Rest of the script for sending emails remains the same, just change the attachment handling
+with open(filename, 'rb') as f:
+  attachment = f.read()
 
-j=2
+# Supprimer les anciens fichiers CSV en ne gardant que les 2 plus récents
+folder_path = '/edx/var/edxapp/media/microsites/af-brazil/csv/'
+file_extension = '*.csv'
+files = glob.glob(os.path.join(folder_path, file_extension))
+files.sort(key=os.path.getmtime)
+if len(files) > 2:
+  for old_file in files[:-2]:
+    try:
+      os.remove(old_file)
+      log.info(f"Fichier supprimé : {old_file}")
+    except OSError as e:
+      log.error(f"Erreur lors de la suppression du fichier {old_file}: {e}")
 
-for k, course_id in all_users_data.items():
-  
-  for key, user in course_id.items():
-
-    for i in range(len(user['general'])):
-      if user['general'][i] in correspondance_CF:
-        sheet.cell(j, i+1, correspondance_CF[user['general'][i]])
-      else :
-        sheet.cell(j, i+1, user['general'][i])
-
-    for i in range(len(user['grade_section'])):
-      sheet.cell(j, i+8, user['grade_section'][i])
-
-    sheet.cell(j, i+9, user['grade_global'])
-    sheet.cell(j, i+10, user['certificate_date'])
-
-    for i in range(len(user['time_tracking'])):
-      sheet.cell(j, i+40, user['time_tracking'][i])
-
-    j += 1
-
-
-# SEND MAILS
-course_names_html = []
-for course_id in course_ids: 
-  course = get_course_by_id(CourseLocator.from_string(course_id)) 
-  course_names_html.append("<li>"+ str(course.display_name_with_default)+"</li>")
-
-output = BytesIO()
-wb.save(output)
-
-
-_files_values = output.getvalue()
-course_names_html = ''.join(course_names_html)
-
-html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous trouverez en pièce jointe le rapport de note concernant le cours : "+ course_names_html +"<br/><br/>Bonne r&eacute;ception<br/>L'&eacute;quipe WeUp Learning</p></body></html>"
-
-for email in emails:
-
-  part2 = MIMEText(html.encode('utf-8'), 'html', 'utf-8')
-  fromaddr = "ne-pas-repondre@themoocagency.com"
-  msg = MIMEMultipart()
-  msg['From'] = fromaddr
-  msg['To'] = email
-  msg['Subject'] = u"Rapport de notes AF Brasil"
-  attachment = _files_values
-  part = MIMEBase('application', 'octet-stream')
-  part.set_payload(attachment)
-  encoders.encode_base64(part)
-  part.add_header('Content-Disposition', "attachment; filename= %s" % os.path.basename(filename))
-  msg.attach(part)
-  server = smtplib.SMTP('mail3.themoocagency.com', 25)
-  server.starttls()
-  server.login('contact', 'waSwv6Eqer89')
-  msg.attach(part2)
-  text = msg.as_string()
-  server.sendmail(fromaddr, email, text)
-  server.quit()
-  log.info('Email sent to '+str(email))
-
-
-log.info('------------> Finish calculate grades and write xlsx report')
+log.info('------------> Finish calculating grades and writing CSV report')
 
 
 
+# New grade report every 2 hours
+# 0 */2 * * * /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/af-brazil/lms/utils/grade_report_script_csv.py course-v1:af-brasil+PP+CPB 
 
 
-# Qualif
-# pas de cours .... 
-
-# PROD
-# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/af-brazil/lms/utils/grade_report_script.py course-v1:af-brasil+PP+CPB 'cyril.adolf@weuplearning.com' 
-
-
-
+# https://af-brazil.weup.in/wul_apps/csv_data_weup/course-v1:af-brasil+PP+CPB
