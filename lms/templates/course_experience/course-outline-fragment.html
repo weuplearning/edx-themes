@@ -929,11 +929,19 @@ updateSchools("startup")
                         scored = 'scored' if subsection.get('scored', False) else ''
                         graded = 'graded' if subsection.get('graded') else ''
                         num_graded_problems = subsection.get('num_graded_problems', 0)
+
+                        scorm_scored = 0
+                        scorms_score = user_grade.summary["section_breakdown"]
+                        for scorm in scorms_score :
+                            if scorm["detail"].find(subsection["display_name"]) != -1 :
+                                scorm_scored = scorm["percent"]
+                                continue
                         %>
+
                         <li class="subsection accordion ${ 'current' if subsection.get('resume_block') else '' } ${graded} ${scored}" style="position: relative;">
                             <a href="${ subsection['lms_web_url'] }" class="subsection-text outline-button horizontal-align" id="${ subsection['id'] }" >
                                 <h4 class="subsection-title">${ subsection['display_name'] }</h4>
-                                %if subsection['complete'] :
+                                %if subsection['complete'] or scorm_scored >= 0.7 :
                                 <span id="checkmark-finish-sub" ></span>
                                 %endif
                             </a>
