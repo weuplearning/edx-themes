@@ -140,10 +140,10 @@ if (!getCookie("pageReloaded")) {
 <script>
   setTimeout(() => {
     var targetCheckboxTos = document.getElementsByClassName('checkbox-terms_of_service')[0].children[1].children[0]
-    targetCheckbox.innerHTML = `Aceito a <a href="/tos" rel="noopener" target="_blank">Termos de serviço</a> da Alianca Francesa Online`
+    targetCheckboxTos.innerHTML = `Aceito a <a href="/tos" rel="noopener" target="_blank">Termos de serviço</a> da Alianca Francesa Online`
 
     var targetCheckboxHonnor = document.getElementsByClassName('checkbox-honor_code')[0].children[1].children[0]
-    targetCheckbox.innerHTML = `Aceito os <a href="/privacy" rel="noopener" target="_blank">Política de privacidade</a> da Alianca Francesa Online`
+    targetCheckboxHonnor.innerHTML = `Aceito os <a href="/privacy" rel="noopener" target="_blank">Política de privacidade</a> da Alianca Francesa Online`
 
     console.log(targetCheckbox);
     
@@ -283,6 +283,10 @@ input, select, textarea, textarea:focus, input:focus{
 #cgu {
   margin: unset !important;
 }
+.login-register-content a {
+  color: white !important;
+}
+
 /* EXTRA STYLE END */
 
   .wrapper-footer .site-nav, .wrapper-footer footer#footer-openedx .colophon .nav-colophon {
