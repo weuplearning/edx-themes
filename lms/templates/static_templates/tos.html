@@ -1,0 +1,61 @@
+<%page expression_filter="h"/>
+<%! from django.utils.translation import ugettext as _ %>
+<%inherit file="../main.html" />
+
+<%block name="pagetitle">${_("Terms of Service")}</%block>
+
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="container about" id="tosText" >
+        <h1>
+            Termos de serviço
+        </h1>
+        <h3>1. Aceitação dos Termos</h3>
+        <p>Ao acessar e utilizar os serviços da Aliança Francesa Online, você concorda com os seguintes termos e condições. Se você não concordar com algum destes termos, não utilize nossos serviços.</p>
+
+        <h3>2. Serviços Oferecidos</h3>
+        <p>A Aliança Francesa Online oferece cursos online de francês, suporte ao cliente e outros serviços relacionados ao ensino da língua francesa.</p>
+
+        <h3>3. Pagamento e Reembolso</h3>
+        <p>Os pagamentos pelos cursos devem ser realizados conforme as condições estabelecidas no momento da compra. Consulte nossa política de reembolso para obter informações sobre devoluções.</p>
+        
+        <h3>4. Uso Aceitável</h3>
+        <p>Ao utilizar nossos serviços, você concorda em não violar leis aplicáveis e regulamentos. O uso dos serviços para atividades ilegais ou não éticas não é permitido.</p>
+        
+        <h3>5. Privacidade</h3>
+        <p>Respeitamos sua privacidade. Consulte nossa Política de Privacidade para obter informações sobre como tratamos seus dados pessoais.</p>
+        
+        <h3>6. Modificações nos Termos</h3>
+        <p>A Aliança Francesa Online reserva-se o direito de modificar estes termos a qualquer momento. As modificações entrarão em vigor imediatamente após a publicação no site. Recomendamos que você revise periodicamente os termos para estar ciente de quaisquer alterações.</p>
+        
+        <h3>7. Contato</h3>
+        <p>Para entrar em contato conosco em relação a estes termos ou quaisquer outros assuntos, utilize nosso e-mail de suporte: <a href="mailto:faleconosco@aliancafrancesaonline.com.br">faleconosco@aliancafrancesaonline.com.br</a>.</p>
+        
+        <h3></h3>
+        <p></p>
+
+    </section>
+</main>
+<style>
+
+    #tosText {
+        max-width: 500px;
+        padding-bottom: 20px;
+    }
+    #tosText h1 {
+        font-family: "Lato";
+        font-size: 40px;
+        font-weight: 900;
+    }
+    #tosText h3 {
+        font-family: "Lato";
+        font-size: 24px;
+        font-weight: 800;
+        margin: 27px 0 10px 0;
+    }
+    #tosText p {
+        font-family: "Lato";
+        line-height : 1.8;
+        color : rgb(14, 27, 77);
+        font-size: 18px;
+    }
+</style>

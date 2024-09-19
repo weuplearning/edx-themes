@@ -1,0 +1,38 @@
+<%page expression_filter="h"/>
+<%! from django.utils.translation import ugettext as _ %>
+
+<%inherit file="../main.html" />
+
+<%block name="pagetitle">${_("Privacy Policy")}</%block>
+
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="container about" id="privacText" >
+        <h1>
+            Política de privacidade
+
+        </h1>
+        <p>A Aliança Francesa Online, tem compromisso com a segurança das informações dos usuários cadastrados e informa que, para o acesso aos conteúdos e serviços, em alguns casos, é exigido cadastramento prévio.</p>
+        <p>As informações fornecidas ao cadastrar-se no site da Aliança Francesa Online, ou aquelas coletadas automaticamente durante o uso dos serviços são armazenadas em banco de dados corporativo de acordo com padrões de segurança, confidencialidade e integridade. Todos os dados coletados pelo sistema de cookies (sistema que capta informações de acesso) também serão armazenados como base para pesquisas de acesso ao site.</p>
+        <p>Os dados e as informações pessoais serão tratados e apresentados para fins estatísticos de forma agregada, sempre em conjunto, de maneira a não permitir qualquer identificação de seus usuários.</p>
+        <p>As análises empreendidas a partir da informação estatística agregada serão efetuadas para interpretar os padrões de utilização dos sítios Web e serviços disponíveis, a fim de melhorar, de forma contínua, os níveis de serviço. A informação estatística agregada resultante das análises efetuadas poderá ser objeto de publicação, promoção e marketing em favor da Aliança Francesa Online e/ou suas associadas.</p>
+        <p>O fornecimento de informações de caráter pessoal ou confidencial a terceiros ou a sua utilização para finalidades diversas daquelas para as quais foram coletadas somente ocorrerá mediante autorização ou determinação legal ou judicial.</p>
+    </section>
+</main>
+<style>
+
+    #privacText {
+        max-width: 500px;
+        padding-bottom: 20px;
+    }
+    #privacText h1 {
+        font-family: "Lato";
+        font-size: 40px;
+        font-weight: 900;
+    }
+    #privacText p {
+        font-family: "Lato";
+        line-height : 1.8;
+        color : rgb(14, 27, 77);
+        font-size: 18px;
+    }
+</style>

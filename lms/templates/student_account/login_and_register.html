@@ -138,6 +138,16 @@ if (!getCookie("pageReloaded")) {
 
 </script>
 <script>
+  setTimeout(() => {
+    var targetCheckboxTos = document.getElementsByClassName('checkbox-terms_of_service')[0].children[1].children[0]
+    targetCheckbox.innerHTML = `Aceito a <a href="/tos" rel="noopener" target="_blank">Termos de serviço</a> da Alianca Francesa Online`
+
+    var targetCheckboxHonnor = document.getElementsByClassName('checkbox-honor_code')[0].children[1].children[0]
+    targetCheckbox.innerHTML = `Aceito os <a href="/privacy" rel="noopener" target="_blank">Política de privacidade</a> da Alianca Francesa Online`
+
+    console.log(targetCheckbox);
+    
+  }, 200);
 
   setTimeout(() => {
     
