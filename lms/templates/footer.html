@@ -49,7 +49,28 @@
 
   .footer-link
   {
-   color: #00a2ff!important
+   color: #00a2ff!important;
+   font-family: "Quicksand";
+  }
+
+  .footer-link:hover
+  {
+   color: #004580!important;;
+   font-family: "Quicksand";
+   text-decoration: none;
+  }
+
+  .navbar-nav
+  {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+  }
+
+  .nav-item
+  {
+    margin: 0 1rem 0 1rem;
   }
 </style>
 
@@ -60,6 +81,10 @@
         <nav class="navbar site-nav navbar-expand-sm" aria-label="${_('CGU')}">
           <ul class="navbar-nav">
             <li class="nav-item">
+              <a class="footer-link" href="/tos">Conditions d'utilisation </a>
+            </li>
+            <li class="nav-item">
+              <a class="footer-link" href="/honor">Code d'honneur </a>
             </li>
           </ul>
         </nav>

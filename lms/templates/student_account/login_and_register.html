@@ -72,6 +72,7 @@
 </div>
 <script>
     const emailRegex = new RegExp('^.*@((cpn-laxou)|(weuplearning))\.com')
+    const serialRegex = new RegExp('^[0-9][0-9][0-9][0-9][0-9][0-9][0-9]')
 
     setTimeout(() => {
     
@@ -92,6 +93,31 @@
                 alert("votre adresse email ne vous permet pas d'accéder à nos services")
             }
         });
+
+        let serialInput = document.getElementById("register-pro_serial_number")
+
+
+        serialInput.addEventListener("change", function() {
+            var serialValue = serialInput.value;
+            var authorizedSerial = false;
+
+            if(serialRegex.test(serialValue)){
+                authorizedSerial = true;
+            }
+
+    
+            if (!authorizedSerial) {
+                serialInput.value = ""
+                alert("votre numéro de matricule est invalide ( 7 chiffres requis)")
+            }
+        });
+
+
+        // Edit email label
+        $('label[for="register-email"] .label-text').text('Email (professionnel)');
+
+        $('#register-email-required-label').text('Email (professionnel)');
+
     
     }, 500);
 
