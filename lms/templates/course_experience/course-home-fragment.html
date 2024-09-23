@@ -80,14 +80,8 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
     .header-medal-title p, h3, h4, .action-resume-course span  {
         font-family: 'Sora';
-        font-size: larger;
-        font-weight: 700;
-    }
-    h4 {
+        font-size: larger !important;
         font-weight: 400;
-    }
-    .action-resume-course span, h4{
-        font-size: medium;
     }
 
 
@@ -433,9 +427,9 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
                 % endif
                 <p style="max-width: 365px;margin: 0;" > 
                     %if len(course.display_name.split(':')) > 1 :
-                    <span style="text-transform: uppercase;" >${course.display_name.split(':')[0]}</span>${course.display_name.split(':')[1]}
+                    <span style="text-transform: uppercase; font-weight: 700;" >${course.display_name.split(':')[0]}</span>${course.display_name.split(':')[1]}
                     %else :
-                    <span style="text-transform: uppercase;" >${course.display_name}</span>
+                    <span style="text-transform: uppercase; font-weight: 700;" >${course.display_name}</span>
                     %endif
                 </p>
             </div>
