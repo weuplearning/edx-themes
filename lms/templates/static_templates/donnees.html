@@ -322,7 +322,7 @@ with open(file_path, 'r') as file:
   }
   .tag {
     font-size: medium;
-    width : 110px;
+    width : unset;
   }
   #pointer_icon_top {
     left: -60px;
@@ -331,6 +331,10 @@ with open(file_path, 'r') as file:
   .title {
     font-size: medium;
     padding: 8px 20px;
+  }
+  .tags {
+    flex-direction: column;
+    align-items: center;
   }
 }
 @media screen and (max-width: 425px) {
