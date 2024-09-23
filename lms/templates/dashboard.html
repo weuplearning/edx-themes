@@ -180,6 +180,7 @@ cert_name_long = settings.CERT_NAME_LONG
     position: relative;
     font-size: x-large;
     font-weight: 700;
+    font-family: "Sora";
     padding: 0 22px 25px 0;
     width: fit-content;
     border-bottom: white 1px solid;
@@ -187,6 +188,8 @@ cert_name_long = settings.CERT_NAME_LONG
   #header-main-container > p {
     line-height: 1.2;
     text-align: justify;
+    font-family: "Sora";
+
   }
 
 
@@ -274,10 +277,36 @@ cert_name_long = settings.CERT_NAME_LONG
     border-bottom: #334756 1px solid;
     padding: 5px 0;
     margin: 2px 0 10px 0;
+    font-family: 'Sora';
   }
   .json-spotlight-empty {
     height: 20px;
     
+  }
+  .json-sections_list {
+    display: none;
+    overflow: hidden;
+    height: 0;
+    transition: height 0.5s ease-out; 
+  }
+  .json-sections_list li {
+    list-style-type: disc;
+    padding: 5px 0 !important;
+  }
+  .json-description, .json-sections_list li, .grade-percent, .resume-start-button,.savoir_plus {
+    font-family: 'Sora';
+  }
+  .open {
+    display: block; 
+    height: 100%;   
+  }
+  .savoir_plus {
+    cursor: pointer;
+    align-self: center;
+    padding: 20px 0 10px 0;
+    font-weight: 700;
+    text-decoration: underline;
+    color: #ED4D39;
   }
   .json-spotlight {
     background-color: #334756;
@@ -285,6 +314,8 @@ cert_name_long = settings.CERT_NAME_LONG
     padding: 5px;
     margin-bottom: 10px;
     font-weight: 700;
+    font-family: 'Sora';
+
   }
   .progress-bar-course-id {
     width: 100%;
@@ -551,6 +582,23 @@ cert_name_long = settings.CERT_NAME_LONG
 
 <%include file="dashboard/_dashboard_entitlement_unenrollment_modal.html"/>
 
+<script>
+  let savoirPlusElements = document.querySelectorAll(".savoir_plus");
+
+  savoirPlusElements.forEach(function(element) {
+    element.addEventListener("click", function() {
+        this.style.display = "none";
+        
+        let nextDiv = this.nextElementSibling;
+        if (nextDiv && nextDiv.classList.contains("json-sections_list")) {
+          nextDiv.style.display = "block";  
+          setTimeout(() => {
+            nextDiv.classList.add("open");
+          }, 10);  
+        }
+    });
+  });
+</script>
 
 %for course in course_enrollments :
 
@@ -575,6 +623,7 @@ async function loadCourseOverview() {
         const json_subtitle = value["subtitle"];
         const json_spotlight = value["spotlight"];
         const json_description = value["description"];
+        const json_sections_list = value["sections_list"];
         
         const array_title = document.getElementById(selector_id).getElementsByClassName('json-title')
         
@@ -593,7 +642,14 @@ async function loadCourseOverview() {
           document.getElementById(selector_id).getElementsByClassName('json-spotlight')[0].style.display = 'none';
         }
         
-        document.getElementById(selector_id).getElementsByClassName('json-description')[0].innerHTML = json_description;      
+        document.getElementById(selector_id).getElementsByClassName('json-description')[0].innerHTML = json_description;  
+        
+        // var modules_liste
+        // for (let i = 0; i < json_sections_list.length; i++) {
+        //   const module = json_sections_list[i];
+        //   modules_liste += '<li></li>'
+        // }
+        document.getElementById(selector_id).getElementsByClassName('json-sections_list')[0].innerHTML = json_sections_list;      
       }
     }
   } catch (error) {

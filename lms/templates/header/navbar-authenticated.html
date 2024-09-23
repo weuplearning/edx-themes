@@ -24,6 +24,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     align-items: end;
   }
   #toggle-dashboard-ressources > a {
+    font-family: 'Sora';
     color: #334756 !important;
     font-weight: 900;
     text-align: center;
@@ -58,6 +59,9 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     font-weight: 700;
     margin-right: 10px;
   }
+  .username {
+    font-family: 'Sora';
+  }
 
   @media screen and (max-width: 991px) {
     .user-logo {
@@ -79,7 +83,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
 <div class="nav-links">
   <div class="main">
-    
+<!--     
     %if request.path == '/dashboard' :
       <div id="toggle-dashboard-ressources" class="horizontal-align" >
         <a href="/dashboard" style="border-bottom: 5px solid #334756 ;">Accueil</a>
@@ -96,7 +100,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         <a href="/donnees"  style="border-bottom: 1px solid #334756 ;">Ressources complémentaires</a>
       </div>
     %endif
-
+ -->
     % if show_explore_courses:
       <div class="mobile-nav-item hidden-mobile nav-item nav-tab">
         <a class="tab-nav-link discover-new-link" href="${marketing_link('COURSES')}" aria-current="${'page' if '/courses' in request.path else 'false'}">

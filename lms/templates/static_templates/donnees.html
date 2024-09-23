@@ -36,10 +36,10 @@ with open(file_path, 'r') as file:
   </div>
 
   <div id="main-ressources-actualites">
-    <div class="titles">
+    <!-- <div class="titles">
       <h1 class="title" id="title-ressources" onclick="showSection('ressources')">Ressources</h1>
-      <!-- <h1 class="title" id="title-actualites" onclick="showSection('actualites')">Actualités</h1> -->
-    </div>
+      <h1 class="title" id="title-actualites" onclick="showSection('actualites')">Actualités</h1>
+    </div> -->
     <section class="section-content " id="ressources">           
       <div class="tags">
         <span class="tag horizontal-align" onclick="toggleTag('ressources', 'Automatismes/contrôle_industriel')">#Automatismes/contrôle industriel</span>
@@ -157,6 +157,9 @@ with open(file_path, 'r') as file:
     background-position: right;
     background-image: url("${static.url('umn/images/barre_couleurs.png')}");
   }
+  #header-ressources-actualites div, .tag, .vignette-details p, .vignette-link-button a {
+    font-family: 'Sora';
+  }
   #header-ressources-actualites {
     padding: 70px 10vw;
     background-image: url("${static.url('umn/images/img_bandeau_page3.png')}");
@@ -255,6 +258,7 @@ with open(file_path, 'r') as file:
   }
   .vignette-background > p {
     color: white;
+    background-color: #007dff;
     border: solid 1px white;
     padding: 5px 10px;
     display: inline-block;

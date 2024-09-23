@@ -109,12 +109,12 @@ custom_fields = json.loads(user.profile.custom_field)
     position: relative;
 }
 .logo-jaune {
-    height: 14vw;
-    width: 14vw;
+    height: 140px;
+    width: 140px;
     background-image: url("${static.url('umn/images/logo_jaune.svg')}");
     position: absolute;
-    top: -6vw;
-    left: -7vw;
+    top: -60px;
+    left: -70px;
     z-index: -1;
 }
 .prev, .next {
@@ -164,11 +164,13 @@ custom_fields = json.loads(user.profile.custom_field)
     justify-content: center;
     align-items: center;
     font-size: 30px;
-    font-weight: 800;
+    font-weight: 700;
     line-height: 1.3;
     text-align: center;
 }
-
+.title-vignette p, .resume-button a  {
+    font-family: 'Sora';
+}
 
 
 @media screen and (max-width: 768px) {

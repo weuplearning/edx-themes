@@ -78,6 +78,17 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         background-image: url("${static.url('umn/images/barre_couleurs.png')}");
     }
 
+    .header-medal-title p, h3, h4, .action-resume-course span  {
+        font-family: 'Sora';
+        font-size: larger;
+        font-weight: 700;
+    }
+    h4 {
+        font-weight: 400;
+    }
+    .action-resume-course span, h4{
+        font-size: medium;
+    }
 
 
     /* Resume Progress */
@@ -213,9 +224,13 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         color: var(--tertiary);
         text-decoration: unset !important;
     }
+    .accordion-panel h4:hover {
+        color: #ED4D39;
+    }
     .accordion-panel h4 {
-        color: inherit;
-        font-size: 20px;
+        color: var(--charcoil);
+        font-size: 18px;
+        font-weight: 200 !important;
     }
     .subsection {
         border: none !important;
@@ -416,7 +431,13 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
                 %if float(user_grade.percent) >= 0.8 :
                 <img id="medal-first" src="${static.url('umn/images/medaille.png')}" alt="médaille">
                 % endif
-                <p style="max-width: 350px;margin: 0;" > ${course.display_name}</p>
+                <p style="max-width: 365px;margin: 0;" > 
+                    %if len(course.display_name.split(':')) > 1 :
+                    <span style="text-transform: uppercase;" >${course.display_name.split(':')[0]}</span>${course.display_name.split(':')[1]}
+                    %else :
+                    <span style="text-transform: uppercase;" >${course.display_name}</span>
+                    %endif
+                </p>
             </div>
             <div class="progress_bar_and_score">
 
@@ -425,18 +446,20 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
                 </div>
                 <h2 class="completed_percent"> ${int(user_grade.percent * 100)} %</h2>     
             </div>
-
-
         </div>
+
         <div class="page-header-secondary" >
             <div class="form-actions">
                 % if resume_course_url:
                     <a class="btn btn-secondary action-resume-course" href="${resume_course_url}">
+                        <span data-action-type="resume">${_("Resume Course")}</span>
+                        <!-- 
                         % if has_visited_course:
-                            <span data-action-type="resume">${_("Resume Course")}</span>
+                        <span data-action-type="resume">${_("Resume Course")}</span>
                         % else:
                             <span data-action-type="start">${_("Start Course")}</span>
-                        % endif
+                        % endif 
+                        -->
                     </a>
                 % endif
             </div>

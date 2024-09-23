@@ -858,7 +858,14 @@ updateSchools("startup")
                 <img class="vignette-section-img" src="${static.url(json_img_link[primary_index])}" alt="section-image">
                 <div class="right-panel">
                     <button class="section-name accordion-trigger outline-button" aria-expanded="${ 'true' if section_is_auto_opened else 'false' }" aria-controls="${ section['id'] }_contents" id="${ section['id'] }">
-                        <h3 class="section-title">${ section['display_name'] }</h3>
+                        %if len(section['display_name'].split('-')) >1 :
+                        <h3 class="section-title">
+                            <span style="text-transform: uppercase; font-weight: 700;" >${section['display_name'].split('-')[0]}</span> -
+                            ${section['display_name'].split('-')[1]}
+                        </h3>
+                        %else :
+                        <h3 class="section-title">${section['display_name']}</h3>
+                        %endif 
                         <span class="fa fa-chevron-right ${ 'fa-rotate-90' if section_is_auto_opened else '' }" aria-hidden="true"></span>
 
                         <!-- Insérer les jauges ici -->
