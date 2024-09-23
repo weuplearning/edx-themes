@@ -108,6 +108,7 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
 
   <script type="text/javascript">
     var $$course_id = "${course.id | n, js_escaped_string}";
+    var $$email = "${request.user.email | n, js_escaped_string}";
   </script>
 
   % if not request.user.is_authenticated:
