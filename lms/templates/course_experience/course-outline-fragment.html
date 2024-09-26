@@ -120,10 +120,17 @@ if not all([user_firstname, user_lastname, user_structure, user_preparedDiploma,
  % if display_form == True:
 
  <script>
-    const continueBtn = document.querySelector('.page-header');
-    if (continueBtn) {
+    const bannerA = document.querySelector('.page-header-main');
+        const bannerB = document.querySelector('.page-header-secondary');
+
+    if (bannerA) {
         // Add "display: none!important" to its style
-        continueBtn.style.setProperty('display', 'none', 'important');
+        bannerA.style.setProperty('display', 'none', 'important');
+    }
+
+    if (bannerB) {
+        // Add "display: none!important" to its style
+        bannerB.style.setProperty('display', 'none', 'important');
     }
  </script>
 
@@ -718,7 +725,7 @@ function makeFieldsNotRequired() {
 }
 
 // Call the function to make all fields not required
-//makeFieldsNotRequired();
+makeFieldsNotRequired();
 
 
   
@@ -751,11 +758,8 @@ form.addEventListener("submit", function(event) {
 
     const firstName = document.getElementById("firstName").value;
     const lastName = document.getElementById("lastName").value;
-    const structure = document.getElementById("structure").value;
-    const preparedDiploma = document.getElementById("preparedDiploma").value;
 
     const status = document.getElementById("status").value;
-    const regions = document.getElementById("regions").value;
     const schoolregion = document.getElementById("schoolregion").value;
 
     const school = document.getElementById("school").value;
@@ -769,8 +773,6 @@ form.addEventListener("submit", function(event) {
     const customFields = {
         first_name: firstName,
         last_name: lastName,
-        structure: structure,
-        preparedDiploma: preparedDiploma,
         status: status,
         schoolregion: schoolregion ,
         school: school,
