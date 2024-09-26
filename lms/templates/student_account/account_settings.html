@@ -31,9 +31,6 @@ from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_f
     <link type="text/css" rel="stylesheet" href="${STATIC_URL}paragon/static/paragon.min.css">
 </%block>
 
-<script>
-    console.log('${ fields["language"] | n, dump_js_escaped_json }' );
-</script>
 
 <%block name="js_extra">
 <%static:require_module module_name="js/student_account/views/account_settings_factory" class_name="AccountSettingsFactory">
