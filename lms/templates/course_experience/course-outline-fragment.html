@@ -119,6 +119,15 @@ if not all([user_firstname, user_lastname, user_structure, user_preparedDiploma,
 
  % if display_form == True:
 
+ <script>
+    const continueBtn = document.querySelector('.page-header');
+    if (continueBtn) {
+        // Add "display: none!important" to its style
+        continueBtn.style.setProperty('display', 'none', 'important');
+    }
+ </script>
+
+
 <style>
 .content-wrapper {
     min-height: calc(100vh - 284px);
@@ -132,7 +141,7 @@ if not all([user_firstname, user_lastname, user_structure, user_preparedDiploma,
     border-radius: 5px;
 }
 
-.schoolSection
+.formsection
 {
      display: flex;
     flex-direction: column;
@@ -192,19 +201,15 @@ let startButton = document.getElementsByClassName('action-resume-course')
 startButton[0].classList.add("disabled-link")
 </script>
 <form id="customFieldsForm">
+
+    <div class="formsection">
     <label for="lastName">Nom : <span class="required_field">*</span></label>
     <input type="text" id="lastName" name="lastName" onkeydown="if(event.keyCode==32) return false;" value="${user_lastname}" required><br>
   
     <label for="firstName">Prénom : <span class="required_field">*</span></label>
     <input type="text" id="firstName" name="firstName" onkeydown="if(event.keyCode==32) return false;" value="${user_firstname}" required><br>
   
-    <label for="structure">Etablissement de formation : <span class="required_field">*</span></label>
-
-    <input type="text" id="structure" name="structure" onkeydown="if(event.keyCode==32) return false;" value="${user_structure}" required><br>
-
-    <label for="preparedDiploma">Diplôme préparé : <span class="required_field">*</span></label>
-    <input type="text" id="preparedDiploma" name="preparedDiploma" onkeydown="if(event.keyCode==32) return false;" value="${user_preparedDiploma}"  required><br>
-
+  
     <label for="status">Statut : <span class="required_field">*</span></label>
     <select id="status" name="status">
         <option value="learner" ${'selected' if user_status == 'learner' else ''}>Apprenant</option>
@@ -213,59 +218,20 @@ startButton[0].classList.add("disabled-link")
         <option value="retraining" ${'selected' if user_status == 'retraining' else ''}>Salarié en reconversion</option>
         <option value="other" ${'selected' if user_status == 'other' else ''}>Autre</option>
     </select>
+    </div>
 
-    <br>
-
-
-    <label for="regions">Région de résidence : <span class="required_field">*</span></label>
-    <select id="regions" name="regions" >
-
-        <optgroup label="France métropolitaine">
-          <option value="auvergne">Auvergne-Rhône-Alpes</option>
-          <option value="bourgogne">Bourgogne-Franche-Comté</option>
-          <option value="bretagne">Bretagne</option>
-          <option value="centre">Centre-Val de Loire</option>
-          <option value="corse">Corse</option>
-          <option value="grandest">Grand Est</option>
-          <option value="hautsdefrance">Hauts-de-France</option>
-          <option value="iledefrance">Île-de-France</option>
-          <option value="normandie">Normandie</option>
-          <option value="nouvelleacquitaine">Nouvelle-Aquitaine</option>
-          <option value="occitanie">Occitanie</option>
-          <option value="paysdelaloire">Pays de la Loire</option>
-          <option value="provence">Provence-Alpes-Côte d'Azur</option>
-        </optgroup>
-        <optgroup label="Outre-mer">
-          <option value="guadeloupe">Guadeloupe</option>
-          <option value="martinique">Martinique</option>
-          <option value="guyane">Guyane</option>
-          <option value="reunion">La Réunion</option>
-          <option value="mayotte">Mayotte</option>
-        </optgroup>
-        
-    </select>
-
-    <div class="schoolSection">
-    <label for="schoolregion ">Région de l'établissement :</label>
+    <div class="formsection">
+    <label for="schoolregion ">Sélectionnez la région :</label>
     <select id="schoolregion" name="schoolregion" onchange="updateSchools('schoolregionselect')">
-          <option selected value="">Sélectionnez une région</option>
 
         % for region in schools.keys():
                 <option value="${region}">${region}</option>
         % endfor
     </select>
-    <!--
-    <button type="button" onclick="updateSchools('button')">updateSchools</button>
-    <button type="button" onclick="updateDiplomalevel('button')">updateDiplomalevel</button>
-    <button type="button" onclick="evalSchoolSelect('button')">evalSchoolSelect</button>
-    <button type="button" onclick="debugFormations()">debugFormations</button>
-    <button type="button" onclick="console.clear()">CLEAR</button>
-    -->
 
 
 
-
-        <label id="schoolLabel" for="school">Etablissement :</label>
+        <label id="schoolLabel" for="school">Sélectionnez votre établissement :</label>
         <select name="school" id="school" onchange="evalSchoolSelect('schoolselect')">
         % if user_school:
             <option value="${user_school}">${user_school}</option>
@@ -279,7 +245,7 @@ startButton[0].classList.add("disabled-link")
         % endif
         </select>
 
-        <label id="formationLabel" for="formation">Formation :</label>
+        <label id="formationLabel" for="formation">Sélectionnez votre formation :</label>
         <select name="formation" id="formation" onchange="updateClasses('formationselect')">
         % if user_formation:
             <option value="${user_formation}">${user_formation}</option>

@@ -49,7 +49,7 @@ custom_fields = json.loads(user.profile.custom_field)
         </div>
         %endif
 
-        <!-- <div class="vignette">
+        <div class="vignette">
             <div>
                 <span class="logo-jaune" ></span>
                 <div class="title-vignette">
@@ -61,7 +61,7 @@ custom_fields = json.loads(user.profile.custom_field)
                     Je jette un œil 👀
                 </a>
             </div>
-        </div> -->
+        </div>
 
         <!-- <div class="vignette">
             <div>
@@ -175,15 +175,16 @@ custom_fields = json.loads(user.profile.custom_field)
 
 @media screen and (max-width: 768px) {
     .vignette .title-vignette {
-        padding: 30px 15px;
+        padding: 58px 15px 21px 15px ;
         height: 80px;
-        margin-top: 40px;
+        margin: 4px 40px 0 40px;
     }
     .carousel-slide {
         height: 80%;
     }
     #top-container {
         height: 200px;
+        padding: 20px;
     }
     .logo-jaune {
         display: none;
@@ -192,20 +193,8 @@ custom_fields = json.loads(user.profile.custom_field)
         right: 30px;
     }
 }
-
-/* NO CARROUSEL */
-.carousel-slide .vignette {
-    margin: 0px !important;
-}
-.vignette .title-vignette {
-    margin: 0 90px;
-}
-.fa-angle-right, .fa-angle-left {
-    display: none;
-}
-
 </style>
-<!-- 
+
 <script>
 const carouselSlide = document.querySelector('.carousel-slide');
 const vignettes = document.querySelectorAll('.carousel-slide .vignette');
@@ -244,5 +233,5 @@ function moveSlide(direction) {
 // window.onload = startCarousel;
 setTimeout(() => {
     startCarousel();
-}, 4000);
-</script> -->
+}, 3700);
+</script>

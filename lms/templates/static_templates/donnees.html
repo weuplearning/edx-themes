@@ -159,7 +159,7 @@ with open(file_path, 'r') as file:
     background-position: right;
     background-image: url("${static.url('umn/images/barre_couleurs.png')}");
   }
-  #header-ressources-actualites div, .tag, .vignette-details p, .vignette-link-button a {
+  #header-ressources-actualites div, .tag, .vignette-details p, .vignette-link-button a, .vignette-background p {
     font-family: 'Sora';
   }
   #header-ressources-actualites {
@@ -347,7 +347,7 @@ with open(file_path, 'r') as file:
 
 @media screen and (max-width: 425px) {
   #header-ressources-actualites {
-    padding: 40px 13vw;
+    padding: 30px 33px 30px 68px;
   }
   .vignette {
     width: 100%;
@@ -356,7 +356,7 @@ with open(file_path, 'r') as file:
     font-size: small;
   }
   .tag {
-    width : 75px;
+    padding: unset;
   }
 }
 </style>

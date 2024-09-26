@@ -189,7 +189,14 @@ from lms.djangoapps.experiments.utils import UPSELL_TRACKING_FLAG
           var targetPercent = document.getElementById("progress-${enrollment.course_id}").getElementsByClassName('grade-percent')[0]
   
           targetBar.style.width = result.grade*100 + '%'
-          targetPercent.innerHTML = Math.round(result.grade*100) + '%'        
+          targetPercent.innerHTML = Math.round(result.grade*100) + '%'   
+          
+        } else {
+
+          var resumeButton2 = document.getElementById("json-${enrollment.course_id}").getElementsByClassName("resume-start-button")[0].children
+
+          resumeButton2.innerHTML = "Commencer"
+          
         }
       }
     });
