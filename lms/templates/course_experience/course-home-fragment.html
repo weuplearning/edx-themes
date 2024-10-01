@@ -20,6 +20,9 @@ from openedx.features.course_experience.course_tools import HttpMethod
 
 from lms.djangoapps.grades.course_grade import ZeroCourseGrade
 
+from opaque_keys.edx.locations import SlashSeparatedCourseKey
+from lms.djangoapps.wul_apps.certificates.certificate import certificate
+
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 %>
 
@@ -48,18 +51,39 @@ if csv_data :
             csv_user_tester = True
 %>
 
+<%
+course_key = SlashSeparatedCourseKey.from_string(str(course.id))
+CsvComparData = certificate(course_key,user).grade_csv_and_user()
+GradeCsvCompar = json.loads(CsvComparData.content.decode('utf-8'))
+%>
+
 %if str(course.id) in course_with_csv_data :
 <script>
     let stringData = '${csv_user_grade}'
     let listData = JSON.parse(stringData.replace(/&#39;/g, '"'));
     let jsonList = listData.map(item => item === "Not Attempted" ? 0 : item);
+    let stringDataCsvCompar = '${GradeCsvCompar}'
+    stringDataCsvCompar = stringDataCsvCompar.replace(/ d&#39;/g, '\'')
+                                            .replace(/False/g, false)
+                                            .replace(/True/g, true)
+                                            .replace(/None/g, false)
+                                            .replace(/&#34;/g, '"')
+                                            .replace(/&#39;/g, '"');
+
+    let ListeCsvCompar = JSON.parse(stringDataCsvCompar);
+
+    console.log("ListeCsvCompar");
+    console.log(ListeCsvCompar);
 
     setTimeout(() => {
 
-        // DATA WONT BE RELIABLE
         // Global grade
         var target = document.getElementsByClassName('grade-block')
-        grade = parseFloat('${csv_user_grade[0]}') *100
+        try {
+            grade = Math.round(ListeCsvCompar["global_grade"]*100)
+        } catch (error) {
+            grade = parseFloat('${csv_user_grade[0]}') *100
+        }
 
         check_grade = target[0].children[0].children[2].innerText
         check_grade_value = check_grade.split('%')[0]
@@ -69,7 +93,8 @@ if csv_data :
             target[0].children[1].children[0].style.width = grade+'%';
         }
 
-        // section grade
+
+        // Section grades
         let j=2 //pass "Bonjour !" section
         for (let i = 0; i < jsonList.length; i+=2) {
             
@@ -91,13 +116,27 @@ if csv_data :
     let stringData = '${csv_user_grade}'
     let listData = JSON.parse(stringData.replace(/&#39;/g, '"'));
     let jsonList = listData.map(item => item === "Not Attempted" ? 0 : item);
+    let stringDataCsvCompar = '${GradeCsvCompar}'
+    stringDataCsvCompar = stringDataCsvCompar.replace(/ d&#39;/g, '\'')
+                                            .replace(/False/g, false)
+                                            .replace(/True/g, true)
+                                            .replace(/None/g, false)
+                                            .replace(/&#34;/g, '"')
+                                            .replace(/&#39;/g, '"');
+
+    let ListeCsvCompar = JSON.parse(stringDataCsvCompar);
+
 
     setTimeout(() => {
 
-        // DATA WONT BE RELIABLE
         // Global grade
         var target = document.getElementsByClassName('grade-block')
-        grade = parseFloat('${csv_user_grade[0]}') *100
+        try {
+            grade = Math.round(ListeCsvCompar["global_grade"]*100)
+        } catch (error) {
+            grade = parseFloat('${csv_user_grade[0]}') *100
+        }
+
 
         check_grade = target[0].children[0].children[2].innerText
         check_grade_value = check_grade.split('%')[0]
@@ -107,7 +146,9 @@ if csv_data :
             target[0].children[1].children[0].style.width = grade+'%';
         }
 
-        // section grade
+        
+
+        // Section grades
         let j=3 //pass "Bonjour !" and "lecon 0" section
         for (let i = 0; i < jsonList.length; i+=1) {
             

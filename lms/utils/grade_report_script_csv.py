@@ -64,8 +64,10 @@ TECHNICAL_HEADER = list(HEADERS_FORM)
 
 UserGrade = ['CFL1', 'DFL1', 'CFL2', 'DFL2', 'CFL3', 'DFL3', 'CFL4', 'DFL4', 'CFL5', 'DFL5', 'CFL6', 'DFL6', 'CFL7', 'DFL7', 'CFL8', 'DFL8', 'CFL9', 'DFL9', 'CFL10', 'DFL10', 'CFL11', 'DFL11', 'CFL12', 'DFL12', 'CFL13', 'DFL13', 'CFL14', 'DFL14', 'CFL15', 'DFL15']
 
-if course_ids[0] == 'course-v1:af-brasil+PP+CPB' :
-  HEADERS_SECTION = ['Quiz Primeiros Passos', 'Quiz Destination Paris', 'Quiz Apresentações', 'Quiz Tour Eiffel & Champ de Mars', 'Quiz Família & Pets', 'Quiz Château de Versailles', 'Quiz Tempo', 'Quiz Stade de France', 'Quiz Festas & Tradições', 'Quiz Yvelines', 'Quiz Estudos', 'Quiz Seine-Saint-Denis', 'Quiz Trabalho', 'Quiz Paris La Défense Arena', 'Quiz Lazer', 'Quiz Stades en France', 'Quiz Saúde', 'Quiz Invalides & Pont d\'Iéna', 'Quiz Viagem', 'Quiz Arenas Paris Sud', 'Quiz Cidade', 'Quiz Ailleurs en France', 'Quiz Casa', 'Quiz La Concorde', 'Quiz Gastronomia', 'Quiz Arena Bercy', 'Quiz Moda', 'Quiz Grand Palais', 'Quiz DELF A1', 'Quiz Arena Porte de La Chapelle']
+
+if course_ids[0] == 'course-v1:af-brasil+OFM+01' :
+  HEADERS_SECTION = ['Quiz Unité 1', 'Quiz Unité 2','Quiz Unité 3','Quiz Unité 4','Quiz Unité 5']
+  UserGrade = ['QU1', 'QU2', 'QU3', 'QU4', 'QU5']
 
 else :
   HEADERS_SECTION = ['Quiz Primeiros Passos', 'Quiz Destination Paris', 'Quiz Apresentações', 'Quiz Tour Eiffel & Champ de Mars', 'Quiz Família & Pets', 'Quiz Château de Versailles', 'Quiz Tempo', 'Quiz Stade de France', 'Quiz Festas & Tradições', 'Quiz Yvelines', 'Quiz Estudos', 'Quiz Seine-Saint-Denis', 'Quiz Trabalho', 'Quiz Paris La Défense Arena', 'Quiz Lazer', 'Quiz Stades en France', 'Quiz Saúde', 'Quiz Invalides & Pont d\'Iéna', 'Quiz Viagem', 'Quiz Arenas Paris Sud', 'Quiz Cidade', 'Quiz Ailleurs en France', 'Quiz Casa', 'Quiz La Concorde', 'Quiz Gastronomia', 'Quiz Arena Bercy', 'Quiz Moda', 'Quiz Grand Palais', 'Quiz DELF A1', 'Quiz Arena Porte de La Chapelle']
@@ -132,8 +134,15 @@ for course_id in course_ids:
         user_data.append('n.a.')
 
 
-    user_data.append(user.date_joined.strftime('%d %b %y'))
-    user_data.append(user.last_login.strftime('%d %b %y'))
+    try :
+      user_data.append(user.date_joined.strftime('%d %b %y'))
+    except :  
+      user_data.append('n.a.')
+
+    try :
+      user_data.append(user.last_login.strftime('%d %b %y'))
+    except :  
+      user_data.append('n.a.')
 
 
 
@@ -143,6 +152,8 @@ for course_id in course_ids:
     for section in gradesTest.summary['section_breakdown'] :
       UserGrade = [str(section['percent']) if grade == section['label'] else grade for grade in UserGrade]
 
+    log.info("132")
+    log.info(UserGrade)
 
     csv_user_grade = []
     if csv_data :
