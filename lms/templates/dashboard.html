@@ -448,7 +448,7 @@ cert_name_long = settings.CERT_NAME_LONG
           %>
           % for dashboard_index, enrollment in enumerate(course_entitlements + course_enrollments):
           <!-- Ne pas afficher le cours 'ressources' -->
-            %if str(enrollment.course_id) != 'course-v1:umn+ressources+2024' or str(enrollment.course_id) != 'course-v1:umn+tp+2024':
+            %if str(enrollment.course_id) != 'course-v1:umn+ressources+2024' and str(enrollment.course_id) != 'course-v1:umn+tp+2024':
               <%
                 # Check if the course run is an entitlement and if it has an associated session
                 entitlement = enrollment if isinstance(enrollment, CourseEntitlement) else None
