@@ -93,7 +93,6 @@ custom_fields_dict = json.loads(custom_fields)
 user_firstname = custom_fields_dict.get('first_name', '')
 user_lastname = custom_fields_dict.get('last_name', '')
 user_structure = custom_fields_dict.get('structure', '')
-user_preparedDiploma = custom_fields_dict.get('preparedDiploma', '')
 user_status = custom_fields_dict.get('status', '')
 
 user_regions = custom_fields_dict.get('regions', '')
@@ -104,11 +103,10 @@ user_class = custom_fields_dict.get('class',None)
 user_year = custom_fields_dict.get('year',None)
 user_diplomalvl = custom_fields_dict.get('diplomalvl',None)
 
-
 user_agreeCgu = custom_fields_dict.get('agreeCgu', '')
 
 display_form = False
-if not all([user_firstname, user_lastname, user_structure, user_preparedDiploma, user_agreeCgu, user_status]):
+if not all([user_firstname, user_lastname, user_school, user_agreeCgu, user_status]):
     display_form = True
 %>
 <!--
@@ -725,7 +723,7 @@ function makeFieldsNotRequired() {
 }
 
 // Call the function to make all fields not required
-makeFieldsNotRequired();
+//makeFieldsNotRequired();
 
 
   
