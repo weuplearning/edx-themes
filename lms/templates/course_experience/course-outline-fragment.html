@@ -102,11 +102,11 @@ user_formation = custom_fields_dict.get('formation',None)
 user_class = custom_fields_dict.get('class',None)
 user_year = custom_fields_dict.get('year',None)
 user_diplomalvl = custom_fields_dict.get('diplomalvl',None)
-
+user_referent = custom_fields_dict.get('referent','')
 user_agreeCgu = custom_fields_dict.get('agreeCgu', '')
 
 display_form = False
-if not all([user_firstname, user_lastname, user_school, user_agreeCgu, user_status]):
+if not all([user_firstname, user_lastname, user_referent, user_agreeCgu, user_status]):
     display_form = True
 %>
 <!--
@@ -216,8 +216,9 @@ startButton[0].classList.add("disabled-link")
   
   
     <label for="status">Statut : <span class="required_field">*</span></label>
-    <select id="status" name="status">
+    <select id="status" name="status" onchange="evalStatus('status')">
         <option value="learner" ${'selected' if user_status == 'learner' else ''}>Apprenant</option>
+        <option value="teacher" ${'selected' if user_status == 'teacher' else ''}>Enseignant</option>
         <option value="instructor" ${'selected' if user_status == 'instructor' else ''}>Formateur</option>
         <option value="applicant" ${'selected' if user_status == 'applicant' else ''}>Demandeur d'emploi</option>
         <option value="retraining" ${'selected' if user_status == 'retraining' else ''}>Salarié en reconversion</option>
@@ -226,7 +227,7 @@ startButton[0].classList.add("disabled-link")
     </div>
 
     <div class="formsection">
-    <label for="schoolregion ">Sélectionnez la région :</label>
+    <label id="schoolregionLabel"  for="schoolregion ">Sélectionnez la région :</label>
     <select id="schoolregion" name="schoolregion" onchange="updateSchools('schoolregionselect')">
 
         % for region in schools.keys():
@@ -293,7 +294,7 @@ startButton[0].classList.add("disabled-link")
 </form>
 
 <script>
-console.clear()
+//console.clear()
 var schoolData = ${ json.dumps(schools) | n};
 var formationsData = ${ json.dumps(formations) | n};
 
@@ -304,8 +305,16 @@ var diplomalevelSelect = document.getElementById('diplomalevel');
 var formationSelect = document.getElementById('formation');
 var classSelect = document.getElementById('class');
 var yearSelect = document.getElementById('year');
+var statusSelect = document.getElementById('status');
 
+var regionLabel = document.getElementById('schoolregionLabel');
+var schoolLabel = document.getElementById('schoolLabel');
+var diplomalevelLabel = document.getElementById('diplomalevelLabel');
+var formationLabel = document.getElementById('formationLabel');
+var classLabel = document.getElementById('classLabel');
+var yearLabel = document.getElementById('yearLabel');
 
+var eligible = true
 schoolSelect.disabled = true;
 diplomalevelSelect.disabled = true;
 formationSelect.disabled = true;
@@ -340,7 +349,7 @@ User has selected a school region
 Display available schools for this region
 */
 function updateSchools(origin="none") {
-    console.clear()
+    //console.clear()
     originLogger("updateSchools",origin)
 
     // Clear current school options
@@ -468,7 +477,7 @@ Display available schools for this region
 function updateDiplomalevel(origin="none") {
     originLogger("updateDiplomalevel",origin)
 
-    console.clear()
+    //console.clear()
     console.log("------------------")
     console.log("%cUpdate Diplomalevel", "color: green")
 
@@ -680,6 +689,49 @@ function updateYears(origin="none") {
 }
 
 
+function evalStatus(origin="none")
+{
+    originLogger("evalStatus",origin)
+    let cur_status = statusSelect.value
+
+    if(cur_status == 'learner' || cur_status == 'teacher')
+    {
+        eligible = true;
+        
+        schoolSelect.hidden = false
+        diplomalevelSelect.hidden = false
+        formationSelect.hidden = false
+        classSelect.hidden = false
+        yearSelect.hidden = false
+        
+        schoolLabel.hidden = false
+        diplomalevelLabel.hidden = false
+        formationLabel.hidden = false
+        classLabel.hidden = false
+        yearLabel.hidden = false
+
+
+    }else
+    {
+        eligible = false;
+        // hide
+        schoolSelect.hidden = true
+        diplomalevelSelect.hidden = true
+        formationSelect.hidden = true
+        classSelect.hidden = true
+        yearSelect.hidden = true
+        
+        schoolLabel.hidden = true
+        diplomalevelLabel.hidden = true
+        formationLabel.hidden = true
+        classLabel.hidden = true
+        yearLabel.hidden = true
+    }
+
+}
+
+
+
 // Prevent useless dropdown, ran at every form selection
 function evalOptionsAmount(origin="none")
 {
@@ -733,7 +785,8 @@ function makeFieldsNotRequired() {
 
 async function performSubmit(request,data) {
     event.preventDefault();
-
+    console.log("SUBMIT")
+    console.log(eligible)
     const settings = {
         method: "POST",
         headers: {
@@ -802,8 +855,13 @@ form.addEventListener("submit", function(event) {
 })
 
 // STARTUP 
+console.log("STARTUP")
 updateSchools("startup")
+evalStatus("startup");
 </script>
+
+
+
 
 %else :
 
