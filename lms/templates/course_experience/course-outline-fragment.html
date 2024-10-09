@@ -104,9 +104,13 @@ user_year = custom_fields_dict.get('year',None)
 user_diplomalvl = custom_fields_dict.get('diplomalvl',None)
 user_referent = custom_fields_dict.get('referent','')
 user_agreeCgu = custom_fields_dict.get('agreeCgu', '')
+user_update_marker = custom_fields_dict.get('update_marker', 0)
 
 display_form = False
 if not all([user_firstname, user_lastname, user_referent, user_agreeCgu, user_status]):
+    display_form = True
+# manual update marker ( safer than unix time for debug)
+if user_update_marker < 1:
     display_form = True
 %>
 <!--
