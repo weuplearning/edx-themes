@@ -118,8 +118,20 @@
 
         $('#register-email-required-label').text('Email (professionnel)');
 
-    
+        $('#register-name').val('anonyme')
+
+        let a = (Math.random() + 1).toString(36).substring(7);
+        let b = (Math.random() + 1).toString(36).substring(7);
+
+        $('#register-username').val('anonyme-' + a + b);
+
+      
+
     }, 500);
 
-
+    setTimeout(() => {
+      // hide
+      $('.form-field.text-username').css('display', 'none');
+      $('.form-field.text-name').css('display', 'none');
+    }, 100);
 </script>
