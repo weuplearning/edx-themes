@@ -228,6 +228,12 @@ startButton[0].classList.add("disabled-link")
         <option value="retraining" ${'selected' if user_status == 'retraining' else ''}>Salarié en reconversion</option>
         <option value="other" ${'selected' if user_status == 'other' else ''}>Autre</option>
     </select>
+
+    <label id="structureLabel" for="structure">Précisez (entreprise, organisme, fonction, etc.. ) : </label>
+    <input type="text" id="structure" name="structure"  value="${user_structure}" >
+  
+
+
     </div>
 
     <div class="formsection">
@@ -319,6 +325,11 @@ var classLabel = document.getElementById('classLabel');
 var yearLabel = document.getElementById('yearLabel');
 
 var eligible = true
+
+var structureLabel = document.getElementById('structureLabel');
+var structure = document.getElementById('structure');
+
+
 schoolSelect.disabled = true;
 diplomalevelSelect.disabled = true;
 formationSelect.disabled = true;
@@ -714,6 +725,10 @@ function evalStatus(origin="none")
         classLabel.hidden = false
         yearLabel.hidden = false
 
+        // show extra info field
+        structure.hidden = true;
+        structureLabel.hidden = true;
+
 
     }else
     {
@@ -730,6 +745,11 @@ function evalStatus(origin="none")
         formationLabel.hidden = true
         classLabel.hidden = true
         yearLabel.hidden = true
+
+        // show extra info field
+        structure.hidden = false;
+        structureLabel.hidden = false;
+
     }
 
 }
@@ -815,6 +835,8 @@ form.addEventListener("submit", function(event) {
     const lastName = document.getElementById("lastName").value;
 
     const status = document.getElementById("status").value;
+    const structure = document.getElementById("structure").value;
+
     const schoolregion = document.getElementById("schoolregion").value;
 
     const school = document.getElementById("school").value;
@@ -829,6 +851,7 @@ form.addEventListener("submit", function(event) {
         first_name: firstName,
         last_name: lastName,
         status: status,
+        structure: structure,
         schoolregion: schoolregion ,
         school: school,
         diplomalvl: diplomalvl,
