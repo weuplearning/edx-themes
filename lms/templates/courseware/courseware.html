@@ -36,8 +36,14 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
       max-width: none !important;
     }
   }
+% if str(course.id) == "course-v1:umn+tp+2024" :
+  .sequence-nav-button {
+    display: none !important;
+  }
+% endif 
 
 </style>
+
 
 % if display_reset_dates_banner:
     <script type="text/javascript">
