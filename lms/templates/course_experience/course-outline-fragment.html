@@ -105,14 +105,16 @@ if csv_data :
                             % if graded and scored and 'special_exam_info' not in subsection:
                                 <span class="icon fa fa-pencil-square-o" aria-hidden="true"></span>
                             % endif
+
                                 <h4 class="subsection-title"> ${ subsection['display_name'] }</h4>
 
-                            % if subsection.get('complete') or (subsection['display_name'].find('Minha lição ')!=-1 and csv_grade_index+1 < len(csv_user_grade) and float(csv_user_grade[csv_grade_index]) >= 0.7):
+                            % if subsection.get('complete') or (subsection['display_name'].find('Minha lição ')!=-1 and csv_grade_index+1 < len(csv_user_grade) and float(csv_user_grade[csv_grade_index])>=0.7):
                                 <% csv_grade_index += 1 %>
                                 <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
                                 <span class="sr">${_("Completed")}</span>
-                            %elif subsection['display_name'].find('Minha lição ')!=-1 :
+                            %elif subsection['display_name'].find('Minha lição ')!=-1 or subsection['display_name'].find('Point de contrôle')!=-1 :
                                 <% csv_grade_index += 1 %>
+                                <span class="complete-checkmark fa fa-check hidden" aria-hidden="true"></span>
                             % endif
 
                             % if needs_prereqs:
@@ -145,46 +147,45 @@ if csv_data :
                     data_datetime = subsection.get('due')
                 %>
                 % if subsection.get('format') or 'special_exam_info' in subsection:
-                                            <span class="subtitle">
+                                    <span class="subtitle">
                     % if 'special_exam_info' in subsection:
-                                                    ## Display the exam status icon and status message
-                                                    <span
-                                                        class="menu-icon icon fa ${subsection['special_exam_info'].get('suggested_icon', 'fa-pencil-square-o')} ${subsection['special_exam_info'].get('status', 'eligible')}"
-                                                        aria-hidden="true"
-                                                    ></span>
-                                                    <span class="subtitle-name">
-                                                        ${subsection['special_exam_info'].get('short_description', '')}
-                                                    </span>
+                                        <span
+                                            class="menu-icon icon fa ${subsection['special_exam_info'].get('suggested_icon', 'fa-pencil-square-o')} ${subsection['special_exam_info'].get('status', 'eligible')}"
+                                            aria-hidden="true"
+                                        ></span>
+                                        <span class="subtitle-name">
+                                            ${subsection['special_exam_info'].get('short_description', '')}
+                                        </span>
 
                         ## completed exam statuses should not show the due date
                         ## since the exam has already been submitted by the user
                         % if not subsection['special_exam_info'].get('in_completed_state', False):
-                                                        <span
-                                                            class="localized-datetime subtitle-name"
-                                                            data-datetime="${data_datetime}"
-                                                            data-string="${data_string}"
-                                                            data-timezone="${user_timezone}"
-                                                            data-language="${user_language}"
-                                                        ></span>
+                                        <span
+                                            class="localized-datetime subtitle-name"
+                                            data-datetime="${data_datetime}"
+                                            data-string="${data_string}"
+                                            data-timezone="${user_timezone}"
+                                            data-language="${user_language}"
+                                        ></span>
                         % endif
                     % else:
-                                                    ## non-graded section, we just show the exam format and the due date
-                                                    ## this is the standard case in edx-platform
-                                                    <span
-                                                        class="localized-datetime subtitle-name"
-                                                        data-datetime="${data_datetime}"
-                                                        data-string="${data_string}"
-                                                        data-timezone="${user_timezone}"
-                                                        data-language="${user_language}"
-                                                    ></span>
+                                        ## non-graded section, we just show the exam format and the due date
+                                        ## this is the standard case in edx-platform
+                                        <span
+                                            class="localized-datetime subtitle-name"
+                                            data-datetime="${data_datetime}"
+                                            data-string="${data_string}"
+                                            data-timezone="${user_timezone}"
+                                            data-language="${user_language}"
+                                        ></span>
 
                         % if subsection.get('graded'):
-                                                <span class="sr">&nbsp;${_("This content is graded")}</span>
+                                        <span class="sr">&nbsp;${_("This content is graded")}</span>
                         % endif
                     % endif
-                                            </span>
+                                    </span>
                 % endif
-                                        </div> <!-- /details -->
+                                </div> <!-- /details -->
                             </a>
                         </li>
             % endfor

@@ -59,6 +59,7 @@ GradeCsvCompar = json.loads(CsvComparData.content.decode('utf-8'))
 
 %if str(course.id) in course_with_csv_data :
 <script>
+    // Grades on the right panel
     let stringData = '${csv_user_grade}'
     let listData = JSON.parse(stringData.replace(/&#39;/g, '"'));
     let jsonList = listData.map(item => item === "Not Attempted" ? 0 : item);
@@ -82,6 +83,7 @@ GradeCsvCompar = json.loads(CsvComparData.content.decode('utf-8'))
         try {
             grade = Math.round(ListeCsvCompar["global_grade"]*100)
         } catch (error) {
+            // user is not part of csv data
             grade = parseFloat('${csv_user_grade[0]}') *100
         }
 
@@ -109,10 +111,61 @@ GradeCsvCompar = json.loads(CsvComparData.content.decode('utf-8'))
             j+=1
         }
     }, 500); 
+
 </script>
+<script>
+    // Checkmark on left side pannel
+
+    let ListeCsvComparBis = JSON.parse(stringDataCsvCompar);
+    const subsections = document.getElementsByClassName('subsection-text');
+    
+    setTimeout(() => {
+        try {
+            // user is not in CSV data
+            j = 1
+            for (let index = 0; index < ListeCsvComparBis["grade_summary"]["section_breakdown"].length; index++) {
+                const element = ListeCsvComparBis["grade_summary"]["section_breakdown"][index];
+
+                if (element["percent"] >= 0.7) {
+                    if (subsections[j] && subsections[j].children[1]) {
+                        var targetted_section = subsections[j].children[1];
+                        targetted_section.classList.remove("hidden");
+                    }
+                }
+
+                if (j<29) {
+                    j+=2
+                } else {
+                    j = 2
+                }
+            }
+        } catch (error) {
+            // user is in CSV data
+            j = 1
+            for (let index = 0; index < ListeCsvComparBis["section_grades"].length; index++) {
+                const element = ListeCsvComparBis["section_grades"][index];
+
+                if (Number(element) >= 0.7) {
+                    if (subsections[j] && subsections[j].children[1]) {
+                        var targetted_section = subsections[j].children[1];
+                        targetted_section.classList.remove("hidden");
+                    }
+                }
+
+                if (j<29) {
+                    j+=2
+                } else {
+                    j = 2
+                }
+            }
+        }
+    }, 500);
+</script>
+
 
 %elif str(course.id) == "course-v1:af-brasil+OFM+01" :
 <script>
+    // Grades on the right panel
     let stringData = '${csv_user_grade}'
     let listData = JSON.parse(stringData.replace(/&#39;/g, '"'));
     let jsonList = listData.map(item => item === "Not Attempted" ? 0 : item);
@@ -125,7 +178,8 @@ GradeCsvCompar = json.loads(CsvComparData.content.decode('utf-8'))
                                             .replace(/&#39;/g, '"');
 
     let ListeCsvCompar = JSON.parse(stringDataCsvCompar);
-
+    console.log('stringDataCsvCompar');
+    console.log(stringDataCsvCompar);
 
     setTimeout(() => {
 
@@ -134,9 +188,9 @@ GradeCsvCompar = json.loads(CsvComparData.content.decode('utf-8'))
         try {
             grade = Math.round(ListeCsvCompar["global_grade"]*100)
         } catch (error) {
+            // user is not part of csv data
             grade = parseFloat('${csv_user_grade[0]}') *100
         }
-
 
         check_grade = target[0].children[0].children[2].innerText
         check_grade_value = check_grade.split('%')[0]
@@ -146,12 +200,9 @@ GradeCsvCompar = json.loads(CsvComparData.content.decode('utf-8'))
             target[0].children[1].children[0].style.width = grade+'%';
         }
 
-        
-
         // Section grades
         let j=3 //pass "Bonjour !" and "lecon 0" section
         for (let i = 0; i < jsonList.length; i+=1) {
-            
             var grade_section = Math.floor((parseFloat(jsonList[i+1])) *100);
             var section_target = target[j]
             var check_grade_section = section_target.children[0].children[2].innerText.split('%')[0]
@@ -163,6 +214,56 @@ GradeCsvCompar = json.loads(CsvComparData.content.decode('utf-8'))
             j+=1
         }
     }, 500); 
+
+
+</script>
+<script>
+    // Checkmark on left side pannel
+
+    let ListeCsvComparBis = JSON.parse(stringDataCsvCompar);
+    const subsections = document.getElementsByClassName('subsection-text');
+    j=10
+
+    setTimeout(() => {
+
+        try {
+            // user is not in csv data 
+            for (let index = 0; index < ListeCsvComparBis["grade_summary"]["section_breakdown"].length; index++) {
+                const element = ListeCsvComparBis["grade_summary"]["section_breakdown"][index];
+
+                if (element["percent"] >= 0.7) {
+                    if (subsections[j] && subsections[j].children[2]) {
+                        var targetted_section = subsections[j].children[2];
+                        targetted_section.classList.remove("hidden");
+                    }
+                }
+
+                if (j<22) {
+                    j+=8
+                } else {
+                    j+=7
+                }
+            }
+        } catch (error) {
+            // user is in csv data
+            for (let index = 0; index < ListeCsvComparBis["section_grades"].length; index++) {
+                const grade = ListeCsvComparBis["section_grades"][index];
+
+                if (Number(grade) >= 0.7) {
+                    if (subsections[j] && subsections[j].children[2]) {
+                        var targetted_section = subsections[j].children[2];
+                        targetted_section.classList.remove("hidden");
+                    }
+                }
+
+                if (j<22) {
+                    j+=8
+                } else {
+                    j+=7
+                }
+            }
+        }
+    }, 500);
 </script>
 %endif
 
@@ -403,7 +504,9 @@ GradeCsvCompar = json.loads(CsvComparData.content.decode('utf-8'))
         height: 40px;
     }
 
-
+    .hidden {
+        display: none !important;
+    }
 
     @media screen and (max-width: 1024px) {
         .page-content .page-content-secondary { 
