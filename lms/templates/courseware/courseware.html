@@ -6,6 +6,7 @@
 import six
 import waffle
 import csv
+import json
 
 from django.conf import settings
 from django.urls import reverse
@@ -15,6 +16,9 @@ from lms.djangoapps.edxnotes.helpers import is_feature_enabled as is_edxnotes_en
 from openedx.core.djangolib.js_utils import js_escaped_string
 from openedx.core.djangolib.markup import HTML
 from openedx.features.course_experience import course_home_page_title, DISABLE_COURSE_OUTLINE_PAGE_FLAG
+from opaque_keys.edx.locations import SlashSeparatedCourseKey
+from lms.djangoapps.wul_apps.certificates.certificate import certificate
+
 %>
 <%
    include_special_exams = (
@@ -45,8 +49,19 @@ if csv_data :
         if len(user_data)>1 and user.email == user_data[1] :
             csv_user_grade = user_data[3:-7]
 %>
+
+<%
+course_key = SlashSeparatedCourseKey.from_string(str(course.id))
+CsvComparData = certificate(course_key,user).grade_csv_and_user()
+GradeCsvCompar = json.loads(CsvComparData.content.decode('utf-8'))
+%>
+
 <script>
-  var $$data_user = '${csv_user_grade}'
+  let stringDataCsvCompar = '${GradeCsvCompar}'
+  stringDataCsvCompar = stringDataCsvCompar.replace(/ d&#39;/g, '\'').replace(/False/g, false).replace(/True/g, true).replace(/None/g, false).replace(/&#34;/g, '"').replace(/&#39;/g, '"');
+
+  // var $$data_user = '${csv_user_grade}'
+  var $$data_user = JSON.parse(stringDataCsvCompar);
 </script>
 
 <style>

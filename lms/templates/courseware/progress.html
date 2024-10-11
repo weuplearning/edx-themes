@@ -43,6 +43,7 @@ if csv_data :
 %>
 
 
+
 <%block name="bodyclass">view-in-course view-progress</%block>
 
 <%block name="headextra">
@@ -181,13 +182,13 @@ if csv_data :
                                             percentageString = "{0:.0%}".format(section.percent_graded) if total > 0 or earned > 0 else ""
 
                                             if section.display_name != "Bienvenue" and section.display_name != "É rapidinho! São só 3 minutos!" and section.display_name != "Obtenha seu certificado" and str(course.id) in course_with_badge_list_regular and csv_grade_index+1 < len(csv_user_grade)  :
-                                                if (float(csv_user_grade[csv_grade_index+1]) > section.graded_total.earned) :
+                                                if (float(csv_user_grade[csv_grade_index+1]) > earned) :
                                                     earned = float(csv_user_grade[csv_grade_index+1]) 
                                                     percentageString = "{0:.0%}".format(earned) 
 
 
                                             if section.display_name == "Point de contrôle" and str(course.id) in course_with_badge_list_militar and badge_section_OFM+1 < len(csv_user_grade)  :
-                                                if (float(csv_user_grade[badge_section_OFM+1]) > section.graded_total.earned) :
+                                                if (float(csv_user_grade[badge_section_OFM+1]) > earned) :
                                                     percent = float(csv_user_grade[badge_section_OFM+1]) 
                                                     percentageString = "{0:.0%}".format(percent) 
                                                     earned = int(percent * total)

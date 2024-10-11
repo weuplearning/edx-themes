@@ -60,9 +60,9 @@ GradeCsvCompar = json.loads(CsvComparData.content.decode('utf-8'))
 %if str(course.id) in course_with_csv_data :
 <script>
     // Grades on the right panel
-    let stringData = '${csv_user_grade}'
-    let listData = JSON.parse(stringData.replace(/&#39;/g, '"'));
-    let jsonList = listData.map(item => item === "Not Attempted" ? 0 : item);
+    // let stringData = '${csv_user_grade}'
+    // let listData = JSON.parse(stringData.replace(/&#39;/g, '"'));
+    // let jsonList = listData.map(item => item === "Not Attempted" ? 0 : item);
     let stringDataCsvCompar = '${GradeCsvCompar}'
     stringDataCsvCompar = stringDataCsvCompar.replace(/ d&#39;/g, '\'')
                                             .replace(/False/g, false)
@@ -75,6 +75,7 @@ GradeCsvCompar = json.loads(CsvComparData.content.decode('utf-8'))
 
     console.log("ListeCsvCompar");
     console.log(ListeCsvCompar);
+    
 
     setTimeout(() => {
 
@@ -98,9 +99,10 @@ GradeCsvCompar = json.loads(CsvComparData.content.decode('utf-8'))
 
         // Section grades
         let j=2 //pass "Bonjour !" section
-        for (let i = 0; i < jsonList.length; i+=2) {
+        for (let i = 0; i < ListeCsvCompar['section_grades'].length; i+=2) {
+           
+            var grade_section = Math.floor((parseFloat(ListeCsvCompar['section_grades'][i]) + parseFloat(ListeCsvCompar['section_grades'][i+1])) *50);
             
-            var grade_section = Math.floor((parseFloat(jsonList[i+1]) + parseFloat(jsonList[i+2])) *50);
             var section_target = target[j]
             var check_grade_section = section_target.children[0].children[2].innerText.split('%')[0]
             
@@ -144,7 +146,7 @@ GradeCsvCompar = json.loads(CsvComparData.content.decode('utf-8'))
             j = 1
             for (let index = 0; index < ListeCsvComparBis["section_grades"].length; index++) {
                 const element = ListeCsvComparBis["section_grades"][index];
-
+                
                 if (Number(element) >= 0.7) {
                     if (subsections[j] && subsections[j].children[1]) {
                         var targetted_section = subsections[j].children[1];
@@ -152,11 +154,7 @@ GradeCsvCompar = json.loads(CsvComparData.content.decode('utf-8'))
                     }
                 }
 
-                if (j<29) {
-                    j+=2
-                } else {
-                    j = 2
-                }
+                j+=1
             }
         }
     }, 500);
@@ -166,9 +164,9 @@ GradeCsvCompar = json.loads(CsvComparData.content.decode('utf-8'))
 %elif str(course.id) == "course-v1:af-brasil+OFM+01" :
 <script>
     // Grades on the right panel
-    let stringData = '${csv_user_grade}'
-    let listData = JSON.parse(stringData.replace(/&#39;/g, '"'));
-    let jsonList = listData.map(item => item === "Not Attempted" ? 0 : item);
+    // let stringData = '${csv_user_grade}'
+    // let listData = JSON.parse(stringData.replace(/&#39;/g, '"'));
+    // let jsonList = listData.map(item => item === "Not Attempted" ? 0 : item);
     let stringDataCsvCompar = '${GradeCsvCompar}'
     stringDataCsvCompar = stringDataCsvCompar.replace(/ d&#39;/g, '\'')
                                             .replace(/False/g, false)
@@ -202,8 +200,8 @@ GradeCsvCompar = json.loads(CsvComparData.content.decode('utf-8'))
 
         // Section grades
         let j=3 //pass "Bonjour !" and "lecon 0" section
-        for (let i = 0; i < jsonList.length; i+=1) {
-            var grade_section = Math.floor((parseFloat(jsonList[i+1])) *100);
+        for (let i = 0; i < ListeCsvCompar['section_grades'].length; i+=1) {
+            var grade_section = Math.floor((parseFloat(ListeCsvCompar['section_grades'][i])) *100);
             var section_target = target[j]
             var check_grade_section = section_target.children[0].children[2].innerText.split('%')[0]
             
@@ -256,11 +254,12 @@ GradeCsvCompar = json.loads(CsvComparData.content.decode('utf-8'))
                     }
                 }
 
-                if (j<22) {
-                    j+=8
-                } else {
-                    j+=7
-                }
+                j+=1
+                // if (j<22) {
+                //     j+=8
+                // } else {
+                //     j+=7
+                // }
             }
         }
     }, 500);
