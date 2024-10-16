@@ -66,14 +66,33 @@ for course_id in course_ids:
 
     course_data = {}
 
+
+
     for i in range(len(course_enrollments)):
         user = course_enrollments[i].user
         user_data = {}
         enrollment = course_enrollments[i]
 
-        # if str(user.email).find('@yopmail') != -1 or str(user.email).find('@weuplearning') != -1 or str(user.email).find('@themoocagency') != -1 :
-        #     continue
+        if str(user.email).find('@yopmail') != -1 or str(user.email).find('@weuplearning') != -1 or str(user.email).find('@themoocagency') != -1 :
+            continue
 
+
+
+        # TimeTracking
+        try:
+            wul_course_enrollment = WulCourseEnrollment.objects.get(course_enrollment_edx__user=user, course_enrollment_edx__course_id=course_key)
+
+            daily_time_tracking = json.loads(wul_course_enrollment.daily_time_tracking)
+            detailled_time_tracking = json.loads(wul_course_enrollment.detailed_time_tracking)
+
+        except:
+            # Pas besoin de traiter l'utilisateur 
+            continue
+
+
+
+
+        # Profile info
         not_found_str = 'n.a.'
 
         user_data["email"] = user.email
@@ -91,27 +110,6 @@ for course_id in course_ids:
 
 
 
-        # TimeTracking
-        try:
-            wul_course_enrollment = WulCourseEnrollment.objects.get(course_enrollment_edx__user=user, course_enrollment_edx__course_id=course_key)
-
-            daily_time_tracking = json.loads(wul_course_enrollment.daily_time_tracking)
-            detailled_time_tracking = json.loads(wul_course_enrollment.detailed_time_tracking)
-
-        except:
-            detailled_time_tracking = {}
-            daily_time_tracking = {}
-
-        if detailled_time_tracking == {}:
-            detailled_time_tracking = {
-                "e73e91fe60fc450789f0a5faf244143a" : 0,
-                "1939587bf96b484186bb524099cad8f5" : 0,
-                "d53973250d4f463d99e10bcaf7f0a95c" : 0,
-                "4a22fe0f40e94dfbaf6edd6d1250261c" : 0,
-                "ae38e833526c4779909f40ca4e8d24eb" : 0,
-                "8ee6bd2d4c2a488fab130ad36fe67156" : 0,
-                "a6bdc40c399b4c66ad869d216b0dc7ce" : 0,
-            }
 
 
 
@@ -134,8 +132,8 @@ for course_id in course_ids:
 
 
 
-# log.info('------------> Finish fetching user data and answers')
-# log.info('------------> Begin Calculate grades and write xlsx report')
+
+
 
 
 correspondance_section_tt = {
@@ -147,6 +145,7 @@ correspondance_section_tt = {
     "8ee6bd2d4c2a488fab130ad36fe67156" : "Présentation de l'outil de coordination régional",
     "a6bdc40c399b4c66ad869d216b0dc7ce" : "Conclusion",
 }
+
 
 # WRITE EXCEL AND SEND MAILS
 timestr = time.strftime("%Y_%m_%d")
@@ -182,22 +181,26 @@ for region in regions :
 
 
                 percent_global = str(user['grades']['global']) + '%'
-                sheet.cell(j, i+2, percent_global)
+                sheet.cell(j, i+3, percent_global)
 
                 log.info(user['tt_detailled'])
                 log.info(type(user['tt_detailled']))
 
-                for hash, seconds in user['tt_detailled'].items() : 
+                for id, section_name in correspondance_section_tt.items() : 
+                    for hash, seconds in user['tt_detailled'].items() : 
 
-                    log.info("hash and seconds")
-                    log.info(hash)
-                    log.info(seconds)
+                        log.info("hash and seconds")
+                        log.info(hash)
+                        log.info(seconds)
 
-                    for id, section_name in correspondance_section_tt.items() : 
                         if hash == id :
-                            sheet.cell(j, i+1, str(section_name) + " - " + str(round(seconds/60))+" min")
-                            j+=1
-                            continue
+                            sheet.cell(j, i+2, str(section_name) + " - " + str(round(seconds/60))+" min")
+                            break
+                        else:
+                            sheet.cell(j, i+2, str(section_name) + " - 0 min")
+                            break
+
+                    j+=1
 
 
                 log.info(j)
@@ -210,15 +213,17 @@ for region in regions :
                     log.info(day)
                     log.info(seconds)
 
-                    sheet.cell(j, i, str(day) + " : " + str(round(seconds/60,2))+" min")
+                    sheet.cell(j, i+1, str(day) + " : " + str(round(seconds/60))+" min")
                     j+=1
 
 
                 log.info("len(user['tt_daily'].items())")
                 log.info(len(user['tt_daily'].items()))
 
-
-                j += 2
+                if len(user['tt_daily'].items()) >= 7 :
+                    j+= 1
+                else : 
+                    j+= 8 - len(user['tt_daily'].items())  
 
     if j <=2 : 
         continue
@@ -290,22 +295,24 @@ for k, course_id in all_users_data.items():
 
 
         percent_global = str(user['grades']['global']) + '%'
-        sheet.cell(j, i+2, percent_global)
+        sheet.cell(j, i+3, percent_global)
 
         log.info(user['tt_detailled'])
         log.info(type(user['tt_detailled']))
 
-        for hash, seconds in user['tt_detailled'].items() : 
+        for id, section_name in correspondance_section_tt.items() : 
+            for hash, seconds in user['tt_detailled'].items() : 
 
-            log.info("hash and seconds")
-            log.info(hash)
-            log.info(seconds)
-
-            for id, section_name in correspondance_section_tt.items() : 
+                log.info("hash and seconds")
+                log.info(hash)
+                log.info(seconds)
                 if hash == id :
-                    sheet.cell(j, i+1, str(section_name) + " - " + str(round(seconds/60))+" min")
-                    j+=1
-                    continue
+                    sheet.cell(j, i+2, str(section_name) + " - " + str(round(seconds/60))+" min")
+                    break
+                else:
+                    sheet.cell(j, i+2, str(section_name) + " - 0 min")
+
+            j+=1
 
 
         log.info(j)
@@ -318,7 +325,7 @@ for k, course_id in all_users_data.items():
             log.info(day)
             log.info(seconds)
 
-            sheet.cell(j, i, str(day) + " : " + str(round(seconds/60,2))+" min")
+            sheet.cell(j, i+1, str(day) + " : " + str(round(seconds/60))+" min")
             j+=1
 
 
@@ -326,7 +333,10 @@ for k, course_id in all_users_data.items():
         log.info(len(user['tt_daily'].items()))
 
 
-        j += 2
+        if len(user['tt_daily'].items()) >= 7 :
+            j+= 1
+        else : 
+            j+= 8 - len(user['tt_daily'].items())  
 
 
 output = BytesIO()

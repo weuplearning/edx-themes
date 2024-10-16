@@ -74,10 +74,10 @@ for course_id in course_ids:
         if str(user.email).find('@yopmail') != -1 or str(user.email).find('@weuplearning') != -1 or str(user.email).find('@themoocagency') != -1 :
             continue
 
-
+        # Profile info
         not_found_str = 'n.a.'
 
-        user_data["email"] = json.loads(user.profile.custom_field).get('email',not_found_str)
+        user_data["email"] = user.email
         user_data["name"] = user.profile.name
         user_data["adress"] = json.loads(user.profile.custom_field).get('adress',not_found_str)
         user_data["post_code"] = json.loads(user.profile.custom_field).get('post_code',not_found_str)
@@ -87,8 +87,7 @@ for course_id in course_ids:
         user_data["parcours"] = json.loads(user.profile.custom_field).get('parcours',not_found_str)    
         user_data["profession"] = json.loads(user.profile.custom_field).get('profession',not_found_str)
         user_data["profession_autre"] = json.loads(user.profile.custom_field).get('profession_autre',not_found_str)
-        user_data["icope_emailing"] = 'Vrai' if json.loads(user.profile.custom_field)['icope_emailing'] == 'true' else 'Faux'
-
+        user_data["icope_emailing"] = 'Vrai' if json.loads(user.profile.custom_field).get('icope_emailing', 'false') == 'true' else 'Faux'
 
 
         # Grade
@@ -119,8 +118,8 @@ for course_id in course_ids:
 
     all_users_data[course_id]= course_data
 
-# log.info('------------> Finish fetching user data and answers')
-# log.info('------------> Begin Calculate grades and write xlsx report')
+
+
 
 
 # Différencier un rapport global et un rapport par région (se baser sur les CF ?) 
