@@ -27,10 +27,6 @@ from openpyxl import Workbook
 from openpyxl.styles import PatternFill, Font
 
 
-from datetime import datetime, date, timedelta
-from django.utils import timezone
-from dateutil import tz
-
 
 from opaque_keys.edx.locator import CourseLocator
 from common.djangoapps.student.models import CourseEnrollment
@@ -63,10 +59,7 @@ for course_id in course_ids:
     course = get_course_by_id(course_key)
     course_enrollments = CourseEnrollment.objects.filter(course_id=course_key)
     course_name = course.display_name_with_default
-
     course_data = {}
-
-
 
     for i in range(len(course_enrollments)):
         user = course_enrollments[i].user
@@ -81,20 +74,19 @@ for course_id in course_ids:
         # TimeTracking
         try:
             wul_course_enrollment = WulCourseEnrollment.objects.get(course_enrollment_edx__user=user, course_enrollment_edx__course_id=course_key)
-
             daily_time_tracking = json.loads(wul_course_enrollment.daily_time_tracking)
             detailled_time_tracking = json.loads(wul_course_enrollment.detailed_time_tracking)
-
         except:
             # Pas besoin de traiter l'utilisateur 
             continue
 
+        if daily_time_tracking == {} :
+            continue
 
 
 
         # Profile info
         not_found_str = 'n.a.'
-
         user_data["email"] = user.email
         user_data["name"] = user.profile.name
         user_data["adress"] = json.loads(user.profile.custom_field).get('adress',not_found_str)
@@ -106,10 +98,6 @@ for course_id in course_ids:
         user_data["profession"] = json.loads(user.profile.custom_field).get('profession',not_found_str)
         user_data["profession_autre"] = json.loads(user.profile.custom_field).get('profession_autre',not_found_str)
         # user_data["icope_emailing"] = 'Vrai' if json.loads(user.profile.custom_field).get('icope_emailing', 'false') == 'true' else 'Faux'
-
-
-
-
 
 
 
@@ -129,8 +117,6 @@ for course_id in course_ids:
         course_data[str(user.id)]= data
 
     all_users_data[course_id]= course_data
-
-
 
 
 
@@ -183,42 +169,25 @@ for region in regions :
                 percent_global = str(user['grades']['global']) + '%'
                 sheet.cell(j, i+3, percent_global)
 
-                log.info(user['tt_detailled'])
-                log.info(type(user['tt_detailled']))
 
                 for id, section_name in correspondance_section_tt.items() : 
                     for hash, seconds in user['tt_detailled'].items() : 
-
-                        log.info("hash and seconds")
-                        log.info(hash)
-                        log.info(seconds)
 
                         if hash == id :
                             sheet.cell(j, i+2, str(section_name) + " - " + str(round(seconds/60))+" min")
                             break
                         else:
                             sheet.cell(j, i+2, str(section_name) + " - 0 min")
-                            break
 
                     j+=1
 
-
-                log.info(j)
-                log.info(i)
                 j -= 7
 
 
                 for day, seconds in user['tt_daily'].items() : 
-                    log.info("day and seconds")
-                    log.info(day)
-                    log.info(seconds)
-
                     sheet.cell(j, i+1, str(day) + " : " + str(round(seconds/60))+" min")
                     j+=1
 
-
-                log.info("len(user['tt_daily'].items())")
-                log.info(len(user['tt_daily'].items()))
 
                 if len(user['tt_daily'].items()) >= 7 :
                     j+= 1
@@ -232,7 +201,7 @@ for region in regions :
     wb.save(output)
     _files_values = output.getvalue()
 
-    html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous trouverez en pièce jointe le rapport de note pour la région : "+ region +"<br/><br/>Bonne r&eacute;ception<br/>L'&eacute;quipe WeUp Learning</p></body></html>"
+    html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous trouverez en pièce jointe le rapport de temps passé pour la région : "+ region +"<br/><br/>Bonne r&eacute;ception<br/>L'&eacute;quipe WeUp Learning</p></body></html>"
 
     for email in emails:
 
@@ -297,15 +266,9 @@ for k, course_id in all_users_data.items():
         percent_global = str(user['grades']['global']) + '%'
         sheet.cell(j, i+3, percent_global)
 
-        log.info(user['tt_detailled'])
-        log.info(type(user['tt_detailled']))
-
         for id, section_name in correspondance_section_tt.items() : 
             for hash, seconds in user['tt_detailled'].items() : 
 
-                log.info("hash and seconds")
-                log.info(hash)
-                log.info(seconds)
                 if hash == id :
                     sheet.cell(j, i+2, str(section_name) + " - " + str(round(seconds/60))+" min")
                     break
@@ -315,22 +278,12 @@ for k, course_id in all_users_data.items():
             j+=1
 
 
-        log.info(j)
-        log.info(i)
         j -= 7
 
-
         for day, seconds in user['tt_daily'].items() : 
-            log.info("day and seconds")
-            log.info(day)
-            log.info(seconds)
 
             sheet.cell(j, i+1, str(day) + " : " + str(round(seconds/60))+" min")
             j+=1
-
-
-        log.info("len(user['tt_daily'].items())")
-        log.info(len(user['tt_daily'].items()))
 
 
         if len(user['tt_daily'].items()) >= 7 :
@@ -343,7 +296,7 @@ output = BytesIO()
 wb.save(output)
 _files_values = output.getvalue()
 
-html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous trouverez en pièce jointe le rapport de note regroupant toutes les régions <br/><br/>Bonne r&eacute;ception<br/>L'&eacute;quipe WeUp Learning</p></body></html>"
+html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous trouverez en pièce jointe le rapport de temps passé regroupant toutes les régions <br/><br/>Bonne r&eacute;ception<br/>L'&eacute;quipe WeUp Learning</p></body></html>"
 
 for email in emails:
 
