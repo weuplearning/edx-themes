@@ -27,16 +27,16 @@ from openpyxl import Workbook
 from openpyxl.styles import PatternFill, Font
 
 
-# from datetime import datetime, date, timedelta
-# from django.utils import timezone
-# from dateutil import tz
+from datetime import datetime, date, timedelta
+from django.utils import timezone
+from dateutil import tz
 
 
 from opaque_keys.edx.locator import CourseLocator
 from common.djangoapps.student.models import CourseEnrollment
 from lms.djangoapps.courseware.courses import get_course_by_id
 from lms.djangoapps.wul_apps.best_grade.helpers import check_best_grade
-
+from lms.djangoapps.wul_apps.models import WulCourseEnrollment
 
 import smtplib
 from email.mime.multipart import MIMEMultipart
@@ -56,7 +56,7 @@ regions = ["Auvergne-rhone-alpes","bourgogne-franche-comte","Bretagne","Centre-v
 
 
 all_users_data = {}
-headers = ['Email', 'Nom complet', 'Adresse', 'Code postal', 'Ville',  'Région', 'Département', 'Parcours', 'Profession', 'Profession si autre', 'Newsletter']
+headers = ['Email', 'Nom complet', 'Adresse', 'Code postal', 'Ville',  'Région', 'Département', 'Parcours', 'Profession', 'Profession si autre', 'Jour de connexion et temps', 'Temps passé par module', 'Progression']
 
 for course_id in course_ids:
     course_key = CourseLocator.from_string(course_id)
@@ -71,13 +71,12 @@ for course_id in course_ids:
         user_data = {}
         enrollment = course_enrollments[i]
 
-        if str(user.email).find('@yopmail') != -1 or str(user.email).find('@weuplearning') != -1 or str(user.email).find('@themoocagency') != -1 :
-            continue
-
+        # if str(user.email).find('@yopmail') != -1 or str(user.email).find('@weuplearning') != -1 or str(user.email).find('@themoocagency') != -1 :
+        #     continue
 
         not_found_str = 'n.a.'
 
-        user_data["email"] = json.loads(user.profile.custom_field).get('email',not_found_str)
+        user_data["email"] = user.email
         user_data["name"] = user.profile.name
         user_data["adress"] = json.loads(user.profile.custom_field).get('adress',not_found_str)
         user_data["post_code"] = json.loads(user.profile.custom_field).get('post_code',not_found_str)
@@ -87,47 +86,69 @@ for course_id in course_ids:
         user_data["parcours"] = json.loads(user.profile.custom_field).get('parcours',not_found_str)    
         user_data["profession"] = json.loads(user.profile.custom_field).get('profession',not_found_str)
         user_data["profession_autre"] = json.loads(user.profile.custom_field).get('profession_autre',not_found_str)
-        user_data["icope_emailing"] = 'Vrai' if json.loads(user.profile.custom_field)['icope_emailing'] == 'true' else 'Faux'
+        # user_data["icope_emailing"] = 'Vrai' if json.loads(user.profile.custom_field).get('icope_emailing', 'false') == 'true' else 'Faux'
+
+
+
+
+        # TimeTracking
+        try:
+            wul_course_enrollment = WulCourseEnrollment.objects.get(course_enrollment_edx__user=user, course_enrollment_edx__course_id=course_key)
+
+            daily_time_tracking = json.loads(wul_course_enrollment.daily_time_tracking)
+            detailled_time_tracking = json.loads(wul_course_enrollment.detailed_time_tracking)
+
+        except:
+            detailled_time_tracking = {}
+            daily_time_tracking = {}
+
+        if detailled_time_tracking == {}:
+            detailled_time_tracking = {
+                "e73e91fe60fc450789f0a5faf244143a" : 0,
+                "1939587bf96b484186bb524099cad8f5" : 0,
+                "d53973250d4f463d99e10bcaf7f0a95c" : 0,
+                "4a22fe0f40e94dfbaf6edd6d1250261c" : 0,
+                "ae38e833526c4779909f40ca4e8d24eb" : 0,
+                "8ee6bd2d4c2a488fab130ad36fe67156" : 0,
+                "a6bdc40c399b4c66ad869d216b0dc7ce" : 0,
+            }
 
 
 
         # Grade
         user_grade = {}
-        
         gradesTest = check_best_grade(user, course, force_best_grade=True)
-        user_grade['detailled'] = gradesTest.summary['section_breakdown']
-
-        # Only once
-        if len(headers) <= 14 : 
-            for section in gradesTest.summary['section_breakdown'] :
-                try : 
-                    section_name = section['detail'].split('-')[1]
-                except :
-                    section_name = section['detail'].split('=')[0]
-                headers.append(section_name)
-
-
         userPersentGrade = gradesTest.summary['percent']
+
         try:
             user_grade['global'] = round(userPersentGrade*100,2) 
         except:
             user_grade['global'] = 0
 
 
-        data = { "profil": user_data, "grades": user_grade }
+
+        data = { "profil": user_data, "grades": user_grade, "tt_detailled" : detailled_time_tracking, "tt_daily" :  daily_time_tracking}
         course_data[str(user.id)]= data
 
     all_users_data[course_id]= course_data
+
+
 
 # log.info('------------> Finish fetching user data and answers')
 # log.info('------------> Begin Calculate grades and write xlsx report')
 
 
-# Différencier un rapport global et un rapport par région (se baser sur les CF ?) 
-
+correspondance_section_tt = {
+    "e73e91fe60fc450789f0a5faf244143a" : "Introduction",
+    "1939587bf96b484186bb524099cad8f5" : "Etape 1 : Dépistage",
+    "d53973250d4f463d99e10bcaf7f0a95c" : "Etape 2 : Gestion des alertes",
+    "4a22fe0f40e94dfbaf6edd6d1250261c" : "Etape 2 : Evaluation approfondie",
+    "ae38e833526c4779909f40ca4e8d24eb" : "Cas clinique",
+    "8ee6bd2d4c2a488fab130ad36fe67156" : "Présentation de l'outil de coordination régional",
+    "a6bdc40c399b4c66ad869d216b0dc7ce" : "Conclusion",
+}
 
 # WRITE EXCEL AND SEND MAILS
-headers.append('Note finale')
 timestr = time.strftime("%Y_%m_%d")
 
 
@@ -140,34 +161,67 @@ for region in regions :
     filename = '/home/edxtma/csv/Icope_grade_report_{}_{}.xlsx'.format(timestr, region)
 
 
-    for i, header in enumerate(headers):
-        sheet.cell(1, i+1, header)
-        sheet.cell(1, i+1).fill = PatternFill("solid", fgColor="59C4C6")
-        sheet.cell(1, i+1).font = Font(b=False, color="FFFFFF")
-
-    j=2
+    j=1
     for k, course_id in all_users_data.items():
 
         for key, user in course_id.items():
 
             if user['profil']['region'] == region : 
 
+                for i, header in enumerate(headers):
+                    sheet.cell(j, i+1, header)
+                    sheet.cell(j, i+1).fill = PatternFill("solid", fgColor="6B9AAF")
+                    sheet.cell(j, i+1).font = Font(b=False, color="FFFFFF")
+
                 i=0
+                j+=1
+
                 for key, value in  user['profil'].items() : 
                     sheet.cell(j, i+1, value)
                     i+=1
 
-                for grade in user['grades']['detailled'] : 
-                    percent = str(round(grade["percent"]*100,2)) + '%'
-                    sheet.cell(j, i+1, percent)
-                    i+=1
 
                 percent_global = str(user['grades']['global']) + '%'
-                sheet.cell(j, i+1, percent_global)
+                sheet.cell(j, i+2, percent_global)
 
-                j += 1
+                log.info(user['tt_detailled'])
+                log.info(type(user['tt_detailled']))
+
+                for hash, seconds in user['tt_detailled'].items() : 
+
+                    log.info("hash and seconds")
+                    log.info(hash)
+                    log.info(seconds)
+
+                    for id, section_name in correspondance_section_tt.items() : 
+                        if hash == id :
+                            sheet.cell(j, i+1, str(section_name) + " - " + str(round(seconds/60))+" min")
+                            j+=1
+                            continue
 
 
+                log.info(j)
+                log.info(i)
+                j -= 7
+
+
+                for day, seconds in user['tt_daily'].items() : 
+                    log.info("day and seconds")
+                    log.info(day)
+                    log.info(seconds)
+
+                    sheet.cell(j, i, str(day) + " : " + str(round(seconds/60,2))+" min")
+                    j+=1
+
+
+                log.info("len(user['tt_daily'].items())")
+                log.info(len(user['tt_daily'].items()))
+
+
+                j += 2
+
+    if j <=2 : 
+        continue
 
     output = BytesIO()
     wb.save(output)
@@ -199,6 +253,7 @@ for region in regions :
         log.info('Email sent to '+str(email))
 
 
+    log.info('------------> Finish calculate grades and write xlsx report')
 
 
 
@@ -215,25 +270,63 @@ for i, header in enumerate(headers):
     sheet.cell(1, i+1).fill = PatternFill("solid", fgColor="59C4C6")
     sheet.cell(1, i+1).font = Font(b=False, color="FFFFFF")
 
-j=2
+j=1
 for k, course_id in all_users_data.items():
 
     for key, user in course_id.items():
 
+
+        for i, header in enumerate(headers):
+            sheet.cell(j, i+1, header)
+            sheet.cell(j, i+1).fill = PatternFill("solid", fgColor="6B9AAF")
+            sheet.cell(j, i+1).font = Font(b=False, color="FFFFFF")
+
         i=0
+        j+=1
+
         for key, value in  user['profil'].items() : 
             sheet.cell(j, i+1, value)
             i+=1
 
-        for grade in user['grades']['detailled'] : 
-            percent = str(round(grade["percent"]*100,2)) + '%'
-            sheet.cell(j, i+1, percent)
-            i+=1
 
         percent_global = str(user['grades']['global']) + '%'
-        sheet.cell(j, i+1, percent_global)
+        sheet.cell(j, i+2, percent_global)
 
-        j += 1
+        log.info(user['tt_detailled'])
+        log.info(type(user['tt_detailled']))
+
+        for hash, seconds in user['tt_detailled'].items() : 
+
+            log.info("hash and seconds")
+            log.info(hash)
+            log.info(seconds)
+
+            for id, section_name in correspondance_section_tt.items() : 
+                if hash == id :
+                    sheet.cell(j, i+1, str(section_name) + " - " + str(round(seconds/60))+" min")
+                    j+=1
+                    continue
+
+
+        log.info(j)
+        log.info(i)
+        j -= 7
+
+
+        for day, seconds in user['tt_daily'].items() : 
+            log.info("day and seconds")
+            log.info(day)
+            log.info(seconds)
+
+            sheet.cell(j, i, str(day) + " : " + str(round(seconds/60,2))+" min")
+            j+=1
+
+
+        log.info("len(user['tt_daily'].items())")
+        log.info(len(user['tt_daily'].items()))
+
+
+        j += 2
 
 
 output = BytesIO()
@@ -266,14 +359,16 @@ for email in emails:
     log.info('Email sent to '+str(email))
 
 
+log.info('------------> Finish calculate grades and write xlsx report')
+
 
 
 
 # Qualif
-# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/icope/lms/utils/grade_report_script.py 'cyril.adolf@weuplearning.com' course-v1:icope+1+2022
+# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/icope/lms/utils/detailled_time_tracking_report.py 'cyril.adolf@weuplearning.com' course-v1:icope+Occitanie+2022
 
 
 # Prod
-# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/icope/lms/utils/grade_report_script.py 'cyril.adolf@weuplearning.com' "course-v1:icope+Occitanie+2022;course-v1:icope+Centre_Val_de_Loire+2022;course-v1:icope+Corse+2022;course-v1:icope+La_Reunion+2022;course-v1:icope+Auvergne_Rhone_Alpes+2022;course-v1:icope+Pays_de_la_Loire+2022;course-v1:icope+PACA+2022;course-v1:icope+Grand_Est+2022;course-v1:icope+Nouvelle_Aquitaine+2022"
+# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/icope/lms/utils/detailled_time_tracking_report.py 'cyril.adolf@weuplearning.com' "course-v1:icope+Occitanie+2022;course-v1:icope+Centre_Val_de_Loire+2022;course-v1:icope+Corse+2022;course-v1:icope+La_Reunion+2022;course-v1:icope+Auvergne_Rhone_Alpes+2022;course-v1:icope+Pays_de_la_Loire+2022;course-v1:icope+PACA+2022;course-v1:icope+Grand_Est+2022;course-v1:icope+Nouvelle_Aquitaine+2022"
 
 
