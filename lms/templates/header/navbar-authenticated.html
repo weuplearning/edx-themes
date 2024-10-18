@@ -121,3 +121,9 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
   </div>
 </div>
 
+<script>
+var current_url = window.location.pathname 
+if (current_url.indexOf("/login")!= -1) {
+  window.location.replace('/dashboard')
+}
+</script>
