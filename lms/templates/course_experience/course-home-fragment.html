@@ -73,8 +73,6 @@ GradeCsvCompar = json.loads(CsvComparData.content.decode('utf-8'))
 
     let ListeCsvCompar = JSON.parse(stringDataCsvCompar);
 
-    console.log("ListeCsvCompar");
-    console.log(ListeCsvCompar);
     
 
     setTimeout(() => {
@@ -88,12 +86,20 @@ GradeCsvCompar = json.loads(CsvComparData.content.decode('utf-8'))
             grade = parseFloat('${csv_user_grade[0]}') *100
         }
 
-        check_grade = target[0].children[0].children[2].innerText
+        check_grade = target[0].children[0].children[3].innerText
         check_grade_value = check_grade.split('%')[0]
 
         if (grade > check_grade_value) {
-            target[0].children[0].children[2].innerText = grade+'%';
+            target[0].children[0].children[3].innerText = grade+'%';
             target[0].children[1].children[0].style.width = grade+'%';
+        }
+        
+        if (grade >= 70 || check_grade_value >= 70) {
+
+            let main_medal_on = target[0].children[0].children[0]
+            let main_medal_off = target[0].children[0].children[1]
+            main_medal_on.classList.remove("hidden")
+            main_medal_off.classList.add("hidden")
         }
 
 
@@ -104,12 +110,20 @@ GradeCsvCompar = json.loads(CsvComparData.content.decode('utf-8'))
             var grade_section = Math.floor((parseFloat(ListeCsvCompar['section_grades'][i]) + parseFloat(ListeCsvCompar['section_grades'][i+1])) *50);
             
             var section_target = target[j]
-            var check_grade_section = section_target.children[0].children[2].innerText.split('%')[0]
+            var check_grade_section = section_target.children[0].children[3].innerText.split('%')[0]
             
             if (grade_section > check_grade_section) {   
-                section_target.children[0].children[2].innerText = grade_section+'%'
+                section_target.children[0].children[3].innerText = grade_section+'%'
                 section_target.children[1].children[0].style.width = grade_section+'%'            
             }
+            
+            if (grade_section >= 70 || check_grade_section >= 70) {
+                let medal_on = section_target.children[0].children[0]
+                let medal_off = section_target.children[0].children[1]
+                medal_on.classList.remove("hidden")
+                medal_off.classList.add("hidden")
+            }
+
             j+=1
         }
     }, 500); 
@@ -159,6 +173,11 @@ GradeCsvCompar = json.loads(CsvComparData.content.decode('utf-8'))
         }
     }, 500);
 </script>
+<style>
+    #badges > div:nth-child(2), #badges > div:nth-child(18), #badges > div:nth-child(19) {
+        display: none;
+    }
+</style>
 
 
 %elif str(course.id) == "course-v1:af-brasil+OFM+01" :
@@ -176,8 +195,6 @@ GradeCsvCompar = json.loads(CsvComparData.content.decode('utf-8'))
                                             .replace(/&#39;/g, '"');
 
     let ListeCsvCompar = JSON.parse(stringDataCsvCompar);
-    console.log('stringDataCsvCompar');
-    console.log(stringDataCsvCompar);
 
     setTimeout(() => {
 
@@ -190,25 +207,40 @@ GradeCsvCompar = json.loads(CsvComparData.content.decode('utf-8'))
             grade = parseFloat('${csv_user_grade[0]}') *100
         }
 
-        check_grade = target[0].children[0].children[2].innerText
+        check_grade = target[0].children[0].children[3].innerText
         check_grade_value = check_grade.split('%')[0]
 
         if (grade > check_grade_value) {
-            target[0].children[0].children[2].innerText = grade+'%';
+            target[0].children[0].children[3].innerText = grade+'%';
             target[0].children[1].children[0].style.width = grade+'%';
         }
+        if (grade >= 70 || check_grade_value >= 70) {
+            let main_medal_on = target[0].children[0].children[0]
+            let main_medal_off = target[0].children[0].children[1]
+            medal_on.classList.remove("hidden")
+            medal_off.classList.add("hidden")
+        }
+
 
         // Section grades
         let j=3 //pass "Bonjour !" and "lecon 0" section
         for (let i = 0; i < ListeCsvCompar['section_grades'].length; i+=1) {
             var grade_section = Math.floor((parseFloat(ListeCsvCompar['section_grades'][i])) *100);
             var section_target = target[j]
-            var check_grade_section = section_target.children[0].children[2].innerText.split('%')[0]
+            var check_grade_section = section_target.children[0].children[3].innerText.split('%')[0]
             
             if (grade_section > check_grade_section) {   
-                section_target.children[0].children[2].innerText = grade_section+'%'
+                section_target.children[0].children[3].innerText = grade_section+'%'
                 section_target.children[1].children[0].style.width = grade_section+'%'            
             }
+
+            if (grade_section >= 70 || check_grade_section >= 70) {
+                let medal_on = section_target.children[0].children[0]
+                let medal_off = section_target.children[0].children[1]
+                medal_on.classList.remove("hidden")
+                medal_off.classList.add("hidden")
+            }
+
             j+=1
         }
     }, 500); 
@@ -264,6 +296,28 @@ GradeCsvCompar = json.loads(CsvComparData.content.decode('utf-8'))
         }
     }, 500);
 </script>
+<style>
+    #badges > div:nth-child(2), #badges > div:nth-child(3), #badges > div:nth-child(9) {
+        display: none;
+    }
+</style>
+%elif str(course.id) == "course-v1:af-brasil+PP+DEG" :
+<style>
+    #badges > div:nth-child(2) {
+        display: none;
+    }
+</style>
+%else : 
+<style>
+    .page-content-secondary {
+        display: none;
+    }
+    .page-content .page-content-main {
+        max-width: none !important;
+        margin: 0 10vw ;
+    }
+</style>
+
 %endif
 
 
@@ -707,7 +761,9 @@ GradeCsvCompar = json.loads(CsvComparData.content.decode('utf-8'))
                     <div class="grade-section-title">
                         %if user_grade.passed :
                             <img src="${static.url('images/medal_on.svg')}" class="main-badge"/>
+                            <img src="${static.url('images/medal_off.svg')}" class="main-badge hidden"/>
                         %else: 
+                            <img src="${static.url('images/medal_on.svg')}" class="main-badge hidden"/>
                             <img src="${static.url('images/medal_off.svg')}" class="main-badge"/>
                         %endif
                         <div style="text-transform: uppercase;">${course.display_name_with_default}</div>
@@ -763,20 +819,22 @@ GradeCsvCompar = json.loads(CsvComparData.content.decode('utf-8'))
 
                     %for index, chapter in enumerate(user_grade.chapter_grades.keys()):
 
-                            <div class="grade-block">
-                                <div class="grade-section-title">
-                                    %if user_grade.chapter_percentage(chapter) >= 0.7:
-                                        <img src="${static.url('images/medal_on.svg')}" class="small-badge"/>
-                                    %else: 
-                                        <img src="${static.url('images/medal_off.svg')}" class="small-badge"/>
-                                    %endif
-                                    <div class="chapter-title" >${user_grade.chapter_grades[chapter]['display_name']}</div>
-                                    <div class="grade-value">${int(user_grade.chapter_percentage(chapter) * 100)}%</div>
-                                </div>
-                                <div class="progress-bar-full">
-                                    <div style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade"></div>
-                                </div>                    
+                        <div class="grade-block">
+                            <div class="grade-section-title">
+                                %if user_grade.chapter_percentage(chapter) >= 0.7:
+                                    <img src="${static.url('images/medal_on.svg')}" class="small-badge"/>
+                                    <img src="${static.url('images/medal_off.svg')}" class="small-badge hidden"/>
+                                %else: 
+                                    <img src="${static.url('images/medal_on.svg')}" class="small-badge hidden"/>
+                                    <img src="${static.url('images/medal_off.svg')}" class="small-badge"/>
+                                %endif
+                                <div class="chapter-title" >${user_grade.chapter_grades[chapter]['display_name']}</div>
+                                <div class="grade-value">${int(user_grade.chapter_percentage(chapter) * 100)}%</div>
                             </div>
+                            <div class="progress-bar-full">
+                                <div style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade"></div>
+                            </div>                    
+                        </div>
                     %endfor
 
                  %endif
