@@ -1,0 +1,2 @@
+/edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/umn/lms/utils/grade_report_script.py 'theo.gicquel@weuplearning.com' 'course-v1:umn+test+test;course-v1:umn+pn+02'
+/edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/umn/lms/utils/grade_reports_ingenieur/script.py 'theo.gicquel@weuplearning.com' 'course-v1:umn+pi+01'
