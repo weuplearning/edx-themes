@@ -33,6 +33,7 @@ from lms.djangoapps.wul_apps.best_grade.helpers import check_best_grade
 from lms.djangoapps.wul_apps.models import WulCourseEnrollment
 
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+from openedx.core.djangoapps.course_groups.cohorts import get_cohort
 
 import smtplib
 from email.mime.multipart import MIMEMultipart
@@ -81,7 +82,7 @@ else  :
 HEADERS_USER.extend(HEADERS_SECTION)
 HEADERS_USER.append('Note globale (en %)')
 
-HEADERS_AFTER_SECTION = [u"Certificate date", u"Time tracking (min)", u"Days logged"]
+HEADERS_AFTER_SECTION = [u"Certificate date", u"Time tracking (min)", u"Days logged", u"Cohort"]
 HEADERS_USER.extend(HEADERS_AFTER_SECTION)
 
 HEADER = HEADERS_USER
@@ -151,7 +152,7 @@ for course_id in course_ids:
       user_data.append(user.last_login.strftime('%d/%m/%Y'))
     except :  
       user_data.append('n.a.')
-      
+
 
 
     # Grade  -  Il faut re-calculer la note pour prendre en compte l'historique des données 
@@ -201,9 +202,12 @@ for course_id in course_ids:
     time_tracking.append(global_time_tracking)
     time_tracking.append(days_logged)
 
+    # Cohort
+    cohort = get_cohort(user, course_key, assign=True, use_cached=False)
+    if not cohort :
+      cohort = 'n.a.'
 
-
-    data = { "general": user_data, "grade_section": UserGrade, "grade_global" :globalGradeStr, "certificate_date": certificate_date, "time_tracking" : time_tracking }
+    data = { "general": user_data, "grade_section": UserGrade, "grade_global" :globalGradeStr, "certificate_date": certificate_date, "time_tracking" : time_tracking, "cohort": cohort}
 
     course_data[str(user.id)] = data
 
@@ -260,6 +264,9 @@ for k, course_id in all_users_data.items():
     for i in range(len(user['time_tracking'])):
       sheet.cell(j, i+40, user['time_tracking'][i])
 
+    for i in range(len(user['cohort'])):
+      sheet.cell(j, i+42, user['cohort'][i])
+
     j += 1
 
 
@@ -312,5 +319,5 @@ log.info('------------> Finish calculate grades and write xlsx report')
 # pas de cours .... 
 
 # PROD
-# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/af-brazil/lms/utils/grade_report_script.py course-v1:af-brasil+PP+CPB 'cyril.adolf@weuplearning.com' 
+# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/af-brazil/lms/utils/grade_report_script.py course-v1:af-brasil+PP+2024 'cyril.adolf@weuplearning.com' 
 
