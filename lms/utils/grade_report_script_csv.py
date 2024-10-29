@@ -197,9 +197,9 @@ for course_id in course_ids:
     # Cohort
     cohort = get_cohort(user, course_key, assign=True, use_cached=False)
     if cohort :
-      cohort = 'n.a.'
-    else :
       cohort = str(cohort)
+    else :
+      cohort = 'n.a.'
 
 
 
