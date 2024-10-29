@@ -196,8 +196,10 @@ for course_id in course_ids:
 
     # Cohort
     cohort = get_cohort(user, course_key, assign=True, use_cached=False)
-    if not cohort :
+    if cohort :
       cohort = 'n.a.'
+    else :
+      cohort = str(cohort)
 
 
 
@@ -267,3 +269,6 @@ log.info('------------> Finish calculating grades and writing CSV report')
 # 0 */2 * * * /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/af-brazil/lms/utils/grade_report_script_csv.py course-v1:af-brasil+PP+TB
 
 # https://af-brazil.weup.in/wul_apps/csv_data_weup/course-v1:af-brasil+PP+CPB
+
+
+# /edx/var/edxapp/media/microsites/af-brazil/csv/course-v1:af-brasil+PP+TB/{timestr}_af-brasil_grade_report.csv

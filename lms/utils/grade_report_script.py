@@ -204,8 +204,10 @@ for course_id in course_ids:
 
     # Cohort
     cohort = get_cohort(user, course_key, assign=True, use_cached=False)
-    if not cohort :
+    if cohort :
       cohort = 'n.a.'
+    else :
+      cohort = str(cohort)
 
     data = { "general": user_data, "grade_section": UserGrade, "grade_global" :globalGradeStr, "certificate_date": certificate_date, "time_tracking" : time_tracking, "cohort": cohort}
 
