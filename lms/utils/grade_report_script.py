@@ -70,16 +70,7 @@ TECHNICAL_HEADER = list(HEADERS_FORM)
 UserGrade = ['CFL1','DFL1','CFL2','DFL2','CFL3','DFL3','CFL4','DFL4','CFL5','DFL5','CFL6','DFL6','CFL7','DFL7','CFL8','DFL8','CFL9','DFL9','CFL10','DFL10','CFL11','DFL11','CFL12','DFL12','CFL13','DFL13','CFL14','DFL14','CFL15','DFL15']
 
 
-if course_ids[0] == 'course-v1:af-brasil+PP+CPB' :
-  HEADERS_SECTION = ['Quiz Primeiros Passos', 'Quiz Destination Paris', 'Quiz Apresentações', 'Quiz Tour Eiffel & Champ de Mars', 'Quiz Família & Pets', 'Quiz Château de Versailles', 'Quiz Tempo', 'Quiz Stade de France', 'Quiz Festas & Tradições', 'Quiz Yvelines', 'Quiz Estudos', 'Quiz Seine-Saint-Denis', 'Quiz Trabalho', 'Quiz Paris La Défense Arena', 'Quiz Lazer', 'Quiz Stades en France', 'Quiz Saúde', 'Quiz Invalides & Pont d\'Iéna', 'Quiz Viagem', 'Quiz Arenas Paris Sud', 'Quiz Cidade', 'Quiz Ailleurs en France', 'Quiz Casa', 'Quiz La Concorde', 'Quiz Gastronomia', 'Quiz Arena Bercy', 'Quiz Moda', 'Quiz Grand Palais', 'Quiz DELF A1', 'Quiz Arena Porte de La Chapelle']
-
-elif course_ids[0] == 'course-v1:af-brasil+PP+CPB01' :
-  HEADERS_SECTION = ['Quiz Primeiros Passos', 'Quiz Destination Paris', 'Quiz Apresentações', 'Quiz Tour Eiffel & Champ de Mars', 'Quiz Família & Pets', 'Quiz Château de Versailles', 'Quiz Tempo', 'Quiz Stade de France', 'Quiz Festas & Tradições', 'Quiz Yvelines', 'Quiz Estudos', 'Quiz Seine-Saint-Denis', 'Quiz Trabalho', 'Quiz Paris La Défense Arena', 'Quiz Lazer', 'Quiz Stades en France', 'Quiz Saúde', 'Quiz Invalides & Pont d\'Iéna', 'Quiz Viagem', 'Quiz Arenas Paris Sud', 'Quiz Cidade', 'Quiz Ailleurs en France', 'Quiz Casa', 'Quiz La Concorde', 'Quiz Gastronomia', 'Quiz Arena Bercy', 'Quiz Moda', 'Quiz Grand Palais', 'Quiz DELF A1', 'Quiz Arena Porte de La Chapelle']
-
-elif course_ids[0] == 'course-v1:af-brasil+PP+TB' :
-  HEADERS_SECTION = ['Quiz Primeiros Passos', 'Quiz Destination Paris', 'Quiz Apresentações', 'Quiz Tour Eiffel & Champ de Mars', 'Quiz Família & Pets', 'Quiz Château de Versailles', 'Quiz Tempo', 'Quiz Stade de France', 'Quiz Festas & Tradições', 'Quiz Yvelines', 'Quiz Estudos', 'Quiz Seine-Saint-Denis', 'Quiz Trabalho', 'Quiz Paris La Défense Arena', 'Quiz Lazer', 'Quiz Stades en France', 'Quiz Saúde', 'Quiz Invalides & Pont d\'Iéna', 'Quiz Viagem', 'Quiz Arenas Paris Sud', 'Quiz Cidade', 'Quiz Ailleurs en France', 'Quiz Casa', 'Quiz La Concorde', 'Quiz Gastronomia', 'Quiz Arena Bercy', 'Quiz Moda', 'Quiz Grand Palais', 'Quiz DELF A1', 'Quiz Arena Porte de La Chapelle']
-
-elif course_ids[0] == 'course-v1:af-brasil+OFM+01' :
+if course_ids[0] == 'course-v1:af-brasil+OFM+01' :
   HEADERS_SECTION = ['Quiz Unité 1', 'Quiz Unité 2','Quiz Unité 3','Quiz Unité 4','Quiz Unité 5']
   UserGrade = ['QU1', 'QU2', 'QU3', 'QU4', 'QU5']
 
@@ -90,14 +81,12 @@ else  :
 HEADERS_USER.extend(HEADERS_SECTION)
 HEADERS_USER.append('Note globale (en %)')
 
-HEADERS_AFTER_SECTION = [u"Certificate date", u"Time tracking", u"Days logged"]
+HEADERS_AFTER_SECTION = [u"Certificate date", u"Time tracking (min)", u"Days logged"]
 HEADERS_USER.extend(HEADERS_AFTER_SECTION)
 
 HEADER = HEADERS_USER
 
-
 all_users_data = {}
-
 
 for course_id in course_ids:
 
@@ -120,29 +109,32 @@ for course_id in course_ids:
   course = get_course_by_id(course_key)
   course_enrollments = CourseEnrollment.objects.filter(course_id=course_key)
   course_name = course.display_name_with_default
-
   course_data = {}
+
 
   for i in range(len(course_enrollments)):
     user = course_enrollments[i].user
     user_data = []
     enrollment = course_enrollments[i]
-    
 
     user_CF_data = json.loads(user.profile.custom_field)
 
-    # if str(user.email).find('@yopmail') != -1 or str(user.email).find('@weuplearning') != -1 or str(user.email).find('@themoocagency') != -1 :
-    #   continue
+    if str(user.email).find('@yopmail') != -1 or str(user.email).find('@weuplearning') != -1 or str(user.email).find('@themoocagency') != -1 :
+      continue
 
-    user_data.append(user.profile.name)
+    fullname = user.profile.name
+    if fullname == '' :
+      fullname = user_CF_data.get('name', '')
+
+    user_data.append(fullname)
     user_data.append(user.email)
     user_data.append(user.username)
+
 
     try :
       certificate_date = user_CF_data["certificate_date_"+str(course_id.replace("-","_").replace(":","_").replace("+","_"))]
     except :
       certificate_date = 'n.a.'
-
 
     for key in TECHNICAL_HEADER :
       try :
@@ -150,10 +142,16 @@ for course_id in course_ids:
       except :
         user_data.append('n.a.')
 
+    try :
+      user_data.append(user.date_joined.strftime('%d/%m/%Y'))
+    except :  
+      user_data.append('n.a.')
 
-    user_data.append(user.date_joined.strftime('%d %b %y'))
-    user_data.append(user.last_login.strftime('%d %b %y'))
-
+    try :
+      user_data.append(user.last_login.strftime('%d/%m/%Y'))
+    except :  
+      user_data.append('n.a.')
+      
 
 
     # Grade  -  Il faut re-calculer la note pour prendre en compte l'historique des données 
@@ -190,13 +188,14 @@ for course_id in course_ids:
       globalGradeStr = '0%'
 
 
-    #TimeTracking
+    # TimeTracking
     try:
       wul_course_enrollment = WulCourseEnrollment.objects.get(course_enrollment_edx__user=user, course_enrollment_edx__course_id=course_key)
-      global_time_tracking = wul_course_enrollment.global_time_tracking
-      days_logged = wul_course_enrollment.detailed_time_tracking.count(',')+1
+      global_time_tracking = wul_course_enrollment.global_time_tracking // 60
+      days_logged = wul_course_enrollment.detailed_time_tracking.count(',')
     except:
       global_time_tracking = 0
+      days_logged = 0
 
     time_tracking = []
     time_tracking.append(global_time_tracking)
@@ -243,7 +242,7 @@ for i, header in enumerate(HEADER):
 j=2
 
 for k, course_id in all_users_data.items():
-  
+
   for key, user in course_id.items():
 
     for i in range(len(user['general'])):
@@ -314,6 +313,4 @@ log.info('------------> Finish calculate grades and write xlsx report')
 
 # PROD
 # /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/af-brazil/lms/utils/grade_report_script.py course-v1:af-brasil+PP+CPB 'cyril.adolf@weuplearning.com' 
-
-
 
