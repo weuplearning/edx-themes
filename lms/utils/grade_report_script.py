@@ -266,8 +266,7 @@ for k, course_id in all_users_data.items():
     for i in range(len(user['time_tracking'])):
       sheet.cell(j, i+40, user['time_tracking'][i])
 
-    for i in range(len(user['cohort'])):
-      sheet.cell(j, i+42, user['cohort'][i])
+    sheet.cell(j, i+42, user['cohort'])
 
     j += 1
 

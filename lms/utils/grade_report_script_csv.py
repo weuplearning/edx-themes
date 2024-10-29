@@ -209,7 +209,7 @@ for course_id in course_ids:
     data.append(globalGradeStr)
     data.append(certificate_date)
     data.extend(time_tracking)
-    data.extend(cohort)
+    data.append(cohort)
 
     # data = { "general": user_data, "grade_section": UserGrade, "grade_global" :globalGradeStr, "certificate_date": certificate_date, "time_tracking" : time_tracking }
 
