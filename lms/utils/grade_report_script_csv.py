@@ -60,7 +60,6 @@ TECHNICAL_HEADER = list(HEADERS_FORM)
 
 if course_ids[0] == 'course-v1:af-brasil+OFM+01' :
   HEADERS_SECTION = ['Quiz Unité 1', 'Quiz Unité 2', 'Quiz Unité 3', 'Quiz Unité 4', 'Quiz Unité 5']
-
 else :
   HEADERS_SECTION = ['Quiz Primeiros Passos', 'Quiz Destination Paris', 'Quiz Apresentações', 'Quiz Tour Eiffel & Champ de Mars', 'Quiz Família & Pets', 'Quiz Château de Versailles', 'Quiz Tempo', 'Quiz Stade de France', 'Quiz Festas & Tradições', 'Quiz Yvelines', 'Quiz Estudos', 'Quiz Seine-Saint-Denis', 'Quiz Trabalho', 'Quiz Paris La Défense Arena', 'Quiz Lazer', 'Quiz Stades en France', 'Quiz Saúde', 'Quiz Invalides & Pont d\'Iéna', 'Quiz Viagem', 'Quiz Arenas Paris Sud', 'Quiz Cidade', 'Quiz Ailleurs en France', 'Quiz Casa', 'Quiz La Concorde', 'Quiz Gastronomia', 'Quiz Arena Bercy', 'Quiz Moda', 'Quiz Grand Palais', 'Quiz DELF A1', 'Quiz Arena Porte de La Chapelle']
 
@@ -271,4 +270,7 @@ log.info('------------> Finish calculating grades and writing CSV report')
 # https://af-brazil.weup.in/wul_apps/csv_data_weup/course-v1:af-brasil+PP+CPB
 
 
-# /edx/var/edxapp/media/microsites/af-brazil/csv/course-v1:af-brasil+PP+TB/{timestr}_af-brasil_grade_report.csv
+# /edx/var/edxapp/media/microsites/af-brazil/csv/course-v1:af-brasil+PP+TB/2024_10_30_af-brasil_grade_report.csv
+
+# https://af-brazil.weup.in/media/microsites/af-brazil/csv/course-v1:af-brasil+PP+2024/2024_10_30_af-brasil_grade_report.csv
+# https://af-brazil.weup.in/media/microsites/af-brazil/csv/course-v1:af-brasil+OFM+01/2024_10_30_af-brasil_grade_report.csv

@@ -68,13 +68,9 @@ if register_form is not None:
 
 TECHNICAL_HEADER = list(HEADERS_FORM)
 
-UserGrade = ['CFL1','DFL1','CFL2','DFL2','CFL3','DFL3','CFL4','DFL4','CFL5','DFL5','CFL6','DFL6','CFL7','DFL7','CFL8','DFL8','CFL9','DFL9','CFL10','DFL10','CFL11','DFL11','CFL12','DFL12','CFL13','DFL13','CFL14','DFL14','CFL15','DFL15']
-
 
 if course_ids[0] == 'course-v1:af-brasil+OFM+01' :
   HEADERS_SECTION = ['Quiz Unité 1', 'Quiz Unité 2','Quiz Unité 3','Quiz Unité 4','Quiz Unité 5']
-  UserGrade = ['QU1', 'QU2', 'QU3', 'QU4', 'QU5']
-
 else  :
   HEADERS_SECTION = ['Quiz Primeiros Passos', 'Quiz Destination Paris', 'Quiz Apresentações', 'Quiz Tour Eiffel & Champ de Mars', 'Quiz Família & Pets', 'Quiz Château de Versailles', 'Quiz Tempo', 'Quiz Stade de France', 'Quiz Festas & Tradições', 'Quiz Yvelines', 'Quiz Estudos', 'Quiz Seine-Saint-Denis', 'Quiz Trabalho', 'Quiz Paris La Défense Arena', 'Quiz Lazer', 'Quiz Stades en France', 'Quiz Saúde', 'Quiz Invalides & Pont d\'Iéna', 'Quiz Viagem', 'Quiz Arenas Paris Sud', 'Quiz Cidade', 'Quiz Ailleurs en France', 'Quiz Casa', 'Quiz La Concorde', 'Quiz Gastronomia', 'Quiz Arena Bercy', 'Quiz Moda', 'Quiz Grand Palais', 'Quiz DELF A1', 'Quiz Arena Porte de La Chapelle']
 
@@ -117,6 +113,13 @@ for course_id in course_ids:
     user = course_enrollments[i].user
     user_data = []
     enrollment = course_enrollments[i]
+
+
+    UserGrade = ['CFL1', 'DFL1', 'CFL2', 'DFL2', 'CFL3', 'DFL3', 'CFL4', 'DFL4', 'CFL5', 'DFL5', 'CFL6', 'DFL6', 'CFL7', 'DFL7', 'CFL8', 'DFL8', 'CFL9', 'DFL9', 'CFL10', 'DFL10', 'CFL11', 'DFL11', 'CFL12', 'DFL12', 'CFL13', 'DFL13', 'CFL14', 'DFL14', 'CFL15', 'DFL15']
+
+    if course_ids[0] == 'course-v1:af-brasil+OFM+01' :
+      UserGrade = ['QU1', 'QU2', 'QU3', 'QU4', 'QU5']
+
 
     user_CF_data = json.loads(user.profile.custom_field)
 
@@ -246,29 +249,33 @@ for i, header in enumerate(HEADER):
 
 
 j=2
-
 for k, course_id in all_users_data.items():
 
   for key, user in course_id.items():
-
+    x=1
     for i in range(len(user['general'])):
       if user['general'][i] in correspondance_CF:
         sheet.cell(j, i+1, correspondance_CF[user['general'][i]])
       else :
         sheet.cell(j, i+1, user['general'][i])
+    x+=i
 
     for i in range(len(user['grade_section'])):
       sheet.cell(j, i+8, user['grade_section'][i])
+    x+=i+2
 
-    sheet.cell(j, i+9, user['grade_global'])
-    sheet.cell(j, i+10, user['certificate_date'])
+    sheet.cell(j, x, user['grade_global'])
+    sheet.cell(j, x+1, user['certificate_date'])
+    x+=2
 
     for i in range(len(user['time_tracking'])):
-      sheet.cell(j, i+40, user['time_tracking'][i])
+      sheet.cell(j, x+i, user['time_tracking'][i])
+    x+=2
 
-    sheet.cell(j, i+42, user['cohort'])
+    sheet.cell(j, x, user['cohort'])
 
     j += 1
+
 
 
 # SEND MAILS
@@ -321,4 +328,5 @@ log.info('------------> Finish calculate grades and write xlsx report')
 
 # PROD
 # /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/af-brazil/lms/utils/grade_report_script.py course-v1:af-brasil+PP+2024 'cyril.adolf@weuplearning.com' 
+# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/af-brazil/lms/utils/grade_report_script.py course-v1:af-brasil+OFM+01 'cyril.adolf@weuplearning.com' 
 
