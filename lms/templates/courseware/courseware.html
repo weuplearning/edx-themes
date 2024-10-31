@@ -28,6 +28,28 @@ from lms.djangoapps.wul_apps.certificates.certificate import certificate
    )
 %>
 
+<%
+custom_fields_dict = json.loads(request.user.profile.custom_field)
+try :
+    user_name = user.profile.name
+except :
+    user_name = custom_fields_dict.get('name', '')
+user_phone = custom_fields_dict.get('phone', '')
+user_agency = custom_fields_dict.get('agency', '')
+
+display_form = False
+if not all([user_name, user_phone, user_agency]):
+    display_form = True
+%>
+
+<script>
+setTimeout(() => {
+  if ('${display_form}' == 'True') {
+    location.replace(location.pathname.split('courseware')[0]+ 'course/')
+  }
+}, 500);
+</script>
+
 
 <%
 csv_file_path = '/edx/var/edxapp/media/microsites/af-brazil/data/' + str(course.id) +'.csv'

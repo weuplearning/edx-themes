@@ -28,6 +28,20 @@ dates_banner_displayed = False
 %>
 
 <%
+custom_fields_dict = json.loads(custom_fields)
+try :
+    user_name = user.profile.name
+except :
+    user_name = custom_fields_dict.get('name', '')
+user_phone = custom_fields_dict.get('phone', '')
+user_agency = custom_fields_dict.get('agency', '')
+
+display_form = False
+if not all([user_name, user_phone, user_agency]):
+    display_form = True
+%>
+
+<%
 csv_file_path = '/edx/var/edxapp/media/microsites/af-brazil/data/' + str(course.id) +'.csv'
 csv_data = False
 csv_user_grade = []
@@ -49,6 +63,135 @@ if csv_data :
             csv_user_grade = user_data[3:-7]
 
 %>
+
+
+
+<style>
+.content-wrapper {
+    min-height: calc(100vh - 284px);
+}
+#customFieldsForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin: 25px 0 0 0 ;
+    background-color: white;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+}
+
+#customFieldsForm label {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+#customFieldsForm input[type="text"] {
+    padding: 5px;
+    margin-bottom: 20px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 400px;
+}
+
+#customFieldsForm select {
+    padding: 5px;
+    margin-bottom: 20px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 400px;
+}
+
+#customFieldsForm button[type="submit"] {
+    background-color: #9d0d17;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+#customFieldsForm button[type="submit"]:hover {
+    color: black;
+}
+
+.disabled-link {
+  pointer-events: none;
+}
+.required_field {
+    color: red;
+}
+</style>
+
+
+
+% if display_form:
+
+<script>
+    let startButton = document.getElementsByClassName('action-resume-course')
+    startButton[0].classList.add("disabled-link")
+</script>
+
+<form id="customFieldsForm">
+
+    <p>Aliança Francesa Online está de cara nova! Por favor complete as informações abaixo para finalizar a sua inscrição na plataforma: </p>
+
+    <label for="name">Nome completo :<span class="required_field">*</span></label>
+    <input type="text" id="name" name="name" placeholder="Nome e sobrenome" onkeydown="if(event.keyCode==32) return false;" required><br>
+  
+    <label for="phone">Especifique seu número de telefone :<span class="required_field">*</span></label>
+    <input type="text" id="phone" name="phone" placeholder="1234 5678" onkeydown="if(event.keyCode==32) return false;" required><br>
+
+    <label for="agency">Selecione a Aliança Francesa mais próxima de seu domicílio :<span class="required_field">*</span></label>
+    <select id="agency" name="agency">
+        <option value="aracaju">ARACAJU</option>
+        <option value="belem">BELÈM</option>
+        <option value="belo_horizonte">BELO HORIZONTE</option>
+        <option value="blumenau_santa_catarina">BLUMENAU (Santa Catarina)</option>
+        <option value="brasilia">BRASÍLIA</option>
+        <option value="campinas">CAMPINAS</option>
+        <option value="campo_grande">CAMPO GRANDE</option>
+        <option value="curitiba_parana">CURITIBA (Paraná)</option>
+        <option value="florianopolis_santa_catarina">FLORIANÓPOLIS (Santa Catarina)</option>
+        <option value="fortaleza">FORTALEZA</option>
+        <option value="foz_do_iguacu_parana">FOZ DO IGUAÇU (Paraná)</option>
+        <option value="goiania">GOIÂNIA</option>
+        <option value="grande_abc_santo_andre">GRANDE ABC (SANTO ANDRÉ)</option>
+        <option value="joao_pessoa">JOÃO PESSOA</option>
+        <option value="joinville_santa_catarina">JOINVILLE (Santa Catarina)</option>
+        <option value="juiz_de_fora">JUIZ DE FORA</option>
+        <option value="londrina_parana">LONDRINA (Paraná)</option>
+        <option value="macae_centre_rattache">MACAÉ (CENTRE RATTACHE)</option>
+        <option value="maceio">MACEIÓ</option>
+        <option value="manaus">MANAUS</option>
+        <option value="natal">NATAL</option>
+        <option value="niteroi">NITERÓI</option>
+        <option value="ouro_preto_centre_rattache">OURO PRETO (CENTRE RATTACHE)</option>
+        <option value="porto_alegre_rio_grande_do_sul">PORTO ALEGRE (Rio Grande do Sul)</option>
+        <option value="recife">RECIFE</option>
+        <option value="ribeirao_preto">RIBEIRÃO PRETO</option>
+        <option value="rio_de_janeiro">RIO DE JANEIRO</option>
+        <option value="salvador">SALVADOR</option>
+        <option value="santos">SANTOS</option>
+        <option value="sao_carlos">SÃO CARLOS</option>
+        <option value="sao_goncalo">SÃO GONÇALO</option>
+        <option value="sao_jose_dos_campos">SÃO JOSÉ DOS CAMPOS</option>
+        <option value="sao_paulo">SÃO PAULO</option>
+        <option value="vitoria">VITÓRIA</option>
+    </select>
+    <br>
+
+  
+    <p><span class="required_field">*</span> campos obrigatórios</p>
+    <button type="submit">Enviar</button>
+</form>
+
+%else :
+
+
+
+
 
 
 <main role="main" class="course-outline" id="main" tabindex="-1">
@@ -193,6 +336,9 @@ if csv_data :
     % endif
 </main>
 
+% endif
+
+
 <%static:require_module_async module_name="js/dateutil_factory" class_name="DateUtilFactory">
     DateUtilFactory.transform('.localized-datetime');
 </%static:require_module_async>
@@ -200,3 +346,42 @@ if csv_data :
 <%static:webpack entry="CourseOutline">
     new CourseOutline();
 </%static:webpack>
+
+
+
+<script>
+const form = document.getElementById("customFieldsForm");
+
+form.addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  const name = document.getElementById("name").value;
+  const phone = document.getElementById("phone").value;
+  const agency = document.getElementById("agency").value;
+
+  const customFields = {
+    name: name,
+    phone: phone,
+    agency: agency,
+    authorized: true,
+  };
+
+    const url = '/wul_apps/custom_field_editor/';
+    const data = JSON.stringify(customFields);
+    const settings = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": $.cookie('csrftoken'),
+        },
+        body: data
+    };
+
+    fetch(url, settings)
+    .then(() => window.location.reload())
+    .catch((error) => console.error('Error:', error));
+
+
+});
+
+</script>
