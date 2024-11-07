@@ -182,7 +182,7 @@ for course_id in course_ids:
     # TimeTracking
     try:
       wul_course_enrollment = WulCourseEnrollment.objects.get(course_enrollment_edx__user=user, course_enrollment_edx__course_id=course_key)
-      global_time_tracking = str(wul_course_enrollment.global_time_tracking)
+      global_time_tracking = str(wul_course_enrollment.global_time_tracking // 60)
       days_logged = str(wul_course_enrollment.detailed_time_tracking.count(',')+1)
     except:
       global_time_tracking = "0"

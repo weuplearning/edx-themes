@@ -165,7 +165,7 @@ if csv_data :
                     %for chapter in courseware_summary:
                         <% 
                         badge_section = loop.index
-                        course_with_badge_list_regular = ["course-v1:af-brasil+PP+2024","course-v1:af-brasil+PP+CPB01","course-v1:af-brasil+PP+CPB","course-v1:af-brasil+PP+TB","course-v1:af-brazil+afbrazil-test+2024"]
+                        course_with_badge_list_regular = ["course-v1:af-brasil+PP+2024","course-v1:af-brasil+PP+CPB01","course-v1:af-brasil+PP+CPB","course-v1:af-brasil+PP+TB","course-v1:af-brazil+afbrazil-test+2024","course-v1:af-brasil+go+2024","course-v1:af-brasil+go+degustation"]
                         course_with_badge_list_militar = ["course-v1:af-brasil+OFM+01","course-v1:af-brazil+2+2024"]
                         %>
                         %if not chapter['display_name'] == "hidden":
@@ -181,7 +181,7 @@ if csv_data :
                                             total = section.graded_total.possible
                                             percentageString = "{0:.0%}".format(section.percent_graded) if total > 0 or earned > 0 else ""
 
-                                            if section.display_name != "Bienvenue" and section.display_name != "É rapidinho! São só 3 minutos!" and section.display_name != "Obtenha seu certificado" and str(course.id) in course_with_badge_list_regular and csv_grade_index+1 < len(csv_user_grade)  :
+                                            if section.display_name != "Bienvenue" and section.display_name != "É rapidinho! São só 3 minutos!" and section.display_name != "Obtenha seu certificado" and section.display_name != "Obtenha seu certificado 🏅" and section.display_name != "Bonjour 🤓" and section.display_name != "FAQ 💡" and str(course.id) in course_with_badge_list_regular and csv_grade_index+1 < len(csv_user_grade)  :
                                                 if (float(csv_user_grade[csv_grade_index+1]) > earned) :
                                                     earned = float(csv_user_grade[csv_grade_index+1]) 
                                                     percentageString = "{0:.0%}".format(earned) 
@@ -256,7 +256,7 @@ if csv_data :
                                         </div>
 
                         
-                                        %if section.display_name != "Bienvenue" and section.display_name != "É rapidinho! São só 3 minutos!" and section.display_name != "Obtenha seu certificado" and str(course.id) in course_with_badge_list_regular :
+                                        %if section.display_name != "Bienvenue" and section.display_name != "É rapidinho! São só 3 minutos!" and section.display_name != "Obtenha seu certificado" and section.display_name != "Obtenha seu certificado 🏅" and section.display_name != "Bonjour 🤓" and section.display_name != "FAQ 💡" and str(course.id) in course_with_badge_list_regular :
                                             <%
                                             earned = section.graded_total.earned
                                             total = section.graded_total.possible
