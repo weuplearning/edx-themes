@@ -58,9 +58,11 @@ import logging
 log = logging.getLogger()
 
 
+courses_str = "course-v1:amazon-it+export+az_01;course-v1:amazon-it+logistica_e_sostenibilita+az_02;course-v1:amazon-it+introduzione_e-commerce_vendita+az_03;course-v1:amazon-it+presenza_brand+az_04;course-v1:amazon-it+principi_di_gestione+az_05;course-v1:amazon-it+avvia_la_tua_attivita+az_06;course-v1:amazon-it+fondamenti_di_marketing+az_07;course-v1:amazon-it+strategie_di_marketing+az_08;course-v1:amazon-it+primi_passi_vendita_digitale+az_09;course-v1:amazon-it+vendite_online_internazionali+az_10;course-v1:amazon-it+basi_creazione_marchio+az_11;course-v1:amazon-it+basi_content_marketing+az_12;course-v1:amazon-it+introduzione_finanza_aziendale+az_13;course-v1:amazon-it+gestire_finanza_aziendale+az_14;course-v1:amazon-it+elementi_finanza_aziendale+az_15;course-v1:amazon-it+metriche_aziendali_importanza_cliente+az_16;course-v1:amazon-it+analizzare_propria_base_clienti+az_17;course-v1:amazon-it+creare_startup_vendere_online+az_18;course-v1:amazon-it+piano_sviluppo_attivita+az_19;course-v1:amazon-it+panoramica_operazioni_logistica_spedizione+az_20;course-v1:amazon-it+strategia_vendita_digitale+az_21;course-v1:amazon-it+definire_strategia_commerciale+az_22;course-v1:amazon-it+creare_valore_attivita+az_23;course-v1:amazon-it+assumere_nuovi_talenti+az_24;course-v1:amazon-it+stile_leadership_management+az_25"
 
 emails = sys.argv[1].split(";")
-course_ids = sys.argv[2].split(";")
+course_ids = courses_str.split(";")
+
 
 ## Workbook
 wb = Workbook()
@@ -234,7 +236,7 @@ with zipfile.ZipFile(zippath, 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as myz
 output = BytesIO()
 wb.save(output)
 _files_values = output.getvalue()
-html = "<html><head></head><body><p>Hello,<br/><br/>Please find attached the Accelera con Amazon data reports.<br/><br/>Kind regards,<br />The WeUp Learning team</html>"
+html = "<html><head></head><body><p>Hello,<br/><br/>Please find attached the Accelera con Amazon data report.<br/><br/>Kind regards,<br />The WeUp Learning team</html>"
 
 
 ### Send email
@@ -247,7 +249,7 @@ for email in emails:
     msg = MIMEMultipart()
     msg['From'] = fromaddr
     msg['To'] = email
-    msg['Subject'] = "Accelera con Amazon Data Reports"
+    msg['Subject'] = "Accelera con Amazon Data Report"
 
     attachment = _files_values
 
@@ -281,8 +283,5 @@ except:
 
 
 
-#qualif
-# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/amazon-italie/lms/utils/grade_report_script_amazon_2024.py "cyril.adolf@weuplearning.com" "course-v1:amazon-it+definire_strategia_commercialeAvanzamento+az_22"
 
-# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/amazon-italie/lms/utils/grade_report_script_amazon_2024.py "fpelli@amazon.it;melanie.zunino@weuplearning.com" "course-v1:amazon-it+export+az_01;course-v1:amazon-it+logistica_e_sostenibilita+az_02;course-v1:amazon-it+introduzione_e-commerce_vendita+az_03;course-v1:amazon-it+presenza_brand+az_04;course-v1:amazon-it+principi_di_gestione+az_05;course-v1:amazon-it+avvia_la_tua_attivita+az_06;course-v1:amazon-it+fondamenti_di_marketing+az_07;course-v1:amazon-it+strategie_di_marketing+az_08;course-v1:amazon-it+primi_passi_vendita_digitale+az_09;course-v1:amazon-it+vendite_online_internazionali+az_10;course-v1:amazon-it+basi_creazione_marchio+az_11;course-v1:amazon-it+basi_content_marketing+az_12;course-v1:amazon-it+introduzione_finanza_aziendale+az_13;course-v1:amazon-it+gestire_finanza_aziendale+az_14;course-v1:amazon-it+elementi_finanza_aziendale+az_15;course-v1:amazon-it+metriche_aziendali_importanza_cliente+az_16;course-v1:amazon-it+analizzare_propria_base_clienti+az_17;course-v1:amazon-it+creare_startup_vendere_online+az_18;course-v1:amazon-it+piano_sviluppo_attivita+az_19;course-v1:amazon-it+panoramica_operazioni_logistica_spedizione+az_20;course-v1:amazon-it+strategia_vendita_digitale+az_21;course-v1:amazon-it+definire_strategia_commerciale+az_22;course-v1:amazon-it+creare_valore_attivita+az_23;course-v1:amazon-it+assumere_nuovi_talenti+az_24;course-v1:amazon-it+stile_leadership_management+az_25"
-
+# 0 6 * * 1  /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/amazon-italie/lms/utils/grade_report_script_amazon_2024.py "fpelli@amazon.it;melanie.zunino@weuplearning.com"
