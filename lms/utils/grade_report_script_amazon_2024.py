@@ -57,9 +57,10 @@ import logging
 log = logging.getLogger()
 
 
+courses_str =  "course-v1:amazon-es+introduccion_a_la_venta+az_01;course-v1:amazon-es+crea_tu_negocio+az_02;course-v1:amazon-es+consejos_lideres_amazon+az_03;course-v1:amazon-es+construye_presencia_marca_amazon+az_04;course-v1:amazon-es+fundamentos_marketing_contenidos+az_05;course-v1:amazon-es+logistica_y_sostenibilidad+az_06;course-v1:amazon-es+comienza_empresa_venta_online+az_07;course-v1:amazon-es+venta_online_internacional+az_08;course-v1:amazon-es+primeros_pasos_venta_digital+az_09;course-v1:amazon-es+incrementa_negocio_ventas_digitales+az_10;course-v1:amazon-es+principios_gestionar_empresa+az_11;course-v1:amazon-es+operaciones_comerciales_logistica_envio+az_12;course-v1:amazon-es+liderazgo_estilos_gestion+az_13;course-v1:amazon-es+analiza_base_clientes+az_14;course-v1:amazon-es+gestion_financiera+az_15;course-v1:amazon-es+consideraciones_financieras+az_16;course-v1:amazon-es+define_estrategia_ventas+az_17;course-v1:amazon-es+exportacion+az_18;course-v1:amazon-es+disena_plan_de_crecimiento+az_19;course-v1:amazon-es+crear_valor_negocio+az_20;course-v1:amazon-es+fundamentos_marketing+az_21;course-v1:amazon-es+estrategia_ventas_online+az_22;course-v1:amazon-es+introduccion_financiacion+az_23;course-v1:amazon-es+construye_marca+az_24"
 
 emails = sys.argv[1].split(";")
-course_ids = sys.argv[2].split(";")
+course_ids = courses_str.split(";")
 
 ## Workbook
 wb = Workbook()
@@ -234,7 +235,7 @@ with zipfile.ZipFile(zippath, 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as myz
 output = BytesIO()
 wb.save(output)
 _files_values = output.getvalue()
-html = "<html><head></head><body><p>Hola,<br/><br/>Adjunto encontrará el informe de datos de Amazon<br/><br/>Buena bienvenida<br />The Weup Equipo de aprendizaje</html>"
+html = "<html><head></head><body><p>Hello,<br/><br/>Please find attached the Amazon Despega data report.<br/><br/>Kind regards,<br />The Weup Learning team</html>"
 
 
 ### Send email
@@ -247,14 +248,14 @@ for email in emails:
     msg = MIMEMultipart()
     msg['From'] = fromaddr
     msg['To'] = email
-    msg['Subject'] = "Amazon ratings report"
+    msg['Subject'] = "Amazon Despega Data Report"
 
     attachment = _files_values
 
     # Load your zip file instead of the Excel file
     with open(zippath, 'rb') as f:
         attachment = f.read()
-        
+
     part = MIMEBase('application', 'octet-stream')
     part.set_payload(attachment)
     encoders.encode_base64(part)
@@ -281,7 +282,4 @@ except:
 
 
 
-#qualif
-# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/amazon-espagne/lms/utils/grade_report_script_amazon_2024.py "cyril.adolf@weuplearning.com" "course-v1:amazon-espagne+test+2024"
-
-# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/amazon-espagne/lms/utils/grade_report_script_amazon_2024.py "cyril.adolf@weuplearning.com" "course-v1:amazon-es+introduccion_a_la_venta+az_01;course-v1:amazon-es+crea_tu_negocio+az_02;course-v1:amazon-es+consejos_lideres_amazon+az_03;course-v1:amazon-es+construye_presencia_marca_amazon+az_04;course-v1:amazon-es+fundamentos_marketing_contenidos+az_05;course-v1:amazon-es+logistica_y_sostenibilidad+az_06;course-v1:amazon-es+comienza_empresa_venta_online+az_07;course-v1:amazon-es+venta_online_internacional+az_08;course-v1:amazon-es+primeros_pasos_venta_digital+az_09;course-v1:amazon-es+incrementa_negocio_ventas_digitales+az_10;course-v1:amazon-es+principios_gestionar_empresa+az_11;course-v1:amazon-es+operaciones_comerciales_logistica_envio+az_12;course-v1:amazon-es+liderazgo_estilos_gestion+az_13;course-v1:amazon-es+analiza_base_clientes+az_14;course-v1:amazon-es+gestion_financiera+az_15;course-v1:amazon-es+consideraciones_financieras+az_16;course-v1:amazon-es+define_estrategia_ventas+az_17;course-v1:amazon-es+exportacion+az_18;course-v1:amazon-es+plan_de_crecimiento+az_19;course-v1:amazon-es+crear_valor_negocio+az_20;course-v1:amazon-es+fundamentos_marketing+az_21;course-v1:amazon-es+estrategia_ventas_online+az_22;course-v1:amazon-es+introduccion_financiacion+az_23;course-v1:amazon-es+construye_marca+az_24"
+# 0 6 * * 1 /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/amazon-espagne/lms/utils/grade_report_script_amazon_2024.py "duemarta@amazon.es;melanie.zunino@weuplearning.com" 
