@@ -303,10 +303,11 @@ GradeCsvCompar = json.loads(CsvComparData.content.decode('utf-8'))
 </style>
 %elif str(course.id) == "course-v1:af-brasil+PP+DEG" or str(course.id) == "course-v1:af-brasil+go+2024":
 <style>
-    #badges > div:nth-child(2) {
+    #badges > div:nth-child(2), #badges > div:nth-child(18) {
         display: none;
     }
 </style>
+
 %else : 
 <style>
     .page-content-secondary {
