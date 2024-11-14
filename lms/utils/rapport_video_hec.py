@@ -114,28 +114,42 @@ users_data = dict()
 users_per_course = dict()
 list_chapters_name = dict()
 all_user_set = set()
-list_of_student_scorms = list()
+# list_of_student_scorms = list()
 videos_list = list()
 
+test = StudentModule.objects.filter(course_id__exact="course-v1:hec-pole-emploi+IP+2023", student=71, module_type="video").order_by().values('student_id', 'module_state_key', 'state')
+
+log.info("test")
+log.info(test)
 
 for course_id in course_ids :
-    list_of_student_modules = StudentModule.objects.filter(course_id__exact=course_id).order_by().values('student_id', 'module_state_key', 'state')
-    list_of_student_scorms = StudentModule.objects.filter(course_id__exact=course_id, module_type="scorm")
+    list_of_student_modules = StudentModule.objects.filter(course_id__exact=course_id, module_type="video").order_by().values('student_id', 'module_state_key', 'state')
+    list_of_student_scorms = StudentModule.objects.filter(course_id__exact=course_id, module_type="scorm").order_by().values('student_id', 'module_state_key', 'state')
     #log.info(f"problem of course :{course_id} => {list_of_student_problems}")
     users = set()
     users_scorms = set()
     for student_module in list_of_student_modules:
+
+        log.info('student_module')
+        log.info(student_module)
+
         all_courses_video_student_module.append(student_module)
         users.add(User.objects.get(id = student_module["student_id"]))
+
+    for scorm_student_module in list_of_student_scorms :
+        log.info("scorm_student_module")
+        if scorm_student_module['student_id'] == 28 or scorm_student_module['student_id'] == 55 :
+            log.info(scorm_student_module['state'])
+
+
     all_user_set.update(users)
     users_per_course[course_id] = users
-    log.info(course_id)
 
 
 def convert_str_to_obj(saved_video_position):
     str_time_video = saved_video_position.replace('"saved_video_position": "', '').replace('{', '').replace('}', '').replace('"', '')
     if 'speed' in str_time_video:
-        char_to_replace = ["0.25", "0.5", "0.75","1.0","1.25","1.5","1.75","2.0", ",", " ","speed:"]
+        char_to_replace = ["0.25", "0.5", "0.75", "1.0", "1.25", "1.5", "1.75", "2.0", ",", " ", "speed:"]
         for char in char_to_replace:
             str_time_video = str_time_video.replace(char, "")
     return str_time_video
@@ -153,22 +167,14 @@ for course_id, users in users_per_course.items():
     users_data = dict()
     users_scorm_completion = dict()
     for index, user in enumerate(users):
-        
-        #uncomment this lines for testing, 
-        # log.info(index)
-        # if index == 100:
-        #     break
-        #log.info(index)
-        #if not user.email.find("annojan.kandiah@weuplearning.com")!= -1:
-        #    continue
-        
+                
         #course_enrollment = CourseEnrollment.objects.get(course_id=CourseKey.from_string(course_ids[0]), user=user)
         #course_key = SlashSeparatedCourseKey.from_string(str(course_id))
         #course = get_course_by_id(course_key)
 
         # Escape fake email address
-        if user.email.find("@example")!= -1 or user.email.find("@themoocagency") != -1 or user.email.find("@weuplearning")!= -1 or user.email.find("@yopmail")!= -1 or user.email.find("@amazon")!= -1 or user.email.find("@fake")!= -1:
-            continue
+        # if user.email.find("@example")!= -1 or user.email.find("@themoocagency") != -1 or user.email.find("@weuplearning")!= -1 or user.email.find("@yopmail")!= -1 or user.email.find("@amazon")!= -1 or user.email.find("@fake")!= -1:
+        #     continue
 
         #log.info(dir(user))
         user_row = dict()
@@ -230,7 +236,8 @@ for course_id, users in users_per_course.items():
             users_scorm_completion[scorm_id] = "no"
 
             for scorm in user_scorms:
-                # log.info(scorm.done)
+                log.info("scorm")
+                log.info(scorm)
                 if scorm_id == scorm.module_state_key.block_id:
                     users_scorm_completion[scorm_id] = scorm.done
 
@@ -240,13 +247,17 @@ for course_id, users in users_per_course.items():
             list_chapter_course = list()
             for chapter_key in dict_hardcoded_chapter_key[course_id]:
                 usagekey = UsageKey.from_string(chapter_key)
+
                 chapter_name = collected_block_structure.get_xblock_field(usagekey, "display_name")
                 detailed_time_tracking = json.loads(WulCourseEnrollment.get_enrollment(user=user, course_id=course_id).detailed_time_tracking)
+
                 chapter_key = chapter_key.split("@")[2]
+
                 if chapter_key in detailed_time_tracking:
                     user_data[chapter_name] = datetime.timedelta(seconds=detailed_time_tracking[chapter_key])
                 else:
                     user_data[chapter_name] = datetime.timedelta(seconds=0)
+
                 list_chapter_course.append(chapter_name)
 
             list_chapters_name[course_id] = list_chapter_course
@@ -282,24 +293,33 @@ for course_id, users in users_per_course.items():
             pass
 
 
-        if global_time_tracking_cumul == 0 :
-            user_data["global_time_tracking"] = datetime.timedelta(seconds=0)
-        else:
-            user_data["global_time_tracking"] = datetime.timedelta(seconds=global_time_tracking_cumul)
+        # if global_time_tracking_cumul == 0 :
+        #     user_data["global_time_tracking"] = datetime.timedelta(seconds=0)
+        # else:
+        user_data["global_time_tracking"] = datetime.timedelta(seconds=global_time_tracking_cumul)
 
         # Get detailled video information from student modules
-        for video in videos_list :
+        for video in all_courses_video_student_module :
+        # for video in videos_list :
             video_dict[video] = "Non"
 
         total_video_seconds = 0
         try:
             for result in all_courses_video_student_module:
+
+                log.info('result')
+                log.info(result)
+
                 if(user.id == result["student_id"]):
                     if str(result["module_state_key"]).split("+")[4] in video_dict:
                         user_state = result["state"]
                         video_time_tracking = convert_str_to_obj(user_state)
+                        log.info('video_time_tracking')
+                        log.info(video_time_tracking)
 
                         time_video_time_tracking = convert_str_to_int(video_time_tracking)
+                        log.info('time_video_time_tracking')
+                        log.info(time_video_time_tracking)
                         total_video_seconds += time_video_time_tracking
                         
                         video_dict[str(result["module_state_key"]).split("+")[4]] = datetime.timedelta(seconds=time_video_time_tracking)
@@ -307,11 +327,11 @@ for course_id, users in users_per_course.items():
                         user_data["total_video_time"] = datetime.timedelta(seconds=time_video_time_tracking)
 
                     else:
-                        print('ERROR {} VIDEO NOT IN THE LIST !'.format(video_dict[str(result["module_state_key"]).split("+")[4]]))
+                        log.info('ERROR {} VIDEO NOT IN THE LIST !'.format(video_dict[str(result["module_state_key"]).split("+")[4]]))
 
         except Exception as e:
-            print(str(user.id)+" : error with watch a video field")
-            print(e)
+            log.info(str(user.id)+" : error with watch a video field")
+            log.info(e)
 
         # Est ce qu'on veut récupérer cette info ?
         user_data["grade"] = "N/A"
@@ -335,13 +355,19 @@ for course_id, users in users_per_course.items():
     users_per_course[course_id] = users_data
 
 
-## Print excel file
+## log.info excel file
 row = 1
 
 
 ## Workbook
 wb = Workbook()
 wb.remove(wb.active)
+
+# Test password
+wb.security.workbookPassword = '123456'
+wb.security.lockStructure = True
+
+
 
 def create_sheet(sheet_name, users, workbook, course_id):
     common_header = ["Username","Email","Prénom","Nom","Date de création de compte","Date de fin d'accès","Date de dernière connexion", "Temps passé total", "Webinaire finalisé", "Temps passé webinaire", "Note obtenue"] 
@@ -422,7 +448,7 @@ for email in emails:
     server.sendmail(fromaddr, toaddr, text)
     server.quit()
 
-    print('Email sent to ',toaddr)
+    log.info('Email sent to ',toaddr)
 
 
 ## delete old files
