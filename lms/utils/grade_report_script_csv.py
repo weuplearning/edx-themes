@@ -31,6 +31,7 @@ from lms.djangoapps.wul_apps.models import WulCourseEnrollment
 
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 from openedx.core.djangoapps.course_groups.cohorts import get_cohort
+from lms.djangoapps.courseware.models import StudentModule
 
 
 import logging
@@ -60,6 +61,10 @@ TECHNICAL_HEADER = list(HEADERS_FORM)
 
 if course_ids[0] == 'course-v1:af-brasil+OFM+01' :
   HEADERS_SECTION = ['Quiz Unité 1', 'Quiz Unité 2', 'Quiz Unité 3', 'Quiz Unité 4', 'Quiz Unité 5']
+elif course_ids[0] == 'course-v1:af-brasil+go+2024' :
+  HEADERS_SECTION = ['Quiz Primeiros Passos', 'Quiz Apresentações', 'Quiz Família & Pets', 'Quiz Tempo', 'Quiz Festas & Tradições', 'Quiz Estudos', 'Quiz Trabalho',  'Quiz Lazer',  'Quiz Saúde', 'Quiz Viagem', 'Quiz Cidade', 'Quiz Casa', 'Quiz Gastronomia', 'Quiz Moda', 'Quiz DELF A1']
+elif course_ids[0] == 'course-v1:af-brasil+go+degustation' :
+  HEADERS_SECTION = ['Quiz Primeiros Passos']
 else :
   HEADERS_SECTION = ['Quiz Primeiros Passos', 'Quiz Destination Paris', 'Quiz Apresentações', 'Quiz Tour Eiffel & Champ de Mars', 'Quiz Família & Pets', 'Quiz Château de Versailles', 'Quiz Tempo', 'Quiz Stade de France', 'Quiz Festas & Tradições', 'Quiz Yvelines', 'Quiz Estudos', 'Quiz Seine-Saint-Denis', 'Quiz Trabalho', 'Quiz Paris La Défense Arena', 'Quiz Lazer', 'Quiz Stades en France', 'Quiz Saúde', 'Quiz Invalides & Pont d\'Iéna', 'Quiz Viagem', 'Quiz Arenas Paris Sud', 'Quiz Cidade', 'Quiz Ailleurs en France', 'Quiz Casa', 'Quiz La Concorde', 'Quiz Gastronomia', 'Quiz Arena Bercy', 'Quiz Moda', 'Quiz Grand Palais', 'Quiz DELF A1', 'Quiz Arena Porte de La Chapelle']
 
@@ -68,6 +73,14 @@ HEADERS_USER.append('Note globale (en %)')
 
 HEADERS_AFTER_SECTION = [u"Certificate date", u"Time tracking", u"Days logged", u"Cohort"]
 HEADERS_USER.extend(HEADERS_AFTER_SECTION)
+
+
+
+# Survey
+if course_ids[0] == 'course-v1:af-brasil+go+2024' :
+  HEADERS_SECTION = ['Survey Primeiros Passos','','','', 'Survey Apresentações','','','', 'Survey Família & Pets','','','', 'Survey Tempo','','','', 'Survey Festas & Tradições','','','', 'Survey Estudos','','','', 'Survey Trabalho','','','',  'Survey Lazer','','','',  'Survey Saúde','','','', 'Survey Viagem','','','', 'Survey Cidade','','','', 'Survey Casa','','','', 'Survey Gastronomia','','','', 'Survey Moda','','','', 'Survey DELF A1','','','',]
+  HEADERS_USER.extend(HEADERS_SECTION)
+
 
 HEADER = HEADERS_USER
 
@@ -97,22 +110,50 @@ for course_id in course_ids:
   course_data = {}
 
 
+  list_of_survey = StudentModule.objects.filter(course_id__exact=course_id, module_type__exact="survey").order_by().values('student_id', 'state', 'module_state_key')
+
 
   for i in range(len(course_enrollments)):
     user = course_enrollments[i].user
     user_data = []
     enrollment = course_enrollments[i]
 
+
     UserGrade = ['CFL1', 'DFL1', 'CFL2', 'DFL2', 'CFL3', 'DFL3', 'CFL4', 'DFL4', 'CFL5', 'DFL5', 'CFL6', 'DFL6', 'CFL7', 'DFL7', 'CFL8', 'DFL8', 'CFL9', 'DFL9', 'CFL10', 'DFL10', 'CFL11', 'DFL11', 'CFL12', 'DFL12', 'CFL13', 'DFL13', 'CFL14', 'DFL14', 'CFL15', 'DFL15']
+    survey_block_list = False
 
     if course_ids[0] == 'course-v1:af-brasil+OFM+01' :
       UserGrade = ['QU1', 'QU2', 'QU3', 'QU4', 'QU5']
 
+    if course_ids[0] == 'course-v1:af-brasil+go+2024' :
+      UserGrade = ['CFL1', 'CFL2', 'CFL3', 'CFL4', 'CFL5', 'CFL6', 'CFL7', 'CFL8', 'CFL9', 'CFL10', 'CFL11', 'CFL12', 'CFL13', 'CFL14', 'CFL15']
+      survey_block_list = [
+        'block-v1:af-brasil+go+2024+type@survey+block@9f65f9ec2cfb4fb3a031f5c0930e572e', 
+        'block-v1:af-brasil+go+2024+type@survey+block@6a1075442b844f8f84ec0e8ef5d172e5', 
+        'block-v1:af-brasil+go+2024+type@survey+block@3dba2a53822d45d5b9ec11f8d291b331', 
+        'block-v1:af-brasil+go+2024+type@survey+block@7b1c13d7e39d447086885b4cd9f30520', 
+        'block-v1:af-brasil+go+2024+type@survey+block@1a8051a0b4fb4f77b48e5a163639a1ac', 
+        'block-v1:af-brasil+go+2024+type@survey+block@1bc5f3006fd74c1bb0b4dfba7770b80f', 
+        'block-v1:af-brasil+go+2024+type@survey+block@8db91034111740a1be9b9af05b67abac', 
+        'block-v1:af-brasil+go+2024+type@survey+block@804b94360cd044e98a777a7307caf317', 
+        'block-v1:af-brasil+go+2024+type@survey+block@30512b8b77f740a0b1ea9acee6d690b2', 
+        'block-v1:af-brasil+go+2024+type@survey+block@eb0f9fe99f664d54a916b66b5d3790da',
+        'block-v1:af-brasil+go+2024+type@survey+block@e55b1b461a8146afa856f7b50de538d1',
+        'block-v1:af-brasil+go+2024+type@survey+block@b930084f0da94f4490554d201c588b1d',
+        'block-v1:af-brasil+go+2024+type@survey+block@7a221d1a32024da7b099b3c6f3342726',
+        'block-v1:af-brasil+go+2024+type@survey+block@1f9d35f98f114dc69997e654824a87ac',
+        'block-v1:af-brasil+go+2024+type@survey+block@21ebe3b084034f94a6b3f09505ca5063'
+      ]
+
+    if course_ids[0] == 'course-v1:af-brasil+go+degustation' :
+      UserGrade = ['CFL1']
 
     user_CF_data = json.loads(user.profile.custom_field)
 
     if str(user.email).find('@yopmail') != -1 or str(user.email).find('@weuplearning') != -1 or str(user.email).find('@themoocagency') != -1 :
       continue
+
+
 
     fullname = user.profile.name
     if fullname == '' :
@@ -179,6 +220,7 @@ for course_id in course_ids:
       globalGradeStr = '0%'
 
 
+
     # TimeTracking
     try:
       wul_course_enrollment = WulCourseEnrollment.objects.get(course_enrollment_edx__user=user, course_enrollment_edx__course_id=course_key)
@@ -193,12 +235,37 @@ for course_id in course_ids:
     time_tracking.append(days_logged)
 
 
+
     # Cohort
     cohort = get_cohort(user, course_key, assign=True, use_cached=False)
     if cohort :
       cohort = str(cohort)
     else :
       cohort = 'n.a.'
+
+
+
+    # Survey
+    formated_survey_block_list = []
+    empty_value = ['','','','']
+
+    if survey_block_list :
+      for module in list_of_survey :
+        if module['student_id'] == user.id : 
+          module_state = json.loads(module["state"])
+          survey_block_list = [ module_state if str(module['module_state_key']) == survey_block and module.get("state")  else survey_block for survey_block in survey_block_list ]
+
+
+      for element in survey_block_list : 
+        if isinstance(element, dict) and element['choices']:
+          for key, value in element['choices'].items() : 
+            survey_value = value.replace('Y', '1').replace('N', '2').replace('M', '3').replace('1730402209980', '4')
+            formated_survey_block_list.extend(survey_value)
+        else : 
+          formated_survey_block_list.extend(empty_value)
+
+
+
 
 
 
@@ -209,8 +276,8 @@ for course_id in course_ids:
     data.append(certificate_date)
     data.extend(time_tracking)
     data.append(cohort)
+    data.extend(formated_survey_block_list)
 
-    # data = { "general": user_data, "grade_section": UserGrade, "grade_global" :globalGradeStr, "certificate_date": certificate_date, "time_tracking" : time_tracking }
 
     course_data[str(user.id)] = data
 
@@ -223,6 +290,7 @@ timestr = time.strftime("%Y_%m_%d")
 filename = f'/edx/var/edxapp/media/microsites/af-brazil/csv/{course_ids[0]}/{timestr}_af-brasil_grade_report.csv'
 
 csv_dir = f'/edx/var/edxapp/media/microsites/af-brazil/csv/{course_ids[0]}/'
+
 
 # Supprimer les fichiers CSV de plus de 3 jours
 def delete_old_csv_files(directory, days=3):
@@ -238,7 +306,6 @@ def delete_old_csv_files(directory, days=3):
         log.info(f'Suppression du fichier: {file_path}')
         os.remove(file_path)
 
-# Appeler la fonction pour supprimer les fichiers de plus de 3 jours
 delete_old_csv_files(csv_dir)
 
 
@@ -251,7 +318,7 @@ with open(filename, 'w', newline='', encoding='utf-8') as csvfile:
     for user_id, user_data in course_id.items():
       writer.writerow(user_data)
 
-# Rest of the script for sending emails remains the same, just change the attachment handling
+
 with open(filename, 'rb') as f:
   attachment = f.read()
 
@@ -266,11 +333,15 @@ log.info('------------> Finish calculating grades and writing CSV report')
 # 0 */2 * * * /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/af-brazil/lms/utils/grade_report_script_csv.py course-v1:af-brasil+PP+CPB01
 # 0 */2 * * * /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/af-brazil/lms/utils/grade_report_script_csv.py course-v1:af-brasil+OFM+01
 # 0 */2 * * * /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/af-brazil/lms/utils/grade_report_script_csv.py course-v1:af-brasil+PP+TB
+# 0 */2 * * * /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/af-brazil/lms/utils/grade_report_script_csv.py course-v1:af-brasil+go+2024
+# 0 */2 * * * /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/af-brazil/lms/utils/grade_report_script_csv.py course-v1:af-brasil+go+degustation
+
+
 
 # https://af-brazil.weup.in/wul_apps/csv_data_weup/course-v1:af-brasil+PP+CPB
-
-
 # /edx/var/edxapp/media/microsites/af-brazil/csv/course-v1:af-brasil+PP+TB/2024_10_30_af-brasil_grade_report.csv
 
-# https://af-brazil.weup.in/media/microsites/af-brazil/csv/course-v1:af-brasil+PP+2024/2024_10_30_af-brasil_grade_report.csv
-# https://af-brazil.weup.in/media/microsites/af-brazil/csv/course-v1:af-brasil+OFM+01/2024_10_30_af-brasil_grade_report.csv
+
+# Survey tests :
+# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/af-brazil/lms/utils/grade_report_script_survey.py  course-v1:af-brasil+go+2024
+
