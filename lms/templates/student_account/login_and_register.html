@@ -61,7 +61,18 @@
     </main>
 </div>
 <script>
-   
+
+    var updateUsernameSpelling = setInterval(() => {
+        $(".message-copy li").each(function() {
+        var text = $(this).text();
+        if (text.includes("Il semblerait que") && text.includes("compte existant")) {
+            var pseudo = text.match(/Il semblerait que (.+?) appartient/)[1]; // Extraction du pseudo
+            $(this).text(pseudo + " est un pseudo déjà utilisé par un autre utilisateur.    Essayez avec un pseudo différent.");
+        }
+        });
+    }, 500);
+
+    
     var updateRegisterForm = setInterval(() => {
 
         // username field
@@ -71,13 +82,6 @@
             clearInterval(updateRegisterForm)
         }
 
-        $(".message-copy li").each(function() {
-        var text = $(this).text();
-        if (text.includes("Il semblerait que") && text.includes("compte existant")) {
-            var pseudo = text.match(/Il semblerait que (.+?) appartient/)[1]; // Extraction du pseudo
-            $(this).text(pseudo + " est un pseudo déjà utilisé par un autre utilisateur.    Essayez avec un pseudo différent.");
-        }
-        });
 
         // fullname indications
         if(document.getElementById("usernameTextInfo") === null){
