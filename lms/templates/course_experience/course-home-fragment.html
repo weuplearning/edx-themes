@@ -262,6 +262,14 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         height: 40px;
     }
 
+    .course-message-chru {
+        border: 1px solid;
+        padding: 30px;
+        color: var(--primary);
+        background-color: white;
+        box-shadow: 6px 6px 10px;
+    }
+
     
     @media screen and (max-width: 1024px) {
         .page-content .page-content-secondary { 
@@ -380,6 +388,16 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
     </header>
     <div class="page-content">
         <div class="page-content-main">
+
+            <div class="course-message-chru">
+                <p>Bonjour et bienvenue dans ce module de formation incendie.</p>
+                <p>Cette action ne se substitue pas à la formation incendie de base.</p>
+                <p>Dès lors que vous cliquerez sur « Commencer le cours », vous disposerez d’un délai de 12 heures pour réaliser le module.</p>
+                <p>Au-delà de ce délai, vous devrez le recommencer dans sa totalité.</p>
+                <p>Si vous rencontrez un dysfonctionnement avec cet outil e-learning, contactez le chargé de sécurité au 5102.</p>
+                <p>L’équipe sécurité du Centre Psychothérapique de Nancy.</p>
+            </div>
+
             % if offer_banner_fragment:
                 ${HTML(offer_banner_fragment.content)}
             % endif
