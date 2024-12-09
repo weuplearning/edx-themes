@@ -5,6 +5,8 @@
 <%!
 import six
 import waffle
+import json
+import time
 
 from django.conf import settings
 from django.urls import reverse
@@ -22,6 +24,77 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
    (course.enable_proctored_exams or course.enable_timed_exams)
    )
 %>
+
+
+<%
+custom_fields = {}
+custom_fields = json.loads(user.profile.custom_field)
+timestamp = int(round(time.time() * 1000))
+restart = 0
+
+if (str(course.id) in custom_fields.keys()) and (custom_fields[str(course.id)] != 'NaN'):
+  closing_time = int(custom_fields[str(course.id)]) + 1000*60*60*12
+
+  if closing_time <= timestamp  :
+    restart += 1
+    custom_fields[str(course.id)] = timestamp
+    user.profile.custom_field = json.dumps(custom_fields)
+    user.profile.save()
+    closing_time = int(timestamp) + 1000*60*60*12
+
+else :
+  custom_fields[str(course.id)] = timestamp
+  user.profile.custom_field = json.dumps(custom_fields)
+  user.profile.save()
+  closing_time = int(timestamp) + 1000*60*60*12
+
+%>
+
+
+<script>
+
+  const userName = "${request.user.username}"
+  const closingTime = "${closing_time}"
+  let currentTime
+  let restart = "${restart}"
+
+  var checkTime = setTimeout(() => {
+
+    currentTime = Date.now();
+    const module_state_key = document.getElementById('seq_content').children[0].attributes['data-usage-id'].nodeValue
+
+    if (closingTime < currentTime || restart == '1') {
+
+      $.ajax({
+        url: "/wul_apps/${course.id}/certificate/ensure",
+          success: function(result){
+
+            if(result.grade_summary.percent < 0.8){
+
+              $.ajax({
+                url: '/courses/${course.id}/instructor/api/reset_student_attempts',
+                method: 'POST',
+                data: {
+                  problem_to_reset: module_state_key,
+                  unique_student_identifier : userName,
+                  all_students : false,
+                  delete_module : true,
+                  formation_securite_incendie_specifique : "cadolf"
+                },
+              })
+
+              alert("\nLe délai pour réaliser le module ayant expiré, votre progression a été réinitialisée.\n\nVous pouvez recommencer le module, mais n'oubliez pas que vous disposez d'un délai de 12h pour le compléter.\n\nL’équipe sécurité du Centre Psychothérapique de Nancy. ")
+              window.location.replace("/courses/${course.id}/courseware/");
+            }
+          }
+      });
+
+    }
+
+  }, 2000);
+
+</script>
+
 
 <style>
   .window-wrap {
