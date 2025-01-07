@@ -14,7 +14,11 @@ from six import text_type
 <div class="course-button-container">
     <div class="course-button">
         <div class="course-button-content">
+            % if course.display_number_with_default=="BI47UF":
+            <p class="course-button-title">BI47</p>
+            % else:
             <p class="course-button-title">${course.display_number_with_default}</p>
+            % endif
             <p class="course-button-text">${course.display_name_with_default}</p>
         </div>
         <div class="course-button-cta">
