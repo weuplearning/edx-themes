@@ -1,7 +1,12 @@
 <%page expression_filter="h"/>
 <%namespace name='static' file='static_content.html'/>
 <%! from django.utils.translation import ugettext as _ %>
-
+<%
+def namesort(e):
+  return e.display_number_with_default
+sorted_courses = courses
+sorted_courses.sort(key=namesort)
+%>
 
 
 <style>
