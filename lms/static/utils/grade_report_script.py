@@ -203,7 +203,8 @@ for email in emails:
   msg = MIMEMultipart()
   msg['From'] = fromaddr
   msg['To'] = email
-  msg['Subject'] = u"Rapport de notes Sureté SNCF"
+  msg['Subject'] = u"Rapport de notes Traction SNCF " + str(timestr)
+
   attachment = _files_values
   part = MIMEBase('application', 'octet-stream')
   part.set_payload(attachment)
