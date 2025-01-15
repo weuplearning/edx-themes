@@ -117,78 +117,7 @@ from lms.djangoapps.experiments.utils import UPSELL_TRACKING_FLAG
           % endif
         </h3>
         <div class="course-info">
-          <span class="info-university">${course_overview.display_org_with_default} - </span>
-          <span class="info-course-id">${course_overview.display_number_with_default}</span>
-          <%
-            enrollment_date = course_overview.self_paced and enrollment and enrollment.created
-            if course_overview.start_date_is_still_default:
-                container_string = _("Coming Soon")
-                course_date = None
-            else:
-                format = 'shortDate'
-                dashboard_start_display = course_overview.dashboard_start_display
-                if course_overview.has_ended():
-                    container_string = _("Ended - {date}")
-                    course_date = course_overview.end
-                elif course_overview.has_started():
-                    container_string = _("Started - {date}")
-                    if enrollment_date and isinstance(dashboard_start_display, datetime.datetime):
-                      course_date = max(enrollment_date, dashboard_start_display)
-                    else:
-                      course_date = enrollment_date or dashboard_start_display
-                elif course_overview.starts_within(days=5):
-                    container_string = _("Starts - {date}")
-                    course_date = dashboard_start_display
-                    format = 'defaultFormat'
-                else: ## hasn't started yet
-                    container_string = _("Starts - {date}")
-                    course_date = dashboard_start_display
-                endif
-            endif
-          %>
 
-            <span class="info-date-block-container">
-                % if not is_unfulfilled_entitlement and is_course_expired:
-                  <span class="info-date-block" data-course-key="${enrollment.course_id}">
-                    ${show_courseware_link.user_message}
-                    <span class="sr">
-                      &nbsp;${_('for {course_display_name}').format(course_display_name=course_overview.display_name_with_default)}
-                    </span>
-                  </span>
-                % elif is_unfulfilled_entitlement:
-                    <span class="info-date-block" aria-live="polite">
-                        <span class="icon fa fa-warning" aria-hidden="true"></span>
-                        % if not entitlement_expired_at:
-                            % if entitlement_expiration_date:
-                                ${_('You must select a session by {expiration_date} to access the course.').format(expiration_date=entitlement_expiration_date)}
-                            % else:
-                                ${_('You must select a session to access the course.')}
-                            % endif
-                        % endif
-                    </span>
-                % else:
-                    % if isinstance(course_date, six.string_types):
-                        <span class="info-date-block">${container_string.format(date=course_date)}</span>
-                    % elif course_date is not None:
-                        <span class="info-date-block localized-datetime" data-language="${user_language}" data-timezone="${user_timezone}" data-datetime="${course_date.strftime('%Y-%m-%dT%H:%M:%S%z')}" data-format=${format} data-string="${container_string}"></span>
-                    % endif
-                % endif
-                % if entitlement:
-                    % if not entitlement_expired_at:
-                        <button class="change-session btn-link ${'hidden' if is_unfulfilled_entitlement else ''}">${_('Change or Leave Session')}</button>
-                    % endif
-                % endif
-            </span>
-            % if entitlement and not is_unfulfilled_entitlement and entitlement_expiration_date:
-                <div class="info-expires-at">
-                        <span class="msg-icon fa fa-warning" aria-hidden="true"></span>
-                        % if entitlement_expired_at:
-                            ${_('You can no longer change sessions.')}
-                        % else:
-                            ${_('You can change sessions until {entitlement_expiration_date}.').format(entitlement_expiration_date=entitlement_expiration_date)}
-                        % endif
-                </div>
-            % endif
         </div>
         <div class="wrapper-course-actions">
           <div class="course-actions">
