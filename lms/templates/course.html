@@ -9,7 +9,7 @@ from six import text_type
 
 <article class="course" id="${course.id}" role="region" tag="${course.cert_name_short}"  aria-label="${course.display_name_with_default}">
   <!-- <a href="${reverse('about_course', args=[text_type(course.id)])}"> -->
-  <a href="/register?course_id=${course.id}&enrollment_action=enroll">
+  <a href="/login?course_id=${course.id}&enrollment_action=enroll">
 
     <header class="course-image">
       <div class="cover-image">

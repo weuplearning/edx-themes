@@ -34,7 +34,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         padding: unset;
     }
     header.page-header.has-secondary{
-        background-position-y: center;
+        background-position-y: top;
 
     %if request.path.find('VL') != -1 :
         background-image: url("${static.url('bea-lidl/images/assets/VL/courseware_top.png')}");
@@ -44,7 +44,6 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         background-image: url("${static.url('bea-lidl/images/assets/porcs/courseware_top.jpeg')}");
     %elif request.path.find('pdc') != -1 :
         background-image: url("${static.url('bea-lidl/images/assets/pdc/courseware_top.png')}");
-        background-position-y: bottom;
     %else :
         background-image: url("${static.url('bea-lidl/images/assets/pp/courseware_top.png')}");
     %endif
@@ -61,12 +60,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         padding: 25px 0 !important;
     }
     .search-title {
-        background-color: var(--primary);
-        color: white;
-        text-align: center;
-        width: 96%;
-        padding: 12px;
-        margin-left: 20px;
+        display: none;
     }
     .wrapper-svg {
         display: flex;
@@ -474,23 +468,8 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
                 Recherchez une ressource par mots-clés
             </div>
             <div class="page-header-secondary">
-                <div class="page-header-search">
-                    <form class="search-form input-group" role="search" action="${reverse('openedx.course_search.course_search_results', args=[course_key])}">
-                        <label class="field-label sr-only" for="search" id="search-hint">${_('Search the course')}</label>
-                        <input
-                        class="field-input input-text search-input form-control"
-                        type="search"
-                        name="query"
-                        id="search"
-                        placeholder="${_('Search the course')}"
-                        />
-                        <span class="input-group-btn">
-                            <button class="btn btn-outline-primary search-button" type="submit">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="svg-next" height="1em" viewBox="0 0 320 512"><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg>                                
-                            </button>
-                        </span>
-                    </form>
-                </div>
+
+                
                 <div class="form-actions">
                     % if resume_course_url:
                     <a class="btn btn-secondary action-resume-course" href="${resume_course_url}">

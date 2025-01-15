@@ -69,12 +69,14 @@ dates_banner_displayed = False
                         <span class="fa fa-chevron-right ${ 'fa-rotate-90' if section_is_auto_opened else '' }" aria-hidden="true"></span>
                         <h3 class="section-title">${ section['display_name'] }</h3>
 
-                        <!-- Insérer les jauges ici -->
+                        <!-- Insérer les jauges ici 
                         %if configuration_helpers.get_value('COMPLETION_BASED_DASHBOARD_MONO', False):
+                        -->
 
                             <%
                             total_blocks = 1
                             completed_blocks = 0
+                            completion_ratio = 0
 
                             if not section.get('complete'):
                                 total_blocks = 0
@@ -85,18 +87,24 @@ dates_banner_displayed = False
                                             total_blocks += 1
                                             if blockchild.get('complete'):
                                                 completed_blocks += 1
+                            else :
+                                completed_blocks = 1
+
                             if total_blocks == 0:
                                 pass
                             else:
                                 completion_ratio = completed_blocks / total_blocks
                             %>
+
+
                             <div class="progress_bar_and_score">
                                 <div class="progress-bar-full">
                                     <div style="width:${(completion_ratio * 100)}%;" class="progress-bar-grade progress_bar_index_${primary_index}"></div>
                                 </div>
                                 <h2 class="completed_percent"> ${int(completion_ratio * 100)} %</h2>
                             </div>
-
+                        
+                            <!-- 
                         %else:
 
                             %for index, chapter in enumerate(user_grade.chapter_grades.keys()):
@@ -112,6 +120,7 @@ dates_banner_displayed = False
                             %endfor
 
                         %endif
+                         -->
                         <!-- Insérer les jauges ici -->
 
                     </button>
