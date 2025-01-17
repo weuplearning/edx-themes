@@ -63,7 +63,7 @@
         <div class="courses${'' if course_discovery_enabled else ' no-course-discovery'}" role="region" aria-label="${_('List of Courses')}">
           <ul class="courses-listing courses-list">
             %for course in courses:
-              %if CourseEnrollment.objects.filter( user__username=user.username, course_id=course.id, is_active=True ).exists() :            
+              %if not CourseEnrollment.objects.filter( user__username=user.username, course_id=course.id, is_active=True ).exists() :            
                 <li class="courses-listing-item">
                   <%include file="../course.html" args="course=course" />
                 </li>
@@ -84,3 +84,12 @@
       </section>
     </section>
 </main>
+
+<script>
+  setTimeout(() => {
+    var liste = document.getElementsByClassName('courses-listing')[0];    
+    if (liste && liste.children.length === 0) {
+      liste.innerHTML ="<p>Vous êtes inscrit à toutes les formations disponibles.</p>"
+    }
+  }, 500);
+</script>
