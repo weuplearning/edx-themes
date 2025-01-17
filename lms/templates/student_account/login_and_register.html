@@ -55,7 +55,6 @@
 
 <script>
 
-
 const register_form_displayer = setInterval( register_form_displayer_function, 250);
 
 function register_form_displayer_function(){
@@ -181,6 +180,12 @@ function register_form_displayer_function(){
 
     clearInterval(register_form_displayer)
 }
+</script>
+<script>
+    setTimeout(() => {
+        var placeH = document.getElementById('register-username')
+        placeH.setAttribute('placeholder', 'Exemple: nom.prénom.bea');
+    }, 250);
 </script>
 
 <style>
