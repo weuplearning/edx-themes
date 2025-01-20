@@ -298,8 +298,11 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         width: 50vw;
     }
 
+    /* YouTube */
+    .ytp-show-cards-title {
+        display: none !important;
+    }
 
-    
     @media screen and (max-width: 1024px) {
         .page-content .page-content-secondary { 
             min-width: calc(50% - 15px);
@@ -399,10 +402,10 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
             width: '640',
             videoId: 'bIHEZqnFZ9Q',
             playerVars: {
-                controls: 0,       // Disable controls, including the progress bar
+                controls: 1,       // Disable controls, including the progress bar
                 modestbranding: 1, // Reduce YouTube branding
                 rel: 0,            // Disable related videos at the end
-                autoplay: 1,       // Enable autoplay (optional)
+                autoplay: 0,       // Enable autoplay (optional)
                 showinfo: 0        // Hide video information (deprecated in some cases)
             },
             events: {
