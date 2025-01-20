@@ -73,6 +73,9 @@ _title = [
     "MOOC Love Food",
     "Mooc Handicap Afpa 2022", # colonne AE
     "Au coeur de la cuisine Corse",
+    "Découverte du recyclage",
+    "SIAE : Du projet à la demande de financement",
+    "Travailler dans l'Economie Sociale et Solidaire",
     "Temps passé"
 ]
 
@@ -98,8 +101,41 @@ _id = [
     "course-v1:afpa+MATU+2020",
     "course-v1:afpa+love_food+2020",
     "course-v1:afpa+inclusion_sociale+2023", # colonne AE
-    "course-v1:afpa+corse+2024"
+    "course-v1:afpa+corse+2024",
+    "course-v1:afpa+recyclage+2024",  # New 20/01/2025
+    "course-v1:afpa+dreets+2024", # New 20/01/2025
+    "course-v1:afpa+ess+2024" # New 20/01/2025
 ]
+
+# blacklist
+prunable_courses_indexes = [
+    11,#"course-v1:afpa+LaPatisserie+MOOCPatisserieAFPA_S1", # colonne K
+    12,#"course-v1:afpa+LaPatisserie2+MOOCPatisserieAFPA_S2", L
+    #13#"course-v1:afpa+MOOC_FLE_AFPA+FLE", M
+    14,#"course-v1:afpa+Metsetvins+MOOCmetsetvinsAFPA_S3", N
+    15,#"course-v1:afpa+Les101techniquesdebase+MOOCCUISINEAFPA", O
+    16,#"course-v1:afpa+Les101techniquesdebase+MOOCCUISINEAFPA_S2", P
+    17,#"course-v1:afpa+Les101techniquesdebase+MOOCCUISINEAFPA_S3", Q
+    18#"course-v1:afpa+Les101techniquesreplay+2019", R
+    #19#"course-v1:afpa+occitanie+2019_S1",S
+    #20#"course-v1:afpa+MOOC_FLI+FLI_2019",T
+    #21#"course-v1:afpa+La_Patisserie_Replay_2020+2020", # colonne U
+    #22#"course-v1:afpa+Mets_et_vins_replay_2020+2020",
+    #23#"course-v1:afpa+FLI+2023",
+    #24#"course-v1:afpa+replay_2020+2020",
+    #25#"course-v1:afpa+mixite+mixite_2020",
+    #26#"course-v1:afpa+CPF+CPF_2020",
+    #27#"course-v1:afpa+inclusion_sociale+2020", # colonne AA
+    #28#"course-v1:afpa+TRE_2020+2020",
+    #29#"course-v1:afpa+MATU+2020",
+    #30#"course-v1:afpa+love_food+2020",
+    #31#"course-v1:afpa+inclusion_sociale+2023", # colonne AE
+    #32#"course-v1:afpa+corse+2024",
+    #33#"course-v1:afpa+recyclage+2024",  # New 20/01/2025
+    #34#"course-v1:afpa+dreets+2024", # New 20/01/2025
+    #35#"course-v1:afpa+ess+2024" # New 20/01/2025
+]
+
 
 
 def get_time_tracking(enrollment):
@@ -113,19 +149,51 @@ def get_time_tracking(enrollment):
 
 
 def get_course_enrollment(course_id, user):
-    # course_key = CourseLocator.from_string(course_id)
-    # course = get_course_by_id(course_key)
-    # course_enrollments = CourseEnrollment.objects.filter(course_id=course_key)
-    # for index, enrollment in enumerate(course_enrollments):
-    #     user_enrollment = course_enrollments[index].user
-    #     if user_enrollment == user:
 
-    # -> simplification, trop long sinon
     try:
         enrollment = CourseEnrollment.objects.get(course_id=course_id, user=user)
     except:
         return 0
     return get_time_tracking(enrollment)
+
+
+def prune_old_courses(sheet):
+
+    courses_amount = len(_id)
+    col_index = 11 # first column with usable data ("oui"/"non")
+    maxcol = col_index + (courses_amount-1)
+
+    # any col without "oui"
+    eligible_cols = []
+    # eligible and contained inside prunable_courses_indexes
+    to_delete_cols = []
+
+    cols = sheet.iter_cols(min_col=11,max_col=maxcol,min_row=2)
+    
+    for col in cols:
+        
+        row_index=2 # right after header
+        col_eligible = True # flag
+        for row in col:
+            if(row.value=='oui'):
+                col_eligible = False
+                continue
+            row_index+=1
+        
+        if((col_eligible == True) and (col_index in prunable_courses_indexes)):
+            to_delete_cols.append(col_index)
+        
+        col_index+=1
+
+
+    # delete cols, array is reversed to prevent unintentional index offset
+    print("Pruning these columns :")
+    print(to_delete_cols)
+    for col_index in reversed(to_delete_cols):
+        sheet.delete_cols(col_index)
+
+
+
 
 
 #PREPARE LE XLS
@@ -138,7 +206,26 @@ for i, header in enumerate(_title):
    sheet.cell(1, i+1, header)
 
 #BIG REQ SQL
-query = 'SELECT a.id,a.username,a.first_name,a.last_name,a.email,b.name,b.custom_field,c.user_id,group_concat(c.course_id) AS course_id FROM auth_user a, auth_userprofile b, student_courseenrollment c WHERE a.id = c.user_id AND a.id = b.user_id AND c.course_id in ('
+query = '''
+SELECT 
+  a.id, 
+  a.username, 
+  a.first_name, 
+  a.last_name, 
+  a.email, 
+  b.name, 
+  b.custom_field, 
+  c.user_id, 
+  group_concat(c.course_id) AS course_id 
+FROM 
+  auth_user a, 
+  auth_userprofile b, 
+  student_courseenrollment c 
+WHERE 
+  a.id = c.user_id 
+  AND a.id = b.user_id 
+  AND c.course_id in (
+'''
 
 i=0
 while i < len(_id) - 1:
@@ -149,12 +236,12 @@ query = query + '"' + str(_id[len(_id) - 1]) + '"'
 
 query = query + ') GROUP BY a.id;'
 
-#users = User.objects.raw('SELECT a.id,a.username,a.first_name,a.last_name,a.email,b.name,b.custom_field,c.user_id,group_concat(c.course_id) AS course_id FROM auth_user a, auth_userprofile b, student_courseenrollment c WHERE a.id = c.user_id AND a.id = b.user_id AND c.course_id in("course-v1:afpa+LaPatisserie+MOOCPatisserieAFPA_S1","course-v1:afpa+LaPatisserie2+MOOCPatisserieAFPA_S2","course-v1:afpa+Metsetvins+MOOCmetsetvinsAFPA_S3","course-v1:afpa+MOOC_FLE_AFPA+FLE","course-v1:afpa+Les101techniquesdebase+MOOCCUISINEAFPA","course-v1:afpa+Les101techniquesdebase+MOOCCUISINEAFPA_S2","course-v1:afpa+Les101techniquesdebase+MOOCCUISINEAFPA_S3","course-v1:afpa+occitanie+2019_S1","course-v1:afpa+MOOC_FLI+FLI_2019","course-v1:afpa+La_Patisserie_replay_2020+2020","course-v1:afpa+Mets_et_vins_replay_2020+2020","course-v1:afpa+MOOC_FLI_replay_2020+2020","course-v1:afpa+replay_2020+2020") GROUP BY a.id;')
 
 
 users = User.objects.raw(query)
 
 i = 1
+print("foreach user")
 for user in users:
 
     global_time = 0
@@ -200,6 +287,41 @@ for user in users:
             _first_name = user.first_name
 
 
+    userId = User.objects.get(id=user.id)
+    user_profile = UserProfile.objects.get(user_id=user.id)
+
+
+    try:
+        log.info(userId)
+        log.info(user_profile)
+
+        _custom = json.loads(user_profile.custom_field)
+
+        log.info('456')
+        log.info(_custom)
+        if _custom.get('gender') :
+            if _custom['gender'] == 'm' or _custom['gender'] == 'homme' or _custom['gender'] == 'h' :
+                _custom['gender'] = 'Homme' 
+
+        # if _custom['countr']y[0].isupper() :
+        # if _custom.get('country') :
+        #     _custom['country'] = _custom['country'].capitalize()
+        #     if _custom['country'] == 'Fr' :
+        #         _custom['country'] = 'France'
+
+
+        log.info('789')
+        log.info(_custom)
+
+
+        user_profile.custom_field = json.dumps(_custom)
+        userId.save()
+        user_profile.save()
+
+    except:
+        print('error')
+        print(user.email)
+        break
 
 
 
@@ -218,7 +340,7 @@ for user in users:
     courses = user.course_id
 
 
-    # ecriture colonne de chaques lignes
+    # ecriture colonne de chaque ligne
     sheet.cell(i+1, 1, _email)
     j = 1
     #values from custom form
@@ -253,8 +375,8 @@ for user in users:
     sheet.cell(i, j+1, global_time//60)
 
 
-
-
+print("pruning unused courses")
+prune_old_courses(sheet)
 
 wb.close()
 output = BytesIO()
@@ -286,7 +408,7 @@ for i in range(len(TO_EMAILS)):
    text = msg.as_string()
    server.sendmail(fromaddr, toaddr, text)
    server.quit()
-   print('mail send to '+str(TO_EMAILS[i]))
+   print('mail sent to '+str(TO_EMAILS[i]))
 
 
 
