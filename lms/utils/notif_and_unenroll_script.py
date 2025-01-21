@@ -17,12 +17,9 @@ startup = importlib.import_module("lms.startup")
 startup.run()
 
 from opaque_keys.edx.locator import CourseLocator
-from lms.djangoapps.courseware.courses import get_course_by_id
 from student.models import CourseEnrollment
 from student.models import User
 from lms.djangoapps.wul_apps.models import WulCourseEnrollment
-from openedx.core.djangoapps.site_configuration import helpers 
-from lms.djangoapps.wul_apps.best_grade.helpers import check_best_grade
 
 
 from openpyxl import Workbook
@@ -45,8 +42,8 @@ log = logging.getLogger()
 
 
 
-limited_period_access_1 = 365
-limited_period_access_2 = 305
+limited_period_access_1 = 366
+limited_period_access_2 = 306
 limited_period_access_3 = 31
 
 one_month_notification_gap = 31
@@ -64,18 +61,10 @@ course_ids = [
     "course-v1:af-brasil+go+degustation",
     "course-v1:af-brasil+OFM+01"
 ]
-# koa-qualif
-# course_ids = [
-#     "course-v1:af-brazil+2+2024"
-# ]
-
 
 for course_id in course_ids:
 
     course_key = CourseLocator.from_string(course_id)
-    course = get_course_by_id(course_key)
-    course_name = course.display_name_with_default
-
     course_enrollments = CourseEnrollment.objects.filter(course_id=course_key)
 
     for i in range(len(course_enrollments)):
@@ -85,21 +74,18 @@ for course_id in course_ids:
         org = enrollment.course_overview.org
 
         # Ajouter les admins AF-Brasil
-        if user.email.find('@weuplearning') != -1 or user.email.find('@themoocagency') != -1 or user.email.find('@fake.email') != -1 or user.email.find('@example.com') != -1 or user.email.find('@rioaliancafrancesa.com.br') != -1 or user.email.find('psgmrosa@gmail.com') != -1 :
+        if user.email.find('@weuplearning') != -1 or user.email.find('@themoocagency') != -1 or user.email.find('@fake.email') != -1 or user.email.find('@example.com') != -1 or user.email.find('@rioaliancafrancesa.com.br') != -1 or user.email.find('psgmrosa@gmail.com') != -1 or user.email.find('@aliancafrancesaonline') != -1 :
            continue
-
 
         # On a déjà désactivé cet utilisateur
         if not enrollment.is_active :
             continue
-
 
         # Vérifier si le cours est commencé
         try:
             detailed_time_tracking = json.loads(WulCourseEnrollment.get_enrollment(user=user, course_id=course_id).detailed_time_tracking)
         except : 
             detailed_time_tracking = 0
-
 
         # Inscrit depuis combien de jours 
         days_difference = (now - user.date_joined).days
@@ -109,16 +95,13 @@ for course_id in course_ids:
         # email_01
         if (((course_id == "course-v1:af-brasil+PP+2024" or course_id == "course-v1:af-brasil+OFM+01") and days_difference == (limited_period_access_1 - one_month_notification_gap)) or (course_id == "course-v1:af-brasil+go+2024" and days_difference == (limited_period_access_2 - one_month_notification_gap))) :
 
-            all_treated_users.append('******* email_01 ******  '+user.email)
+            all_treated_users.append('******* email J-30 PP+2024 ou OFM ou go+2024 ******  '+user.email)
 
             try : 
-                html = '<html><head></head><body><p>Bonjour! 😊<br/><br/>Esperamos que você tenha aproveitado bastante o seu curso de francês até agora. Lembre-se de que seu acesso ao conteúdo estará disponível por mais 1 mês.<br/><br/>Aproveite este tempo para revisar, concluir atividades e liberar seu certificado! <br/>Estamos aqui para ajudar você nessa reta final se precisar! 🚀<br/><br/>Bonne continuation et à bientôt!<br/><br/><span style="font-weight: 700">Aliança Francesa Online</span><br/><img src="https://cursos.aliancafrancesaonline.com.br/media/microsites/af-brazil/logo.png" alt="Signature" style="width:192px;height:108px;"></body></html>'
+                html = '<html><head></head><body><p>Bonjour! 😊<br/><br/>Esperamos que você tenha aproveitado bastante o seu curso de francês até agora. Lembre-se de que seu acesso ao conteúdo estará disponível por mais 1 mês.<br/><br/>Aproveite este tempo para revisar, concluir atividades e liberar seu certificado! <br/>Estamos aqui para ajudar você nessa reta final se precisar! 🚀<br/><br/>Bonne continuation et à bientôt!<br/><br/><span style="font-weight: 700">Aliança Francesa Online</span><br/></p><img src="https://cursos.aliancafrancesaonline.com.br/media/microsites/af-brazil/signature_afo.png" alt="Signature" style="width:245px;height:108px;"></body></html>'
 
                 part2 = MIMEText(html.encode('utf-8'), 'html', 'utf-8')
-                try :
-                    fromaddr = helpers.get_value_for_org(org, 'email_from_address')
-                except: 
-                    fromaddr = "ne-pas-repondre@themoocagency.com"
+                fromaddr = "AF Online <ne-pas-repondre@themoocagency.com>"
                 msg = MIMEMultipart()
                 msg['From'] = fromaddr
                 msg['To'] = user.email
@@ -138,16 +121,14 @@ for course_id in course_ids:
         # email_02
         elif (course_id == "course-v1:af-brasil+PP+2024" and days_difference == (limited_period_access_1 - 1)) :
 
-            all_treated_users.append('******* email_02 ******  '+user.email)
+
+            all_treated_users.append('******* email J-1 PP+2024 ******  '+user.email)
 
             try : 
-                html = '<html><head></head><body><p>Bonjour! 🎓<br/><br/>Hoje é o último dia do seu acesso ao seu curso de francês! <br/><br/>Esperamos que essa jornada tenha sido enriquecedora e cheia de aprendizado.<br/>Caso tenha interesse em continuar aprendendo, estaremos à disposição para novas aventuras linguísticas! 🤩<br/><br/>Merci et à très bientôt !<br/><br/><span style="font-weight: 700">Aliança Francesa Online</span><br/><img src="https://cursos.aliancafrancesaonline.com.br/media/microsites/af-brazil/logo.png" alt="Signature" style="width:192px;height:108px;"></body></html>'
+                html = '<html><head></head><body><p>Bonjour! 🎓<br/><br/>Hoje é o último dia do seu acesso ao seu curso de francês! <br/><br/>Esperamos que essa jornada tenha sido enriquecedora e cheia de aprendizado.<br/>Caso tenha interesse em continuar aprendendo, estaremos à disposição para novas aventuras linguísticas! 🤩<br/><br/>Merci et à très bientôt !<br/><br/><span style="font-weight: 700">Aliança Francesa Online</span><br/></p><img src="https://cursos.aliancafrancesaonline.com.br/media/microsites/af-brazil/signature_afo.png" alt="Signature" style="width:245px;height:108px;"></body></html>'
 
                 part2 = MIMEText(html.encode('utf-8'), 'html', 'utf-8')
-                try :
-                    fromaddr = helpers.get_value_for_org(org, 'email_from_address')
-                except: 
-                    fromaddr = "ne-pas-repondre@themoocagency.com"
+                fromaddr = "AF Online <ne-pas-repondre@themoocagency.com>"
                 msg = MIMEMultipart()
                 msg['From'] = fromaddr
                 msg['To'] = user.email
@@ -174,16 +155,18 @@ for course_id in course_ids:
         # email_03_x
         elif ((course_id == "course-v1:af-brasil+go+2024" or course_id == "course-v1:af-brasil+OFM+01") and days_difference == (1)) :
 
-            all_treated_users.append('******* email_03 ******  '+user.email)
+
+            if course_id == "course-v1:af-brasil+go+2024" : 
+                all_treated_users.append('******* email J+1 go+2024 ******  '+user.email)
+                html = '<html><head></head><body><p><span style="font-weight: 700">Bienvenue dans ton cours On y va ! por Aliança Francesa.</span><br/><br/>Você está prestes a viver uma experiência apaixonante, cheia de aprendizado, cultura, emoção e diversão, na escola que é referência em ensinar francês e está presente há 140 anos em todo o mundo.<br/><br/>Nosso curso <span style="font-weight: 700">On y va ! Por Aliança Francesa</span> vai proporcionar uma imersão na língua francesa de uma maneira inovadora, com conteúdos digitais, vídeos, podcasts, exercícios interativos, desafios e medalhas a conquistar!<br/><br/>Com <span style="font-weight: 700">On y va ! Por Aliança Francesa</span> você tem o melhor do ensino on-line em autonomia, com 100% de flexibilidade e com a experiência histórica da Aliança Francesa!<br/><br/> <span style="font-weight: 700"> Desejamos a você um excelente curso e uma excelente experiência de aprendizado com On y va! por Aliança Francesa!</span><br/><br/><span style="font-weight: 700">Aliança Francesa Online</span><br/></p><img src="https://cursos.aliancafrancesaonline.com.br/media/microsites/af-brazil/signature_afo.png" alt="Signature" style="width:245px;height:108px;"></body></html>'
+            else : 
+                all_treated_users.append('******* email J+1 OFM ******  '+user.email)
+                html = '<html><head></head><body><p><span style="font-weight: 700">Bienvenue dans ton cours Objectif Français Militaire niveau A1 (OFM A1) !</span><br/><br/>Você está prestes a viver uma experiência apaixonante e cheia de aprendizado na escola que é referência em ensinar francês e está presente há 140 anos em todo o mundo.<br/><br/>Nosso curso <span style="font-weight: 700">OFM A1</span> vai proporcionar uma imersão na língua francesa ! Aprenda a falar francês e impulsione sua carreira! Prepare-se para missões de paz em países francófonos. Desenvolva a comunicação no idioma em um curso criado com foco para militares das Forças Armadas do Brasil que possuem pouco ou nenhum conhecimento de francês.<br/><br/>Com <span style="font-weight: 700">OFM A1</span> você tem o melhor do ensino on-line em autonomia, com 100% de flexibilidade e com a experiência histórica da Aliança Francesa!<br/><br/><span style="font-weight: 700">Desejamos a você um excelente curso e uma excelente experiência de aprendizado com Objectif Français Militaire niveau A1!</span><br/><br/><span style="font-weight: 700">Aliança Francesa Online</span><br/></p><img src="https://cursos.aliancafrancesaonline.com.br/media/microsites/af-brazil/signature_afo.png" alt="Signature" style="width:245px;height:108px;"></body></html>'
+
 
             try : 
-                html = '<html><head></head><body><p>Bienvenue dans ton cours '+course_name+'  .<br/><br/>Você está prestes a viver uma experiência apaixonante, cheia de aprendizado, cultura, emoção e diversão, na escola que é referência em ensinar francês e está presente há 140 anos em todo o mundo. <br/><br/>Nosso curso '+course_name+' vai proporcionar uma imersão na língua francesa de uma maneira inovadora, com conteúdos digitais, vídeos, podcasts, exercícios interativos, desafios e medalhas a conquistar!<br/><br/>Com '+course_name+'  você tem o melhor do ensino on-line em autonomia, com 100% de flexibilidade e com a experiência histórica da Aliança Francesa!<br/><br/> <span style="font-weight: 700"> Desejamos a você um excelente curso e uma excelente experiência de aprendizado com '+course_name+' </span><br/><br/><span style="font-weight: 700">Aliança Francesa Online</span><br/><img src="https://cursos.aliancafrancesaonline.com.br/media/microsites/af-brazil/logo.png" alt="Signature" style="width:192px;height:108px;"></body></html>'
-
                 part2 = MIMEText(html.encode('utf-8'), 'html', 'utf-8')
-                try :
-                    fromaddr = helpers.get_value_for_org(org, 'email_from_address')
-                except: 
-                    fromaddr = "ne-pas-repondre@themoocagency.com"
+                fromaddr = "AF Online <ne-pas-repondre@themoocagency.com>"
                 msg = MIMEMultipart()
                 msg['From'] = fromaddr
                 msg['To'] = user.email
@@ -201,19 +184,20 @@ for course_id in course_ids:
 
 
         # email_04_x
-        # elif ((course_id == "course-v1:af-brasil+go+2024" or course_id == "course-v1:af-brasil+OFM+01") and days_difference == (7) and detailed_time_tracking == 0) or (course_id == "course-v1:af-brazil+2+2024" and days_difference >= (limited_period_access_2 - one_month_notification_gap)) : # Qualif course and condition
         elif ((course_id == "course-v1:af-brasil+go+2024" or course_id == "course-v1:af-brasil+OFM+01") and days_difference == (7) and detailed_time_tracking == 0) :
 
-            all_treated_users.append('******* email_04 ******  '+user.email)
+
+            if course_id == "course-v1:af-brasil+go+2024" : 
+                all_treated_users.append('******* email J+7 go+2024 ******  '+user.email)
+                html = '<html><head></head><body><p><span style="font-weight: 700">Bonjour !</span> <br/><br/>Percebemos que você ainda não começou seu curso online<span style="font-weight: 700"> On y va ! por Aliança Francesa.</span><br/><br/><span style="font-weight: 700">Quel dommage !</span> <br/><br/>Está tudo indo bem para você?<br/><br/>A equipe da Aliança Francesa Online está à disposição para responder a quaisquer perguntas que você possa ter.<br/><br/>Você pode entrar em contato com a Aliança Francesa onde comprou o “On y va! por Aliança Francesa” ou, no caso de um problema técnico, entrar em contato com <a href="mailto:faleconosco@aliancafrancesaonline.com.br">faleconosco@aliancafrancesaonline.com.br</a> <br/><br/>Esperamos vê-los ganhando as medalhas do curso <span style="font-weight: 700"> On y va ! por Aliança Francesa</span> muito em breve.<br/><br/>A très vite !<br/><br/><span style="font-weight: 700">Aliança Francesa Online</span><br/></p><img src="https://cursos.aliancafrancesaonline.com.br/media/microsites/af-brazil/signature_afo.png" alt="Signature" style="width:245px;height:108px;"></body></html>'
+            else : 
+                all_treated_users.append('******* email J+7 OFM ******  '+user.email)
+                html = '<html><head></head><body><p><span style="font-weight: 700">Bonjour !</span><br/><br/>Percebemos que você ainda não começou seu curso online <span style="font-weight: 700">Objectif Français Militaire niveau A1 (OFM A1).</span><br/><br/><span style="font-weight: 700">Quel dommage !</span> <br/><br/>Está tudo indo bem para você?<br/><br/>A equipe da Aliança Francesa Online está à disposição para responder a quaisquer perguntas que você possa ter.<br/><br/>Você pode entrar em contato com a Aliança Francesa onde comprou o <span style="font-weight: 700">Objectif Français Militaire niveau A1 (OFM A1) </span> ou, no caso de um problema técnico, entrar em contato com <a href="mailto:faleconosco@aliancafrancesaonline.com.br">faleconosco@aliancafrancesaonline.com.br</a> <br/><br/>Esperamos vê-los ganhando as medalhas do curso <span style="font-weight: 700">Objectif Français Militaire niveau A1 (OFM A1)</span> muito em breve.<br/><br/>A très vite !<br/><br/><span style="font-weight: 700">Aliança Francesa Online</span><br/></p><img src="https://cursos.aliancafrancesaonline.com.br/media/microsites/af-brazil/signature_afo.png" alt="Signature" style="width:245px;height:108px;"></body></html>'
+
 
             try : 
-                html = '<html><head></head><body><p>Bonjour ! <br/><br/>Percebemos que você ainda não começou seu curso online<span style="font-weight: 700"> '+course_name+'</span><br/><br/><span style="font-weight: 700">Quel dommage !</span> <br/><br/>Está tudo indo bem para você?<br/><br/>A equipe da Aliança Francesa Online está à disposição para responder a quaisquer perguntas que você possa ter.<br/><br/>Você pode entrar em contato com a Aliança Francesa onde comprou o '+course_name+' ou, no caso de um problema técnico, entrar em contato com <a href="mailto:faleconosco@aliancafrancesaonline.com.br">faleconosco@aliancafrancesaonline.com.br</a> <br/><br/>Esperamos vê-los ganhando as medalhas do curso <span style="font-weight: 700">'+course_name+'</span> muito em breve.<br/><br/>A très vite !<br/><br/><span style="font-weight: 700">Aliança Francesa Online</span><br/><img src="https://cursos.aliancafrancesaonline.com.br/media/microsites/af-brazil/logo.png" alt="Signature" style="width:192px;height:108px;"></body></html>'
-
                 part2 = MIMEText(html.encode('utf-8'), 'html', 'utf-8')
-                try :
-                    fromaddr = helpers.get_value_for_org(org, 'email_from_address')
-                except: 
-                    fromaddr = "ne-pas-repondre@themoocagency.com"
+                fromaddr = "AF Online <ne-pas-repondre@themoocagency.com>"
                 msg = MIMEMultipart()
                 msg['From'] = fromaddr
                 msg['To'] = user.email
@@ -233,16 +217,13 @@ for course_id in course_ids:
         # email_05
         elif (course_id == "course-v1:af-brasil+go+2024" and days_difference == (limited_period_access_2 - 1)) :
 
-            all_treated_users.append('******* email_05 ******  '+user.email)
+            all_treated_users.append('******* email J-1 go+2024 ******  '+user.email)
 
             try : 
-                html = '<html><head></head><body><p>Bonjour! 🎓<br/><br/>Hoje é seu último dia de acesso ao curso <span style="font-weight: 700">On y va ! por Aliança Francesa</span>, esperamos que essa jornada tenha sido enriquecedora e cheia de aprendizado.  <br/><br/>Caso queira dar continuidade à sua jornada de aprendizado de francês, estaamos prontos a te apoiar na continuação de seu percurso linguístico! 🤩<br/><br/>Entre em contato com a Aliança Francesa mais próxima de sua residência ou nos procure em nossas redes sociais. Sabendo que, cada Aliança Francesa é única e as ofertas de cursos são individuais.<br/><br/>Merci et à très bientôt ! <br/><br/><span style="font-weight: 700">Aliança Francesa Online</span><br/><img src="https://cursos.aliancafrancesaonline.com.br/media/microsites/af-brazil/logo.png" alt="Signature" style="width:192px;height:108px;"></body></html>'
+                html = '<html><head></head><body><p>Bonjour! 🎓<br/><br/>Hoje é seu último dia de acesso ao curso <span style="font-weight: 700">On y va ! por Aliança Francesa</span>, esperamos que essa jornada tenha sido enriquecedora e cheia de aprendizado.<br/><br/>Caso queira dar continuidade à sua jornada de aprendizado de francês, estaamos prontos a te apoiar na continuação de seu percurso linguístico! 🤩<br/><br/>Entre em contato com a Aliança Francesa mais próxima de sua residência ou nos procure em nossas redes sociais. Sabendo que, cada Aliança Francesa é única e as ofertas de cursos são individuais.<br/><br/>Merci et à très bientôt ! <br/><br/><span style="font-weight: 700">Aliança Francesa Online</span><br/></p><img src="https://cursos.aliancafrancesaonline.com.br/media/microsites/af-brazil/signature_afo.png" alt="Signature" style="width:245px;height:108px;"></body></html>'
 
                 part2 = MIMEText(html.encode('utf-8'), 'html', 'utf-8')
-                try :
-                    fromaddr = helpers.get_value_for_org(org, 'email_from_address')
-                except: 
-                    fromaddr = "ne-pas-repondre@themoocagency.com"
+                fromaddr = "AF Online <ne-pas-repondre@themoocagency.com>"
                 msg = MIMEMultipart()
                 msg['From'] = fromaddr
                 msg['To'] = user.email
@@ -269,16 +250,13 @@ for course_id in course_ids:
         # email_06
         elif (course_id == "course-v1:af-brasil+go+degustation" and days_difference == (1)) :
 
-            all_treated_users.append('******* email_06 ******  '+user.email)
+            all_treated_users.append('******* email J-1 degustation ******  '+user.email)
 
             try : 
-                html = '<html><head></head><body><p>Bem-vinda.o ao nosso curso On y va ! por Aliança Francesa 🎉<br/><br/>Embarque em uma demonstração única de aprendizado de francês, com nosso curso 100% online e em autonomia para iniciantes! Uma experiência única pra você que já admira o cinema francês e quer começar aprender a língua ainda este ano.<br/><br/> ✨ Aprenda no Seu Ritmo: Flexibilidade total para se adequar à sua agenda lotada.<br/><br/>✨ Simples e Eficaz: Descomplicamos o francês para facilitar seu aprendizado desde o início e te proporcionando um aprendizado completo, para ser aplicado em situações do dia a dia, desde a primeira lição.<br/><br/>👉🏽 Nesta degustação <span style="font-weight: 700">você terá acesso à primeira lição de nosso curso On y va ! por Aliança Francesa</span> e poderá, então, começar seu aprendizado.<br/><br/>🎁 Este é um presente que temos a certeza que você vai gostar. Deguste o francês e comece essa jornada cultural com a gente.<br/><br/><span style="font-weight: 700">Aliança Francesa Online</span><br/><img src="https://cursos.aliancafrancesaonline.com.br/media/microsites/af-brazil/logo.png" alt="Signature" style="width:192px;height:108px;"></body></html>'
+                html = '<html><head></head><body><p>Bem-vinda.o ao nosso curso On y va ! por Aliança Francesa 🎉<br/><br/>Embarque em uma demonstração única de aprendizado de francês, com nosso curso 100% online e em autonomia para iniciantes! Uma experiência única pra você que já admira o cinema francês e quer começar aprender a língua ainda este ano.<br/><br/> ✨ Aprenda no Seu Ritmo: Flexibilidade total para se adequar à sua agenda lotada.<br/><br/>✨ Simples e Eficaz: Descomplicamos o francês para facilitar seu aprendizado desde o início e te proporcionando um aprendizado completo, para ser aplicado em situações do dia a dia, desde a primeira lição.<br/><br/>👉🏽 Nesta degustação <span style="font-weight: 700">você terá acesso à primeira lição de nosso curso On y va ! por Aliança Francesa</span> e poderá, então, começar seu aprendizado.<br/><br/>🎁 Este é um presente que temos a certeza que você vai gostar. Deguste o francês e comece essa jornada cultural com a gente.<br/><br/><span style="font-weight: 700">Aliança Francesa Online</span><br/></p><img src="https://cursos.aliancafrancesaonline.com.br/media/microsites/af-brazil/signature_afo.png" alt="Signature" style="width:245px;height:108px;"></body></html>'
 
                 part2 = MIMEText(html.encode('utf-8'), 'html', 'utf-8')
-                try :
-                    fromaddr = helpers.get_value_for_org(org, 'email_from_address')
-                except: 
-                    fromaddr = "ne-pas-repondre@themoocagency.com"
+                fromaddr = "AF Online <ne-pas-repondre@themoocagency.com>"
                 msg = MIMEMultipart()
                 msg['From'] = fromaddr
                 msg['To'] = user.email
@@ -298,16 +276,18 @@ for course_id in course_ids:
         # email_07_x
         elif ((course_id == "course-v1:af-brasil+go+degustation" and days_difference == (limited_period_access_3 - 1)) or (course_id == "course-v1:af-brasil+OFM+01" and days_difference == (limited_period_access_1 - 1))) :
 
-            all_treated_users.append('******* email_07 ******  '+user.email)
+
+            if course_id == "course-v1:af-brasil+go+degustation" : 
+                all_treated_users.append('******* email J-1 degustation ******  '+user.email)
+                html = '<html><head></head><body><p>Bonjour! 🎓 <br/><br/>Hoje é o último dia do seu acesso ao seu curso de francês <span style="font-weight: 700">Dégustation - On y va ! por Aliança Francesa.</span><br/><br/>Esperamos que essa jornada tenha sido enriquecedora e cheia de aprendizado. <br/><br/>Caso tenha interesse em continuar aprendendo, estaremos à disposição para novas aventuras linguísticas! 🤩<br/><br/>Use este link para continuar aprendendo com a Aliança Francesa Online: <a href="https://aliancafrancesaonline.com.br/">https://aliancafrancesaonline.com.br/</a> <br/><br/>Merci et à très bientôt !<br/><br/><span style="font-weight: 700">Aliança Francesa Online</span><br/></p><img src="https://cursos.aliancafrancesaonline.com.br/media/microsites/af-brazil/signature_afo.png" alt="Signature" style="width:245px;height:108px;"></body></html>'
+            else :
+                all_treated_users.append('******* email J-1 OFM ******  '+user.email)
+                html = '<html><head></head><body><p>Bonjour! 🎓 <br/><br/>Hoje é o último dia do seu acesso ao seu curso de francês <span style="font-weight: 700">Objectif Français Militaire niveau A1 (OFM A1).</span><br/><br/>Esperamos que essa jornada tenha sido enriquecedora e cheia de aprendizado. <br/><br/>Caso tenha interesse em continuar aprendendo, estaremos à disposição para novas aventuras linguísticas! 🤩<br/><br/>Use este link para continuar aprendendo com a Aliança Francesa Online: <a href="https://aliancafrancesaonline.com.br/">https://aliancafrancesaonline.com.br/</a> <br/><br/>Merci et à très bientôt !<br/><br/><span style="font-weight: 700">Aliança Francesa Online</span><br/></p><img src="https://cursos.aliancafrancesaonline.com.br/media/microsites/af-brazil/signature_afo.png" alt="Signature" style="width:245px;height:108px;"></body></html>'
 
             try : 
-                html = '<html><head></head><body><p>Bonjour! 🎓 <br/><br/> Hoje é o último dia do seu acesso ao seu curso de francês <span style="font-weight: 700">'+course_name+'</span>.<br/><br/>Esperamos que essa jornada tenha sido enriquecedora e cheia de aprendizado. <br/><br/>Caso tenha interesse em continuar aprendendo, estaremos à disposição para novas aventuras linguísticas! 🤩<br/><br/>Use este link para continuar aprendendo com a Aliança Francesa Online: <a href="https://aliancafrancesaonline.com.br/">https://aliancafrancesaonline.com.br/</a> <br/><br/>Merci et à très bientôt !<br/><br/><span style="font-weight: 700">Aliança Francesa Online</span><br/><img src="https://cursos.aliancafrancesaonline.com.br/media/microsites/af-brazil/logo.png" alt="Signature" style="width:192px;height:108px;"></body></html>'
 
                 part2 = MIMEText(html.encode('utf-8'), 'html', 'utf-8')
-                try :
-                    fromaddr = helpers.get_value_for_org(org, 'email_from_address')
-                except: 
-                    fromaddr = "ne-pas-repondre@themoocagency.com"
+                fromaddr = "AF Online <ne-pas-repondre@themoocagency.com>"
                 msg = MIMEMultipart()
                 msg['From'] = fromaddr
                 msg['To'] = user.email
@@ -326,10 +306,8 @@ for course_id in course_ids:
 
         elif ((course_id == "course-v1:af-brasil+go+degustation" and days_difference == (limited_period_access_3) ) or (course_id == "course-v1:af-brasil+OFM+01" and days_difference == (limited_period_access_1)) ) :
             # Unenroll here
-            all_treated_users.append('******* unenroll go+degustaion ou OFM ******  '+user.email)
+            all_treated_users.append('******* unenroll degustaion ou OFM ******  '+user.email)
             enrollment.unenroll(user, course_id)
-
-
 
 
 

@@ -307,7 +307,12 @@ GradeCsvCompar = json.loads(CsvComparData.content.decode('utf-8'))
         display: none;
     }
 </style>
-
+%elif str(course.id) == "course-v1:af-brasil+OFM+02":
+<style>
+    #badges > div:nth-child(2), #badges > div:nth-child(7) {
+        display: none;
+    }
+</style>
 %else : 
 <style>
     .page-content-secondary {
