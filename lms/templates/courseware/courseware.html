@@ -384,3 +384,16 @@ ${HTML(fragment.foot_html())}
 <!--WUL TIME TRACKING-->
 <%include file="/wul_apps/wul_time_tracking.html" />
 
+
+<script>
+setTimeout(() => {
+  var alert_msg_prerequisite = document.getElementsByClassName("alert-copy");
+
+  if(alert_msg_prerequisite.length != 0){ 
+    alert_msg_prerequisite[0].innerText = alert_msg_prerequisite[0].innerText.replace("This section is a prerequisite. You must complete this section in order to unlock additional content.","Esta seção é um pré-requisito. Você deve completar esta seção para desbloquear o próximo conteúdo.");
+  }
+
+}, 500);
+</script>
+
+
