@@ -383,7 +383,11 @@ if csv_data :
     color: white !important;
     text-shadow: none !important;
 }
+%if request.path.find('OFM+02') != -1 :
+/* A revoir lorsque les badges seront disponibles */
 .profile-wrapper .course-info>.chapters>section .hd {
     width: 35vw !important;
 }
+%endif
+
 </style>
