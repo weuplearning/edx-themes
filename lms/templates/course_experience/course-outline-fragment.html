@@ -110,7 +110,7 @@ display_form = False
 if not all([user_firstname, user_lastname, user_referent, user_agreeCgu, user_status]):
     display_form = True
 # manual update marker ( safer than unix time for debug)
-if user_update_marker < 1:
+if int(user_update_marker) < 1:
     display_form = True
 %>
 <!--
