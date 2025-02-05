@@ -1,0 +1,190 @@
+<%page expression_filter="h"/>
+
+<%def name="online_help_token()"><% return "learnerdashboard" %></%def>
+<%namespace name='static' file='../static_content.html'/>
+<%!
+import pytz
+import six
+import json
+
+from datetime import datetime, timedelta
+from django.urls import reverse
+from django.utils.translation import ugettext as _
+from django.template import RequestContext
+from common.djangoapps.entitlements.models import CourseEntitlement
+from common.djangoapps.third_party_auth import pipeline
+from common.djangoapps.util.date_utils import strftime_localized
+from opaque_keys.edx.keys import CourseKey
+from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
+from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+from openedx.core.djangolib.js_utils import dump_js_escaped_json, js_escaped_string
+from openedx.core.djangolib.markup import HTML, Text
+from common.djangoapps.student.models import CourseEnrollment
+%>
+
+<%
+custom_fields = {}
+custom_fields = json.loads(user.profile.custom_field)
+user_profession_audition_icope = custom_fields.get('profession_audition_icope', '')
+
+display_form = False
+if not user_profession_audition_icope:
+    display_form = True
+%>
+
+
+% if display_form:
+
+<style>
+    /* HIDE main content */
+    #content > #main {
+        display: none !important;
+    }
+    /* Form style */
+    #customFieldsForm {
+        display: flex;
+        flex-direction: column;
+        width: 50vw;
+        margin: auto;
+        min-width: 300px;
+        padding: 50px 0;
+        min-height: calc( 100vh - 241px );
+    }
+    label, input {
+        font: unset ;
+        font-family: 'Quicksand';
+    }
+    select {
+        background: #fff;
+        border: 1px solid #c8c8c8;
+        border-radius: 3px;
+        box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.6), inset 0 0 3px 0 rgba(0, 0, 0, 0.1);
+        box-sizing: border-box;
+        height: 35px;
+        padding: 5px 12px;
+        vertical-align: top;
+        -webkit-font-smoothing: antialiased;
+    }
+    button[type="submit"] {
+        width: 50%;
+        margin: 10px auto;
+    }
+    #profession_other, #profession_other_label {
+        display: none;
+    }
+</style>
+
+<form id="customFieldsForm">
+    <br>
+
+    <label for="lastName">Nom : <span class="required_field">*</span></label>
+    <input type="text" id="lastName" name="lastName" onkeydown="if(event.keyCode==32) return false;" required><br>
+
+    <label for="firstName">Prénom : <span class="required_field">*</span></label>
+    <input type="text" id="firstName" name="firstName" onkeydown="if(event.keyCode==32) return false;" required><br>
+
+    <label for="profession_audition_icope">Profession : <span class="required_field">*</span></label>
+    <select id="profession_audition_icope" name="profession_audition_icope">
+        <option value=""></option>
+        <option value="infirmier">Infirmier</option>
+        <option value="ipa">IPA</option>
+        <option value="medecin_ge">Médecin Généraliste</option>
+        <option value="medecin_spe">Médecin Spécialiste</option>
+        <option value="autre">Autre</option>
+      </select>
+    <br>
+
+    <label id="profession_other_label" for="profession_other">Profession (si autre) : <span class="required_field">*</span></label>
+    <input type="text" id="profession_other" name="profession_other" onkeydown="if(event.keyCode==32) return false;" required>
+    <br>
+
+    <p><span class="required_field">*</span> champs obligatoires</p>
+    <br>
+    <button type="submit">Envoyer</button>
+</form>
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const professionSelect = document.getElementById("profession_audition_icope");
+        const professionOtherInput = document.getElementById("profession_other");
+        const professionOtherInputLabel = document.getElementById("profession_other_label");
+
+        function toggleProfessionOther() {
+            if (professionSelect.value === "autre") {
+                professionOtherInput.style.display = "inline-block";
+                professionOtherInputLabel.style.display = "inline-block";
+                professionOtherInput.required = true;
+            } else {
+                professionOtherInput.style.display = "none";
+                professionOtherInputLabel.style.display = "none";
+                professionOtherInput.required = false;
+                professionOtherInput.value = ""; 
+            }
+        }
+
+        professionSelect.addEventListener("change", toggleProfessionOther);
+        toggleProfessionOther(); // Exécuter au chargement pour cacher le champ si nécessaire
+    });
+</script>
+
+<script>
+    const form = document.getElementById("customFieldsForm");
+
+    form.addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+        const lastName = document.getElementById("lastName").value;
+        const firstName = document.getElementById("firstName").value;
+        const profession_audition_icope = document.getElementById("profession_audition_icope").value;
+        const profession_other = document.getElementById("profession_other").value;
+
+
+        const customFields = {
+            last_name: lastName,
+            first_name: firstName,
+            profession_audition_icope: profession_audition_icope,
+            profession_other: profession_other,
+            updateDateAuditionIcope: '${datetime.now()}',
+            authorized: true,
+        };
+
+
+        console.log('customFields');
+        console.log(customFields);
+        error
+
+
+        const url = '/wul_apps/custom_field_editor/';
+        const data = JSON.stringify(customFields);
+        const settings = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": $.cookie('csrftoken'),
+            },
+            body: data
+        };
+
+        if (profession_audition_icope == "medecin_spe" || profession_audition_icope == "medecin_ge" ) {
+
+            fetch(url, settings)
+                .then(() => window.location.href = '/dashboard?course_id=course-v1:audition-icope+med+01&enrollment_action=enroll')
+                .catch((error) => console.error('Error:', error));
+
+        } else {
+
+            fetch(url, settings)
+                .then(() => window.location.href = '/dashboard?course_id=course-v1:audition-icope+ide+01&enrollment_action=enroll')
+                .catch((error) => console.error('Error:', error));
+
+        }
+    });
+
+</script>
+
+
+% endif
+
