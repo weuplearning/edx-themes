@@ -99,66 +99,42 @@ for course_id in course_ids:
         user = course_enrollments[i].user
         enrollment = course_enrollments[i]
 
-
         if user.email.find('@weuplearning') != -1 or user.email.find('@themoocagency') != -1 or user.email.find('@fake.email') != -1 or user.email.find('@example.com') != -1 or user.email in admin_list :
            continue
-        log.info('user.email')
-        log.info(user.email)
-
 
         if not enrollment.is_active :
             # On a déjà désactivé cet utilisateur
             continue
 
 
-
         # Ca dépend de ce qui définit que le cours est terminé
         gradesTest = check_best_grade(user, course, force_best_grade=True)
         userPercentGrade = gradesTest.summary['percent']
-        log.info('userPercentGrade')
-        log.info(userPercentGrade)
-
 
 
         # SI LE COURS EST TERMINE ON PEUT DESINSCRIRE
         if userPercentGrade == 1 :
-            log.info("cours terminé")
             all_treated_users_unenroll.append('******* finish course ******  '+user.email)
-            # enrollment.unenroll(user, course_id)
-
-
+            enrollment.unenroll(user, course_id)
 
         try:
             detailed_time_tracking = json.loads(WulCourseEnrollment.get_enrollment(user=user, course_id=course_id).detailed_time_tracking)
         except : 
             detailed_time_tracking = 0
-        log.info(detailed_time_tracking)
-
-
 
 
         # Check if the date_joined is old enough to be deleted
         # if (user.date_joined <= now - timedelta(days=limited_period_access) and userPercentGrade >= 0.7) :
         if user.date_joined <= now - timedelta(days=limited_period_access)  :
-
             all_treated_users_unenroll.append('******* unenroll 40 days ******  '+user.email)
-            log.info("Pas commencé aprés 40 jours")
-
-            # Pas commencé aprés 40 jours
-            # enrollment.unenroll(user, course_id)
+            enrollment.unenroll(user, course_id)
 
 
 
-        # si le cours n'est pas commencé aprés 3 jours
         # Cet email sera envoyé automatiquement si les apprenants ne commencent pas leurs modules d'apprentissage dans les 72 heures suivant l'activation de leur compte, après leur inscription et la visualisation de la vidéo d'introduction
         elif (user.date_joined == now - timedelta(days=(email_notification_gap)) and detailed_time_tracking == 0) :
 
             try:
-                # EN ATTENTE DE RETOUR CLIENT
-                log.info('envoi du mail 1 à :')
-                log.info(user.email)
-                log.info(user.date_joined )
-                continue
 
                 html = '<html><head></head><body><h3 style="text-align: center; color: #004677; font-weight: bold;">Lancez-vous aujourd\'hui !</h3><p>Bonjour,<br/><br/>Nous sommes ravis de vous accueillir sur notre plateforme pédagogique ! Depuis votre inscription, votre place est réservée pour une expérience unique.<br/><br/>Le temps presse... L\'atelier n\'attend que vous pour démarrer ! <br/><br/>Préparez-vous à plonger dans un atelier abordant les compétences à développer pour mener à bien son projet. Au travers de regards croisés de professeurs et d’entrepreneurs, nous vous donnerons les clés pour muscler vos qualités d’entrepreneur. <p style="text-align: center;"><a href="https://hec-pole-emploi.weup.in/login" style="display: inline-block;padding: 10px 20px;font-size: 16px;color: white;background-color: #004677;text-decoration: none;border-radius: 5px;font-weight: bold;">Je démarre !</a></p><br/>Cordialement,<br/>L\'&eacute;quipe de recherche</p><img src="https://hec-pole-emploi.weup.in/media/microsites/hec-pole-emploi/logo-hec-paris.jpg" alt="Signature" style="width:145px;height:100px;"></body></html>'
 
@@ -185,11 +161,6 @@ for course_id in course_ids:
         # elif (user.date_joined <= now - timedelta(days=(email_notification_gap_2)) and detailed_time_tracking != 0 and userPercentGrade <= 0.7) :
 
             try:
-
-                log.info('send email 2 ')
-                log.info(user.email)
-                log.info(user.date_joined )
-                continue
 
                 html = '<html><head></head><body><h3 style="text-align: center; color: #004677; font-weight: bold;">Vous y êtes presque !</h3><p>Bonjour,<br/><br/>Voilà quelques jours que vous avez commencé notre atelier sur comment muscler vos qualités d’entrepreneur. Bravo !<br/><br/> <span style="font-weight: bold;" >Faites le point sur vos compétences entrepreneuriales pour mener à bien votre projet. </span> <br/><br/>Il ne vous reste plus qu’une semaine pour profiter de l\'atelier ! Après cette date, votre accès à la plateforme expirera pour permettre à de nouveaux participants de rejoindre l\'aventure. <br/><br/>Nous vous encourageons vivement à le finir pour en bénéficier pleinement. Vous y êtes presque ! <p style="text-align: center;"><a href="https://hec-pole-emploi.weup.in/login" style="display: inline-block;padding: 10px 20px;font-size: 16px;color: white;background-color: #004677;text-decoration: none;border-radius: 5px;font-weight: bold;">Je continue !</a></p><br/>Cordialement,<br/>L\'&eacute;quipe de recherche</p><img src="https://hec-pole-emploi.weup.in/media/microsites/hec-pole-emploi/logo-hec-paris.jpg" alt="Signature" style="width:145px;height:100px;"></body></html>'
 
@@ -264,4 +235,4 @@ for email in emails_to_send:
     print('Email sent to ',email)
 
 
-# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/hec-pole-emploi/lms/utils/delete_inactive_user_hec_2.py 'cyril.adolf@weuplearning.com'
+# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/hec-pole-emploi/lms/utils/notif_and_unenroll_script.py 'cyril.adolf@weuplearning.com'
