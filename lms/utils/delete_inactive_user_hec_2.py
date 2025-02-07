@@ -53,21 +53,39 @@ limited_period_access = 40
 # Envoyer le rapport aux admins HEC ?
 emails_to_send = sys.argv[1].split(";")
 
-all_treated_users = []
+all_treated_users_unenroll = []
+all_treated_users_notif_14 = []
+all_treated_users_notif_37 = []
 
 now = timezone.now()
 
+admin_list = [
+    "andrew.funck@hec.edu",
+    "m.ashraf@outlook.fr",
+    "schultehec@gmail.com",
+    "astebro@hec.fr",
+    "mona.mensmann@wiso.uni-koeln.de",
+    "naja.pape@insead.edu"
+]
 
 course_ids = [
-    "course-v1:hec-pole-emploi+IP+2023",
-    "course-v1:hec-pole-emploi+IP_NEG+2023",
-    "course-v1:hec-pole-emploi+NEG+2023",
-    "course-v1:hec-pole-emploi+webinaire+2023"
+    "course-v1:hec-pole-emploi+IP_1+2025",
+    "course-v1:hec-pole-emploi+IP_2+2025",
+    "course-v1:hec-pole-emploi+IP_3+2025",
+    "course-v1:hec-pole-emploi+IP_4+2025",
+    "course-v1:hec-pole-emploi+NEG_1+2025",
+    "course-v1:hec-pole-emploi+NEG_2+2025",
+    "course-v1:hec-pole-emploi+NEG_3+2025",
+    "course-v1:hec-pole-emploi+NEG_4+2025",
+    "course-v1:hec-pole-emploi+WEB_1+2025",
+    "course-v1:hec-pole-emploi+WEB_2+2025",
+    "course-v1:hec-pole-emploi+WEB_3+2025",
+    "course-v1:hec-pole-emploi+WEB_4+2025",
 ]
 # koa-qualif
-course_ids = [
-    "course-v1:hec-pole-emploi+12+2024"
-]
+# course_ids = [
+#     "course-v1:hec-pole-emploi+12+2024"
+# ]
 
 
 for course_id in course_ids:
@@ -86,9 +104,11 @@ for course_id in course_ids:
         platform_name = helpers.get_value_for_org(org, 'LMS_ROOT_URL')
 
         # Ajouter les admins HEC
-        # if user.email.find('@weuplearning') != -1 or user.email.find('@themoocagency') != -1 or user.email.find('@fake.email') != -1 or user.email.find('@example.com') != -1 :
-        #    continue
+        if user.email.find('@weuplearning') != -1 or user.email.find('@themoocagency') != -1 or user.email.find('@fake.email') != -1 or user.email.find('@example.com') != -1 or user.email in admin_list :
+           continue
 
+        log.info('user.email')
+        log.info(user.email)
 
         if not enrollment.is_active :
             # On a déjà désactivé cet utilisateur
@@ -103,72 +123,57 @@ for course_id in course_ids:
         log.info('userPersentGrade')
         log.info(userPersentGrade)
 
+
+        # SI LE COURS EST TERMINE ON PEUT DESINSCRIRE
         # if userPersentGrade == 1 :
         #     enrollment.unenroll(user, course_id)
 
 
+        try:
+            detailed_time_tracking = json.loads(WulCourseEnrollment.get_enrollment(user=user, course_id=course_id).detailed_time_tracking)
+        except : 
+            detailed_time_tracking = 0
+            log.info('except TT')
+        log.info(detailed_time_tracking)
 
 
         # Check if the date_joined is old enough to be deleted
         if (user.date_joined <= now - timedelta(days=limited_period_access)  and userPersentGrade >= 0.7) :
 
-            all_treated_users.append(user.email)
+            all_treated_users_unenroll.append(user.email)
             log.info(course_enrollments[i])
             # log.info(dir(course_enrollments[i]))
             # Only delete if course is finished or if course not started
             # -> TimeTracking = 0 ?
 
             log.info("detailed_time_tracking")
-            try:
-                detailed_time_tracking = json.loads(WulCourseEnrollment.get_enrollment(user=user, course_id=course_id).detailed_time_tracking)
-
-                log.info(detailed_time_tracking)
-            except : 
-                detailed_time_tracking = 0
-                log.info('except TT')
 
             if len(detailed_time_tracking) == 0 : 
                 log.info("pas de TT")
+                log.info(user.email)
+                log.info(user.date_joined )
+
                 # Pas commencé aprés 40 jours
                 # enrollment.unenroll(user, course_id)
 
 
-            log.info(user.date_joined )
-            log.info(user.date_joined <= now - timedelta(days=(limited_period_access - email_notification_gap)))
-
-            log.info(now - timedelta(days=(limited_period_access - email_notification_gap)))
-
-
-        # si le cours n'est pas terminé à 100% aprés 40 - 14 jours
+        # si le cours n'est pas terminé à 100% aprés 40-14 jours
         # Comment on défini les différentes périodes ? 
             # Premier email si pas commencé aprés 3 jours 
-            #  
 
 
+        # Cet email sera envoyé automatiquement si les apprenants ont commencé leurs modules d'apprentissage mais ne les ont pas tous terminés dans les 14 jours suivant l'activation de leur compte.
         elif (user.date_joined <= now - timedelta(days=(limited_period_access - email_notification_gap)) and userPersentGrade <= 0.7) :
+        # elif (user.date_joined <= now - timedelta(days=(limited_period_access - email_notification_gap)) and detailed_time_tracking != 0 and userPersentGrade <= 0.7) :
 
             try:
-                # EN ATTENTE DE RETOUR CLIENT
-                log.info('envoi du mail 1 à :')
+
+                log.info('send email 1 ')
                 log.info(user.email)
                 log.info(user.date_joined )
-                log.info('userPersentGrade')
-                log.info(userPersentGrade)
 
-
-                # if course_id == "course-v1:hec-pole-emploi+IP+2023" :
-
-                #     html = '<html><head></head><body><h3 style="text-align: center; color: #004677; font-weight: bold;">Lancez-vous aujourd\'hui !</h3><p>Bonjour,<br/><br/>Nous sommes ravis de vous accueillir sur notre plateforme pédagogique ! Depuis votre inscription, votre place est réservée pour une expérience unique.<br/>Le temps presse... L\'atelier n\'attend que vous pour démarrer ! <br/>Préparez-vous à plonger dans un atelier abordant les compétences à développer pour mener à bien son projet. Au travers de regards croisés de professeurs et d’entrepreneurs, nous vous donnerons les clés pour muscler vos qualités d’entrepreneur. <p style="text-align: center;"><a href="https://hec-pole-emploi.weup.in/" style="display: inline-block;padding: 10px 20px;font-size: 16px;color: white;background-color: #004677;text-decoration: none;border-radius: 5px;font-weight: bold;">Je démarre !</a></p><br/>Cordialement,<br/>L\'&eacute;quipe de recherche</p><img src="https://hec-pole-emploi.weup.in/media/microsites/hec-pole-emploi/logo-hec-paris.jpg" alt="Signature" style="width:145px;height:100px;"></body></html>'
-
-                # elif course_id == "course-v1:hec-pole-emploi+IP_NEG+2023" :
-                #     html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous recevez cet e-mail car il ne vous reste plus que 7 jours pour terminer votre formation"+course_name+".<br/>Sans nouvelle connexion de votre part, <strong>votre compte sera supprimé dans 7 jours</strong>, conformément à nos politiques d'utilisation.<br/>Cliquez ici <a href='"+platform_name+"/login' >"+platform_name+"</a> pour conserver votre compte et suivre votre formation.<br/><br/><br/>Bonne r&eacute;ception,<br/>L'&eacute;quipe HEC - Pole-Emploi</p></body></html>"
-                # elif course_id == "course-v1:hec-pole-emploi+NEG+2023" :
-                #     html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous recevez cet e-mail car il ne vous reste plus que 7 jours pour terminer votre formation"+course_name+".<br/>Sans nouvelle connexion de votre part, <strong>votre compte sera supprimé dans 7 jours</strong>, conformément à nos politiques d'utilisation.<br/>Cliquez ici <a href='"+platform_name+"/login' >"+platform_name+"</a> pour conserver votre compte et suivre votre formation.<br/><br/><br/>Bonne r&eacute;ception,<br/>L'&eacute;quipe HEC - Pole-Emploi</p></body></html>"
-                # else : 
-                #     continue
-
+                continue
                 html = '<html><head></head><body><h3 style="text-align: center; color: #004677; font-weight: bold;">Lancez-vous aujourd\'hui !</h3><p>Bonjour,<br/><br/>Nous sommes ravis de vous accueillir sur notre plateforme pédagogique ! Depuis votre inscription, votre place est réservée pour une expérience unique.<br/><br/>Le temps presse... L\'atelier n\'attend que vous pour démarrer ! <br/><br/>Préparez-vous à plonger dans un atelier abordant les compétences à développer pour mener à bien son projet. Au travers de regards croisés de professeurs et d’entrepreneurs, nous vous donnerons les clés pour muscler vos qualités d’entrepreneur. <p style="text-align: center;"><a href="https://hec-pole-emploi.weup.in/login" style="display: inline-block;padding: 10px 20px;font-size: 16px;color: white;background-color: #004677;text-decoration: none;border-radius: 5px;font-weight: bold;">Je démarre !</a></p><br/>Cordialement,<br/>L\'&eacute;quipe de recherche</p><img src="https://hec-pole-emploi.weup.in/media/microsites/hec-pole-emploi/logo-hec-paris.jpg" alt="Signature" style="width:145px;height:100px;"></body></html>'
-
 
                 part2 = MIMEText(html.encode('utf-8'), 'html', 'utf-8')
                 try :
@@ -188,27 +193,20 @@ for course_id in course_ids:
                 server.sendmail(fromaddr, user.email, text)
                 server.quit()
             except:
-                all_treated_users.append('******* DEFAULT EMAIL ******  '+user.email)
+                all_treated_users_notif_14.append('******* DEFAULT EMAIL ******  '+user.email)
 
 
-        # si le cours n'est pas terminé à 100% aprés 30 jours
-        elif (user.date_joined == now - timedelta(days=(email_notification_gap_2)) and userPersentGrade <= 0.7) :
+        # si le cours n'est pas commencé aprés 3 jours
+        # Cet email sera envoyé automatiquement si les apprenants ne commencent pas leurs modules d'apprentissage dans les 72 heures suivant l'activation de leur compte, après leur inscription et la visualisation de la vidéo d'introduction
+        elif (user.date_joined == now - timedelta(days=(email_notification_gap_2)) and detailed_time_tracking == 0) :
 
             try:
                 # EN ATTENTE DE RETOUR CLIENT
                 log.info('envoi du mail 2 à :')
                 log.info(user.email)
                 log.info(user.date_joined )
-                # condition sur le cours ici 
+                continue
 
-                # if course_id == "course-v1:hec-pole-emploi+IP+2023" :
-                #     html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous recevez cet e-mail car il ne vous reste plus que 7 jours pour terminer votre formation"+course_name+".<br/>Sans nouvelle connexion de votre part, <strong>votre compte sera supprimé dans 7 jours</strong>, conformément à nos politiques d'utilisation.<br/>Cliquez ici <a href='"+platform_name+"/login' >"+platform_name+"</a> pour conserver votre compte et suivre votre formation.<br/><br/><br/>Bonne r&eacute;ception,<br/>L'&eacute;quipe HEC - Pole-Emploi</p></body></html>"
-                # elif course_id == "course-v1:hec-pole-emploi+IP_NEG+2023" :
-                #     html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous recevez cet e-mail car il ne vous reste plus que 7 jours pour terminer votre formation"+course_name+".<br/>Sans nouvelle connexion de votre part, <strong>votre compte sera supprimé dans 7 jours</strong>, conformément à nos politiques d'utilisation.<br/>Cliquez ici <a href='"+platform_name+"/login' >"+platform_name+"</a> pour conserver votre compte et suivre votre formation.<br/><br/><br/>Bonne r&eacute;ception,<br/>L'&eacute;quipe HEC - Pole-Emploi</p></body></html>"
-                # elif course_id == "course-v1:hec-pole-emploi+NEG+2023" :
-                #     html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous recevez cet e-mail car il ne vous reste plus que 7 jours pour terminer votre formation"+course_name+".<br/>Sans nouvelle connexion de votre part, <strong>votre compte sera supprimé dans 7 jours</strong>, conformément à nos politiques d'utilisation.<br/>Cliquez ici <a href='"+platform_name+"/login' >"+platform_name+"</a> pour conserver votre compte et suivre votre formation.<br/><br/><br/>Bonne r&eacute;ception,<br/>L'&eacute;quipe HEC - Pole-Emploi</p></body></html>"
-                # else : 
-                #     continue
                 html = '<html><head></head><body><h3 style="text-align: center; color: #004677; font-weight: bold;">Vous y êtes presque !</h3><p>Bonjour,<br/><br/>Voilà quelques jours que vous avez commencé notre atelier sur comment muscler vos qualités d’entrepreneur. Bravo !<br/><br/> <span style="font-weight: bold;" >Faites le point sur vos compétences entrepreneuriales pour mener à bien votre projet. </span> <br/><br/>Il ne vous reste plus qu’une semaine pour profiter de l\'atelier ! Après cette date, votre accès à la plateforme expirera pour permettre à de nouveaux participants de rejoindre l\'aventure. <br/><br/>Nous vous encourageons vivement à le finir pour en bénéficier pleinement. Vous y êtes presque ! <p style="text-align: center;"><a href="https://hec-pole-emploi.weup.in/login" style="display: inline-block;padding: 10px 20px;font-size: 16px;color: white;background-color: #004677;text-decoration: none;border-radius: 5px;font-weight: bold;">Je continue !</a></p><br/>Cordialement,<br/>L\'&eacute;quipe de recherche</p><img src="https://hec-pole-emploi.weup.in/media/microsites/hec-pole-emploi/logo-hec-paris.jpg" alt="Signature" style="width:145px;height:100px;"></body></html>'
 
                 part2 = MIMEText(html.encode('utf-8'), 'html', 'utf-8')
@@ -229,9 +227,10 @@ for course_id in course_ids:
                 server.sendmail(fromaddr, user.email, text)
                 server.quit()
             except:
-                all_treated_users.append('******* DEFAULT EMAIL 2 ******  '+user.email)
+                all_treated_users_notif_37.append('******* DEFAULT EMAIL 2 ******  '+user.email)
 
 
+all_treated_users = all_treated_users_unenroll + all_treated_users_notif_14 + all_treated_users_notif_37
 
 
 ## Workbook
@@ -256,7 +255,7 @@ output = BytesIO()
 wb.save(output)
 _files_values = output.getvalue()
 
-html = '<html><head></head><body><h3 style="text-align: center; color: #004677; font-weight: bold;">Rapport des Utilisateurs Supprimés</h3><p>Bonjour,<br/><br/>Voici la liste des '+str(len(all_treated_users)-1)+' utilisateurs supprimés de la base de données<br/>C\'est utilisateurs ont été notifiés du status de leur période d\'accés.<br/>En cas de besoin vérifier le script : /edx/app/edxapp/edx-themes/hec-pole-emploi/lms/utils/delete_inactive_user_hec.py <br/><p style="text-align: center;"><a href="https://hec-pole-emploi.koa.qualif.dev" style="display: inline-block;padding: 10px 20px;font-size: 16px;color: white;background-color: #004677;text-decoration: none;border-radius: 5px;font-weight: bold;">Je démarre !</a></p><br/>Bonne r&eacute;ception<br/>L\'&eacute;quipe WeUp Learning</p><img src="https://hec-pole-emploi.weup.in/media/microsites/hec-pole-emploi/logo-hec-paris.jpg" alt="Signature" style="width:145px;height:100px;"></body></html>'
+html = '<html><head></head><body><h3>Rapport des Utilisateurs Supprimés</h3><p>Bonjour,<br/><br/>Voici la liste des '+str(len(all_treated_users_unenroll))+' utilisateurs désinscrit des cours HEC<br/>En cas de besoin vérifier le script : /edx/app/edxapp/edx-themes/hec-pole-emploi/lms/utils/delete_inactive_user_hec.py <br/>Bonne r&eacute;ception<br/>L\'&eacute;quipe WeUp Learning</p></body></html>'
 
 
 for email in emails_to_send:
