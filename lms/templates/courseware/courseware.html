@@ -29,6 +29,10 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
     background: url("${static.url('{}/images/bg_img.png'.format(course.org))}");
     background-size: contain;
   }
+  .scorm_object {
+    top: 75px !important;
+  }
+
 </style>
 
 % if display_reset_dates_banner:
@@ -329,7 +333,7 @@ ${HTML(fragment.foot_html())}
     var exit_fullscreen_button = document.getElementsByClassName("js-button-full-screen full-screen-off");
 
     if(exit_fullscreen_button.length != 0){
-      exit_fullscreen_button[0].innerText = exit_fullscreen_button[0].innerText.replace("Exit fullscreen", 'Sortir du plein écran')
+      exit_fullscreen_button[0].innerText = exit_fullscreen_button[0].innerText.replace('Exit fullscreen', 'Sortir du plein écran')
     }
     if (fullscreen_button.length != 0 && exit_fullscreen_button.length != 0) {
       clearInterval(wording_update)
