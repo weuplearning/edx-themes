@@ -32,22 +32,16 @@ import json
 import datetime
 
 from opaque_keys.edx import locator
-from opaque_keys.edx.locations import SlashSeparatedCourseKey
 from lms.djangoapps.wul_apps.models import WulCourseEnrollment
 from common.djangoapps.student.models import User, UserProfile
 from lms.djangoapps.courseware.models import StudentModule
-from student.models import CourseEnrollment
-from courseware.courses import get_course_by_id
-from opaque_keys.edx.keys import CourseKey, UsageKey
-# from opaque_keys.edx.locator import BlockUsageLocator
-from common.lib.xmodule.xmodule.modulestore.django import modulestore
+from opaque_keys.edx.keys import UsageKey
 
 # entry point to the block_structure api.
 from openedx.core.djangoapps.content.block_structure.api import get_course_in_cache
 
 from openpyxl import Workbook
 from openpyxl.styles import PatternFill, Font
-
 
 import smtplib
 from email.mime.multipart import MIMEMultipart
@@ -60,53 +54,104 @@ import logging
 log = logging.getLogger()
 
 
+
+
 emails = sys.argv[1].split(";")
-#course_ids = sys.argv[2].split(";")
-#course-v1:hec-pole-emploi+01+2022
 
-course_ids = ["course-v1:hec-pole-emploi+IP_NEG+2023", "course-v1:hec-pole-emploi+IP+2023", "course-v1:hec-pole-emploi+NEG+2023", "course-v1:hec-pole-emploi+webinaire+2023"]
+course_ids = [
+    "course-v1:hec-pole-emploi+temoin+2025",
+    "course-v1:hec-pole-emploi+IP_1+2025",
+    "course-v1:hec-pole-emploi+IP_2+2025",
+    "course-v1:hec-pole-emploi+IP_3+2025",
+    "course-v1:hec-pole-emploi+IP_4+2025",
+    "course-v1:hec-pole-emploi+NEG_1+2025",
+    "course-v1:hec-pole-emploi+NEG_2+2025",
+    "course-v1:hec-pole-emploi+NEG_3+2025",
+    "course-v1:hec-pole-emploi+NEG_4+2025",
+    "course-v1:hec-pole-emploi+WEB_1+2025",
+    "course-v1:hec-pole-emploi+WEB_2+2025",
+    "course-v1:hec-pole-emploi+WEB_3+2025",
+    "course-v1:hec-pole-emploi+WEB_4+2025"
+]
 
-dict_course_name = {
-    "course-v1:hec-pole-emploi+NEG+2023": "Negociation (NEG)", 
-    "course-v1:hec-pole-emploi+IP+2023": "Initiative Personnelle (IP)", 
-    "course-v1:hec-pole-emploi+IP_NEG+2023": "NEG+IP", 
-    "course-v1:hec-pole-emploi+webinaire+2023": "Webinaire"
-}
 
 scorm_page_ids = {
-    'course-v1:hec-pole-emploi+IP+2023': {
-        'block-v1:hec-pole-emploi+IP+2023+type@scorm+block@9608f74c73564e9f855dc290ee0d8328': 'Scorm module'
-    }, 
-    'course-v1:hec-pole-emploi+IP_NEG+2023': {
-        'block-v1:hec-pole-emploi+IP_NEG+2023+type@scorm+block@5c719e3bb8d048f2ae7dde0c177916c5': "Vidéo d'introduction", 
-        'block-v1:hec-pole-emploi+IP_NEG+2023+type@scorm+block@dbb48f175f9c48f6baf8c2f35059b24a': 'Étude de cas', 
-        'block-v1:hec-pole-emploi+IP_NEG+2023+type@scorm+block@790d688c96bd4e4393c5a4acb9b00408': 'Étude de cas 2', 
-        'block-v1:hec-pole-emploi+IP_NEG+2023+type@scorm+block@af00ac1520ee41698dcc4f839e0656b5': 'Étude de cas 3'
-    }, 
-    'course-v1:hec-pole-emploi+NEG+2023': {
-        'block-v1:hec-pole-emploi+NEG+2023+type@scorm+block@75d793663c1d4256aedd2ae063d3c978': 'Scorm module'
-    }, 
-    'course-v1:hec-pole-emploi+webinaire+2023': {}
+    "course-v1:hec-pole-emploi+temoin+2025" : { },
+    "course-v1:hec-pole-emploi+IP_1+2025" : {
+        "block-v1:hec-pole-emploi+IP_1+2025+type@scorm+block@76f94648789249ae8be25ee7b6b5e61d": "Scorm module"
+    },
+    "course-v1:hec-pole-emploi+IP_2+2025" : {
+        "block-v1:hec-pole-emploi+IP_1+2025+type@scorm+block@76f94648789249ae8be25ee7b6b5e61d": "Scorm module"
+    },
+    "course-v1:hec-pole-emploi+IP_3+2025" : {
+        "block-v1:hec-pole-emploi+IP_1+2025+type@scorm+block@76f94648789249ae8be25ee7b6b5e61d": "Scorm module"
+    },
+    "course-v1:hec-pole-emploi+IP_4+2025" : {
+        "block-v1:hec-pole-emploi+IP_1+2025+type@scorm+block@76f94648789249ae8be25ee7b6b5e61d": "Scorm module"
+    },
+    "course-v1:hec-pole-emploi+NEG_1+2025" : {
+        "block-v1:hec-pole-emploi+NEG+2023+type@scorm+block@75d793663c1d4256aedd2ae063d3c978": "Scorm module"
+    },
+    "course-v1:hec-pole-emploi+NEG_2+2025" : {
+        "block-v1:hec-pole-emploi+NEG+2023+type@scorm+block@75d793663c1d4256aedd2ae063d3c978": "Scorm module"
+    },
+    "course-v1:hec-pole-emploi+NEG_3+2025" : {
+        "block-v1:hec-pole-emploi+NEG+2023+type@scorm+block@75d793663c1d4256aedd2ae063d3c978": "Scorm module"
+    },
+    "course-v1:hec-pole-emploi+NEG_4+2025" : {
+        "block-v1:hec-pole-emploi+NEG+2023+type@scorm+block@75d793663c1d4256aedd2ae063d3c978": "Scorm module"
+    },
+    "course-v1:hec-pole-emploi+WEB_1+2025" : {},
+    "course-v1:hec-pole-emploi+WEB_2+2025" : {},
+    "course-v1:hec-pole-emploi+WEB_3+2025" : {},
+    "course-v1:hec-pole-emploi+WEB_4+2025": {}
 }
 
 #dict_hardcoded_chapter_key = {"course-v1:hec-pole-emploi+01+2022": ['block-v1:hec-pole-emploi+01+2022+type@chapter+block@54f8633948664c0bb85f54b33947eaba', 'block-v1:hec-pole-emploi+01+2022+type@chapter+block@d9d5984d68d04f008df511ace8dc843f', 'block-v1:hec-pole-emploi+01+2022+type@chapter+block@5089741f072547ef97395ef7a5b0ee1c']}
 dict_hardcoded_chapter_key = {
-    'course-v1:hec-pole-emploi+IP+2023': [
-        'block-v1:hec-pole-emploi+IP+2023+type@chapter+block@210326b6198446868cda2d4e2028e291', 
-        'block-v1:hec-pole-emploi+IP+2023+type@chapter+block@43078e3916414a46b72fe6321e1f3d25',
-        'block-v1:hec-pole-emploi+IP+2023+type@chapter+block@aa33f1dae86643dcb2b6d9ccb6f81d17',
-        'block-v1:hec-pole-emploi+IP+2023+type@chapter+block@111b7f2672ff42c585dcdee7e9b4bca6'
+    "course-v1:hec-pole-emploi+temoin+2025" : [],
+    "course-v1:hec-pole-emploi+IP_1+2025": [
+        "block-v1:hec-pole-emploi+IP+2023+type@chapter+block@210326b6198446868cda2d4e2028e291", 
+        "block-v1:hec-pole-emploi+IP+2023+type@chapter+block@43078e3916414a46b72fe6321e1f3d25",
+        "block-v1:hec-pole-emploi+IP+2023+type@chapter+block@aa33f1dae86643dcb2b6d9ccb6f81d17",
+        "block-v1:hec-pole-emploi+IP+2023+type@chapter+block@111b7f2672ff42c585dcdee7e9b4bca6"
     ], 
-    'course-v1:hec-pole-emploi+IP_NEG+2023': [
-        'block-v1:hec-pole-emploi+IP_NEG+2023+type@chapter+block@5719ed51d13842efa6ff46564a3a2430', 
-        'block-v1:hec-pole-emploi+IP_NEG+2023+type@chapter+block@c1e54fc31ee94f878ea6bd9959a5f15b', 
-        'block-v1:hec-pole-emploi+IP_NEG+2023+type@chapter+block@9d9193c1b488439a991aadc2799955bb'
+    "course-v1:hec-pole-emploi+IP_2+2025": [
+        "block-v1:hec-pole-emploi+IP+2023+type@chapter+block@210326b6198446868cda2d4e2028e291", 
+        "block-v1:hec-pole-emploi+IP+2023+type@chapter+block@43078e3916414a46b72fe6321e1f3d25",
+        "block-v1:hec-pole-emploi+IP+2023+type@chapter+block@aa33f1dae86643dcb2b6d9ccb6f81d17",
+        "block-v1:hec-pole-emploi+IP+2023+type@chapter+block@111b7f2672ff42c585dcdee7e9b4bca6"
     ], 
-    'course-v1:hec-pole-emploi+NEG+2023': [
-        'block-v1:hec-pole-emploi+NEG+2023+type@chapter+block@6ccc988be0b84e7b82f4e92bdb35101b'
+    "course-v1:hec-pole-emploi+IP_3+2025": [
+        "block-v1:hec-pole-emploi+IP+2023+type@chapter+block@210326b6198446868cda2d4e2028e291", 
+        "block-v1:hec-pole-emploi+IP+2023+type@chapter+block@43078e3916414a46b72fe6321e1f3d25",
+        "block-v1:hec-pole-emploi+IP+2023+type@chapter+block@aa33f1dae86643dcb2b6d9ccb6f81d17",
+        "block-v1:hec-pole-emploi+IP+2023+type@chapter+block@111b7f2672ff42c585dcdee7e9b4bca6"
     ], 
-    'course-v1:hec-pole-emploi+webinaire+2023': []
+    "course-v1:hec-pole-emploi+IP_4+2025": [
+        "block-v1:hec-pole-emploi+IP+2023+type@chapter+block@210326b6198446868cda2d4e2028e291", 
+        "block-v1:hec-pole-emploi+IP+2023+type@chapter+block@43078e3916414a46b72fe6321e1f3d25",
+        "block-v1:hec-pole-emploi+IP+2023+type@chapter+block@aa33f1dae86643dcb2b6d9ccb6f81d17",
+        "block-v1:hec-pole-emploi+IP+2023+type@chapter+block@111b7f2672ff42c585dcdee7e9b4bca6"
+    ], 
+    "course-v1:hec-pole-emploi+NEG_1+2025": [
+        "block-v1:hec-pole-emploi+NEG+2023+type@chapter+block@6ccc988be0b84e7b82f4e92bdb35101b"
+    ], 
+    "course-v1:hec-pole-emploi+NEG_2+2025": [
+        "block-v1:hec-pole-emploi+NEG+2023+type@chapter+block@6ccc988be0b84e7b82f4e92bdb35101b"
+    ], 
+    "course-v1:hec-pole-emploi+NEG_3+2025": [
+        "block-v1:hec-pole-emploi+NEG+2023+type@chapter+block@6ccc988be0b84e7b82f4e92bdb35101b"
+    ], 
+    "course-v1:hec-pole-emploi+NEG_4+2025": [
+        "block-v1:hec-pole-emploi+NEG+2023+type@chapter+block@6ccc988be0b84e7b82f4e92bdb35101b"
+    ], 
+    "course-v1:hec-pole-emploi+WEB_1+2025": [],
+    "course-v1:hec-pole-emploi+WEB_2+2025": [],
+    "course-v1:hec-pole-emploi+WEB_3+2025": [],
+    "course-v1:hec-pole-emploi+WEB_4+2025": []
 }
+
 
 all_courses_video_student_module = []
 
@@ -117,29 +162,27 @@ all_user_set = set()
 # list_of_student_scorms = list()
 videos_list = list()
 
-test = StudentModule.objects.filter(course_id__exact="course-v1:hec-pole-emploi+IP+2023", student=71, module_type="video").order_by().values('student_id', 'module_state_key', 'state')
-
-log.info("test")
-log.info(test)
 
 for course_id in course_ids :
-    list_of_student_modules = StudentModule.objects.filter(course_id__exact=course_id, module_type="video").order_by().values('student_id', 'module_state_key', 'state')
-    list_of_student_scorms = StudentModule.objects.filter(course_id__exact=course_id, module_type="scorm").order_by().values('student_id', 'module_state_key', 'state')
+    list_of_student_modules = StudentModule.objects.filter(course_id__exact=course_id, module_type="video").order_by().values("student_id", "module_state_key", "state")
+    list_of_student_scorms = StudentModule.objects.filter(course_id__exact=course_id, module_type="scorm").order_by().values("student_id", "module_state_key", "state")
     #log.info(f"problem of course :{course_id} => {list_of_student_problems}")
     users = set()
     users_scorms = set()
     for student_module in list_of_student_modules:
 
-        log.info('student_module')
+        log.info("student_module")
         log.info(student_module)
 
         all_courses_video_student_module.append(student_module)
         users.add(User.objects.get(id = student_module["student_id"]))
 
     for scorm_student_module in list_of_student_scorms :
+
         log.info("scorm_student_module")
-        if scorm_student_module['student_id'] == 28 or scorm_student_module['student_id'] == 55 :
-            log.info(scorm_student_module['state'])
+        if scorm_student_module["student_id"] == 28 or scorm_student_module["student_id"] == 55 :
+
+            log.info(scorm_student_module["state"])
 
 
     all_user_set.update(users)
@@ -161,62 +204,43 @@ def convert_str_to_int(time_str):
     return int(h) * 3600 + int(m) * 60 + int(s)
 
 
+def course_name(course_id):
+    if course_id.find('IP_') != -1 : 
+        return "Initiative Personnelle (IP)"
+    elif course_id.finr('WEB_') != -1 :
+        return "Webinaire (WEB)"
+    else : 
+        return "Négociation (NEG)"
+
+
 
 for course_id, users in users_per_course.items():
-    user_data = dict()
     users_data = dict()
     users_scorm_completion = dict()
+
     for index, user in enumerate(users):
                 
-        #course_enrollment = CourseEnrollment.objects.get(course_id=CourseKey.from_string(course_ids[0]), user=user)
-        #course_key = SlashSeparatedCourseKey.from_string(str(course_id))
-        #course = get_course_by_id(course_key)
 
         # Escape fake email address
-        # if user.email.find("@example")!= -1 or user.email.find("@themoocagency") != -1 or user.email.find("@weuplearning")!= -1 or user.email.find("@yopmail")!= -1 or user.email.find("@amazon")!= -1 or user.email.find("@fake")!= -1:
-        #     continue
+        if user.email.find("@example")!= -1 or user.email.find("@themoocagency") != -1 or user.email.find("@weuplearning")!= -1 or user.email.find("@yopmail")!= -1 or user.email.find("@fake")!= -1:
+            continue
 
-        #log.info(dir(user))
-        user_row = dict()
-        try:
-            user_data["id"] = user.id
-        except:
-            user_data["id"] = ""
+        user_data = dict()
 
-        try:
-            user_data["username"] = user.username
-        except:
-            user_data["username"] = ""
+        user_data.update({
+            "id": getattr(user, "id", ""),
+            "username": getattr(user, "username", ""),
+            "email": getattr(user, "email", ""),
+            "date_joined": getattr(user, "date_joined", "").strftime('%Y-%m-%d %H:%M:%S') if getattr(user, "date_joined", None) else "",
+            "last_login": getattr(user, "last_login", "").strftime('%Y-%m-%d %H:%M:%S') if getattr(user, "last_login", None) else "",
+            "name": getattr(user, "name", ""),
+            "first_name": getattr(user, "first_name", ""),
+            "end_date_enrollment": (getattr(user, "date_joined", None) + datetime.timedelta(days=30)).strftime('%Y-%m-%d %H:%M:%S') if getattr(user, "date_joined", None) else ""
+        })
 
-        try:
-            user_data["email"] = user.email
-        except:
-            user_data["email"] = ""
+        log.info('user_data')
+        log.info(user_data)
 
-        try:
-            user_data["date_joined"] = user.date_joined.strftime('%Y-%m-%d %H:%M:%S')
-        except:
-            user_data["date_joined"] = ""
-
-        try:
-            user_data["last_login"] = user.last_login.strftime('%Y-%m-%d %H:%M:%S')
-        except:
-            user_data["last_login"] = ""
-
-        try:
-            user_data["name"] = user.name
-        except:
-            user_data["name"] = ""
-
-        try:
-            user_data["first_name"] = user.first_name
-        except:
-            user_data["first_name"] = ""
-
-        try:
-            user_data["end_date_enrollment"] = (user.date_joined + datetime.timedelta(days=30)).strftime('%Y-%m-%d %H:%M:%S')
-        except:
-            user_data["end_date_enrollment"] = ""
 
         user_row = []
         video_dict = dict()
@@ -242,16 +266,14 @@ for course_id, users in users_per_course.items():
                     users_scorm_completion[scorm_id] = scorm.done
 
         try:
-            # course_key = locator.CourseLocator.from_string(str(course_id))
-            # collected_block_structure = get_course_in_cache(course_key)
             list_chapter_course = list()
             for chapter_key in dict_hardcoded_chapter_key[course_id]:
-                usagekey = UsageKey.from_string(chapter_key)
 
-                chapter_name = collected_block_structure.get_xblock_field(usagekey, "display_name")
+                usagekey = UsageKey.from_string(chapter_key)
                 detailed_time_tracking = json.loads(WulCourseEnrollment.get_enrollment(user=user, course_id=course_id).detailed_time_tracking)
 
                 chapter_key = chapter_key.split("@")[2]
+                chapter_name = collected_block_structure.get_xblock_field(usagekey, "display_name")
 
                 if chapter_key in detailed_time_tracking:
                     user_data[chapter_name] = datetime.timedelta(seconds=detailed_time_tracking[chapter_key])
@@ -284,7 +306,6 @@ for course_id, users in users_per_course.items():
             user_data["scorm_time_tracking"] = datetime.timedelta(seconds=0)
 
         try:
-            # course_key = locator.CourseLocator.from_string(str(course_id))
             wul_course_enrollment = WulCourseEnrollment.objects.get(course_enrollment_edx__user=user, course_enrollment_edx__course_id=course_key)
             global_time_tracking = wul_course_enrollment.global_time_tracking
             global_time_tracking_cumul += global_time_tracking
@@ -364,12 +385,11 @@ wb = Workbook()
 wb.remove(wb.active)
 
 # Test password
-wb.security.workbookPassword = '123456'
-wb.security.lockStructure = True
+# wb.security.workbookPassword = '123456'
+# wb.security.lockStructure = True
 
 
-
-def create_sheet(sheet_name, users, workbook, course_id):
+def create_sheet_function(sheet_name, users, workbook, course_id):
     common_header = ["Username","Email","Prénom","Nom","Date de création de compte","Date de fin d'accès","Date de dernière connexion", "Temps passé total", "Webinaire finalisé", "Temps passé webinaire", "Note obtenue"] 
 
     for scorm_id, scorm_name in scorm_page_ids[course_id].items():
@@ -384,7 +404,7 @@ def create_sheet(sheet_name, users, workbook, course_id):
         log.info(f"modifed header:{common_header}")
         #common_header.append(specific_neg_ip_header)
     sheet = workbook.create_sheet(sheet_name)
-    users_of_a_course = users_per_course[course_id]
+    # users_of_a_course = users_per_course[course_id]
 
     if not dict_hardcoded_chapter_key[course_id]:
         return
@@ -409,7 +429,7 @@ for course_id in course_ids:
     if users_data == []:
         continue
     ordered_users = sorted(users_data.items(), key=lambda x: x[1])
-    create_sheet(dict_course_name[course_id], ordered_users, wb, course_id)
+    create_sheet_function(course_name(course_id), ordered_users, wb, course_id)
 
 timestr = time.strftime("%Y_%m_%d")
 filename = "Rapport_hec_{}.xlsx".format(timestr)
@@ -417,7 +437,7 @@ filepath = '/edx/var/edxapp/media/microsites/hec-pole-emploi/reports/{}'.format(
 wb.save(filepath)
 output = BytesIO()
 _files_values = output.getvalue()
-html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous trouverez en pièce jointe le rapport de donn&eacute;es HEC pôle-emploi"
+html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous trouverez en pièce jointe le rapport de donn&eacute;es HEC pôle-emploi</p></body></html>"
 
 ## Send email
 for email in emails:
