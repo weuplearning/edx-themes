@@ -2,4 +2,5 @@ lms/utils/custom_referents_fields/csv/umn_data.csv
 __pycache__
 output
 config.py
+csv
 credentials.json
