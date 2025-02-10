@@ -152,7 +152,7 @@ for course_id in course_ids:
                 server.sendmail(fromaddr, user.email, text)
                 server.quit()
             except:
-                all_treated_users_notif_3.append('******* DEFAULT EMAIL 1 ******  '+user.email)
+                all_treated_users_notif_3.append('******* ERROR EMAIL 1 ******  '+user.email)
 
 
 
@@ -178,7 +178,7 @@ for course_id in course_ids:
                 server.sendmail(fromaddr, user.email, text)
                 server.quit()
             except:
-                all_treated_users_notif_14.append('******* DEFAULT EMAIL 2 ******  '+user.email)
+                all_treated_users_notif_14.append('******* ERROR EMAIL 2 ******  '+user.email)
 
 
 all_treated_users = all_treated_users_unenroll + all_treated_users_notif_3 + all_treated_users_notif_14  
