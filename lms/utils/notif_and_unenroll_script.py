@@ -183,6 +183,8 @@ for course_id in course_ids:
 
 all_treated_users = all_treated_users_unenroll + all_treated_users_notif_3 + all_treated_users_notif_14  
 
+if len(all_treated_users) == 0 :
+    stop
 
 ## Workbook
 wb = Workbook() 
@@ -206,7 +208,7 @@ output = BytesIO()
 wb.save(output)
 _files_values = output.getvalue()
 
-html = '<html><head></head><body><h3>Rapport des Utilisateurs Supprimés</h3><p>Bonjour,<br/><br/>Voici la liste des '+str(len(all_treated_users_unenroll))+' utilisateurs désinscrit des cours HEC<br/>En cas de besoin vérifier le script : /edx/app/edxapp/edx-themes/hec-pole-emploi/lms/utils/delete_inactive_user_hec.py <br/>Bonne r&eacute;ception<br/>L\'&eacute;quipe WeUp Learning</p></body></html>'
+html = '<html><head></head><body><h3>Rapport des Utilisateurs Supprimés</h3><p>Bonjour,<br/><br/>Voici la liste des '+str(len(all_treated_users))+' utilisateurs désinscrit ou relancé pour les cours HEC<br/>En cas de besoin vérifier le script : /edx/app/edxapp/edx-themes/hec-pole-emploi/lms/utils/delete_inactive_user_hec.py <br/>Bonne r&eacute;ception<br/>L\'&eacute;quipe WeUp Learning</p></body></html>'
 
 
 for email in emails_to_send:
