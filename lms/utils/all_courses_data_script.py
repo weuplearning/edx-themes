@@ -19,14 +19,13 @@ startup.run()
 from opaque_keys.edx.locator import CourseLocator
 from lms.djangoapps.courseware.courses import get_course_by_id
 from student.models import CourseEnrollment
-from student.models import User
 from lms.djangoapps.wul_apps.models import WulCourseEnrollment
-from openedx.core.djangoapps.site_configuration import helpers 
 from lms.djangoapps.wul_apps.best_grade.helpers import check_best_grade
 
 
 from openpyxl import Workbook
 import json
+import datetime
 
 
 import smtplib
@@ -36,14 +35,10 @@ from email.mime.base import MIMEBase
 from email import encoders
 
 
-from datetime import timedelta
-from django.utils import timezone
 
 
 import logging
 log = logging.getLogger()
-
-
 
 
 emails_to_send = sys.argv[1].split(";")
@@ -87,8 +82,7 @@ for course_id in course_ids:
         if user.email.find('@weuplearning') != -1 or user.email.find('@themoocagency') != -1 or user.email.find('@fake.email') != -1 or user.email.find('@example.com') != -1 :
            continue
 
-
-        user_data = {}
+        user_data = []
 
 
         user_data.append(user.email) 
@@ -97,17 +91,26 @@ for course_id in course_ids:
         user_data.append(batiment)
 
 
-        # date d'évaluation ? 
-
         gradesTest = check_best_grade(user, course, force_best_grade=True)
-        log.info('gradesTest')
-        log.info(gradesTest)
-        log.info(dir(gradesTest))
-        log.info(gradesTest.summary)
 
+        try:
+            wul_course_enrollment = WulCourseEnrollment.objects.get(course_enrollment_edx__user=user, course_enrollment_edx__course_id=course_key)
 
+            bestGradeDate = str(wul_course_enrollment.best_grade_date).split(' ')[0] if wul_course_enrollment.best_grade_date else 'n.a.'
+            global_time_tracking = wul_course_enrollment.global_time_tracking
+            status = 'Validé' if int(wul_course_enrollment.best_grade) >= 0.7 else 'Non validé'
+
+        except:
+            bestGradeDate = 'n.a.'
+            global_time_tracking = 0
+            status = 'Non validé'
+
+        user_data.append(bestGradeDate)
+        user_data.append(datetime.timedelta(seconds=global_time_tracking))
+        user_data.append(status)
 
         all_treated_users.append(user_data)
+        
 
 
 
@@ -116,9 +119,13 @@ wb = Workbook()
 sheet = wb.active
 
 l=1
-k=1
-for user_data in all_treated_users:
+for header in ["Email", "Pseudo", "Matricule", "Batiment", "Date d'évaluation (YYYY-mm-dd)", "Durée (hh:mm:ss)", "Statut"] :
+    sheet.cell(row=1, column=l).value = header
+    l+=1
 
+k=2
+for user_data in all_treated_users:
+    l=1
     for data in user_data :
         sheet.cell(row=k, column=l).value = data
         l+=1
@@ -143,7 +150,7 @@ for email in emails_to_send:
     msg = MIMEMultipart()
     msg['From'] = fromaddr
     msg['To'] = email
-    msg['Subject'] = "Rapport deleted users"
+    msg['Subject'] = "Rapport CHRU Nancy"
 
     attachment = _files_values
     part = MIMEBase('application', 'octet-stream')
@@ -164,3 +171,6 @@ for email in emails_to_send:
 
 
 # /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/formation-securite-incendie/lms/utils/all_courses_data_script.py 'cyril.adolf@weuplearning.com'
+
+
+
