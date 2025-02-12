@@ -26,6 +26,9 @@ regions = [
     "Corse"
 ]
 
+def debug_print(input):
+    if config.enable_linter_verbose == True:
+        print(input)
 
 def is_valid_email(email):
     EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')
@@ -49,7 +52,7 @@ def is_valid_email(email):
 
 
 def validate_email_column(text):
-    print('validating string : "' + text + '"')
+    debug_print('validating string : "' + text + '"')
 
 def validate_csv(file_path):
     errors = []
@@ -59,11 +62,11 @@ def validate_csv(file_path):
         header = next(reader, None)  # Skip header row if present
         
         for line_num, row in enumerate(reader, start=2):  # Start counting from 2 (after header)
-            print('line ' + str(line_num) + ' '  + str(row) + ' len :' + str(len(row)))
+            debug_print('line ' + str(line_num) + ' '  + str(row) + ' len :' + str(len(row)))
             
             # skip scanning empty lines, needed for organizing + already handled by parser
             if row == ['', '', '', '', '', '', '']:
-                print('skipped empty row')
+                debug_print('skipped empty row')
                 continue
 
             if len(row) < 7:
@@ -117,7 +120,7 @@ def send_warn_emails(errors):
         text = msg.as_string()
         server.sendmail(fromaddr, email, text)
         server.quit()
-        print('Email sent to '+str(email))
+        debug_print('Email sent to '+str(email))
     
 
 
@@ -126,9 +129,9 @@ if __name__ == "__main__":
     validation_errors = validate_csv(file_path)
     f = open(config.linter_log_path, 'w')
     if validation_errors:
-        print("Validation Errors:")
+        debug_print("Validation Errors:")
         for error in validation_errors:
-            print(error)
+            debug_print(error)
             f.write(str(error))
     
     
@@ -137,7 +140,7 @@ if __name__ == "__main__":
     
     
     else:
-        print("CSV file is valid!")
+        debug_print("CSV file is valid!")
     f.write(str(len(validation_errors)))
     f.close()    
 
