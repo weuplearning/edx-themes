@@ -388,9 +388,14 @@ ${HTML(fragment.foot_html())}
 <script>
 setTimeout(() => {
   var alert_msg_prerequisite = document.getElementsByClassName("alert-copy");
-
   if(alert_msg_prerequisite.length != 0){ 
-    alert_msg_prerequisite[0].innerText = alert_msg_prerequisite[0].innerText.replace("This section is a prerequisite. You must complete this section in order to unlock additional content.","Esta seção é um pré-requisito. Você deve completar esta seção para desbloquear o próximo conteúdo.");
+    alert_msg_prerequisite[0].innerText = alert_msg_prerequisite[0].innerText.replace("This section is a prerequisite. You must complete this section in order to unlock additional content.","Esta subseção é um pré-requisito. Você deve completar esta subseção para desbloquear o próximo conteúdo.");
+  }
+
+  
+  var attemptedScormDisplay = document.getElementsByClassName('completion_status')
+  if(attemptedScormDisplay.length != 0){ 
+    attemptedScormDisplay[0].innerText = attemptedScormDisplay[0].innerText.replace("not attempted","não realizado").replace("completed","Realizado");
   }
 
 }, 500);
