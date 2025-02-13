@@ -20,7 +20,7 @@ from opaque_keys.edx.locator import CourseLocator
 from lms.djangoapps.courseware.courses import get_course_by_id
 from student.models import CourseEnrollment
 from lms.djangoapps.wul_apps.models import WulCourseEnrollment
-from lms.djangoapps.wul_apps.best_grade.helpers import check_best_grade
+from lms.djangoapps.grades.course_grade_factory import CourseGradeFactory
 
 
 from openpyxl import Workbook
@@ -36,15 +36,16 @@ from email import encoders
 
 
 
-
 import logging
 log = logging.getLogger()
 
 
 emails_to_send = sys.argv[1].split(";")
 
-
 all_treated_users = []
+headers = ["Email", "Pseudo", "Matricule", "Batiment", "Date d'évaluation (YYYY-mm-dd)", "Durée (hh:mm:ss)", "Statut"]
+all_treated_users.append(headers)
+
 course_ids = [
     "course-v1:formation-securite-incendie+BI05+2024",
     "course-v1:formation-securite-incendie+BE53+2024",
@@ -64,7 +65,6 @@ course_ids = [
     "course-v1:formation-securite-incendie+BE25+2024",
     "course-v1:formation-securite-incendie+BI21+2024"
 ]
-
 
 
 for course_id in course_ids:
@@ -91,16 +91,21 @@ for course_id in course_ids:
         user_data.append(batiment)
 
 
-        gradesTest = check_best_grade(user, course, force_best_grade=True)
+        course_grade = CourseGradeFactory().update(user, course)
+        # Il semble que la valeur récupérée n'est pas la même selon que le script tourne sur koa-prod ou koa-prod-2 
+        # Je ne sais pas quelle est l'origine de cette différence. 
+        # en attendant il faut que le script soit maintenu sur koa-prod
 
         try:
             wul_course_enrollment = WulCourseEnrollment.objects.get(course_enrollment_edx__user=user, course_enrollment_edx__course_id=course_key)
 
+            # Pas disponible pour tout le monde, voir si on peut récupérer ca autrement ? 
             bestGradeDate = str(wul_course_enrollment.best_grade_date).split(' ')[0] if wul_course_enrollment.best_grade_date else 'n.a.'
-            global_time_tracking = wul_course_enrollment.global_time_tracking
-            status = 'Validé' if int(wul_course_enrollment.best_grade) >= 0.7 else 'Non validé'
+            global_time_tracking = wul_course_enrollment.global_time_tracking            
+            status = 'Validé' if float(course_grade.percent) >= 0.7 else 'Non validé'
 
         except:
+
             bestGradeDate = 'n.a.'
             global_time_tracking = 0
             status = 'Non validé'
@@ -110,7 +115,6 @@ for course_id in course_ids:
         user_data.append(status)
 
         all_treated_users.append(user_data)
-        
 
 
 
@@ -118,19 +122,15 @@ for course_id in course_ids:
 wb = Workbook() 
 sheet = wb.active
 
+
 l=1
-for header in ["Email", "Pseudo", "Matricule", "Batiment", "Date d'évaluation (YYYY-mm-dd)", "Durée (hh:mm:ss)", "Statut"] :
-    sheet.cell(row=1, column=l).value = header
-    l+=1
-
-k=2
 for user_data in all_treated_users:
-    l=1
+    k=1
     for data in user_data :
-        sheet.cell(row=k, column=l).value = data
-        l+=1
+        sheet.cell(row=l, column=k).value = data
+        k+=1
 
-    k+=1
+    l+=1
 
 
 filename = "CHRU_Nancy_report.xlsx"
@@ -170,7 +170,8 @@ for email in emails_to_send:
     print('Email sent to ',email)
 
 
-# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/formation-securite-incendie/lms/utils/all_courses_data_script.py 'cyril.adolf@weuplearning.com'
+# sudo /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/formation-securite-incendie/lms/utils/all_courses_data_script.py 'cyril.adolf@weuplearning.com;nancy.ibrahim@weuplearning.com;laurent.becker@cpn-laxou.com;theodore.nauroy@cpn-laxou.com'
+# sudo /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/formation-securite-incendie/lms/utils/all_courses_data_script.py 'cyril.adolf@weuplearning.com'
 
 
 
