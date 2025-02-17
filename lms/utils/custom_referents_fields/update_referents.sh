@@ -46,3 +46,4 @@ echo ""
 fi
 
 
+# /edx/app/edxapp/edx-themes/umn/lms/utils/custom_referents_fields/update_referents.sh
