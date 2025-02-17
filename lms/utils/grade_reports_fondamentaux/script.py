@@ -124,6 +124,7 @@ for course_id in course_ids:
     user_data["diplomalvl"] = extract_field(user.profile.custom_field, "diplomalvl")
     user_data["schoolregion"] = extract_field(user.profile.custom_field, "schoolregion")
     user_data["regions"] = extract_field(user.profile.custom_field, "regions")
+    user_data["agreeCgu"] = extract_field(user.profile.custom_field, "agreeCgu")
 
 
 
@@ -194,8 +195,11 @@ print(filename)
 
 headers = report_config.headers
 for i, header in enumerate(headers):
+  bg_color = "007DFF"
+  if(i < 4):
+    bg_color = "993300"
   sheet.cell(1, i+1, header)
-  sheet.cell(1, i+1).fill = PatternFill("solid", fgColor="007DFF")
+  sheet.cell(1, i+1).fill = PatternFill("solid", fgColor=bg_color)
   sheet.cell(1, i+1).font = Font(b=False, color="FFFFFF")
 
 j=2
@@ -204,30 +208,47 @@ for k, course_id in all_users_data.items():
 
   for key, user in course_id.items():
 
-    sheet.cell(j, 1, user['general']['first_name'])
-    sheet.cell(j, 2, user['general']['last_name'])
-    sheet.cell(j, 3, user['general']['email'])
-    sheet.cell(j, 4, user['general']['date_joined'])
-    sheet.cell(j, 5, user['general']['last_login'])
-    sheet.cell(j, 6, user['general']['status'] )
-    sheet.cell(j, 7, user['general']['regions'] )
-    sheet.cell(j, 8, user['general']['schoolregion'] )
+    sheet.cell(j, 1, user['general']['regions'] )
+    sheet.cell(j, 2, user['general']['structure'] )
+    sheet.cell(j, 3, user['general']['preparedDiploma'] )
+    sheet.cell(j, 4, user['general']['status'] )
+    sheet.cell(j, 5, user['general']['update_marker'] )
+    sheet.cell(j, 6, user['general']['first_name'])
+    sheet.cell(j, 7, user['general']['last_name'])
+    sheet.cell(j, 8, user['general']['email'])
     
-    sheet.cell(j, 9, user['general']['structure'] )
-    sheet.cell(j, 10, user['general']['preparedDiploma'] )
-    sheet.cell(j, 11, user['general']['diplomalvl'] )
+    date_joined = 'n/a'
+    try:
+      date_joined = user['general']['date_joined']
+      date_joined = date_joined[:-12]
+    except:
+      date_joined = user['general']['date_joined']
+    last_login = 'n/a'
+    try:
+      last_login = user['general']['last_login']
+      last_login = last_login[:-12]
+    except:
+      last_login = user['general']['date_joined']
     
-    sheet.cell(j, 12, user['general']['school'] )
-    sheet.cell(j, 13, user['general']['formation'] )
-    sheet.cell(j, 14, user['general']['class'] )
-    sheet.cell(j, 15, user['general']['year'] )
-    sheet.cell(j, 16, user['general']['referent'] )
-    sheet.cell(j, 17, user['general']['update_marker'] )
-    sheet.cell(j, 18, user['general']['timetracking'] )
+    
+    sheet.cell(j, 9, date_joined)
+    sheet.cell(j, 10, last_login)
+    
+    
+    sheet.cell(j, 11, user['general']['agreeCgu'])
+
+    sheet.cell(j, 12, user['general']['schoolregion'] )
+    sheet.cell(j, 13, user['general']['school'] )
+    sheet.cell(j, 14, user['general']['formation'] )
+    sheet.cell(j, 15, user['general']['class'] )
+    sheet.cell(j, 16, user['general']['diplomalvl'] )
+    sheet.cell(j, 17, user['general']['year'] )
+    sheet.cell(j, 18, user['general']['referent'] )
+    sheet.cell(j, 19, user['general']['timetracking'] )
     
 
     
-    i=18
+    i=19
     save_grade = 0
     for grade in user['general']['grade_list'] :
       i += 1

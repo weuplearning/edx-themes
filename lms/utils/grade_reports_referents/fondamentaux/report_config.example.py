@@ -107,12 +107,14 @@ umn_scorm_list = {
 }
 
 
+
+
 headers = [
     "Région 23/24",
     "Structure 23/24",
     "Diplôme préparé 23/24",
     "Statut 23/24",
-    "marqueur maj",
+    #"marqueur maj",
     "Prénom",
     "Nom",
     "Email",
@@ -154,6 +156,36 @@ headers = [
     #"4.3", # serious game
     "Taux d'avancement"
 ]
+
+
+
+email_body="""
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suivi des apprenants</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Sora', sans-serif;
+            color: #334756;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p class="header">Bonjour</p>
+
+    
+    </div>
+</body>
+</html>
+"""
+
 
 group_name = "fondamentaux"
 org_name = "passeport-nucleaire"

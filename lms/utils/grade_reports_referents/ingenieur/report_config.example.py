@@ -112,7 +112,7 @@ headers = [
     "Structure 23/24",
     "Diplôme préparé 23/24",
     "Statut 23/24",
-    "marqueur maj",
+    #"marqueur maj",
     "Prénom",
     "Nom",
     "Email",
@@ -126,37 +126,76 @@ headers = [
     "Année",
     "Référent",
     "Temps passé total",
-    "1.1 ",
-    "1.2",
-    "1.3",
-    "1.4",
-    "1.5",
-    #"1.6", # serious game
-    "Moyenne Module 1",
-    "2.1",
-    "2.2",
-    "2.3",
-    "2.4",
-    "Moyenne Module 2",
-    "3.1",
-    "3.2",
-    "3.3",
-    "3,4",
-    "3,5",
-    "3.6",
-    "3.7",
-    #"3.8", # serious game
-    "Moyenne Module 3",
-    "4.1",
-    "4.2",
+    "A1 ",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8",
+    "A9",
+    "A avg",
+    "B1 ",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B avg",
+    "C1 ",
+    "C2",
+    "C3",
+    "C4",
+    "C5",
+    "C6",
+    #"C7",# serious game
+    "C avg",
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6",
+    "D7",
+    "D8",
+    
     #"4.3", # serious game
-    "Moyenne Module 4",
-    #"4.3", # serious game
-    "Taux d'avancement"
+    "D avg",
+    "taux d’avancement"
 ]
 
-group_name = "fondamentaux"
+email_body="""
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suivi des apprenants</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Sora', sans-serif;
+            color: #334756;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p class="header">Bonjour</p>
+
+    
+    </div>
+</body>
+</html>
+"""
+
+group_name = "ingenieur"
 org_name = "passeport-nucleaire"
+
 mailer_addr = ""
 mailer_login = ""
 mailer_password = ""
