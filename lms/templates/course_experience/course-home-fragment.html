@@ -442,8 +442,10 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                 console.log('Video started playing');
             } else if (event.data == YT.PlayerState.ENDED) {
 
-                const targetedDiv = document.getElementById('main-course-outline')
-                targetedDiv.style.display = 'flex'
+                %if request.path.find('IP_') != -1 or request.path.find('NEG_') != -1 :
+                    const targetedDiv = document.getElementById('main-course-outline')
+                    targetedDiv.style.display = 'flex'
+                %endif
 
                 const targetedDivAfter = document.getElementById('after-video-area')
                 targetedDivAfter.style.display = 'block'
@@ -454,8 +456,11 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         } 
     } else {        
         setTimeout(() => {            
-            const targetedDiv = document.getElementById('main-course-outline')
-            targetedDiv.style.display = 'flex'
+
+            %if request.path.find('IP_') != -1 or request.path.find('NEG_') != -1 :
+                const targetedDiv = document.getElementById('main-course-outline')
+                targetedDiv.style.display = 'flex'
+            %endif
 
             const targetedDivAfter = document.getElementById('after-video-area')
             targetedDivAfter.style.display = 'block'
