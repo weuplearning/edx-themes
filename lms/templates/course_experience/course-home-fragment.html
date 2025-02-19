@@ -441,25 +441,24 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
             if (event.data == YT.PlayerState.PLAYING) {
                 console.log('Video started playing');
             } else if (event.data == YT.PlayerState.ENDED) {
-                // console.log('Video ended');
 
                 const targetedDiv = document.getElementById('main-course-outline')
                 targetedDiv.style.display = 'flex'
-                // console.log('course schedule is visible');
+
+                const targetedDivAfter = document.getElementById('after-video-area')
+                targetedDivAfter.style.display = 'block'
 
                 localStorage.setItem('watchedWebinar','shown')                    
             }
 
         } 
-    } else {
-        console.log('vidéo vue');
-        
+    } else {        
         setTimeout(() => {            
             const targetedDiv = document.getElementById('main-course-outline')
             targetedDiv.style.display = 'flex'
 
-            const targetedDiv2 = document.getElementById('after-video-area')
-            targetedDiv2.style.display = 'block'
+            const targetedDivAfter = document.getElementById('after-video-area')
+            targetedDivAfter.style.display = 'block'
         }, 500);
     }
 
