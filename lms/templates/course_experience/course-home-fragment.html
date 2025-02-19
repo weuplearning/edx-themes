@@ -292,6 +292,9 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         display: none ;
         justify-content: center !important;
     }
+    #after-video-area {
+        display: none ;
+    }
 %endif
 
     #banner-img-course {
@@ -301,7 +304,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     #after-video-area {
         margin: 25px auto 0 auto;
         width: 75vw;
-        text-align: justify;
+        text-align: center;
     }
     /* YouTube */
     .ytp-show-cards-title {
@@ -510,7 +513,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     <header id="greeting">
 
         %if request.path.find('IP_') != -1 or request.path.find('NEG_') != -1 :
-            <h2>Bienvenue sur la formation <br> ${course.display_name_with_default}</h2>
+            <h2>Bienvenue dans le cours ${course.display_name_with_default} !</h2>
             <p>Commencez par regarder la vidéo d’introduction ci-dessous. Elle vous donnera un aperçu du cours et vous aidera à bien démarrer.</p>
 
         %else :
