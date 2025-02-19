@@ -45,6 +45,28 @@ dates_banner_displayed = False
     button.outline-button > svg {
         margin-left: auto;
     }
+
+    .page-content .page-content-main {
+        min-width: 230px !important;
+        max-width: 230px !important;
+    }
+    ol.outline-item .subsection {
+        margin: auto !important;
+        background-color: var(--primary);
+        padding: 15px;
+        box-shadow: black 2px 2px 5px;
+        border-radius: 5px;
+    }
+    ol.outline-item .subsection h4 {
+        font-size: 18px;
+        color:white;
+    }
+    ol.outline-item .subsection a {
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+        padding: 0 !important;
+    }
 </style>
 
 <main role="main" class="course-outline" id="main" tabindex="-1">
@@ -66,7 +88,7 @@ dates_banner_displayed = False
             scored = 'scored' if section.get('scored', False) else ''
             %>
                 <li class="outline-item section ${scored}">
-                    <button class="section-name accordion-trigger outline-button" aria-expanded="${ 'true' if section_is_auto_opened else 'false' }" aria-controls="${ section['id'] }_contents" id="${ section['id'] }">
+                    <!-- <button class="section-name accordion-trigger outline-button" aria-expanded="${ 'true' if section_is_auto_opened else 'false' }" aria-controls="${ section['id'] }_contents" id="${ section['id'] }">
 
                     % if section.get('complete'):
                         <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
@@ -74,16 +96,14 @@ dates_banner_displayed = False
                     % endif
                         <h3 class="section-title">${ section['display_name'] }</h3>
 
-                        <!-- <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 512 512" style="${ 'display:none!important' if section_is_auto_opened else 'display:inline!important' }" ><style>svg{fill:#ffffff}</style><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344V280H168c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H280v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg> -->
 
                         <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512" style="${ 'display:none!important' if section_is_auto_opened else 'display:inline!important' }"><style>svg{fill:#000000;height:22px;}</style><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/></svg>
 
-                        <!-- <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 512 512" style="${ 'display:inline!important' if section_is_auto_opened else 'display:none!important' }" ><style>svg{fill:#ffffff}</style><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM184 232H328c13.3 0 24 10.7 24 24s-10.7 24-24 24H184c-13.3 0-24-10.7-24-24s10.7-24 24-24z"/></svg> -->
 
                         <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512" style="${ 'display:inline!important' if section_is_auto_opened else 'display:none!important' }" ><style>svg{fill:#000000;height:22px;}</style><path d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z"/></svg>
 
 
-                    </button>
+                    </button> -->
                     <ol class="outline-item accordion-panel ${ '' if section_is_auto_opened else 'is-hidden' }"
                         id="${ section['id'] }_contents"
                         aria-labelledby="${ section['id'] }">
@@ -109,7 +129,7 @@ dates_banner_displayed = False
                                       <span class="icon fa fa-pencil-square-o" aria-hidden="true"></span>
                             % endif
                                       <h4 class="subsection-title">
-                                          ${ subsection['display_name'] }
+                                          Démarrer 
                             % if num_graded_problems:
 <!--
                                           ${ngettext("({number} Question)",

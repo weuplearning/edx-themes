@@ -548,7 +548,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     <div class="page-content" id="main-course-outline" >
 
 
-        <div class="page-content-main">
+         <div class="page-content-main">
             % if offer_banner_fragment:
                 ${HTML(offer_banner_fragment.content)}
             % endif
@@ -569,6 +569,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                 ${HTML(outline_fragment.body_html())}
             % endif
         </div>
+        <!--
         <aside class="page-content-secondary course-sidebar">
             %if resume_course_url :
                 %if resume_course_url.find("+EN+") != -1 :
@@ -655,7 +656,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                 %endif
 
             </div>
-        </aside>
+        </aside> -->
     </div>
     % if course_sock_fragment:
         ${HTML(course_sock_fragment.body_html())}
