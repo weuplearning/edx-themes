@@ -203,7 +203,7 @@ document.getElementById('modal-button').addEventListener('click', function (even
 
 
 // Hide CGU and honor
-const ckeckAndHide = setInterval(checkerFunction, 300);
+const ckeckAndHide = setInterval(checkerFunction, 1000);
 
 function checkerFunction() {
     const termsCheckbox = document.getElementById("register-terms_of_service");
@@ -214,16 +214,12 @@ function checkerFunction() {
     if (termsCheckbox) {
         termsCheckbox.checked = true;
         checker1 = true
-    } else {
-        console.error("Terms checkboxes not found");
     }
     
     if (honorCheckbox) {
         honorCheckbox.checked = true;
         checker2 = true
-    } else {
-        console.error("Honor checkboxes not found");
-    }
+    } 
 
     if (checker1 && checker2) {
         clearInterval(ckeckAndHide)
@@ -233,7 +229,7 @@ function checkerFunction() {
 
 
 // Setup a pop up for this 
-setTimeout(() => {
+setInterval(() => {
     let checkboxHecSpecific = document.getElementById("register-cgu_1")
 
     checkboxHecSpecific.addEventListener('change', function() {
@@ -244,7 +240,7 @@ setTimeout(() => {
 }, 1000);
 
 
-setTimeout(() => {
+setInterval(() => {
     
     // Add an event listener to capture changes in the input field
     let emailInput = document.getElementById("register-email")
@@ -259,6 +255,7 @@ setTimeout(() => {
         const url = '/wul_apps/hec_pe_check_email';
         const data = {'email' : emailValue};
     
+
         $.ajax({
             url: url,
             method: 'POST',

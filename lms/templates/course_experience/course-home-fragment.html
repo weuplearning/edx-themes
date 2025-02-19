@@ -30,7 +30,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         padding: 50px;
         text-align: center;
     }
-    #greeting h2 {
+    #greeting h2, #after-video-area h2 {
         font-weight: 900;
     }
 
@@ -298,6 +298,11 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         width: 50vw;
     }
 
+    #after-video-area {
+        margin: 25px auto 0 auto;
+        width: 75vw;
+        text-align: justify;
+    }
     /* YouTube */
     .ytp-show-cards-title {
         display: none !important;
@@ -400,7 +405,16 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         var player = new YT.Player('player', {
             height: '360',
             width: '640',
-            videoId: 'bIHEZqnFZ9Q',
+
+        %if request.path.find('IP_') != -1 :
+            videoId: '-6dnmWztV3s',
+        %elif request.path.find('NEG_') != -1 :
+            videoId: '6V9J9YRqkrk',
+        %else :
+            // WEB + temoin
+            videoId: 'n092vPtL4b8',
+        %endif
+
             playerVars: {
                 controls: 1,       // Disable controls, including the progress bar
                 modestbranding: 1, // Reduce YouTube branding
@@ -432,7 +446,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
                 localStorage.setItem('watchedWebinar','shown')                    
             }
-    
+
         } 
     } else {
         console.log('vidéo vue');
@@ -440,6 +454,9 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         setTimeout(() => {            
             const targetedDiv = document.getElementById('main-course-outline')
             targetedDiv.style.display = 'flex'
+
+            const targetedDiv2 = document.getElementById('after-video-area')
+            targetedDiv2.style.display = 'block'
         }, 500);
     }
 
@@ -489,32 +506,46 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
             </div>
         </div>
     </header> -->
-    
+
     <header id="greeting">
-        <h2>Bienvenue sur la formation <br> ${course.display_name_with_default}</h2>
+
+        %if request.path.find('IP_') != -1 or request.path.find('NEG_') != -1 :
+            <h2>Bienvenue sur la formation <br> ${course.display_name_with_default}</h2>
+            <p>Commencez par regarder la vidéo d’introduction ci-dessous. Elle vous donnera un aperçu du cours et vous aidera à bien démarrer.</p>
+
+        %else :
+            <h2>Bienvenue à cette Masterclass pour Entrepreneurs !</h2>
+            <p>Dans cette session, nous vous guiderons à travers le passionnant voyage de la transformation d’une idée en une entreprise prospère. Vous écouterez des interviews d’entrepreneurs à succès abordant les principaux défis liés aux startups, depuis « <strong>Comment trouver des idées pour lancer une entreprise ?</strong> » jusqu’à « <strong> Comment lever des fonds avec des ressources limitées ?</strong> »</p>
+
+        %endif 
+
     </header>
     <div id="area-player">
-        %if resume_course_url :
-            %if resume_course_url.find("hec-pole-emploi+IP+2023") != -1 :
-                <img id="banner-img-course" src="${static.url('hec-pole-emploi/images/dashboard_mono_bkg.png')}" alt="illu-cours-IP">
-            %elif resume_course_url.find("hec-pole-emploi+IP_NEG+2023") != -1 :
-                <!-- <img id="banner-img-course" src="${static.url('hec-pole-emploi/images/dashboard_mono_bkg.png')}" alt="illu-cours-IP"> -->
-            %elif resume_course_url.find("hec-pole-emploi+NEG+2023") != -1 :
-                <img id="banner-img-course" src="${static.url('hec-pole-emploi/images/neg_dashboard_mono.png')}" alt="illu-cours-IP">
-            %elif resume_course_url.find("hec-pole-emploi+webinaire+2023") != -1 :
-                <!-- <img id="banner-img-course" src="${static.url('hec-pole-emploi/images/dashboard_mono_bkg.png')}" alt="illu-cours-IP"> -->                
-            %endif
-        %endif
 
         <div id="player">
             <!-- needed to display video again -->
-            <iframe id="hec-video" width="420" height="236"
+            <!-- <iframe id="hec-video" width="420" height="236"
                 src="https://www.youtube.com/embed/bIHEZqnFZ9Q" frameborder="0" allowfullscreen >
-            </iframe>
+            </iframe> -->
         </div>
     </div>
 
+    <div id="after-video-area">
+        %if request.path.find('IP_') != -1 or request.path.find('NEG_') != -1 :
+            <h2>Merci d’avoir regardé la vidéo d’introduction du cours !</h2>
+            <p>Nous espérons qu’elle vous a donné une vision claire de la suite. Il est maintenant temps de plonger dans le vif du sujet ! Cliquez sur le lien ci-dessous pour commencer à explorer <strong>${course.display_name_with_default}</strong> et franchir une nouvelle étape dans votre parcours.</p>
+
+        %else :
+            <h2>Merci d’avoir suivi cette masterclass !</h2>
+            <p>Nous espérons qu’elle vous apportera des perspectives précieuses et de l’inspiration pour votre parcours entrepreneurial. Notre session s’achève ici, mais votre aventure ne fait que commencer. <br> <strong>Bonne chance !</strong></p>
+
+        %endif 
+
+    </div>
+    
     <div class="page-content" id="main-course-outline" >
+
+
         <div class="page-content-main">
             % if offer_banner_fragment:
                 ${HTML(offer_banner_fragment.content)}
