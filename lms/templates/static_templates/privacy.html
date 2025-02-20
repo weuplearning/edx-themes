@@ -1,0 +1,162 @@
+<%page expression_filter="h"/>
+<%! from django.utils.translation import ugettext as _ %>
+
+<%inherit file="../main.html" />
+
+<%block name="pagetitle">${_("Privacy Policy")}</%block>
+
+<style>
+    h2, p, li {
+        font-family: "LidlFontPro","Quicksand";
+        color: black;
+        text-align: justify;
+        line-height: 1.2;
+    }
+    h2, ol > li::marker {
+        font-weight: bold;
+    }
+    ol > li {
+        margin: 40px 0;
+    }
+    li > ul {
+        list-style: disc;
+    }
+    ul > li {
+        margin-bottom: 8px;
+    }
+
+</style>
+
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="container about">
+        <h1>
+            <%block name="pageheader">${page_header or _("Privacy Policy")}</%block>
+        </h1>
+        <ol>
+            <li>
+                <h2>Introduction</h2>
+                <p>Chez Lidl, nous tenons à protéger la confidentialité de vos données à caractère personnel. Toutes les données personnelles que vous nous communiquez sont conservées de manière sécurisée. Nous souhaitons clairement vous communiquer à quels moments et de quelle manière nous collectons des données vous concernant, ainsi que comment et pourquoi nous les utilisons. La présente Politique de confidentialité détaille les types de données personnelles que nous recueillons et la manière dont nous les utilisons et les conservons.</p>
+            </li>
+
+            <li>
+                <h2>Lidl : Qui sommes-nous ?</h2>
+                <p>Lidl est une entreprise de distribution alimentaire implantée dans de nombreux pays. Le site https://bien-etre-animal.lidl.fr/ est une initiative de Lidl France dédiée à la transparence et à l'information concernant les pratiques de bien-être animal dans ses filières d'approvisionnement.</p>
+                <p>Lidl SNC, dont le siège social est situé au 1 rue de Hanovre, 92240 Châtenay-Malabry (« Lidl SNC »), est le responsable du traitement de vos données personnelles. Pour toute question relative au traitement de vos données, vous pouvez contacter notre délégué à la protection des données :</p>
+                <ul>
+                    <li>Par voie postale, à l'adresse mentionnée ci-dessus.</li>
+                    <li>Par courrier électronique, à l'adresse : <a href="mailto:protection.donnees@lidl.fr">protection.donnees@lidl.fr</a> </li>
+                </ul>
+                <p>Pour exercer vos droits en vertu du Règlement Général sur la Protection des Données (RGPD), veuillez adresser votre demande à : <a href="mailto:contact@lidl.fr">contact@lidl.fr</a> .</p>
+            </li>
+
+            <li>
+                <h2>Quelles données à caractère personnel collectons-nous ?</h2>
+                <p>Les types de données personnelles que nous pouvons collecter incluent les renseignements suivants :</p>
+                <ul>
+                    <li>Information d’identification (nom, prénom, pseudo public) ; </li>
+                    <li>Adresse électronique ; </li>
+                    <li>Données concernant votre entreprise ou groupement (si vous êtes un éleveur fournisseur Lidl) ainsi que différentes informations sur votre niveau de connaissance estimé en bien-être animal et votre profession ; </li>
+                    <li>Adresse IP ; </li>
+                    <li>Données de navigation (pages visitées, temps passé sur le site) ; </li>
+                    <li>Données collectées via des formulaires de contact (ex : questions, commentaires, témoignages) ; </li>
+                    <li>Préférences de communication (ex : inscription à la newsletter) ;</li>
+                </ul>
+            </li>
+
+            <li>
+                <h2>Comment et pourquoi utilisons-nous vos données personnelles ?</h2>
+                <p>Nous utilisons vos données aux fins suivantes :</p>
+                <ul>
+                    <li>Pour répondre à toute correspondance que vous entamez avec nous ;</li>
+                    <li>Pour améliorer le contenu et l'ergonomie du site ; </li>
+                    <li>Pour vous tenir informé des actualités et des initiatives de Lidl en matière de bien-être animal (si vous êtes abonné à la newsletter) ;</li>
+                    <li>Pour gérer et publier les témoignages d'éleveurs (avec votre consentement) ;</li>
+                    <li>Pour analyser les statistiques d'audience et comprendre comment les visiteurs utilisent le site ; </li>
+                    <li>Pour garantir la sécurité du site et prévenir les activités frauduleuses.</li>
+                </ul>
+            </li>
+
+            <li>
+                <h2>Quels sont les fondements juridiques que nous utilisons pour traiter vos données personnelles ?</h2>
+                <ul>
+                    <li><strong>Le consentement</strong> : Nous utilisons le consentement pour vous envoyer des informations concernant nos actualités et initiatives par courrier électronique. Vous avez le droit de retirer votre consentement à tout moment en cliquant sur le lien qui vous permet de vous désabonner.</li>
+                    <li><strong>Une obligation légale</strong> : Nous sommes tenus de conserver et d’utiliser certains dossiers afin de respecter la loi, pour des raisons fiscales, et pour satisfaire à des obligations juridiques, réglementaires et de conformité. </li>
+                    <li><strong>Un intérêt légitime</strong> : Nous pouvons parfois collecter et utiliser des données lorsque cela est jugé raisonnablement nécessaire à la poursuite de nos intérêts légitimes. Un tel traitement sera équitable, réfléchi, et il ne portera pas atteinte à vos droits en tant qu’individu.</li>
+                </ul>
+            </li>
+
+            <li>
+                <h2>Quand et comment collectons-nous vos données ?</h2>
+                <p>Nous collectons vos données lorsque vous nous contactez directement, ou lorsque vous entrez en contact avec nous par le biais d’un tiers, pour :</p>
+                <ul>
+                    <li>Nous demander un renseignement ;</li>
+                    <li>Vous abonner à nos newsletter ;</li>
+                    <li>Participer à un sondage ;</li>
+                    <li>Participer à un évènement ;</li>
+                    <li>Être en lien avec nous sur les médias sociaux ;</li>
+                    <li>Être en contact avec nous en ligne.</li>
+                </ul>
+            </li>
+
+            <li>
+                <h2>Source des Données</h2>
+                <p>Les données que nous traitons proviennent de diverses sources : </p>
+                <ul>
+                    <li>Vous-même, lorsque vous remplissez des formulaires ou nous contactez directement ; </li>
+                    <li>Le personnel de Lidl ; </li>
+                    <li>Les prestataires techniques (hébergeur, prestataire de maintenance) ; </li>
+                    <li>Des organismes partenaires (Chambre d'Agriculture, ITAVI, etc.).</li>
+                </ul>
+            </li>
+
+            <li>
+                <h2>Cookies</h2>
+                <p>Les cookies sont de petits fichiers textes qui se trouvent sur votre ordinateur, votre smartphone, votre tablette ou d’autres appareils. Ils sont générés par votre navigateur web lorsque vous visitez un site. Chaque fois que vous revenez sur ce site, votre navigateur renvoie le fichier cookie au serveur du site. Les cookies accomplissent toutes sortes de fonctions : ils vous permettent de naviguer plus facilement entre toutes les pages que vous consultez, ils mémorisent vos préférences et ils améliorent de manière générale votre expérience utilisateur.</p>
+                <p>Les cookies aident Lidl à identifier quels sont les éléments de notre site que les gens utilisent, et ainsi à améliorer leur expérience. Les renseignements fournis par les cookies nous permettent également d’évaluer l’efficacité de nos campagnes marketing en ligne en vue de les améliorer.</p>
+                <p>Un cookie en soi ne peut pas être utilisé pour vous identifier ; nous ne pouvons pas le relier aux données personnelles que nous détenons à votre sujet et nous ne cherchons pas à le faire. Vous pouvez retrouver plus d’informations concernant le traitement de vos données par des cookies ou autres traceurs dans notre politique d’utilisation des cookies : <a href="https://weuplearning.com/gestion-des-donnees-personnelles/" target="_blank" rel="noopener noreferrer">https://weuplearning.com/gestion-des-donnees-personnelles/</a> </p>
+            </li>
+
+            <li>
+                <h2>Destinataires des Données</h2>
+                <p>Les données collectées peuvent être partagées avec : </p>
+                <ul>
+                    <li>Le personnel habilité de Lidl ; </li>
+                    <li>Nos prestataires techniques (hébergeur, prestataire de maintenance) ; </li>
+                    <li>Les organismes partenaires, uniquement dans le cadre de projets spécifiques et avec votre consentement préalable.</li>
+                </ul>
+                <p>Nous nous engageons à ne pas vendre ni louer vos données à des tiers à des fins commerciales.</p>
+            </li>
+
+            <li>
+                <h2>Transferts Hors Espace Economique Européen</h2>
+                <p>Nous n’effectuons aucun transfert de données en dehors de l’Espace Economique Européen, sauf dans les cas où cela est nécessaire pour la fourniture de services spécifiques et avec les garanties appropriées conformément au RGPD.</p>
+            </li>
+
+            <li>
+                <h2>Durées de Conservation des Données</h2>
+                <p>Nous conservons vos données personnelles pour une durée limitée, proportionnelle à la finalité du traitement :</p>
+                <ul>
+                    <li>Données de contact : 3 ans à compter du dernier contact ; </li>
+                    <li>Données de navigation : 13 mois (conformément à la réglementation sur les cookies) ; </li>
+                    <li>Données collectées via les formulaires : la durée nécessaire au traitement de votre demande.</li>
+                </ul>
+                <p>Passé ces délais, vos données sont supprimées ou anonymisées.</p>
+            </li>
+
+            <li>
+                <h2>Vos Droits</h2>
+                <p>En tant que sujet des données, vous avez le droit d’accéder à vos données, de les rectifier, de demander leur effacement, de vous opposer à leur traitement pour des raisons légitimes, de demander la limitation du traitement et de recevoir vos données dans un format structuré et standard pour transmission à un autre responsable du traitement (portabilité). Pour exercer ces droits, vous pouvez nous contacter à l’adresse e-mail indiquée au point 2. Si vous n’êtes pas satisfait de la manière dont nous traitons vos données, vous avez le droit de déposer une plainte auprès de la Commission Nationale de l’Informatique et des Libertés (CNIL) sur cnil.fr/plaintes. </p>
+            </li>
+
+            <li>
+                <h2>Sécurité des Données</h2>
+                <p>Nous mettons en œuvre des mesures techniques et organisationnelles appropriées pour garantir la sécurité de vos données personnelles et lutter contre tout accès non autorisé, perte ou destruction.</p>
+            </li>
+
+            <li>
+                <h2>Modification de la Politique de Confidentialité</h2>
+                <p>Nous nous réservons le droit de modifier cette politique de confidentialité à tout moment. Les modifications entreront en vigueur immédiatement après leur publication sur ce site. Nous vous recommandons de consulter régulièrement cette politique pour rester informé de notre manière de protéger vos informations personnelles.</p>
+            </li>
+        </ol>
+    </section>
+</main>
