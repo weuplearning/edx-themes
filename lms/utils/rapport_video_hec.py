@@ -59,101 +59,77 @@ log = logging.getLogger()
 emails = sys.argv[1].split(";")
 
 course_ids = [
-    "course-v1:hec-pole-emploi+temoin+2025",
-    "course-v1:hec-pole-emploi+IP_1+2025",
-    "course-v1:hec-pole-emploi+IP_2+2025",
-    "course-v1:hec-pole-emploi+IP_3+2025",
-    "course-v1:hec-pole-emploi+IP_4+2025",
-    "course-v1:hec-pole-emploi+NEG_1+2025",
-    "course-v1:hec-pole-emploi+NEG_2+2025",
-    "course-v1:hec-pole-emploi+NEG_3+2025",
-    "course-v1:hec-pole-emploi+NEG_4+2025",
     "course-v1:hec-pole-emploi+WEB_1+2025",
-    "course-v1:hec-pole-emploi+WEB_2+2025",
-    "course-v1:hec-pole-emploi+WEB_3+2025",
-    "course-v1:hec-pole-emploi+WEB_4+2025"
+    "course-v1:hec-pole-emploi+IP_1+2025",
+    # "course-v1:hec-pole-emploi+IP_2+2025",
+    # "course-v1:hec-pole-emploi+IP_3+2025",
+    # "course-v1:hec-pole-emploi+IP_4+2025",
+    "course-v1:hec-pole-emploi+NEG_1+2025",
+    # "course-v1:hec-pole-emploi+NEG_2+2025",
+    # "course-v1:hec-pole-emploi+NEG_3+2025",
+    # "course-v1:hec-pole-emploi+NEG_4+2025",
 ]
 
 
 scorm_page_ids = {
     "course-v1:hec-pole-emploi+temoin+2025" : { },
     "course-v1:hec-pole-emploi+IP_1+2025" : {
-        "block-v1:hec-pole-emploi+IP_1+2025+type@scorm+block@76f94648789249ae8be25ee7b6b5e61d": "Scorm module"
+        "block-v1:hec-pole-emploi+IP_1+2025+type@scorm+block@113d642d6d224d4581107d552df0df1c": "Scorm module"
     },
-    "course-v1:hec-pole-emploi+IP_2+2025" : {
-        "block-v1:hec-pole-emploi+IP_1+2025+type@scorm+block@76f94648789249ae8be25ee7b6b5e61d": "Scorm module"
-    },
-    "course-v1:hec-pole-emploi+IP_3+2025" : {
-        "block-v1:hec-pole-emploi+IP_1+2025+type@scorm+block@76f94648789249ae8be25ee7b6b5e61d": "Scorm module"
-    },
-    "course-v1:hec-pole-emploi+IP_4+2025" : {
-        "block-v1:hec-pole-emploi+IP_1+2025+type@scorm+block@76f94648789249ae8be25ee7b6b5e61d": "Scorm module"
-    },
+    # "course-v1:hec-pole-emploi+IP_2+2025" : {
+    #     "block-v1:hec-pole-emploi+IP_1+2025+type@scorm+block@76f94648789249ae8be25ee7b6b5e61d": "Scorm module"
+    # },
+    # "course-v1:hec-pole-emploi+IP_3+2025" : {
+    #     "block-v1:hec-pole-emploi+IP_1+2025+type@scorm+block@76f94648789249ae8be25ee7b6b5e61d": "Scorm module"
+    # },
+    # "course-v1:hec-pole-emploi+IP_4+2025" : {
+    #     "block-v1:hec-pole-emploi+IP_1+2025+type@scorm+block@76f94648789249ae8be25ee7b6b5e61d": "Scorm module"
+    # },
     "course-v1:hec-pole-emploi+NEG_1+2025" : {
-        "block-v1:hec-pole-emploi+NEG+2023+type@scorm+block@75d793663c1d4256aedd2ae063d3c978": "Scorm module"
+        "block-v1:hec-pole-emploi+NEG_1+2025+type@scorm+block@75d793663c1d4256aedd2ae063d3c978": "Scorm module"
     },
-    "course-v1:hec-pole-emploi+NEG_2+2025" : {
-        "block-v1:hec-pole-emploi+NEG+2023+type@scorm+block@75d793663c1d4256aedd2ae063d3c978": "Scorm module"
-    },
-    "course-v1:hec-pole-emploi+NEG_3+2025" : {
-        "block-v1:hec-pole-emploi+NEG+2023+type@scorm+block@75d793663c1d4256aedd2ae063d3c978": "Scorm module"
-    },
-    "course-v1:hec-pole-emploi+NEG_4+2025" : {
-        "block-v1:hec-pole-emploi+NEG+2023+type@scorm+block@75d793663c1d4256aedd2ae063d3c978": "Scorm module"
-    },
+    # "course-v1:hec-pole-emploi+NEG_2+2025" : {
+    #     "block-v1:hec-pole-emploi+NEG+2023+type@scorm+block@75d793663c1d4256aedd2ae063d3c978": "Scorm module"
+    # },
+    # "course-v1:hec-pole-emploi+NEG_3+2025" : {
+    #     "block-v1:hec-pole-emploi+NEG+2023+type@scorm+block@75d793663c1d4256aedd2ae063d3c978": "Scorm module"
+    # },
+    # "course-v1:hec-pole-emploi+NEG_4+2025" : {
+    #     "block-v1:hec-pole-emploi+NEG+2023+type@scorm+block@75d793663c1d4256aedd2ae063d3c978": "Scorm module"
+    # },
     "course-v1:hec-pole-emploi+WEB_1+2025" : {},
-    "course-v1:hec-pole-emploi+WEB_2+2025" : {},
-    "course-v1:hec-pole-emploi+WEB_3+2025" : {},
-    "course-v1:hec-pole-emploi+WEB_4+2025": {}
+    # "course-v1:hec-pole-emploi+WEB_2+2025" : {},
+    # "course-v1:hec-pole-emploi+WEB_3+2025" : {},
+    # "course-v1:hec-pole-emploi+WEB_4+2025": {}
 }
 
-#dict_hardcoded_chapter_key = {"course-v1:hec-pole-emploi+01+2022": ['block-v1:hec-pole-emploi+01+2022+type@chapter+block@54f8633948664c0bb85f54b33947eaba', 'block-v1:hec-pole-emploi+01+2022+type@chapter+block@d9d5984d68d04f008df511ace8dc843f', 'block-v1:hec-pole-emploi+01+2022+type@chapter+block@5089741f072547ef97395ef7a5b0ee1c']}
-dict_hardcoded_chapter_key = {
-    "course-v1:hec-pole-emploi+temoin+2025" : [],
-    "course-v1:hec-pole-emploi+IP_1+2025": [
-        "block-v1:hec-pole-emploi+IP+2023+type@chapter+block@210326b6198446868cda2d4e2028e291", 
-        "block-v1:hec-pole-emploi+IP+2023+type@chapter+block@43078e3916414a46b72fe6321e1f3d25",
-        "block-v1:hec-pole-emploi+IP+2023+type@chapter+block@aa33f1dae86643dcb2b6d9ccb6f81d17",
-        "block-v1:hec-pole-emploi+IP+2023+type@chapter+block@111b7f2672ff42c585dcdee7e9b4bca6"
-    ], 
-    "course-v1:hec-pole-emploi+IP_2+2025": [
-        "block-v1:hec-pole-emploi+IP+2023+type@chapter+block@210326b6198446868cda2d4e2028e291", 
-        "block-v1:hec-pole-emploi+IP+2023+type@chapter+block@43078e3916414a46b72fe6321e1f3d25",
-        "block-v1:hec-pole-emploi+IP+2023+type@chapter+block@aa33f1dae86643dcb2b6d9ccb6f81d17",
-        "block-v1:hec-pole-emploi+IP+2023+type@chapter+block@111b7f2672ff42c585dcdee7e9b4bca6"
-    ], 
-    "course-v1:hec-pole-emploi+IP_3+2025": [
-        "block-v1:hec-pole-emploi+IP+2023+type@chapter+block@210326b6198446868cda2d4e2028e291", 
-        "block-v1:hec-pole-emploi+IP+2023+type@chapter+block@43078e3916414a46b72fe6321e1f3d25",
-        "block-v1:hec-pole-emploi+IP+2023+type@chapter+block@aa33f1dae86643dcb2b6d9ccb6f81d17",
-        "block-v1:hec-pole-emploi+IP+2023+type@chapter+block@111b7f2672ff42c585dcdee7e9b4bca6"
-    ], 
-    "course-v1:hec-pole-emploi+IP_4+2025": [
-        "block-v1:hec-pole-emploi+IP+2023+type@chapter+block@210326b6198446868cda2d4e2028e291", 
-        "block-v1:hec-pole-emploi+IP+2023+type@chapter+block@43078e3916414a46b72fe6321e1f3d25",
-        "block-v1:hec-pole-emploi+IP+2023+type@chapter+block@aa33f1dae86643dcb2b6d9ccb6f81d17",
-        "block-v1:hec-pole-emploi+IP+2023+type@chapter+block@111b7f2672ff42c585dcdee7e9b4bca6"
-    ], 
-    "course-v1:hec-pole-emploi+NEG_1+2025": [
-        "block-v1:hec-pole-emploi+NEG+2023+type@chapter+block@6ccc988be0b84e7b82f4e92bdb35101b"
-    ], 
-    "course-v1:hec-pole-emploi+NEG_2+2025": [
-        "block-v1:hec-pole-emploi+NEG+2023+type@chapter+block@6ccc988be0b84e7b82f4e92bdb35101b"
-    ], 
-    "course-v1:hec-pole-emploi+NEG_3+2025": [
-        "block-v1:hec-pole-emploi+NEG+2023+type@chapter+block@6ccc988be0b84e7b82f4e92bdb35101b"
-    ], 
-    "course-v1:hec-pole-emploi+NEG_4+2025": [
-        "block-v1:hec-pole-emploi+NEG+2023+type@chapter+block@6ccc988be0b84e7b82f4e92bdb35101b"
-    ], 
-    "course-v1:hec-pole-emploi+WEB_1+2025": [],
-    "course-v1:hec-pole-emploi+WEB_2+2025": [],
-    "course-v1:hec-pole-emploi+WEB_3+2025": [],
-    "course-v1:hec-pole-emploi+WEB_4+2025": []
-}
+# dict_hardcoded_chapter_key = {
+#     "course-v1:hec-pole-emploi+temoin+2025" : [],
+#     "course-v1:hec-pole-emploi+IP_1+2025": [
+#     ], 
+#     "course-v1:hec-pole-emploi+IP_2+2025": [
+#     ], 
+#     "course-v1:hec-pole-emploi+IP_3+2025": [
+#     ], 
+#     "course-v1:hec-pole-emploi+IP_4+2025": [
+#     ], 
+#     "course-v1:hec-pole-emploi+NEG_1+2025": [
+#        "block-v1:hec-pole-emploi+NEG_1+2025+type@chapter+block@6ccc988be0b84e7b82f4e92bdb35101b"
+#     ], 
+#     "course-v1:hec-pole-emploi+NEG_2+2025": [
+#     ], 
+#     "course-v1:hec-pole-emploi+NEG_3+2025": [
+#     ], 
+#     "course-v1:hec-pole-emploi+NEG_4+2025": [
+#     ], 
+#     "course-v1:hec-pole-emploi+WEB_1+2025": [],
+#     "course-v1:hec-pole-emploi+WEB_2+2025": [],
+#     "course-v1:hec-pole-emploi+WEB_3+2025": [],
+#     "course-v1:hec-pole-emploi+WEB_4+2025": []
+# }
 
 
-all_courses_video_student_module = []
+# all_courses_video_student_module = []
 
 users_data = dict()
 users_per_course = dict()
@@ -164,44 +140,46 @@ videos_list = list()
 
 
 for course_id in course_ids :
-    list_of_student_modules = StudentModule.objects.filter(course_id__exact=course_id, module_type="video").order_by().values("student_id", "module_state_key", "state")
+    # list_of_student_modules = StudentModule.objects.filter(course_id__exact=course_id, module_type="video").order_by().values("student_id", "module_state_key", "state")
     list_of_student_scorms = StudentModule.objects.filter(course_id__exact=course_id, module_type="scorm").order_by().values("student_id", "module_state_key", "state")
     #log.info(f"problem of course :{course_id} => {list_of_student_problems}")
     users = set()
     users_scorms = set()
-    for student_module in list_of_student_modules:
+    # for student_module in list_of_student_modules:
 
-        log.info("student_module")
-        log.info(student_module)
+    #     log.info("student_module")
+    #     log.info(student_module)
 
-        all_courses_video_student_module.append(student_module)
-        users.add(User.objects.get(id = student_module["student_id"]))
+    #     all_courses_video_student_module.append(student_module)
+    #     users.add(User.objects.get(id = student_module["student_id"]))
 
     for scorm_student_module in list_of_student_scorms :
 
         log.info("scorm_student_module")
         if scorm_student_module["student_id"] == 28 or scorm_student_module["student_id"] == 55 :
 
+            log.info('quest ce quon récupere comme info ici ?')
             log.info(scorm_student_module["state"])
+            # 
 
 
     all_user_set.update(users)
     users_per_course[course_id] = users
 
 
-def convert_str_to_obj(saved_video_position):
-    str_time_video = saved_video_position.replace('"saved_video_position": "', '').replace('{', '').replace('}', '').replace('"', '')
-    if 'speed' in str_time_video:
-        char_to_replace = ["0.25", "0.5", "0.75", "1.0", "1.25", "1.5", "1.75", "2.0", ",", " ", "speed:"]
-        for char in char_to_replace:
-            str_time_video = str_time_video.replace(char, "")
-    return str_time_video
+# def convert_str_to_obj(saved_video_position):
+#     str_time_video = saved_video_position.replace('"saved_video_position": "', '').replace('{', '').replace('}', '').replace('"', '')
+#     if 'speed' in str_time_video:
+#         char_to_replace = ["0.25", "0.5", "0.75", "1.0", "1.25", "1.5", "1.75", "2.0", ",", " ", "speed:"]
+#         for char in char_to_replace:
+#             str_time_video = str_time_video.replace(char, "")
+#     return str_time_video
 
 
-def convert_str_to_int(time_str):
-    """Get seconds from time."""
-    h, m, s = time_str.split(':')
-    return int(h) * 3600 + int(m) * 60 + int(s)
+# def convert_str_to_int(time_str):
+#     """Get seconds from time."""
+#     h, m, s = time_str.split(':')
+#     return int(h) * 3600 + int(m) * 60 + int(s)
 
 
 def course_name(course_id):
@@ -235,7 +213,6 @@ for course_id, users in users_per_course.items():
             "last_login": getattr(user, "last_login", "").strftime('%Y-%m-%d %H:%M:%S') if getattr(user, "last_login", None) else "",
             "name": getattr(user, "name", ""),
             "first_name": getattr(user, "first_name", ""),
-            "end_date_enrollment": (getattr(user, "date_joined", None) + datetime.timedelta(days=30)).strftime('%Y-%m-%d %H:%M:%S') if getattr(user, "date_joined", None) else ""
         })
 
         log.info('user_data')
@@ -265,26 +242,26 @@ for course_id, users in users_per_course.items():
                 if scorm_id == scorm.module_state_key.block_id:
                     users_scorm_completion[scorm_id] = scorm.done
 
-        try:
-            list_chapter_course = list()
-            for chapter_key in dict_hardcoded_chapter_key[course_id]:
+        # try:
+        #     list_chapter_course = list()
+        #     for chapter_key in dict_hardcoded_chapter_key[course_id]:
 
-                usagekey = UsageKey.from_string(chapter_key)
-                detailed_time_tracking = json.loads(WulCourseEnrollment.get_enrollment(user=user, course_id=course_id).detailed_time_tracking)
+        #         usagekey = UsageKey.from_string(chapter_key)
+        #         detailed_time_tracking = json.loads(WulCourseEnrollment.get_enrollment(user=user, course_id=course_id).detailed_time_tracking)
 
-                chapter_key = chapter_key.split("@")[2]
-                chapter_name = collected_block_structure.get_xblock_field(usagekey, "display_name")
+        #         chapter_key = chapter_key.split("@")[2]
+        #         chapter_name = collected_block_structure.get_xblock_field(usagekey, "display_name")
 
-                if chapter_key in detailed_time_tracking:
-                    user_data[chapter_name] = datetime.timedelta(seconds=detailed_time_tracking[chapter_key])
-                else:
-                    user_data[chapter_name] = datetime.timedelta(seconds=0)
+        #         if chapter_key in detailed_time_tracking:
+        #             user_data[chapter_name] = datetime.timedelta(seconds=detailed_time_tracking[chapter_key])
+        #         else:
+        #             user_data[chapter_name] = datetime.timedelta(seconds=0)
 
-                list_chapter_course.append(chapter_name)
+        #         list_chapter_course.append(chapter_name)
 
-            list_chapters_name[course_id] = list_chapter_course
-        except:
-            continue
+        #     list_chapters_name[course_id] = list_chapter_course
+        # except:
+        #     continue
 
         # Access TimeTracking for every courses
         global_time_tracking_cumul = 0
@@ -320,57 +297,52 @@ for course_id, users in users_per_course.items():
         user_data["global_time_tracking"] = datetime.timedelta(seconds=global_time_tracking_cumul)
 
         # Get detailled video information from student modules
-        for video in all_courses_video_student_module :
-        # for video in videos_list :
-            video_dict[video] = "Non"
+        # for video in all_courses_video_student_module :
+        # # for video in videos_list :
+        #     video_dict[video] = "Non"
 
-        total_video_seconds = 0
-        try:
-            for result in all_courses_video_student_module:
+        # total_video_seconds = 0
+        # try:
+        #     for result in all_courses_video_student_module:
 
-                log.info('result')
-                log.info(result)
+        #         log.info('result')
+        #         log.info(result)
 
-                if(user.id == result["student_id"]):
-                    if str(result["module_state_key"]).split("+")[4] in video_dict:
-                        user_state = result["state"]
-                        video_time_tracking = convert_str_to_obj(user_state)
-                        log.info('video_time_tracking')
-                        log.info(video_time_tracking)
+        #         if(user.id == result["student_id"]):
+        #             if str(result["module_state_key"]).split("+")[4] in video_dict:
+        #                 user_state = result["state"]
+        #                 video_time_tracking = convert_str_to_obj(user_state)
+        #                 log.info('video_time_tracking')
+        #                 log.info(video_time_tracking)
 
-                        time_video_time_tracking = convert_str_to_int(video_time_tracking)
-                        log.info('time_video_time_tracking')
-                        log.info(time_video_time_tracking)
-                        total_video_seconds += time_video_time_tracking
+        #                 time_video_time_tracking = convert_str_to_int(video_time_tracking)
+        #                 log.info('time_video_time_tracking')
+        #                 log.info(time_video_time_tracking)
+        #                 total_video_seconds += time_video_time_tracking
                         
-                        video_dict[str(result["module_state_key"]).split("+")[4]] = datetime.timedelta(seconds=time_video_time_tracking)
-                        time_video_time_tracking += time_video_time_tracking
-                        user_data["total_video_time"] = datetime.timedelta(seconds=time_video_time_tracking)
+        #                 video_dict[str(result["module_state_key"]).split("+")[4]] = datetime.timedelta(seconds=time_video_time_tracking)
+        #                 time_video_time_tracking += time_video_time_tracking
+        #                 user_data["total_video_time"] = datetime.timedelta(seconds=time_video_time_tracking)
 
-                    else:
-                        log.info('ERROR {} VIDEO NOT IN THE LIST !'.format(video_dict[str(result["module_state_key"]).split("+")[4]]))
+        #             else:
+        #                 log.info('ERROR {} VIDEO NOT IN THE LIST !'.format(video_dict[str(result["module_state_key"]).split("+")[4]]))
 
-        except Exception as e:
-            log.info(str(user.id)+" : error with watch a video field")
-            log.info(e)
+        # except Exception as e:
+        #     log.info(str(user.id)+" : error with watch a video field")
+        #     log.info(e)
 
         # Est ce qu'on veut récupérer cette info ?
         user_data["grade"] = "N/A"
 
-        if course_id == "course-v1:hec-pole-emploi+IP_NEG+2023":
-            user_row = [user_data["username"],user_data["email"],user_data["first_name"],user_data["name"],user_data["date_joined"],user_data["end_date_enrollment"],user_data["last_login"], user_data["global_time_tracking"], "N/A", user_data["total_video_time"]]
-        else:
-            user_row = [user_data["username"],user_data["email"],user_data["first_name"],user_data["name"],user_data["date_joined"],user_data["end_date_enrollment"],user_data["last_login"], user_data["global_time_tracking"], "N/A", user_data["total_video_time"], user_data["grade"]]
+        user_row = [user_data["username"],user_data["email"],user_data["first_name"],user_data["name"],user_data["date_joined"],user_data["last_login"], user_data["global_time_tracking"], "N/A", user_data["total_video_time"], user_data["grade"]]
 
         for scorm_id in users_scorm_completion:
             log.info(users_scorm_completion[scorm_id])
             user_row.append(users_scorm_completion[scorm_id])
 
-        if course_id == "course-v1:hec-pole-emploi+IP_NEG+2023":
-            user_row.extend(["N/A", "N/A", "N/A"])
 
-        for chapter_name in list_chapter_course:
-            user_row.append(user_data[chapter_name])
+        # for chapter_name in list_chapter_course:
+        #     user_row.append(user_data[chapter_name])
 
         users_data[user.username.capitalize()] = user_row
     users_per_course[course_id] = users_data
@@ -390,24 +362,24 @@ wb.remove(wb.active)
 
 
 def create_sheet_function(sheet_name, users, workbook, course_id):
-    common_header = ["Username","Email","Prénom","Nom","Date de création de compte","Date de fin d'accès","Date de dernière connexion", "Temps passé total", "Webinaire finalisé", "Temps passé webinaire", "Note obtenue"] 
+    common_header = ["Username","Email","Prénom","Nom","Date de création de compte","Date de dernière connexion", "Temps passé total", "Webinaire finalisé", "Temps passé webinaire", "Note obtenue"] 
 
     for scorm_id, scorm_name in scorm_page_ids[course_id].items():
         log.info(scorm_name)
         common_header.append(scorm_name + " validé")
 
-    if course_id == "course-v1:hec-pole-emploi+IP_NEG+2023":
-        log.info(f"default header: {common_header}")
-        del common_header[10]
-        log.info(f"poped header: {common_header}")
-        common_header += ["Note NEG", "Note IP", "Score Moyen"]
-        log.info(f"modifed header:{common_header}")
-        #common_header.append(specific_neg_ip_header)
+    # if course_id == "course-v1:hec-pole-emploi+IP_NEG+2023":
+    #     log.info(f"default header: {common_header}")
+    #     del common_header[10]
+    #     log.info(f"poped header: {common_header}")
+    #     common_header += ["Note NEG", "Note IP", "Score Moyen"]
+    #     log.info(f"modifed header:{common_header}")
+    #     #common_header.append(specific_neg_ip_header)
     sheet = workbook.create_sheet(sheet_name)
     # users_of_a_course = users_per_course[course_id]
 
-    if not dict_hardcoded_chapter_key[course_id]:
-        return
+    # if not dict_hardcoded_chapter_key[course_id]:
+    #     return
 
     for chapter_name in list_chapters_name[course_id]:
         common_header.append(chapter_name)
@@ -432,7 +404,8 @@ for course_id in course_ids:
     create_sheet_function(course_name(course_id), ordered_users, wb, course_id)
 
 timestr = time.strftime("%Y_%m_%d")
-filename = "Rapport_hec_{}.xlsx".format(timestr)
+filename = "Rapport_hec.xlsx".format(timestr)
+# filename = "Rapport_hec_{}.xlsx".format(timestr)
 filepath = '/edx/var/edxapp/media/microsites/hec-pole-emploi/reports/{}'.format(filename)
 wb.save(filepath)
 output = BytesIO()
@@ -472,11 +445,11 @@ for email in emails:
 
 
 ## delete old files
-two_weeks_ago = datetime.datetime.today() - datetime.timedelta(days=14)
-try:
-    os.remove('/edx/var/edxapp/media/microsites/hec-pole-emploi/reports/Rapport_hec_{}.xlsx'.format(two_weeks_ago.strftime("%Y_%m_%d")))
-except:
-    pass
+# two_weeks_ago = datetime.datetime.today() - datetime.timedelta(days=14)
+# try:
+#     os.remove('/edx/var/edxapp/media/microsites/hec-pole-emploi/reports/Rapport_hec_{}.xlsx'.format(two_weeks_ago.strftime("%Y_%m_%d")))
+# except:
+#     pass
 
 # /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/hec-pole-emploi/lms/utils/rapport_video_hec.py "cyril.adolf@weuplearning.com"
 
