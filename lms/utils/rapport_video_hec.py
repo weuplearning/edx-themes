@@ -32,6 +32,11 @@ import json
 import datetime
 
 from opaque_keys.edx import locator
+
+from opaque_keys.edx.locator import CourseLocator
+from lms.djangoapps.courseware.courses import get_course_by_id
+from student.models import CourseEnrollment
+
 from lms.djangoapps.wul_apps.models import WulCourseEnrollment
 from common.djangoapps.student.models import User, UserProfile
 from lms.djangoapps.courseware.models import StudentModule
@@ -59,7 +64,7 @@ log = logging.getLogger()
 emails = sys.argv[1].split(";")
 
 course_ids = [
-    "course-v1:hec-pole-emploi+WEB_1+2025",
+#    "course-v1:hec-pole-emploi+WEB_1+2025",
     "course-v1:hec-pole-emploi+IP_1+2025",
     # "course-v1:hec-pole-emploi+IP_2+2025",
     # "course-v1:hec-pole-emploi+IP_3+2025",
@@ -103,105 +108,49 @@ scorm_page_ids = {
     # "course-v1:hec-pole-emploi+WEB_4+2025": {}
 }
 
-# dict_hardcoded_chapter_key = {
-#     "course-v1:hec-pole-emploi+temoin+2025" : [],
-#     "course-v1:hec-pole-emploi+IP_1+2025": [
-#     ], 
-#     "course-v1:hec-pole-emploi+IP_2+2025": [
-#     ], 
-#     "course-v1:hec-pole-emploi+IP_3+2025": [
-#     ], 
-#     "course-v1:hec-pole-emploi+IP_4+2025": [
-#     ], 
-#     "course-v1:hec-pole-emploi+NEG_1+2025": [
-#        "block-v1:hec-pole-emploi+NEG_1+2025+type@chapter+block@6ccc988be0b84e7b82f4e92bdb35101b"
-#     ], 
-#     "course-v1:hec-pole-emploi+NEG_2+2025": [
-#     ], 
-#     "course-v1:hec-pole-emploi+NEG_3+2025": [
-#     ], 
-#     "course-v1:hec-pole-emploi+NEG_4+2025": [
-#     ], 
-#     "course-v1:hec-pole-emploi+WEB_1+2025": [],
-#     "course-v1:hec-pole-emploi+WEB_2+2025": [],
-#     "course-v1:hec-pole-emploi+WEB_3+2025": [],
-#     "course-v1:hec-pole-emploi+WEB_4+2025": []
-# }
 
 
 # all_courses_video_student_module = []
 
 users_data = dict()
 users_per_course = dict()
-list_chapters_name = dict()
+# list_chapters_name = dict()
 all_user_set = set()
 # list_of_student_scorms = list()
 videos_list = list()
 
 
-for course_id in course_ids :
-    # list_of_student_modules = StudentModule.objects.filter(course_id__exact=course_id, module_type="video").order_by().values("student_id", "module_state_key", "state")
-    list_of_student_scorms = StudentModule.objects.filter(course_id__exact=course_id, module_type="scorm").order_by().values("student_id", "module_state_key", "state")
-    #log.info(f"problem of course :{course_id} => {list_of_student_problems}")
-    users = set()
-    users_scorms = set()
-    # for student_module in list_of_student_modules:
-
-    #     log.info("student_module")
-    #     log.info(student_module)
-
-    #     all_courses_video_student_module.append(student_module)
-    #     users.add(User.objects.get(id = student_module["student_id"]))
-
-    for scorm_student_module in list_of_student_scorms :
-
-        log.info("scorm_student_module")
-        if scorm_student_module["student_id"] == 28 or scorm_student_module["student_id"] == 55 :
-
-            log.info('quest ce quon récupere comme info ici ?')
-            log.info(scorm_student_module["state"])
-            # 
 
 
-    all_user_set.update(users)
-    users_per_course[course_id] = users
 
-
-# def convert_str_to_obj(saved_video_position):
-#     str_time_video = saved_video_position.replace('"saved_video_position": "', '').replace('{', '').replace('}', '').replace('"', '')
-#     if 'speed' in str_time_video:
-#         char_to_replace = ["0.25", "0.5", "0.75", "1.0", "1.25", "1.5", "1.75", "2.0", ",", " ", "speed:"]
-#         for char in char_to_replace:
-#             str_time_video = str_time_video.replace(char, "")
-#     return str_time_video
-
-
-# def convert_str_to_int(time_str):
-#     """Get seconds from time."""
-#     h, m, s = time_str.split(':')
-#     return int(h) * 3600 + int(m) * 60 + int(s)
 
 
 def course_name(course_id):
     if course_id.find('IP_') != -1 : 
         return "Initiative Personnelle (IP)"
-    elif course_id.finr('WEB_') != -1 :
+    elif course_id.find('WEB_') != -1 :
         return "Webinaire (WEB)"
     else : 
         return "Négociation (NEG)"
 
 
 
-for course_id, users in users_per_course.items():
-    users_data = dict()
-    users_scorm_completion = dict()
 
-    for index, user in enumerate(users):
-                
+for course_id in course_ids:
+
+    course_key = CourseLocator.from_string(course_id)
+    course_enrollments = CourseEnrollment.objects.filter(course_id=course_key)
+    course = get_course_by_id(course_key)
+    users_data = dict()
+
+    for i in range(len(course_enrollments)):
+        user = course_enrollments[i].user
+
+
 
         # Escape fake email address
-        if user.email.find("@example")!= -1 or user.email.find("@themoocagency") != -1 or user.email.find("@weuplearning")!= -1 or user.email.find("@yopmail")!= -1 or user.email.find("@fake")!= -1:
-            continue
+        # if user.email.find("@example")!= -1 or user.email.find("@themoocagency") != -1 or user.email.find("@weuplearning")!= -1 or user.email.find("@yopmail")!= -1 or user.email.find("@fake")!= -1:
+        #     continue
 
         user_data = dict()
 
@@ -230,17 +179,18 @@ for course_id, users in users_per_course.items():
         course_key = locator.CourseLocator.from_string(str(course_id))
         collected_block_structure = get_course_in_cache(course_key)
         
-        user_scorms = StudentModule.objects.filter(student=user, course_id__exact=course_id, module_type="scorm")
-        #log.info(dir(user_scorm))
+        try : 
 
-        for scorm_id, scorm_name in scorm_page_ids[course_id].items():
-            users_scorm_completion[scorm_id] = "no"
+            user_scorms = StudentModule.objects.filter(student=user, course_id__exact=course_id, module_type="scorm")
+            log.info("user_scorms")
+            log.info(user_scorms)
+            log.info(user_scorms["state"])
 
-            for scorm in user_scorms:
-                log.info("scorm")
-                log.info(scorm)
-                if scorm_id == scorm.module_state_key.block_id:
-                    users_scorm_completion[scorm_id] = scorm.done
+
+            user_data["grade"] = user_scorms["state"]["leson_completion"]
+        except : 
+            user_data["grade"] = 'n.a.'
+
 
         # try:
         #     list_chapter_course = list()
@@ -332,13 +282,8 @@ for course_id, users in users_per_course.items():
         #     log.info(e)
 
         # Est ce qu'on veut récupérer cette info ?
-        user_data["grade"] = "N/A"
 
         user_row = [user_data["username"],user_data["email"],user_data["first_name"],user_data["name"],user_data["date_joined"],user_data["last_login"], user_data["global_time_tracking"], "N/A", user_data["total_video_time"], user_data["grade"]]
-
-        for scorm_id in users_scorm_completion:
-            log.info(users_scorm_completion[scorm_id])
-            user_row.append(users_scorm_completion[scorm_id])
 
 
         # for chapter_name in list_chapter_course:
@@ -381,8 +326,8 @@ def create_sheet_function(sheet_name, users, workbook, course_id):
     # if not dict_hardcoded_chapter_key[course_id]:
     #     return
 
-    for chapter_name in list_chapters_name[course_id]:
-        common_header.append(chapter_name)
+    # for chapter_name in list_chapters_name[course_id]:
+    #     common_header.append(chapter_name)
 
     for i, header in enumerate(common_header):
         sheet.cell(row=1, column=(i+1)).value = header
@@ -403,9 +348,7 @@ for course_id in course_ids:
     ordered_users = sorted(users_data.items(), key=lambda x: x[1])
     create_sheet_function(course_name(course_id), ordered_users, wb, course_id)
 
-timestr = time.strftime("%Y_%m_%d")
-filename = "Rapport_hec.xlsx".format(timestr)
-# filename = "Rapport_hec_{}.xlsx".format(timestr)
+filename = "hec_grade_report.xlsx"
 filepath = '/edx/var/edxapp/media/microsites/hec-pole-emploi/reports/{}'.format(filename)
 wb.save(filepath)
 output = BytesIO()
@@ -441,7 +384,7 @@ for email in emails:
     server.sendmail(fromaddr, toaddr, text)
     server.quit()
 
-    log.info('Email sent to ',toaddr)
+    log.info('Email sent to '+toaddr)
 
 
 ## delete old files
