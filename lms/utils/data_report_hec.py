@@ -133,6 +133,15 @@ def course_name(course_id):
     else : 
         return "Négociation (NEG)"
 
+def scorm_data_treatment(suspend_data):
+    log.info("suspend_data")
+    log.info(suspend_data)
+
+    listed_data = suspend_data.split('1^1^').split('6000').split('340034003400r70020181^h_default_Selected')
+
+    return listed_data
+
+
 
 
 
@@ -160,8 +169,7 @@ for course_id in course_ids:
             "email": getattr(user, "email", ""),
             "date_joined": getattr(user, "date_joined", "").strftime('%Y-%m-%d %H:%M:%S') if getattr(user, "date_joined", None) else "",
             "last_login": getattr(user, "last_login", "").strftime('%Y-%m-%d %H:%M:%S') if getattr(user, "last_login", None) else "",
-            "name": getattr(user, "name", ""),
-            "first_name": getattr(user, "first_name", ""),
+            "name": getattr(user, "fullname", ""),
         })
 
         log.info('user_data')
@@ -175,43 +183,35 @@ for course_id in course_ids:
         log.info('treating user :')
         log.info(user.email)
 
-        #try:
         course_key = locator.CourseLocator.from_string(str(course_id))
         collected_block_structure = get_course_in_cache(course_key)
         
         try : 
+            user_scorms = StudentModule.objects.filter(student=user, course_id__exact=course_id, module_type="scorm").values("student_id", "module_state_key", "state")
+            scorm_state = json.loads(user_scorms[0].get('state'))
 
-            user_scorms = StudentModule.objects.filter(student=user, course_id__exact=course_id, module_type="scorm")
-            log.info("user_scorms")
-            log.info(user_scorms)
-            log.info(user_scorms["state"])
+            log.info('scorm_state')
+            log.info(scorm_state)
+            log.info(scorm_state["scorm_data"])
 
+            user_data["grade"] = scorm_state["lesson_status"]
 
-            user_data["grade"] = user_scorms["state"]["leson_completion"]
+            try :
+                user_data["scorm_time"] = scorm_state["scorm_data"]["cmi.interactions.0.timestamp"]
+            except: 
+                user_data["scorm_time"] = 'n.a.'
+
+            try :
+                user_data["raw_scorm_data"] = (scorm_state["scorm_data"]["cmi.suspend_data"])
+                user_data["scorm_data"] = scorm_data_treatment(scorm_state["scorm_data"]["cmi.suspend_data"])
+            except:
+                user_data["raw_scorm_data"] = 'n.a.'
+                user_data["scorm_data"] = 'n.a.'
+
         except : 
             user_data["grade"] = 'n.a.'
 
 
-        # try:
-        #     list_chapter_course = list()
-        #     for chapter_key in dict_hardcoded_chapter_key[course_id]:
-
-        #         usagekey = UsageKey.from_string(chapter_key)
-        #         detailed_time_tracking = json.loads(WulCourseEnrollment.get_enrollment(user=user, course_id=course_id).detailed_time_tracking)
-
-        #         chapter_key = chapter_key.split("@")[2]
-        #         chapter_name = collected_block_structure.get_xblock_field(usagekey, "display_name")
-
-        #         if chapter_key in detailed_time_tracking:
-        #             user_data[chapter_name] = datetime.timedelta(seconds=detailed_time_tracking[chapter_key])
-        #         else:
-        #             user_data[chapter_name] = datetime.timedelta(seconds=0)
-
-        #         list_chapter_course.append(chapter_name)
-
-        #     list_chapters_name[course_id] = list_chapter_course
-        # except:
-        #     continue
 
         # Access TimeTracking for every courses
         global_time_tracking_cumul = 0
@@ -240,94 +240,30 @@ for course_id in course_ids:
         except:
             pass
 
-
-        # if global_time_tracking_cumul == 0 :
-        #     user_data["global_time_tracking"] = datetime.timedelta(seconds=0)
-        # else:
         user_data["global_time_tracking"] = datetime.timedelta(seconds=global_time_tracking_cumul)
 
-        # Get detailled video information from student modules
-        # for video in all_courses_video_student_module :
-        # # for video in videos_list :
-        #     video_dict[video] = "Non"
-
-        # total_video_seconds = 0
-        # try:
-        #     for result in all_courses_video_student_module:
-
-        #         log.info('result')
-        #         log.info(result)
-
-        #         if(user.id == result["student_id"]):
-        #             if str(result["module_state_key"]).split("+")[4] in video_dict:
-        #                 user_state = result["state"]
-        #                 video_time_tracking = convert_str_to_obj(user_state)
-        #                 log.info('video_time_tracking')
-        #                 log.info(video_time_tracking)
-
-        #                 time_video_time_tracking = convert_str_to_int(video_time_tracking)
-        #                 log.info('time_video_time_tracking')
-        #                 log.info(time_video_time_tracking)
-        #                 total_video_seconds += time_video_time_tracking
-                        
-        #                 video_dict[str(result["module_state_key"]).split("+")[4]] = datetime.timedelta(seconds=time_video_time_tracking)
-        #                 time_video_time_tracking += time_video_time_tracking
-        #                 user_data["total_video_time"] = datetime.timedelta(seconds=time_video_time_tracking)
-
-        #             else:
-        #                 log.info('ERROR {} VIDEO NOT IN THE LIST !'.format(video_dict[str(result["module_state_key"]).split("+")[4]]))
-
-        # except Exception as e:
-        #     log.info(str(user.id)+" : error with watch a video field")
-        #     log.info(e)
-
-        # Est ce qu'on veut récupérer cette info ?
-
-        user_row = [user_data["username"],user_data["email"],user_data["first_name"],user_data["name"],user_data["date_joined"],user_data["last_login"], user_data["global_time_tracking"], "N/A", user_data["total_video_time"], user_data["grade"]]
 
 
-        # for chapter_name in list_chapter_course:
-        #     user_row.append(user_data[chapter_name])
+        user_row = [user_data["username"],user_data["email"],user_data["name"],user_data["date_joined"],user_data["last_login"], user_data["global_time_tracking"], "N/A", user_data["total_video_time"], user_data["grade"], user_data["scorm_time"], user_data["raw_scorm_data"]]
+
+
 
         users_data[user.username.capitalize()] = user_row
     users_per_course[course_id] = users_data
 
 
-## log.info excel file
-row = 1
 
 
 ## Workbook
 wb = Workbook()
 wb.remove(wb.active)
 
-# Test password
-# wb.security.workbookPassword = '123456'
-# wb.security.lockStructure = True
 
 
 def create_sheet_function(sheet_name, users, workbook, course_id):
-    common_header = ["Username","Email","Prénom","Nom","Date de création de compte","Date de dernière connexion", "Temps passé total", "Webinaire finalisé", "Temps passé webinaire", "Note obtenue"] 
 
-    for scorm_id, scorm_name in scorm_page_ids[course_id].items():
-        log.info(scorm_name)
-        common_header.append(scorm_name + " validé")
-
-    # if course_id == "course-v1:hec-pole-emploi+IP_NEG+2023":
-    #     log.info(f"default header: {common_header}")
-    #     del common_header[10]
-    #     log.info(f"poped header: {common_header}")
-    #     common_header += ["Note NEG", "Note IP", "Score Moyen"]
-    #     log.info(f"modifed header:{common_header}")
-    #     #common_header.append(specific_neg_ip_header)
+    common_header = ["Username","Email","Nom complet","Date de création de compte","Date de dernière connexion", "Temps passé total", "Webinaire finalisé", "Temps passé webinaire", "Note obtenue"] 
     sheet = workbook.create_sheet(sheet_name)
-    # users_of_a_course = users_per_course[course_id]
-
-    # if not dict_hardcoded_chapter_key[course_id]:
-    #     return
-
-    # for chapter_name in list_chapters_name[course_id]:
-    #     common_header.append(chapter_name)
 
     for i, header in enumerate(common_header):
         sheet.cell(row=1, column=(i+1)).value = header
@@ -341,12 +277,16 @@ def create_sheet_function(sheet_name, users, workbook, course_id):
             l=l+1
         j=j+1
 
+
+
 for course_id in course_ids:
     users_data = users_per_course[course_id]
     if users_data == []:
         continue
     ordered_users = sorted(users_data.items(), key=lambda x: x[1])
     create_sheet_function(course_name(course_id), ordered_users, wb, course_id)
+
+
 
 filename = "hec_grade_report.xlsx"
 filepath = '/edx/var/edxapp/media/microsites/hec-pole-emploi/reports/{}'.format(filename)
@@ -359,16 +299,15 @@ html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous trouverez en pièce j
 for email in emails:
     part2 = MIMEText(html.encode('utf-8'), 'html', 'utf-8')
     fromaddr = "HEC pole-emploi <ne-pas-repondre@themoocagency.com>"
-    toaddr = email
     msg = MIMEMultipart()
     msg['From'] = fromaddr
-    msg['To'] = toaddr
+    msg['To'] = email
     msg['Subject'] = "Rapport temps passé HEC pole-emploi"
 
     attachment = _files_values
 
-    with open(filepath, 'rb') as f:
-        attachment = f.read()
+    # with open(filepath, 'rb') as f:
+    #     attachment = f.read()
 
     part = MIMEBase('application', 'octet-stream')
     part.set_payload(attachment)
@@ -381,18 +320,13 @@ for email in emails:
     server.login('contact', 'waSwv6Eqer89')
     msg.attach(part2)
     text = msg.as_string()
-    server.sendmail(fromaddr, toaddr, text)
+    server.sendmail(fromaddr, email, text)
     server.quit()
 
-    log.info('Email sent to '+toaddr)
+    log.info('Email sent to '+email)
 
 
-## delete old files
-# two_weeks_ago = datetime.datetime.today() - datetime.timedelta(days=14)
-# try:
-#     os.remove('/edx/var/edxapp/media/microsites/hec-pole-emploi/reports/Rapport_hec_{}.xlsx'.format(two_weeks_ago.strftime("%Y_%m_%d")))
-# except:
-#     pass
 
-# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/hec-pole-emploi/lms/utils/rapport_video_hec.py "cyril.adolf@weuplearning.com"
+
+# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/hec-pole-emploi/lms/utils/data_report_hec.py "cyril.adolf@weuplearning.com"
 
