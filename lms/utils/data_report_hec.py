@@ -133,11 +133,13 @@ def course_name(course_id):
     else : 
         return "Négociation (NEG)"
 
-def scorm_data_treatment(suspend_data):
-    log.info("suspend_data")
-    log.info(suspend_data)
 
-    listed_data = suspend_data.split('1^1^').split('6000').split('340034003400r70020181^h_default_Selected')
+
+def scorm_data_treatment(suspend_data):
+
+    listed_data = suspend_data.replace('3400','').replace('6000','&&').replace('^41000','&&').replace('r70020181^h_default_Selected','&&').split('&&')
+    listed_data = list(filter(None, listed_data))
+    log.info(listed_data)
 
     return listed_data
 
@@ -155,11 +157,13 @@ for course_id in course_ids:
     for i in range(len(course_enrollments)):
         user = course_enrollments[i].user
 
+        log.info(course_id)
+        log.info(len(course_enrollments))
 
 
         # Escape fake email address
-        # if user.email.find("@example")!= -1 or user.email.find("@themoocagency") != -1 or user.email.find("@weuplearning")!= -1 or user.email.find("@yopmail")!= -1 or user.email.find("@fake")!= -1:
-        #     continue
+        if user.email.find("@example")!= -1 or user.email.find("@themoocagency") != -1 or user.email.find("@weuplearning")!= -1 or user.email.find("@yopmail")!= -1 or user.email.find("@fake")!= -1:
+            continue
 
         user_data = dict()
 
@@ -169,7 +173,7 @@ for course_id in course_ids:
             "email": getattr(user, "email", ""),
             "date_joined": getattr(user, "date_joined", "").strftime('%Y-%m-%d %H:%M:%S') if getattr(user, "date_joined", None) else "",
             "last_login": getattr(user, "last_login", "").strftime('%Y-%m-%d %H:%M:%S') if getattr(user, "last_login", None) else "",
-            "name": getattr(user, "fullname", ""),
+            "name": user.profile.name
         })
 
         log.info('user_data')
@@ -205,12 +209,15 @@ for course_id in course_ids:
                 user_data["raw_scorm_data"] = (scorm_state["scorm_data"]["cmi.suspend_data"])
                 user_data["scorm_data"] = scorm_data_treatment(scorm_state["scorm_data"]["cmi.suspend_data"])
             except:
+                user_data["scorm_time"] = 'n.a.'
                 user_data["raw_scorm_data"] = 'n.a.'
                 user_data["scorm_data"] = 'n.a.'
 
         except : 
             user_data["grade"] = 'n.a.'
-
+            user_data["scorm_time"] = 'n.a.'
+            user_data["raw_scorm_data"] = 'n.a.'
+            user_data["scorm_data"] = 'n.a.'
 
 
         # Access TimeTracking for every courses
@@ -244,8 +251,8 @@ for course_id in course_ids:
 
 
 
-        user_row = [user_data["username"],user_data["email"],user_data["name"],user_data["date_joined"],user_data["last_login"], user_data["global_time_tracking"], "N/A", user_data["total_video_time"], user_data["grade"], user_data["scorm_time"], user_data["raw_scorm_data"]]
-
+        user_row = [user_data["username"],user_data["email"],user_data["name"],user_data["date_joined"],user_data["last_login"], user_data["global_time_tracking"], "N/A", user_data["total_video_time"], user_data["grade"]]
+        # user_row = [user_data["username"],user_data["email"],user_data["name"],user_data["date_joined"],user_data["last_login"], user_data["global_time_tracking"], "N/A", user_data["total_video_time"], user_data["grade"], user_data["scorm_time"], user_data["raw_scorm_data"]]
 
 
         users_data[user.username.capitalize()] = user_row
@@ -260,9 +267,9 @@ wb.remove(wb.active)
 
 
 
-def create_sheet_function(sheet_name, users, workbook, course_id):
+def create_sheet_function(sheet_name, users, workbook):
 
-    common_header = ["Username","Email","Nom complet","Date de création de compte","Date de dernière connexion", "Temps passé total", "Webinaire finalisé", "Temps passé webinaire", "Note obtenue"] 
+    common_header = ["Username","Email","Nom complet","Date de création de compte","Date de dernière connexion","Temps passé total","Cours finalisé","Temps passé","Note obtenue"] 
     sheet = workbook.create_sheet(sheet_name)
 
     for i, header in enumerate(common_header):
@@ -284,7 +291,7 @@ for course_id in course_ids:
     if users_data == []:
         continue
     ordered_users = sorted(users_data.items(), key=lambda x: x[1])
-    create_sheet_function(course_name(course_id), ordered_users, wb, course_id)
+    create_sheet_function(course_name(course_id), ordered_users, wb)
 
 
 
@@ -306,8 +313,8 @@ for email in emails:
 
     attachment = _files_values
 
-    # with open(filepath, 'rb') as f:
-    #     attachment = f.read()
+    with open(filepath, 'rb') as f:
+        attachment = f.read()
 
     part = MIMEBase('application', 'octet-stream')
     part.set_payload(attachment)
