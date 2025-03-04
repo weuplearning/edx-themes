@@ -1,0 +1,158 @@
+<%page expression_filter="h"/>
+<%! from django.utils.translation import ugettext as _ %>
+<%inherit file="../main.html" />
+
+<%block name="pagetitle">Conditions générales d'utilisation</%block>
+
+
+
+<style>
+    .about {
+        font-family: "LidlFontPro","Quicksand";
+        color: black;
+        text-align: justify;
+        line-height: 1.2;
+    }
+
+    .about > h1 {
+        margin-bottom: 10px;
+    }
+
+    #date_maj {
+        margin: 8px auto 50px auto;
+        width: 250px;
+        display: block;
+        text-align: center;
+    }
+    h3 {
+        text-decoration: underline;
+        margin-left: 20px;
+    }
+    #sommaireList {
+        margin: 10px 0 43px 30px;
+    }
+    #sommaireList li {
+        line-height: 1.4;
+        padding-left: 7px;
+        
+    }
+    #sommaireList li::marker {
+        font-size: 14px;
+        font-weight: 400;
+    }
+
+    h2 {
+        margin-top : 25px ;
+    }
+    h2, ol > li::marker {
+        font-size: 19px;
+        font-weight: bold;
+        color: black;
+    }
+    li p {
+        line-height: 1.3;
+        text-align: justify;
+    }
+    p+p {
+        margin-top: 14px !important;
+    }
+    .checkList li::marker {
+        content : '✔ ';
+        font-size: 1.2em;
+    }
+    .tiretList li::marker {
+        content : '- ';
+        font-size: 1.2em;
+    }
+    .checkList li,.tiretList li {
+        padding-left: 8px;
+    }
+
+</style>
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="container about">
+        <h1>Conditions générales d'utilisation</h1>
+        <span id="date_maj">(Version du 28/02/2025)</span>
+
+        <h3>Sommaire</h3>
+        <ol id="sommaireList">
+            <li><a href="#part1">Objet</a></li>
+            <li><a href="#part2">Accès et utilisation du Site</a></li>
+            <li><a href="#part3">Compte utilisateur</a></li>
+            <li><a href="#part4">Propriété intellectuelle</a></li>
+            <li><a href="#part5">Limitations de responsabilité</a></li>
+            <li><a href="#part6">Liens externes</a></li>
+            <li><a href="#part7">Données personnelles et cookies</a></li>
+            <li><a href="#part8">Droit applicable et compétences juridictionnelle</a></li>
+            <li><a href="#part9">Entrée en vigueur et modifications des cgu</a></li>
+        </ol>
+        <ol>
+            <li>
+                <h2 id="part1">Objet</h2>
+                <p>Les présentes Conditions Générales d’Utilisation (ci-après « CGU ») régissent les conditions auxquelles la société LIDL, société en nom collectif au capital social de 458 000 000,00 €, situé 1 rue de Hanovre, 92290 Châtenay-Malabry, immatriculée au Registre du Commerce et des Sociétés de Nanterre sous le numéro 343 262 622, met à disposition gratuitement le Site aux professionnels de l’élevage personnes physiques et morale, ainsi qu’à toute personne physique agissant dans un cadre non professionnel (ci-après communément désignés « Utilisateur(s) »).</p>
+                <p>Le Site a pour but d’informer et de sensibiliser aux travaux et pratiques favorables au bien-être des animaux d’élevage. </p>
+                <p>L’accès à la totalité des ressources mises à disposition sur le Site est soumis à la création d’un compte utilisateur. </p>
+                <p>L’Utilisateur reconnait avoir pris connaissance et accepté sans réserve les présentes CGU avant toute utilisation ou consultation du Site. </p>
+            </li>
+            <li>
+                <h2 id="part2">Accès et utilisation du Site</h2>
+                <p>La configuration minimale requise pour l'accès au Site est la suivante :</p>
+                <ul class="checkList">
+                    <li>Fonctionne sur Firefox, Google Chrome, Safari et Internet Explorer 8+</li>
+                    <li>Sur mobile ou tablette, la plateforme fonctionne sur les navigateurs intégrés aux systèmes d’exploitation</li>
+                    <li>Vidéo HTML5 (iOS)</li>
+                </ul>
+                <p>Lors de l’accès au Site et de son utilisation, il appartient à l’Utilisateur :</p>
+                <ul class="tiretList">
+                    <li>de s’assurer que les caractéristiques de son équipement informatique (ordinateur, tablette, téléphone…) et de son réseau internet lui permettent l’accès et l’utilisation du Site ;</li>
+                    <li>de protéger son équipement informatique contre toute contamination de virus ou tentative d’intrusion ;</li>
+                    <li>de garantir la confidentialité de ses codes de connexion et de les mettre régulièrement à jour. </li>
+                </ul>
+                <p>L’Utilisateur ne fera aucune utilisation ou tentative d’utilisation du Site portant atteinte à l’ordre public, aux bonnes mœurs, aux droits de LIDL ou aux droits de tiers. </p>
+                <p>En cas de non-respect des CGU par l’Utilisateur, LIDL pourra suspendre ou supprimer son compte utilisateur de manière temporaire ou définitive. </p>
+            </li>
+            <li>
+                <h2 id="part3">Compte utilisateur</h2>
+                <p>Pour les besoins de la création de son compte utilisateur, il sera demandé les informations obligatoires suivantes : le nom, le prénom, le nom d’utilisateur choisi, l’adresse e-mail, le niveau de connaissance estimé en matière de bien-être animal, et la qualification professionnelle associé à l’Utilisateur. Si l’Utilisateur est un professionnel de l’élevage, il sera demandé en complément : la filière dans laquelle il exerce, son implication dans la chaîne d’approvisionnement de Lidl, le nom de son groupement de producteurs, l’adresse et le nom de l’élevage. Ces données sont traitées dans le respect de la Politique de protection des données personnelles du Site. </p>
+                <p>L’Utilisateur s’engage à fournir des informations exactes et à les maintenir à jour.</p>
+                <p>À défaut d’utilisation de son compte utilisateur pendant un délai de 3 ans, LIDL supprimera le compte utilisateur et les données personnelles associées.</p>
+            </li>
+            <li>
+                <h2 id="part4">Propriété intellectuelle</h2>
+                <p>LIDL est soit propriétaire soit licenciée des droits de propriété intellectuelle portant sur les contenus et éléments composant le Site, notamment et non limitativement les textes, images, vidéos, graphismes, icônes, sons, bases de données.</p>
+                <p>Toute reproduction, représentation, modification, publication, adaptation de tout ou partie des contenus et éléments du Site, quel que soit le procédé et le support utilisé, est interdite si elle n’est pas libre de droits et est susceptible de constituer un acte de contrefaçon sanctionné par les articles L.335-2 et suivants du Code de la Propriété Intellectuelle.</p>
+                <p>Toute utilisation à d’autres fins que privées doit ainsi faire l’objet d’une autorisation expresse, écrite et préalable de LIDL ou du propriétaire desdits droits de propriété intellectuelle.  </p>
+            </li>
+            <li>
+                <h2 id="part5">Limitations de responsabilité</h2>
+                <p>La mise à disposition du Site résulte d’un souhait de LIDL d’informer et de sensibiliser les Utilisateurs aux travaux et réflexions sur des pratiques favorables au bien-être animal. Le sujet fait l’objet de réflexions en constante évolution. Si LIDL s’assure de sélectionner rigoureusement des sources sérieuses et de les maintenir à jour, sa responsabilité ne saurait être engagée en cas d’informations devenues obsolètes ou faisant l’objet d’avis diversifiés.</p>
+                <p>La responsabilité de LIDL ne saurait également être engagée pour des préjudices découlant :</p>
+                <ul>
+                    <li>de l'altération ou de l'accès frauduleux à des données et/ou de la transmission accidentelle par le biais de virus ;</li>
+                    <li>de la suspension ou de la cessation du Site en raison d’un cas de force majeure, d’un fait indépendant de la volonté de LIDL (panne, problèmes d'ordre technique concernant le matériel, les programmes et logiciels ou le réseau Internet...) ou à des fins de maintenance du Site ;</li>
+                    <li>du fait de l’Utilisateur ou d’un tiers ;</li>
+                    <li>des limites du réseau Internet.</li>
+                </ul>
+            </li>
+            <li>
+                <h2 id="part6">Liens externes</h2>
+                <p>Le Site peut contenir des liens hypertextes renvoyant vers des sites internet appartenant à des tiers. LIDL ne peut être tenue responsable de leur contenu ou de leur fonctionnement. L’Utilisateur est invité à consulter les mentions légales et les conditions d’utilisation propres à chaque site tiers. </p>
+            </li>
+            <li>
+                <h2 id="part7">Données personnelles et cookies</h2>
+                <p>Les utilisateurs du site sont invités à consulter la politique de protection des données personnelles appliquée par Lidl France pour le Site. Cette dernière est consultable en <a href="/privacy" target="_blank" rel="noopener noreferrer">cliquant ici</a>.</p>
+            </li>
+            <li>
+                <h2 id="part8">Droit applicable et compétence juridictionnelle</h2>
+                <p>Les présentes CGU sont soumises au droit français.</p>
+                <p>Tout litige né de la mise à disposition ou de l’utilisation du Site sera de la compétence exclusive des tribunaux de PARIS. </p>
+            </li>
+            <li>
+                <h2 id="part9">Entrée en vigueur et modification des CGU</h2>
+                <p>Les présentent CGU entrent en vigueur à la date de publication sur le Site et pourront être modifiées par LIDL à tout moment. </p>
+            </li>
+        </ol>
+
+
+    </section>
+</main>

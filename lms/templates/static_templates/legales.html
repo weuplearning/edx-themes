@@ -4,29 +4,39 @@
 
 <%block name="pagetitle">Mentions légales</%block>
 
+<style>
+    #main {
+        min-height: calc( 100vh - 276px -  91px - 30px) ;
+    }
+
+    .about > h1 {
+        margin-bottom: 10px;
+    }
+    #date_maj {
+        margin: 8px auto 50px auto;
+        width: 250px;
+        display: block;
+        text-align: center;
+    }
+    .text_legales {
+        font-family: "LidlFontPro","Quicksand";
+        color: black;
+        text-align: justify;
+        line-height: 1.2;
+    }
+
     
+
+</style>
+
 <main id="main" aria-label="Content" tabindex="-1">
     <section class="container about">
         <h1>Mentions légales</h1>
+        <span id="date_maj">(Version du 28/02/2025)</span>
 
-        <p style="font-weight: bold;">Hébergeur</p>
-        <p>OVH</p>
-        <p>SAS au capital de 10 174 560 €</p>
-        <p>RCS Lille Métropole 424 761 419 00045</p>
-        <p>Code APE 2620Z</p>
-        <p>N° TVA : FR 22 424 761 419</p>
-        <p>Siège social : 2 rue Kellermann - 59100 Roubaix - France</p>
-
-        <br>
-        <p style="font-weight: bold;">Utilisation d'Open edX</p>
-        <p>Notre plateforme utilise le logiciel open source <a href="https://openedx.org/fr/" target="_blank" rel="noopener noreferrer">Open edX</a>, développé et maintenu par la communauté Open edX. Open edX est distribué sous la licence AGPL v3 (Affero General Public License version 3).</p>
-        <p>Conformément aux obligations de cette licence, les éventuelles modifications apportées à la plateforme et accessibles publiquement sont également mises à disposition sous licence AGPL v3.</p>
-        <p>Vous pouvez consulter les détails de cette licence à l'adresse suivante : <a href="https://www.gnu.org/licenses/agpl-3.0.fr.html" target="_blank">https://www.gnu.org/licenses/agpl-3.0.fr.html</a>.</p>
-        <p>Open edX est une marque déposée d'EDX LLC. L'utilisation de ce logiciel ne constitue en aucun cas une affiliation ou un partenariat officiel avec Open edX ou ses développeurs.</p>
-
-        <br>
-        <p>Toutes les données Afpa sont hébergées en France (l'information peut être vérifiée depuis la console Office 365). Pour des raisons de sécurité et de confidentialité, le lieu d’hébergement physique de nos données ne peut-être communiqué.</p>
-
-
+        <p class="text_legales">Le site bien-etre-animal.lidl.fr (ci-après le « Site ») est édité par la société LIDL, SNC au capital de 458 000 000 Euros, inscrite au registre du commerce et des sociétés de Nanterre sous le n° 343 262 622, enregistrée sous le numéro de TVA intracommunautaire FR 85 343 262 622, et dont le siège social est situé 1 rue de Hanovre 92290 Châtenay-Malabry (ci-après « nous » ou « LIDL »). </p>
+        <p>Le responsable de publication est Thiago De Carvalho Almeida.</p>
+        <p>Vous pouvez nous contacter : <a href="mailto:contact_plateforme_bea@lidl.fr">contact_plateforme_bea@lidl.fr</a></p>
+        <p>Le site et les données utilisateurs sont hébergés par la société OVH, dont le siège social est situé au 2 rue Kellermann, 59100 Roubaix L’hébergeur est joignable au 09 72 10 10 07. </p>
     </section>
 </main>
