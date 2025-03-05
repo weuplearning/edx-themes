@@ -90,6 +90,9 @@ for course_id in course_ids:
         # Inscrit depuis combien de jours 
         days_difference = (now - user.date_joined).days
 
+        # can be delete after 10/03/2025
+        if user.email.find('renatamonteiro1101@gmail.com') != -1 :
+            days_difference -= 46
 
 
         # email_01
@@ -312,6 +315,8 @@ for course_id in course_ids:
 
 
 
+if len(all_treated_users) == 0:
+    stop
 
 
 
@@ -329,7 +334,7 @@ for user in all_treated_users:
         k += 1
         l = 1
 
-filename = "Rapport_deleted_users.xlsx"
+filename = "Rapport_notified_users.xlsx"
 filepath = '/edx/var/edxapp/media/{}'.format(filename)
 wb.save(filepath)
 
@@ -337,7 +342,7 @@ output = BytesIO()
 wb.save(output)
 _files_values = output.getvalue()
 
-html = '<html><head></head><body><p>Bonjour,<br/><br/>Voici la liste des '+str(len(all_treated_users))+' utilisateurs dont l\'inscription a été désactivé, ces utilisateurs ont été notifiés du status de leur période d\'accés.<br/><br/>En cas de besoin vérifier le script : /edx/app/edxapp/edx-themes/af-brazil/lms/utils/notif_and_unenroll_script.py <br/><br/>Bonne r&eacute;ception<br/>L\'&eacute;quipe WeUp Learning</p></body></html>'
+html = '<html><head></head><body><p>Bonjour,<br/><br/>Voici la liste des '+str(len(all_treated_users))+' utilisateurs notifiés et/ou désactivés.<br/><br/>En cas de besoin vérifier le script : /edx/app/edxapp/edx-themes/af-brazil/lms/utils/notif_and_unenroll_script.py <br/><br/>Bonne r&eacute;ception<br/>L\'&eacute;quipe WeUp Learning</p></body></html>'
 
 
 for email in emails_to_send:
@@ -346,7 +351,7 @@ for email in emails_to_send:
     msg = MIMEMultipart()
     msg['From'] = fromaddr
     msg['To'] = email
-    msg['Subject'] = "Rapport unenrolled users"
+    msg['Subject'] = "Rapport notified users"
 
     attachment = _files_values
     part = MIMEBase('application', 'octet-stream')
