@@ -201,15 +201,6 @@ if csv_data :
                                                     earned = int(percent * total)
 
                                             %>
-                                            <script>
-                                                console.log('test 5 mars');
-                                                console.log('${section.display_name}');
-                                                console.log('${section.display_name.find("Miss")}');
-                                                console.log('test 2');
-                                                console.log('${(section.display_name.find("Missão ") != -1  or section.display_name.find("DELF") != -1) and str(course.id) in course_with_badge_list_militar_2 and badge_section_OFM + 1 < len(csv_user_grade) }');
-                                                
-                                                
-                                            </script>
                                             <h4 class="hd hd-4">
                                                 <a href="${reverse('courseware_section', kwargs=dict(course_id=text_type(course.id), chapter=chapter['url_name'], section=section.url_name))}">
                                                     ${ section.display_name}
@@ -345,10 +336,6 @@ if csv_data :
                                             total = section.graded_total.possible
                                             badge_section_OFM += 1
                                             %>
-                                            <script>
-                                                console.log("INSIDE LOOPS");
-                                                
-                                            </script>
 
                                             %if (total > 0 and earned > 0.7*total) or (csv_user_grade and float(csv_user_grade[badge_section_OFM]) >= 0.7 ):
                                                 <div class="badge_area">
@@ -368,13 +355,6 @@ if csv_data :
                                             %endif
                                         %endif
 
-                                        <script>
-                                            console.log('test cyroil');
-                                            console.log('${section.display_name}');
-                                            console.log('${str(course.id)}');
-                                            
-                                            console.log('${course_with_badge_list_militar_2}');
-                                        </script>
                                     </div>
                                 %endfor
                             </div>
