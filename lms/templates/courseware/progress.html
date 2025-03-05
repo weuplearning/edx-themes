@@ -167,6 +167,7 @@ if csv_data :
                         badge_section = loop.index
                         course_with_badge_list_regular = ["course-v1:af-brasil+PP+2024","course-v1:af-brasil+PP+CPB01","course-v1:af-brasil+PP+CPB","course-v1:af-brasil+PP+TB","course-v1:af-brazil+afbrazil-test+2024","course-v1:af-brasil+go+2024","course-v1:af-brasil+go+degustation"]
                         course_with_badge_list_militar = ["course-v1:af-brasil+OFM+01","course-v1:af-brazil+2+2024"]
+                        course_with_badge_list_militar_2 = ["course-v1:af-brasil+OFM+02","course-v1:af-brazil+OFM+02"]
                         %>
                         %if not chapter['display_name'] == "hidden":
                         <section aria-labelledby="chapter_${loop.index}" >
@@ -187,13 +188,28 @@ if csv_data :
                                                     percentageString = "{0:.0%}".format(earned) 
 
 
-                                            if section.display_name == "Point de contrôle" and str(course.id) in course_with_badge_list_militar and badge_section_OFM+1 < len(csv_user_grade)  :
-                                                if (float(csv_user_grade[badge_section_OFM+1]) > earned) :
-                                                    percent = float(csv_user_grade[badge_section_OFM+1]) 
+                                            if section.display_name == "Point de contrôle" and str(course.id) in course_with_badge_list_militar and badge_section_OFM + 1 < len(csv_user_grade)  :
+                                                if (float(csv_user_grade[badge_section_OFM + 1]) > earned) :
+                                                    percent = float(csv_user_grade[badge_section_OFM + 1]) 
+                                                    percentageString = "{0:.0%}".format(percent) 
+                                                    earned = int(percent * total)
+
+                                            if (section.display_name.find("Missão ") != -1  or section.display_name.find("DELF") != -1) and str(course.id) in course_with_badge_list_militar_2 and badge_section_OFM + 1 < len(csv_user_grade)  :
+                                                if (float(csv_user_grade[badge_section_OFM + 1]) > earned) :
+                                                    percent = float(csv_user_grade[badge_section_OFM + 1]) 
                                                     percentageString = "{0:.0%}".format(percent) 
                                                     earned = int(percent * total)
 
                                             %>
+                                            <script>
+                                                console.log('test 5 mars');
+                                                console.log('${section.display_name}');
+                                                console.log('${section.display_name.find("Miss")}');
+                                                console.log('test 2');
+                                                console.log('${(section.display_name.find("Missão ") != -1  or section.display_name.find("DELF") != -1) and str(course.id) in course_with_badge_list_militar_2 and badge_section_OFM + 1 < len(csv_user_grade) }');
+                                                
+                                                
+                                            </script>
                                             <h4 class="hd hd-4">
                                                 <a href="${reverse('courseware_section', kwargs=dict(course_id=text_type(course.id), chapter=chapter['url_name'], section=section.url_name))}">
                                                     ${ section.display_name}
@@ -320,7 +336,45 @@ if csv_data :
                                                     <img src="/media/microsites/af-brazil/badge/OFM${badge_section_OFM}-modified.png" alt="Medalha lição ${badge_section_OFM} bloqueado" >
                                                 </div>
                                             %endif
+
+
+
+                                        %elif (section.display_name.find("Missão ") != -1  or section.display_name.find("DELF") != -1) and str(course.id) in course_with_badge_list_militar_2 :
+                                            <%
+                                            earned = section.graded_total.earned
+                                            total = section.graded_total.possible
+                                            badge_section_OFM += 1
+                                            %>
+                                            <script>
+                                                console.log("INSIDE LOOPS");
+                                                
+                                            </script>
+
+                                            %if (total > 0 and earned > 0.7*total) or (csv_user_grade and float(csv_user_grade[badge_section_OFM]) >= 0.7 ):
+                                                <div class="badge_area">
+                                                    <img src="/media/microsites/af-brazil/badge/OFM_02_${badge_section_OFM}.png" alt="Troféu lição ${badge_section_OFM} desbloqueado" >
+                                                    <div class="social_button">
+                                                        <button>
+                                                            <a  href="https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=78q5gg85e2lgb9&redirect_uri=https://cursos.aliancafrancesaonline.com.br/wul_apps/social_network/share_linkedin?section=OFM_02_${badge_section_OFM}${course.id}&scope=profile%20email%20openid%20w_member_social" >
+                                                                Compartilhar no LinkedIn 
+                                                            </a>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            %else :
+                                                <div class="badge_area">
+                                                    <img src="/media/microsites/af-brazil/badge/OFM_02_${badge_section_OFM}_modified.png" alt="Medalha lição ${badge_section_OFM} bloqueado" >
+                                                </div>
+                                            %endif
                                         %endif
+
+                                        <script>
+                                            console.log('test cyroil');
+                                            console.log('${section.display_name}');
+                                            console.log('${str(course.id)}');
+                                            
+                                            console.log('${course_with_badge_list_militar_2}');
+                                        </script>
                                     </div>
                                 %endfor
                             </div>
@@ -383,11 +437,6 @@ if csv_data :
     color: white !important;
     text-shadow: none !important;
 }
-%if request.path.find('OFM+02') != -1 :
-/* A revoir lorsque les badges seront disponibles */
-.profile-wrapper .course-info>.chapters>section .hd {
-    width: 35vw !important;
-}
-%endif
+
 
 </style>
