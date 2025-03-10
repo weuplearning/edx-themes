@@ -388,10 +388,8 @@ if csv_data :
 body.view-in-course .container {
     max-width: 80vw !important;
 }
-.hd-3, .hd-4 {
-    font-size: 1.5em !important;
-}
-.scores, .no-scores, .sections_partioner p {
+
+.hd-3, .hd-4 , .scores, .no-scores, .sections_partioner p {
     font-size: 1.2em !important;
 }
 
@@ -406,13 +404,17 @@ body.view-in-course .container {
 }
 .profile-wrapper .course-info>.chapters>section .hd {
     border-right: none ;
+    max-width: 20.45% !important;
+}
+.profile-wrapper .course-info>.chapters>section .hd-6 {
+    max-width: unset !important;
 }
 .badge_area {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 29%;
+    min-width: 29%;
 }
 .badge_area>img {
     height: 165px;
@@ -446,9 +448,6 @@ body.view-in-course .container {
     .social_button button {
         margin: 2%;
     }
-}
-
-@media screen and (max-width: 430px) {
     .hd-3 {
         display: none !important;
     }
@@ -458,6 +457,9 @@ body.view-in-course .container {
     body.view-in-course .container {
         max-width: 100vw !important;
     }
+}
+
+@media screen and (max-width: 430px) {
     .badge_area>img {
         height: 140px;
     }
