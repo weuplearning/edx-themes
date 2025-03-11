@@ -90,9 +90,9 @@ for course_id in course_ids:
         # Inscrit depuis combien de jours 
         days_difference = (now - user.date_joined).days
 
-        # can be delete after 10/03/2025
-        if user.email.find('renatamonteiro1101@gmail.com') != -1 :
-            days_difference -= 46
+# for specific exception
+#        if user.email.find('renatamonteiro1101@gmail.com') != -1 :
+#            days_difference -= 46
 
 
         # email_01
