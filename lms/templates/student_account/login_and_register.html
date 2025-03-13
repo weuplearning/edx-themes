@@ -23,7 +23,7 @@
     }
     #audition-icope-msg {
         margin: 0 auto;
-        padding: 10px;
+        padding: 14px 20px;
         display: block;
         max-width: 500px;
         text-align: justify;
@@ -82,16 +82,17 @@
     </main>
 </div>
 
+
+%if request.path.find('login') != -1 :
+<script>
+    var msgAlreadyAccount = document.getElementById('audition-icope-msg')
+    msgAlreadyAccount.style.display = "none"  
+</script>
+%else :
 <script>
     setTimeout(() => {
-        
-        var url = window.location.href
-        var msgAlreadyAccount = document.getElementById('audition-icope-msg')
-        
-        
-        if (url.indexOf("login")!=-1) {
-            msgAlreadyAccount.style.display = "none"  
-        }
+        var placeH = document.getElementsByClassName('text-username')[0].getElementsByClassName('label-text')[0]
+        placeH.innerText = 'Nom.prénom.icope' 
     }, 250);
-
 </script>
+%endif

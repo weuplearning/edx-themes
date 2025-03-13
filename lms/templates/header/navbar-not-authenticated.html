@@ -26,19 +26,6 @@ from openedx.core.djangoapps.user_authn.utils import should_redirect_to_logistra
 %>
 <nav class="nav-links" aria-label=${_("Supplemental Links")}>
   <div class="main">
-  % if mktg_site_enabled:
-    <div class="mobile-nav-item hidden-mobile nav-item">
-      <a href="${marketing_link('HOW_IT_WORKS')}">${_("How it Works")}</a>
-    </div>
-    % if courses_are_browsable:
-      <div class="mobile-nav-item hidden-mobile nav-item">
-        <a href="${marketing_link('COURSES')}">${_("Courses")}</a>
-      </div>
-    % endif
-    <div class="mobile-nav-item hidden-mobile nav-item">
-      <a href="${marketing_link('SCHOOLS')}">${_("Schools")}</a>
-    </div>
-  % endif
   % if allows_login:
     % if can_discover_courses and courses_are_browsable:
       <div class="mobile-nav-item hidden-mobile nav-item">
@@ -47,14 +34,80 @@ from openedx.core.djangoapps.user_authn.utils import should_redirect_to_logistra
     %endif
   % endif
   </div>
-  <div class="secondary">
-    <div>
-      <div class="mobile-nav-item hidden-mobile nav-item">
-        <a class="register-btn btn" href="/register${login_query()}">${_("Register")}</a>
-      </div>     
-      <div class="mobile-nav-item hidden-mobile nav-item">
-        <a class="sign-in-btn btn" href="/login${login_query()}">${_("Sign in")}</a>
-      </div>
+  %if request.path == '/' :
+
+    <div class="horizontal-align-header">
+
+      <img src="${static.url('audition-icope/images/logo_furii_demater.png')}" alt="logo furii demater" class="logo">
+      <img src="${static.url('audition-icope/images/logo_ihu_health_age.png')}" alt="logo IHU health" class="logo">
+      <img src="${static.url('audition-icope/images/logo_icope_monitor.png')}" alt="logo icope monitor" class="logo">
+      <img src="${static.url('audition-icope/images/logo_chu_toulouse.png')}" alt="logo CHU Toulouse" class="logo">
+      <img src="${static.url('audition-icope/images/logo_clinique_rive_gauche.png')}" alt="logo clinique rive gauche" class="logo">
+      <img src="${static.url('audition-icope/images/logo_hcl.png')}" alt="logo HCL" class="logo">
     </div>
-  </div>
+    
+    <div class="secondary">
+      <a href="https://icope-formation.com" target="_blank" rel="noopener noreferrer" class="passerelle">Passerelle vers ma formation Icope</a>
+    </div>
 </nav>
+
+
+
+<style>
+.global-header {
+  border-bottom: unset;
+  padding-bottom: 20px;
+}
+.horizontal-align-header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  padding-top: 20px;
+}
+.nav-links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.header-logo {
+  display: none !important;
+}
+.logo {
+  height: 40px;
+  margin-left: 8px;
+}
+.horizontal-align-header img:nth-child(4) {
+  height: 30px;
+}
+.horizontal-align-header img:nth-child(5) {
+  height: 50px;
+}
+.secondary {
+  width: 460px;
+  text-align: end;
+  margin: 0 10px 0 30px !important;
+}
+a.passerelle {
+  background-color: var(--tertiary);
+  border-radius: 0 0 5px 5px ;
+  padding: 40px 20px 10px 20px;
+  font-family: Quicksand, sans-serif !important;
+  font-weight: 700 !important;
+  text-decoration: underline !important;
+  color: white !important;
+  font-size: 0.9em !important;
+}
+
+
+@media screen and (max-width: 868px) {
+
+  a.passerelle, .secondary {
+    display: none;
+  }
+
+  
+}
+
+</style>
+    %endif

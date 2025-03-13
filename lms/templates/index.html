@@ -1,0 +1,597 @@
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.urls import reverse
+
+from openedx.core.djangolib.markup import HTML, Text
+%>
+
+<style>
+    .content-wrapper {
+        margin: 0 auto !important;
+    }
+    #main, p {
+        font-family: Quicksand, sans-serif;
+    }
+    .max-width {
+        max-width: 1092px;
+        margin: auto;
+        padding: 0 40px;
+        box-sizing: border-box;
+    }
+    .vertical-align, .horizontal-align, #objectifs_peda ul li, .column {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .vertical-align, .column {
+        flex-direction: column;
+    }
+    h1, h2, h3, p, a {
+        font-family: inherit;
+        text-align: center;
+        line-height: 1.4;
+    }
+    .tertiary {
+        color: var(--tertiary);
+    }
+
+    /* HEADER */
+    #title_header {
+        background-image: url("${static.url('audition-icope/images/degrade_1.svg')}");
+        background-size: cover;
+        background-repeat: no-repeat;
+        height: 200px;
+        position: relative;
+        padding: 25px 0 0 0;
+        margin-bottom: 30px;
+    }
+    #title_header > div {
+        width: 75%;
+        margin: auto;
+    }
+    #title_header img {
+        margin: auto;
+        height: 170px;
+    }
+    #title_header h1 {
+        font-weight: 800;
+        font-size: xx-large;
+        margin-bottom: 0;
+    }
+    #title_header h2 {
+        position: absolute;
+        left: calc(50% - 200px);
+        text-align: center;
+        width: 400px;
+        color: var(--secondary);
+        font-size: medium;
+        font-weight: 700;
+    }
+
+    /* PAGE 1 */
+    #page_1 > p {
+        width: 50%;
+        font-weight: 700;
+    }
+    #page_1 > h1 {
+        margin: 50px 0 30px 0;
+        font-size: x-large;
+        font-weight: 700;
+    }
+    .acces_link {
+        padding: 20px 40px;
+        background-color: var(--primary);
+        font-weight: 700;
+        border-radius: 30px;
+        margin: 0 20px;
+    }
+    .acces_link a, .acces_link a:link, .acces_link a:visited, .column h2 {
+        color: white !important;
+        font-family: inherit ;
+        font-weight: 700;
+        margin-bottom: 2px;
+    }
+    .login {
+        background-color: var(--secondary);
+    }
+    #pourquoi , #contribution {
+        background-image: url("${static.url('audition-icope/images/bckg_motif_anis.svg')}");
+        background-size: cover;
+        background-repeat: no-repeat;
+        padding: 25px 35px;
+        margin: 50px 125px;
+        font-size: 15px;
+    }
+    #pourquoi h3 {
+        font-size: large;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    .hiddenPage {
+        display: none;
+    }
+    .nav {
+        display: flex;
+        justify-content: center;
+    }
+    .nav__link {
+        width: 16px;
+        border: 1px solid var(--tertiary);
+        padding: 5px;
+        border-radius: 10px;
+        margin-right: 5px;
+        background-color: var(--tertiary);
+        color: white;
+        text-align: center;
+    }
+    .inactive {
+        background-color: white;
+        color: var(--tertiary);
+        cursor: pointer;
+    }
+    #objectifs_peda {
+        background-image: url("${static.url('audition-icope/images/bckg_motif_lila.svg')}");
+        background-size: cover;
+        background-repeat: no-repeat;
+        padding: 25px 100px;
+    }
+    #objectifs_peda h2 {
+        font-size: x-large;
+        font-weight: 700;
+        color: black;
+    }
+    #objectifs_peda p {
+        text-align: unset;
+    }
+    #objectifs_peda ul {
+        list-style: none;
+        padding: 0;
+    }
+    #objectifs_peda ul li, #objectifs_peda >p, .columns ul li {
+        justify-content: flex-start;
+        margin-bottom: 7px;
+        text-align: unset;
+    }
+    #objectifs_peda ul li img {
+        height: 15px;
+        margin: 2px 5px 0 0;
+        align-self: flex-start;
+    }
+    .columns {
+        align-items: start;
+        background-image: url(/static/audition-icope/images/motif.7dfe35879a12.svg), url(/static/audition-icope/images/motif.7dfe35879a12.svg);
+        background-position: 10% 67%, 91% 8%;
+        background-repeat: no-repeat;
+        box-sizing: border-box;
+        background-size: 18%;
+        padding: 0 120px;
+    }
+    .column {
+        background-color: #050528 ;
+        color: white;
+        padding: 43px 23px 15px 10px;
+        border-radius: 5px;
+        width: 25%;
+        position: relative;
+        line-height: 1.4;
+        font-size: 12px;
+    }
+    .encart_part {
+        position: absolute;
+        background-color: var(--primary);
+        color: white;
+        border-radius: 8px;
+        font-weight: 700    ;
+        top: -10px;
+        left: -10px;
+        padding: 10px 20px;
+    }
+    .encart_part img {
+        position: absolute;
+        top: 7px;
+        left: -7px;
+        height: 20px;
+        transform: rotate(180deg);
+    }
+    #validation {
+        background-color: var(--primary);
+        position: relative;
+        margin: 50px auto;
+        width: 65%;
+        padding: 15px 25px;
+        border-radius: 9px;
+        color: white !important;
+        font-size: 14px;
+    }
+    #validation h2 {
+        color: white !important;
+        text-align: start;
+        font-weight: 700;
+    }
+    #validation p {
+        text-align: start;
+    }
+    .illu_checkmark {
+        position: absolute;
+        right: -20px;
+        top: -33px;
+        height: 70px;
+    }
+    #bandes_colorees {
+        display: inline-table;
+
+    }
+    #bandes_colorees, .bande_coloree {
+        position: relative;
+        color:white;
+    }
+    .bande_coloree {
+        padding: 20px 400px 20px 10vw;
+        justify-items: flex-start;
+        font-size: 13px;
+    }
+    .bande_coloree p {
+        text-align: start;
+    }
+    .bande_coloree h3 {
+        font-size: medium;
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: white !important;
+    }
+    .bande_coloree ul {
+        list-style: none;
+        padding: 0;
+    }
+    .bande_coloree ul {
+        margin-bottom: 8px;
+    }
+    .img_bandes_colorees {
+        height: 250px;
+        position: absolute;
+        top: 21%;
+        right: 10vw;
+    }
+    #contribution {
+        margin: 47px 17vw;
+    }
+    #contribution h1 {
+        font-size: 25px;
+    }
+    #illu_footer_1 {
+        position: relative;
+        height: 350px;
+        width: 90vw;
+        margin: auto;
+    }
+    #illu_footer_1 img {
+        height: 17vw;
+        max-height: 230px;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+    #illu_oreille_droite_2 {
+        right: 0;
+        bottom: 2vw;
+        left: unset !important;
+        top: unset !important;
+    }
+    #illu_footer_1 p {
+        font-size: xx-large;
+        text-align: center;
+        font-weight: 700;
+        margin: 9% 15%;
+        height: auto;
+    }
+
+    /* PAGE 2 */
+    #programme_steps {
+        margin: 20px auto;
+        width: 67vw;
+    }
+    #programme_steps h2 {
+        font-size: x-large;
+        font-weight: 700;
+        margin: 40px 0 ;
+        color: black;
+        text-align: start;
+    }
+    #programme_steps p {
+        width: 60%;
+        margin: auto;
+    }
+    #programme_steps > img {
+        width: 100%;
+        margin-bottom: 40px;
+    }
+    #decorative_underscore_2 {
+        position: absolute;
+        height: 23px;
+        bottom: -5px;
+        left: 345px;
+    }
+
+    #illu_footer_2 {
+        width: 100%;
+        margin: 50px auto;
+        background-color: #DEDEFF;
+        font-weight: 700;
+        padding: 20px 0;
+    }
+    /* NAVIGATION */
+    #navigation {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 25px;
+    }
+
+    @media screen and (max-width: 768px) {
+        #title_header img, #illu_footer_1, .img_bandes_colorees {
+            display: none;
+        }
+
+        #title_header {
+            height: 120px;
+        }
+        #page_1 > p {
+            text-align: center;
+            width: 80%;
+        }
+        #pourquoi {
+            margin: 50px;
+        }
+        .columns {
+            padding: 0;
+        }
+        .column {
+            width: 30%;
+        }
+        .bande_coloree, #objectifs_peda {
+            padding: 20px 10vw;
+        }
+        #contribution h1 {
+            font-size: 14px;
+        }
+        #illu_footer_1 p {
+            font-size: 1rem;
+            margin: 10vw 10vw;
+        }
+    }    
+</style>
+
+
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="header">
+        <div id="logo_banner" ></div>
+        <div id="title_header" >
+            <div class="horizontal-align" >
+                <img src="${static.url('audition-icope/images/illu_oreille_gauche.svg')}" alt="oreille gauche">
+                <h1>ICOPE Audition</h1>
+                <img src="${static.url('audition-icope/images/illu_oreille_droite.svg')}" alt="oreille droite">
+            </div>
+            <h2>Prise en charge de la surdité liée à l'âge</h2>
+        </div>
+    </section>
+
+    <section id="page_1" class="page vertical-align">
+        <p>Complétez votre formation <span class="tertiary">sur le programme ICOPE et</span> développez vos compétences <span class="tertiary">avec le parcours ICOPE Audition</span></p>
+
+        <h1>Accéder au parcours :</h1>
+        <div class="horizontal-align">
+            <div class="acces_link"><a href="/register">Inscription</a></div>
+            <div class="acces_link login"><a href="/login">Connexion</a></div>
+        </div>
+
+        <div id="pourquoi" class="max-width vertical-align">
+            <h3>Pourquoi cette formation ?</h3>
+            <p>La formation ICOPE Audition s’inscrit dans le cadre du programme ICOPE, dédié au vieillissement en bonne santé. Elle cible spécifiquement la prise en charge des troubles de l’audition liés à l’âge (à partir de 60 ans), identifiés lors de l’étape 1 de repérage. <br>L’objectif est d’améliorer le dépistage de la surdité lié à l’âge (presbyacousie), d’optimiser le parcours de soin des patients avec des troubles de l’audition, et de favoriser l’observance dans l’utilisation de l’appareillage auditif. <br>Infirmiers et médecins seront formés à dépister, diagnostiquer et orienter efficacement le sujet presbyacousique. Ils seront également formés à repérer les autres troubles auditifs nécessitant une prise en charge spécifique.</p>
+        </div>
+
+        <div id="objectifs_peda">
+            <h2>Objectifs pédagogiques</h2>
+            <p style="font-weight: 700;">À l’issue de la formation, les participants seront capables de :</p>
+            <ul>
+                <li>
+                    <img src="${static.url('audition-icope/images/puce.svg')}" alt="puce">
+                    <p>Comprendre la physiologie de l’oreille et la physiopathologie des principaux troubles auditifs.</p>
+                </li>
+                <li>
+                    <img src="${static.url('audition-icope/images/puce.svg')}" alt="puce">
+                    <p>Observer et analyser un conduit auditif externe à l’aide d’un vidéo otoscope.</p>
+                </li>
+                <li>
+                    <img src="${static.url('audition-icope/images/puce.svg')}" alt="puce">
+                    <p>Reconnaître un tympan normal, un bouchon de cérumen, et maitriser l’extraction de celui-ci.</p>
+                </li>
+                <li>
+                    <img src="${static.url('audition-icope/images/puce.svg')}" alt="puce">
+                    <p>Réaliser un test de Weber.</p>
+                </li>
+                <li>
+                    <img src="${static.url('audition-icope/images/puce.svg')}" alt="puce">
+                    <p>Réaliser une audiométrie tonale, vocale dans le silence et dans le bruit à l’aide d’un audiomètre adapté.</p>
+                </li>
+                <li>
+                    <img src="${static.url('audition-icope/images/puce.svg')}" alt="puce">
+                    <p>Identifier une presbyacousie typique.</p>
+                </li>
+                <li>
+                    <img src="${static.url('audition-icope/images/puce.svg')}" alt="puce">
+                    <p>Reconnaître et orienter les cas complexes de troubles auditifs vers l’ORL et/ou vers une prise en charge pluridisciplinaire et gériatrique.</p>
+                </li>
+                <li>
+                    <img src="${static.url('audition-icope/images/puce.svg')}" alt="puce">
+                    <p>Prescrire un appareillage auditif (pour les médecins uniquement).</p>
+                </li>
+            </ul>
+        </div>
+
+        <h1>Déroulement de la formation</h1>
+        <!-- <p>(voir programme détaillé en annexe)</p> -->
+        <div class="horizontal-align columns" >
+            <div class="column" style="margin-right: 50px;" >
+                <div class="encart_part">
+                    <img src="${static.url('audition-icope/images/bended_underscore.svg')}" alt="élément décoratif">
+                    <div>partie I</div>
+                </div>
+                <h2>Formation théorique</h2>
+                <span>(en e-learning - 6 heures)</span>
+                <ul>
+                    <li>Vidéos</li>
+                    <li>Jeux pédagogiques (Serious Game)</li>
+                    <li>Quiz de validation des acquis</li>
+                </ul>
+            </div>
+
+            <div class="column">
+                <div class="encart_part">
+                    <img src="${static.url('audition-icope/images/bended_underscore.svg')}" alt="élément décoratif">
+                    <div>partie II</div>
+                </div>
+                <h2>Formation pratique</h2>
+                <span>(en présentiel - 1 journée)</span>
+                <ul>
+                    <li>Formation à la vidéo otoscopie</li>
+                    <li>Formation à l’extraction de bouchon de cérumen sur impressions 3D d’oreilles</li>
+                    <li>Formation à l’audiométrie et interprétation de l’ensemble des tests audiométriques</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="validation" class="max-width">
+            <img src="${static.url('audition-icope/images/illu_valide.svg')}" alt="illustration checkmark" class="illu_checkmark">
+            <div >
+                <h2>Validation des compétences :</h2>
+                <p>La première partie est validée par les quiz. Puis, un contrôle par un ORL est requis pour valider les compétences, incluant la vidéo-otoscopie et l’extraction des bouchons de cérumen, ainsi que la réalisation de l’audiométrie sur 10 patients.</p>
+            </div>
+        </div>
+
+        <div id="bandes_colorees" class="vertical-align" >
+            <div class="bande_coloree" style="background-color: #8C8CFF;">
+                <h3>À qui s’adresse cette formation ?</h3>
+                <ul>
+                    <li><strong>Infirmiers :</strong> souhaitant élargir leurs compétences dans le dépistage et la prise en charge des troubles de l’audition du sujet âgé.</li>
+                    <li><strong>Médecins généralistes :</strong> pour diagnostiquer, traiter les cas simples de presbyacousie, et orienter les patients qui le nécessitent vers l’ORL.</li>
+                </ul>
+            </div>
+            <div class="bande_coloree" style="background-color: #5353FE;" >
+                <h3>Modalités</h3>
+                <p>Il existe deux modules de formation selon le profil du professionnel indiqué lors de l’inscription.</p>
+            </div>
+            <div class="bande_coloree" style="background-color: var(--secondary);">
+                <h3>Coût</h3>
+                <ul>
+                    <li>Cette formation est entièrement gratuite et disponible en DPC.</li>
+                    <li>Une inscription préalable est nécessaire et précise le profil du professionnel.</li>
+                </ul>
+            </div>
+            <div class="bande_coloree" style="background-color: #050528;">
+                <h3>Organisateurs de la formation</h3>
+                <p>Professeur Bernard Fraysse, Professeur Hung Thai Van, Dr Pauline Nieto et Dr Catherine Takeda.</p>
+            </div>
+            <img src="${static.url('audition-icope/images/illu_medecins.svg')}" alt="illustration de trois medecins" class="img_bandes_colorees">
+        </div>
+
+        <div id="contribution">
+            <h1>Grâce à cette formation, vous contribuerez à :</h1>
+            <ul>
+                <li><strong>Renforcer</strong> l’accès aux soins auditifs à partir de 60 ans.</li>
+                <li><strong>Optimiser</strong> le dépistage et l’accompagnement des troubles auditifs liés à l’âge.</li>
+                <li><strong>Prévenir et prendre en charge</strong> le retentissement de la presbyacousie sur les capacités de communication, la qualité de vie et l’autonomie.</li>
+            </ul>
+        </div>
+
+        <div id="illu_footer_1" class="max-width">
+            <img src="${static.url('audition-icope/images/illu_oreille_gauche_2.svg')}" alt="oreille gauche">
+            <div class="vertical-align" style="height: 100%;" >
+
+                <p>Ensemble, <span class="tertiary" >améliorons la santé auditive</span> et <span class="tertiary" >la qualité de vie</span> à partir de 60 ans.</p>
+            </div>
+            <img src="${static.url('audition-icope/images/illu_oreille_droite_2.svg')}" alt="oreille droite" id="illu_oreille_droite_2">
+        </div>
+    </section>
+
+
+    <section id="page_2" class="hiddenPage page vertical-align">
+        <div style="width: 60%;">
+            <h2 style="color: black;font-weight: 700;font-size: larger;" >À propos du programme <span style="color:blue" >ICOPE</span> :</h2>
+            <p><strong>Le programme Icope</strong> a pour cible <strong>les personnes autonomes de 60 ans et plus</strong>, il est basé sur le dépistage, la surveillance et le suivi de six fonctions essentielles au maintiende l'autonomie : <strong>vision, audition, mémoire, mobilité, psychologie et nutrition.</strong></p>
+        </div>
+            
+        <div id="programme_steps" class="max-width">
+            <div style="position: relative;">
+                <h2>Ce programme comprend 5 étapes :</h2>
+                <img src="${static.url('audition-icope/images/bended_underscore.svg')}" alt="decorative underscore" id="decorative_underscore_2">
+            </div>
+            <img src="${static.url('audition-icope/images/steps_graph.png')}" alt="graphique des 5 étapes">
+        </div>
+
+        <p class="max-width"><strong>Icope</strong> repose sur <strong>les acteurs des soins de premiers recours.</strong><br>Le plan de soin s'appuie sur les dispositifs de proximité offert par la collectivité et fait intervenir les acteurs locaux du secteur sanitaire mais aussi social et médico-social.</p>
+
+        <div id="illu_footer_2">
+            <p>Pour plus d'information <a href="https://www.icope.fr" target="_blank" rel="noopener noreferrer" style="color: blue;">www.icope.fr</a> </p>
+        </div>
+    </section>
+
+
+    <section id="navigation">
+        <div class="nav">
+            <div class="nav__link" id="1" href="#title_header" >1</div>
+            <div class="nav__link inactive" id="2" href="#title_header" >2</div>
+        </div>
+    </section>
+</main>
+
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const navLinks = document.querySelectorAll(".nav__link");
+        const pages = document.querySelectorAll(".page");
+
+        navLinks.forEach(link => {
+            link.addEventListener("click", function (event) {
+                event.preventDefault(); // Prevent the default anchor behavior
+                
+                // const targetId = this.getAttribute("href").substring(1);
+                const targetId = this.id;
+
+                pages.forEach(page => {                  
+
+                    if (page.id == "page_" + targetId) {
+                        page.classList.remove("hiddenPage");
+                        navLinks[page.id.split('_')[1]-1].classList.remove("inactive");
+                    } else {
+                        page.classList.add("hiddenPage");
+                        navLinks[page.id.split('_')[1]-1].classList.add("inactive");
+                    }
+                });
+            });
+        });
+    });
+</script>
+
+
+
+<%block name="js_extra">
+   <script type="text/javascript">
+      $(window).load(function() {
+         if(getParameterByName('next')) {
+              $('#login').trigger("click");
+         }
+      })
+   </script>
+</%block>
+
+% if show_signup_immediately is not UNDEFINED:
+  ## NOTE: This won't work in production, because anonymous views are cached, so it will
+  ## show either with or without this extra js for 3 minutes at a time.
+<script type="text/javascript">
+  $(window).load(function() {$('#signup_action').trigger("click");});
+</script>
+% endif

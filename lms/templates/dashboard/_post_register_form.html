@@ -41,6 +41,11 @@ if not user_profession_audition_icope:
         display: none !important;
     }
     /* Form style */
+    .info_form {
+        text-align: justify;
+        padding: 10px 0;
+        line-height: 1.4;
+    }
     #customFieldsForm {
         display: flex;
         flex-direction: column;
@@ -76,12 +81,13 @@ if not user_profession_audition_icope:
 
 <form id="customFieldsForm">
     <br>
-
-    <label for="lastName">Nom : <span class="required_field">*</span></label>
+    <div class="info_form" >Afin de vous orientez vers la formation adéquate veuillez renseigner votre profession :</div>
+    <br>
+    <!-- <label for="lastName">Nom : <span class="required_field">*</span></label>
     <input type="text" id="lastName" name="lastName" onkeydown="if(event.keyCode==32) return false;" required><br>
 
     <label for="firstName">Prénom : <span class="required_field">*</span></label>
-    <input type="text" id="firstName" name="firstName" onkeydown="if(event.keyCode==32) return false;" required><br>
+    <input type="text" id="firstName" name="firstName" onkeydown="if(event.keyCode==32) return false;" required><br> -->
 
     <label for="profession_audition_icope">Profession : <span class="required_field">*</span></label>
     <select id="profession_audition_icope" name="profession_audition_icope">
@@ -136,15 +142,15 @@ if not user_profession_audition_icope:
 
         event.preventDefault();
 
-        const lastName = document.getElementById("lastName").value;
-        const firstName = document.getElementById("firstName").value;
+        // const lastName = document.getElementById("lastName").value;
+        // const firstName = document.getElementById("firstName").value;
         const profession_audition_icope = document.getElementById("profession_audition_icope").value;
         const profession_other = document.getElementById("profession_other").value;
 
 
         const customFields = {
-            last_name: lastName,
-            first_name: firstName,
+            // last_name: lastName,
+            // first_name: firstName,
             profession_audition_icope: profession_audition_icope,
             profession_other: profession_other,
             updateDateAuditionIcope: '${datetime.now()}',
@@ -184,7 +190,4 @@ if not user_profession_audition_icope:
     });
 
 </script>
-
-
 % endif
-
