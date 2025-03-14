@@ -81,7 +81,8 @@ if not user_profession_audition_icope:
 
 <form id="customFieldsForm">
     <br>
-    <div class="info_form" >Afin de vous orientez vers la formation adéquate veuillez renseigner votre profession :</div>
+    <div class="info_form" >Afin de vous orientez vers la formation adéquate veuillez confirmer votre adresse mail via l'e-mail qui vous a été envoyé puis renseignez votre profession :</div>
+
     <br>
     <!-- <label for="lastName">Nom : <span class="required_field">*</span></label>
     <input type="text" id="lastName" name="lastName" onkeydown="if(event.keyCode==32) return false;" required><br>
@@ -172,13 +173,13 @@ if not user_profession_audition_icope:
         if (profession_audition_icope == "medecin_spe" || profession_audition_icope == "medecin_ge" ) {
 
             fetch(url, settings)
-                .then(() => window.location.href = '/dashboard?course_id=course-v1:audition-icope+med+01&enrollment_action=enroll')
+                .then(() => window.location.href = '/login?course_id=course-v1:audition-icope+med+01&enrollment_action=enroll')
                 .catch((error) => console.error('Error:', error));
 
         } else {
 
             fetch(url, settings)
-                .then(() => window.location.href = '/dashboard?course_id=course-v1:audition-icope+ide+01&enrollment_action=enroll')
+                .then(() => window.location.href = '/login?course_id=course-v1:audition-icope+ide+01&enrollment_action=enroll')
                 .catch((error) => console.error('Error:', error));
 
         }
