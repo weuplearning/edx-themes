@@ -207,15 +207,20 @@ j=2
 for k, course_id in all_users_data.items():
 
   for key, user in course_id.items():
-
-    sheet.cell(j, 1, user['general']['regions'] )
-    sheet.cell(j, 2, user['general']['structure'] )
-    sheet.cell(j, 3, user['general']['preparedDiploma'] )
-    sheet.cell(j, 4, user['general']['status'] )
-    sheet.cell(j, 5, user['general']['update_marker'] )
-    sheet.cell(j, 6, user['general']['first_name'])
-    sheet.cell(j, 7, user['general']['last_name'])
-    sheet.cell(j, 8, user['general']['email'])
+    course_msg = k
+    if(k == 'course-v1:umn+pn+02'):
+      course_msg = 'Nouveau (course-v1:umn+pn+02)'
+    if(k == 'course-v1:umn+test+test'):
+      course_msg = 'Ancien (course-v1:umn+test+test)'
+    sheet.cell(j, 1, course_msg )
+    sheet.cell(j, 2, user['general']['regions'] )
+    sheet.cell(j, 3, user['general']['structure'] )
+    sheet.cell(j, 4, user['general']['preparedDiploma'] )
+    sheet.cell(j, 5, user['general']['status'] )
+    sheet.cell(j, 6, user['general']['update_marker'] )
+    sheet.cell(j, 7, user['general']['first_name'])
+    sheet.cell(j, 8, user['general']['last_name'])
+    sheet.cell(j, 9, user['general']['email'])
     
     date_joined = 'n/a'
     try:
@@ -231,24 +236,24 @@ for k, course_id in all_users_data.items():
       last_login = user['general']['date_joined']
     
     
-    sheet.cell(j, 9, date_joined)
-    sheet.cell(j, 10, last_login)
+    sheet.cell(j, 10, date_joined)
+    sheet.cell(j, 11, last_login)
     
     
-    sheet.cell(j, 11, user['general']['agreeCgu'])
+    sheet.cell(j, 12, user['general']['agreeCgu'])
 
-    sheet.cell(j, 12, user['general']['schoolregion'] )
-    sheet.cell(j, 13, user['general']['school'] )
-    sheet.cell(j, 14, user['general']['formation'] )
-    sheet.cell(j, 15, user['general']['class'] )
-    sheet.cell(j, 16, user['general']['diplomalvl'] )
-    sheet.cell(j, 17, user['general']['year'] )
-    sheet.cell(j, 18, user['general']['referent'] )
-    sheet.cell(j, 19, user['general']['timetracking'] )
+    sheet.cell(j, 13, user['general']['schoolregion'] )
+    sheet.cell(j, 14, user['general']['school'] )
+    sheet.cell(j, 15, user['general']['formation'] )
+    sheet.cell(j, 16, user['general']['class'] )
+    sheet.cell(j, 17, user['general']['diplomalvl'] )
+    sheet.cell(j, 18, user['general']['year'] )
+    sheet.cell(j, 19, user['general']['referent'] )
+    sheet.cell(j, 20, user['general']['timetracking'] )
     
 
     
-    i=19
+    i=20
     save_grade = 0
     for grade in user['general']['grade_list'] :
       i += 1

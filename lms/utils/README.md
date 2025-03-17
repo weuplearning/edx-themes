@@ -2,8 +2,10 @@
 
 ## Rapports de notes
 
-* Rapports hebdomadaires adressés aux référents le lundi à 06:00 UTC
-	`/edx/app/edxapp/edx-themes/umn/lms/utils/grade_reports_referents/`
+* Rapports hebdomadaires adressés aux référents le lundi à 04h00 UTC et 04h10
+	`/edx/app/edxapp/edx-themes/umn/lms/utils/grade_reports_referents/fondamentaux/script.py`
+	`/edx/app/edxapp/edx-themes/umn/lms/utils/grade_reports_referents/ingenieur/script.py`
+
 * Rapports journaliers globaux adressées aux administrateurs à 06:00 UTC
 	`/edx/app/edxapp/edx-themes/umn/lms/utils/grade_reports_fondamentaux/`
 	`/edx/app/edxapp/edx-themes/umn/lms/utils/grade_reports_ingenieur/`
