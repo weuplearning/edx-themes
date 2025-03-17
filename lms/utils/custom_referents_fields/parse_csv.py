@@ -16,7 +16,7 @@ def debug_row(row):
 
 def generate_options(options_list):
     options = ""
-    for item in options_list:
+    for item in sorted(options_list):
         item = item.replace("\n", "")
         options += f'{{\n"name": "{item}",\n"value": "{item}"\n}},\n'
     options = options.rstrip(",\n")  # Remove the trailing comma from the last element
@@ -242,7 +242,7 @@ def parse_csv():
     formation_custom_field = generate_custom_field(formation_list,name="formation",label="Formation")
     class_custom_field = generate_custom_field(class_list,name="class",label="Classe")
     year_custom_field = generate_custom_field(year_list,name="year",label="Année")
-    diplomalvl_field = generate_custom_field(diplomalvl_list,name="diplomalevel",label="Niveau de diplome")
+    diplomalvl_field = generate_custom_field(diplomalvl_list,name="diplomalvl",label="Niveau de diplome")
     referent_custom_field = generate_custom_field(referent_list,name="referent",label="Référent")
 
 
