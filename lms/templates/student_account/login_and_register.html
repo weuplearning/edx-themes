@@ -240,45 +240,55 @@ setInterval(() => {
 }, 1000);
 
 
-setInterval(() => {
+</script>
+<script>
+
+window.addEventListener('load', function() {
+
+    setTimeout(() => {
+        
+        // Add an event listener to capture changes in the input field
+        let emailInput = document.getElementById("register-email")
     
-    // Add an event listener to capture changes in the input field
-    let emailInput = document.getElementById("register-email")
-
-    emailInput.addEventListener("change", function() {
-
-        var emailValue = emailInput.value;
-        var authorizedEmail = false
-
-
-        let jsonData = {}
-        const url = '/wul_apps/hec_pe_check_email';
-        const data = {'email' : emailValue};
+        emailInput.addEventListener("change", function() {
     
-
-        $.ajax({
-            url: url,
-            method: 'POST',
-            headers: {'Content-Type': 'application/json' },
-            data: JSON.stringify(data),
-            dataType: 'json',
-            success: function(response){
-                jsonData = response
-                authorizedEmail = jsonData.isValid
-
-                if (!authorizedEmail) {
-                    emailInput.value = ""
-                    alert("Cette adresse n'est pas connue par nos services. Êtes-vous sûr d'avoir renseigné l'adresse fournie par Pôle-Emploi pour rejoindre cette formation ?")
+            var emailValue = emailInput.value;
+            var authorizedEmail = false
+    
+            console.log("emailValue");
+            console.log(emailValue);
+            
+    
+            let jsonData = {}
+            const url = '/wul_apps/hec_pe_check_email';
+            const data = {'email' : emailValue};
+        
+    
+            $.ajax({
+                url: url,
+                method: 'POST',
+                headers: {'Content-Type': 'application/json' },
+                data: JSON.stringify(data),
+                dataType: 'json',
+                success: function(response){
+                    jsonData = response
+                    authorizedEmail = jsonData.isValid
+    
+                    if (!authorizedEmail) {
+                        emailInput.value = ""
+                        alert("Cette adresse n'est pas connue par nos services. Êtes-vous sûr d'avoir renseigné l'adresse fournie par France-Travail pour rejoindre cette formation ?")
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Gestion des erreurs
+                    console.error(error);
                 }
-            },
-            error: function(xhr, status, error) {
-                // Gestion des erreurs
-                console.error(error);
-            }
-        })
+            })
+    
+        });
+    
+    }, 1000);
+});
 
-    });
-
-}, 1000);
 
 </script>
