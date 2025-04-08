@@ -157,9 +157,6 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     	animation: fadeInLeft;
         animation-duration: 0.5s;
     }
-    /* .wrapper-preview-menu{
-       //display:none;
-    } */
     .wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary{
         display:none !important;
     }
@@ -387,17 +384,14 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
   </style>
 
 
-  <script src="https://www.youtube.com/iframe_api"></script>
   <script>
     document.title = "Cours | ${HTML(course.display_name_with_default)}";
-
- 
         
 
     // Load the YouTube API asynchronously
     function loadYouTubeAPI() {
         var tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
+        tag.src = "https://www.youtube.com/iframe_api?v=" + Date.now(); 
         var firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
@@ -414,8 +408,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
             videoId: 'xIfox6Up17Y',
         %elif request.path.find('NEG_') != -1 :
             videoId: 'iTD_jT6tN4M',
-        %else :
-            // WEB + temoin
+        %else :  // WEB + temoin
             videoId: 'n092vPtL4b8',
         %endif
 
@@ -471,50 +464,22 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
     loadYouTubeAPI();
 
-
 </script>
 
+<script>
+    function forceFullReload() {
+        const currentUrl = window.location.origin + window.location.pathname;
+        const params = new URLSearchParams(window.location.search);
+        params.set('forceRefresh', Date.now()); // Add or update the "forceRefresh" param
+        window.location.replace(currentUrl + '?' + params.toString());
+    }
+</script>
 
 </%block>
 
 
 <%block name="content">
 <div class="course-view page-content-container" id="course-container">
-    <!-- <header class="page-header has-secondary">
-        <div class="page-header-main">
-            <img id="logo_banner" src="${static.url('hec-pole-emploi/images/hec-pole-emploi.png')}" alt="banner logo">
-        </div>
-        <div class="page-header-secondary">
-            % if show_search:
-                <div class="page-header-search">
-                    <form class="search-form input-group" role="search" action="${reverse('openedx.course_search.course_search_results', args=[course_key])}">
-                        <label class="field-label sr-only" for="search" id="search-hint">${_('Search the course')}</label>
-                        <input
-                                class="field-input input-text search-input form-control"
-                                type="search"
-                                name="query"
-                                id="search"
-                                placeholder="${_('Search the course')}"
-                        />
-                        <span class="input-group-btn">
-                            <button class="btn btn-outline-primary search-button" type="submit">${_('Search')}</button>
-                        </span>
-                    </form>
-                </div>
-            % endif
-            <div class="form-actions">
-                % if resume_course_url:
-                    <a class="btn btn-secondary action-resume-course" href="${resume_course_url}">
-                        % if has_visited_course:
-                            <span data-action-type="resume">${_("Resume Course")}</span>
-                        % else:
-                            <span data-action-type="start">${_("Start Course")}</span>
-                        % endif
-                    </a>
-                % endif
-            </div>
-        </div>
-    </header> -->
 
     <header id="greeting">
 
@@ -530,20 +495,11 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
     </header>
     <div id="area-player">
-
         <div id="player">
 
-            %if request.path.find('IP_') != -1 or request.path.find('NEG_') != -1 :
-
-                <iframe id="hec-video" width="420" height="236" src="https://www.youtube.com/embed/xIfox6Up17Y" frameborder="0" allowfullscreen >
-                </iframe>
-            %elif request.path.find('NEG') != -1 :
-                <iframe id="hec-video" width="420" height="236" src="https://www.youtube.com/embed/iTD_jT6tN4M" frameborder="0" allowfullscreen >
-                </iframe>
-            %else :
-                <iframe id="hec-video" width="420" height="236" src="https://www.youtube.com/embed/n092vPtL4b8" frameborder="0" allowfullscreen >
-                </iframe>
-            %endif
+            <!-- Message bug  -->
+            Il semble que la vidéo ne s’affiche pas correctement. Veuillez recharger la page en cliquant sur le bouton ci-dessous :
+            <button onclick="forceFullReload()">Reload Page (Force Fresh Video)</button>
 
         </div>
     </div>
@@ -585,94 +541,6 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                 ${HTML(outline_fragment.body_html())}
             % endif
         </div>
-        <!--
-        <aside class="page-content-secondary course-sidebar">
-            %if resume_course_url :
-                %if resume_course_url.find("+EN+") != -1 :
-                    <h4>Progress tracking</h4>
-                %else : 
-                    <h4>Suivi de progression</h4>
-                %endif
-            %endif
-            <div class="section" id="badges">
-                    
-                    <div class="grade-block">       
-                        <div class="grade-section-title">
-                            %if user_grade.passed:
-                                <img src="${static.url('images/medal_on.svg')}" class="main-badge"/>
-                            %else: 
-                                <img src="${static.url('images/medal_off.svg')}" class="main-badge"/>
-                            %endif
-                            <div style="text-transform: uppercase;">${course.display_name_with_default}</div>
-                            <div class="grade-value">${int(user_grade.percent * 100)}%</div>
-                        </div>
-                        <div class="progress-bar-full" id="final-grade-progress">
-                            <div style="width:${int(user_grade.percent * 100)}%;" class="progress-bar-grade" ></div>
-                            
-                        </div>                    
-                    </div>
-                    
-                %if configuration_helpers.get_value('COMPLETION_BASED_DASHBOARD_MONO', False):
-
-                    % for section in course_block_tree.get('children'):
-                        <%
-                        total_blocks = 1
-                        completed_blocks = 1
-                        completion_ratio = 0
-                        if not section.get('complete'):
-                            total_blocks = 0
-                            completed_blocks = 0
-                            for subsection in section.get('children', []):
-                                for unitchild in subsection.get('children', []):
-                                    for blockchild in unitchild.get('children', []):
-                                        total_blocks += 1
-                                        if blockchild.get('complete'):
-                                            completed_blocks += 1
-                        if total_blocks == 0:
-                            pass
-                        else:
-                            completion_ratio = completed_blocks / total_blocks
-                        %>
-                        <div class="grade-block">
-                            <div class="grade-section-title">
-                                %if completion_ratio >= 1:
-                                    <img src="${static.url('images/medal_on.svg')}" class="small-badge"/>
-                                %else:
-                                    <img src="${static.url('images/medal_off.svg')}" class="small-badge"/>
-                                %endif
-                                <div class="chapter-title" >${section['display_name']}</div>
-                                <div class="grade-value">${int(completion_ratio * 100)}%</div>
-                            </div>
-                            <div class="progress-bar-full">
-                                <div style="width:${completion_ratio * 100}%;" class="progress-bar-grade"></div>
-                            </div>
-                        </div>
-
-                    %endfor
-                
-                %else:
-
-                    %for index, chapter in enumerate(user_grade.chapter_grades.keys()):
-                        <div class="grade-block">
-                            <div class="grade-section-title">
-                                %if user_grade.chapter_percentage(chapter) >= 0.7:
-                                    <img src="${static.url('images/medal_on.svg')}" class="small-badge"/>
-                                %else: 
-                                    <img src="${static.url('images/medal_off.svg')}" class="small-badge"/>
-                                %endif
-                                <div class="chapter-title" >${user_grade.chapter_grades[chapter]['display_name']}</div>
-                                <div class="grade-value">${int(user_grade.chapter_percentage(chapter) * 100)}%</div>
-                            </div>
-                            <div class="progress-bar-full">
-                                <div style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade"></div>
-                            </div>                    
-                        </div>
-                    %endfor
-
-                %endif
-
-            </div>
-        </aside> -->
     </div>
     % if course_sock_fragment:
         ${HTML(course_sock_fragment.body_html())}
