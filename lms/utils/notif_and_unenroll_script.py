@@ -88,6 +88,19 @@ course_ids = [
 # ]
 
 
+def update_custom_field(user, customFieldKey, customFiledValue):
+
+    userCustomFields = json.loads(user.profile.custom_field)
+    new_custom_field = userCustomFields
+    new_custom_field[str(customFieldKey)] = customFiledValue
+
+    user.profile.custom_field = json.dumps(new_custom_field)
+
+    user.profile.save()
+
+
+
+
 for course_id in course_ids:
 
     course_key = CourseLocator.from_string(course_id)
@@ -110,12 +123,23 @@ for course_id in course_ids:
         # Ca dépend de ce qui définit que le cours est terminé
         gradesTest = check_best_grade(user, course, force_best_grade=True)
         userPercentGrade = gradesTest.summary['percent']
+        customField = json.loads(user.profile.custom_field)
 
 
-        # SI LE COURS EST TERMINE ON PEUT DESINSCRIRE
+
+        if 'finish_hec_scorm_'+str(course_id) in customField.keys() and customField['finish_hec_scorm_'+str(course_id)] != 0 :
+
+            log.info(customField['finish_hec_scorm_'+str(course_id)])
+
+            if customField['finish_hec_scorm_'+str(course_id)] <= now - timedelta(days=3)  :
+
+                log.info('dans le if avant unenroll')
+                all_treated_users_unenroll.append('******* finish course ******  '+user.email)
+                # enrollment.unenroll(user, course_id)
+
         if userPercentGrade == 1 :
-            all_treated_users_unenroll.append('******* finish course ******  '+user.email)
-            enrollment.unenroll(user, course_id)
+            update_custom_field(user, 'finish_hec_scorm_'+str(course_id), now)
+
 
         try:
             detailed_time_tracking = json.loads(WulCourseEnrollment.get_enrollment(user=user, course_id=course_id).detailed_time_tracking)
@@ -136,10 +160,10 @@ for course_id in course_ids:
 
             try:
 
-                html = '<html><head></head><body><h3 style="text-align: center; color: #004677; font-weight: bold;">Lancez-vous aujourd\'hui !</h3><p>Bonjour,<br/><br/>Nous sommes ravis de vous accueillir sur notre plateforme pédagogique ! Depuis votre inscription, votre place est réservée pour une expérience unique.<br/><br/>Le temps presse... L\'atelier n\'attend que vous pour démarrer ! <br/><br/>Préparez-vous à plonger dans un atelier abordant les compétences à développer pour mener à bien son projet. Au travers de regards croisés de professeurs et d’entrepreneurs, nous vous donnerons les clés pour muscler vos qualités d’entrepreneur. <p style="text-align: center;"><a href="https://hec-pole-emploi.weup.in/login" style="display: inline-block;padding: 10px 20px;font-size: 16px;color: white;background-color: #004677;text-decoration: none;border-radius: 5px;font-weight: bold;">Je démarre !</a></p><br/>Cordialement,<br/>L\'&eacute;quipe de recherche</p><img src="https://hec-pole-emploi.weup.in/media/microsites/hec-pole-emploi/logo-hec-paris.jpg" alt="Signature" style="width:145px;height:100px;"></body></html>'
+                html = '<html><head></head><body><h3 style="text-align: center; color: #004677; font-weight: bold;">Lancez-vous aujourd\'hui !</h3><p>Bonjour,<br/><br/>Nous sommes ravis de vous accueillir sur notre plateforme pédagogique ! Depuis votre inscription, votre place est réservée pour une expérience unique.<br/><br/>Le temps presse... L\'atelier n\'attend que vous pour démarrer ! <br/><br/>Préparez-vous à plonger dans un atelier abordant les compétences à développer pour mener à bien son projet. Au travers de regards croisés de professeurs et d’entrepreneurs, nous vous donnerons les clés pour muscler vos qualités d’entrepreneur. <p style="text-align: center;"><a href="https://hec-france-travail.weup.in/login" style="display: inline-block;padding: 10px 20px;font-size: 16px;color: white;background-color: #004677;text-decoration: none;border-radius: 5px;font-weight: bold;">Je démarre !</a></p><br/>Cordialement,<br/>L\'&eacute;quipe de recherche</p><img src="https://hec-france-travail.weup.in/media/microsites/hec-pole-emploi/logo-hec-paris.jpg" alt="Signature" style="width:145px;height:100px;"><img src="https://hec-france-travail.weup.in/media/microsites/hec-pole-emploi/logo_genes.jpg" alt="Signature" style="width:145px;height:100px;"><img src="https://hec-france-travail.weup.in/media/microsites/hec-pole-emploi/logo_koln.jpg" alt="Signature" style="width:145px;height:100px;"></body></html>'
 
                 part2 = MIMEText(html.encode('utf-8'), 'html', 'utf-8')
-                fromaddr = "hec-pole-emploi <ne-pas-repondre@themoocagency.com>"
+                fromaddr = "hec-france-travail <ne-pas-repondre@themoocagency.com>"
                 msg = MIMEMultipart()
                 msg['From'] = fromaddr
                 msg['To'] = user.email
@@ -157,15 +181,15 @@ for course_id in course_ids:
 
 
         # Cet email sera envoyé automatiquement si les apprenants ont commencé leurs modules d'apprentissage mais ne les ont pas tous terminés dans les 14 jours suivant l'activation de leur compte.
-        elif (user.date_joined <= now - timedelta(days=(email_notification_gap_2)) and userPercentGrade <= 0.7) :
+        elif (user.date_joined == now - timedelta(days=(email_notification_gap_2)) and userPercentGrade <= 0.7 and course_id.find('>WEB_') == -1 ) :
         # elif (user.date_joined <= now - timedelta(days=(email_notification_gap_2)) and detailed_time_tracking != 0 and userPercentGrade <= 0.7) :
 
             try:
 
-                html = '<html><head></head><body><h3 style="text-align: center; color: #004677; font-weight: bold;">Vous y êtes presque !</h3><p>Bonjour,<br/><br/>Voilà quelques jours que vous avez commencé notre atelier sur comment muscler vos qualités d’entrepreneur. Bravo !<br/><br/> <span style="font-weight: bold;" >Faites le point sur vos compétences entrepreneuriales pour mener à bien votre projet. </span> <br/><br/>Il ne vous reste plus qu’une semaine pour profiter de l\'atelier ! Après cette date, votre accès à la plateforme expirera pour permettre à de nouveaux participants de rejoindre l\'aventure. <br/><br/>Nous vous encourageons vivement à le finir pour en bénéficier pleinement. Vous y êtes presque ! <p style="text-align: center;"><a href="https://hec-pole-emploi.weup.in/login" style="display: inline-block;padding: 10px 20px;font-size: 16px;color: white;background-color: #004677;text-decoration: none;border-radius: 5px;font-weight: bold;">Je continue !</a></p><br/>Cordialement,<br/>L\'&eacute;quipe de recherche</p><img src="https://hec-pole-emploi.weup.in/media/microsites/hec-pole-emploi/logo-hec-paris.jpg" alt="Signature" style="width:145px;height:100px;"></body></html>'
+                html = '<html><head></head><body><h3 style="text-align: center; color: #004677; font-weight: bold;">Vous y êtes presque !</h3><p>Bonjour,<br/><br/>Voilà quelques jours que vous avez commencé notre atelier sur comment muscler vos qualités d’entrepreneur. Bravo !<br/><br/> <span style="font-weight: bold;" >Faites le point sur vos compétences entrepreneuriales pour mener à bien votre projet. </span> <br/><br/>Il ne vous reste plus qu’une semaine pour profiter de l\'atelier ! Après cette date, votre accès à la plateforme expirera pour permettre à de nouveaux participants de rejoindre l\'aventure. <br/><br/>Nous vous encourageons vivement à le finir pour en bénéficier pleinement. Vous y êtes presque ! <p style="text-align: center;"><a href="https://hec-france-travail.weup.in/login" style="display: inline-block;padding: 10px 20px;font-size: 16px;color: white;background-color: #004677;text-decoration: none;border-radius: 5px;font-weight: bold;">Je continue !</a></p><br/>Cordialement,<br/>L\'&eacute;quipe de recherche</p><img src="https://hec-france-travail.weup.in/media/microsites/hec-pole-emploi/logo-hec-paris.jpg" alt="Signature" style="width:145px;height:100px;"><img src="https://hec-france-travail.weup.in/media/microsites/hec-pole-emploi/logo_genes.jpg" alt="Signature" style="width:145px;height:100px;"><img src="https://hec-france-travail.weup.in/media/microsites/hec-pole-emploi/logo_koln.jpg" alt="Signature" style="width:145px;height:100px;"></body></html>'
 
                 part2 = MIMEText(html.encode('utf-8'), 'html', 'utf-8')
-                fromaddr = "hec-pole-emploi <ne-pas-repondre@themoocagency.com>"
+                fromaddr = "hec-france-travail <ne-pas-repondre@themoocagency.com>"
                 msg = MIMEMultipart()
                 msg['From'] = fromaddr
                 msg['To'] = user.email

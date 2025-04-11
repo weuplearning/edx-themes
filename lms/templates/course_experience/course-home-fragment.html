@@ -174,6 +174,12 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     #main, .outline-item.accordion-panel{
        background: white;
     }
+    .accordion-panel > li {
+        display: none;
+    }
+    .accordion-panel > li:first-child{
+        display: list-item;
+    }
 
     .course-outline .block-tree .section {
         box-shadow: 0 3px 6px rgba(0,0,0,0.16);

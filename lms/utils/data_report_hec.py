@@ -60,11 +60,14 @@ log = logging.getLogger()
 
 
 
+try :
+    emails = sys.argv[1].split(";")
+except :
+    emails = []
 
-emails = sys.argv[1].split(";")
 
 course_ids = [
-#    "course-v1:hec-pole-emploi+WEB_1+2025",
+    # "course-v1:hec-pole-emploi+WEB_1+2025",
     "course-v1:hec-pole-emploi+IP_1+2025",
     # "course-v1:hec-pole-emploi+IP_2+2025",
     # "course-v1:hec-pole-emploi+IP_3+2025",
@@ -123,8 +126,6 @@ videos_list = list()
 
 
 
-
-
 def course_name(course_id):
     if course_id.find('IP_') != -1 : 
         return "Initiative Personnelle (IP)"
@@ -156,9 +157,6 @@ for course_id in course_ids:
 
     for i in range(len(course_enrollments)):
         user = course_enrollments[i].user
-
-        log.info(course_id)
-        log.info(len(course_enrollments))
 
 
         # Escape fake email address
@@ -300,16 +298,16 @@ filepath = '/edx/var/edxapp/media/microsites/hec-pole-emploi/reports/{}'.format(
 wb.save(filepath)
 output = BytesIO()
 _files_values = output.getvalue()
-html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous trouverez en pièce jointe le rapport de donn&eacute;es HEC pôle-emploi</p></body></html>"
+html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous trouverez en pièce jointe le rapport de donn&eacute;es HEC-France-travail</p></body></html>"
 
 ## Send email
 for email in emails:
     part2 = MIMEText(html.encode('utf-8'), 'html', 'utf-8')
-    fromaddr = "HEC pole-emploi <ne-pas-repondre@themoocagency.com>"
+    fromaddr = "HEC-France-travail <ne-pas-repondre@themoocagency.com>"
     msg = MIMEMultipart()
     msg['From'] = fromaddr
     msg['To'] = email
-    msg['Subject'] = "Rapport temps passé HEC pole-emploi"
+    msg['Subject'] = "Rapport temps passé HEC-France-travail"
 
     attachment = _files_values
 
