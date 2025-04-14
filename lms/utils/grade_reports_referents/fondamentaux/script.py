@@ -78,8 +78,10 @@ for course_id in course_ids:
 
   course_data = {}
   referents_list = set()
+  print("handling  " + str(len(course_enrollments)) + " enrolls" )
   for i in range(len(course_enrollments)):
   #for i in range(30):
+    time.sleep(0.1)
     user = course_enrollments[i].user
     user_data = {}
 
@@ -324,6 +326,7 @@ for ref in referents_list:
     encoders.encode_base64(part)
     part.add_header('Content-Disposition', "attachment; filename= %s" % os.path.basename(filename))
     msg.attach(part)
+    time.sleep(0.1)
     server = smtplib.SMTP(report_config.mailer_addr, 25)
     server.starttls()
     server.login(report_config.mailer_login, report_config.mailer_password)
@@ -331,9 +334,11 @@ for ref in referents_list:
     text = msg.as_string()
     email = target_ref
     print("should send to " + email)
-    server.sendmail(fromaddr, email, text)
-    #server.sendmail(fromaddr, 'theo.gicquel@weuplearning.com', text)
-    #server.sendmail(fromaddr, 'melanie.zunino@weuplearning.com', text)
+    try:
+        server.sendmail(fromaddr, email, text)
+    except:
+        print('ERREUR ENVOI ' + str(email))
+        server.sendmail(fromaddr, report_config.mailer_error_box, text)
 
     server.quit()
     #log.info('Email sent to '+str(email))

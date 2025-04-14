@@ -78,8 +78,9 @@ for course_id in course_ids:
 
   course_data = {}
   referents_list = set()
+  print("handling " +  str(len(course_enrollments)) + "course enroll")
   for i in range(len(course_enrollments)):
-  #for i in range(30):
+    time.sleep(0.1)
     user = course_enrollments[i].user
     user_data = {}
 
@@ -329,14 +330,16 @@ for ref in referents_list:
     server.login(report_config.mailer_login, report_config.mailer_password)
     msg.attach(part2)
     text = msg.as_string()
-    #email = 'theo.gicquel@weuplearning.com'
     email = target_ref
-    server.sendmail(fromaddr, email, text)
-    #server.sendmail(fromaddr, 'theo.gicquel@weuplearning.com', text)
-    #server.sendmail(fromaddr, 'melanie.zunino@weuplearning.com', text)
-
+    try:
+        server.sendmail(fromaddr, email, text)
+    except:
+        print("ERREUR " + str(email) )
+        try:
+          server.sendmail(fromaddr, mailer_error_box, text)
+        except:
+          print('ERREUR EMAIL FALLBACK')
     server.quit()
-    #log.info('Email sent to '+str(email))
 
 
 #log.info('------------> Finish calculate grades and write xlsx report')
