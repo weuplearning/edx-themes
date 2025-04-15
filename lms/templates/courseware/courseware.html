@@ -22,7 +22,17 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
    (course.enable_proctored_exams or course.enable_timed_exams)
    )
 %>
-
+<%
+import json
+fields = json.loads(user.profile.custom_field)
+marker = fields.get('update_marker','null')
+%>
+% if marker == 0:
+<script>
+  let url = window.location.href.split('courseware/')[0]
+  window.location.replace(url);
+</script>
+% endif 
 <style>
   .window-wrap {
     background: url("${static.url('umn/images/background.png')}");
