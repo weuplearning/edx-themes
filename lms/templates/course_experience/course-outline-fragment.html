@@ -221,6 +221,7 @@ startButton[0].classList.add("disabled-link")
   
     <label for="status">Statut : <span class="required_field">*</span></label>
     <select id="status" name="status" onchange="evalStatus('status')">
+        <option value="">-- Sélectionnez votre statut --</option>
         <option value="learner" ${'selected' if user_status == 'learner' else ''}>Apprenant</option>
         <option value="teacher" ${'selected' if user_status == 'teacher' else ''}>Enseignant</option>
         <option value="instructor" ${'selected' if user_status == 'instructor' else ''}>Formateur</option>
@@ -818,6 +819,10 @@ function makeFieldsNotRequired() {
 
 async function performSubmit(request,data) {
     event.preventDefault();
+
+    if(statusSelect.value.length === 0){
+        return
+    }
 
     if(regionSelect.value.length === 0){
         return
