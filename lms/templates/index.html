@@ -37,7 +37,7 @@ p{
 
 .box{
     padding-top: 10%;
-    margin-left: 5%;
+    margin: 5%;
 }
 
 .button_custom{
@@ -48,7 +48,7 @@ p{
     font-size: 1.7em;
     cursor: pointer;
     /* margin: auto; */
-    background-color: #003a70;
+    background-color: rgb(0, 58, 112);
     /* position: absolute; */
     margin-top: 2%;
 }
@@ -63,6 +63,25 @@ p{
 
 .content-wrapper{
     padding: 0 0 0 0;
+}
+@media screen and (max-width: 768px) {
+    .home{
+        background-color: #b8c8d7;
+        padding-bottom: 0%;
+        overflow: auto;
+    }
+    .text{
+        width: 90%;
+    }
+
+    .buttons {
+        flex-direction: column;
+    }
+    .button_custom{
+        width: 80%;
+        margin: auto;
+        margin-top: 2%;
+    }
 }
 
 </style>

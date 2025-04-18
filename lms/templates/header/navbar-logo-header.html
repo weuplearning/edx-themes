@@ -27,6 +27,22 @@ enterprise_customer_link = get_enterprise_learner_portal(request)
     height: 80px;
     width: auto;
   }
+
+  @media screen and (max-width: 992px) {
+    .logo {
+      height: 45px !important;
+      margin: 0 6px !important;
+    }
+    .header-logo a {
+      margin-left: calc( 50% - 82px ) !important;
+    }
+  }
+  @media screen and (max-width: 390px) {
+    .header-logo {
+      display: none !important;
+    }
+    
+  }
 </style>
 
 <h1 class="header-logo">
