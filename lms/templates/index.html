@@ -1,0 +1,288 @@
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.urls import reverse
+
+from openedx.core.djangolib.markup import HTML, Text
+%>
+
+<style>
+    .content-wrapper {
+        margin: 0 auto !important;
+    }
+    #main, p {
+        font-family: Bagoss, Inter, Helvetica, Arial, sans-serif;
+    }
+    .max-width {
+        max-width: 1092px;
+        margin: auto;
+        padding: 0 40px;
+        box-sizing: border-box;
+    }
+    .vertical-align, .horizontal-align {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .vertical-align {
+        flex-direction: column;
+    }
+    h1, h2, h3, p, a {
+        font-family: inherit;
+        text-align: center;
+        line-height: 1.4;
+    }
+    .left-align {
+        text-align: flex-start;
+    }
+    .tertiary {
+        color: var(--tertiary);
+    }
+    section {
+        margin-bottom: 35px;
+    }
+
+    /* HEADER */
+    .global-header, #title_header  {
+        background-color: var(--primary) !important;
+    }
+    #title_header {
+        margin-bottom: 40px;
+    }
+    .register-btn {
+        display: none !important;
+    }
+    .sign-in-btn {
+        background-color: black !important;
+        padding: 10px 20px;
+        border-radius: 4px;
+        border: unset !important;
+        font-weight: 800;
+    }
+
+    .start_button > a {
+        color: white !important;
+    }
+    .start_button {
+        background-color: #1D1D1B !important;
+        padding: 10px 20px;
+        border-radius: 4px;
+        border: unset !important;
+        width: fit-content;
+        align-self: center;
+    }
+    #illu_header {
+        max-width: 650px;
+        height: 100%;
+        border: #5353FE solid 3px;
+    }
+
+
+
+
+
+    /* PAGE 1 */
+    #part_1 > p {
+        width: 50%;
+        font-weight: 700;
+    }
+    #part_1 > h2 {
+        margin: 50px 0 30px 0;
+        font-size: x-large;
+        font-weight: 700;
+    }
+    #illu_part_1 {
+        max-width: 25vw;
+        margin: 30px 0 0 50px;
+        border: #5353FE solid 3px;
+        height: 25vw;
+    }
+
+
+    #part_2 {
+        background-color: var(--tertiary);
+        padding: 20px ;
+        /* width: 100%; */
+        margin: 0 auto;
+    }
+    #part_2 > h1, #part_2 > p, #part_2 > h3 {
+        color: white;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .img-step {
+        width: 15vw;
+        height: auto;
+    }
+
+
+
+    .footer-page {
+        position: relative;
+    }
+
+    #illu_footer {
+        height: 17vw;
+        max-height: 230px;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+
+
+
+
+    @media screen and (max-width: 768px) {
+        #title_header img, #illu_footer {
+            display: none;
+        }
+        #title_header {
+            height: 120px;
+        }
+        #part_1 > p {
+            text-align: center;
+            width: 80%;
+        }
+    }    
+</style>
+
+
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="header">
+        <div id="logo_banner" ></div>
+        <div id="title_header" class="horizontal-align" >
+            <div class="vertical-align" >
+                <h1>La Casavo Academy</h1>
+                <p>Devenez un Agent Immobilier performant</p>
+                <div class="start_button">
+                    <a href="/login">Démarrer ma formation</a>
+                </div>
+            </div>
+            <div >
+                <!-- SVG ? -->
+                <img src="" alt="formation des agents immobilier" id="illu_header" />
+            </div>
+        </div>
+    </section>
+
+
+    <section id="part_1" class="horizontal-align">
+        <div id="illu_part_1" >
+            <img src="" alt="agents immobilier en formation" />
+        </div>
+
+        <div class="vertical-align left-align">
+
+            <h2>Aucune expérience ?</h2>
+            <h2>Aucun problème !</h2>
+            <strong>
+                Chez Casavo, nous croyons que les meilleurs agents ne naissent pas, ils se forment. 
+            </strong>
+                
+            <p>Vous êtes sur le point de démarrer un parcours immersif, conçu pour transformer des débutants en véritables experts de l’immobilier.
+                
+            </p>
+            <p>
+                Cette formation vous donnera toutes les clés pour réussir, du premier contact client à la signature de votre première transaction.</p>
+
+            <div class="start_button">
+                <a href="/login">Démarrer ma formation</a>
+            </div>
+        </div>
+        
+    </section>
+
+
+    <section id="part_2" class="vertical-align">
+ 
+        <h1>Un programme ultra-complet</h1>
+
+        <p>Notre parcours de formation est conçu pour vous faire monter en compétence rapidement et efficacement.</p>
+
+        <div class="horizontal-align">
+            <div class="vertical-align">
+                <img src="" alt="image 1/3" class="img-step">
+                <h3>Modules e-learning</h3>
+                <p>Théorie essentielle et mises en situation interactives.</p>
+            </div>
+            <div class="vertical-align">
+                <img src="" alt="image 2/3" class="img-step">
+                <h3>Vidéos immersives</h3>
+                <p>Études de cas réels et témoignages d’experts du terrain.</p>
+            </div>
+            <div class="vertical-align">
+                <img src="" alt="image 3/3" class="img-step">
+                <h3>Ateliers en présentiel</h3>
+                <p>Exercices pratiques, jeux de rôle et coaching personnalisé.</p>
+            </div>
+        </div>
+    
+        <div class="start_button">
+            <a href="/login">Démarrer ma formation</a>
+        </div>
+
+    </section>
+    
+    <section id="part_3" class="vertical-align">
+        <h1>Votre parcours de formation en 5 modules clés</h1>
+
+        <%include file="dashboard/_dashboard_carrousel.html" />
+
+    </section>
+    
+    <section id="part_4" class="vertical-align">
+
+        <h1>Passez à l'action dés maintenant !</h1>
+        <div class="horizontal-align">
+            <div class="step_action vertical-align">
+                <div class="step_number">1</div>
+                <p>Connectez-vous avec vos identifiants.</p>
+            </div>
+            <div class="step_action vertical-align">
+                <div class="step_number">2</div>
+                <p>Accédez au module et suivez votre avancement.</p>
+            </div>
+            <div class="step_action vertical-align">
+                <div class="step_number">3</div>
+                <p>Pratiquez vos apprentissages et devenez un agent performant !</p>
+            </div>
+        </div>
+
+        <div class="footer-page vertical-align">
+            <img src="" alt="svg bordure" id="illu_footer" />
+            <h1>Votre avenir dans l'immobilier commence ici !</h1>
+            <div class="start_button">
+                <a href="/login">Démarrer ma formation</a>
+            </div>
+        </div>
+    </section>
+
+
+
+
+</main>
+
+
+
+
+<%block name="js_extra">
+   <script type="text/javascript">
+      $(window).load(function() {
+         if(getParameterByName('next')) {
+              $('#login').trigger("click");
+         }
+      })
+   </script>
+</%block>
+
+% if show_signup_immediately is not UNDEFINED:
+  ## NOTE: This won't work in production, because anonymous views are cached, so it will
+  ## show either with or without this extra js for 3 minutes at a time.
+<script type="text/javascript">
+  $(window).load(function() {$('#signup_action').trigger("click");});
+</script>
+% endif
