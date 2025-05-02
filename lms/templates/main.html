@@ -83,11 +83,9 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
   <script type="text/javascript" src="${static.url(jsi18n_path)}"></script>
   <script type="text/javascript" src="${static.url(ie11_fix_path)}"></script>
 
-  <link rel="icon" type="image/x-icon" href="${static.url(static.get_value('favicon_path', settings.FAVICON_PATH))}" />
+  <link rel="icon" type="image/x-icon" href="${static.url('casavo/images/favicon.png')}" />
 
   <style>
-
-
   .content-wrapper {
     margin: 0 !important;
     padding: 0 !important;
@@ -99,8 +97,6 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
     --secundary : #1D1D1B;
     --tertiary : #063D39;
   }
-
-
   </style>
 
   <%static:css group='style-vendor'/>

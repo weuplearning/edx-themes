@@ -11,6 +11,7 @@ from openedx.core.djangolib.markup import HTML, Text
 <style>
     .content-wrapper {
         margin: 0 auto !important;
+        max-width: unset !important;
     }
     #main, p {
         font-family: Bagoss, Inter, Helvetica, Arial, sans-serif;
@@ -35,31 +36,43 @@ from openedx.core.djangolib.markup import HTML, Text
         line-height: 1.4;
     }
     .left-align {
-        text-align: flex-start;
+        align-items: flex-start;
+        width: 50%;
+        max-width: 980px;
+
+        margin: 0 45px;
     }
     .tertiary {
         color: var(--tertiary);
     }
-    section {
-        margin-bottom: 35px;
+    section, #title_header  {
+        padding: 40px 0;
+    }
+    #title_header {
+        justify-content: space-between;
+        padding: 40px 18vw;
     }
 
     /* HEADER */
+    .header {
+        padding-top: 0;
+    }
     .global-header, #title_header  {
         background-color: var(--primary) !important;
     }
-    #title_header {
-        margin-bottom: 40px;
+    #title_header > div:first-child {
+        z-index: 10;
     }
+
     .register-btn {
         display: none !important;
     }
     .sign-in-btn {
         background-color: black !important;
-        padding: 10px 20px;
+        padding: 10px 20px !important;
         border-radius: 4px;
         border: unset !important;
-        font-weight: 800;
+        font-family: Inter !important;
     }
 
     .start_button > a {
@@ -72,99 +85,186 @@ from openedx.core.djangolib.markup import HTML, Text
         border: unset !important;
         width: fit-content;
         align-self: center;
+        font-family: Inter !important;
+        margin-bottom: 30px;
     }
     #illu_header {
-        max-width: 650px;
+        max-width: 350px;
         height: 100%;
-        border: #5353FE solid 3px;
     }
+    #hover_header {
+        position: absolute;
+        bottom: -88px;
+        left: -152px;
+        width: 100%;
+        height: 100%;
+        z-index: 9;
+    }
+
 
 
 
 
 
     /* PAGE 1 */
-    #part_1 > p {
+    #part_1 p {
         width: 50%;
         font-weight: 700;
+        text-align: left;
     }
-    #part_1 > h2 {
-        margin: 50px 0 30px 0;
-        font-size: x-large;
+    #part_1 h2 {
+        margin-bottom: 5px;
+        font-size: 30px;
+        line-height: 1.5;
         font-weight: 700;
+        color: black;
     }
     #illu_part_1 {
-        max-width: 25vw;
-        margin: 30px 0 0 50px;
-        border: #5353FE solid 3px;
-        height: 25vw;
+        max-width: 36vw;
+        margin: 30px 20px 0 50px;
+        height: 100%;
+    }
+    #picture_agent {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 
 
-    #part_2 {
+    #part_2, #part_5 {
         background-color: var(--tertiary);
         padding: 20px ;
-        /* width: 100%; */
         margin: 0 auto;
     }
-    #part_2 > h1, #part_2 > p, #part_2 > h3 {
+    #part_2 h1, #part_2 p, #part_2 h3 {
         color: white;
         margin: 0 auto;
         padding: 20px;
     }
+    .zone-programme {
+        width: 75%;
+        justify-content: space-between;
+        max-width: 1280px;
+    }
+    .zone-programme > div {
+        width: 270px;
+    }
+
 
     .img-step {
-        width: 15vw;
+        width: 150px;
         height: auto;
     }
 
+    #part_4 {
+        background-color: #F6F6F1;
+        padding: 30px 80px;
+    }
+    #part_4 > div {
+        justify-content: space-between;
+        width: 70%;
+    }
+    .step_action {
+        width: 30%;
+        height: 135px;
+        justify-content: space-between;
+    }
+    .step_number {
+        font-family: Inter;
+        font-size: 30px;
+        font-weight: 700;
+        background-color: var(--primary);
+        text-align: center;
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+    }
+    #part_4_bis {
+        background-color: #F6F6F1;
+        height: 100px !important;
+        padding: 0px !important;
+    }
+    #wave {
+        object-fit: fill;
+        height: 100%;
+        width: 100%;
+    }
 
+    #part_5 {
+        background-color: var(--primary);
+    }
 
+    .wrapper-footer {
+        padding: 20px;
+    }
     .footer-page {
         position: relative;
+        background-color: var(--primary);
     }
 
-    #illu_footer {
-        height: 17vw;
-        max-height: 230px;
-        position: absolute;
-        left: 0;
-        top: 0;
-    }
+
 
 
 
 
 
     @media screen and (max-width: 768px) {
-        #title_header img, #illu_footer {
+        #title_header .footer-page, #part_3 {
             display: none;
         }
         #title_header {
             height: 120px;
+            justify-content: center;
         }
         #part_1 > p {
             text-align: center;
             width: 80%;
         }
+        .zone-programme {
+            flex-direction: column;
+        }
+         
     }    
+
+
+
+    @media screen and (max-width: 1200px) {
+        #title_header {
+            padding: 40px 10vw;
+        }
+        .wrapper-footer {
+            padding: 20px calc(50vw - 980px);
+        }
+        .content-wrapper {
+            padding: 9px calc(50vw - 980px);
+        }
+        .img-step {
+            width: 15vw;
+        }
+        .zone-programme {
+            width: 90%;
+        }
+        .carousel-slide .vignette {
+            max-height: 400px;
+        }
+    }
 </style>
 
 
 <main id="main" aria-label="Content" tabindex="-1">
     <section class="header">
-        <div id="logo_banner" ></div>
+
         <div id="title_header" class="horizontal-align" >
             <div class="vertical-align" >
-                <h1>La Casavo Academy</h1>
-                <p>Devenez un Agent Immobilier performant</p>
-                <div class="start_button">
+                <h1 style="color: black;">La Casavo Academy</h1>
+                <p style="margin: -19px 0 33px 0;">Devenez un Agent Immobilier performant</p>
+                <div class="start_button" style="align-self: baseline;">
                     <a href="/login">Démarrer ma formation</a>
                 </div>
             </div>
-            <div >
-                <!-- SVG ? -->
-                <img src="" alt="formation des agents immobilier" id="illu_header" />
+            <div class="footer-page" >
+                <img src="${static.url('casavo/images/hover.png')}" alt="formation des agents immobilier" id="hover_header" />
+                <img src="${static.url('casavo/images/picture_1.png')}" alt="formation des agents immobilier" id="illu_header" />
             </div>
         </div>
     </section>
@@ -172,14 +272,14 @@ from openedx.core.djangolib.markup import HTML, Text
 
     <section id="part_1" class="horizontal-align">
         <div id="illu_part_1" >
-            <img src="" alt="agents immobilier en formation" />
+            <img src="${static.url('casavo/images/picture_2.png')}" alt="photo des agents immobilier" id="picture_agent" />
         </div>
 
         <div class="vertical-align left-align">
 
             <h2>Aucune expérience ?</h2>
             <h2>Aucun problème !</h2>
-            <strong>
+            <strong style="margin:20px 0; line-height:1.2; font-family:Inter; font-size:19px;font-weight:700;">
                 Chez Casavo, nous croyons que les meilleurs agents ne naissent pas, ils se forment. 
             </strong>
                 
@@ -189,7 +289,7 @@ from openedx.core.djangolib.markup import HTML, Text
             <p>
                 Cette formation vous donnera toutes les clés pour réussir, du premier contact client à la signature de votre première transaction.</p>
 
-            <div class="start_button">
+            <div class="start_button" style="align-self:baseline; margin-top:30px;">
                 <a href="/login">Démarrer ma formation</a>
             </div>
         </div>
@@ -201,23 +301,23 @@ from openedx.core.djangolib.markup import HTML, Text
  
         <h1>Un programme ultra-complet</h1>
 
-        <p>Notre parcours de formation est conçu pour vous faire monter en compétence rapidement et efficacement.</p>
+        <p>Notre parcours de formation est conçu pour vous faire <br>monter en compétence rapidement et efficacement.</p>
 
-        <div class="horizontal-align">
+        <div class="horizontal-align zone-programme">
             <div class="vertical-align">
-                <img src="" alt="image 1/3" class="img-step">
+                <img src="${static.url('casavo/images/illu_1.png')}" alt="image 1/3" class="img-step">
                 <h3>Modules e-learning</h3>
-                <p>Théorie essentielle et mises en situation interactives.</p>
+                <p>Théorie essentielle et mises <br>en situation interactives.</p>
             </div>
             <div class="vertical-align">
-                <img src="" alt="image 2/3" class="img-step">
+                <img src="${static.url('casavo/images/illu_2.png')}" alt="image 2/3" class="img-step">
                 <h3>Vidéos immersives</h3>
-                <p>Études de cas réels et témoignages d’experts du terrain.</p>
+                <p>Études de cas réels et <br>témoignages d’experts du terrain.</p>
             </div>
             <div class="vertical-align">
-                <img src="" alt="image 3/3" class="img-step">
+                <img src="${static.url('casavo/images/illu_3.png')}" alt="image 3/3" class="img-step">
                 <h3>Ateliers en présentiel</h3>
-                <p>Exercices pratiques, jeux de rôle et coaching personnalisé.</p>
+                <p>Exercices pratiques, jeux de rôle <br>et coaching personnalisé.</p>
             </div>
         </div>
     
@@ -240,25 +340,38 @@ from openedx.core.djangolib.markup import HTML, Text
         <div class="horizontal-align">
             <div class="step_action vertical-align">
                 <div class="step_number">1</div>
-                <p>Connectez-vous avec vos identifiants.</p>
+                <div>
+                    <p>Connectez-vous avec vos identifiants.</p>
+                </div>
             </div>
             <div class="step_action vertical-align">
                 <div class="step_number">2</div>
-                <p>Accédez au module et suivez votre avancement.</p>
+                <div>
+                    <p>Accédez au module et suivez votre avancement.</p>
+                </div>
             </div>
             <div class="step_action vertical-align">
                 <div class="step_number">3</div>
-                <p>Pratiquez vos apprentissages et devenez un agent performant !</p>
+                <div>
+                    <p>Pratiquez vos apprentissages et devenez un agent performant !</p>
+                </div>
             </div>
         </div>
 
+    </section>
+
+    <section id="part_4_bis">
+
+        <img id="wave" src="${static.url('casavo/images/wave.png')}" alt="illu-wave">
+    </section>
+    <section id="part_5">
         <div class="footer-page vertical-align">
-            <img src="" alt="svg bordure" id="illu_footer" />
             <h1>Votre avenir dans l'immobilier commence ici !</h1>
             <div class="start_button">
                 <a href="/login">Démarrer ma formation</a>
             </div>
         </div>
+
     </section>
 
 
