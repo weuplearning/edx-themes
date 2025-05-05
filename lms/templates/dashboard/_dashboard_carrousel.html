@@ -17,8 +17,6 @@ time.sleep(1)
     </div>
     <div class="carousel-slide">
 
-.
-
         <div class="vignette">
             <p class="header-vignette" >Module 1</p>
             <div class="title-vignette">
@@ -204,7 +202,7 @@ time.sleep(1)
 const carouselSlide = document.querySelector('.carousel-slide');
 const vignettes = document.querySelectorAll('.carousel-slide .vignette');
 
-let counter = 1;
+let counter = 0;
 let size = carouselSlide.clientWidth / 2;
 
 window.addEventListener('resize', () => {
@@ -226,7 +224,7 @@ function moveSlide(direction) {
     // if (direction === 1 && counter >= vignettes.length - 1) {
         counter = -1;
     } else if (direction === -1 && counter <= 0) {
-        counter = 2;
+        counter = 0;
         // counter = vignettes.length;
     }
     console.log('counter', counter);
