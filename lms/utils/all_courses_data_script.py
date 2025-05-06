@@ -65,6 +65,32 @@ course_ids = [
     "course-v1:formation-securite-incendie+BE25+2024",
     "course-v1:formation-securite-incendie+BI21+2024"
 ]
+course_ids = [
+    "course-v1:formation-securite-incendie+BI05+2024"
+]
+
+def get_best_grade_data(user, course_key, course_id, course_grade):
+
+    wul_course_enrollment = WulCourseEnrollment.objects.get(course_enrollment_edx__user=user, course_enrollment_edx__course_id=course_key)
+
+    CF_data = json.loads(user.profile.custom_field)
+    CF_field_to_check = 'success_date_' + str(course_id)
+
+    if wul_course_enrollment.best_grade_date :
+        best_grade_date = str(wul_course_enrollment.best_grade_date).split(' ')[0]
+    elif CF_field_to_check in CF_data:
+        best_grade_date = CF_data[CF_field_to_check]
+    else:
+        best_grade_date = 'n.a.'
+
+    data = {
+        'best_grade_date': best_grade_date,
+        'global_time_tracking': wul_course_enrollment.global_time_tracking if wul_course_enrollment.global_time_tracking else 0,
+        'status': 'Validé' if float(course_grade.percent) >= 0.8 else 'Non validé'
+    }
+
+    return data
+
 
 
 for course_id in course_ids:
@@ -90,29 +116,16 @@ for course_id in course_ids:
         user_data.append(json.loads(user.profile.custom_field).get('pro_serial_number','n.a.'))
         user_data.append(batiment)
 
-
         course_grade = CourseGradeFactory().update(user, course)
         # Il semble que la valeur récupérée n'est pas la même selon que le script tourne sur koa-prod ou koa-prod-2 
         # Je ne sais pas quelle est l'origine de cette différence. 
         # en attendant il faut que le script soit maintenu sur koa-prod
 
-        try:
-            wul_course_enrollment = WulCourseEnrollment.objects.get(course_enrollment_edx__user=user, course_enrollment_edx__course_id=course_key)
+        data = get_best_grade_data(user, course_key, course_id, course_grade)
 
-            # Pas disponible pour tout le monde, voir si on peut récupérer ca autrement ? 
-            bestGradeDate = str(wul_course_enrollment.best_grade_date).split(' ')[0] if wul_course_enrollment.best_grade_date else 'n.a.'
-            global_time_tracking = wul_course_enrollment.global_time_tracking            
-            status = 'Validé' if float(course_grade.percent) >= 0.7 else 'Non validé'
-
-        except:
-
-            bestGradeDate = 'n.a.'
-            global_time_tracking = 0
-            status = 'Non validé'
-
-        user_data.append(bestGradeDate)
-        user_data.append(datetime.timedelta(seconds=global_time_tracking))
-        user_data.append(status)
+        user_data.append(data["best_grade_date"])
+        user_data.append(datetime.timedelta(seconds=data["global_time_tracking"]))
+        user_data.append(data["status"])
 
         all_treated_users.append(user_data)
 
