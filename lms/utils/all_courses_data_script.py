@@ -21,7 +21,7 @@ from lms.djangoapps.courseware.courses import get_course_by_id
 from student.models import CourseEnrollment
 from lms.djangoapps.wul_apps.models import WulCourseEnrollment
 from lms.djangoapps.grades.course_grade_factory import CourseGradeFactory
-
+from lms.djangoapps.wul_apps.best_grade.helpers import check_best_grade
 
 from openpyxl import Workbook
 import json
@@ -65,9 +65,11 @@ course_ids = [
     "course-v1:formation-securite-incendie+BE25+2024",
     "course-v1:formation-securite-incendie+BI21+2024"
 ]
-course_ids = [
-    "course-v1:formation-securite-incendie+BI05+2024"
-]
+
+# koa-qualif
+# course_ids = [
+#     "course-v1:formation-securite-incendie+BI05+2024"
+# ]
 
 def get_best_grade_data(user, course_key, course_id, course_grade):
 
