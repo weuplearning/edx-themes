@@ -10,6 +10,27 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Bagoss';
+  src: url("/media/fonts/Bagoss/Bagoss-Medium.otf") format('embedded-opentype'),
+    url("/media/fonts/Bagoss/Bagoss-Medium.woff2") format('woff2'),
+    url("/media/fonts/Bagoss/Bagoss-Medium.woff") format('woff'),
+    url("/media/fonts/Bagoss/Bagoss-Medium.ttf") format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bagoss';
+  src: url("/media/fonts/Bagoss/Bagoss-Light.otf") format('embedded-opentype'),
+    url("/media/fonts/Bagoss/Bagoss-Light.woff2") format('woff2'),
+    url("/media/fonts/Bagoss/Bagoss-Light.woff") format('woff'),
+    url("/media/fonts/Bagoss/Bagoss-Light.ttf") format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 

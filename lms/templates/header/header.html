@@ -80,9 +80,6 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 <![endif]-->
 % endif
 
-% if settings.FEATURES.get('ENABLE_COOKIE_CONSENT', False) and request.path not in paths_list:
-  <%include file="../widgets/cookie-consent.html" />
-% endif
 
 % if header_language_selector_is_enabled():
     <% languages = released_languages() %>
@@ -110,17 +107,3 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 % endif
 
 
-<style>
-    .global-header {
-        background-color: var(--primary);
-
-    }
-    .register-btn {
-        display: none !important;
-    }
-    .sign-in-btn {
-        background-color: black;
-        border-color : white
-    }
-
-</style>
