@@ -25,6 +25,9 @@ relative_dates_flag_is_enabled = RELATIVE_DATES_FLAG.is_enabled(str(course_key))
 is_course_staff = bool(user and course and has_access(user, 'staff', course, course.id))
 dates_banner_displayed = False
 %>
+<!-- add message -->
+<div id="message-alert"><span>Attention :</span> pour une prise en charge de la formation dans le cadre du DPC, veillez à réaliser le e-learning au plus tôt une semaine avant la date de votre formation pratique. </div>
+
 <main role="main" class="course-outline" id="main" tabindex="-1">
     <%include file="/dates_banner.html" />
     % if course_sections is not None:
@@ -182,3 +185,15 @@ dates_banner_displayed = False
 <%static:webpack entry="CourseOutline">
     new CourseOutline();
 </%static:webpack>
+
+<style>
+#message-alert {
+    padding : 20px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+    color: black;
+}
+#message-alert span {
+    text-decoration: underline;
+    font-weight : 700;
+}
+</style>
