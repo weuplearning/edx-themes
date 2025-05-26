@@ -96,6 +96,7 @@ for course_id in course_ids:
     user = course_enrollments[i].user
     user_data = []
 
+
     enrollment = course_enrollments[i]
 
     user_CF_data = json.loads(user.profile.custom_field)
@@ -116,13 +117,13 @@ for course_id in course_ids:
 
 
     try:
-      user_data.append(user.date_joined)
+      user_data.append(user.date_joined.strftime('%Y-%m-%d'))
     except:
       user_data.append('n.a.')
 
 
     try:
-      user_data.append(user.last_login)
+      user_data.append(user.last_login.strftime('%Y-%m-%d'))
     except:
       user_data.append('n.a.')
 
