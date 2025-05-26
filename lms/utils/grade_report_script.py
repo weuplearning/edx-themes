@@ -36,6 +36,7 @@ from opaque_keys.edx.locator import CourseLocator
 from common.djangoapps.student.models import CourseEnrollment
 from lms.djangoapps.courseware.courses import get_course_by_id
 from lms.djangoapps.wul_apps.best_grade.helpers import check_best_grade
+from lms.djangoapps.wul_apps.models import WulCourseEnrollment
 
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 
@@ -56,7 +57,7 @@ register_form = configuration_helpers.get_value_for_org(org, 'FORM_EXTRA')
 
 # Get headers
 HEADERS_GLOBAL = []
-HEADERS_USER = [u"Email", u"Nom complet"]
+HEADERS_USER = [u"Email", u"Nom complet", u"Date d'inscription", u"Dernière connexion"]
 
 HEADERS_FORM = []
 NICE_HEADERS_FORM = []
@@ -74,6 +75,7 @@ TECHNICAL_HEADER = list(HEADERS_FORM)
 
 HEADERS_USER.extend(NICE_HEADER)
 HEADERS_USER.append('Note obtenue (en %)')
+HEADERS_USER.append("Date d'obtention")
 HEADER = HEADERS_USER
 
 emails = sys.argv[1].split(";")
@@ -113,6 +115,17 @@ for course_id in course_ids:
     user_data.append(user.profile.name)
 
 
+    try:
+      user_data.append(user.date_joined)
+    except:
+      user_data.append('n.a.')
+
+
+    try:
+      user_data.append(user.last_login)
+    except:
+      user_data.append('n.a.')
+
 
     for key in TECHNICAL_HEADER :
 
@@ -126,10 +139,20 @@ for course_id in course_ids:
     gradesTest = check_best_grade(user, course, force_best_grade=True)
     userPersentGrade = gradesTest.summary['percent']*100
 
+    wul_course_enrollment = WulCourseEnrollment.objects.get(course_enrollment_edx__user=user, course_enrollment_edx__course_id=course_key)
+
+    if wul_course_enrollment.best_grade_date :
+      best_grade_date = str(wul_course_enrollment.best_grade_date).split(' ')[0]
+    else:
+      best_grade_date = 'n.a.'
+
+
     try:
       user_data.append(userPersentGrade)
     except:
       user_data.append(0)
+
+    user_data.append(best_grade_date)
 
     data = { "general": user_data }
     course_data[str(user.id)] = data
@@ -228,5 +251,5 @@ log.info('------------> Finish calculate grades and write xlsx report')
 # pas de cours .... 
 
 # PROD
-# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/sncf-voyageurs/lms/static/utils/grade_report_script.py 'cyril.adolf@weuplearning.com' course-v1:sncf-voyageurs+DC2+2024
+# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/sncf-voyageurs/lms/utils/grade_report_script.py 'cyril.adolf@weuplearning.com' course-v1:sncf-voyageurs+DC2+2024
 
