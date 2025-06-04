@@ -42,13 +42,14 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         margin-left: 5px;
         background: white !important;
     }
-    .global-header .header-logo .course-header, a.help-link{
+    .global-header .header-logo .course-header, a.help-link, .wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary, a.subsection-text div.details,a.subsection-text span.icon.fa.fa-pencil-square-o, #expand-collapse-outline-all-button{
         display:none !important;
     }
 
     .course-outline .block-tree .outline-button .fa {
-        color: var(--secondary) !important;
+        color: #FF991F  !important;
     }
+    
     .course-outline .block-tree .outline-button .complete-checkmark {
         background-color: var(--secondary);
         border-color: var(--secondary);
@@ -65,9 +66,6 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         padding-left: 25px !important;
         padding-right: 25px !important;
     }
-     a.subsection-text div.details,a.subsection-text span.icon.fa.fa-pencil-square-o{
-         display:none !important;
-     }
     .page-content .page-content-secondary{
         min-width: calc(50% - 15px);
         max-width: calc(50% - 15px);
@@ -91,7 +89,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     .page-content-container{
         border:none !important;
     }
-    .global-header.global-header{
+    .global-header.global-header, #main, .outline-item.accordion-panel{
         background: white !important; 
     }
     h4.subsection-title{
@@ -113,7 +111,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
     .course-outline .block-tree .section .section-name {
         padding: 20px 0 20px 2px;
-        background-color: var(--tertiary);
+        background-color: #1D1D1B ;
         margin-bottom: 25px;
         color: var(--secondary)!important;
         margin-bottom: 0px !important;
@@ -123,9 +121,6 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
     .page-content-secondary {
         margin-top:25px !important;
-    }
-    #expand-collapse-outline-all-button {
-        display: none;
     }
 
     .page-content {
@@ -137,38 +132,24 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     	animation: fadeInLeft;
         animation-duration: 0.5s;
     }
-    .wrapper-preview-menu{
-       //display:none;
-    }
-.wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary{
-    display:none !important;
-}
-
-
-    .section-title{
-       color:white !important;
-    }
-    h2.hd.hd-3.page-title{
+    .section-title, h2.hd.hd-3.page-title{
        color:white !important;
     }
     .window-wrap, #course-container,#course-outline-block-tree{
        background: #F4F5F6;
     }
-    #main, .outline-item.accordion-panel{
-       background: white;
+    .content-wrapper {
+        min-height: 100vh;
     }
 
     .course-outline .block-tree .section {
         box-shadow: 0 3px 6px rgba(0,0,0,0.16);
         margin: 0 !important;
     }
-
-
     .grade-block {
         display: flex;
         flex-direction: column;
     }
-
     .progress-bar-full {
         width: 100%;
         background-color: rgba(0, 0, 0, 0.2);
@@ -184,7 +165,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     }
 
     .progress-bar-grade {
-        background-color:var(--green);
+        background-color:var(--tertiary);
         position: absolute;
         height: 100%;
         top:0;
@@ -206,7 +187,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     }
 
     #final-grade-progress .progress-bar-grade{
-        background-color: var(--secondary);
+        background-color: var(--primary);
         border-radius: 7.5px;
     }
 
@@ -243,7 +224,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     .page-content .page-content-secondary h4{
         padding:15px;
         color:white;
-        background-color:var(--tertiary);
+        background-color:#1D1D1B ;
         text-align:center
     }
 
@@ -258,16 +239,12 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         margin: auto 30px;
         height: 40px;
     }
-
     
     @media screen and (max-width: 1024px) {
         .page-content .page-content-secondary { 
-            min-width: calc(50% - 15px);
-            max-width: calc(50% - 15px);
             margin: 0;
         }
-
-        .page-content .page-content-main { 
+        .page-content .page-content-main, .page-content .page-content-secondary { 
             min-width: calc(50% - 15px);
             max-width: calc(50% - 15px);
         }
@@ -277,29 +254,22 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
             min-width: calc(60% - 15px);
             max-width: calc(60% - 15px);
         }
-
         .page-content .page-content-main { 
             min-width: calc(40% - 15px);
             max-width: calc(40% - 15px);
         }
-
     }
     @media screen and (max-width: 768px) {
         .page-content .page-content-secondary { 
-            min-width: 100%;
-            max-width: 100%;
             margin-left: 0;
         }
-
-        .page-content .page-content-main { 
+        .page-content .page-content-main, .page-content .page-content-secondary { 
             min-width: 100%;
             max-width: 100%;
         }
-
         .page-content {
             flex-direction: column;
         }
-
         .page-content .page-content-secondary h4{
             font-size:16px;
         }
@@ -309,11 +279,9 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         .grade-section-title {
             font-size: 12px;
         }
-
         .main-badge{
             height:25px;
         }
-
         .small-badge {
             margin: 0 5px 5px 5px;
         }
@@ -333,9 +301,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     }
 
   </style>
-  <script>
-document.title = "Cours | ${HTML(course.display_name_with_default)}";
-  </script>
+  <script>document.title = "Cours | ${HTML(course.display_name_with_default)}";</script>
 
 </%block>
 
@@ -343,27 +309,9 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
 <%block name="content">
 <div class="course-view page-content-container" id="course-container">
     <header class="page-header has-secondary">
-        <div class="page-header-main">
-            <img id="logo_banner" src="${static.url('{}/images/logo_secondary.png'.format(course.org))}" alt="banner logo">
-        </div>
+        <div class="page-header-main">  </div>
         <div class="page-header-secondary">
-            % if show_search:
-                <div class="page-header-search">
-                    <form class="search-form input-group" role="search" action="${reverse('openedx.course_search.course_search_results', args=[course_key])}">
-                        <label class="field-label sr-only" for="search" id="search-hint">${_('Search the course')}</label>
-                        <input
-                                class="field-input input-text search-input form-control"
-                                type="search"
-                                name="query"
-                                id="search"
-                                placeholder="${_('Search the course')}"
-                        />
-                        <span class="input-group-btn">
-                            <button class="btn btn-outline-primary search-button" type="submit">${_('Search')}</button>
-                        </span>
-                    </form>
-                </div>
-            % endif
+
             <div class="form-actions">
                 % if resume_course_url:
                     <a class="btn btn-secondary action-resume-course" href="${resume_course_url}">
@@ -402,24 +350,26 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
         <aside class="page-content-secondary course-sidebar">
             <h4>Avez-vous bien retenu ?</h4>
             <div class="section" id="badges">
-                    <div class="grade-block">       
-                        <div class="grade-section-title">
-                            %if user_grade.passed:
-                                <img src="${static.url('images/medal_on.svg')}" class="main-badge"/>
-                            %else: 
-                                <img src="${static.url('images/medal_off.svg')}" class="main-badge"/>
-                            %endif
-                            <div style="text-transform: uppercase;">${course.display_name_with_default}</div>
-                            <div class="grade-value">${int(user_grade.percent * 100)}%</div>
-                        </div>
-                        <div class="progress-bar-full" id="final-grade-progress">
-                            <div style="width:${int(user_grade.percent * 100)}%;" class="progress-bar-grade" ></div>
-                            
-                        </div>                    
+                <div class="grade-block">       
+                    <div class="grade-section-title">
+                        %if user_grade.passed:
+                            <img src="${static.url('images/medal_on.svg')}" class="main-badge"/>
+                        %else: 
+                            <img src="${static.url('images/medal_off.svg')}" class="main-badge"/>
+                        %endif
+                        <div style="text-transform: uppercase;">${course.display_name_with_default}</div>
+                        <div class="grade-value"></div>
                     </div>
+                    <div class="progress-bar-full" id="final-grade-progress">
+                        <div class="progress-bar-grade" ></div>
+                    </div>                    
+                </div>
 
-                 %if configuration_helpers.get_value('COMPLETION_BASED_DASHBOARD_MONO', False):
-
+                %if configuration_helpers.get_value('COMPLETION_BASED_DASHBOARD_MONO', False):
+                    <%
+                    block_course = 0
+                    block_course_completed = 0
+                    %>
                     % for section in course_block_tree.get('children'):
                       <%
                       total_blocks = 1
@@ -434,6 +384,9 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
                               if blockchild.get('complete'):
                                 completed_blocks += 1
                       completion_ratio = completed_blocks / total_blocks
+
+                      block_course += total_blocks
+                      block_course_completed += completed_blocks
                       %>
                         <div class="grade-block">
                             <div class="grade-section-title">
@@ -451,7 +404,15 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
                         </div>
 
                     %endfor
-                 %else:
+                    <script>
+                        // Update completion percentage
+                        var completion = "${(round(block_course_completed / block_course * 100))}%"
+                        document.getElementById('final-grade-progress').children[0].style.width = completion;
+                        document.getElementById('badges').getElementsByClassName('grade-value')[0].innerHTML = completion;
+                    </script>
+
+
+                %else:
 
 
                     %for index, chapter in enumerate(user_grade.chapter_grades.keys()):
@@ -471,7 +432,7 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
                         </div>
                     %endfor
 
-                 %endif
+                %endif
             </div>
         </aside>
     </div>

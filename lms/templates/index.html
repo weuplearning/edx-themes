@@ -13,7 +13,10 @@ from openedx.core.djangolib.markup import HTML, Text
         margin: 0 auto !important;
         max-width: unset !important;
     }
-    #main, p , #part_2 h1 {
+    #main, p {
+        font-family: 'Inter', Helvetica, Arial, sans-serif !important;
+    }
+    h1, #part_1 h2 {
         font-family: Bagoss, 'Inter', Helvetica, Arial, sans-serif !important;
     }
     .main-header {
@@ -198,11 +201,12 @@ from openedx.core.djangolib.markup import HTML, Text
 
     #part_4 {
         background-color: #F6F6F1;
-        padding: 30px 80px;
+        padding: 44px 80px;
     }
     #part_4 > div {
         justify-content: space-between;
         width: 70%;
+        margin-top: 20px;
     }
     .step-action {
         width: 30%;
