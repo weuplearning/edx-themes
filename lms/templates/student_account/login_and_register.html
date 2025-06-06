@@ -10,35 +10,28 @@
 <%inherit file="../main.html" />
 
 <%block name="pagetitle">${_("Sign in or Register")}</%block>
+
 <style>
     input[type="submit"], input[type="button"], button, .button {
         box-shadow: none !important;
-        background-color: var(--primary) !important;
+        background-color: var(--primary);
         background-image: none !important;
         text-shadow: none !important;
     }
-    .login-register-content {
-        flex-direction : column;
-        min-height : calc( 100vh - 143px )
+    .login-register .action-primary {
+        color: white ;
+        background-color: var(--secondary) !important;
+        /* display: flex;
+        margin: 15px auto; */
     }
-    #audition-icope-msg {
-        margin: 0 auto;
-        padding: 14px 20px;
-        display: block;
-        max-width: 500px;
-        text-align: justify;
-        line-height: 1.5;
-        color: white !important;
-        background-color: var(--secondary);
+    .login-register .action-primary:hover {
+        color: var(--primary);
     }
-    a:not(.btn):hover {
-        color: white !important;
-    }
-
-    .toggle-form, .text-profession_other_label, .select-profession_audition_icope, #login-email-desc, .login-help  {
+    .toggle-form, #login-email-desc {
         display: none !important;
     }
 </style>
+
 <%block name="js_extra">
     <%static:require_module module_name="js/student_account/logistration_factory" class_name="LogistrationFactory">
         var options = ${data | n, dump_js_escaped_json};
@@ -69,23 +62,16 @@
         <div id="content-container" class="login-register-content">
             % if enable_enterprise_sidebar:
                 <%include file="enterprise_sidebar.html" />
-                <% border_class = 'border-left' %>
+                <%
+                    border_class = 'border-left'
+                %>
             % else:
-                <% border_class = '' %>
+                <%
+                    border_class = ''
+                %>
             % endif
-
-
-
             <div id="login-and-registration-container" class="login-register ${border_class}"></div>
         </div>
     </main>
 </div>
-
-
-<script>
-    var current_url = window.location.pathname 
-    if (current_url.indexOf("/register") != -1) {
-        window.location.replace('/login')
-    }
-</script>
 

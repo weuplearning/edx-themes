@@ -31,6 +31,9 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
   .bookmark-button-wrapper {
     display: none;
   }
+  .breadcrumbs span:nth-child(6), .breadcrumbs span:nth-child(4), .breadcrumbs span:nth-child(5), .breadcrumbs span:nth-child(7) {
+    display: none;
+  }
 </style>
 
 % if display_reset_dates_banner:
@@ -110,6 +113,7 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
 
   <script type="text/javascript">
     var $$course_id = "${course.id | n, js_escaped_string}";
+    var userName = "${request.user.username | n, js_escaped_string}";
   </script>
 
   % if not request.user.is_authenticated:
@@ -146,11 +150,11 @@ ${HTML(fragment.foot_html())}
 
       <div class="wrapper-course-modes">
 
-          <div class="courseware-bookmarks-button">
-              <a class="bookmarks-list-button" href="${reverse('openedx.course_bookmarks.home', args=[course.id])}">
-                  ${_('Bookmarks')}
-              </a>
-          </div>
+          <!-- <div class="courseware-bookmarks-button">
+            <a class="bookmarks-list-button" href="${reverse('openedx.course_bookmarks.home', args=[course.id])}">
+              ${_('Bookmarks')}
+            </a>
+          </div> -->
 
           % if show_search:
             <div id="courseware-search-bar" class="search-bar courseware-search-bar" role="search" aria-label="Course">
