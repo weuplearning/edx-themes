@@ -365,10 +365,13 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                 </div>
 
                 %if configuration_helpers.get_value('COMPLETION_BASED_DASHBOARD_MONO', False):
+
                     <%
                     block_course = 0
                     block_course_completed = 0
+                    custom_field = json.loads(user.profile.custom_field)
                     %>
+
                     % for section in course_block_tree.get('children'):
                       <%
                       total_blocks = 1
@@ -386,10 +389,17 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
                       if total_blocks != 0 :
                         completion_ratio = completed_blocks / total_blocks
-
+                        
                       block_course += total_blocks
                       block_course_completed += completed_blocks
+
+
+                      scorm_section_completion = custom_field.get(section.get('children',[])[0]['block_id'], None)
+                      if scorm_section_completion and '100' in scorm_section_completion :
+                        block_course_completed += 1
+                        completion_ratio = 1
                       %>
+                            
                         <div class="grade-block">
                             <div class="grade-section-title">
                                 %if completion_ratio >= 1:
@@ -398,14 +408,23 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                                     <img src="${static.url('images/medal_off.svg')}" class="small-badge"/>
                                 %endif
                                 <div class="chapter-title" >${section['display_name']}</div>
-                                <div class="grade-value">${int(completion_ratio * 100)}%</div>
+                                %if scorm_section_completion:
+                                    <div class="grade-value">${int(scorm_section_completion.split("%")[0])}%</div>
+                                %else:
+                                    <div class="grade-value">${int(completion_ratio * 100)}%</div>
+                                %endif
                             </div>
                             <div class="progress-bar-full">
-                                <div style="width:${completion_ratio * 100}%;" class="progress-bar-grade"></div>
+                                %if scorm_section_completion:
+                                    <div style="width:${int(scorm_section_completion.split('%')[0]) }%;" class="progress-bar-grade"></div>
+                                %else :
+                                    <div style="width:${completion_ratio * 100}%;" class="progress-bar-grade"></div>
+                                %endif
                             </div>
                         </div>
 
                     %endfor
+
                     <script>
                         // Update completion percentage
                         var completion = "${(round(block_course_completed / block_course * 100))}%"
@@ -413,9 +432,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                         document.getElementById('badges').getElementsByClassName('grade-value')[0].innerHTML = completion;
                     </script>
 
-
                 %else:
-
 
                     %for index, chapter in enumerate(user_grade.chapter_grades.keys()):
                         <div class="grade-block">

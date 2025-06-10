@@ -321,3 +321,62 @@ ${HTML(fragment.foot_html())}
 <!--WUL TIME TRACKING-->
 <%include file="/wul_apps/wul_time_tracking.html" />
 
+
+<script type="text/javascript">
+  let lastProgressSent = null;
+
+  function collectAndSendScormProgress() {
+    try {
+      const outerIframe = document.querySelector('.scorm_object');
+      if (!outerIframe) return;
+
+      const outerDoc = outerIframe.contentDocument || outerIframe.contentWindow.document;
+      const innerIframe = outerDoc.getElementById('content-frame');
+      if (!innerIframe) return;
+
+      const innerDoc = innerIframe.contentDocument || innerIframe.contentWindow.document;
+      const progressElement = innerDoc.body.getElementsByClassName('nav-sidebar-header__progress-text')[0];
+      if (!progressElement) return;
+
+      const currentProgress = progressElement.innerText.trim();
+
+      if (currentProgress === lastProgressSent) {
+        // console.log("Progress unchanged, skipping POST");
+        return;
+      }
+
+      lastProgressSent = currentProgress;
+
+      const target_block = window.location.href.split('%40').pop();
+      const section_name = target_block;
+
+      const customFields = {
+        [section_name]: currentProgress,
+        authorized: true,
+      };
+
+      const url = '/wul_apps/custom_field_editor/';
+      const data = JSON.stringify(customFields);
+      const settings = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": $.cookie('csrftoken'),
+        },
+        body: data
+      };
+
+      fetch(url, settings)
+        .catch((error) => console.error('Error sending progress:', error));
+
+    } catch (e) {
+      console.error('Error accessing SCORM progress:', e);
+    }
+  }
+
+  setTimeout(() => {
+    collectAndSendScormProgress();
+    setInterval(collectAndSendScormProgress, 30000);
+  }, 5000);
+</script>
+
