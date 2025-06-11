@@ -341,22 +341,18 @@ ${HTML(fragment.foot_html())}
       const currentProgress = progressElement.innerText.trim();
 
       if (currentProgress === lastProgressSent) {
-        // console.log("Progress unchanged, skipping POST");
         return;
       }
-
       lastProgressSent = currentProgress;
 
-      const target_block = window.location.href.split('%40').pop();
-      const section_name = target_block;
-
+      const target_block = window.location.href.split('courseware/')[1].split('/')[1];
       const customFields = {
-        [section_name]: currentProgress,
+        [target_block]: currentProgress,
         authorized: true,
       };
-
-      const url = '/wul_apps/custom_field_editor/';
       const data = JSON.stringify(customFields);
+      const url = '/wul_apps/custom_field_editor/';
+
       const settings = {
         method: "POST",
         headers: {
