@@ -374,18 +374,16 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
                     % for section in course_block_tree.get('children'):
                       <%
-                      total_blocks = 1
-                      completed_blocks = 1
                       completion_ratio = 0
-                      if not section.get('complete'):
-                        total_blocks = 0
-                        completed_blocks = 0
-                        for subsection in section.get('children', []):
-                          for unitchild in subsection.get('children', []):
-                            for blockchild in unitchild.get('children', []):
-                              total_blocks += 1
-                              if blockchild.get('complete'):
-                                completed_blocks += 1
+
+                      total_blocks = 0
+                      completed_blocks = 0
+                      for subsection in section.get('children', []):
+                        for unitchild in subsection.get('children', []):
+                          total_blocks += 1
+                          for blockchild in unitchild.get('children', []):
+                            if blockchild.get('complete'):
+                              completed_blocks += 1
 
                       if total_blocks != 0 :
                         completion_ratio = completed_blocks / total_blocks
