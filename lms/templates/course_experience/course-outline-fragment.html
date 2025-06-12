@@ -47,7 +47,13 @@ dates_banner_displayed = False
             scored = 'scored' if section.get('scored', False) else ''
             completed = False
 
+            if section.get('complete'):
+                completed = True
+
             scorm_section_completion = custom_field.get(section.get('children',[])[0]['block_id'], None)
+            if scorm_section_completion :
+                completed = False
+
             if scorm_section_completion and '100' in scorm_section_completion :
                 completed = True
 
@@ -59,10 +65,10 @@ dates_banner_displayed = False
                             id="${ section['id'] }">
                         <span class="fa fa-chevron-right ${ 'fa-rotate-90' if section_is_auto_opened else '' }" aria-hidden="true"></span>
                         <h3 class="section-title">${ section['display_name'] }</h3>
-            % if section.get('complete') or completed:
+                        % if completed:
                             <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
                             <span class="sr">${_("Completed")}</span>
-            % endif
+                        % endif
                     </button>
                     <ol class="outline-item accordion-panel ${ '' if section_is_auto_opened else 'is-hidden' }"
                         id="${ section['id'] }_contents"
@@ -86,36 +92,27 @@ dates_banner_displayed = False
                                 id="${ subsection['id'] }"
                             >
                             % if graded and scored and 'special_exam_info' not in subsection:
-                                      <span class="icon fa fa-pencil-square-o" aria-hidden="true"></span>
+                                <span class="icon fa fa-pencil-square-o" aria-hidden="true"></span>
                             % endif
-                                      <h4 class="subsection-title">
-                                          ${ subsection['display_name'] }
-                            % if num_graded_problems:
-<!--
-                                          ${ngettext("({number} Question)",
-                                                     "({number} Questions)",
-                                                     num_graded_problems).format(number=num_graded_problems)}
--->
-                            % endif
-                                      </h4>
+                                <h4 class="subsection-title">${ subsection['display_name'] } </h4>
 
-                            % if subsection.get('complete') or completed:
+                            % if completed:
                                 <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
                                 <span class="sr">${_("Completed")}</span>
+                            % endif
 
-                            % endif
                             % if needs_prereqs:
-                                    <div class="details prerequisite">
-                                        <span class="prerequisites-icon icon fa fa-lock" aria-hidden="true"></span>
-                                        ${ _("Prerequisite: ") }
-                                            <%
-                                                prerequisite_id = gated_content[subsection['id']]['prerequisite']
-                                                prerequisite_name = xblock_display_names.get(prerequisite_id)
-                                            %>
-                                            ${ prerequisite_name }
-                                    </div>
+                                <div class="details prerequisite">
+                                    <span class="prerequisites-icon icon fa fa-lock" aria-hidden="true"></span>
+                                    ${ _("Prerequisite: ") }
+                                        <%
+                                            prerequisite_id = gated_content[subsection['id']]['prerequisite']
+                                            prerequisite_name = xblock_display_names.get(prerequisite_id)
+                                        %>
+                                        ${ prerequisite_name }
+                                </div>
                             % endif
-                                        <div class="details">
+                                <div class="details">
 
                 ## There are behavior differences between rendering of subsections which have
                 ## exams (timed, graded, etc) and those that do not.
@@ -173,7 +170,7 @@ dates_banner_displayed = False
                     % endif
                                             </span>
                 % endif
-                                        </div> <!-- /details -->
+                                </div> <!-- /details -->
                             </a>
                         </li>
             % endfor
