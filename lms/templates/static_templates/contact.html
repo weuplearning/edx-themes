@@ -1,0 +1,38 @@
+<%page expression_filter="h"/>
+<%! from django.utils.translation import ugettext as _ %>
+<%inherit file="../main.html" />
+
+<%block name="pagetitle">${_("Contact")}</%block>
+<style>
+    h1, h2 {
+        font-family: Bagoss, 'Inter', sans-serif;
+    }
+    h2 {
+        font-size: 30px !important;
+        font-weight: 500;
+        margin: 52px 0;
+    }
+    p {
+        line-height: 1.6;
+        text-align: justify;
+        font-family: 'Inter', sans-serif;
+    }
+    .container.about {
+        padding: 46px 82px 120px ;
+    }
+    li {
+        line-height: 1.6;
+    }
+
+</style>
+
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="container about">
+        <h1>
+            <%block name="pageheader">${page_header or _("Contact")}</%block>
+        </h1>
+        <p>
+            Besoin de précisions sur certains points de la formation ? Contactez <a href="mailto:teamactivation.france@casavo.com">teamactivation.france@casavo.com</a>
+        </p>
+    </section>
+</main>

@@ -28,10 +28,10 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
     background: url("${static.url('{}/images/bg_img.png'.format(course.org))}");
     background-size: contain;
   }
-  .bookmark-button-wrapper {
-    display: none;
+  .sequence-nav-button {
+    display: none !important;
   }
-  .breadcrumbs span:nth-child(6), .breadcrumbs span:nth-child(4), .breadcrumbs span:nth-child(5), .breadcrumbs span:nth-child(7) {
+  .breadcrumbs span:nth-child(6), .breadcrumbs span:nth-child(4), .breadcrumbs span:nth-child(5), .breadcrumbs span:nth-child(7), .bookmark-button-wrapper {
     display: none;
   }
 </style>

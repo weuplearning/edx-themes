@@ -380,8 +380,8 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                       completed_blocks = 0
                       for subsection in section.get('children', []):
                         for unitchild in subsection.get('children', []):
-                          total_blocks += 1
                           for blockchild in unitchild.get('children', []):
+                            total_blocks += 1
                             if blockchild.get('complete'):
                               completed_blocks += 1
 
