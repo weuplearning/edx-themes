@@ -35,13 +35,22 @@ dates_banner_displayed = False
                 >
           <span class="expand-collapse-outline-all-extra-padding" id="expand-collapse-outline-all-span">${_("Expand All")}</span>
         </button>
-        <ol class="block-tree accordion"
-            id="course-outline-block-tree"
-            aria-labelledby="expand-collapse-outline-all-button">
+        <ol class="block-tree accordion" id="course-outline-block-tree" aria-labelledby="expand-collapse-outline-all-button">
+
+        <%
+         custom_field = json.loads(user.profile.custom_field)
+        %>
+
         % for section in course_sections:
             <%
             section_is_auto_opened = section.get('resume_block') is True
             scored = 'scored' if section.get('scored', False) else ''
+            completed = False
+
+            scorm_section_completion = custom_field.get(section.get('children',[])[0]['block_id'], None)
+            if scorm_section_completion and '100' in scorm_section_completion :
+                completed = True
+
             %>
                 <li class="outline-item section ${scored}">
                     <button class="section-name accordion-trigger outline-button"
@@ -50,7 +59,7 @@ dates_banner_displayed = False
                             id="${ section['id'] }">
                         <span class="fa fa-chevron-right ${ 'fa-rotate-90' if section_is_auto_opened else '' }" aria-hidden="true"></span>
                         <h3 class="section-title">${ section['display_name'] }</h3>
-            % if section.get('complete'):
+            % if section.get('complete') or completed:
                             <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
                             <span class="sr">${_("Completed")}</span>
             % endif
@@ -90,7 +99,7 @@ dates_banner_displayed = False
                             % endif
                                       </h4>
 
-                            % if subsection.get('complete'):
+                            % if subsection.get('complete') or completed:
                                 <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
                                 <span class="sr">${_("Completed")}</span>
 
