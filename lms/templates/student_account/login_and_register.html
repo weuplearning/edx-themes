@@ -206,22 +206,23 @@ document.getElementById('modal-button').addEventListener('click', function (even
 const ckeckAndHide = setInterval(checkerFunction, 1000);
 
 function checkerFunction() {
-    const termsCheckbox = document.getElementById("register-terms_of_service");
+    // const termsCheckbox = document.getElementById("register-terms_of_service");
     const honorCheckbox = document.getElementById("register-honor_code");
-    let checker1 = false
+    // let checker1 = false
     let checker2 = false
 
-    if (termsCheckbox) {
-        termsCheckbox.checked = true;
-        checker1 = true
-    }
+    // if (termsCheckbox) {
+    //     termsCheckbox.checked = true;
+    //     checker1 = true
+    // }
     
     if (honorCheckbox) {
         honorCheckbox.checked = true;
         checker2 = true
     } 
 
-    if (checker1 && checker2) {
+    // if (checker1 && checker2) {
+    if (checker2) {
         clearInterval(ckeckAndHide)
     }
 
