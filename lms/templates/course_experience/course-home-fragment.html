@@ -394,6 +394,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                     scorm_section_completion = custom_field.get(section.get('children',[])[0]['block_id'], None)
                     if scorm_section_completion :
                         block_course_completed -=1
+                        completion_ratio = 0
                         
                     if scorm_section_completion and '100' in scorm_section_completion :
                         block_course_completed +=1
