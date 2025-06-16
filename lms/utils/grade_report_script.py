@@ -20,8 +20,6 @@ from opaque_keys.edx.locator import CourseLocator
 from lms.djangoapps.courseware.courses import get_course_by_id
 from student.models import CourseEnrollment
 from lms.djangoapps.wul_apps.models import WulCourseEnrollment
-# from lms.djangoapps.grades.course_grade_factory import CourseGradeFactory
-from lms.djangoapps.wul_apps.best_grade.helpers import check_best_grade
 
 
 from openpyxl import Workbook
@@ -35,8 +33,6 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
 
-
-
 import logging
 log = logging.getLogger()
 
@@ -46,6 +42,7 @@ course_ids = sys.argv[2].split(";")
 
 all_treated_users = []
 headers = ["Email", "Nom", "Prénom", "Complétion - Gestion de son activité", "Complétion - Techniques commerciales", "Complétion - Prospection", "Complétion - Relation vendeurs", "Complétion - Relation acquéreurs", "Complétion - Négociation et conclusion", "Durée (hh:mm:ss)", "Statut"]
+
 all_treated_users.append(headers)
 
 
@@ -54,46 +51,31 @@ for course_id in course_ids:
     course_key = CourseLocator.from_string(course_id)
     course_enrollments = CourseEnrollment.objects.filter(course_id=course_key)
     course = get_course_by_id(course_key)
-    batiment = course_id.split('+')[1]
 
     for i in range(len(course_enrollments)):
 
         user = course_enrollments[i].user
         enrollment = course_enrollments[i]
 
-        if user.email.find('@weuplearning') != -1 or user.email.find('@themoocagency') != -1 or user.email.find('@fake.email') != -1 or user.email.find('@example.com') != -1 :
+        if user.email.find('@weuplearning') != -1 or user.email.find('@themoocagency') != -1 or user.email.find('@fake.email') != -1 or user.email.find('@example.com') != -1 or user.email.find('@yopmail') != -1 :
            continue
 
         user_data = []
         scorm_completion = []
+        status = 'Validé'
 
         user_data.append(user.email) 
         user_data.append(json.loads(user.profile.custom_field).get('last_name','n.a.'))
         user_data.append(json.loads(user.profile.custom_field).get('first_name','n.a.'))
 
-
-        # course_grade = CourseGradeFactory().update(user, course)
-        # gradesTest = check_best_grade(user, course, force_best_grade=True)
-        # userPersentGrade = gradesTest.summary['percent']*100
-        # log.info("userPersentGrade")
-        # log.info(userPersentGrade)
-
-        # Il semble que la valeur récupérée n'est pas la même selon que le script tourne sur koa-prod ou koa-prod-2 
-        # Je ne sais pas quelle est l'origine de cette différence. 
-        # en attendant il faut que le script soit maintenu sur koa-prod
-
-        status = 'Validé'
-
         try:
             wul_course_enrollment = WulCourseEnrollment.objects.get(course_enrollment_edx__user=user, course_enrollment_edx__course_id=course_key)
             global_time_tracking = wul_course_enrollment.global_time_tracking            
-
         except:
             global_time_tracking = 0
-            status = 'Non validé'
 
 
-
+        # Course specific completion
         scorm_completion.append(json.loads(user.profile.custom_field).get('dbab78a6afa04e0bab328fcf2af89a8b','0%'))
         scorm_completion.append(json.loads(user.profile.custom_field).get('e9aa55435d8a4c4db87ef52e71c07cf6','0%'))
         scorm_completion.append(json.loads(user.profile.custom_field).get('269a0820af6d45b2b0e9d60dd9c877b9','0%'))
@@ -102,25 +84,15 @@ for course_id in course_ids:
         scorm_completion.append(json.loads(user.profile.custom_field).get('07ffd5c762294e94ae450cc932a23ebd','0%'))
 
         for i in range(len(scorm_completion)):
-            
             value = scorm_completion[i].split(' ')[0]
-            log.info("value")
-            log.info(value)
+            user_data.append(value)
 
-
-            if value == '0%':
+            if int(value.split('%')[0]) <= 80:
                 status = 'Non validé'
-            
+
         user_data.append(datetime.timedelta(seconds=global_time_tracking))
-
-
         user_data.append(status)
 
-
-
-        log.info("user_data")
-        log.info(user_data)
-        
         all_treated_users.append(user_data)
 
 
@@ -136,7 +108,6 @@ for user_data in all_treated_users:
     for data in user_data :
         sheet.cell(row=l, column=k).value = data
         k+=1
-
     l+=1
 
 
@@ -178,7 +149,4 @@ for email in emails_to_send:
 
 
 
-# sudo /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/casavo/lms/utils/grade_report_script.py.py 'cyril.adolf@weuplearning.com' 'course-v1:casavo+01+FR'
-
-
-
+# sudo /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/casavo/lms/utils/grade_report_script.py 'cyril.adolf@weuplearning.com;melanie.zunino@weuplearning.com' 'course-v1:casavo+01+FR'
