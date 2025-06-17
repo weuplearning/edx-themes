@@ -13,28 +13,26 @@ from openedx.core.djangolib.markup import HTML, Text
 h1{
     text-align: left;
     font-weight: bold;
-    font-size: 3rem;
+    font-size: 2.5rem;
 }
 
 p{
-    font-size: 2rem;
-    line-height: 1.5em;
+    font-size: 1.6rem;
+    line-height: 1.6em;
 }
-
+.home {
+    margin-bottom: 20px;
+}
 .color{
-    color: var(--primary);
+    /* color: var(--primary); */
+    color: white;
 }
 
 .text{
     width: 75%;
 }
 
-.home{
-    padding-bottom: 17%;
-    overflow: auto;
-}
-
-.horizontal-align {
+.horizontal-align, .vertical-align  {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -44,45 +42,50 @@ p{
     text-align: center;
 }
 
-.box{
-    padding-top: 10%;
-    margin: 5%;
+.box {
+    padding-top: 200px;
+    margin: 10px;
     background-image: url('${static.url("campus-richardson/images/homepage_middle.jpg")}');
-    height: 50vh
+    background-size: cover;
+    height: 70vh;
+    width: 30vw;
+    box-shadow: 5px 18px 40px rgba(0, 0, 0, 0.2);
+    border-radius: 2px;
 }
-.box_1{
+.box:hover {
+    box-shadow: 5px 18px 40px rgba(0, 0, 0, 0.4);
+    transition: box-shadow 0.3s ease-in-out;
+}
+.box_left {
     background-image: url('${static.url("campus-richardson/images/homepage_left.jpg")}');
-    height: 50vh
 }
-.box_3{
+.box_right {
     background-image: url('${static.url("campus-richardson/images/homepage_right.jpg")}');
-    height: 50vh
 }
 
 
 .button_custom{
-    padding: 30px;
+    padding: 20px 30px;
     width: 135px;
     text-align: center;
     color: #fff;
-    font-size: 1.7em;
+    font-size: 1.4em;
     cursor: pointer;
-    /* margin: auto; */
+    margin: 25px auto;
     background-color: var(--secondary);
-    /* position: absolute; */
-    margin-top: 2%;
+    border-radius: 4px;
+}
+.button_custom:hover {
+    background-color: var(--primary);
+    color: var(--secondary);
 }
 
-.buttons{
-    display: flex;
-    justify-content: left;
-    margin: 0;
-    gap: 30px;
-    /* flex-direction: row; */
-}
+
 
 .content-wrapper{
     padding: 0 0 0 0;
+    min-height: calc(100vh - 137px) !important;
+    margin: auto;
 }
 @media screen and (max-width: 768px) {
     .home{
@@ -91,10 +94,6 @@ p{
     }
     .text{
         width: 90%;
-    }
-
-    .buttons {
-        flex-direction: column;
     }
     .button_custom{
         width: 80%;
@@ -107,22 +106,15 @@ p{
 
 <main id="main" aria-label="Content" tabindex="-1">
     <section class="home horizontal-align">
-        <div class="box_1"></div>
-
+        <div class="box_left box"></div>
         <div class="box vertical-align">
             <h1 class="color vertical-align">Bienvenue sur le campus <br>Richardson</h1>
-            <div class="text vertical-align">
-                <p class="color">Réservé aux employés Richardson</p>
-            </div>
-            <div class=buttons>
-                <div class="button_custom" >
-                    <a style="color:white;" href="/login">Connexion</a>
-                </div>
+            <p class="color">Réservé aux employés Richardson</p>
+            <div class="button_custom" >
+                <a style="color:white;" href="/login">Connexion</a>
             </div>
         </div>
-
-        <div class="box_3"></div>
-
+        <div class="box_right box"></div>
     </section>
 </main>
 
