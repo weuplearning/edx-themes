@@ -87,7 +87,10 @@ for course_id in course_ids:
             value = scorm_completion[i].split(' ')[0]
             user_data.append(value)
 
-            if int(value.split('%')[0]) <= 80:
+            try:
+                if int(value.split('%')[0]) <= 80:
+                    status = 'Non validé'
+            except (ValueError, AttributeError, IndexError):
                 status = 'Non validé'
 
         user_data.append(datetime.timedelta(seconds=global_time_tracking))
