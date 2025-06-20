@@ -1,0 +1,267 @@
+<%page expression_filter="h"/>
+<%namespace name='static' file='/static_content.html'/>
+
+<%!
+from django.utils.translation import ugettext as _
+from django.urls import reverse
+from openedx.core.djangolib.markup import HTML, Text
+import json
+import time
+%>
+<%
+time.sleep(1)
+%>
+
+<div class="carousel-container">
+    <div class="prev fa fa-angle-left" onclick="moveSlide(-1)">
+    </div>
+    <div class="carousel-slide">
+
+        <div class="vignette">
+            <p class="header-vignette" >Module 1</p>
+            <div class="title-vignette">
+                <p>Comprendre l'univers immobilier</p>
+            </div>
+            <ul>
+                <li>Les bases du marché : acteurs, tendances et opportunités.</li>
+                <li>Les fondamentaux juridiques : transactions, contrats et réglementation.</li>
+                <li>Le rôle et les missions d’un agent immobilier chez .</li>
+            </ul>
+        </div>
+
+        <div class="vignette">
+            <p class="header-vignette" >Module 2</p>
+            <div class="title-vignette">
+                <p>Développer son portefeuille clients</p>
+            </div>
+            <ul>
+                <li>Techniques de prospection : où et comment trouver des biens et des vendeurs.</li>
+                <li>Construire une relation de confiance avec les clients.</li>
+                <li>Outils digitaux et CRM : automatiser et optimiser son travail.</li>
+            </ul>
+        </div>
+
+        <div class="vignette">
+            <p class="header-vignette" >Module 3</p>
+            <div class="title-vignette">
+                <p>Maîtriser l’art de la négociation</p>
+            </div>
+            <ul>
+                <li>Techniques de persuasion et argumentaires de vente</li>
+                <li>Gérer les objections et transformer les doutes en opportunités.</li>
+                <li>Ateliers pratiques : simulations de négociation avec des experts.</li>
+            </ul>
+        </div>
+
+        <div class="vignette">
+            <p class="header-vignette" >Module 4</p>
+            <div class="title-vignette">
+                <p>Mettre en valeur un bien et convaincre</p>
+            </div>
+            <ul>
+                <li>Home staging : valoriser un bien pour maximiser son attractivité.</li>
+                <li>Photos, vidéos et visites virtuelles : maîtriser les outils visuels.</li>
+                <li>Rédaction d’annonces percutantes qui captent l’attention.</li>
+            </ul>
+        </div>
+
+        <div class="vignette">
+            <p class="header-vignette" >Module 5</p>
+            <div class="title-vignette">
+                <p>Conclure la vente et fidéliser</p>
+            </div>
+            <ul>
+                <li>Accompagner le client jusqu’à la signature.</li>
+                <li>Techniques de closing : les meilleures pratiques pour conclure efficacement.</li>
+                <li>Fidélisation et recommandations : transformer chaque vente en nouvelles opportunités.</li>
+            </ul>
+        </div>
+
+
+    </div>
+    <div class="next fa fa-angle-right" onclick="moveSlide(1)">
+    </div>
+</div>
+
+<style>
+.carousel-container {
+    position: relative;
+    width: 85%;
+    height: 100%;
+    max-width: 1200px; /* Adjust the max-width as needed */
+    overflow: hidden;
+}
+.carousel-slide {
+    display: flex;
+    align-items: center;
+    width: 200%;
+    /*width: 300%;*/
+    height: 120%;
+    transition: transform 0.5s ease-in-out;
+}
+.carousel-slide .vignette {
+    width: 14%;
+    height: 312px;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    font-family: 'Inter';
+    align-items: center;
+    background-color: var(--tertiary);
+    margin: 0px 10px;
+    border-radius: 14px;
+    color: white;
+    padding: 20px;
+}
+
+.carousel-slide .vignette:nth-child(2) {
+    background-color: #096D66;
+}
+.carousel-slide .vignette:nth-child(3) {
+    background-color: #25C1A3;
+}
+.carousel-slide .vignette:nth-child(4) {
+    background-color: #79B7CB;
+}
+.carousel-slide .vignette:nth-child(5) {
+    background-color: #D6F5FF;
+    color: black;
+}
+.header-vignette {
+    align-self: flex-end;
+    font-size: 13px;
+    background-color: white;
+    padding: 3px 15px;
+    border-radius: 15px;
+    color: black;
+}
+
+
+.prev, .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 7px;
+    z-index: 9;
+}
+.prev {
+    left: 10px;
+}
+.next {
+    right: 10px;
+}
+.prev:hover, .next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.vignette .title-vignette {
+    padding: 25px 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.1;
+    text-align: center;
+}
+.vignette li {
+    font-family: Inter;
+    /* font-weight: 100; */
+    text-align: left;
+    padding-right: 12px;
+    line-height: 1.1;
+    margin-bottom: 10px;
+}
+
+
+@media screen and (max-width: 1500px) {
+    .carousel-slide .vignette {
+        height: 340px;
+    }
+}
+
+@media screen and (max-width: 1160px) {
+    .carousel-slide .vignette {
+        height: 360px;
+    }
+    .vignette .title-vignette {
+        padding: 25px;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .carousel-slide .vignette {
+        height: 400px;
+    }
+    .vignette .title-vignette {
+        padding: 25px 0;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .carousel-slide .vignette {
+        height: 440px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .vignette .title-vignette {
+        padding: 58px 15px 21px 15px ;
+        height: 80px;
+        margin: 4px 40px 0 40px;
+    }
+    .carousel-slide {
+        height: 80%;
+    }
+    #top-container {
+        height: 200px;
+        padding: 20px;
+    }
+    .next {
+        right: 30px;
+    }
+}
+</style>
+
+<script>
+const carouselSlide = document.querySelector('.carousel-slide');
+// const vignettes = document.querySelectorAll('.carousel-slide .vignette');
+const vignettes = [0, 1 , 2]; // Je veux seulement 3 crans sur le carrousel
+
+let counter = 0;
+let size = carouselSlide.clientWidth / 5;
+
+window.addEventListener('resize', () => {
+    size = carouselSlide.clientWidth / 5;
+    carouselSlide.style.transform = 'translateX(' + (-size * counter) + 'px)';
+});
+
+function startCarousel() {
+    carouselSlide.style.transform = 'translateX(' + (-size * counter) + 'px)';
+
+    // setInterval(() => {
+    //     moveSlide(1);
+    // }, 2500);
+}
+
+function moveSlide(direction) {
+    if (direction === 1 && counter >= vignettes.length - 1) {
+        counter = -1;
+    } else if (direction === -1 && counter <= 0) {
+        counter = vignettes.length;
+    }   
+
+    carouselSlide.style.transition = 'transform 0.5s ease-in-out';
+    counter += direction;
+    carouselSlide.style.transform = 'translateX(' + (-size * counter) + 'px)';
+}
+
+// setTimeout(() => {
+//     startCarousel();
+// }, 3700);
+</script>

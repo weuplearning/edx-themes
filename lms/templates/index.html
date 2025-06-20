@@ -1,0 +1,433 @@
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.urls import reverse
+
+from openedx.core.djangolib.markup import HTML, Text
+%>
+
+<style>
+    .content-wrapper {
+        margin: 0 auto !important;
+        max-width: unset !important;
+    }
+    #main, p {
+        font-family: 'Inter', Helvetica, Arial, sans-serif !important;
+    }
+    h1, #part_1 h2 {
+        font-family: Bagoss, 'Inter', Helvetica, Arial, sans-serif !important;
+    }
+    .main-header {
+        margin: auto;
+        width: 80%;
+    }
+    .global-header .header-logo a {
+        margin: 15px 0 0 0 ;
+    }
+    .global-header .nav-links .secondary .nav-item, .global-header .nav-links .secondary {
+        margin: 0 !important;
+        padding-top: 12px ;
+    }
+    .global-header .nav-links .secondary .nav-item a {
+        padding: 13px 22px !important;
+    }
+    .max-width {
+        max-width: 1092px;
+        margin: auto;
+        padding: 0 40px;
+        box-sizing: border-box;
+    }
+    .vertical-align, .horizontal-align {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .vertical-align {
+        flex-direction: column;
+    }
+    h1, h2, h3, p, a {
+        font-family: inherit;
+        text-align: center;
+        line-height: 1.4;
+    }
+    .left-align {
+        align-items: flex-start;
+        width: 50%;
+        max-width: 750px;
+        margin: 0 45px;
+    }
+    .tertiary {
+        color: var(--tertiary);
+    }
+
+    #title-header {
+        justify-content: space-between;
+        padding: 40px 10%;
+        background-color: var(--primary) !important;
+    }
+    #title-header h1 {
+        color: black;
+        font-size: xxx-large;
+        text-align: start;
+    }
+    #title-header p {
+        text-align: start;
+        margin: -19px 0 33px 0;
+        font-weight: 300;
+        font-size: x-large;
+    }
+    .header {
+        padding-top: 0;
+    }
+    .global-header  {
+        background-color: var(--primary) !important;
+    }
+    #title-header > div:first-child {
+        z-index: 10;
+    }
+    .register-btn {
+        display: none !important;
+    }
+    .sign-in-btn, .start-button {
+        background-color: black !important;
+        padding: 16px;
+        border-radius: 4px;
+        border: none !important;
+        font-family: Inter !important;
+    }
+    .start-button {
+        background-color: #1D1D1B !important;
+        width: fit-content;
+        align-self: center;
+    }
+    .start-button > a {
+        color: white !important;
+        font-family: 'Inter' !important;
+        font-weight: 500 !important;
+    }
+    .start-button > a:hover {
+        text-decoration: none !important;
+    }
+    .start-button:hover {
+        background-color: #737372 !important;
+        cursor: pointer;
+    }
+
+    #illu_header {
+        max-width: 400px;
+        height: 100%;
+    }
+    #hover_header {
+        position: absolute;
+        bottom: -81px;
+        left: -100px;
+        width: 63%;
+        height: 90%;
+        transform: rotate(10deg);
+        z-index: 9;
+    }
+
+    #part_1 {
+        padding: 20px 0;
+        background-color: white;
+        position: relative;
+        z-index: 10;
+    }
+    #part_1 h2 {
+        margin-bottom: 5px;
+        font-size: xx-large;
+        line-height: 1.1;
+        font-weight: 300;
+        color: black;
+    }
+    #part_1_strong {
+        margin: 20px 0; 
+        line-height: 1.2; 
+        font-family: 'Inter'; 
+        font-size: 19px;
+        font-weight: 500;
+    }
+    #part_1 p, #part_2 .grid-item p {
+        font-family: 'Inter';
+        font-weight: 300;
+    }
+    #part_1 p {
+        text-align: left;
+    }
+    #illu_part_1 {
+        max-width: 30vw;
+        margin: 0px 20px 0 50px;
+    }
+    #picture_agent {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    #part_2, #part_5 {
+        background-color: var(--tertiary);
+        padding: 20px 0 50px 0 ;
+        margin: 0 auto;
+    }
+    #part_2 h1, #part_2 p, #part_2 h3 {
+        color: white;
+        margin: 0 auto;
+        padding: 20px;
+        font-family: 'Inter';
+    }
+    #part_2 h3 {
+        padding-bottom: 0;
+    }
+
+    .programme-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 45px;
+        width: 80%;
+        margin-bottom: 30px;
+    }
+    .grid-item {
+        text-align: center;
+    }
+    .img-step {
+        width: 170px;
+        height: 200px;
+        object-fit: contain;
+    }
+
+    #part_3 {
+        padding: 35px 0 ;
+    }
+
+    #part_4 {
+        background-color: #F6F6F1;
+        padding: 44px 80px;
+    }
+    #part_4 > div {
+        justify-content: space-between;
+        width: 70%;
+        margin-top: 20px;
+    }
+    .step-action {
+        width: 30%;
+        height: 135px;
+        justify-content: flex-start;
+    }
+    .step-number {
+        font-family: Inter;
+        font-size: 30px;
+        font-weight: 700;
+        background-color: var(--primary);
+        text-align: center;
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        margin-bottom: 10px;
+    }
+    #part_4_bis {
+        background-color: #F6F6F1;
+        height: 100px !important;
+        padding: 0px !important;
+    }
+    #wave {
+        object-fit: fill;
+        height: 100%;
+        width: 100%;
+    }
+    #part_5 {
+        background-color: var(--primary);
+    }
+    .wrapper-footer {
+        box-shadow: none !important;
+        border-top: none !important;
+    }
+    .footer-page {
+        position: relative;
+        background-color: var(--primary);
+    }
+
+
+    /* MEDIA QUERIES */
+    @media screen and (max-width: 1200px) {
+        #title-header {
+            padding: 40px 10vw;
+        }
+        .img-step {
+            width: 15vw;
+        }
+
+    }
+
+    @media screen and (max-width: 991.98px) {
+        .global-header .header-logo a {
+            margin-left: 50% !important;
+        }
+        #part_1 p, #part_1_strong {
+            width: 100%;
+        }
+        .programme-grid {
+            gap : 2px
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        #title-header .footer-page, #part_3 {
+            display: none;
+        }
+        #part_1 > p {
+            text-align: center;
+            width: 80%;
+        }
+        #part_1 {
+            flex-direction: column;
+            padding: 20px;
+        }
+        #illu_part_1 {
+            max-width: 70%;
+            margin:  20px ;
+        }
+        .left-align {
+            width: 90%;
+            max-width: unset;
+            margin: 0;
+        }
+        .programme-grid {
+            grid-template-rows: repeat(3, 1fr);
+            grid-template-columns: unset;
+        }
+        .img-step {
+            width: 37vw;
+            height: auto;
+        }
+        #part_4 {
+            padding: 30px 0px 50px 0;
+        }
+        #part_4 > div {
+            width: 90%;
+        }
+    }
+
+</style>
+
+
+<main id="main" aria-label="Content" tabindex="-1">
+
+    <section class="header">
+        <div id="title-header" class="horizontal-align" >
+            <div class="vertical-align" style="align-items: flex-start;">
+                <h1 >MaxHavelaar Academy</h1>
+                <p>Devenez un Agent Immobilier performant !</p>
+                <div class="start-button" style="align-self: baseline;">
+                    <a href="/login">Démarrer ma formation</a>
+                </div>
+            </div>
+            <div class="footer-page" >
+                <img src="${static.url('max-havelaar/images/hover.png')}" alt="formation des agents immobilier" id="hover_header" />
+                <img src="${static.url('max-havelaar/images/picture_1.png')}" alt="formation des agents immobilier" id="illu_header" />
+            </div>
+        </div>
+    </section>
+
+    <section id="part_1" class="horizontal-align">
+        <div id="illu_part_1" >
+            <img src="${static.url('max-havelaar/images/picture_2.png')}" alt="photo des agents immobilier" id="picture_agent" />
+        </div>
+        <div class="vertical-align left-align">
+            <h2>Aucune expérience ? Aucun problème !</h2>
+            <strong id="part_1_strong">Chez max-havelaar, nous croyons que les meilleurs agents ne naissent pas, ils se forment.</strong>    
+            <p>Vous êtes sur le point de démarrer un parcours immersif, conçu pour transformer des débutants en véritables experts de l’immobilier.</p>
+            <p>Cette formation vous donnera toutes les clés pour réussir, du premier contact client à la signature de votre première transaction.</p>
+            <div class="start-button" style="align-self:baseline; margin-top:30px;">
+                <a href="/login">Démarrer ma formation</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="part_2" class="vertical-align">
+        <h1>Un programme ultra-complet</h1>
+        <p>Notre parcours de formation est conçu pour vous faire <br>monter en compétence rapidement et efficacement.</p>
+        <div class="programme-grid">
+            <div class="grid-item">
+                <img src="${static.url('max-havelaar/images/illu_1.png')}" alt="image 1/3" class="img-step">
+                <h3>Modules e-learning</h3>
+                <p>Théorie essentielle et mises <br>en situation interactives.</p>
+            </div>
+            <div class="grid-item">
+                <img src="${static.url('max-havelaar/images/illu_2.png')}" alt="image 2/3" class="img-step">
+                <h3>Vidéos immersives</h3>
+                <p>Études de cas réels et <br>témoignages d’experts du terrain.</p>
+            </div>
+            <div class="grid-item">
+                <img src="${static.url('max-havelaar/images/illu_3.png')}" alt="image 3/3" class="img-step">
+                <h3>Ateliers en présentiel</h3>
+                <p>Exercices pratiques, jeux de rôle <br>et coaching personnalisé.</p>
+            </div>
+        </div>
+        <div class="start-button">
+            <a href="/login">Démarrer ma formation</a>
+        </div>
+    </section>
+    
+    <section id="part_3" class="vertical-align">
+        <h1>Votre parcours de formation en 5 modules clés</h1>
+        <%include file="dashboard/_dashboard_carrousel.html" />
+    </section>
+    
+    <section id="part_4" class="vertical-align">
+        <h1>Passez à l'action dés maintenant !</h1>
+        <div class="horizontal-align">
+            <div class="step-action vertical-align">
+                <div class="step-number">1</div>
+                <div>
+                    <p>Connectez-vous avec vos identifiants.</p>
+                </div>
+            </div>
+            <div class="step-action vertical-align">
+                <div class="step-number">2</div>
+                <div>
+                    <p>Accédez au module et suivez votre avancement.</p>
+                </div>
+            </div>
+            <div class="step-action vertical-align">
+                <div class="step-number">3</div>
+                <div>
+                    <p>Pratiquez vos apprentissages et devenez un agent performant !</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="part_4_bis">
+        <img id="wave" src="${static.url('max-havelaar/images/wave.png')}" alt="illu-wave">
+    </section>
+
+    <section id="part_5">
+        <div class="footer-page vertical-align">
+            <h1>Votre avenir dans l'immobilier commence ici !</h1>
+            <div class="start-button">
+                <a href="/login">Démarrer ma formation</a>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<%block name="js_extra">
+   <script type="text/javascript">
+      $(window).load(function() {
+         if(getParameterByName('next')) {
+              $('#login').trigger("click");
+         }
+      })
+   </script>
+</%block>
+
+% if show_signup_immediately is not UNDEFINED:
+    ## NOTE: This won't work in production, because anonymous views are cached, so it will
+    ## show either with or without this extra js for 3 minutes at a time.
+    <script type="text/javascript">
+    $(window).load(function() {$('#signup_action').trigger("click");});
+    </script>
+% endif

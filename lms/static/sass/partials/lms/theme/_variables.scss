@@ -1,0 +1,24 @@
+// Fonts 
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Manrope:wght@200..800&family=Quicksand:wght@300;400;500;600;700&family=Sora:wght@100..800&family=Ubuntu:wght@300;400;500;700&display=swap');
+
+
+// Theme colors
+$primary:  #0FC0FC;
+$secondary:  #D4FF47;
+$theme-colors: (
+  "tertiary": #000000
+);
+
+// Theme fonts
+$font-family-sans-serif: "Exo 2", "Manrope", "Quicksand", "Sora", sans-serif !default;
+
+$action-primary-bg: $secondary !default;
+$action-primary-shadow: $secondary !default;
+$action-primary-focused-bg: $secondary !default;
+$action-primary-active-bg: $secondary !default;
+$action-primary-active-fg: $secondary !default;
+$action-primary-active-shadow: $secondary !default;
+$action-primary-active-focused-fg: $secondary !default;
+$action-primary-active-focused-shadow: $secondary !default;
+
+@import 'edx-bootstrap/sass/open-edx/theme';
