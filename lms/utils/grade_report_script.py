@@ -41,7 +41,7 @@ emails_to_send = sys.argv[1].split(";")
 course_ids = sys.argv[2].split(";")
 
 all_treated_users = []
-headers = ["Email", "Nom", "Prénom", "Complétion - Gestion de son activité", "Complétion - Techniques commerciales", "Complétion - Prospection", "Complétion - Relation vendeurs", "Complétion - Relation acquéreurs", "Complétion - Négociation et conclusion", "Durée (hh:mm:ss)", "Statut"]
+headers = ["Email", "Nom complet", "Date d'inscription", "Date de dernière connexion", "Complétion - Gestion de son activité", "Complétion - Techniques commerciales", "Complétion - Prospection", "Complétion - Relation vendeurs", "Complétion - Relation acquéreurs", "Complétion - Négociation et conclusion", "Durée (hh:mm:ss)", "Statut"]
 
 all_treated_users.append(headers)
 
@@ -57,7 +57,7 @@ for course_id in course_ids:
         user = course_enrollments[i].user
         enrollment = course_enrollments[i]
 
-        if user.email.find('@weuplearning') != -1 or user.email.find('@themoocagency') != -1 or user.email.find('@fake.email') != -1 or user.email.find('@example.com') != -1 or user.email.find('@yopmail') != -1 :
+        if user.email.find('@fake.email') != -1 or user.email.find('@example.com') != -1 or user.email.find('@yopmail') != -1 :
            continue
 
         user_data = []
@@ -65,8 +65,23 @@ for course_id in course_ids:
         status = 'Validé'
 
         user_data.append(user.email) 
-        user_data.append(json.loads(user.profile.custom_field).get('last_name','n.a.'))
-        user_data.append(json.loads(user.profile.custom_field).get('first_name','n.a.'))
+
+        first_name = json.loads(user.profile.custom_field).get('first_name','n.a.')
+        last_name = json.loads(user.profile.custom_field).get('last_name','n.a.')
+        full_name = first_name + ' ' + last_name
+        user_data.append(full_name)
+
+        try:
+            date_joined = user.date_joined.strftime("%d/%m/%Y")
+        except:
+            date_joined = 'n.a.'
+        user_data.append(date_joined)
+
+        try:
+            last_login = user.last_login.strftime("%d/%m/%Y")
+        except:
+            last_login = 'n.a.'
+        user_data.append(last_login)
 
         try:
             wul_course_enrollment = WulCourseEnrollment.objects.get(course_enrollment_edx__user=user, course_enrollment_edx__course_id=course_key)
@@ -90,7 +105,7 @@ for course_id in course_ids:
             try:
                 if int(value.split('%')[0]) <= 80:
                     status = 'Non validé'
-            except (ValueError, AttributeError, IndexError):
+            except :
                 status = 'Non validé'
 
         user_data.append(datetime.timedelta(seconds=global_time_tracking))
