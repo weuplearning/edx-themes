@@ -1,0 +1,106 @@
+<%page expression_filter="h"/>
+<%!
+    import json
+    from django.utils.translation import ugettext as _
+    from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+    from openedx.core.djangolib.js_utils import dump_js_escaped_json
+%>
+<%namespace name='static' file='/static_content.html'/>
+
+<%inherit file="../main.html" />
+
+<%block name="pagetitle">${_("Sign in or Register")}</%block>
+<%block name="js_extra">
+    <%static:require_module module_name="js/student_account/logistration_factory" class_name="LogistrationFactory">
+        var options = ${data | n, dump_js_escaped_json};
+        LogistrationFactory(options);
+        if ('newrelic' in window) {
+            newrelic.finished();
+            // Because of a New Relic bug, the finished() event doesn't show up
+            // in Insights, so we have to make a new PageAction that is basically
+            // the same thing. We still want newrelic.finished() for session
+            // traces though.
+            newrelic.addPageAction('xfinished');
+        }
+    </%static:require_module>
+    % if configuration_helpers.get_value('DISPLAY_TOS_IN_MODAL_ON_REGISTRATION_PAGE', False):
+    <script type="text/javascript" src="${static.url('js/student_account/tos_modal.js')}"></script>
+    % endif
+</%block>
+
+<%block name="header_extras">
+    % for template_name in ["account", "access", "form_field", "login", "register", "institution_login", "institution_register", "password_reset", "hinted_login"]:
+        <script type="text/template" id="${template_name}-tpl">
+            <%static:include path="student_account/${template_name}.underscore" />
+        </script>
+    % endfor
+</%block>
+<div class="section-bkg-wrapper">
+    <main id="main" aria-label="Content" tabindex="-1">
+        <div id="content-container" class="login-register-content">
+            % if enable_enterprise_sidebar:
+                <%include file="enterprise_sidebar.html" />
+                <%
+                    border_class = 'border-left'
+                %>
+            % else:
+                <%
+                    border_class = ''
+                %>
+            % endif
+            <div id="login-and-registration-container" class="login-register ${border_class}"></div>
+        </div>
+    </main>
+</div>
+
+<script>
+const birthYearInput = document.getElementById('register-birth_year');
+
+birthYearInput.addEventListener('input', function (e) {
+    this.value = this.value.replace(/[^0-9]/g, '');
+});
+
+
+
+const register_form_displayer = setInterval( register_form_displayer_function, 250);
+
+function register_form_displayer_function(){
+
+    try {
+        document.getElementById("register-terms_of_service").setAttribute('required','')
+        document.getElementById("register-honor_code").checked = true;
+    } catch {
+        console.log("Register form not yet displayed, waiting...");
+    }
+
+    const activity_input = document.getElementById('register-activity')
+    activity_input.addEventListener('change', function (event) {
+
+        const selectedValue = event.target.value 
+
+        document.getElementsByClassName('text-activity_other')[0].style.display = 'none'
+        document.getElementById('register-activity_other').removeAttribute('required')
+        // document.getElementById('activity_other').removeAttribute('required')
+
+        if ( selectedValue == 'autre' ) {
+            document.getElementsByClassName('text-activity_other')[0].style.display = 'block'
+            document.getElementById('register-activity_other').setAttribute("required", "")       
+            // document.getElementById('activity_other').setAttribute("required", "")       
+        }
+    })
+
+
+    clearInterval(register_form_displayer)
+}
+</script>
+
+
+<style>
+/* Hide not required fields:  */
+.checkbox-honor_code, .text-activity_other {
+    display: none;
+}
+.select-gender {
+    width: 100% !important;
+}
+</style>

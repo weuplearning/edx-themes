@@ -9,15 +9,16 @@ from openedx.core.djangolib.markup import HTML, Text
 %>
 
 <style>
-    .content-wrapper {
+    .content-wrapper, body {
         margin: 0 auto !important;
         max-width: unset !important;
     }
-    #main, p {
-        font-family: 'Inter', Helvetica, Arial, sans-serif !important;
+    html {
+        overflow-x: hidden; 
     }
-    h1, #part_1 h2 {
-        font-family: Bagoss, 'Inter', Helvetica, Arial, sans-serif !important;
+    #main, p, h1, h2 {
+        font-family: "Exo 2", "Manrope", "Quicksand", "Sora", sans-serif !important;
+        line-height: 1.25;
     }
     .main-header {
         margin: auto;
@@ -33,11 +34,17 @@ from openedx.core.djangolib.markup import HTML, Text
     .global-header .nav-links .secondary .nav-item a {
         padding: 13px 22px !important;
     }
-    .max-width {
-        max-width: 1092px;
+    section, .larger-width , .smaller-width {
+        max-width: 1200px;
         margin: auto;
         padding: 0 40px;
         box-sizing: border-box;
+    }
+    .larger-width, .wrapper-footer {
+        max-width: 1920px;
+        padding: unset ;
+        box-sizing: border-box;
+        margin: auto;
     }
     .vertical-align, .horizontal-align {
         display: flex;
@@ -47,370 +54,245 @@ from openedx.core.djangolib.markup import HTML, Text
     .vertical-align {
         flex-direction: column;
     }
-    h1, h2, h3, p, a {
-        font-family: inherit;
+    .img-contain {
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        box-sizing: border-box;
+    }
+
+
+    #header {
+        background-image:  url("${static.url('max-havelaar/images/header_bg.png')}");
+        box-sizing: border-box;
+        height: 50vw;
+        background-size: cover;
+        background-position-x: center;
+        padding: 10% 5% 10% 31%;
+    }
+    .text-header{
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: end;
+    }
+    .title {
+        color: white;
         text-align: center;
         line-height: 1.4;
+        font-size: 50px;
+        font-weight: 900;
+        text-align: right;
     }
-    .left-align {
-        align-items: flex-start;
-        width: 50%;
-        max-width: 750px;
-        margin: 0 45px;
+    .start-button, .start-button-2 {
+        background-image:  url("${static.url('max-havelaar/images/button_1.png')}");
+        height: 100px;
+        width: 320px;
+        position: relative;
+        display: flex;
+        align-items: center;
     }
-    .tertiary {
-        color: var(--tertiary);
-    }
-
-    #title-header {
-        justify-content: space-between;
-        padding: 40px 10%;
-        background-color: var(--primary) !important;
-    }
-    #title-header h1 {
-        color: black;
-        font-size: xxx-large;
-        text-align: start;
-    }
-    #title-header p {
-        text-align: start;
-        margin: -19px 0 33px 0;
-        font-weight: 300;
-        font-size: x-large;
-    }
-    .header {
-        padding-top: 0;
-    }
-    .global-header  {
-        background-color: var(--primary) !important;
-    }
-    #title-header > div:first-child {
-        z-index: 10;
-    }
-    .register-btn {
-        display: none !important;
-    }
-    .sign-in-btn, .start-button {
-        background-color: black !important;
-        padding: 16px;
-        border-radius: 4px;
-        border: none !important;
-        font-family: Inter !important;
-    }
-    .start-button {
-        background-color: #1D1D1B !important;
-        width: fit-content;
-        align-self: center;
-    }
-    .start-button > a {
-        color: white !important;
-        font-family: 'Inter' !important;
-        font-weight: 500 !important;
-    }
-    .start-button > a:hover {
-        text-decoration: none !important;
-    }
-    .start-button:hover {
-        background-color: #737372 !important;
-        cursor: pointer;
-    }
-
-    #illu_header {
-        max-width: 400px;
-        height: 100%;
-    }
-    #hover_header {
+    .start-button a, .start-button-2 a {
         position: absolute;
-        bottom: -81px;
-        left: -100px;
-        width: 63%;
-        height: 90%;
-        transform: rotate(10deg);
-        z-index: 9;
+        left: 45px;
+        color: black !important;
+        font-weight: 700;
+        font-size: 22px;
+        text-decoration: none;
     }
-
     #part_1 {
-        padding: 20px 0;
-        background-color: white;
         position: relative;
+    }
+    #part_1 > div:first-child {
+        height: 230px;
+        padding-top: 10px;
+    }
+    .encart-1-1 {
+        background-image:  url("${static.url('max-havelaar/images/encart_1.png')}");
+        position: absolute;
+        top: -90px;
+        left: 10px;
+        height: 26vw;
+
+    }
+    .bandeau-3 div:first-child , .encart-1-1 span{
+        color: var(--secondary);
+        font-weight: 900;
+        font-size: 35px;
+        text-align: center;
+        margin: 15px auto;
+    }
+    .encart-1-1 span {
+        display: block;
+        width: 61%;
+        margin: -24% 0 0 10px;
+    }
+    .text-1-1, .text-1-2, .text-1-3, .text-1-4 {
+        font-size: 22px;
+        color: var(--blue-mh);
+    }
+    .text-1-1 {
+        width: 55%;
+        margin-left: 40%;
+    }
+    .text-1-2, .text-1-3, .text-1-4  {
+        width: 100%;
+        font-size: 19px;
+        line-height: 1.4;
         z-index: 10;
     }
-    #part_1 h2 {
-        margin-bottom: 5px;
-        font-size: xx-large;
-        line-height: 1.1;
-        font-weight: 300;
-        color: black;
+    .text-1-2 {
+        width: 72%;
+        padding-right: 64px;
     }
-    #part_1_strong {
-        margin: 20px 0; 
-        line-height: 1.2; 
-        font-family: 'Inter'; 
-        font-size: 19px;
-        font-weight: 500;
-    }
-    #part_1 p, #part_2 .grid-item p {
-        font-family: 'Inter';
-        font-weight: 300;
-    }
-    #part_1 p {
-        text-align: left;
-    }
-    #illu_part_1 {
-        max-width: 30vw;
-        margin: 0px 20px 0 50px;
-    }
-    #picture_agent {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+    .text-1-4 {
+        width : 85%;
     }
 
-    #part_2, #part_5 {
-        background-color: var(--tertiary);
-        padding: 20px 0 50px 0 ;
-        margin: 0 auto;
+    .encart-1-2, .encart-1-4 {
+        background-image:  url("${static.url('max-havelaar/images/encart_2.png')}");
+        height: 170px;
+        width: 25%;
+        margin: 20px auto;
     }
-    #part_2 h1, #part_2 p, #part_2 h3 {
-        color: white;
-        margin: 0 auto;
-        padding: 20px;
-        font-family: 'Inter';
+    .encart-1-4 {
+        background-image:  url("${static.url('max-havelaar/images/encart_3.png')}");
     }
-    #part_2 h3 {
-        padding-bottom: 0;
-    }
-
-    .programme-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 45px;
-        width: 80%;
-        margin-bottom: 30px;
-    }
-    .grid-item {
-        text-align: center;
-    }
-    .img-step {
-        width: 170px;
+    .bandeau-1 {
+        background-image:  url("${static.url('max-havelaar/images/bandeau_1.png')}");
         height: 200px;
-        object-fit: contain;
+        width: 100vw;
+        margin: auto;
+        font-size: 2.5rem;
+        color: var(--blue-mh);
+        font-weight: 600;
     }
-
-    #part_3 {
-        padding: 35px 0 ;
+    .bandeau-2 {
+        background-image:  url("${static.url('max-havelaar/images/bandeau_2.png')}");
+        height: 9vw;
+        width: 100vw;
+        background-size: cover;
     }
-
-    #part_4 {
-        background-color: #F6F6F1;
-        padding: 44px 80px;
+    .bandeau-3, .wrapper-footer {
+        background-color:  var(--blue-mh) !important;
+        border: solid 1px var(--blue-mh) !important;
+        width: 100vw;
+        color: var(--primary);
+        margin: auto;
     }
-    #part_4 > div {
-        justify-content: space-between;
-        width: 70%;
-        margin-top: 20px;
-    }
-    .step-action {
-        width: 30%;
-        height: 135px;
-        justify-content: flex-start;
-    }
-    .step-number {
-        font-family: Inter;
-        font-size: 30px;
-        font-weight: 700;
-        background-color: var(--primary);
-        text-align: center;
-        width: 50px;
-        height: 50px;
-        line-height: 50px;
-        margin-bottom: 10px;
-    }
-    #part_4_bis {
-        background-color: #F6F6F1;
-        height: 100px !important;
-        padding: 0px !important;
-    }
-    #wave {
-        object-fit: fill;
-        height: 100%;
-        width: 100%;
-    }
-    #part_5 {
-        background-color: var(--primary);
-    }
-    .wrapper-footer {
-        box-shadow: none !important;
-        border-top: none !important;
-    }
-    .footer-page {
-        position: relative;
-        background-color: var(--primary);
+    .start-button-2 {
+        background-image: url("${static.url('max-havelaar/images/button_2.png')}");
     }
 
 
     /* MEDIA QUERIES */
+    @media screen and (min-width: 1600px) {
+        #header {
+            height: 40vw;
+        }
+        .encart-1-1 {
+            top : -146px;
+            left: 18px
+        }
+    }
     @media screen and (max-width: 1200px) {
-        #title-header {
-            padding: 40px 10vw;
+        .bandeau-1 {
+            font-size: 2rem ;
         }
-        .img-step {
-            width: 15vw;
+    }
+    @media screen and (max-width: 1100px) {
+        .carousel-container {
+            width: 100% !important;
+        }
+    }
+    @media screen and (max-width: 1020px) {
+        .title {
+            font-size: 2.5rem ;
+        }
+        .encart-1-1 span {
+            font-size: 1.5rem ;
+        }
+        .encart-1-1 {
+            top : -50px;
+            left: 40px
+        }
+        .title-vignette p {
+            font-size: 1rem;
+        }
+    }
+    @media screen and (max-width: 900px) {
+        .carousel-container {
+            display: none !important;
+        }
+        .bandeau-1 {
+            font-size: 1.5rem ;
         }
 
     }
-
-    @media screen and (max-width: 991.98px) {
-        .global-header .header-logo a {
-            margin-left: 50% !important;
-        }
-        #part_1 p, #part_1_strong {
-            width: 100%;
-        }
-        .programme-grid {
-            gap : 2px
-        }
-    }
-
-    @media screen and (max-width: 768px) {
-        #title-header .footer-page, #part_3 {
-            display: none;
-        }
-        #part_1 > p {
-            text-align: center;
-            width: 80%;
-        }
-        #part_1 {
-            flex-direction: column;
-            padding: 20px;
-        }
-        #illu_part_1 {
-            max-width: 70%;
-            margin:  20px ;
-        }
-        .left-align {
-            width: 90%;
-            max-width: unset;
-            margin: 0;
-        }
-        .programme-grid {
-            grid-template-rows: repeat(3, 1fr);
-            grid-template-columns: unset;
-        }
-        .img-step {
-            width: 37vw;
-            height: auto;
-        }
-        #part_4 {
-            padding: 30px 0px 50px 0;
-        }
-        #part_4 > div {
-            width: 90%;
-        }
-    }
-
 </style>
 
 
 <main id="main" aria-label="Content" tabindex="-1">
 
-    <section class="header">
-        <div id="title-header" class="horizontal-align" >
-            <div class="vertical-align" style="align-items: flex-start;">
-                <h1 >MaxHavelaar Academy</h1>
-                <p>Devenez un Agent Immobilier performant !</p>
-                <div class="start-button" style="align-self: baseline;">
+    <div id="header" class="larger-width">
+        <div class="text-header vertical-align smaller-width" >
+            <div class="title" >La formation pour un monde plus durable et solidaire</div>
+            <div class="login-button" >
+                <div class="start-button img-contain vertical-align" >
                     <a href="/login">Démarrer ma formation</a>
                 </div>
             </div>
-            <div class="footer-page" >
-                <img src="${static.url('max-havelaar/images/hover.png')}" alt="formation des agents immobilier" id="hover_header" />
-                <img src="${static.url('max-havelaar/images/picture_1.png')}" alt="formation des agents immobilier" id="illu_header" />
-            </div>
         </div>
-    </section>
+    </div>
 
-    <section id="part_1" class="horizontal-align">
-        <div id="illu_part_1" >
-            <img src="${static.url('max-havelaar/images/picture_2.png')}" alt="photo des agents immobilier" id="picture_agent" />
-        </div>
-        <div class="vertical-align left-align">
-            <h2>Aucune expérience ? Aucun problème !</h2>
-            <strong id="part_1_strong">Chez max-havelaar, nous croyons que les meilleurs agents ne naissent pas, ils se forment.</strong>    
-            <p>Vous êtes sur le point de démarrer un parcours immersif, conçu pour transformer des débutants en véritables experts de l’immobilier.</p>
-            <p>Cette formation vous donnera toutes les clés pour réussir, du premier contact client à la signature de votre première transaction.</p>
-            <div class="start-button" style="align-self:baseline; margin-top:30px;">
-                <a href="/login">Démarrer ma formation</a>
-            </div>
-        </div>
-    </section>
-
-    <section id="part_2" class="vertical-align">
-        <h1>Un programme ultra-complet</h1>
-        <p>Notre parcours de formation est conçu pour vous faire <br>monter en compétence rapidement et efficacement.</p>
-        <div class="programme-grid">
-            <div class="grid-item">
-                <img src="${static.url('max-havelaar/images/illu_1.png')}" alt="image 1/3" class="img-step">
-                <h3>Modules e-learning</h3>
-                <p>Théorie essentielle et mises <br>en situation interactives.</p>
-            </div>
-            <div class="grid-item">
-                <img src="${static.url('max-havelaar/images/illu_2.png')}" alt="image 2/3" class="img-step">
-                <h3>Vidéos immersives</h3>
-                <p>Études de cas réels et <br>témoignages d’experts du terrain.</p>
-            </div>
-            <div class="grid-item">
-                <img src="${static.url('max-havelaar/images/illu_3.png')}" alt="image 3/3" class="img-step">
-                <h3>Ateliers en présentiel</h3>
-                <p>Exercices pratiques, jeux de rôle <br>et coaching personnalisé.</p>
-            </div>
-        </div>
-        <div class="start-button">
-            <a href="/login">Démarrer ma formation</a>
-        </div>
-    </section>
     
-    <section id="part_3" class="vertical-align">
-        <h1>Votre parcours de formation en 5 modules clés</h1>
-        <%include file="dashboard/_dashboard_carrousel.html" />
-    </section>
-    
-    <section id="part_4" class="vertical-align">
-        <h1>Passez à l'action dés maintenant !</h1>
+    <section id="part_1" class="vertical-align">
         <div class="horizontal-align">
-            <div class="step-action vertical-align">
-                <div class="step-number">1</div>
-                <div>
-                    <p>Connectez-vous avec vos identifiants.</p>
-                </div>
+            
+            <div class="encart-1-1 img-contain vertical-align" >
+                <span>Pourquoi vous former avec <br>Max Havelaar ?</span>
             </div>
-            <div class="step-action vertical-align">
-                <div class="step-number">2</div>
-                <div>
-                    <p>Accédez au module et suivez votre avancement.</p>
-                </div>
+            <div class="text-1-1" >La mission de Fairtrade/Max Havelaar est de mettre en relation les producteurs vulnérables et les consommateurs, de promouvoir des conditions commerciales équitables et de donner aux producteurs les moyens de combattre la pauvreté, de renforcer leur position et de décider de leur avenir.</div>
+        </div>
+
+        <div class="horizontal-align">
+            <div class="text-1-2">Un commerce éthique et responsable est un enjeu essentiel pour le développement d’un monde plus juste et durable. Initiateur d’un modèle de commerce équitable fondé sur la justice sociale et environnementale, le mouvement Fairtrade/Max Havelaar France conduit le changement pour en faire la norme de demain.</div>
+            <div class="encart-1-2 img-contain"></div>
+        </div>
+
+        <div class="horizontal-align">
+            <div class="text-1-3">
+                Basé sur le résultat d’années de travail et sur l’expertise de Max Havelaar, ce MOOC est fait pour vous donner les bases de connaissances sur le commerce équitable, vous faire découvrir son fonctionnement, ses acteurs, les logiques en place et les défis à relever. Il vous donnera des clés sur comment agir au quotidien pour défendre un monde plus équitable, durable et solidaire. Il vous permettra d’acquérir des connaissances pour mieux comprendre les enjeux du commerce mondialisé avec ses conséquences très concrètes dans la vie quotidienne, mais aussi de bénéficier de compétences solides vous permettant d’aller plus loin dans la lutte pour le commerce équitable et dans la défense des producteurs. Bien qu’il consiste en une formation sur le commerce équitable, ce MOOC est réalisé par le prisme Fairtrade. Ainsi, les chiffres et données fournis, les projets présentés, etc. sont des acteurs du système Fairtrade.
             </div>
-            <div class="step-action vertical-align">
-                <div class="step-number">3</div>
-                <div>
-                    <p>Pratiquez vos apprentissages et devenez un agent performant !</p>
-                </div>
+        </div>
+
+        <div class="horizontal-align">
+            <div class="encart-1-4 img-contain"></div>
+
+            <div class="text-1-4">
+                Le MOOC est disponible en autoformation, vous pourrez le consulter et y retourner à votre guise. Aucun rythme de réalisation du MOOC n’est requis, vous pouvez prendre le temps que vous souhaitez. Vous trouverez dans cette formation de nombreux contenus comme des vidéos, des exercices, pour maitriser à fond le sujet et tester vos connaissances.
             </div>
         </div>
     </section>
 
-    <section id="part_4_bis">
-        <img id="wave" src="${static.url('max-havelaar/images/wave.png')}" alt="illu-wave">
+    <div class="bandeau-1 vertical-align img-contain larger-width">Les 5 modules</div>
+    
+    <section id="part_2" class="vertical-align">
+        <div class="text-1-3" >Cette formation est composée de 5 modules, est pourra être réalisé en 6 heures environ. Une évaluation vous sera proposée à la fin de chaque module, pour passer au suivant. Vous pourrez revenir sur le MOOC autant de fois que vous le souhaitez, et reprendre directement où vous en étiez, en passant par le tableau de bord.</div>
+        <%include file="dashboard/_dashboard_carrousel.html" />
+        <div class="text-1-3" >La réalisation complète de ce MOOC vous délivrera un badge à télécharger. Il pourra être utilisé sur vos réseaux professionnels comme LinkedIn, ou inséré sur votre CV, pour signifier que vous avez suivi une formation sur le commerce équitable. Cette certification, délivrée par Max Havelaar France, n’a pas de valeur légale.</div>
     </section>
-
-    <section id="part_5">
-        <div class="footer-page vertical-align">
-            <h1>Votre avenir dans l'immobilier commence ici !</h1>
-            <div class="start-button">
-                <a href="/login">Démarrer ma formation</a>
+    
+    <div id="part_3" class="vertical-align larger-width">
+        <div class="bandeau-2 img-contain"></div>
+        <div class="bandeau-3 vertical-align">
+            <div>Formez-vous dès aujourd'hui !</div>
+            <div class="start-button-2 img-contain larger-width" >
+                <a href="/login" target="_blank" rel="noopener noreferrer">Démarrer ma formation</a>
             </div>
         </div>
-    </section>
+    </div>
 
 </main>
 
