@@ -54,17 +54,17 @@
 </div>
 
 <script>
-const birthYearInput = document.getElementById('register-birth_year');
-
-birthYearInput.addEventListener('input', function (e) {
-    this.value = this.value.replace(/[^0-9]/g, '');
-});
-
-
 
 const register_form_displayer = setInterval( register_form_displayer_function, 250);
 
 function register_form_displayer_function(){
+
+
+    const birthYearInput = document.getElementById('register-birth_year');
+    birthYearInput.addEventListener('input', function (e) {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+
 
     try {
         document.getElementById("register-terms_of_service").setAttribute('required','')
