@@ -1,3 +1,9 @@
+
+
+p{
+    font-family:  Source Sans Pro,sans-serif
+}
+
 .topbar{
     background-color: #edeef6;
 }
@@ -13,3 +19,139 @@
 .btn-primary{
     display: block;
 }
+
+
+    .navbar
+    {
+        font-size: 15px;
+    }
+
+    .navbar nav{
+        display: flex;
+        flex-direction: row;
+        flex-flow: wrap;
+        background-color: rgb(107, 107, 107);
+        justify-content: space-between;
+    }
+
+    .navbar nav span{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin: 1em;
+        flex-flow: wrap;
+        /* background-color: blue; */
+        padding: 0.5rem;
+        justify-content: space-around;
+        margin: 0.2;
+    }
+
+    .btn
+    {
+        background-color: #ffce43;
+        border :1px solid #ffce43;
+        border-radius: 1000px;
+        padding: 10px 15px;
+        height: max-content;
+        width: auto;
+        margin: 0.5 0.5em;
+        text-decoration: none;
+    }
+
+    .btn span
+    {
+        display: inline-block;
+
+        background-color: red;
+
+    }
+
+    h1{
+            font-size: 54px;
+    line-height: 65px;
+    font-family: "Source Serif 4",serif;
+    font-weight: 700;
+    }
+
+    .versions-section
+    {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .versions-section > div{
+        background-color: #fef7e5;
+        border-radius: 18px;
+        box-shadow: 0 20px 25px rgba(0,0,0,.17);
+        display: flex;
+        flex-direction: column;
+        min-height: 100%;
+        overflow: hidden;
+        position: relative;
+        width: 35vw;
+    }
+
+
+    .window-content{
+        padding: 1em;
+    }
+
+    .window-header 
+    {
+    background-color: red;
+    align-items: center;
+    background-color: #f7eccf;
+    display: flex;
+    height: 1em;
+    padding: 14px 28px;
+
+    }
+
+    .window-header-btns {
+        width: 4em;
+        margin: auto 0;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-around;
+    } 
+
+    .window-header-btns span 
+    {
+        height: 0.75em;
+        width: 0.75em;
+
+        display: inline-block;
+        border-radius: 100%;
+    }
+
+
+    .window-header-bar {
+        width: 100%;
+        height: 1em;
+        margin: auto 0 auto 0.75em;
+        background-color: #fef8e5;
+    } 
+
+    .window-header-bar span 
+    {
+        height: 0.5em;
+        width: 60%;
+        display: inline-block;
+    }
+
+
+    .window-classic
+    {
+        background-color: #fef8e5
+    }
+
+    .window-premium
+    {
+        background-color: #defff6;
+    }
+
+    .bg-orangedark
+    {
+        background-color: #e3b637;
+    }

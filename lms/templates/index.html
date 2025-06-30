@@ -1,54 +1,14 @@
 <head>
 <link rel="stylesheet" href="index.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap" rel="stylesheet">
+
 </head>
 
 <style>
-    .navbar nav{
-        display: flex;
-        flex-direction: row;
-        flex-flow: wrap;
-        background-color: pink;
-        justify-content: space-between;
-    }
 
-    .navbar nav span{
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        margin: 1em;
-        flex-flow: wrap;
-        background-color: blue;
-        padding: 0.5rem;
-        justify-content: space-around;
-        margin: 0.2;
-    }
-
-    .btn
-    {
-        background-color: #ffce43;
-        border :1px solid #ffce43;
-        border-radius: 1000px;
-        padding: 10px 15px;
-        height: max-content;
-        width: auto;
-        margin: 0.5 0.5em;
-        text-decoration: none;
-    }
-
-    .btn span
-    {
-        display: inline-block;
-
-        background-color: red;
-
-    }
-
-    h1{
-            font-size: 54px;
-    line-height: 65px;
-    font-family: "Source Serif 4",serif;
-    font-weight: 700;
-    }
 </style>
 
 <body>
@@ -75,15 +35,34 @@
 </header>
 <h1>Bienvenue dans lʼAxeptio Academy !</h1>
 <p>Devenez expert de la CMP Axeptio !</p>
-<div>
-    <h3>Version Classique</h3>
-    <p>Formez-vous à votre rythme avec l’Axeptio Academy : découvrez nos outils, maîtrisez nos solutions et
-        approfondissez vos connaissances en matière de réglementation des données.</p><a>Inscription</a>
-    </div>
-    <div>
-        <h3>Version Premium</h3>
-        <p>Partenaires d’Axeptio, passez à la vitesse supérieure avec la formation certifiante : connectez-vous avec les
-            identifiants transmis pour y accéder.</p><a>Connexion</a>
+<div class="versions-section">
+
+    <div class="window-classic">
+        <div class="window-header window-header-classic">
+            <div class="window-header-btns">
+                <span class="bg-orangedark"></span>
+                <span class="bg-orangedark"></span>
+                <span class="bg-orangedark"></span>
+            </div>
+            <div class="window-header-bar">
+            </div>
+
         </div>
-    
+        <div class="window-content">
+<h3>Version Classique</h3>
+        <p>Formez-vous à votre rythme avec l’Axeptio Academy : découvrez nos outils, maîtrisez nos solutions et
+            approfondissez vos connaissances en matière de réglementation des données.</p><a>Inscription</a>
+        </div>
+        
+        </div>
+        <!-- <div class="window-premium">
+            <div class="window-header window-header-premium">
+                
+            </div>
+            <h3>Version Premium</h3>
+            <p>Partenaires d’Axeptio, passez à la vitesse supérieure avec la formation certifiante : connectez-vous avec les
+                identifiants transmis pour y accéder.</p><a>Connexion</a>
+            </div>
+            
+        </div> -->
 </body>
