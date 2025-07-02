@@ -1,18 +1,19 @@
-<!DOCTYPE html>
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.urls import reverse
 
-<head>
-    <title>Axeptio Academy</title>
-    <link rel="stylesheet" href="index.css">
+from openedx.core.djangolib.markup import HTML, Text
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap"
-        rel="stylesheet">
 
-</head>
 
-<body>
+
+%>
+
+
+
 
     <header>
         <div class="topbar">
@@ -40,6 +41,8 @@
         <div>
             <h1>Bienvenue<br/> dans lʼAxeptio<br/><span>Academy</span> !</h1>
             <p>Devenez expert de la CMP Axeptio !</p>
+
+
         </div>
         <div class="hero-img-section">
             <img src="/lms/templates/elements/main_illustration.png" alt="hero banner" />
@@ -100,4 +103,16 @@
             </div>
         </div>
     </div>
-</body>
+
+
+     <div>
+        <h1>
+            INCLUDES</h1>
+            <%include file="test.html"/>
+            ### refer to  /edx/var/edxapp/staticfiles/axeptio/css/extra
+            <link rel="stylesheet" type="text/css" href="${static.url('axeptio/css/extra/index.css')}" />
+            <link rel="stylesheet" type="text/css" href="${static.url('axeptio/css/extra/navbar.css')}" />
+
+
+
+     </div>
