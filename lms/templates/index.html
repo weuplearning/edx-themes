@@ -7,35 +7,8 @@ from django.urls import reverse
 
 from openedx.core.djangolib.markup import HTML, Text
 
-
-
-
 %>
 
-
-
-
-    <header>
-        <div class="topbar">
-            <span>
-                <button>EN</button><button>FR</button>
-            </span>
-        </div>
-        <div class="navbar">
-            <nav>
-                <span>
-                    <img src="/lms/templates/assets/homepage/logo_axeptio.png">
-                    <a href="" class="btn btn-nav-primary">Accéder au site principal Axeptio</a>
-                </span>
-                <span>
-                    <a href="" class="btn btn-nav-login">Connexion</a>
-                    <a href="" class="btn btn-nav-primary">Nous Contacter</a>
-                </span>
-            </nav>
-        </div>
-
-        </div>
-    </header>
     <div class="hero">
 
         <div>
@@ -45,7 +18,7 @@ from openedx.core.djangolib.markup import HTML, Text
 
         </div>
         <div class="hero-img-section">
-            <img src="/lms/templates/elements/main_illustration.png" alt="hero banner" />
+            <img src="${static.url('axeptio/images/index/hero.png')}" alt="hero banner" />
         </div>
     </div>
     
@@ -69,9 +42,8 @@ from openedx.core.djangolib.markup import HTML, Text
 
                 <a class="btn" href="http://google.com/abcd">Inscription</a>
                 <div>
-                    <img src="/lms/templates/elements/cookie_mobile.png">
+                    <img src="${static.url('axeptio/images/index/classic.png')}">
                 </div>
-
             </div>
 
         </div>
@@ -93,7 +65,7 @@ from openedx.core.djangolib.markup import HTML, Text
 
                 <a class="btn" href="#">Connexion</a>
                 <div>
-                    <img src="/lms/templates/elements/cookie_certificate.png">
+                    <img src="${static.url('axeptio/images/index/premium.png')}">
                 </div>
                 <div>
                     <p>Envie de rejoindre la version Premium ?</p>
@@ -106,12 +78,10 @@ from openedx.core.djangolib.markup import HTML, Text
 
 
      <div>
-        <h1>
-            INCLUDES</h1>
+        
             ### refer to  /edx/var/edxapp/staticfiles/axeptio/css/extra
+            <!-- INCLUDES -->
             <link rel="stylesheet" type="text/css" href="${static.url('axeptio/css/extra/index.css')}" />
             <link rel="stylesheet" type="text/css" href="${static.url('axeptio/css/extra/navbar.css')}" />
-
-
 
      </div>
