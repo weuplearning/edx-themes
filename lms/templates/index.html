@@ -38,30 +38,34 @@ from openedx.core.djangolib.markup import HTML, Text
     <div class="versions-section">
 
         <div class="versions-windows">
-            
+
             <div class="window-classic">
-                <div class="window-header window-header-classic">
-                <div class="window-header-btns">
-                    <span class="bg-orangedark"></span>
-                    <span class="bg-orangedark"></span>
-                    <span class="bg-orangedark"></span>
-                </div>
-                <div class="window-header-bar">
-                </div>
-
-            </div>
-            <div class="window-content">
-                <h2>Version Classique</h2>
-                <p>Formez-vous à votre rythme avec l’Axeptio Academy : découvrez nos outils, maîtrisez nos solutions et
-                    approfondissez vos connaissances en matière de réglementation des données.</p>
-
-                <a class="btn" href="http://google.com/abcd">Inscription</a>
-                <div>
-                    <!-- <img src="${static.url('axeptio/images/index/classic.png')}"> -->
-                </div>
-            </div>
-
+    <div class="window-header window-header-classic">
+        <div class="window-header-btns">
+            <span class="bg-orangedark"></span>
+            <span class="bg-orangedark"></span>
+            <span class="bg-orangedark"></span>
         </div>
+        <div class="window-header-bar">
+        </div>
+
+    </div>
+    <div class="window-content">
+        <h2>Version Classique</h2>
+        <p>Formez-vous à votre rythme avec l’Axeptio Academy : découvrez nos outils, maîtrisez nos solutions et
+            approfondissez vos connaissances en matière de réglementation des données.</p>
+
+        <a class="btn" href="http://google.com/abcd">Inscription</a>
+        <div>
+                <img src="${static.url('axeptio/images/index/classic.png')}">
+        </div>
+    </div>
+
+</div>
+
+
+
+
         <div class="window-premium">
             <div class="window-header window-header-premium">
                 <div class="window-header-btns">
@@ -80,7 +84,7 @@ from openedx.core.djangolib.markup import HTML, Text
 
                 <a class="btn" href="#">Connexion</a>
                 <div>
-                    <!-- <img src="${static.url('axeptio/images/index/premium.png')}"> -->
+                     <img src="${static.url('axeptio/images/index/premium.png')}"> 
                 </div>
                 <div>
                     <p>Envie de rejoindre la version Premium ?</p>
@@ -234,6 +238,7 @@ font-family: Source Sans Pro,sans-serif
     {
         margin-top: -10px;
         background-color: #212121;
+        padding-bottom: 5rem;
 
     }
 
@@ -242,8 +247,9 @@ font-family: Source Sans Pro,sans-serif
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        justify-content: center;
+        justify-content: space-evenly;
         min-width: 500px;
+        /* max-width: 70vw; */
         max-height: 80vh;
         height: auto;
         width: 100%;
@@ -278,18 +284,20 @@ font-family: Source Sans Pro,sans-serif
 
     }
 
+
     .window-content div img{
-    width: 100%;
+    max-width: 50%;
     height: auto;
+    margin: 0 auto;
     }
 
-    .window-content div {
+    /* .window-content div {
         max-height: 200px;
         margin: 1rem;
         display: flex;
         flex-direction: column;
         justify-content: center;
-    }
+    } */
 
     .window-content p{
             color: #222;
@@ -301,7 +309,9 @@ font-family: Source Sans Pro,sans-serif
     }
 
     .window-classic, .window-premium{
-        margin: 1rem 2.5rem;
+        min-width: 300px;
+        /* max-height: 70vh; */
+        margin-top: 1.5rem;
     }
 
     .window-header 
