@@ -1,12 +1,25 @@
 <div class="topbar">
-        <button id="btn-lang-en">
-            <img src="${static.url('axeptio/images/header/FR-flag.png')}" alt="French Language" />
+        <button id="btn-lang-en" onclick="changeLangFR">
+            <img src="/static/axeptio/images/header/FR-flag.png" alt="French Language" />
         </button>
 
-        <button id="btn-lang-fr">
-            <img src="${static.url('axeptio/images/header/EN-flag.png')}" alt="English Language" />
+        <button id="btn-lang-fr" onclick="changeLangEN">
+            <img src="/static/axeptio/images/header/EN-flag.png" alt="English Language" />
         </button>
 </div>
+
+<script>
+    function changeLangEN()
+    {
+        console.log("toEn")
+
+    }
+
+    function changeLangFR()
+    {
+        console.log("toFr")
+    }
+</script>
 
 <style>
     #btn-lang-en,#btn-lang-fr{

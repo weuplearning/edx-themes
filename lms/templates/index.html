@@ -12,7 +12,9 @@ from openedx.core.djangolib.markup import HTML, Text
     <div class="hero">
 
         <div>
-            <h1>Bienvenue<br/> dans lʼAxeptio<br/><span>Academy</span> !</h1>
+            <h1>Bienvenue dans&nbsp;lʼAxeptio<br/><span>&nbsp;Academy&nbsp;!
+
+            </span></h1>
             <p>Devenez expert de la CMP Axeptio !</p>
 
 
@@ -22,10 +24,23 @@ from openedx.core.djangolib.markup import HTML, Text
         </div>
     </div>
     
+<div class="versions-container">
+
+
+<div class="top-svg">
+    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="400" viewBox="0 0 1920 400" fill="none">
+      <path d="M648.889 361.654C932.698 416.115 1027.99 318.991 1250.16 154.972C1400 44.3504 1639.73 -51.2372 1920 30.8669V400H0.0279365L0 381.107C0 381.107 51.7105 395.333 156.19 381.107C299.048 361.654 476.997 328.67 648.889 361.654Z" fill="#212121"></path>
+    </svg>
+  </div>
+
+
+</div>
     <div class="versions-section">
 
-        <div class="window-classic">
-            <div class="window-header window-header-classic">
+        <div class="versions-windows">
+            
+            <div class="window-classic">
+                <div class="window-header window-header-classic">
                 <div class="window-header-btns">
                     <span class="bg-orangedark"></span>
                     <span class="bg-orangedark"></span>
@@ -36,13 +51,13 @@ from openedx.core.djangolib.markup import HTML, Text
 
             </div>
             <div class="window-content">
-                <h3>Version Classique</h3>
+                <h2>Version Classique</h2>
                 <p>Formez-vous à votre rythme avec l’Axeptio Academy : découvrez nos outils, maîtrisez nos solutions et
                     approfondissez vos connaissances en matière de réglementation des données.</p>
 
                 <a class="btn" href="http://google.com/abcd">Inscription</a>
                 <div>
-                    <img src="${static.url('axeptio/images/index/classic.png')}">
+                    <!-- <img src="${static.url('axeptio/images/index/classic.png')}"> -->
                 </div>
             </div>
 
@@ -58,14 +73,14 @@ from openedx.core.djangolib.markup import HTML, Text
                 </div>
             </div>
             <div class="window-content">
-                <h3>Version Premium</h3>
+                <h2>Version Premium</h2>
                 <p>Partenaires d’Axeptio, passez à la vitesse supérieure avec la formation certifiante : connectez-vous
                     avec les
                     identifiants transmis pour y accéder.</p>
 
                 <a class="btn" href="#">Connexion</a>
                 <div>
-                    <img src="${static.url('axeptio/images/index/premium.png')}">
+                    <!-- <img src="${static.url('axeptio/images/index/premium.png')}"> -->
                 </div>
                 <div>
                     <p>Envie de rejoindre la version Premium ?</p>
@@ -76,6 +91,333 @@ from openedx.core.djangolib.markup import HTML, Text
         </div>
     </div>
 
+</div>
+</div>
+
+
+        <style>
+            .content-wrapper{
+                max-width: 100% !important;
+
+            }
+.top-svg{
+    display: block;
+    inset: auto 0 100%;
+    pointer-events: none;
+
+    width: 100%;
+    z-index: -1;
+}
+
+.top-svg svg{
+    height: 100%;
+}
+
+#content{
+    padding:0;
+}
+
+p{
+    font-family:  "Source Sans 3",sans-serif !important;
+    font-size: 20px;
+}
+
+
+
+h1, h2{
+    font-family: "Source Serif 4",serif !important;
+
+}
+
+
+h3, h4,h5,h6{
+    font-family: "Source Sans 3",sans-serif !important;
+    font-weight: 400;
+}
+
+
+
+
+h1,h2{
+    color: #212121;
+    font-style: normal;
+    font-weight: 700;
+    text-decoration: none;
+    text-transform: none;
+}
+
+
+body, p{
+font-family: Source Sans Pro,sans-serif
+}
+
+
+.topbar{
+    background-color: #edeef6;
+}
+
+.navbar{
+    display: block;
+}
+
+.btn{
+    display: inline-block;
+    width: auto;
+}
+
+.btn-primary{
+    display: block;
+}
+
+
+    .navbar
+    {
+        font-size: 15px;
+    }
+
+    .navbar nav{
+        display: flex;
+        flex-direction: row;
+        flex-flow: wrap;
+        background-color: #ffffff;
+        justify-content: space-between;
+    }
+
+    .navbar nav span{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin: 1em;
+        flex-flow: wrap;
+        /* background-color: blue; */
+        padding: 0.5rem;
+        justify-content: space-around;
+        margin: 0.2;
+    }
+
+    .btn
+    {
+        background-color: #ffce43;
+        border :1px solid #ffce43;
+        border-radius: 1000px;
+        padding: 10px 15px;
+        height: max-content;
+        width: auto;
+        margin: 0.5 0.5em;
+        text-decoration: none;
+        text-align: center;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: bold;
+        padding: 15px 25px;
+        color: #212121;
+
+    }
+
+
+
+    .btn span
+    {
+        display: inline-block;
+
+        background-color: red;
+
+    }
+
+    h1{
+            font-size: 54px;
+    line-height: 65px;
+    font-family: "Source Serif 4",serif;
+    font-weight: 700;
+    }
+
+    .versions-section
+    {
+        margin-top: -10px;
+        background-color: #212121;
+
+    }
+
+    .versions-windows
+    {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        min-width: 500px;
+        max-height: 80vh;
+        height: auto;
+        width: 100%;
+        margin: 0 auto;
+        background-color: #212121;
+
+    }
+
+
+
+    .versions-windows > div{
+        border-radius: 18px;
+        box-shadow: 0 20px 25px rgba(0,0,0,.17);
+        display: flex;
+        flex-direction: column;
+        overflow: visible;
+        position: relative;
+        width: auto;
+        max-width: 25vw;
+    }
+
+
+    .window-content{
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: space-evenly;
+        align-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 1.5rem 1rem
+
+    }
+
+    .window-content div img{
+    width: 100%;
+    height: auto;
+    }
+
+    .window-content div {
+        max-height: 200px;
+        margin: 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .window-content p{
+            color: #222;
+    font-size: clamp(14px,2vw,16px);
+    font-weight: 400;
+    line-height: 24px;
+    margin: 0 0 14.19px;
+    
+    }
+
+    .window-classic, .window-premium{
+        margin: 1rem 2.5rem;
+    }
+
+    .window-header 
+    {
+    background-color: red;
+    align-items: center;
+
+    display: flex;
+    height: 1em;
+    padding: 14px 28px;
+    }
+
+    .window-header-premium{
+        background-color: #bdefe1;
+    }
+
+    .window-header-premium .window-header-bar{
+        background-color: #f9fbff;
+    }
+
+    .window-header-classic .window-header-bar{
+        background-color: #fef8e5;
+    }
+
+    .window-header-classic
+    {
+            background-color: #f7eccf;
+    }
+
+
+    .bg-cyandark
+    {
+        background-color: #46c29c;
+    }
+
+    .window-header-btns {
+        width: 4em;
+        margin: auto 0;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-around;
+        
+    } 
+
+    .window-header-btns span 
+    {
+        height: 0.75em;
+        width: 0.75em;
+
+        display: inline-block;
+        border-radius: 100%;
+    }
+
+
+    .window-header-bar {
+        width: 100%;
+        height: 1em;
+        margin: auto 0 auto 0.75em;
+        background-color: #fef8e5;
+    } 
+
+    .window-header-bar span 
+    {
+        height: 0.5em;
+        width: 60%;
+        display: inline-block;
+    }
+
+
+    .window-classic
+    {
+        background-color: #fef8e5
+    }
+
+    .window-premium
+    {
+        background-color: #defff6;
+    }
+
+    .bg-orangedark
+    {
+        background-color: #e3b637;
+    }
+
+    .hero {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        margin: 1em auto 3em;
+        flex-wrap: wrap;
+        align-items: center;
+        max-width: 80vw;
+        max-height: 100vh;
+    }
+
+    .hero h1{
+        max-width: 20vw;
+        text-align: left;
+    }
+
+    .hero-img-section{
+        max-width: 50%;
+        width: auto;
+    }
+    .hero-img-section img{
+        width: 100%;
+    }
+
+    .wrapper-footer
+    {
+        display: none;
+    }
+
+
+
+        </style>
 
      <div>
         
