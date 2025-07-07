@@ -138,96 +138,74 @@ timestr = time.strftime("%Y_%m_%d")
 
 
 # I/ Un rapport par région : 
-for region in regions :
+#for region in regions :
+#
+#    wb = Workbook()
+#    sheet = wb.active
+#    sheet.title= 'Rapport de notes'
+#    filename = '/home/edxtma/csv/Icope_grade_report_{}_{}.xlsx'.format(timestr, region)
+#    j=1
+#    for k, course_id in all_users_data.items():
+#        for key, user in course_id.items():
+#            if user['profil']['region'] == region : 
+#                for i, header in enumerate(headers):
+#                    sheet.cell(j, i+1, header)
+#                    sheet.cell(j, i+1).fill = PatternFill("solid", fgColor="6B9AAF")
+#                    sheet.cell(j, i+1).font = Font(b=False, color="FFFFFF")
+#                i=0
+#                j+=1
+#                for key, value in  user['profil'].items() : 
+#                    sheet.cell(j, i+1, value)
+#                   i+=1
+#                percent_global = str(user['grades']['global']) + '%'
+#                sheet.cell(j, i+3, percent_global)
+#                for id, section_name in correspondance_section_tt.items() : 
+#                    for hash, seconds in user['tt_detailled'].items() :
+#                        if hash == id :
+#                            sheet.cell(j, i+2, str(section_name) + " - " + str(round(seconds/60))+" min")
+#                            break
+#                        else:
+#                            sheet.cell(j, i+2, str(section_name) + " - 0 min")
+#                    j+=1
+#                j -= 7
+#                for day, seconds in user['tt_daily'].items() : 
+#                    sheet.cell(j, i+1, str(day) + " : " + str(round(seconds/60))+" min")
+#                    j+=1
+#                if len(user['tt_daily'].items()) >= 7 :
+#                    j+= 1
+#                else : 
+#                    j+= 8 - len(user['tt_daily'].items())  
+#    if j <=2 : 
+#        continue
 
-    wb = Workbook()
-    sheet = wb.active
-    sheet.title= 'Rapport de notes'
-    filename = '/home/edxtma/csv/Icope_grade_report_{}_{}.xlsx'.format(timestr, region)
+#    output = BytesIO()
+#    wb.save(output)
+#    _files_values = output.getvalue()
 
+#    html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous trouverez en pièce jointe le rapport de temps passé pour la région : "+ region +"<br/><br/>Bonne r&eacute;ception<br/>L'&eacute;quipe WeUp Learning</p></body></html>"
 
-    j=1
-    for k, course_id in all_users_data.items():
+#    for email in emails:
+#        part2 = MIMEText(html.encode('utf-8'), 'html', 'utf-8')
+#        fromaddr = "ne-pas-repondre@themoocagency.com"
+#        msg = MIMEMultipart()
+#        msg['From'] = fromaddr
+#        msg['To'] = email
+#        msg['Subject'] = "icope_grade_report"
+#        attachment = _files_values
+#        part = MIMEBase('application', 'octet-stream')
+#        part.set_payload(attachment)
+#        encoders.encode_base64(part)
+#        part.add_header('Content-Disposition', "attachment; filename= %s" % os.path.basename(filename))
+#        msg.attach(part)
+#        server = smtplib.SMTP('mail3.themoocagency.com', 25)
+#        server.starttls()
+#        server.login('contact', 'waSwv6Eqer89')
+#        msg.attach(part2)
+#        text = msg.as_string()
+#        server.sendmail(fromaddr, email, text)
+#        server.quit()
+#        log.info('Email sent to '+str(email))
 
-        for key, user in course_id.items():
-
-            if user['profil']['region'] == region : 
-
-                for i, header in enumerate(headers):
-                    sheet.cell(j, i+1, header)
-                    sheet.cell(j, i+1).fill = PatternFill("solid", fgColor="6B9AAF")
-                    sheet.cell(j, i+1).font = Font(b=False, color="FFFFFF")
-
-                i=0
-                j+=1
-
-                for key, value in  user['profil'].items() : 
-                    sheet.cell(j, i+1, value)
-                    i+=1
-
-
-                percent_global = str(user['grades']['global']) + '%'
-                sheet.cell(j, i+3, percent_global)
-
-
-                for id, section_name in correspondance_section_tt.items() : 
-                    for hash, seconds in user['tt_detailled'].items() : 
-
-                        if hash == id :
-                            sheet.cell(j, i+2, str(section_name) + " - " + str(round(seconds/60))+" min")
-                            break
-                        else:
-                            sheet.cell(j, i+2, str(section_name) + " - 0 min")
-
-                    j+=1
-
-                j -= 7
-
-
-                for day, seconds in user['tt_daily'].items() : 
-                    sheet.cell(j, i+1, str(day) + " : " + str(round(seconds/60))+" min")
-                    j+=1
-
-
-                if len(user['tt_daily'].items()) >= 7 :
-                    j+= 1
-                else : 
-                    j+= 8 - len(user['tt_daily'].items())  
-
-    if j <=2 : 
-        continue
-
-    output = BytesIO()
-    wb.save(output)
-    _files_values = output.getvalue()
-
-    html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous trouverez en pièce jointe le rapport de temps passé pour la région : "+ region +"<br/><br/>Bonne r&eacute;ception<br/>L'&eacute;quipe WeUp Learning</p></body></html>"
-
-    for email in emails:
-
-        part2 = MIMEText(html.encode('utf-8'), 'html', 'utf-8')
-        fromaddr = "ne-pas-repondre@themoocagency.com"
-        msg = MIMEMultipart()
-        msg['From'] = fromaddr
-        msg['To'] = email
-        msg['Subject'] = "icope_grade_report"
-        attachment = _files_values
-        part = MIMEBase('application', 'octet-stream')
-        part.set_payload(attachment)
-        encoders.encode_base64(part)
-        part.add_header('Content-Disposition', "attachment; filename= %s" % os.path.basename(filename))
-        msg.attach(part)
-        server = smtplib.SMTP('mail3.themoocagency.com', 25)
-        server.starttls()
-        server.login('contact', 'waSwv6Eqer89')
-        msg.attach(part2)
-        text = msg.as_string()
-        server.sendmail(fromaddr, email, text)
-        server.quit()
-        log.info('Email sent to '+str(email))
-
-
-    log.info('------------> Finish calculate grades and write xlsx report')
 
 
 
