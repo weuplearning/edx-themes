@@ -125,15 +125,18 @@ font-family: Source Sans Pro,sans-serif
         display: flex;
         flex-direction: column;
         justify-content: space-around;
-        margin: 1em auto 3em;
+        margin: 0 auto;
         flex-wrap: wrap;
-        align-items: center;
+        align-items: flex-start;
         max-width: 80vw;
         max-height: 100vh;
+        
     }
 
     .o-header h1{
-        max-width: 20vw;
+        max-width: 100%;
+        width: 100%;
+        margin: 0 auto;
         text-align: center;
         margin-bottom: 2rem;
     }
@@ -143,7 +146,7 @@ font-family: Source Sans Pro,sans-serif
         width: auto;
     }
     .o-header-img-section img{
-        width: 100%;
+        width: 50vw;
     }
 
 
@@ -169,7 +172,7 @@ font-family: Source Sans Pro,sans-serif
 <main role="main" class="course-outline" id="main" tabindex="-1">
     <div class="o-header">
 
-        <div>
+        <div style="width: 100%;">
             %if '+EN+' in str(course_key):
                 <h1>The&nbsp;<span>Modules</span></h1>
             %elif '+FR+' in str(course_key):
