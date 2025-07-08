@@ -1,0 +1,108 @@
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.urls import reverse
+
+from openedx.core.djangolib.markup import HTML, Text
+%>
+
+
+<style>
+
+.content-wrapper {
+    padding: none !important;
+    margin-top: 0 !important;
+    margin: auto !important;
+}
+
+.horizontal-align, .vertical-align {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.vertical-align {
+    flex-direction: column;
+    height: 100%;
+}
+.align-right {
+    text-align: right;
+}
+
+#main-index {    
+    background-image: url("${static.url('depot-petrolier-fos/images/background.jpg')}");
+    height: calc(100vh - 60px);
+    background-size: cover;
+    background-position: center;
+}
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    margin-left: 40vw;
+}
+.wrapper .polygon {
+    background-color : var(--primary);
+    height: 100%;
+    width: 40vw;
+    clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+h2, .to-courses a {
+    text-transform: uppercase;
+}
+.text {
+    background-color: var(--primary);
+    color: white;
+
+}
+.to-courses a {
+    padding: 20px 10px;
+    background-color: white;
+    color: var(--primary);
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+@media only screen and (max-width : 320px) {
+    .section-courses {
+        padding: 2em 1em;
+        gap: 1rem
+    }
+}
+</style>
+
+<section id="main-index" >
+    <div class="text vertical-align align-right polygon">
+        <h2>Dépôts pétrolire de Fos</h2>
+        <h1>E-learning</h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis laudantium exercitationem, ducimus sed repellendus tempora quis impedit dolores aperiam dolorum tenetur itaque facere! Odio error a esse, mollitia itaque accusamus!</p>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi quo veniam nulla ipsam, id a vel architecto vero veritatis dicta, impedit minima excepturi inventore eaque aut ea eos reiciendis neque.</p>
+        <div class="to-courses">
+            <a href="/courses" >Découvrir les formations</a>
+        </div>
+
+    </div>
+</section>
+
+
+
+<%block name="js_extra">
+   <script type="text/javascript">
+      $(window).load(function() {
+         if(getParameterByName('next')) {
+              $('#login').trigger("click");
+         }
+      })
+   </script>
+</%block>
+
+% if show_signup_immediately is not UNDEFINED:
+  ## NOTE: This won't work in production, because anonymous views are cached, so it will
+  ## show either with or without this extra js for 3 minutes at a time.
+<script type="text/javascript">
+  $(window).load(function() {$('#signup_action').trigger("click");});
+</script>
+% endif
