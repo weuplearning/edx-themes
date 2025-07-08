@@ -32,7 +32,7 @@ from lms.djangoapps.wul_apps.models import WulCourseEnrollment
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 from openedx.core.djangoapps.course_groups.cohorts import get_cohort
 from lms.djangoapps.courseware.models import StudentModule
-
+from datetime import datetime
 
 import logging
 log = logging.getLogger()
@@ -164,9 +164,12 @@ for course_id in course_ids:
     user_data.append(user.username)
 
     try :
-      certificate_date = user_CF_data["certificate_date_"+str(course_id.replace("-","_").replace(":","_").replace("+","_"))]
+      date_str = user_CF_data['success_date_' + course_id]
+      date_obj = datetime.strptime(date_str, "%Y-%m-%d")
+      certificate_date = date_obj.strftime("%d/%m/%Y")
     except :
       certificate_date = 'n.a.'
+
 
     for key in TECHNICAL_HEADER :
       try :
