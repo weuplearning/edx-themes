@@ -174,10 +174,41 @@ colorbglib = ['#defff5','#ffe0b2','#e6eeff']
         completion_number = int(completion_ratio * 100)
     completionstr = str(int(completion_ratio * 100))
     %>
+
+    <div style="color:white">
+
+    <%
+    section_is_auto_opened = section.get('resume_block') is True
+    scored = 'scored' if section.get('scored', False) else ''
+    total_blocks = 1
+    completed_blocks = 0
+    if not section.get('complete'):
+        total_blocks = 0
+        completed_blocks = 0
+        for subsection in section.get('children', []):
+            for unitchild in subsection.get('children', []):
+                for blockchild in unitchild.get('children', []):
+                    total_blocks += 1
+                    if blockchild.get('complete'):
+                        completed_blocks += 1
+    if total_blocks == 0:
+        completion_ratio = 0
+    else:
+        completion_ratio = completed_blocks / total_blocks
+        completion_number = int(completion_ratio * 100)
+    completionstr = str(int(completion_ratio * 100))
+    %>
+
+    </div>
+
+
     <div class="section">
     <h2 class="flex-center" style="color:${colorlead};" >${section['display_name']}</h2>
     
     
+
+
+
     <style>
 
     .flex-center
@@ -262,6 +293,49 @@ colorbglib = ['#defff5','#ffe0b2','#e6eeff']
         ###
         ###%>
 
+        <%
+        total_blocks = 0
+        completed_blocks = 0
+        for unitchild in subsec.get('children', []):
+            for blockchild in unitchild.get('children', []):
+                total_blocks += 1
+                if blockchild.get('complete'):
+                    completed_blocks += 1
+            if total_blocks == 0:
+                completion_ratio = 0
+            else:
+                completion_ratio = completed_blocks / total_blocks
+                completion_number = int(completion_ratio * 100)
+            completionscore = str(int(completion_ratio * 100))
+        %>
+
+
+
+                                <%
+                                gated_subsection = subsec['id'] in gated_content
+                                needs_prereqs = not gated_content[subsec['id']]['completed_prereqs'] if gated_subsection else False
+                                scored = 'scored' if subsec.get('scored', False) else ''
+                                graded = 'graded' if subsec.get('graded') else ''
+                                num_graded_problems = subsec.get('num_graded_problems', 0)
+        
+                                scorm_scored = 0
+                                scorms_score = user_grade.summary["section_breakdown"]
+                                for scorm in scorms_score :
+                                    if scorm["detail"].find(subsec["display_name"]) != -1 :
+                                        scorm_scored = scorm["percent"]
+                                        continue
+                                %>
+
+
+
+
+
+
+
+
+
+
+
         <div class="subsec">
         <%
         
@@ -270,11 +344,10 @@ colorbglib = ['#defff5','#ffe0b2','#e6eeff']
         p['children']=[]
         isscored = section.get('scored', False)
         isscored = True
-        import random
-        completionstr = random.choices(range(10,100),k=1)[0]
+        completionstr = str(scorm_scored*10)
         %>
 
-        <%include file="course-item.html" args="imgsrc=json_img_link, imgalt='alt', num=moduleindex, alink=subsec['lms_web_url'], atxt=subsec['display_name'], progress=completionstr, isscored=isscored, colorlead=colorlead, colorbg=colorbg" />
+        <%include file="course-item.html" args="imgsrc=json_img_link, imgalt='alt', num=moduleindex, alink=subsec['lms_web_url'], atxt=subsec['display_name'], progress=completionscore, isscored=isscored, colorlead=colorlead, colorbg=colorbg" />
 
         </div>
     %endfor
