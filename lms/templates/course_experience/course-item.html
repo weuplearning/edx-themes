@@ -12,18 +12,18 @@ imgagesource = str("/static/axeptio/images/modules/" + str(num) + ".png")
         <span class="c-item-number" style="border: 6px ${colorlead} solid;">${num}</span>
         ###%endif
         <div class="c-item">
-            <div class="c-item-img-container" style="background-color:${colorbg}">
+            <div class="c-item-img-container" style="background-color:${colorbg};justify-content:${ 'flex-end' if (num==1) else 'flex-center' }">
                 <img src="${imgagesource}" alt="${imgalt}" />
             </div>
             %if (isscored==True):
             <div class="colorbar">
-                <span class="colorbar-fill" style="background-color: ${colorlead};">
+                <span class="colorbar-fill" style="background-color: ${colorlead}; width: ${progress}%">
                 </span>
                 <span class='colorbar-progress-tag'>${progress}%</span>
             </div>
             %endif
             <div class="c-item-a-container">
-                <a href="${alink}"><span>${atxt}</span><span>></span></a>
+                <a href="${alink}"><span>${atxt}</span><span><img src="${static.url('axeptio/images/modules/arrow.png')}"/></span></a>
 
             </div>
         </div>
@@ -96,7 +96,6 @@ imgagesource = str("/static/axeptio/images/modules/" + str(num) + ".png")
     }
 
     .colorbar-fill {
-        width: ${progress}%;
         display: block;
         height: 1.1rem;
     }

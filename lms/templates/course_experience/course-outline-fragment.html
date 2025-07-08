@@ -153,7 +153,6 @@ colorbglib = ['#defff5','#ffe0b2','#e6eeff']
     
 
 
-
     <%
     section_is_auto_opened = section.get('resume_block') is True
     scored = 'scored' if section.get('scored', False) else ''
@@ -234,7 +233,22 @@ colorbglib = ['#defff5','#ffe0b2','#e6eeff']
     
     
     <div class="subsections">
-    %for subsec in section.get('children', []):
+    <%
+    curr_subsections = section.get('children', [])
+    ###if(primary_index == 0):
+    ###    del curr_subsections[:1]
+    ###if(primary_index == 1):
+    ###    del curr_subsections[:1]
+    ###if(primary_index == 2):
+    ###    pass
+    ###
+    ###iterator = 0
+    %>
+    %for subsec in curr_subsections:
+        ###${iterator}
+        ###<% iterator = iterator + 1
+        ###%>
+        
         ###<%
         ###banned = False
         ###subsec_blacklist = ['conclusion','Conclusion']
@@ -256,7 +270,8 @@ colorbglib = ['#defff5','#ffe0b2','#e6eeff']
         p['children']=[]
         isscored = section.get('scored', False)
         isscored = True
-        completionstr = 40
+        import random
+        completionstr = random.choices(range(10,100),k=1)[0]
         %>
 
         <%include file="course-item.html" args="imgsrc=json_img_link, imgalt='alt', num=moduleindex, alink=subsec['lms_web_url'], atxt=subsec['display_name'], progress=completionstr, isscored=isscored, colorlead=colorlead, colorbg=colorbg" />
