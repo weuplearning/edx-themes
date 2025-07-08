@@ -42,128 +42,233 @@ for key, value in data.items() :
 
 <style>
 .section,.subsec{
-    border: 1px solid black;
     margin: 0.5rem;
 }
+
+.subsec{
+    margin: 0.5rem;
+}
+
+.subsections{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    margin: 3rem;
+}
+
+.section{
+    color:white;
+    margin:1rem;
+}
+
+.modules-section{
+    background-color: #212121;
+    height:100%
+}
+
+#main{
+    height:100%;
+}
+/* class="content-wrapper main-container" */
+
+p{
+    font-family:  "Source Sans 3",sans-serif !important;
+    font-size: 20px;
+}
+
+
+
+h1, h2{
+    font-family: "Source Serif 4",serif !important;
+
+}
+
+
+h3, h4,h5,h6{
+    font-family: "Source Sans 3",sans-serif !important;
+    font-weight: 400;
+}
+
+
+
+
+h1,h2{
+    color: #212121;
+    font-style: normal;
+    font-weight: 700;
+    text-decoration: none;
+    text-transform: none;
+}
+
+h1,h2{
+    font-size: xxx-large;
+}
+
+h2{
+    padding: 5rem 0 2rem;
+    color:#44c19b;
+}
+
+body, p{
+font-family: Source Sans Pro,sans-serif
+}
+
+
 </style>
 
 
 
-<div class="debug">
+<main role="main" class="course-outline" id="main" tabindex="-1">
+<div class="o-header">
+<h1 class="flex-center">Les modules</h1>
+</div>
+
+<div class="modules-section">
+
 % if course_sections is not None:
+<%
+moduleindex = 0
+
+# pistachio lead 44c19b
+# teal bg defff5
+
+# e57850
+# ffe0b2
+
+# 698ed5
+# e6eeff
+colorleadlib = ['#44c19b','#e57850','#698ed5']
+colorbglib = ['#defff5','#ffe0b2','#e6eeff']
+
+
+%>
 % for primary_index, section in enumerate(course_sections):
-    <div class="section">
+    
     <% 
-    p=section
-    p['children']=[]
+    colorlead = colorleadlib[primary_index]
+    colorbg = colorbglib[primary_index]
     %>
-    <h2>section "${p['display_name']}</h2>
-    ${p}
+    
+
+
+
+    <%
+    section_is_auto_opened = section.get('resume_block') is True
+    scored = 'scored' if section.get('scored', False) else ''
+    total_blocks = 1
+    completed_blocks = 0
+    if not section.get('complete'):
+        total_blocks = 0
+        completed_blocks = 0
+        for subsection in section.get('children', []):
+            for unitchild in subsection.get('children', []):
+                for blockchild in unitchild.get('children', []):
+                    total_blocks += 1
+                    if blockchild.get('complete'):
+                        completed_blocks += 1
+    if total_blocks == 0:
+        completion_ratio = 0
+    else:
+        completion_ratio = completed_blocks / total_blocks
+        completion_number = int(completion_ratio * 100)
+    completionstr = str(int(completion_ratio * 100))
+    %>
+    <div class="section">
+    <h2 class="flex-center" style="color:${colorlead};" >${section['display_name']}</h2>
+    
+    
+    <style>
+
+    .flex-center
+    {
+        display:flex;
+        justify-content:center;
+        align-items:center;
+
+    }
+    .section-colorbar{
+    display: flex;
+    width: 90%;
+    background-color: white;
+    height: 2rem;
+    margin: 0 -1em 0 0;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    }
+
+    .section-colorbar-fill{
+    display: flex;
+    height: 1em;
+    margin: 1em 0 1em 1em;
+    /*width: 40%; */
+    flex-direction: row-reverse;
+    align-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    }
+
+    .section-colorbar-fill-dot{
+    background-color: #332c1a;
+    height: 2.5rem!important;
+    width: 2.5rem!important;
+    border:#fdcd42 0.5em solid;
+    border-radius: 100%;
+    margin:0;
+    position: relative;
+    left: 1em;
+    }
+    </style>
+    <div class="flex-center">
+    <div class="section-colorbar">
+        %if completion_number >6 :
+            <div class="section-colorbar-fill" style="background-color:${colorlead};width:${completionstr}%"><div class="section-colorbar-fill-dot"></div></div>
+        % else:
+            <div class="section-colorbar-fill" style="background-color:${colorlead};"><div class="section-colorbar-fill-dot"></div></div>
+        %endif
+    </div>
+    </div>
+    
+    
+    <div class="subsections">
     %for subsec in section.get('children', []):
+        ###<%
+        ###banned = False
+        ###subsec_blacklist = ['conclusion','Conclusion']
+        ###for word in subsec_blacklist:
+        ###    if(word in subsec['display_name']): 
+        ###        banned = True
+        ###        continue
+        ###
+        ###if banned == True:
+        ###    continue
+        ###
+        ###%>
+
         <div class="subsec">
-        <% 
+        <%
+        
+        moduleindex = moduleindex+1
         p=subsec
         p['children']=[]
+        isscored = section.get('scored', False)
+        isscored = True
+        completionstr = 40
         %>
-        <h2>Subsec "${p['display_name']}</h2>
-        ${p}
+
+        <%include file="course-item.html" args="imgsrc=json_img_link, imgalt='alt', num=moduleindex, alink=subsec['lms_web_url'], atxt=subsec['display_name'], progress=completionstr, isscored=isscored, colorlead=colorlead, colorbg=colorbg" />
+
+        </div>
     %endfor
+    </div>
     </div>
 %endfor
 % endif
 </div>
-
-<main role="main" class="course-outline" id="main" tabindex="-1">
-    <div style="display: flex; flex-wrap: wrap;">
-    % if course_sections is not None:
-        % for primary_index, section in enumerate(course_sections):
-            
-            <%
-            section_is_auto_opened = section.get('resume_block') is True
-            scored = 'scored' if section.get('scored', False) else ''
-            total_blocks = 1
-            completed_blocks = 0
-            if not section.get('complete'):
-                total_blocks = 0
-                completed_blocks = 0
-                for subsection in section.get('children', []):
-                    for unitchild in subsection.get('children', []):
-                        for blockchild in unitchild.get('children', []):
-                            total_blocks += 1
-                            if blockchild.get('complete'):
-                                completed_blocks += 1
-            if total_blocks == 0:
-                completion_ratio = 0
-            else:
-                completion_ratio = completed_blocks / total_blocks
-            completionstr = str(int(completion_ratio * 100))
-            %>
-
-            <div class="custom-section" id="${ section['id'] }" style="background-color:rgb(237, 171, 55);border: 1px solid black;margin: 1rem;">
-                <h1>Section ${section['display_name']}</h1>
-                
-                <!-- Card -->
-                <div class="card">
-                    ###<%include file="course-item.html" args="imgsrc=json_img_link, imgalt='alt', num=primary_index+1, alink='google.com', atxt=section['display_name'], progress=completionstr" />
-                </div>
-                <!-- Card -->
-                <!--chapters -->
-                <div class="chapters" style="background-color:rgb(75, 148, 19);border: 1px solid black;margin: 1rem;" >
-                    <p>CHAPTERS</p>
-                    %for index, chapter in enumerate(user_grade.chapter_grades.keys()):
-                        <div class="chapter" style="background-color:rgb(159, 153, 84);border: 1px solid black;margin: 1rem;">
-                        <p> chapter ${index} "${user_grade.chapter_grades[chapter]['display_name']}"</p>
-                        <p>chapter ${chapter} </p>
-                        <p> ID : "${ section['id'] }"</p>
-                        <a href="/courses/${course}/jump_to/${ section['id'] }"> link</a>
-                        <p>course "${course}"</p>
-                        <p>grade ${int(user_grade.chapter_percentage(chapter) * 100)}%</p>
-                        %if section['display_name'] == user_grade.chapter_grades[chapter]['display_name']:
-                            ${user_grade.chapter_percentage(chapter)}        
-                                <h2 class="completed_percent"> ${int(user_grade.chapter_percentage(chapter) * 100)} %</h2>  
-                        %endif
-                        </div>
-                    %endfor
-                </div>
-                <!--/chapters -->
-                
-                <!--subsections -->
-                <div class="subsections" style="background-color:rgb(42, 121, 75);border: 1px solid black;margin: 1rem;" >
-                    <div class="" id="${ section['id'] }_contents" aria-labelledby="${ section['id'] }">
-                    % for subsection in section.get('children', []):
-                        <!--subsection -->
-                        
-                        <div class="subsection" style="background-color:rgb(24, 96, 110);border: 1px solid black;margin: 1rem;" >
-                        <a href="${ subsection['lms_web_url'] }" class="subsection-text outline-button horizontal-align" id="${ subsection['id'] }" > ${ subsection['display_name'] } </a>
-                        <%
-                        gated_subsection = subsection['id'] in gated_content
-                        needs_prereqs = not gated_content[subsection['id']]['completed_prereqs'] if gated_subsection else False
-                        scored = 'scored' if subsection.get('scored', False) else ''
-                        graded = 'graded' if subsection.get('graded') else ''
-                        num_graded_problems = subsection.get('num_graded_problems', 0)
-                        scorm_scored = 0
-                        scorms_score = user_grade.summary["section_breakdown"]
-                        for scorm in scorms_score :
-                            if scorm["detail"].find(subsection["display_name"]) != -1 :
-                                scorm_scored = scorm["percent"]
-                                continue
-                        %>
-                        % if subsection.get('resume_block'):
-                            <p>current</p>
-                        %endif
-                        
-                        %if subsection['complete'] or scorm_scored >= 0.7 :
-                            <p>complete</p>
-                        %endif
-                        </div>
-                        <!-- /subsection -->
-                    % endfor
-                    </div>
-                    </div>
-                    <!--subsections -->
-            </div>
-        % endfor
-    % endif
+</div>
 </main>
 
 <%static:require_module_async module_name="js/dateutil_factory" class_name="DateUtilFactory">
