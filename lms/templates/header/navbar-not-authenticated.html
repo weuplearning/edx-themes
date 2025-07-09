@@ -68,12 +68,12 @@ from openedx.core.djangoapps.user_authn.utils import should_redirect_to_logistra
           </div>
         % else:
           <div class="mobile-nav-item hidden-mobile nav-item">
-              <a id='b-login' class="sign-in-btn btn" href="/login${login_query()}">${_("Sign in")}</a>
+              <a id='b-login'  data-i18n="login"  class="sign-in-btn btn" href="/login${login_query()}">${_("Sign in")}</a>
           </div>
         % endif
       % endif
       <div class="mobile-nav-item hidden-mobile nav-item">
-        <a id='b-contact-us' class="btn btn-nav-primary" href="https://axept.io">Nous Contacter</a>
+        <a id='b-contact-us'  data-i18n="contact" class="btn btn-nav-primary" href="https://axept.io">Nous Contacter</a>
       </div>
     </div>
   </div>

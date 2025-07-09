@@ -1,0 +1,65 @@
+<%page args="lang='fr'"/>
+
+
+
+<script>
+
+const translations = {
+  fr: {
+    welcome: "Bienvenue<br/>dans&nbsp;lʼAxeptio&nbsp;<br/>",
+    becomeexpert: "Devenez expert de la CMP Axeptio !",
+    classictitle: "Version Classique",
+    premiumtitle: "Version Premium",
+    classictxt: "Formez-vous à votre rythme avec l’Axeptio Academy : découvrez nos outils, maîtrisez nos solutions et approfondissez vos connaissances en matière de réglementation des données.",
+    premiumtxt: "Partenaires d’Axeptio, passez à la vitesse supérieure avec la formation certifiante : connectez-vous avec les identifiants transmis pour y accéder.",
+    premiumsubtxt: "Envie de rejoindre la version Premium ?",
+    premiumcta: "Écrivez-nous dès maintenant !",
+    register: "Inscription",
+    login: "Connexion",
+    contact: "Nous contacter",
+  },
+  en: {
+    welcome: "Welcome<br/>to&nbsp;the&nbsp;Axeptio&nbsp;<br/>",
+    becomeexpert: "Become an expert in Axeptio's CMP!",
+    classictitle: "Classic Version",
+    premiumtitle: "Premium Version",
+    classictxt: "Train at your own pace with the Axeptio Academy: discover our tools, master our solutions, and deepen your knowledge of data regulations.",
+    premiumtxt: "Axeptio partners, take your skills to the next level with our certified training: log in with the credentials provided to access the training.",
+    premiumsubtxt: "Want to upgrade to the Premium version?", 
+    premiumcta: "Contact us now!", 
+    register: "Registration", 
+    login: "Login", 
+    contact: "Contact Us", 
+  }
+
+
+  
+
+
+};
+
+
+function updateLanguage(lang) {
+  const elements = document.querySelectorAll('[data-i18n]');
+  elements.forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (translations[lang] && translations[lang][key]) {
+      el.innerHTML = translations[lang][key];  // Use innerHTML instead of textContent
+    }
+  });
+}
+
+// set default language to French
+
+
+</script>
+
+<script>
+
+console.log("Setting default language to French");
+document.addEventListener("DOMContentLoaded", () => {
+    updateLanguage('${lang}');
+});
+
+
+</script>

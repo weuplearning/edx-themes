@@ -8,66 +8,23 @@ from django.urls import reverse
 from openedx.core.djangolib.markup import HTML, Text
 
 %>
+    <%include file="/custom/index/styles.html"/>
+
+
 
     <div class="hero">
-
         <div>
-            
-        <style>
-        .circled-word{
-            display: flex;
-            flex-wrap: nowrap;
-            align-content: center;
-            justify-content: center;
-            align-items: center;
-
-            z-index: -1;
-
-        }
-
-        .circled-word-target{
-            display: block;
-            position: relative;
-            left: -16rem;
-            z-index: 50
-        }
-
-
-        .main-h1
-{
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:1;
-
-    position: relative;
-
-}
-
-.circled-word{
-display: flex;
-    flex-wrap: nowrap;
-    align-content: center;
-    justify-content: center;
-    align-items: center;
-    position:relative;left:-3rem;
-
-    z-index: -1;
-
-}
-
-        </style>
-
-        <div style="width: 50%;justify-content:center;align-items:center;z-index:0">
-
-                    <h1 class="main-h1" style="flex-direction: column;justify-content:flex-start"><span>Bienvenue<br/>dans&nbsp;lʼAxeptio&nbsp;<br/></span>
-                <span class="circled-word" style="position:relative;left: 1.2em;">
-                    <img src="${static.url('axeptio/images/background/oval_2.png')}" style="width:18rem" /> 
-                    <span class="circled-word-target" >Academy&nbsp;!</span></span></h1>
-
+            <div style="width: 50%;justify-content:center;align-items:center;z-index:0">
+                    <h1 class="main-h1" style="flex-direction: column;justify-content:flex-start">
+                        <span data-i18n="welcome"></span>
+                        <span class="circled-word" style="position:relative;left: 1.2em;">
+                            <img src="${static.url('axeptio/images/background/oval_2.png')}" style="width:18rem" /> 
+                            <span class="circled-word-target" >Academy&nbsp;!</span>
+                        </span>
+                    </h1>
         </div>
-            </span></h1>
-            <p style="font-size: 1.5em;">Devenez expert de la CMP Axeptio !</p>
+        </span></h1>
+            <p style="font-size: 1.5em;" data-i18n="becomeexpert" >Devenez expert de la CMP Axeptio !</p>
 
 
         </div>
@@ -104,11 +61,11 @@ display: flex;
 
     </div>
     <div class="window-content">
-        <h2>Version Classique</h2>
-        <p>Formez-vous à votre rythme avec <b>l’Axeptio Academy :</b> découvrez <b>nos outils</b>, maîtrisez <b>nos solutions</b> et
+        <h2 data-i18n="classictitle">Version Classique</h2>
+        <p data-i18n="classictxt">Formez-vous à votre rythme avec <b>l’Axeptio Academy :</b> découvrez <b>nos outils</b>, maîtrisez <b>nos solutions</b> et
             approfondissez <b>vos connaissances en matière de réglementation des données.</b></p>
 
-        <a class="btn" href="/register">Inscription</a>
+        <a class="btn" data-i18n="register" href="/register">Inscription</a>
         <div>
                 <img src="${static.url('axeptio/images/index/classic.png')}">
         </div>
@@ -126,20 +83,20 @@ display: flex;
                 </div>
             </div>
             <div class="window-content">
-                <h2>Version Premium</h2>
-                <p><b>Partenaires d’Axeptio,</b> passez à la vitesse supérieure avec <b>la formation certifiante</b> : connectez-vous
+                <h2 data-i18n="premiumtitle">Version Premium</h2>
+                <p data-i18n="premiumtxt"><b>Partenaires d’Axeptio,</b> passez à la vitesse supérieure avec <b>la formation certifiante</b> : connectez-vous
                     avec les
                     identifiants transmis pour y accéder.</p>
 
-                <a class="btn" href="/login">Connexion</a>
+                <a class="btn" data-i18n="login" href="/login">Connexion</a>
                 <div>
                      <img src="${static.url('axeptio/images/index/premium.png')}"> 
                 </div>
                 <div>
-                    <p>Envie de rejoindre la version Premium ?</p>
-                    <p><b>Écrivez-nous dès maintenant !</b></p>
+                    <p data-i18n="premiumsubtxt">Envie de rejoindre la version Premium ?</p>
+                    <p data-i18n="premiumcta"><b>Écrivez-nous dès maintenant !</b></p>
                 </div>
-                <a class="btn" href="https://axept.io">Nous contacter</a>
+                <a class="btn" data-i18n="contact" href="https://axept.io">Nous contacter</a>
             </div>
         </div>
     </div>
@@ -150,351 +107,3 @@ display: flex;
 </div> <!-- End of versions-container div -->
 </div> <!-- End of versions-container-wrapper div -->
 
-        <style>
-            .content-wrapper{
-                max-width: 100% !important;
-
-            }
-.top-svg{
-    display: block;
-    inset: auto 0 100%;
-    pointer-events: none;
-
-    width: 100%;
-    z-index: -1;
-}
-
-.top-svg svg{
-    height: 100%;
-}
-
-#content{
-    padding:0;
-}
-
-p{
-    font-family:  "Source Sans 3",sans-serif !important;
-    font-size: 20px;
-}
-
-
-
-h1, h2{
-    font-family: "Source Serif 4",serif !important;
-
-}
-
-
-h3, h4,h5,h6{
-    font-family: "Source Sans 3",sans-serif !important;
-    font-weight: 400;
-}
-
-
-
-
-h1,h2{
-    color: #212121;
-    font-style: normal;
-    font-weight: 700;
-    text-decoration: none;
-    text-transform: none;
-}
-
-
-body, p{
-font-family: Source Sans Pro,sans-serif
-}
-
-
-.topbar{
-    background-color: #edeef6;
-}
-
-.navbar{
-    display: block;
-}
-
-.btn{
-    display: inline-block;
-    width: auto;
-}
-
-.btn-primary{
-    display: block;
-}
-
-
-    .navbar
-    {
-        font-size: 15px;
-    }
-
-    .navbar nav{
-        display: flex;
-        flex-direction: row;
-        flex-flow: wrap;
-        background-color: #ffffff;
-        justify-content: space-between;
-    }
-
-    .navbar nav span{
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        margin: 1em;
-        flex-flow: wrap;
-        /* background-color: blue; */
-        padding: 0.5rem;
-        justify-content: space-around;
-        margin: 0.2;
-    }
-
-    .btn
-    {
-        background-color: #ffce43;
-        border :1px solid #ffce43;
-        border-radius: 1000px;
-        padding: 10px 15px;
-        height: max-content;
-        width: auto;
-        margin: 0.5 0.5em;
-        text-decoration: none;
-        text-align: center;
-        font-family: Arial, Helvetica, sans-serif;
-        font-weight: bold;
-        padding: 15px 25px;
-        color: #212121;
-
-    }
-
-
-
-    .btn span
-    {
-        display: inline-block;
-
-        background-color: red;
-
-    }
-
-    h1{
-    font-size: 54px;
-    line-height: 65px;
-    font-family: "Source Serif 4",serif;
-    font-weight: 700;
-    }
-
-        h2{
-    font-size: 32px;
-    line-height: 65px;
-    font-family: "Source Serif 4",serif;
-    font-weight: 700;
-    }
-
-    .versions-section
-    {
-        margin-top: -10px;
-        background-color: #212121;
-        min-height: 100vh;
-
-    }
-
-    .versions-windows
-    {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-evenly;
-        min-width: 500px;
-        max-width: 70vw;
-        height: auto;
-        width: 100%;
-        margin: 0 auto;
-        background-color: #212121;
-
-    }
-
-
-
-    .versions-windows > div{
-        border-radius: 18px;
-        box-shadow: 0 20px 25px rgba(0,0,0,.17);
-        display: flex;
-        flex-direction: column;
-        overflow: visible;
-        width: auto;
-        max-width: 25vw;
-    }
-
-
-    .window-content{
-        display: flex;
-        flex-direction: column;
-        flex-wrap: nowrap;
-        justify-content: space-evenly;
-        align-content: center;
-        align-items: center;
-        text-align: center;
-        padding: 1.5rem 1rem
-
-    }
-
-
-    .window-content div img{
-    max-width: 10rem;
-    height: auto;
-    margin:1rem;
-    }
-
-    /* .window-content div {
-        max-height: 200px;
-        margin: 1rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    } */
-
-    .window-content p{
-            color: #222;
-    font-size: clamp(14px,2vw,16px);
-    font-weight: 400;
-    line-height: 24px;
-    margin: 0 0 14.19px;
-    max-width: 25em;
-    height: 40%;
-    
-    }
-
-    .window-classic, .window-premium{
-        min-width: 25em;
-        /* max-height: 70vh; */
-        margin-top: 1.5rem;
-    }
-
-    .window-header 
-    {
-    align-items: center;
-    border-radius: 18px 18px 0 0;
-    display: flex;
-    height: 1em;
-    padding: 14px 28px;
-    }
-
-    .window-header-premium{
-        background-color: #bdefe1;
-    }
-
-    .window-header-premium .window-header-bar{
-        background-color: #f9fbff;
-    }
-
-    .window-header-classic .window-header-bar{
-        background-color: #fef8e5;
-    }
-
-    .window-header-classic
-    {
-            background-color: #f7eccf;
-    }
-
-
-    .bg-cyandark
-    {
-        background-color: #46c29c;
-    }
-
-    .window-header-btns {
-        width: 4em;
-        margin: auto 0;
-        display: flex;
-        flex-wrap: nowrap;
-        justify-content: space-around;
-        
-    } 
-
-    .window-header-btns span 
-    {
-        height: 0.75em;
-        width: 0.75em;
-        display: inline-block;
-        border-radius: 100%;
-    }
-
-
-    .window-header-bar {
-        width: 100%;
-        height: 1em;
-        margin: auto 0 auto 0.75em;
-        background-color: #fef8e5;
-    } 
-
-    .window-header-bar span 
-    {
-        height: 0.5em;
-        width: 60%;
-        display: inline-block;
-    }
-
-
-    .window-classic
-    {
-        background-color: #fef8e5
-    }
-
-    .window-premium
-    {
-        background-color: #defff6;
-    }
-
-    .bg-orangedark
-    {
-        background-color: #e3b637;
-    }
-
-    .hero {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        margin: 1em auto 3em;
-        flex-wrap: wrap;
-        align-items: center;
-        max-width: 80vw;
-        max-height: 100vh;
-    }
-
-    .hero h1{
-        max-width: 20vw;
-        text-align: left;
-    }
-
-    .hero-img-section{
-        max-width: 50%;
-        width: auto;
-    }
-    .hero-img-section img{
-        width: 100%;
-    }
-
-    .wrapper-footer
-    {
-        display: none;
-    }
-
-    .versions-container-wrapper
-    {
-    height: 100vh;
-    position: relative;
-    top: -7rem;
-    }
-
-        </style>
-
-
-<script>
-    const wwrap = document.querySelector('.window-wrap');
-if (wwrap) {
-  wwrap.style.height = '100vh';
-}
-
-</script>
