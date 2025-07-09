@@ -12,9 +12,8 @@ from openedx.core.djangolib.markup import HTML, Text
 <style>
 
 .content-wrapper {
-    padding: none !important;
-    margin-top: 0 !important;
-    margin: auto !important;
+    padding: 0px !important;
+    margin: 0px auto !important;
 }
 
 .horizontal-align, .vertical-align {
@@ -30,79 +29,140 @@ from openedx.core.djangolib.markup import HTML, Text
     text-align: right;
 }
 
-#main-index {    
-    background-image: url("${static.url('depot-petrolier-fos/images/background.jpg')}");
-    height: calc(100vh - 60px);
-    background-size: cover;
-    background-position: center;
+.global-header .nav-links .secondary {
+    margin: 24px 40px 0 0 !important;
 }
-.wrapper {
+
+.main .mobile-nav-item {
+    display: none !important;
+}
+
+.container {
+    padding: 0 !important;
+    max-width: none ;
+    position: relative;
+    width: 100%;
+    min-height: calc(100vh - 153px);
+    background-image: url("${static.url('depot-petrolier-fos/images/background.jpg')}");
+    background-size: cover;
+    background-position-x: center;
     display: flex;
     align-items: center;
-    justify-content: center;
-    height: 100%;
-    margin-left: 40vw;
+    justify-content: flex-end;
 }
-.wrapper .polygon {
-    background-color : var(--primary);
-    height: 100%;
-    width: 40vw;
-    clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 0% 100%);
-}
-h2, .to-courses a {
-    text-transform: uppercase;
-}
-.text {
-    background-color: var(--primary);
+
+
+
+
+.overlay {
+    width: 40% ;
+    min-height: calc(100vh - 153px);
+    background-color: var(--primary); 
+    clip-path: polygon(32% 0, 100% 0, 100% 100%, 0% 100%);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-left: 13%;
     color: white;
-
 }
-.to-courses a {
-    padding: 20px 10px;
-    background-color: white;
-    color: var(--primary);
-    border-radius: 30px;
-    text-decoration: none;
+
+.content {
+    max-width: 500px;
+    align-items: flex-end;
+    padding-right: 10%;
+    text-align: end;
+}
+
+h2, h1 {
+    font-family: 'Open Sans', sans-serif;
     font-weight: bold;
+    font-size: 1.8rem;
+    color : white
 }
 
-@media only screen and (max-width : 320px) {
-    .section-courses {
-        padding: 2em 1em;
-        gap: 1rem
+h1 {
+    font-size: 4rem;
+}
+
+p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.button {
+    background-image : none;
+    text-shadow: none;
+    background-color: white;
+    color: var(--primary) !important;
+    border: none;
+    font-size: 1rem !important;
+    padding: 19px 31px;
+    font-weight: bold !important;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background 0.9s ease !important;
+}
+
+.button:hover {
+    color:white !important;
+    text-decoration: none !important;
+}
+
+
+
+footer .nav-item a {
+    color: var(--primary) !important;
+}
+.wrapper-footer {
+    background-color: white !important;
+}
+
+
+@media screen and (max-width: 1024px) {
+    .overlay {
+        width: 50% ;
     }
 }
+@media screen and (max-width: 768px) {
+    .overlay {
+        width: 75% ;
+    }
+}
+
 </style>
 
-<section id="main-index" >
-    <div class="text vertical-align align-right polygon">
-        <h2>Dépôts pétrolire de Fos</h2>
-        <h1>E-learning</h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis laudantium exercitationem, ducimus sed repellendus tempora quis impedit dolores aperiam dolorum tenetur itaque facere! Odio error a esse, mollitia itaque accusamus!</p>
-        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi quo veniam nulla ipsam, id a vel architecto vero veritatis dicta, impedit minima excepturi inventore eaque aut ea eos reiciendis neque.</p>
-        <div class="to-courses">
-            <a href="/courses" >Découvrir les formations</a>
+<div class="container">
+    <div class="overlay">
+        <div class="vertical-align content">
+            <h2>DÉPÔTS PÉTROLIERS DE FOS</h2>
+            <h1>E-learning</h1>
+            <p>
+            Rovidunt rerum facepta spelic tas qui consed ut eum ulparcit, Itas nonsequ odignis simus...
+            </p>
+            <p>
+            Rovidunt rerum facepta spelic tas qui consed ut eum ulparcit, Itas nonsequ odignis simus...
+            </p>
+            <a class="button" href="/courses">ACCÉDER AUX MODULES</a>
         </div>
-
     </div>
-</section>
-
+</div>
 
 
 <%block name="js_extra">
-   <script type="text/javascript">
-      $(window).load(function() {
-         if(getParameterByName('next')) {
-              $('#login').trigger("click");
-         }
-      })
-   </script>
+    <script type="text/javascript">
+        $(window).load(function() {
+            if(getParameterByName('next')) {
+                $('#login').trigger("click");
+            }
+        })
+    </script>
 </%block>
 
 % if show_signup_immediately is not UNDEFINED:
-  ## NOTE: This won't work in production, because anonymous views are cached, so it will
-  ## show either with or without this extra js for 3 minutes at a time.
-<script type="text/javascript">
-  $(window).load(function() {$('#signup_action').trigger("click");});
-</script>
+    ## NOTE: This won't work in production, because anonymous views are cached, so it will
+    ## show either with or without this extra js for 3 minutes at a time.
+    <script type="text/javascript">
+    $(window).load(function() {$('#signup_action').trigger("click");});
+    </script>
 % endif

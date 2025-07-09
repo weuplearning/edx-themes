@@ -42,7 +42,14 @@ enterprise_customer_link = get_enterprise_learner_portal(request)
 
 <style>
   .header-logo img.logo {
-    height: 5rem !important;
+    height: 70px !important;
     width: auto;
+  }
+  
+  @media (max-width: 991.98px) {
+    .global-header .header-logo a .logo {
+        margin-left: -50%;
+        margin-top: -38%;
+    }
   }
 </style>

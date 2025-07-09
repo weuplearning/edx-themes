@@ -20,13 +20,34 @@
             <li class="nav-item">
               <a class="footer-link" href="/legales">Mentions légales</a>
             </li>
-
           </ul>
         </nav>
       </div>
     </div>
   </footer>
 </div>
+
+<style>
+footer .nav-item {
+  text-align: center;
+  font-weight: 700;
+}
+footer .nav-item a {
+  color: white;
+}
+.wrapper-footer {
+  padding: 20px 0;
+  background-color: var(--primary);
+}
+footer .row, footer .navbar-nav, footer .nav-item {
+  margin: 0 auto;
+  width: 100%;
+}
+footer .col-md-9 {
+  flex: none !important;
+  max-width: 100% !important;
+}
+</style>
 
 % if include_dependencies:
   <%static:js group='base_vendor'/>

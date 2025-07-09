@@ -1,0 +1,128 @@
+<%page expression_filter="h"/>
+<%!
+  import json
+  from django.utils.translation import ugettext as _
+  from openedx.core.djangolib.js_utils import js_escaped_string, dump_js_escaped_json
+%>
+<%inherit file="../main.html" />
+<%
+  course_discovery_enabled = settings.FEATURES.get('ENABLE_COURSE_DISCOVERY')
+%>
+
+<%namespace name='static' file='../static_content.html'/>
+
+% if course_discovery_enabled:
+<%block name="header_extras">
+  % for template_name in ["course_card", "filter_bar", "filter", "facet", "facet_option"]:
+  <script type="text/template" id="${template_name}-tpl">
+      <%static:include path="discovery/${template_name}.underscore" />
+  </script>
+  % endfor
+  <%static:require_module module_name="js/discovery/discovery_factory" class_name="DiscoveryFactory">
+    DiscoveryFactory(
+      ${course_discovery_meanings | n, dump_js_escaped_json},
+      getParameterByName('search_query'),
+      "${user_language | n, js_escaped_string}",
+      "${user_timezone | n, js_escaped_string}"
+    );
+  </%static:require_module>
+</%block>
+% endif
+
+<%block name="pagetitle">${_("Courses")}</%block>
+
+<main id="main" aria-label="Content" tabindex="-1">
+
+    <div class="bandeau-header"></div>
+    <div class="title">Sélectionnez le module de votre choix</div>
+    <section class="find-courses">
+        <section class="courses-container">
+            <div class="courses${'' if course_discovery_enabled else ' no-course-discovery'}" role="region" aria-label="${_('List of Courses')}">
+                <ul class="courses-listing courses-list">
+                    %for course in courses:
+
+                        <li class="courses-listing-item">
+                            <%include file="../course.html" args="course=course, index=index" />
+                        </li>
+
+                    %endfor
+                </ul>
+            </div>
+        </section>
+    </section>
+
+</main>
+
+
+<style>
+    .bandeau-header {
+        background-image: url("${static.url('depot-petrolier-fos/images/background.jpg')}");
+        background-size: cover;
+        background-position: center;
+        height: 200px;
+        width: 100%;
+    }
+
+    .title {
+        text-align: center;
+        font-size: 2rem;
+        font-weight: bold;
+        color: var(--primary);
+        margin: 40px auto 20px auto;
+    }
+
+    .courses-list, .courses {
+        width: 100% !important;
+        display: flex !important;
+        justify-content: center;
+    }
+    .courses-list {
+        gap: 10%;
+    }
+
+    .courses-listing-item {
+        box-shadow: 10px 15px 1px var(--secondary);
+        border-radius: 30px;
+        width: 22% !important;
+        border: 2px solid black;
+    }
+    .courses-container .courses .course {
+        /* border-bottom: none !important; */
+        box-shadow: unset;
+        border: unset;
+        background: none;
+        margin: 0;
+    }
+    .module-title {
+        padding: 10px;
+        border-bottom: red 1px solid;
+        margin : 10px 30px;
+        text-align: center;
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
+
+    .courses-container .courses .course .course-info .course-title {
+        text-align: center;
+        margin: 5px 0 ;
+        height: 100%;
+        padding: 7px 15px;
+    }
+
+    .course-image, .course-date {
+        display: none !important;
+    }
+    .find-courses {
+        background: unset !important;
+        padding: 0 !important;
+    }
+    .find-courses .courses .course:hover {
+        background: unset;
+        border-color: unset;
+        box-shadow: none;
+    }
+    .find-courses .courses-container {
+        padding-top: 5px;
+    }
+
+</style>
