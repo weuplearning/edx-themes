@@ -12,8 +12,60 @@ from openedx.core.djangolib.markup import HTML, Text
     <div class="hero">
 
         <div>
-            <h1>Bienvenue dans&nbsp;lʼAxeptio<br/><span>&nbsp;Academy&nbsp;!
+            
+        <style>
+        .circled-word{
+            display: flex;
+            flex-wrap: nowrap;
+            align-content: center;
+            justify-content: center;
+            align-items: center;
 
+            z-index: -1;
+
+        }
+
+        .circled-word-target{
+            display: block;
+            position: relative;
+            left: -16rem;
+            z-index: 50
+        }
+
+
+        .main-h1
+{
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:1;
+
+    position: relative;
+
+}
+
+.circled-word{
+display: flex;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    position:relative;left:-3rem;
+
+    z-index: -1;
+
+}
+
+        </style>
+
+        <div style="width: 50%;justify-content:center;align-items:center;z-index:0">
+
+                    <h1 class="main-h1" style="flex-direction: column;justify-content:flex-start"><span>Bienvenue<br/>dans&nbsp;lʼAxeptio&nbsp;<br/></span>
+                <span class="circled-word" style="position:relative;left: 1.5em;">
+                    <img src="${static.url('axeptio/images/background/oval_2.png')}" style="width:18rem" /> 
+                    <span class="circled-word-target" >Academy&nbsp;!</span></span></h1>
+
+        </div>
             </span></h1>
             <p>Devenez expert de la CMP Axeptio !</p>
 
