@@ -165,6 +165,36 @@ font-family: Source Sans Pro,sans-serif
     height: 100%;
 }
 
+.main-h1
+{
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:1
+
+    position: relative;
+
+}
+
+.circled-word{
+display: flex;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    position:relative;left:-3rem;
+
+    z-index: -1;
+
+}
+
+.circled-word-target{
+    display: block;
+    position: relative;
+    left: -13rem;
+    z-index: 50
+}
+
 </style>
 
 
@@ -172,12 +202,15 @@ font-family: Source Sans Pro,sans-serif
 <main role="main" class="course-outline" id="main" tabindex="-1">
     <div class="o-header">
 
-        <div style="width: 100%;">
-            %if '+EN+' in str(course_key):
-                <h1>The&nbsp;<span>Modules</span></h1>
-            %elif '+FR+' in str(course_key):
-                <h1>Les&nbsp;<span>Modules</span></h1>
-            %endif
+        <div style="width: 100%;justify-content:center;align-items:center;z-index:0">
+                %if '+EN+' in str(course_key):
+                    <h1 class="main-h1">The&nbsp;
+                %else:
+                    <h1 class="main-h1">Les&nbsp;
+                %endif
+                <span class="circled-word" style="">
+                    <img src="${static.url('axeptio/images/background/oval_1.png')}" style="width:16rem" /> 
+                    <span class="circled-word-target" >Modules</span></span></h1>
 
         </div>
         <div class="o-header-img-section">
@@ -320,10 +353,11 @@ colorbglib = ['#defff5','#ffe0b2','#e6eeff']
     </style>
     <div class="flex-center">
     <div class="section-colorbar">
-        %if completion_number >6 :
+        %if completion_number >0 :
             <div class="section-colorbar-fill" style="background-color:${colorlead};width:${completionstr}%"><div class="section-colorbar-fill-dot"></div></div>
         % else:
-            <div class="section-colorbar-fill" style="background-color:${colorlead};"><div class="section-colorbar-fill-dot"></div></div>
+                <div class="section-colorbar-fill-dot" style="left: -1em;">
+                </div>
         %endif
     </div>
     </div>

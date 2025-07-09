@@ -55,7 +55,7 @@ from openedx.core.djangolib.markup import HTML, Text
         <p>Formez-vous à votre rythme avec l’Axeptio Academy : découvrez nos outils, maîtrisez nos solutions et
             approfondissez vos connaissances en matière de réglementation des données.</p>
 
-        <a class="btn" href="http://google.com/abcd">Inscription</a>
+        <a class="btn" href="/register">Inscription</a>
         <div>
                 <img src="${static.url('axeptio/images/index/classic.png')}">
         </div>
@@ -82,7 +82,7 @@ from openedx.core.djangolib.markup import HTML, Text
                     avec les
                     identifiants transmis pour y accéder.</p>
 
-                <a class="btn" href="#">Connexion</a>
+                <a class="btn" href="/login">Connexion</a>
                 <div>
                      <img src="${static.url('axeptio/images/index/premium.png')}"> 
                 </div>
@@ -90,7 +90,7 @@ from openedx.core.djangolib.markup import HTML, Text
                     <p>Envie de rejoindre la version Premium ?</p>
                     <p><b>Écrivez-nous dès maintenant !</b></p>
                 </div>
-                <a class="btn" href="#">Nous contacter</a>
+                <a class="btn" href="https://axept.io">Nous contacter</a>
             </div>
         </div>
     </div>
@@ -239,6 +239,7 @@ font-family: Source Sans Pro,sans-serif
         margin-top: -10px;
         background-color: #212121;
         padding-bottom: 5rem;
+        min-height: 100vh;
 
     }
 
@@ -249,7 +250,7 @@ font-family: Source Sans Pro,sans-serif
         flex-wrap: wrap;
         justify-content: space-evenly;
         min-width: 500px;
-        /* max-width: 70vw; */
+         max-width: 70vw;
         max-height: 80vh;
         height: auto;
         width: 100%;
@@ -286,9 +287,9 @@ font-family: Source Sans Pro,sans-serif
 
 
     .window-content div img{
-    max-width: 50%;
+    max-width: 10rem;
     height: auto;
-    margin: 0 auto;
+    margin:1rem;
     }
 
     /* .window-content div {
@@ -305,6 +306,7 @@ font-family: Source Sans Pro,sans-serif
     font-weight: 400;
     line-height: 24px;
     margin: 0 0 14.19px;
+    max-width: 25em;
     
     }
 
