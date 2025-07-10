@@ -8,6 +8,17 @@
         </a>
 </div>
 
+<script>
+    console.log("test")
+    const frbtn = document.getElementById("btn-lang-fr");
+    const enbtn = document.getElementById("btn-lang-en");
+    if (window.location.href.includes("course-v1:axeptio+EN+1")) {
+        frbtn.href = "/courses/course-v1:axeptio+FR+1/course/"; // Replace with your desired URL
+    }
+    if (window.location.href.includes("course-v1:axeptio+FR+1")) {
+        enbtn.href = "/courses/course-v1:axeptio+EN+1/course/";
+    }
+</script>
 
 
 <style>
