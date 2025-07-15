@@ -196,26 +196,26 @@ input[type="submit"], input[type="button"], button, .button {
 
 
 <script>
-    window.addEventListener("load", function () {
+    setTimeout(() => {
+        
         const targetCguText = document.getElementsByClassName('checkbox-terms_of_service')[0];
         targetCguText.innerHTML = targetCguText.innerHTML.replace('</a> de la E-academy', '</a> de Amazon Europe Core SARL')
-
+        
         const productField = document.getElementsByClassName("form-field select-online_sales_products")[0]
         if (productField) {
             productField.style.display = "none"
-        const selectorField = document.getElementById("register-online_sales")
-        selectorField.addEventListener("click", function () {
-        if (selectorField.value === "oui") {
-            productField.style.display = "block"
-        } else {
-            productField.style.display = "none"
+            const selectorField = document.getElementById("register-online_sales")
+            selectorField.addEventListener("click", function () {
+                if (selectorField.value === "oui") {
+                    productField.style.display = "block"
+                } else {
+                    productField.style.display = "none"
+                }
+            });
         }
-        });
-        }
+    }, 1500);
 
 
-    }
-    );
 
 
 

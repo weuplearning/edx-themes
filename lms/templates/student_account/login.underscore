@@ -139,19 +139,19 @@ window.addEventListener("load", function () {
         function searchTextAndReplace() {
             let textToReplace =  document.getElementsByClassName('message-title')
             if (textToReplace) {
-            if (textToReplace[0]) {
-                textToReplace[0].innerText = "We konden u niet inloggen"
-            }
+                if (textToReplace[0]) {
+                    textToReplace[0].innerText = "We konden u niet inloggen"
+                }
             }
 
             let textToReplace2 =  document.getElementsByClassName('message-copy')
 
             if(textToReplace2) {
-            if (textToReplace2[0]) {
-                if (textToReplace2[0].firstElementChild.innerText.includes("Email or password is incorrect")) {
-                    textToReplace2[0].firstElementChild.innerHTML = "Email of wachtwoord is niet correct. U heeft nog 3 inlogpogingen alvorens uw account tijdelijk geblokkeerd wordt. Als u uw wachtwoord vergeten bent, klik <a href='/reset'>hier</a> om het opnieuw in te stellen.";
+                if (textToReplace2[0]) {
+                    if (textToReplace2[0].firstElementChild.innerText.includes("Email or password is incorrect")) {
+                        textToReplace2[0].firstElementChild.innerHTML = "Email of wachtwoord is niet correct. U heeft nog 3 inlogpogingen alvorens uw account tijdelijk geblokkeerd wordt. Als u uw wachtwoord vergeten bent, klik <a href='/reset'>hier</a> om het opnieuw in te stellen.";
+                    }
                 }
-            }
             }
 
 
@@ -160,9 +160,9 @@ window.addEventListener("load", function () {
             let buttonText = document.querySelector('#password-reset .js-reset')
 
             if (firstTextResetForm && secondTextResetForm && buttonText) {
-            firstTextResetForm.innerText = "Gelieve hieronder uw e-mail adres in te vullen dat u gebruikt om in te loggen en we sturen u een e-mail met instructies."
-            secondTextResetForm.innerText = "Het e-mail adres dat gebruikt werd tijdens uw aanmelding op The E-Academy"
-            buttonText.innerText = "Herstel mijn wachtwoord"
+                firstTextResetForm.innerText = "Gelieve hieronder uw e-mail adres in te vullen dat u gebruikt om in te loggen en we sturen u een e-mail met instructies."
+                secondTextResetForm.innerText = "Het e-mail adres dat gebruikt werd tijdens uw aanmelding op The E-Academy"
+                buttonText.innerText = "Herstel mijn wachtwoord"
             }
 
             let afterSendingText = document.getElementsByClassName("message-copy") 
@@ -193,10 +193,9 @@ window.addEventListener("load", function () {
     setInterval(searchTextAndReplace, 200);
     } else {
         function replaceOneWordInSentence() {
-        let secondTextResetForm = document.querySelector('#password-reset .form-field #password-reset-email-desc');
-        console.log(secondTextResetForm)
-        if (secondTextResetForm) {
-            secondTextResetForm.innerText = "L'adresse email utilisée lors de votre inscription sur la E-academy"
+            let secondTextResetForm = document.querySelector('#password-reset .form-field #password-reset-email-desc');
+            if (secondTextResetForm) {
+                secondTextResetForm.innerText = "L'adresse email utilisée lors de votre inscription sur la E-academy"
             }
         }
         setInterval(replaceOneWordInSentence, 200);

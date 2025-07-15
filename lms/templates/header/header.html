@@ -218,19 +218,20 @@ catch(e){window.attachEvent("onload", $buo_f)}
 </header>
 
 % if course:
-<!--[if lte IE 9]>
+<!--
+[if lte IE 9]>
 <div class="ie-banner" aria-hidden="true">${Text(_('{begin_strong}Warning:{end_strong} Your browser is not fully supported. We strongly recommend using {chrome_link} or {ff_link}.')).format(
     begin_strong=HTML('<strong>'),
     end_strong=HTML('</strong>'),
     chrome_link=HTML('<a href="https://www.google.com/chrome" rel="noopener" target="_blank">Chrome</a>'),
     ff_link=HTML('<a href="http://www.mozilla.org/firefox" rel="noopener" target="_blank">Firefox</a>'),
 )}</div>
-<![endif]-->
+<![endif]
+-->
 % endif
 
-% if settings.FEATURES.get('ENABLE_COOKIE_CONSENT', False) and request.path not in paths_list:
-  <%include file="../widgets/cookie-consent.html" />
-% endif
+
+
 
 % if header_language_selector_is_enabled():
     <% languages = released_languages() %>

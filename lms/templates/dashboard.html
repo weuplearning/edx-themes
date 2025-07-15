@@ -516,6 +516,54 @@ if 'last_visited_course' in custom_fields.keys() :
         }
 
 
+
+        // Function to get completion and progress details for a given course
+        function getCourseDetails_second(course) {
+
+          $.ajax({
+            url: "/api/courses/v1/blocks/?course_id=" + course['course_id'] + "&username=${user.username}&depth=all&requested_fields=completion",
+            success: function(result_2) {
+
+              let max_completion = 0
+              let actual_completion = 0
+              for (const [key, block] of Object.entries(result_2['blocks'])) {
+                if (block['completion'] || block['completion'] == 0) {
+                  max_completion += 1
+                  actual_completion += block['completion']
+                }
+              }
+              let completion_ratio = actual_completion / max_completion
+              let progress_remain = 1 - completion_ratio
+              let effort = course['effort']
+              // if effort variable as right format, convert time to min
+              function isValidFormat(time) {
+                const regex = /^\d{2}:\d{2}$/;
+                return regex.test(time);
+              }
+
+              if (isValidFormat(effort)) {
+                // apply progress ratio and convert min to time
+                let min_effort = Number((String(effort).split(':')[1])) + Number(String(effort).split(':')[0]) * 60
+                let progessed_min = min_effort * progress_remain
+                let progessed_hour = (Math.floor(progessed_min / 60)) + ' H' 
+                // let progessed_hour = (Math.floor(progessed_min / 60)) + 'h' + (Math.floor(progessed_min % 60))
+
+                // Add completion ratio in the right div 
+                let not_last_courses = document.getElementById('not-last-courses').getElementsByClassName('course-container')
+                for (let i = 0; i < not_last_courses.length; i++) {
+                  const course_html = not_last_courses[i];
+                  if (course_html.innerHTML.includes(course["course_id"])) {
+                    course_html.getElementsByClassName("course-jauge")[0].innerText = Math.floor(completion_ratio*100) + ' %'
+                    course_html.getElementsByClassName('wrapper-course-details')[0].getElementsByClassName("info-date-block-container")[0].innerText = "Temps restant : " + progessed_hour
+                  }
+                }
+              }
+
+            }
+          });
+        }
+
+
       </script>
     % endfor
         
@@ -692,6 +740,18 @@ window.addEventListener("load", function () {
     
   }, 1000);
 
+</script>
+
+<script>
+
+  setTimeout(() => {
+    var emptySection = document.getElementsByClassName('empty-dashboard-message')[0]
+    if (emptySection) {
+      console.log('new sccript');
+      
+      emptySection.getElementsByClassName('btn')[0].href = '/dashboard/elearning'
+    }
+  }, 1000);
 </script>
 
 <style>

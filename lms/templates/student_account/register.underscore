@@ -229,6 +229,9 @@ window.addEventListener("load", function () {
         linkNl.style.display = "none"
 
         const labelTranslations = {
+            "register-name": "Volledige naam",
+            "register-username" : "Openbare gebruikersnaam",
+            "register-password" : "Wachtwoord", 
             "register-company": "Onderneming/BTW-nummer (optioneel)",
             "register-region": "Regio",
             "register-phone_number": "Telefoonnummer (optioneel)",
