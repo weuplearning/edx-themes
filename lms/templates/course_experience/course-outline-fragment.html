@@ -119,17 +119,15 @@ font-family: Source Sans Pro,sans-serif
 
 
     .o-header {
-        position: relative;
-        bottom: -5em;
 
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        margin: 0 auto;
-        flex-wrap: wrap;
-        align-items: flex-start;
-        max-width: 80vw;
-        max-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+    flex-wrap: nowrap;
+    align-items: center;
+    max-height: 100vh;
+    align-content: center;
         
     }
 
@@ -151,13 +149,15 @@ font-family: Source Sans Pro,sans-serif
 
 
 .top-svg{
-    display: block;
-
     width: 100%;
-
-
+    bottom: -0.25em;
     position: relative;
-    bottom: -30px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: flex-end;
+    padding: 0;
+    margin: 0;
 
 }
 
@@ -216,14 +216,14 @@ display: flex;
         <div class="o-header-img-section">
             <img src="${static.url('axeptio/images/modules/hero.png')}" alt="hero banner" />
         </div>
+
+
+        <div class="top-svg">
+            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="400" viewBox="0 0 1920 400" fill="none">
+            <path d="M648.889 361.654C932.698 416.115 1027.99 318.991 1250.16 154.972C1400 44.3504 1639.73 -51.2372 1920 30.8669V400H0.0279365L0 381.107C0 381.107 51.7105 395.333 156.19 381.107C299.048 361.654 476.997 328.67 648.889 361.654Z" fill="#212121"></path>
+            </svg>
+        </div>
     </div>
-
-
-<div class="top-svg">
-    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="400" viewBox="0 0 1920 400" fill="none">
-      <path d="M648.889 361.654C932.698 416.115 1027.99 318.991 1250.16 154.972C1400 44.3504 1639.73 -51.2372 1920 30.8669V400H0.0279365L0 381.107C0 381.107 51.7105 395.333 156.19 381.107C299.048 361.654 476.997 328.67 648.889 361.654Z" fill="#212121"></path>
-    </svg>
-</div>
 <div class="modules-section">
 
 % if course_sections is not None:
