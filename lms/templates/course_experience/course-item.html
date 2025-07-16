@@ -9,7 +9,10 @@ imgagesource = str("/static/axeptio/images/modules/" + str(num) + ".png")
 
     <div class="c-item-wrapper">
         ###%if (num<15):
-        <span class="c-item-number" style="border: 6px ${colorlead} solid;">${num}</span>
+        
+        <span class="c-item-number">
+        <%include file="/custom/circle.html" args="num=num, colorlead=colorlead, colorbg=colorbg" />
+        </span>
         ###%endif
         <div class="c-item">
             <div class="c-item-img-container" style="background-color:${colorbg};justify-content:${ 'flex-end' if (num==1) else 'flex-center' }">
@@ -40,21 +43,26 @@ imgagesource = str("/static/axeptio/images/modules/" + str(num) + ".png")
         color: black;
         font-size: 2.5em;
         font-weight: 700;
-        top: 25px;
-        left: -10px;
+        top: 70px;
+        left: -37px;
         display: flex;
         justify-content: center;
         align-items: center;
         text-align: center;
         position: relative;
-        background-color: white;
-        border-radius: 100%;
+        background-color: none;
         padding: 5px;
-        max-width: 2em;
-        max-height: 2em;
-        height: 1.5em;
-        width: 1.5em;
+        max-width: 500em;
+        max-height: 500em;
+        height: 3em;
+        width: 3em;
+    }
 
+    .c-item-number-text{
+        font-family: "Source Serif 4",serif !important;
+        color: black;
+        font-size: 1.25em;
+        font-weight: 700;
     }
 
     .c-item {
