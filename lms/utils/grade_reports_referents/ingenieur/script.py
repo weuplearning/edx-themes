@@ -74,13 +74,15 @@ for course_id in course_ids:
   course_key = CourseLocator.from_string(course_id)
   # course = get_course_by_id(course_key)
   course_enrollments = CourseEnrollment.objects.filter(course_id=course_key)
+  #course_enrollments = course_enrollments[0:20]
   # course_name = course.display_name_with_default
 
   course_data = {}
   referents_list = set()
-  print("handling " +  str(len(course_enrollments)) + "course enroll")
+  print(" handling " +  str(len(course_enrollments)) + " course enroll")
   for i in range(len(course_enrollments)):
     time.sleep(0.1)
+    print(str(i) + "/" + str(len(course_enrollments)))
     user = course_enrollments[i].user
     user_data = {}
 
@@ -301,7 +303,8 @@ for ref in referents_list:
   _files_values = output.getvalue()
   course_names_html = ''.join(course_names_html)
 
-  html = report_config.email_body
+  html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous trouverez en pièce jointe votre rapport référent personnalisé : "+ course_names_html +"<br/><br/>Bonne r&eacute;ception<br/>L'&eacute;quipe WeUp Learning</p></body></html>"
+
   print(str(assigned_students_counter) + " matching students")
   if(assigned_students_counter == 0):
     print("WARNING : " + ref + " NO STUDENTS")
@@ -331,15 +334,21 @@ for ref in referents_list:
     msg.attach(part2)
     text = msg.as_string()
     email = target_ref
+    if(report_config.is_debug == True):
+      print("debug enabled")
+      email = report_config.mailer_debug_addr
     try:
         server.sendmail(fromaddr, email, text)
+        #time.sleep(0.2)
+        #server.sendmail(fromaddr, report_config.debug_staff_email, text)
     except:
         print("ERREUR " + str(email) )
         try:
-          server.sendmail(fromaddr, mailer_error_box, text)
+          server.sendmail(fromaddr, report_config.mailer_error_box, text)
         except:
           print('ERREUR EMAIL FALLBACK')
     server.quit()
+    print("")
 
 
 #log.info('------------> Finish calculate grades and write xlsx report')

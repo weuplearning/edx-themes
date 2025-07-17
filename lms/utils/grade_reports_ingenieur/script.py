@@ -189,7 +189,7 @@ wb = Workbook()
 sheet = wb.active
 sheet.title= 'Rapport de notes'
 
-filename_base =  "/home/edxtma/csv/" + str(timestr) + "_"+ report_config.org_name +"_"+ report_config.group_name + ".xlsx"
+filename_base =  "/home/edxtma/csv/" + report_config.org_name +"_"+ report_config.group_name + ".xlsx"
 filename =  filename_base
 print(filename)
 

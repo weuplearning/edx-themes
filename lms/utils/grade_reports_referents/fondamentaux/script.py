@@ -78,9 +78,9 @@ for course_id in course_ids:
 
   course_data = {}
   referents_list = set()
-  print("handling  " + str(len(course_enrollments)) + " enrolls" )
+  print("handling " + str(len(course_enrollments)) + " enrolls" )
   for i in range(len(course_enrollments)):
-  #for i in range(30):
+    print(str(i) + "/" + str(len(course_enrollments)))
     time.sleep(0.1)
     user = course_enrollments[i].user
     user_data = {}
@@ -302,7 +302,7 @@ for ref in referents_list:
   _files_values = output.getvalue()
   course_names_html = ''.join(course_names_html)
 
-  html = report_config.email_body
+  html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous trouverez en pièce jointe votre rapport référent personnalisé : "+ course_names_html +"<br/><br/>Bonne r&eacute;ception<br/>L'&eacute;quipe WeUp Learning</p></body></html>"
   print(str(assigned_students_counter) + " matching students")
   if(assigned_students_counter == 0):
     print("WARNING : " + ref + " NO STUDENTS")
@@ -336,6 +336,9 @@ for ref in referents_list:
     print("should send to " + email)
     try:
         server.sendmail(fromaddr, email, text)
+        #time.sleep(0.2)
+        #server.sendmail(fromaddr, report_config.debug_staff_email, text)
+
     except:
         print('ERREUR ENVOI ' + str(email))
         server.sendmail(fromaddr, report_config.mailer_error_box, text)
