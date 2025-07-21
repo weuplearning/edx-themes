@@ -167,13 +167,8 @@ font-family: Source Sans Pro,sans-serif
 
 .main-h1
 {
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:1
-
+    z-index: 0;
     position: relative;
-
 }
 
 .circled-word{
@@ -189,10 +184,11 @@ display: flex;
 }
 
 .circled-word-target{
-    display: block;
+   background : url(${static.url('axeptio/images/background/oval_2.png')}) no-repeat center/100%;
     position: relative;
-    left: -13rem;
-    z-index: 50
+    z-index: -1;
+    padding: 1rem;
+    margin-left: -0.5em;
 }
 
 </style>
@@ -202,16 +198,14 @@ display: flex;
 <main role="main" class="course-outline" id="main" tabindex="-1">
     <div class="o-header">
 
-        <div style="width: 100%;justify-content:center;align-items:center;z-index:0">
+
+        <div>
                 %if '+EN+' in str(course_key):
                     <h1 class="main-h1">The&nbsp;
                 %else:
                     <h1 class="main-h1">Les&nbsp;
-                %endif
-                <span class="circled-word" style="">
-                    <img src="${static.url('axeptio/images/background/oval_1.png')}" style="width:16rem" /> 
-                    <span class="circled-word-target" >Modules</span></span></h1>
-
+                %endif 
+                    <span class="circled-word-target" >modules</span></h1>
         </div>
         <div class="o-header-img-section">
             <img src="${static.url('axeptio/images/modules/hero.png')}" alt="hero banner" />
@@ -353,7 +347,7 @@ colorbglib = ['#defff5','#ffe0b2','#e6eeff']
     </style>
     <div class="flex-center">
     <div class="section-colorbar">
-        %if completion_number >0 :
+        %if completion_number > 3 :
             <div class="section-colorbar-fill" style="background-color:${colorlead};width:${completionstr}%"><div class="section-colorbar-fill-dot"></div></div>
         % else:
                 <div class="section-colorbar-fill-dot" style="left: -1em;">

@@ -81,6 +81,57 @@ from openedx.core.djangoapps.user_authn.utils import should_redirect_to_logistra
 
 
 <style>
+
+
+
+
+@media (max-width: 990px) {
+    .mobile-menu .mobile-nav-link {
+        position:static;
+        transform: none;
+        overflow: hidden;
+        padding: 0
+    }
+
+    .mobile-menu .mobile-nav-link a {
+        font-size: 1rem;
+        font-weight: 600;
+        text-decoration: none;
+        outline: none;
+        display: block;
+        background-color: #ffce43;
+        border-radius: 0;
+        width: 100%;
+        padding: 12px 20px;
+        border-bottom: 1px solid #e7e7e7;
+        text-align: left;
+        cursor: pointer
+    }
+
+    .mobile-menu .mobile-nav-link a:hover,.mobile-menu .mobile-nav-link a:focus {
+        background-color: #767676;
+        color: #fff
+    }
+
+    .mobile-menu .mobile-nav-link a::after {
+        content: '\00BB';
+        padding-left: 4px
+    }
+
+    #b-login:hover, #b-register:hover,#b-contact-us:hover
+{
+background-color: #232323;
+color: #d8a512;
+border: 1px solid #d8a512;
+transition: all 0.25s ease-in-out;
+}
+}
+
+
+
+@media (min-width: 990px) {
+
+
   #b-login, #b-register,#b-contact-us
 {
     border-radius: 15%;
@@ -108,5 +159,6 @@ background-color: #232323;
 color: #d8a512;
 border: 1px solid #d8a512;
 transition: all 0.25s ease-in-out;
+}
 }
 </style>
