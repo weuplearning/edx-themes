@@ -1,4 +1,31 @@
-<%page args="lang='fr'"/>
+<%page args="lang=''"/>
+
+<script>
+  console.log('i18n script loaded');
+</script>
+
+
+<script>
+
+  function setCookieEN() {
+    setCookie('openedx-language-preference', 'en', 30);
+  }
+  function setCookieFR() {
+    setCookie('openedx-language-preference', 'fr', 30);
+  }
+
+  function setCookie(name, value, days) {
+    let expires = "";
+    if (days) {
+      const date = new Date();
+      date.setTime(date.getTime() + (days*24*60*60*1000));
+      expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + encodeURIComponent(value || "") + expires + "; path=/";
+  }
+
+
+</script>
 
 
 
@@ -40,13 +67,31 @@ const translations = {
 
 
 function updateLanguage(lang) {
+
+  // wait for the page to load using setTimeout
+  setTimeout(() => {
+    console.log("Page loaded, updating language to: " + lang);
+  }, 1000);
+
+  if(lang == 'fr') {
+    setCookieFR();
+  } else {
+    setCookieEN();
+  }
+
+
   const elements = document.querySelectorAll('[data-i18n]');
   elements.forEach(el => {
     const key = el.getAttribute('data-i18n');
     if (translations[lang] && translations[lang][key]) {
+      //console.log(`Updating key` + key + ` to ` + translations[lang][key]);
       el.innerHTML = translations[lang][key];  // Use innerHTML instead of textContent
     }
   });
+
+  document.documentElement.lang = lang;
+
+  //location.reload(); 
 }
 
 // set default language to French
@@ -56,10 +101,29 @@ function updateLanguage(lang) {
 
 <script>
 
-console.log("Setting default language to French");
-document.addEventListener("DOMContentLoaded", () => {
-    updateLanguage('${lang}');
-});
+// if no cookie is set, use user agent language
+if (!document.cookie.includes('openedx-language-preference')) {
+    console.log("No language cookie found, setting language based on user agent");
+    const userLang = navigator.language; // Get user's language
+    const lang = userLang.startsWith('fr') ? 'fr' : 'en';
+    updateLanguage(lang);
+
+}
+
+
+
+
+if (document.cookie.includes('openedx-language-preference=fr')) {
+    updateLanguage('fr');
+}else if(document.cookie.includes('openedx-language-preference=en')) {
+    updateLanguage('en');
+
+} else {
+    updateLanguage('en'); // Default to English if no cookie is set
+}
+
+
+
 
 
 </script>
