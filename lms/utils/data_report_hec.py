@@ -73,7 +73,7 @@ course_ids = [
     # "course-v1:hec-pole-emploi+IP_3+2025",
     # "course-v1:hec-pole-emploi+IP_4+2025",
     "course-v1:hec-pole-emploi+NEG_1+2025",
-    # "course-v1:hec-pole-emploi+NEG_2+2025",
+    "course-v1:hec-pole-emploi+NEG_2+2025",
     # "course-v1:hec-pole-emploi+NEG_3+2025",
     # "course-v1:hec-pole-emploi+NEG_4+2025",
 ]
@@ -96,16 +96,16 @@ scorm_page_ids = {
     "course-v1:hec-pole-emploi+NEG_1+2025" : {
         "block-v1:hec-pole-emploi+NEG_1+2025+type@scorm+block@75d793663c1d4256aedd2ae063d3c978": "Scorm module"
     },
-    # "course-v1:hec-pole-emploi+NEG_2+2025" : {
-    #     "block-v1:hec-pole-emploi+NEG+2023+type@scorm+block@75d793663c1d4256aedd2ae063d3c978": "Scorm module"
-    # },
+    "course-v1:hec-pole-emploi+NEG_2+2025" : {
+        "block-v1:hec-pole-emploi+NEG_2+2025+type@scorm+block@9f693653691f4b5daa0de77dd18d3e12": "Scorm module"
+    },
     # "course-v1:hec-pole-emploi+NEG_3+2025" : {
     #     "block-v1:hec-pole-emploi+NEG+2023+type@scorm+block@75d793663c1d4256aedd2ae063d3c978": "Scorm module"
     # },
     # "course-v1:hec-pole-emploi+NEG_4+2025" : {
     #     "block-v1:hec-pole-emploi+NEG+2023+type@scorm+block@75d793663c1d4256aedd2ae063d3c978": "Scorm module"
     # },
-    "course-v1:hec-pole-emploi+WEB_1+2025" : {},
+    # "course-v1:hec-pole-emploi+WEB_1+2025" : {},
     # "course-v1:hec-pole-emploi+WEB_2+2025" : {},
     # "course-v1:hec-pole-emploi+WEB_3+2025" : {},
     # "course-v1:hec-pole-emploi+WEB_4+2025": {}
@@ -298,16 +298,16 @@ filepath = '/edx/var/edxapp/media/microsites/hec-pole-emploi/reports/{}'.format(
 wb.save(filepath)
 output = BytesIO()
 _files_values = output.getvalue()
-html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous trouverez en pièce jointe le rapport de donn&eacute;es HEC-France-travail</p></body></html>"
+html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous trouverez en pièce jointe le rapport de donn&eacute;es HEC France-Travail</p></body></html>"
 
 ## Send email
 for email in emails:
     part2 = MIMEText(html.encode('utf-8'), 'html', 'utf-8')
-    fromaddr = "HEC-France-travail <ne-pas-repondre@themoocagency.com>"
+    fromaddr = "HEC France-Travail <ne-pas-repondre@themoocagency.com>"
     msg = MIMEMultipart()
     msg['From'] = fromaddr
     msg['To'] = email
-    msg['Subject'] = "Rapport temps passé HEC-France-travail"
+    msg['Subject'] = "Rapport temps passé HEC France-Travail"
 
     attachment = _files_values
 
