@@ -249,7 +249,7 @@ for course_id in course_ids:
 
 
 
-        user_row = [user_data["username"],user_data["email"],user_data["name"],user_data["date_joined"],user_data["last_login"], user_data["global_time_tracking"], "N/A", user_data["total_video_time"], user_data["grade"]]
+        user_row = [user_data["username"],user_data["email"],user_data["name"],user_data["date_joined"],user_data["last_login"], user_data["global_time_tracking"], user_data["grade"]]
         # user_row = [user_data["username"],user_data["email"],user_data["name"],user_data["date_joined"],user_data["last_login"], user_data["global_time_tracking"], "N/A", user_data["total_video_time"], user_data["grade"], user_data["scorm_time"], user_data["raw_scorm_data"]]
 
 
@@ -267,7 +267,8 @@ wb.remove(wb.active)
 
 def create_sheet_function(sheet_name, users, workbook):
 
-    common_header = ["Username","Email","Nom complet","Date de création de compte","Date de dernière connexion","Temps passé total","Cours finalisé","Temps passé","Note obtenue"] 
+    # common_header = ["Username","Email","Nom complet","Date de création de compte","Date de dernière connexion","Temps passé total","Cours finalisé","Temps passé","Note obtenue"] 
+    common_header = ["Username","Email","Nom complet","Date de création de compte","Date de dernière connexion","Temps passé total","Note obtenue"] 
     sheet = workbook.create_sheet(sheet_name)
 
     for i, header in enumerate(common_header):
