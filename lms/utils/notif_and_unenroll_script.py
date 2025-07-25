@@ -33,7 +33,7 @@ from email.mime.base import MIMEBase
 from email import encoders
 
 
-from datetime import timedelta
+from datetime import timedelta, datetime
 from django.utils import timezone
 
 
@@ -75,7 +75,7 @@ for course_id in course_ids:
 
         # Ajouter les admins AF-Brasil
         if user.email.find('@weuplearning') != -1 or user.email.find('@themoocagency') != -1 or user.email.find('@fake.email') != -1 or user.email.find('@example.com') != -1 or user.email.find('@rioaliancafrancesa.com.br') != -1 or user.email.find('psgmrosa@gmail.com') != -1 or user.email.find('@aliancafrancesaonline') != -1 :
-           continue
+            continue
 
         # On a déjà désactivé cet utilisateur
         if not enrollment.is_active :
@@ -84,11 +84,15 @@ for course_id in course_ids:
         # Vérifier si le cours est commencé
         try:
             detailed_time_tracking = json.loads(WulCourseEnrollment.get_enrollment(user=user, course_id=course_id).detailed_time_tracking)
-        except : 
+        except :
             detailed_time_tracking = 0
 
-        # Inscrit depuis combien de jours 
-        days_difference = (now - user.date_joined).days
+        # Inscrit depuis combien de jours
+#        days_difference = (now - user.date_joined).days
+        date_str = str(enrollment).split('(')[1].split(')')[0]
+        joined_date = datetime.fromisoformat(date_str)
+        days_difference = (now - joined_date).days
+
 
 # for specific exception
 #        if user.email.find('renatamonteiro1101@gmail.com') != -1 :
