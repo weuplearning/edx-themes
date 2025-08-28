@@ -96,8 +96,9 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         /* max-width: calc(50% - 15px); */
     }
 
-    .page-content-container{
-        border:none !important;
+    .page-content-container {
+        border: none !important;
+        background: none !important;
     }
     .global-header.global-header{
         background: white !important; 
@@ -138,6 +139,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
     .page-content {
         padding: 20px;
+        display: flex;
         justify-content: space-between;
         flex-direction: column-reverse;
     }
@@ -160,10 +162,12 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     h2.hd.hd-3.page-title{
        color:white !important;
     }
-    .window-wrap, #course-container,#course-outline-block-tree{
-       background: #F4F5F6;
+
+    .window-wrap {
+        background: url("${static.url('campus-richardson/images/bg_img.jpg'.format(course.org))}");
+        background-size: cover;
     }
-    #main, .outline-item.accordion-panel{
+    .outline-item.accordion-panel{
        background: white;
     }
 
@@ -171,9 +175,6 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         box-shadow: 0 3px 6px rgba(0,0,0,0.16);
         margin: 0 !important;
     }
-
-
-
 
     .progress-bar-full {
         width: 100%;
@@ -265,31 +266,6 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         height: 40px;
     }
 
-    
-    @media screen and (max-width: 1024px) {
-        .page-content .page-content-secondary { 
-            min-width: calc(50% - 15px);
-            max-width: calc(50% - 15px);
-            margin: 0;
-        }
-
-        .page-content .page-content-main { 
-            min-width: calc(50% - 15px);
-            max-width: calc(50% - 15px);
-        }
-    }
-    @media screen and (max-width: 991px) {
-        .page-content .page-content-secondary { 
-            min-width: calc(60% - 15px);
-            max-width: calc(60% - 15px);
-        }
-
-        .page-content .page-content-main { 
-            min-width: calc(40% - 15px);
-            max-width: calc(40% - 15px);
-        }
-
-    }
     @media screen and (max-width: 768px) {
         .page-content .page-content-secondary { 
             min-width: 100%;
@@ -403,81 +379,93 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
             % endif
         </div>
         <aside class="page-content-secondary course-sidebar">
-            <h4>Avez-vous bien retenu ?</h4>
+            <h4>Progression du questionnaire</h4>
             <div class="section" id="badges">
-                    <div class="grade-block">       
-                        <div class="grade-section-title">
-                            %if user_grade.passed:
-                                <img src="${static.url('images/medal_on.svg')}" class="main-badge"/>
-                            %else: 
-                                <img src="${static.url('images/medal_off.svg')}" class="main-badge"/>
-                            %endif
-                            <div style="text-transform: uppercase;">${course.display_name_with_default}</div>
-                            <div class="grade-value">${int(user_grade.percent * 100)}%</div>
-                        </div>
-                        <div class="progress-bar-full" id="final-grade-progress">
-                            <div style="width:${int(user_grade.percent * 100)}%;" class="progress-bar-grade" ></div>
-                            
-                        </div>                    
+                <div class="grade-block">       
+                    <div class="grade-section-title">
+                        %if user_grade.passed:
+                            <img src="${static.url('images/medal_on.svg')}" class="main-badge"/>
+                        %else: 
+                            <img src="${static.url('images/medal_off.svg')}" class="main-badge"/>
+                        %endif
+                        <div style="text-transform: uppercase;">${course.display_name_with_default}</div>
+                        <div class="grade-value"></div>
                     </div>
+                    <div class="progress-bar-full" id="final-grade-progress">
+                        <div class="progress-bar-grade" ></div>
+                    </div>                    
+                </div>
 
-                 %if configuration_helpers.get_value('COMPLETION_BASED_DASHBOARD_MONO', False):
+                <%
+                block_course = 0
+                block_course_completed = 0
+                custom_field = json.loads(user.profile.custom_field)
+                %>
 
-                    % for section in course_block_tree.get('children'):
-                      <%
-                      total_blocks = 1
-                      completed_blocks = 1
-                      if not section.get('complete'):
-                        total_blocks = 0
-                        completed_blocks = 0
-                        for subsection in section.get('children', []):
-                          for unitchild in subsection.get('children', []):
+                % for section in course_block_tree.get('children'):
+                    <%
+                    completion_ratio = 0
+                    total_blocks = 0
+                    completed_blocks = 0
+
+                    for subsection in section.get('children', []):
+                        for unitchild in subsection.get('children', []):
                             for blockchild in unitchild.get('children', []):
-                              total_blocks += 1
-                              if blockchild.get('complete'):
-                                completed_blocks += 1
-                      if total_blocks == 0:
-                        pass
-                      else:
+                                total_blocks += 1
+                                if blockchild.get('complete'):
+                                    completed_blocks += 1
+
+                    if total_blocks != 0 :
                         completion_ratio = completed_blocks / total_blocks
-                      %>
-                        <div class="grade-block">
-                            <div class="grade-section-title">
-                                %if completion_ratio >= 1:
-                                    <img src="${static.url('images/medal_on.svg')}" class="small-badge"/>
-                                %else:
-                                    <img src="${static.url('images/medal_off.svg')}" class="small-badge"/>
-                                %endif
-                                <div class="chapter-title" >${section['display_name']}</div>
+
+                    block_course += total_blocks
+                    block_course_completed += completed_blocks
+
+
+                    scorm_section_completion = custom_field.get(section.get('children',[])[0]['block_id'], None)
+                    if scorm_section_completion :
+                        block_course_completed -=1
+                        completion_ratio = 0
+
+                    if scorm_section_completion and '100' in scorm_section_completion :
+                        block_course_completed +=1
+                        completion_ratio = 1
+                    %>
+
+                    <div class="grade-block">
+                        <div class="grade-section-title">
+                            %if completion_ratio >= 1:
+                                <img src="${static.url('images/medal_on.svg')}" class="small-badge"/>
+                            %else:
+                                <img src="${static.url('images/medal_off.svg')}" class="small-badge"/>
+                            %endif
+
+                            <div class="chapter-title" >${section['display_name']}</div>
+
+                            %if scorm_section_completion:
+                                <div class="grade-value">${int(scorm_section_completion.split("%")[0])}%</div>
+                            %else:
                                 <div class="grade-value">${int(completion_ratio * 100)}%</div>
-                            </div>
-                            <div class="progress-bar-full">
+                            %endif
+                        </div>
+
+                        <div class="progress-bar-full">
+                            %if scorm_section_completion:
+                                <div style="width:${int(scorm_section_completion.split('%')[0]) }%;" class="progress-bar-grade"></div>
+                            %else :
                                 <div style="width:${completion_ratio * 100}%;" class="progress-bar-grade"></div>
-                            </div>
+                            %endif
                         </div>
+                    </div>
+                %endfor
 
-                    %endfor
-                 %else:
+                <script>
+                    // Update completion percentage
+                    var completion = "${(round((block_course_completed/block_course) * 100))}%"
+                    document.getElementById('final-grade-progress').children[0].style.width = completion;
+                    document.getElementById('badges').getElementsByClassName('grade-value')[0].innerHTML = completion;
+                </script>
 
-
-                    %for index, chapter in enumerate(user_grade.chapter_grades.keys()):
-                        <div class="grade-block">
-                            <div class="grade-section-title">
-                                %if user_grade.chapter_percentage(chapter) >= 0.7:
-                                    <img src="${static.url('images/medal_on.svg')}" class="small-badge"/>
-                                %else: 
-                                    <img src="${static.url('images/medal_off.svg')}" class="small-badge"/>
-                                %endif
-                                <div class="chapter-title" >${user_grade.chapter_grades[chapter]['display_name']}</div>
-                                <div class="grade-value">${int(user_grade.chapter_percentage(chapter) * 100)}%</div>
-                            </div>
-                            <div class="progress-bar-full">
-                                <div style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade"></div>
-                            </div>                    
-                        </div>
-                    %endfor
-
-                 %endif
             </div>
         </aside>
     </div>

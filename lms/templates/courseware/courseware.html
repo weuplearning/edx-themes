@@ -28,6 +28,9 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
     background: url("${static.url('campus-richardson/images/bg_img.jpg'.format(course.org))}");
     background-size: cover;
   }
+  .hint-label, .sequence-nav-button {
+    display: none !important; 
+  }
 </style>
 
 % if display_reset_dates_banner:
