@@ -230,6 +230,15 @@ const observer = new MutationObserver(() => {
   }).hide();
 });
 
+const observerEn = new MutationObserver(() => {
+  $("button.MuiTab-root").filter(function() {
+    return $(this).find(".MuiTab-wrapper").text().trim() === "View Enrollment";
+  }).hide();
+});
+
+observerEn.observe(document.body, { childList: true, subtree: true });
+
+
 observer.observe(document.body, { childList: true, subtree: true });
 
 
