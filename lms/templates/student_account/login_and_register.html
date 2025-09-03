@@ -183,6 +183,9 @@ if (!getCookie("pageReloaded")) {
         if (li_text == "Insira seu Senha.") {
           liElements[i].textContent = "Insira sua senha."
         }
+        if (li_text.indexOf("Vous devez accepter les") != -1) {
+          liElements[i].textContent = li_text.replace("Vous devez accepter les", "Você deve aceitar os")
+        }
       }
 
       // Log the modified li elements
