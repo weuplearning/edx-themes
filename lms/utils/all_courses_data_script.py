@@ -73,12 +73,16 @@ course_ids = [
 
 def get_best_grade_data(user, course_key, course_id, course_grade):
 
-    wul_course_enrollment = WulCourseEnrollment.objects.get(course_enrollment_edx__user=user, course_enrollment_edx__course_id=course_key)
+    try :
+        wul_course_enrollment = WulCourseEnrollment.objects.get(course_enrollment_edx__user=user, course_enrollment_edx__course_id=course_key)
+    except :
+        wul_course_enrollment = False
+
 
     CF_data = json.loads(user.profile.custom_field)
     CF_field_to_check = 'success_date_' + str(course_id)
 
-    if wul_course_enrollment.best_grade_date :
+    if wul_course_enrollment and wul_course_enrollment.best_grade_date :
         best_grade_date = str(wul_course_enrollment.best_grade_date).split(' ')[0]
     elif CF_field_to_check in CF_data:
         best_grade_date = CF_data[CF_field_to_check]
@@ -87,7 +91,7 @@ def get_best_grade_data(user, course_key, course_id, course_grade):
 
     data = {
         'best_grade_date': best_grade_date,
-        'global_time_tracking': wul_course_enrollment.global_time_tracking if wul_course_enrollment.global_time_tracking else 0,
+        'global_time_tracking': wul_course_enrollment.global_time_tracking if wul_course_enrollment and wul_course_enrollment.global_time_tracking else 0,
         'status': 'Validé' if float(course_grade.percent) >= 0.8 else 'Non validé'
     }
 
@@ -111,6 +115,7 @@ for course_id in course_ids:
            continue
 
         user_data = []
+        log.info(user.email)
 
 
         user_data.append(user.email) 
