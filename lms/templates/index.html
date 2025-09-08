@@ -1,0 +1,200 @@
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.urls import reverse
+
+from openedx.core.djangolib.markup import HTML, Text
+%>
+
+<style>
+    .content-wrapper, body {
+        margin: 0 auto !important;
+        max-width: unset !important;
+    }
+    html {
+        overflow-x: hidden; 
+    }
+    #main, p, h1, h2 {
+        font-family: "PT Serif", sans-serif !important;
+        line-height: 1.25;
+    }
+    .main-header {
+        margin: auto;
+        width: 80%;
+    }
+    .global-header .header-logo a {
+        margin: 15px 0 0 0 ;
+    }
+    .global-header .nav-links .secondary .nav-item, .global-header .nav-links .secondary {
+        margin: 0 !important;
+        padding-top: 12px ;
+    }
+    .global-header .nav-links .secondary .nav-item a {
+        padding: 13px 22px !important;
+    }
+    section, .larger-width , .smaller-width {
+        max-width: 1200px;
+        margin: auto;
+        padding: 0 40px;
+        box-sizing: border-box;
+    }
+    .larger-width, .wrapper-footer {
+        max-width: 1920px;
+        padding: unset ;
+        box-sizing: border-box;
+        margin: auto;
+    }
+    .vertical-align, .horizontal-align {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .vertical-align {
+        flex-direction: column;
+    }
+    .img-contain {
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        box-sizing: border-box;
+    }
+
+    #silhouette {
+        background-image:  url("${static.url('estia/images/silhouette.png')}");
+        position: absolute;
+        top: 35vw;
+        left: 0;
+        width: 100%;
+        height: 60vw;
+        background-size: contain;
+        background-position: center bottom;
+        background-repeat: no-repeat;
+        z-index: -1;
+        opacity: 0.1;
+    }
+    #globe {
+        background-image:  url("${static.url('estia/images/globe.png')}");
+        width: 300px;
+        height: 300px;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin: 40px 0;
+    }
+    .vignette {
+        border: beige 2px solid;
+    }
+
+    #picto_1, #picto_2, #picto_3, #picto_4 {
+        background-image:  url("${static.url('estia/images/module_1.png')}");
+        width: 100px;
+        height: 100px;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin: 20px 0 0 0;
+    }
+    #picto_2 {
+        background-image:  url("${static.url('estia/images/module_2.png')}");
+    }
+    #picto_3 {
+        background-image:  url("${static.url('estia/images/module_3.png')}");
+    }
+    #picto_4 {
+        background-image:  url("${static.url('estia/images/module_4.png')}");
+    }
+
+    #header {
+
+        box-sizing: border-box;
+        height: 50vw;
+        background-size: cover;
+        background-position-x: center;
+        padding: 10% 5% 10% 31%;
+    }
+
+    /* MEDIA QUERIES */
+    @media screen and (min-width: 1600px) {
+        #header {
+            height: 40vw;
+            padding: 10% 5% 10% 43%;;
+        }
+    }
+
+</style>
+
+
+<main id="main" aria-label="Content" tabindex="-1">
+
+
+    <section id="part_1" class="horizontal-align">
+        <div class="vertical-align">
+
+            <h1><span style="color: var(--primary);" >L'économie circulaire :</span><br>ses enjeux et ses pratiques</h1>
+            <h3>Envie de comprendre et d'agir pour une économie plus durable ?</h3>
+            <p>À travers ce MOOC, découvrez les <strong>principes</strong> et les <strong>bonnes pratiques</strong> de l'économie circulaire, et apprenez à transformer les modèles actuels.</p>
+            <p>Tout au long du parcours, Léna sera votre guide pour vous accompagner pas à pas et <strong>rendre ces enjeux accessibles et concrets</strong>.</p>
+        </div>
+        <div id="globe"></div>
+    </section>
+    
+    <div id="silhouette"></div>
+    
+    <section id="part_2" class="vertical-align larger-width">
+        <h2>déroulé du parcours de formation</h2>
+        <div class="horizontal-align" >
+
+            <div class="vignette">
+                <div>Module 1</div>
+                <div>Principes fondamentaux de l'économie circulaire</div>
+                <div id="picto_1"></div>
+            </div>
+            
+            <div class="vignette">
+                <div>Module 2</div>
+                <div>Modèles d'affaires circulaires</div>
+                <div id="picto_2"></div>
+            </div>
+
+            <div class="vignette">
+                <div>Module 3</div>
+                <div>Tableau de bord de l'économie circulaire</div>
+                <div id="picto_3"></div>
+            </div>
+
+            <div class="vignette">
+                <div>Module 4</div>
+                <div>Leadership et management du changement</div>
+                <div id="picto_4"></div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="horizontal-align" >
+        <div >
+            je démarre ma formation
+        </div>
+    </section>
+
+</main>
+
+<%block name="js_extra">
+   <script type="text/javascript">
+      $(window).load(function() {
+         if(getParameterByName('next')) {
+              $('#login').trigger("click");
+         }
+      })
+   </script>
+</%block>
+
+% if show_signup_immediately is not UNDEFINED:
+    ## NOTE: This won't work in production, because anonymous views are cached, so it will
+    ## show either with or without this extra js for 3 minutes at a time.
+    <script type="text/javascript">
+    $(window).load(function() {$('#signup_action').trigger("click");});
+    </script>
+% endif
