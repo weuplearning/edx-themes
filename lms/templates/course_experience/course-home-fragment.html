@@ -36,20 +36,24 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         align-items: center;
     }
     .page-header-secondary{
-        padding: 25px 0 !important;
+        padding: 15px 0 !important;
     }
-    button.search-button{
-        margin-left: 5px;
-        background: white !important;
-    }
+
     .global-header .header-logo .course-header, a.help-link, .wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary, a.subsection-text div.details,a.subsection-text span.icon.fa.fa-pencil-square-o, #expand-collapse-outline-all-button{
         display:none !important;
     }
 
     .course-outline .block-tree .outline-button .fa {
-        color: #FF991F  !important;
+        color: var(--secondary)  !important;
     }
-    
+    .window-wrap {
+        background-image: url("${static.url('max-havelaar/images/background.png')}");
+        background-size: cover;
+    }
+    #course-container, .page-content-container,  #course-outline-block-tree {
+        background: none !important;
+        background-color: transparent !important;
+    }
     .course-outline .block-tree .outline-button .complete-checkmark {
         background-color: var(--secondary);
         border-color: var(--secondary);
@@ -57,10 +61,11 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         padding: 2px;
     }
     .course-message .message-content .message-header{
-        color: var(--secondary) !important;
+        color: var(--primary) !important;
     }
     .course-message .message-content{
-        border: 1px solid var(--secondary) !important;
+        border: 1px solid var(--primary) !important;
+        background-color: white;
     }
     .section-name.accordion-trigger.outline-button    {
         padding-left: 25px !important;
@@ -99,6 +104,12 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     button:focus {
         outline: none !important;
     }
+    .page-header-secondary .btn-secondary {
+        background-color: white !important;
+    }
+    .page-header-secondary .btn-secondary:hover {
+        background-color: var(--secondary) !important;
+    }
 
     .small-badge {
         height: 20px;
@@ -112,7 +123,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
     .course-outline .block-tree .section .section-name {
         padding: 20px 0 20px 2px;
-        background-color: var(--tertiary) ;
+        background-color: var(--primary) ;
         margin-bottom: 25px;
         margin-bottom: 0px !important;
         margin-top:25px !important;
@@ -132,11 +143,11 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     	animation: fadeInLeft;
         animation-duration: 0.5s;
     }
-    .section-title, h2.hd.hd-3.page-title{
+    h2.hd.hd-3.page-title{
        color:white !important;
     }
-    .window-wrap, #course-container,#course-outline-block-tree{
-       background: #F4F5F6;
+    .section-title{
+        color: var(--secondary)  !important;
     }
     .content-wrapper {
         min-height: 100vh;
@@ -223,8 +234,8 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
     .page-content .page-content-secondary h4{
         padding:15px;
-        color:white;
-        background-color: var(--tertiary);
+        color: var(--secondary);
+        background-color: var(--primary);
         text-align:center
     }
 
