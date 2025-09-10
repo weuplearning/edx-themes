@@ -27,12 +27,18 @@ from openedx.core.djangolib.markup import HTML, Text
     .global-header .header-logo a {
         margin: 15px 0 0 0 ;
     }
-    .global-header .nav-links .secondary .nav-item, .global-header .nav-links .secondary {
+    .global-header .nav-links .secondary {
         margin: 0 !important;
         padding-top: 12px ;
     }
+    .global-header .nav-links .secondary .nav-item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+    }
     .global-header .nav-links .secondary .nav-item a {
-        padding: 13px 22px !important;
+        padding: 13px 0px !important;
     }
     section, .larger-width , .smaller-width {
         max-width: 1200px;
@@ -280,7 +286,7 @@ from openedx.core.djangolib.markup import HTML, Text
             <div class="title" >La formation pour un monde plus durable et solidaire</div>
             <div class="login-button" >
                 <div class="start-button img-contain vertical-align" >
-                    <a href="/login">Démarrer ma formation</a>
+                    <a href="/register?course_id=course-v1%3Amax-havelaar%2B01%2B01&enrollment_action=enroll">Démarrer ma formation</a>
                 </div>
             </div>
         </div>
@@ -329,7 +335,7 @@ from openedx.core.djangolib.markup import HTML, Text
         <div class="bandeau-3 vertical-align">
             <div>Formez-vous dès aujourd'hui !</div>
             <div class="start-button-2 img-contain larger-width" >
-                <a href="/login" target="_blank" rel="noopener noreferrer">Démarrer ma formation</a>
+                <a href="/register?course_id=course-v1%3Amax-havelaar%2B01%2B01&enrollment_action=enroll" target="_blank" rel="noopener noreferrer">Démarrer ma formation</a>
             </div>
         </div>
     </div>
@@ -337,13 +343,13 @@ from openedx.core.djangolib.markup import HTML, Text
 </main>
 
 <%block name="js_extra">
-   <script type="text/javascript">
-      $(window).load(function() {
-         if(getParameterByName('next')) {
-              $('#login').trigger("click");
-         }
-      })
-   </script>
+<script type="text/javascript">
+    $(window).load(function() {
+        if(getParameterByName('next')) {
+            $('#login').trigger("click");
+        }
+    })
+</script>
 </%block>
 
 % if show_signup_immediately is not UNDEFINED:

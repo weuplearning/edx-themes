@@ -52,9 +52,10 @@ from openedx.core.djangoapps.user_authn.utils import should_redirect_to_logistra
       % if allows_login:
 
       <div class="mobile-nav-item hidden-mobile nav-item buttons">
-        <a class="register-btn btn" href="/register${login_query()}">Se connecter | S'inscrire</a>
+        <a class="register-btn btn" href="/login?course_id=course-v1%3Amax-havelaar%2B01%2B01&enrollment_action=enroll">Se connecter</a>
+        <span>|</span>
+        <a class="register-btn btn" href="/register?course_id=course-v1%3Amax-havelaar%2B01%2B01&enrollment_action=enroll">S'inscrire</a>
       </div>
-
 
       % endif
     </div>
@@ -70,24 +71,29 @@ from openedx.core.djangoapps.user_authn.utils import should_redirect_to_logistra
   .buttons {
     background-image: url("${static.url('max-havelaar/images/button_3.png')}");
     height: 50px;
-    width: 275px;
-    background-size: contain;
+    /* width: 315px; */
+    background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     position: relative;
+    padding: 5px 30px !important;
     right: -35px;
     top: 20px;
   }
+
   .buttons a {
-    position: absolute;
-    left: 20px;
-    bottom: 10px;
+    margin: 0 10px;
   }
+  .buttons a:hover {
+    text-decoration: underline;
+    color: var(--primary) !important;
+    font-weight: 700 !important;
+  }
+
   .global-header .nav-links .secondary a.register-btn {
     background: none;
     border: none;
     text-align: center;
-    width: 200px;
     color: black !important;
   }
   .global-header .nav-links .secondary a.register-btn:hover {
