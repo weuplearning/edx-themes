@@ -16,13 +16,31 @@ from openedx.core.djangolib.markup import HTML, Text
     html {
         overflow-x: hidden; 
     }
+    .window-wrap {
+        background-color: var(--tertiary);
+    }
     #main, p, h1, h2 {
         font-family: "PT Serif", sans-serif !important;
         line-height: 1.25;
     }
+    #main {
+        background-color: #FCF7F3;
+        min-height: calc(100vh - 123px);
+        line-height: 1.5;
+        max-width: 1440px;
+        margin: auto;
+        box-sizing: border-box;
+    }
     .main-header {
         margin: auto;
         width: 80%;
+    }
+    .global-header, .main-container  {
+        background-color: #FCF7F3;
+        border: none;
+    }
+    .global-header {
+        padding-bottom: 72px;
     }
     .global-header .header-logo a {
         margin: 15px 0 0 0 ;
@@ -32,20 +50,31 @@ from openedx.core.djangolib.markup import HTML, Text
         padding-top: 12px ;
     }
     .global-header .nav-links .secondary .nav-item a {
-        padding: 13px 22px !important;
+        padding: 8px 30px !important;
+        background-color: var(--primary) !important;
+        border: 1px solid var(--primary) !important;
+        color: white !important;
+        border-radius:  0 3px 3px 0;
+        height: 53px;
+        font-size: x-large;
+        margin-right: -40px;
     }
-    section, .larger-width , .smaller-width {
+    .global-header .nav-links .secondary .nav-item:first-child a {
+        border-radius: 3px 0 0 3px;
+        margin-right: 10px;
+    }
+    .global-header .nav-links .secondary .nav-item:hover a {
+        background-color: var(--secondary) !important;
+        border: 1px solid var(--secondary) !important;
+    }
+
+    section, .smaller-width {
         max-width: 1200px;
         margin: auto;
         padding: 0 40px;
         box-sizing: border-box;
     }
-    .larger-width, .wrapper-footer {
-        max-width: 1920px;
-        padding: unset ;
-        box-sizing: border-box;
-        margin: auto;
-    }
+
     .vertical-align, .horizontal-align {
         display: flex;
         justify-content: center;
@@ -60,41 +89,124 @@ from openedx.core.djangolib.markup import HTML, Text
         background-repeat: no-repeat;
         box-sizing: border-box;
     }
-
-    #silhouette {
-        background-image:  url("${static.url('estia/images/silhouette.png')}");
-        position: absolute;
-        top: 35vw;
-        left: 0;
-        width: 100%;
-        height: 60vw;
-        background-size: contain;
-        background-position: center bottom;
-        background-repeat: no-repeat;
-        z-index: -1;
-        opacity: 0.1;
+    h1 > span, #part_2 h2 {
+        color: var(--secondary);
+        font-weight: 700;
     }
+    #header {
+        box-sizing: border-box;
+        height: 50vw;
+        background-size: cover;
+        background-position-x: center;
+        padding: 10% 5% 10% 31%;
+    }
+
+    #main-section {
+        width: 80%;
+        min-height: calc(100vh - 123px);
+        justify-content: space-evenly;
+        padding-left: 0 0 0 120px;
+    }
+    #silhouette-area {
+        width: 26%;
+        min-height: calc(100vh - 123px);
+        padding: 0;
+        margin: 0;
+        z-index: 10;
+        position: relative;
+    }
+    #silhouette {
+        /* background-image:  url("${static.url('estia/images/silhouette.png')}"); */
+        background-image:  url("${static.url('estia/images/perso_1.svg')}");
+        height: 100vh;
+        width: 100%;
+        position: absolute;
+        bottom: -2%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: left;
+    }
+    #part_1 {
+        position: relative;
+        align-self: flex-start;
+        width: 75%;
+        /* height: 40vw; */
+        align-items: flex-start;
+    }
+    #part_1 h1 {
+        text-align: left;
+        margin-bottom: 0;
+        font-size: 40px;
+    }
+    .line {
+        display: block;
+        width: 80%;
+        border-bottom: 1px solid black;
+        margin: 30px 0;
+    }
+    #part_1 h3 {
+        font-size: x-large;
+        margin: 20px 0 ;
+        color: var(--secondary);
+    }
+    #part_1 p {
+        line-height: 1.8;
+        font-size: 0.9rem;
+    }
+
     #globe {
-        background-image:  url("${static.url('estia/images/globe.png')}");
-        width: 300px;
-        height: 300px;
+        position: absolute;
+        top: 10px;
+        right: -440px;
+        background-image:  url("${static.url('estia/images/terre.png')}");
+        width: 39vh;
+        height: 39vh;
         background-size: contain;
         background-position: center;
         background-repeat: no-repeat;
-        margin: 40px 0;
     }
+    #part_2 > h2{
+        font-weight: 700;
+        font-size: x-large;
+        margin: 55px 0 40px 0;
+    }
+
     .vignette {
-        border: beige 2px solid;
+        border: var(--tertiary) 8px solid;
+        border-radius: 5px;
+        margin: 10px 15px;
+        position: relative;
+        text-align: center;
+        box-shadow: 5px 5px 6px rgba(0, 0, 0, 0.3);
+        min-width: 21%;
+        height: 170px;
     }
+    .vignette div:first-child {
+        padding: 5px ;
+        background-color:var(--tertiary);
+        font-weight: 900;
+    }
+    .vignette div:nth-child(2) {
+        height: 125px;
+        background-color: white;
+        font-size: large;
+        padding: 0 10px;
+    }
+    .vignette div:last-child {
+        position: absolute;
+        bottom: -36px;
+        left: -33px;
+        z-index: 9;
+    }
+
 
     #picto_1, #picto_2, #picto_3, #picto_4 {
         background-image:  url("${static.url('estia/images/module_1.png')}");
-        width: 100px;
-        height: 100px;
+        width: 80px;
+        height: 80px;
         background-size: contain;
         background-position: center;
         background-repeat: no-repeat;
-        margin: 20px 0 0 0;
     }
     #picto_2 {
         background-image:  url("${static.url('estia/images/module_2.png')}");
@@ -106,77 +218,108 @@ from openedx.core.djangolib.markup import HTML, Text
         background-image:  url("${static.url('estia/images/module_4.png')}");
     }
 
-    #header {
 
+    .register-button {
+        background-color: var(--secondary);
+        color: white !important;
+        text-decoration: none;
+        font-size: 1.5em !important;
+        padding: 15px 30px;
+        border-radius: 5px;
+        box-shadow: 5px 5px 6px rgba(0, 0, 0, 0.3);
+        margin: 80px 0 50px 0;
+    }
+    .register-button:hover {
+        background-color: var(--primary);
+        color: white !important;
+        text-decoration: none !important;
+    }
+
+
+    .wrapper-footer {
+        box-shadow: none !important;
+        border-top: none !important;
+        max-width: 1920px;
+        padding: 20px 40px;
         box-sizing: border-box;
-        height: 50vw;
-        background-size: cover;
-        background-position-x: center;
-        padding: 10% 5% 10% 31%;
+        margin: auto;
+        background-color: var(--tertiary) !important;
+        color: black !important;
     }
 
     /* MEDIA QUERIES */
-    @media screen and (min-width: 1600px) {
-        #header {
-            height: 40vw;
-            padding: 10% 5% 10% 43%;;
+    @media screen and (max-width: 992px) {
+
+        
+        #silhouette-area, .global-header .header-logo a .logo {
+            display: none;
         }
     }
 
 </style>
 
 
-<main id="main" aria-label="Content" tabindex="-1">
+<main id="main" class="horizontal-align" aria-label="Content" tabindex="-1">
 
+    <section id="main-section" class="vertical-align">
+        <div id="part_1" class="vertical-align">
+            <h1><span >L'économie circulaire :</span><br>ses enjeux et ses pratiques</h1>
+            <span class="line" ></span>
 
-    <section id="part_1" class="horizontal-align">
-        <div class="vertical-align">
-
-            <h1><span style="color: var(--primary);" >L'économie circulaire :</span><br>ses enjeux et ses pratiques</h1>
             <h3>Envie de comprendre et d'agir pour une économie plus durable ?</h3>
             <p>À travers ce MOOC, découvrez les <strong>principes</strong> et les <strong>bonnes pratiques</strong> de l'économie circulaire, et apprenez à transformer les modèles actuels.</p>
             <p>Tout au long du parcours, Léna sera votre guide pour vous accompagner pas à pas et <strong>rendre ces enjeux accessibles et concrets</strong>.</p>
+            <div id="globe"></div>
         </div>
-        <div id="globe"></div>
-    </section>
-    
-    <div id="silhouette"></div>
-    
-    <section id="part_2" class="vertical-align larger-width">
-        <h2>déroulé du parcours de formation</h2>
+
+        <div id="part_2" class="vertical-align">
+            <h2>Déroulé du parcours de formation</h2>
+            <div class="horizontal-align" >
+
+                <div class="vignette">
+                    <div>Module 1</div>
+                    <div class="vertical-align" >
+                        <p>Principes fondamentaux de l'économie circulaire </p>
+                    </div>
+                    <div id="picto_1"></div>
+                </div>
+                
+                <div class="vignette">
+                    <div>Module 2</div>
+                    <div class="vertical-align" >
+                        <p>Modèles d'affaires circulaires </p>
+                    </div>
+                    <div id="picto_2"></div>
+                </div>
+
+                <div class="vignette">
+                    <div>Module 3</div>
+                    <div class="vertical-align" >
+                        <p>Tableau de bord de l'économie circulaire</p>
+                    </div>
+                    <div id="picto_3"></div>
+                </div>
+
+                <div class="vignette">
+                    <div>Module 4</div>
+                    <div class="vertical-align" >
+                        <p>Leadership et management du changement</p>
+                    </div>
+                    <div id="picto_4"></div>
+                </div>
+
+            </div>
+        </div>
+
         <div class="horizontal-align" >
-
-            <div class="vignette">
-                <div>Module 1</div>
-                <div>Principes fondamentaux de l'économie circulaire</div>
-                <div id="picto_1"></div>
-            </div>
-            
-            <div class="vignette">
-                <div>Module 2</div>
-                <div>Modèles d'affaires circulaires</div>
-                <div id="picto_2"></div>
-            </div>
-
-            <div class="vignette">
-                <div>Module 3</div>
-                <div>Tableau de bord de l'économie circulaire</div>
-                <div id="picto_3"></div>
-            </div>
-
-            <div class="vignette">
-                <div>Module 4</div>
-                <div>Leadership et management du changement</div>
-                <div id="picto_4"></div>
-            </div>
-
+            <a href="/register" class="register-button" >
+                Je démarre ma formation
+            </a>
         </div>
     </section>
 
-    <section class="horizontal-align" >
-        <div >
-            je démarre ma formation
-        </div>
+    <section id="silhouette-area">
+        <div id="silhouette"></div>
     </section>
 
 </main>

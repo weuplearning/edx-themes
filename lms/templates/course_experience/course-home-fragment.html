@@ -47,7 +47,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     }
 
     .course-outline .block-tree .outline-button .fa {
-        color: #FF991F  !important;
+        color: var(--primary)  !important;
     }
     
     .course-outline .block-tree .outline-button .complete-checkmark {
@@ -438,6 +438,10 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                     var completion = "${(round((block_course_completed/block_course) * 100))}%"
                     document.getElementById('final-grade-progress').children[0].style.width = completion;
                     document.getElementById('badges').getElementsByClassName('grade-value')[0].innerHTML = completion;
+                    // changer la medaille
+                    if ( completion == "100%") {
+                        document.getElementById('badges').getElementsByClassName('main-badge')[0].src = "${static.url('images/medal_on.svg')}";
+                    }
                 </script>
 
 
