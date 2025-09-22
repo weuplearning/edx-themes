@@ -392,14 +392,6 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                     block_course_completed += completed_blocks
 
 
-                    scorm_section_completion = custom_field.get(section.get('children',[])[0]['block_id'], None)
-                    if scorm_section_completion :
-                        block_course_completed -=1
-                        completion_ratio = 0
-                        
-                    if scorm_section_completion and '100' in scorm_section_completion :
-                        block_course_completed +=1
-                        completion_ratio = 1
                     %>
                         
                     <div class="grade-block">
@@ -412,19 +404,13 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
                             <div class="chapter-title" >${section['display_name']}</div>
 
-                            %if scorm_section_completion:
-                                <div class="grade-value">${int(scorm_section_completion.split("%")[0])}%</div>
-                            %else:
-                                <div class="grade-value">${int(completion_ratio * 100)}%</div>
-                            %endif
+                            <div class="grade-value">${int(completion_ratio * 100)}%</div>
+
                         </div>
 
                         <div class="progress-bar-full">
-                            %if scorm_section_completion:
-                                <div style="width:${int(scorm_section_completion.split('%')[0]) }%;" class="progress-bar-grade"></div>
-                            %else :
-                                <div style="width:${completion_ratio * 100}%;" class="progress-bar-grade"></div>
-                            %endif
+                            <div style="width:${completion_ratio * 100}%;" class="progress-bar-grade"></div>
+
                         </div>
                     </div>
 
