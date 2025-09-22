@@ -50,13 +50,6 @@ dates_banner_displayed = False
             if section.get('complete'):
                 completed = True
 
-            scorm_section_completion = custom_field.get(section.get('children',[])[0]['block_id'], None)
-            if scorm_section_completion :
-                completed = False
-
-            if scorm_section_completion and '100' in scorm_section_completion :
-                completed = True
-
             %>
                 <li class="outline-item section ${scored}">
                     <button class="section-name accordion-trigger outline-button"
