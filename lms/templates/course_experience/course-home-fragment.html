@@ -112,7 +112,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
     .course-outline .block-tree .section .section-name {
         padding: 20px 0 20px 2px;
-        background-color: var(--tertiary) ;
+        background-color: var(--primary) ;
         margin-bottom: 25px;
         margin-bottom: 0px !important;
         margin-top:25px !important;
@@ -165,7 +165,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     }
 
     .progress-bar-grade {
-        background-color:var(--tertiary);
+        background-color:var(--primary);
         position: absolute;
         height: 100%;
         top:0;
@@ -224,8 +224,9 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     .page-content .page-content-secondary h4{
         padding:15px;
         color:white;
-        background-color: var(--tertiary);
-        text-align:center
+        background-color: var(--primary);
+        text-align:center;
+        font-size: 18px;
     }
 
     .grade-section-title .chapter-title{
@@ -348,7 +349,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
             % endif
         </div>
         <aside class="page-content-secondary course-sidebar">
-            <h4>Avez-vous bien retenu ?</h4>
+            <h4>Ma progression dans la formation</h4>
             <div class="section" id="badges">
                 <div class="grade-block">       
                     <div class="grade-section-title">
@@ -390,8 +391,6 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                     
                     block_course += total_blocks
                     block_course_completed += completed_blocks
-
-
                     %>
                         
                     <div class="grade-block">

@@ -23,14 +23,21 @@ from openedx.core.djangolib.markup import HTML, Text
         font-family: "PT Serif", sans-serif !important;
         line-height: 1.25;
     }
+
     #main {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: stretch; 
         background-color: #FCF7F3;
         min-height: calc(100vh - 123px);
         line-height: 1.5;
         max-width: 1440px;
         margin: auto;
         box-sizing: border-box;
+        overflow: hidden;
     }
+
     .main-header {
         margin: auto;
         width: 80%;
@@ -102,35 +109,28 @@ from openedx.core.djangolib.markup import HTML, Text
     }
 
     #main-section {
-        width: 80%;
-        min-height: calc(100vh - 123px);
+        flex: 3; 
+        display: flex;
+        flex-direction: column;
         justify-content: space-evenly;
-        padding-left: 0 0 0 120px;
+        padding: 40px;
+        box-sizing: border-box;
     }
     #silhouette-area {
-        width: 26%;
-        min-height: 100vh;
-        padding: 0;
-        margin: 0;
-        z-index: 10;
-        position: relative;
+        flex: 1;
+        display: flex;
     }
     #silhouette {
-        /* background-image:  url("${static.url('estia/images/silhouette.png')}"); */
-        background-image:  url("${static.url('estia/images/perso_1.svg')}");
-        height: 100vh;
-        width: 100%;
-        position: absolute;
-        bottom: -2%;
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: left top;
+        width: 145%;
+        height: 100%;
+        object-fit: fill;
+        object-position: left top;
+        z-index: 10;
     }
     #part_1 {
         position: relative;
         align-self: flex-start;
         width: 75%;
-        /* height: 40vw; */
         align-items: flex-start;
     }
     #part_1 h1 {
@@ -157,10 +157,12 @@ from openedx.core.djangolib.markup import HTML, Text
     #globe {
         position: absolute;
         top: 10px;
-        right: -440px;
+        right: -80%;
         background-image:  url("${static.url('estia/images/terre.png')}");
         width: 39vh;
         height: 39vh;
+        max-width: 400px;
+        max-height: 400px;
         background-size: contain;
         background-position: center;
         background-repeat: no-repeat;
@@ -249,12 +251,29 @@ from openedx.core.djangolib.markup import HTML, Text
 
     /* MEDIA QUERIES */
     @media screen and (max-width: 992px) {
-
-        
-        #silhouette-area, .global-header .header-logo a .logo {
+        /* #silhouette-area, .global-header .header-logo a .logo { */
+        .global-header .header-logo a .logo {
             display: none;
         }
+        #silhouette {
+            background-size: contain;
+            background-position: center top;
+        }
+        #main {
+            flex-direction: column;
+        }
+        #main-section {
+            flex: none;
+            width: 100%;
+            padding: 20px;
+        }
     }
+    @media screen and (max-width: 768px) {
+        #globe {
+            right: -45%;
+        }
+    }
+
 
 </style>
 
@@ -263,7 +282,7 @@ from openedx.core.djangolib.markup import HTML, Text
 
     <section id="main-section" class="vertical-align">
         <div id="part_1" class="vertical-align">
-            <h1><span >L'économie circulaire :</span><br>ses enjeux et ses pratiques</h1>
+            <h1><span >Du jetable au durable :</span><br>plongez dans l’économie circulaire</h1>
             <span class="line" ></span>
 
             <h3>Envie de comprendre et d'agir pour une économie plus durable ?</h3>
@@ -279,7 +298,7 @@ from openedx.core.djangolib.markup import HTML, Text
                 <div class="vignette">
                     <div>Module 1</div>
                     <div class="vertical-align" >
-                        <p>Principes fondamentaux de l'économie circulaire </p>
+                        <p>Comprendre les clés de l’économie circulaire</p>
                     </div>
                     <div id="picto_1"></div>
                 </div>
@@ -287,7 +306,7 @@ from openedx.core.djangolib.markup import HTML, Text
                 <div class="vignette">
                     <div>Module 2</div>
                     <div class="vertical-align" >
-                        <p>Modèles d'affaires circulaires </p>
+                        <p>Inventer des business modèles durables</p>
                     </div>
                     <div id="picto_2"></div>
                 </div>
@@ -295,7 +314,7 @@ from openedx.core.djangolib.markup import HTML, Text
                 <div class="vignette">
                     <div>Module 3</div>
                     <div class="vertical-align" >
-                        <p>Tableau de bord de l'économie circulaire</p>
+                        <p>Les indicateurs qui comptent</p>
                     </div>
                     <div id="picto_3"></div>
                 </div>
@@ -303,7 +322,7 @@ from openedx.core.djangolib.markup import HTML, Text
                 <div class="vignette">
                     <div>Module 4</div>
                     <div class="vertical-align" >
-                        <p>Leadership et management du changement</p>
+                        <p>Conduire la transition circulaire</p>
                     </div>
                     <div id="picto_4"></div>
                 </div>
@@ -319,7 +338,8 @@ from openedx.core.djangolib.markup import HTML, Text
     </section>
 
     <section id="silhouette-area">
-        <div id="silhouette"></div>
+        <img id="silhouette" src="${static.url('estia/images/silhouette.png')}" alt="silhouette">
+
     </section>
 
 </main>

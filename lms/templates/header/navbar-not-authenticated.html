@@ -51,7 +51,8 @@ from openedx.core.djangoapps.user_authn.utils import should_redirect_to_logistra
     <div>
       % if allows_login:
         <div class="mobile-nav-item hidden-mobile nav-item">
-          <a class="sign-in-btn btn" href="/login${login_query()}">${_("Sign in")}</a>
+          <a class="sign-in-btn btn" href="/login${login_query()}">Se connecter</a>
+          <!-- <a class="sign-in-btn btn" href="/login${login_query()}">${_("Sign in")}</a> -->
         </div>
         % if allow_public_account_creation:
           <div class="mobile-nav-item hidden-mobile nav-item">
