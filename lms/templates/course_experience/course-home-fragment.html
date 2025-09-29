@@ -20,16 +20,17 @@ from openedx.features.course_experience.course_tools import HttpMethod
 from opaque_keys.edx.locator import BlockUsageLocator
 
 from lms.djangoapps.grades.course_grade import ZeroCourseGrade
-
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 %>
 
 <%block name="header_extras">
-  <link rel="stylesheet" type="text/css" href="${static.url('paragon/static/paragon.min.css')}" />
-  <link rel="stylesheet" type="text/css" href="${static.url('weup/css/animate-4.1.1.min.css')}" />
-  <style>
+<link rel="stylesheet" type="text/css" href="${static.url('paragon/static/paragon.min.css')}" />
+<link rel="stylesheet" type="text/css" href="${static.url('weup/css/animate-4.1.1.min.css')}" />
+<script> document.title = "Cours | ${HTML(course.display_name_with_default)}"; </script>
+
+<style>
     header.page-header.has-secondary{
-        background-color: var(--tertiary);
+        background-color: var(--secondary);
         padding-top: 10px !important;
         padding-bottom: 10px !important;
         box-shadow: 0 3px 6px rgba(0,0,0,0.16);
@@ -39,11 +40,11 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     .page-header-secondary{
         padding: 25px 0 !important;
     }
-    button.search-button{
-        margin-left: 5px;
-        background: white !important;
+    .content-wrapper {
+        min-height: calc( 100vh - 140px );
     }
-    .global-header .header-logo .course-header, a.help-link{
+
+    .global-header .header-logo .course-header, a.help-link, a.subsection-text div.details,a.subsection-text span.icon.fa.fa-pencil-square-o, #expand-collapse-outline-all-button, .wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary {
         display:none !important;
     }
 
@@ -72,9 +73,6 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         padding-left: 25px !important;
         padding-right: 25px !important;
     }
-     a.subsection-text div.details,a.subsection-text span.icon.fa.fa-pencil-square-o{
-         display:none !important;
-     }
     .page-content .page-content-secondary{
         min-width: calc(50% - 15px);
         max-width: calc(50% - 15px);
@@ -112,7 +110,6 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         height: 20px;
         margin: 10px 10px 10px 0;
     }
-
     .main-badge{
         height:40px;
         margin: 10px 10px 10px 0;
@@ -131,10 +128,6 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     .page-content-secondary {
         margin-top:25px !important;
     }
-    #expand-collapse-outline-all-button {
-        display: none;
-    }
-
     .page-content {
         padding: 20px;
         justify-content: space-between;
@@ -144,18 +137,8 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     	animation: fadeInLeft;
         animation-duration: 0.5s;
     }
-    /* .wrapper-preview-menu{
-       display:none;
-    } */
-    .wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary{
-        display:none !important;
-    }
 
-
-    .section-title{
-       color: #03A54B !important;
-    }
-    h2.hd.hd-3.page-title{
+    h2.hd.hd-3.page-title, .section-title{
        color:white !important;
     }
     .window-wrap, #course-container,#course-outline-block-tree{
@@ -164,12 +147,10 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     #main, .outline-item.accordion-panel{
        background: white;
     }
-
     .course-outline .block-tree .section {
         box-shadow: 0 3px 6px rgba(0,0,0,0.16);
         margin: 0 !important;
     }
-
 
     .grade-block {
         display: flex;
@@ -189,7 +170,6 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         overflow: hidden;
         border-radius:5px;
     }
-
     .progress-bar-grade {
         background-color:var(--primary);
         position: absolute;
@@ -200,7 +180,6 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         animation: fadeInLeft;
         animation-duration: 1.5s;
     }
-
     .grade-value {
         font-weight: 500;
         position: absolute;
@@ -211,7 +190,6 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         height: 15px;
         border-radius: 7.5px;
     }
-
     #final-grade-progress .progress-bar-grade{
         background-color: var(--secondary);
         border-radius: 7.5px;
@@ -225,7 +203,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         position: relative;
     }
 
-    #share-list {
+    /* #share-list {
         display: flex;
         list-style: none;
         flex-direction: row;
@@ -241,7 +219,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         font-size: 40px;
         margin: 0 10px;
         color: #343a40;
-    }
+    } */
 
     #badges {
         padding: 0 25px 25px 25px;
@@ -346,13 +324,8 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         }
     }
 
-  </style>
-  <script>
-document.title = "Cours | ${HTML(course.display_name_with_default)}";
-  </script>
-
+</style>
 </%block>
-
 
 <%block name="content">
 <div class="course-view page-content-container" id="course-container">
@@ -361,36 +334,20 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
             <img id="logo_banner" src="${static.url('images/logo.png')}" alt="banner logo">
         </div>
         <div class="page-header-secondary">
-            % if show_search:
-                <div class="page-header-search">
-                    <form class="search-form input-group" role="search" action="${reverse('openedx.course_search.course_search_results', args=[course_key])}">
-                        <label class="field-label sr-only" for="search" id="search-hint">${_('Search the course')}</label>
-                        <input
-                                class="field-input input-text search-input form-control"
-                                type="search"
-                                name="query"
-                                id="search"
-                                placeholder="${_('Search the course')}"
-                        />
-                        <span class="input-group-btn">
-                            <button class="btn btn-outline-primary search-button" type="submit">${_('Search')}</button>
-                        </span>
-                    </form>
-                </div>
-            % endif
             <div class="form-actions">
-                % if resume_course_url:
-                    <a class="btn btn-secondary action-resume-course" href="${resume_course_url}">
-                        % if has_visited_course:
-                            <span data-action-type="resume">${_("Resume Course")}</span>
-                        % else:
-                            <span data-action-type="start">${_("Start Course")}</span>
-                        % endif
-                    </a>
+            % if resume_course_url:
+                <a class="btn btn-secondary action-resume-course" href="${resume_course_url}">
+                % if has_visited_course:
+                    <span data-action-type="resume">${_("Resume Course")}</span>
+                % else:
+                    <span data-action-type="start">${_("Start Course")}</span>
                 % endif
+                </a>
+            % endif
             </div>
         </div>
     </header>
+
     <div class="page-content">
         <div class="page-content-main">
             % if offer_banner_fragment:
@@ -419,7 +376,6 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
 
             %if configuration_helpers.get_value('COMPLETION_BASED_DASHBOARD_MONO', False):
                 <%
-
                 progress_percentage = 0
                 total_blocks = 0
                 completed_blocks = 0
@@ -435,112 +391,108 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
                 progress_percentage = completed_blocks / total_blocks
                 %>
 
-                    <div class="grade-block">       
+                <div class="grade-block">       
+                    <div class="grade-section-title">
+                        %if user_grade.passed:
+                        <img src="${static.url('images/medal_on.svg')}" class="main-badge"/>
+                        %else: 
+                        <img src="${static.url('images/medal_off.svg')}" class="main-badge"/>
+                        %endif
+                        <div style="text-transform: uppercase;">${course.display_name_with_default}</div>
+                        <div class="grade-value">${int(progress_percentage * 100)}%</div>
+                    </div>
+                    <div class="progress-bar-full" id="final-grade-progress">
+                        <div style="width:${int(progress_percentage * 100)}%;" class="progress-bar-grade" ></div>
+                    </div>                    
+                </div>
+
+            %else:
+                <div class="grade-block">       
+                    <div class="grade-section-title">
+                        %if user_grade.passed:
+                        <img src="${static.url('images/medal_on.svg')}" class="main-badge" id="coursesuccess_badge"/>
+                        <script>
+                        tippy('#coursesuccess_badge', {
+                                content: 'Vous avez validé les activités notées du cours.',
+                                placement: 'left-start'
+                            });
+                        </script>
+                        %else: 
+                        <img src="${static.url('images/medal_off.svg')}" class="main-badge" id="coursenotsuccess_badge"/>
+                        <script>
+                        tippy('#coursenotsuccess_badge', {
+                                content: 'Vous n\'avez pas encore validé les activités notées du cours.',
+                                placement: 'left-start'
+                            });
+                        </script>
+                        %endif
+                        <div style="text-transform: uppercase;">${course.display_name_with_default}</div>
+                        <div class="grade-value">${int(user_grade.percent * 100)}%</div>
+                    </div>
+                    <div class="progress-bar-full" id="final-grade-progress">
+                        <div style="width:${int(user_grade.percent * 100)}%;" class="progress-bar-grade" ></div>
+                        <script>
+                        tippy('#final-grade-progress', {
+                                content: 'Votre note totale est de ${int(user_grade.percent * 100)}/100.',
+                                placement: 'top'
+                        });
+                        </script>
+                    </div>                    
+                </div>
+            %endif
+
+            %if configuration_helpers.get_value('COMPLETION_BASED_DASHBOARD_MONO', False):
+
+                % for section in course_block_tree.get('children'):
+                    <%
+                    total_blocks = 1
+                    completed_blocks = 1
+                    if not section.get('complete'):
+                    total_blocks = 1
+                    completed_blocks = 0
+                    for subsection in section.get('children', []):
+                        for unitchild in subsection.get('children', []):
+                        for blockchild in unitchild.get('children', []):
+                            total_blocks += 1
+                            if blockchild.get('complete'):
+                            completed_blocks += 1
+                    completion_ratio = completed_blocks / total_blocks
+                    %>
+                    <div class="grade-block">
                         <div class="grade-section-title">
-                            %if user_grade.passed:
-                                <img src="${static.url('images/medal_on.svg')}" class="main-badge"/>
-                            %else: 
-                                <img src="${static.url('images/medal_off.svg')}" class="main-badge"/>
+                            %if completion_ratio >= 1:
+                            <img src="${static.url('images/medal_on.svg')}" class="small-badge"/>
+                            %else:
+                            <img src="${static.url('images/medal_off.svg')}" class="small-badge"/>
                             %endif
-                            <div style="text-transform: uppercase;">${course.display_name_with_default}</div>
-                            <div class="grade-value">${int(progress_percentage * 100)}%</div>
+                            <div class="chapter-title" >${section['display_name']}</div>
+                            <div class="grade-value">${int(completion_ratio * 100)}%</div>
                         </div>
-                        <div class="progress-bar-full" id="final-grade-progress">
-                            <div style="width:${int(progress_percentage * 100)}%;" class="progress-bar-grade" ></div>
-                            
+                        <div class="progress-bar-full">
+                            <div style="width:${completion_ratio * 100}%;" class="progress-bar-grade"></div>
+                        </div>
+                    </div>
+                %endfor
+            %else:
+
+                %for index, chapter in enumerate(user_grade.chapter_grades.keys()):
+                    <div class="grade-block">
+                        <div class="grade-section-title">
+                            %if user_grade.chapter_percentage(chapter) >= 0.7:
+                            <img src="${static.url('images/medal_on.svg')}" class="small-badge"/>
+                            %else: 
+                            <img src="${static.url('images/medal_off.svg')}" class="small-badge"/>
+                            %endif
+                            <div class="chapter-title" >${user_grade.chapter_grades[chapter]['display_name']}</div>
+                            <div class="grade-value">${int(user_grade.chapter_percentage(chapter) * 100)}%</div>
+                        </div>
+                        <div class="progress-bar-full">
+                            <div style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade"></div>
                         </div>                    
                     </div>
+                %endfor
 
-            
-                    %else:
-                    <div class="grade-block">       
-                        <div class="grade-section-title">
-                            %if user_grade.passed:
-                                <img src="${static.url('images/medal_on.svg')}" class="main-badge" id="coursesuccess_badge"/>
-                                <script>
-                                              tippy('#coursesuccess_badge', {
-                                                      content: 'Vous avez validé les activités notées du cours.',
-                                                      placement: 'left-start'
-                                                    });
-                                </script>
-                            %else: 
-                                <img src="${static.url('images/medal_off.svg')}" class="main-badge" id="coursenotsuccess_badge"/>
-                                <script>
-                                              tippy('#coursenotsuccess_badge', {
-                                                      content: 'Vous n\'avez pas encore validé les activités notées du cours.',
-                                                      placement: 'left-start'
-                                                    });
-                                </script>
-                            %endif
-                            <div style="text-transform: uppercase;">${course.display_name_with_default}</div>
-                            <div class="grade-value">${int(user_grade.percent * 100)} / 100</div>
-                        </div>
-                        <div class="progress-bar-full" id="final-grade-progress">
-                            <div style="width:${int(user_grade.percent * 100)}%;" class="progress-bar-grade" ></div>
-                            <script>
-                                    tippy('#final-grade-progress', {
-                                          content: 'Votre note totale est de ${int(user_grade.percent * 100)}/100.',
-                                          placement: 'top'
-                                    });
-                            </script>
-                        </div>                    
-                    </div>
-                 %endif
-
-                 %if configuration_helpers.get_value('COMPLETION_BASED_DASHBOARD_MONO', False):
-
-                    % for section in course_block_tree.get('children'):
-                      <%
-                      total_blocks = 1
-                      completed_blocks = 1
-                      if not section.get('complete'):
-                        total_blocks = 1
-                        completed_blocks = 0
-                        for subsection in section.get('children', []):
-                          for unitchild in subsection.get('children', []):
-                            for blockchild in unitchild.get('children', []):
-                              total_blocks += 1
-                              if blockchild.get('complete'):
-                                completed_blocks += 1
-                      completion_ratio = completed_blocks / total_blocks
-                      %>
-                        <div class="grade-block">
-                            <div class="grade-section-title">
-                                %if completion_ratio >= 1:
-                                    <img src="${static.url('images/medal_on.svg')}" class="small-badge"/>
-                                %else:
-                                    <img src="${static.url('images/medal_off.svg')}" class="small-badge"/>
-                                %endif
-                                <div class="chapter-title" >${section['display_name']}</div>
-                                <div class="grade-value">${int(completion_ratio * 100)}%</div>
-                            </div>
-                            <div class="progress-bar-full">
-                                <div style="width:${completion_ratio * 100}%;" class="progress-bar-grade"></div>
-                            </div>
-                        </div>
-
-                    %endfor
-                 %else:
-
-
-                    %for index, chapter in enumerate(user_grade.chapter_grades.keys()):
-                        <div class="grade-block">
-                            <div class="grade-section-title">
-                                %if user_grade.chapter_percentage(chapter) >= 0.7:
-                                    <img src="${static.url('images/medal_on.svg')}" class="small-badge"/>
-                                %else: 
-                                    <img src="${static.url('images/medal_off.svg')}" class="small-badge"/>
-                                %endif
-                                <div class="chapter-title" >${user_grade.chapter_grades[chapter]['display_name']}</div>
-                                <div class="grade-value">${int(user_grade.chapter_percentage(chapter) * 100)}%</div>
-                            </div>
-                            <div class="progress-bar-full">
-                                <div style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade"></div>
-                            </div>                    
-                        </div>
-                    %endfor
-
-                 %endif
+            %endif
             </div>
         </aside>
     </div>
