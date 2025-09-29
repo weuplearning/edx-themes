@@ -50,10 +50,16 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     .course-outline .block-tree .outline-button .fa {
         color: var(--secondary) !important;
     }
-    .course-outline .block-tree .outline-button .complete-checkmark {
-        background-color: var(--secondary);
-        border-color: var(--secondary);
-        color: white !important;
+    .course-outline .block-tree .outline-button .checkmarck-subtitle {
+        background-color: var(--tertiary) ;
+        border-color: var(--tertiary) ;
+        color: white ;
+        padding: 2px;
+    }
+    .course-outline .block-tree .outline-button .checkmarck-title {
+        background-color: white ;
+        border-color: white ;
+        color: var(--tertiary) ;
         padding: 2px;
     }
     .course-message .message-content .message-header{
@@ -185,7 +191,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     }
 
     .progress-bar-grade {
-        background-color:var(--green);
+        background-color:var(--primary);
         position: absolute;
         height: 100%;
         top:0;

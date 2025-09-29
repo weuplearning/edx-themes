@@ -26,19 +26,6 @@ is_course_staff = bool(user and course and has_access(user, 'staff', course, cou
 dates_banner_displayed = False
 %>
 
-<style>
-    .checkmarck-subtitle{
-        background-color: var(--tertiary) !important;
-        border-color: var(--tertiary) !important;
-        color: white !important;
-    }
-
-    .checkmark-title{
-        background-color: white !important;
-        border-color: white !important;
-        color: var(--tertiary) !important;
-    }
-</style>
 <main role="main" class="course-outline" id="main" tabindex="-1">
     <%include file="/dates_banner.html" />
     % if course_sections is not None:
