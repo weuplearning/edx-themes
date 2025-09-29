@@ -1,10 +1,10 @@
 // Fonts
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
 // Theme colors
-$primary: #29abe2;
-$secondary: #00A44B;
+$primary: #2FB456;
+$secondary: #0B1825;
 
 // $theme-colors: (
 //   "tertiary": #e72476
@@ -12,7 +12,7 @@ $secondary: #00A44B;
 
 
 // Theme fonts
-$font-family-sans-serif: 'Roboto', serif;
+$font-family-sans-serif: 'Work Sans', sans-serif;
 
 $action-primary-bg: $secondary !default;
 $action-primary-shadow: $secondary !default;
