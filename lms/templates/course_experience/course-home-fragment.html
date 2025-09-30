@@ -381,13 +381,13 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                 completed_blocks = 0
 
                 for section in course_block_tree.get('children', []):
-                  chapter_key = BlockUsageLocator.from_string(section.get("id"))
-                  for subsection in section.get('children', []):
-                    for unitchild in subsection.get('children', []):
-                      for blockchild in unitchild.get('children', []):
-                        total_blocks += 1
-                        if blockchild.get('complete'):
-                          completed_blocks += 1
+                    chapter_key = BlockUsageLocator.from_string(section.get("id"))
+                    for subsection in section.get('children', []):
+                        for unitchild in subsection.get('children', []):
+                            for blockchild in unitchild.get('children', []):
+                                total_blocks += 1
+                                if blockchild.get('complete'):
+                                    completed_blocks += 1
                 progress_percentage = completed_blocks / total_blocks
                 %>
 
@@ -448,14 +448,14 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                     total_blocks = 1
                     completed_blocks = 1
                     if not section.get('complete'):
-                    total_blocks = 1
-                    completed_blocks = 0
+                        total_blocks = 1
+                        completed_blocks = 0
                     for subsection in section.get('children', []):
                         for unitchild in subsection.get('children', []):
-                        for blockchild in unitchild.get('children', []):
-                            total_blocks += 1
-                            if blockchild.get('complete'):
-                            completed_blocks += 1
+                            for blockchild in unitchild.get('children', []):
+                                total_blocks += 1
+                                if blockchild.get('complete'):
+                                    completed_blocks += 1
                     completion_ratio = completed_blocks / total_blocks
                     %>
                     <div class="grade-block">
