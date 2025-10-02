@@ -25,12 +25,6 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
 <!--WUL TIME TRACKING-->
 <%include file="/wul_apps/wul_time_tracking.html" />
 
-<!-- Chatbot -->
-<script type="text/javascript" src="${static.url('js/chatbot.js')}"></script>
-<script type="text/javascript" src="${static.url('js/chatbot_modal.js')}"></script>
-<link rel="stylesheet" href="${static.url('css/chatbot.css')}">
-
-
 
 <style>
   .window-wrap {
@@ -43,7 +37,9 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
   .openedxscorm_block > p {
     display: none;
   }
-
+  body.view-in-course .container {
+    max-width: 72vw !important;
+  }
 
 </style>
 
@@ -159,7 +155,7 @@ ${HTML(fragment.foot_html())}
 % if disable_accordion is UNDEFINED or not disable_accordion:
     <div class="course-index">
 
-      <div class="wrapper-course-modes">
+      <!-- <div class="wrapper-course-modes">
 
           <div class="courseware-bookmarks-button">
               <a class="bookmarks-list-button" href="${reverse('openedx.course_bookmarks.home', args=[course.id])}">
@@ -182,7 +178,7 @@ ${HTML(fragment.foot_html())}
             </div>
           % endif
 
-      </div>
+      </div> -->
 
       <div class="accordion">
         <nav class="course-navigation" aria-label="${_('Course')}">
