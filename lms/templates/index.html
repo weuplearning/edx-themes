@@ -37,7 +37,6 @@ from openedx.core.djangolib.markup import HTML, Text
         box-sizing: border-box;
         overflow: hidden;
     }
-
     .main-header {
         margin: auto;
         width: 80%;
@@ -77,7 +76,6 @@ from openedx.core.djangolib.markup import HTML, Text
 
     section, .smaller-width {
         max-width: 1200px;
-        margin: auto;
         padding: 0 40px;
         box-sizing: border-box;
     }
@@ -119,13 +117,15 @@ from openedx.core.djangolib.markup import HTML, Text
     #silhouette-area {
         flex: 1;
         display: flex;
+        position: relative;
     }
     #silhouette {
-        width: 145%;
         height: 100%;
         object-fit: fill;
         object-position: left top;
         z-index: 10;
+        position: absolute;
+        left: -200px;
     }
     #part_1 {
         position: relative;
@@ -148,25 +148,14 @@ from openedx.core.djangolib.markup import HTML, Text
         font-size: x-large;
         margin: 20px 0 ;
         color: var(--secondary);
+        font-weight: 700;
     }
     #part_1 p {
         line-height: 1.8;
         font-size: 1.1rem;
     }
 
-    #globe {
-        position: absolute;
-        top: 10px;
-        right: -80%;
-        background-image:  url("${static.url('estia/images/terre.png')}");
-        width: 39vh;
-        height: 39vh;
-        max-width: 400px;
-        max-height: 400px;
-        background-size: contain;
-        background-position: center;
-        background-repeat: no-repeat;
-    }
+
     #part_2 > h2{
         font-weight: 700;
         font-size: x-large;
@@ -203,7 +192,7 @@ from openedx.core.djangolib.markup import HTML, Text
 
 
     #picto_1, #picto_2, #picto_3, #picto_4 {
-        background-image:  url("${static.url('estia/images/module_1.png')}");
+        background-image:  url("${static.url('estia/images/module_c10e4695cc6e44218401c0ff9a64dd92.png')}");
         width: 80px;
         height: 80px;
         background-size: contain;
@@ -211,16 +200,14 @@ from openedx.core.djangolib.markup import HTML, Text
         background-repeat: no-repeat;
     }
     #picto_2 {
-        background-image:  url("${static.url('estia/images/module_2.png')}");
+        background-image:  url("${static.url('estia/images/module_0069226fa9bb455890fd064db720f314.png')}");
     }
     #picto_3 {
-        background-image:  url("${static.url('estia/images/module_3.png')}");
+        background-image:  url("${static.url('estia/images/module_46c760247f344c3eab303aa0c11c71af.png')}");
     }
     #picto_4 {
-        background-image:  url("${static.url('estia/images/module_4.png')}");
+        background-image:  url("${static.url('estia/images/module_91f9d6f6521e4109afe672c131a6b773.png')}");
     }
-
-
     .register-button {
         background-color: var(--secondary);
         color: white !important;
@@ -236,8 +223,6 @@ from openedx.core.djangolib.markup import HTML, Text
         color: white !important;
         text-decoration: none !important;
     }
-
-
     .wrapper-footer {
         box-shadow: none !important;
         border-top: none !important;
@@ -251,7 +236,6 @@ from openedx.core.djangolib.markup import HTML, Text
 
     /* MEDIA QUERIES */
     @media screen and (max-width: 992px) {
-        /* #silhouette-area, .global-header .header-logo a .logo { */
         .global-header .header-logo a .logo {
             display: none;
         }
@@ -268,12 +252,6 @@ from openedx.core.djangolib.markup import HTML, Text
             padding: 20px;
         }
     }
-    @media screen and (max-width: 768px) {
-        #globe {
-            right: -45%;
-        }
-    }
-
 
 </style>
 
@@ -331,7 +309,7 @@ from openedx.core.djangolib.markup import HTML, Text
         </div>
 
         <div class="horizontal-align" >
-            <a href="/register" class="register-button" >
+            <a href="/register?course_id=course-v1%3Aestia%2B01%2B2025&enrollment_action=enroll" class="register-button" >
                 Je démarre ma formation
             </a>
         </div>
@@ -339,7 +317,6 @@ from openedx.core.djangolib.markup import HTML, Text
 
     <section id="silhouette-area">
         <img id="silhouette" src="${static.url('estia/images/silhouette.png')}" alt="silhouette">
-
     </section>
 
 </main>
