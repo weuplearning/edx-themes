@@ -34,100 +34,154 @@ try {document.addEventListener("DOMContentLoaded", $buo_f,false)}
 catch(e){window.attachEvent("onload", $buo_f)}
 </script>
 <style>
-.btn-link.instructor_analytics,.btn-link.data_download{
-    display:none !important;
+.btn-link.instructor_analytics, .btn-link.data_download, .discover-new-link, #language-settings-form {
+    display: none !important;
 }
 
-.wrapper-header-courses{
-    background-color: #1e2631;
+.wrapper-header-courses {
+    background: #171D26 ;
+    /* background: linear-gradient(90deg,#161D26 , #3D3E41); */
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 150px;
 }
-
-.username .fa-bars{
-    color: #fff;
-}
-
-.wrapper-header-courses .username , .wrapper-header-courses .toggle-user-dropdown {
-    color: #fff !important;
-}
-
 .global-header {
     border-bottom: none;
     padding-bottom: 0 !important;
-    background-color: #1e2631;
 }
-
-.global-header .header-logo a .logo {
-    height: 66px;
-    padding: 1rem 5% !important;
-}
-
 .header-left-section{
     display: flex;
     align-items: center;
 }
 
-.header-logo{
-    width: 235px;
+.header-logo {
+    width: 255px;
+    display: flex !important;
+    align-items: center;
+    margin: 0 0 0 30px;
+}
+.logo-header {
+    height: 50px;
+    margin-right: 30px;
+}
+.header-logo img:last-child {
+    height: 20px;
+    margin: 10px 0 0 0;
 }
 
+#dashboard-onglet-list {
+    display: flex;
+}
 #dashboard-onglet-list li {
     min-width: initial !important;
+    list-style-type: none;
 }
-.discover-new-link {
+#dashboard-onglet-list li a {
+    min-width: 10vw;
+    line-height: 4;
+    color: white ;
+    padding: 18px 15px;
+}
+
+.global-header .nav-links .secondary {
+    margin : 7px 40px 0 0 !important;
+}
+.wrapper-header-courses .toggle-user-dropdown {
+    color: #fff !important;
+    border: solid 1px white;
+    border-radius: 4px;
+    padding: 4px 12px;
+}
+.header-courses:hover > a {
+    text-decoration: underline rgb(255, 98, 0) !important;
+    text-underline-offset: 8px;
+}
+
+.language-flags {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 10px 30px 0 0;
+}
+.flag-btn {
+    border: none;
+    background: none;
+    box-shadow: none;
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.2s ease;
+}
+.flag-btn img {
+    width: 36px;
+    border-radius: 4px;
+}
+button.flag-btn:hover {
+    background-color: unset !important;
+    background-image: none !important;
+}
+
+.flag-btn.active img {
     display: none;
 }
 
-@media (min-width: 992px) {
 
-    .global-header .header-logo a .logo {
-        padding: 1.5rem 5% !important;
+
+
+
+@media (max-width: 1150px) {
+    #dashboard-onglet-list {
+        font-size: small;
+    }
+    .header-logo {
+        display: none !important;
     }
 }
+
 @media (max-width: 991.98px) {
 
     .global-header .main-header {
         height: unset !important;
         position: inherit;
     }
-    .global-header .header-logo a {
-        height: unset !important;
-    }
-    #dashboard-onglet-list {
-        flex-direction: column;
-        margin: 0 0 0 12vw !important;
-        width: 150px;
-
-    }
 
     #dashboard-onglet-list li a {
         padding: 5px;
     }
 
-
+}
+@media (max-width: 520px) {
+    #title-part-2 {
+        font-size: 70px;
+    }
 
 }
 @media (max-width: 520px) {
     #dashboard-onglet-list {
-        flex-direction: column;
         margin: 0 !important;
         width: 150px;
     }
-    .wrapper-header-courses {
-        margin-bottom: 12px;
-    }
+
     #dashboard-onglet-list {
         width: 80vw;
     }
-    .header-logo {
-        display: none !important;
+    #dashboard-onglet-list li:nth-child(3),#dashboard-onglet-list li:nth-child(4), #dashboard-onglet-list li:nth-child(5) {
+        display: none;
     }
     #dashboard-onglet-list li {
         margin: 0 !important;
     }
 }
+
+/* Bigger screen */
+@media (min-width: 1560px) {
+    .header-left-section {
+        justify-content: space-between;
+        width: 65%;
+    }
+}
+
 
 
 </style>
@@ -164,21 +218,15 @@ catch(e){window.attachEvent("onload", $buo_f)}
             props={}
         )}
     % endif
-    <%include file="../learner_dashboard/_dashboard_navigation_courses.html"/>
     <div class="main-header">
-        <header class="wrapper-header-courses">
+        <div class="wrapper-header-courses">
             <div class="header-left-section">   
-
-
-                <h1 class="header-logo">
-                    <!-- WP temporary URL -->
-                    <!-- WP temporary URL -->
-                    <a href="https://e-academy.be">
-                        <%block name="navigation_logo">
-                        <img class="logoFooter text-footer-up" src="${static.url('amazon-belgique/images/logo-e-academy-1.png')}" alt="logoADN"/>
-                        </%block>
-                    </a>
-                </h1>
+                <a href="https://e-academy.be" class="header-logo">
+                    <%block name="navigation_logo">
+                    <img class="logo-header" src="${static.url('amazon-belgique/images/logo-e-academy-1.png')}" alt="e Academy logo"/>
+                    <img class="logo-header" src="${static.url('amazon-belgique/images/logo-e-academy-2.png')}" alt="be com logo"/>
+                    </%block>
+                </a>
                 
                 <div class="hamburger-menu" role="button" aria-label=${_("Options Menu")} aria-expanded="false" aria-controls="mobile-menu" tabindex="0">
                     <span class="line"></span>
@@ -190,73 +238,107 @@ catch(e){window.attachEvent("onload", $buo_f)}
                 <!-- Display only if connected -->
                 % if user.is_authenticated:
                 <ul id="dashboard-onglet-list">
-                    <li class="header-courses"><a href="/dashboard">${_("Tableau de bord") }</a></li>
-                    <li class="header-courses"><a href="/dashboard/elearning">${_("E learning") }</a></li>
-                    <!-- <li class="header-courses"><a href="/wul_apps/event">${_("Événements") }</a></li>
-                    <li class="header-courses"><a href="/wul_apps/coaching">${_("Coaching") }</a></li> -->
+                    <li class="header-courses"><a href="/dashboard">${_("Welcome") }</a></li>
+                    <li class="header-courses"><a href="/dashboard/elearning">E-Learning</a></li>
+                    <li class="header-courses"><a id="nav-webinaire" href="/press">Webinaire BECOM</a></li>
+                    <li class="header-courses"><a id="nav-etudes" href="/jobs">Etudes</a></li>
+                    <li class="header-courses"><a id="nav-actu" href="/news">Actualités</a></li>
                 </ul>
                 
             </div>
-            <div class="header-right-section">
-
+            <div>
                 <%include file="navbar-authenticated.html" args="online_help_token=online_help_token"/>
+
+            </div>
+
+            <div class="language-flags">
+                <button type="button" class="flag-btn" data-lang="fr" title="Français">
+                    <img src="${static.url('amazon-belgique/images/flags/fr.png')}" alt="Français">
+                </button>
+                <button type="button" class="flag-btn" data-lang="nl-nl" title="Nederlands">
+                    <img src="${static.url('amazon-belgique/images/flags/nl.png')}" alt="Nederlands">
+                </button>
+            </div>
+            
+
+
                 % else:
                 <ul id="dashboard-onglet-list">
                     <!-- <li class="header-courses"><a href="#">${_("A propos")}</a></li>
                     <li class="header-courses"><a href="#">${_("A venir")}</a></li> -->
-                    </ul>
-                    <h1 style="color:white;"></h1>
-                </div>
-                <div class="header-right-section">
-                    <%include file="navbar-not-authenticated.html" args="online_help_token=online_help_token"/>
-                % endif
+                </ul>
+                <h1 style="color:white;"></h1>
             </div>
-          </header>
+            <div class="header-right-section">
+                <%include file="navbar-not-authenticated.html" args="online_help_token=online_help_token"/>
+            </div>
+                % endif
+        </div>
 
     </div>
     <div class="mobile-menu hidden" aria-label=${_("More Options")} role="menu" id="mobile-menu"></div>
 </header>
 
-% if course:
-<!--
-[if lte IE 9]>
-<div class="ie-banner" aria-hidden="true">${Text(_('{begin_strong}Warning:{end_strong} Your browser is not fully supported. We strongly recommend using {chrome_link} or {ff_link}.')).format(
-    begin_strong=HTML('<strong>'),
-    end_strong=HTML('</strong>'),
-    chrome_link=HTML('<a href="https://www.google.com/chrome" rel="noopener" target="_blank">Chrome</a>'),
-    ff_link=HTML('<a href="http://www.mozilla.org/firefox" rel="noopener" target="_blank">Firefox</a>'),
-)}</div>
-<![endif]
--->
-% endif
 
-
-
-
-% if header_language_selector_is_enabled():
-    <% languages = released_languages() %>
-    % if len(languages) > 1:
-        <form action="/i18n/setlang/" method="post" class="settings-language-form" id="language-settings-form">
-            <input type="hidden" id="csrf_token" name="csrfmiddlewaretoken" value="${csrf_token}">
-            % if user.is_authenticated:
-                <input title="preference api" type="hidden" class="url-endpoint" value="${reverse('preferences_api', kwargs={'username': user.username})}" data-user-is-authenticated="true">
-            % else:
-                <input title="session update url" type="hidden" class="url-endpoint" value="${reverse('session_language')}" data-user-is-authenticated="false">
-            % endif
-            <label><span class="sr">${_("Choose Language")}</span>
+<!-- LANGUAGE START -->
+<% languages = released_languages() %>
+% if len(languages) > 1:
+    <form action="/i18n/setlang/" method="post" class="settings-language-form" id="language-settings-form">
+        <input type="hidden" id="csrf_token" name="csrfmiddlewaretoken" value="${csrf_token}">
+    % if user.is_authenticated:
+        <input title="preference api" type="hidden" class="url-endpoint" value="${reverse('preferences_api', kwargs={'username': user.username})}" data-user-is-authenticated="true">
+    % else:
+        <input title="session update url" type="hidden" class="url-endpoint" value="${reverse('session_language')}" data-user-is-authenticated="false">
+    % endif
+        <label><span class="sr">${_("Choose Language")}</span>
             <select class="input select language-selector" id="settings-language-value" name="language">
                 % for language in languages:
-                    % if language[0] == LANGUAGE_CODE:
-                        <option value="${language[0]}" selected="selected">${language[1]}</option>
-                    % else:
-                        <option value="${language[0]}" >${language[1]}</option>
-                    % endif
+                    % if language[0] in  ['fr', 'nl-nl']:
+
+                        % if language[0] == LANGUAGE_CODE:
+                            <option value="${language[0]}" selected="selected" class="flag-${language[0]}">${language[1]}</option>
+                        % else:
+                            <option value="${language[0]}" class="flag-${language[0]}">${language[1]}</option>
+                        % endif
+                    %endif
                 % endfor
             </select>
-            </label>
-        </form>
-    % endif
+        </label>
+    </form>
 % endif
+
+
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const select = document.getElementById('settings-language-value');
+    const buttons = document.querySelectorAll('.flag-btn');
+
+    buttons.forEach(btn => {
+        if (btn.dataset.lang === select.value) {
+            btn.classList.add('active');
+        }
+    });
+
+    buttons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const lang = this.dataset.lang;
+
+            select.value = lang;
+            select.dispatchEvent(new Event('change'));
+
+            buttons.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+});
+</script>
+
+<!-- LANGUAGE END -->
+
+
 
 <script>
     try {
@@ -270,8 +352,9 @@ catch(e){window.attachEvent("onload", $buo_f)}
     
             if (onglet.children[0].href === url) {
                 $('#dashboard-onglet-list li:nth-child('+(i+1)+') a').css('pointer-events', 'none');
-                $('#dashboard-onglet-list li:nth-child('+(i+1)+') a').css('background-color', 'white');
-                $('#dashboard-onglet-list li:nth-child('+(i+1)+') a').css('color', 'black');
+                $('#dashboard-onglet-list li:nth-child('+(i+1)+') a').css('text-decoration', 'underline');
+                $('#dashboard-onglet-list li:nth-child('+(i+1)+') a').css('text-decoration-color', '#FF6200');
+                $('#dashboard-onglet-list li:nth-child('+(i+1)+') a').css('text-underline-offset', '8px');
                 // add style for current onglet here
             }
         }
@@ -282,8 +365,8 @@ catch(e){window.attachEvent("onload", $buo_f)}
     
 % if user.is_authenticated:
 <script>
-if (window.location.pathname.indexOf('login') == 1 ) {
-    window.location.replace('/dashboard')
-}
+    if (window.location.pathname.indexOf('login') == 1 ) {
+        window.location.replace('/dashboard')
+    }
 </script>
 % endif

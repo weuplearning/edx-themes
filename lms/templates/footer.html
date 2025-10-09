@@ -12,7 +12,6 @@
 
 <style>
     #footer {
-        background-color: #1e2631;
         padding-top: 40px;
         padding-bottom: 0;
         background-image: none;
@@ -27,7 +26,6 @@
     }
 
     .footer-column {
-        width: 425px !important;
         text-align: center;
         display: flex;
         justify-content: center;
@@ -45,8 +43,7 @@
         align-items: baseline;
     }
 
-    .text-footer{
-        color: #fff;
+    .text-footer {
         line-height: 1.2;
     }
     .text-footer-up{
@@ -62,12 +59,12 @@
     }
 
     .footerBottom{
-        border-top: solid #fff 1px;
+        border-top: solid #171D26 1px;
         margin-top: 40px;
         padding-bottom: 20px; 
     }
     .footer_links{
-        color: #fff !important;
+        color: #171D26 !important;
         padding-right: 20px;
     }
 
@@ -80,7 +77,6 @@
     }
     @media (max-width: 520px) {
         #footer .container1 .row {
-            flex-direction: column;
             padding: 7px;
         } 
         #footer .container1 .row .footer-column {
@@ -107,68 +103,61 @@
 
 </style>
 
-## % if uses_bootstrap:
-    <footer id="footer">
-        <div class="container1">
-            <div class="row">
-                <div class="footer-column" >
-                    <img class="logoFooterRight text-footer-up" src="${static.url('amazon-belgique/images/logo-e-academy-1.png')}" alt="logoADN"/>
-                    <p id="text-footer-left" class="text-footer">${_("The E-Academy est un programme éducatif en ligne gratuit destiné à accompagner l'ensemble des entrepreneurs belges à développer leur activité en ligne.")}</p>
-                </div>
-                <div class="footer-column" >
-                    <p  id="text-footer-right" class="text-footer text-footer-up">${_("Un programme initié par")}</p>
-                    <a href="https://services.amazon.fr/" target="_blank"><img src="${static.url('amazon/images/logo_amazon.png')}" class="Right" alt="logo BPI France"></a>
-                </div>
-            </div>
-            <div class="row footerBottom" >
-                <div class="footer_cgu" >
-                    <a id="footer_link_1" target="_blank" class="footer_links" href="/mentions-legales/">${_("Mentions légales")}</a>
-                    <a id="footer_link_2" target="_blank" class="footer_links" href="/politique-de-confidentialite/">${_("Politique de confidentialité")}</a>
-                    <a id="footer_link_3" target="_blank" class="footer_links" href="/faq/">${_("FAQ")}</a>
-                </div>
+
+%if request.path == '/news' :
+    <style>
+    .text-footer {
+        color: white;
+    }
+    #footer {
+        background: #171D26;
+    }
+    .footer_links {
+        color: white !important;
+    }
+    .footerBottom {
+        border-top: solid white 1px;
+    }
+    </style>
+%elif request.path == '/dashboard/elearning' or request.path == '/press' : 
+    <style>
+    #footer {
+        background: #EEF8FA;
+    }
+    </style>
+%else:
+<!-- /dashboard et /jobs -->
+    <style>
+    .text-footer {
+        color: #171D26;
+    }
+    </style>
+%endif
+
+<footer id="footer">
+    <div class="container1">
+
+        <div class="footer-column" >
+            <p  id="text-footer-right" class="text-footer text-footer-up" >${_("Un programme initié par")}</p>
+        %if request.path == '/news' :
+            <a href="https://services.amazon.fr/" target="_blank"><img src="${static.url('amazon-belgique/images/logo_amazon.png')}" class="Right" alt="logo Amazon"></a>
+        %else:
+            <a href="https://services.amazon.fr/" target="_blank"><img src="${static.url('amazon-belgique/images/logo_amazon_black.png')}" style="height:65px;" alt="logo Amazon"></a>
+        %endif
+        </div>
+
+        <div class="row footerBottom" >
+            <div class="footer_cgu" >
+                <a id="footer_link_1" target="_blank" class="footer_links" href="/mentions-legales/">Mentions légales</a>
+                <a id="footer_link_2" target="_blank" class="footer_links" href="/politique-de-confidentialite/">${_("Politique de confidentialité")}</a>
+                <a id="footer_link_3" target="_blank" class="footer_links" href="/faq/">FAQ</a>
             </div>
         </div>
-   </footer>
-## % endif
+    </div>
+</footer>
 
-<script>
-function getCookie(name) {
-    var value = "; " + document.cookie;
-    var parts = value.split("; " + name + "=");
-    if (parts.length > 1) {
-        // Return the last occurrence of the cookie
-        return parts[parts.length - 1].split(";")[0];
-    }
-    return undefined;
-}
 
-var myCookieValue = getCookie('openedx-language-preference');
-// console.log(myCookieValue);
-// var otherCookieValue = getCookie('django_language');
+<!-- apply trads through 5 dashboard pages -->
+<script type="text/javascript" src="${static.url('js/dashboard_trads.js')}"></script>
 
-window.addEventListener("load", function () {
 
-    if (myCookieValue == "nl-nl"  ) {
-    // if (myCookieValue == "nl-nl"  || otherCookieValue == "nl-nl") {
-        // Get references to the links by their IDs
-        var link1 = document.getElementById("footer_link_1");
-        var link2 = document.getElementById("footer_link_2");
-        var link3 = document.getElementById("footer_link_3");
-        var footerRight = document.getElementById("text-footer-right")
-        var footerLeft = document.getElementById("text-footer-left")
-
-        if (footerRight) {
-            footerRight.innerText = "Een programma opgericht door"
-        }
-        if (footerLeft) {
-            footerLeft.innerText = "The E-Academy biedt GRATIS leermiddelen aan om ondernemers te helpen hun bedrijf online op te starten, uit te bouwen en te laten groeien."
-        }
-
-        // Change the href attributes
-        link1.href = "/nl/wettelijke-vermeldingen/";
-        link2.href = "/nl/beleid-inzake-gegevensbescherming/";
-        link3.href = "/nl/faq-nl/";
-    }
-
-});
-</script>

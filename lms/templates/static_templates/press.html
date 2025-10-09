@@ -1,17 +1,222 @@
 <%page expression_filter="h"/>
 <%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='../static_content.html'/>
+<%!
+import datetime
+import six
+import json
+
+from django.utils.html import format_html
+%>
 
 <%inherit file="../main.html" />
 
-<%block name="pagetitle">${_("In the Press")}</%block>
+<%
+file_path = '/edx/var/edxapp/media/microsites/amazon-belgique/fichiers_json/ressources.json'
+with open(file_path, 'r') as file:
+  data = json.load(file)
+%>
+
+
+<%block name="pagetitle">Webinaire</%block>
+
+%if not user.is_authenticated:
+<script>
+    window.location.replace('/login')
+</script>
+% endif
 
 <main id="main" aria-label="Content" tabindex="-1">
-    <section class="container about">
-        <h1>
-            <%block name="pageheader">${page_header or _("In the Press")}</%block>
-        </h1>
-        <p>
-            <%block name="pagecontent">${page_content or _("This page left intentionally blank. Feel free to add your own content.")}</%block>
-        </p>
+    <section class="header-webinaire">
+        <div class="title-webinaire">
+
+<!--
+    <h1 id="webi-descript-title" >Titre</h1>
+    -->            
+            <p id="webi-descript-texte" >Retrouver ici les enregistrements de nos évènements en ligne.</p>
+        </div>
+
     </section>
+    <div id="wave-top"></div>
+
+
+    <section>
+        <div class="vignettes" id="vignettes-ressources">
+
+        %if request.LANGUAGE_CODE == 'nl-nl' :
+            %for value in data["press-nl"] :
+                <a class="vignette" href="${value['lien']}" target="_blank">
+                    <div class="vignette-background" style="background-image: url('/media/microsites/amazon-belgique/fichiers_json/image_ressources/${value['image']}');">
+                        <div>${value['titre']}</div>
+                        <p><span class="icon fa fa-play"></span></p>
+                    </div>
+                    <div class="vignette-details">
+                        % if value['description'] != "" :            
+                        <p class="description">${value['description'] | n}</p>
+                        %endif
+                        <div class="vignette-link-button"></div>
+                        <span class="check-vignette" ><i class="icon fa fa-check fa-2x"></i></span>
+                    </div>
+                </a>
+            %endfor
+
+        %else :
+            %for value in data["press-fr"] :
+                <a class="vignette" href="${value['lien']}" target="_blank">
+                    <div class="vignette-background" style="background-image: url('/media/microsites/amazon-belgique/fichiers_json/image_ressources/${value['image']}');">
+                        <div>${value['titre']}</div>
+                        <p><span class="icon fa fa-play"></span></p>
+                    </div>
+                    <div class="vignette-details">
+                        % if value['description'] != "" :            
+                        <p class="description">${value['description'] | n}</p>
+                        %endif
+                        <div class="vignette-link-button"></div>
+                        <span class="check-vignette" ><i class="icon fa fa-check fa-2x"></i></span>
+                    </div>
+                </a>
+            %endfor
+
+        %endif
+
+        </div>
+
+    </section>
+    <div id="wave-bottom"></div>
 </main>
+
+<style>
+.content-wrapper {
+    padding: unset !important;
+    margin-top: 0 !important;
+    background: linear-gradient(90deg, #F6F3ED, white) ;    
+}
+
+/* VIGNETTES */
+.vignettes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 80px;
+    justify-content: center;
+    margin: 100px 12% 25px 12%;
+}
+.vignette {
+    width: 300px;
+    box-sizing: border-box;
+    /* box-shadow: 2px 3px 6px rgba(0,0,0,0.36); */
+    border: solid 1px grey;
+    border-radius: 10px;
+}
+.vignette-background {
+    height: 190px;
+    background-size: cover;
+    position: relative;
+    border-radius: 10px 10px 0 0;
+}
+.vignette-background > div {
+    font-size: 25px;
+    padding: 25px 20px;
+    line-height: 1.4;
+    color: white;
+    font-style: italic;
+    font-weight: 700;
+}
+.vignette-background > p {
+    color: white;
+    background-color: #161D26;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    width: 50px;
+    font-size: small;
+    position: absolute;
+    border-radius: 50%;
+    bottom: 10px;
+    right: 20px;
+}
+.vignette-background > p > span {
+    font-size: 26px;
+    margin-left: 5px;
+}
+.vignette-details {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    max-height: 350px;
+    background: white;
+    border-radius: 0 0 10px 10px;
+}
+.vignette-details .description {
+    font-size: 15px;
+    line-height: 1.2;
+    text-align: justify;
+}
+.vignette-link-button {
+    display: flex;
+    align-items: center;
+    align-self: center;
+    padding: 10px 20px;
+    background-position: center;
+    background-size: cover;
+    height: 25px;
+    margin-top: 30px;
+    font-weight: 700;
+    background-image: url("${static.url('umn/images/bouton_commencer.svg')}");
+}
+.vignette-link-button a {
+    color: white;
+}
+
+.header-webinaire {
+    background-color: #161D26;
+    padding: 0 20%;
+}
+.check-vignette {
+    display: inline-block;
+    width: 50px;
+    height: 30px;
+    align-self: end;
+    background-color: #3D4852;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.check-vignette i {
+    color: #72767B;
+}
+
+.vignette:visited .check-vignette {
+    background-color: #8AC63F;
+}
+.vignette:visited .check-vignette i {
+    color:white;
+}
+
+
+.title-webinaire h1 {
+    color: #FF6200;
+    text-align: start;
+}
+.title-webinaire p {
+    color: white;
+    text-align: justify;
+    font-size: 20px;
+    line-height: 1.4;
+}
+#wave-top {
+    height: 220px;
+    background: url("${static.url('amazon-belgique/images/P3_VAGUES.png')}");
+    background-position: bottom;
+    background-repeat: no-repeat;
+
+}
+#wave-bottom {
+    height: 268px;
+    background: url("${static.url('amazon-belgique/images/P3_footer.png')}");
+    background-position: top;
+    background-repeat: no-repeat;
+}
+
+</style>

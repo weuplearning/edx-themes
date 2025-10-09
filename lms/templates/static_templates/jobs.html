@@ -1,16 +1,147 @@
 <%page expression_filter="h"/>
 <%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='../static_content.html'/>
+<%!
+import datetime
+import six
+import json
+
+from django.utils.html import format_html
+%>
+
 <%inherit file="../main.html" />
 
-<%block name="pagetitle">${_("Jobs")}</%block>
+<%
+file_path = '/edx/var/edxapp/media/microsites/amazon-belgique/fichiers_json/ressources.json'
+with open(file_path, 'r') as file:
+  data = json.load(file)
+%>
+
+<%block name="pagetitle">Etudes</%block>
+
+%if not user.is_authenticated:
+<script>
+    window.location.replace('/login')
+</script>
+% endif
 
 <main id="main" aria-label="Content" tabindex="-1">
-    <section class="container about">
-        <h1>
-            <%block name="pageheader">${page_header or _("Jobs")}</%block>
-        </h1>
-        <p>
-            <%block name="pagecontent">${page_content or _("This page left intentionally blank. Feel free to add your own content.")}</%block>
-        </p>
+    <section class="header-etudes">
+        <div class="container-etudes">
+
+
+        %if request.LANGUAGE_CODE == 'nl-nl' :
+
+            %for value in data["jobs-nl"] :
+            <div class="vertical-align">
+                <img src="/media/microsites/amazon-belgique/fichiers_json/image_ressources/${value['image']}" alt="photo d'études" class="img-etudes">
+                <div class="etudes-descript" >
+                    <h2 id="etudes-descript-title" >${value['titre']}</h2>
+                    <p id="etudes-descript-texte">${value['description'] | n}</p>
+                </div>
+                <a href="${value['lien']}" id="etudes-descript-button" >${value['lien-texte']}</a>
+            </div>
+            %endfor
+        %else :
+            %for value in data["jobs-fr"] :
+            <div class="vertical-align">
+                <img src="/media/microsites/amazon-belgique/fichiers_json/image_ressources/${value['image']}" alt="photo d'études" class="img-etudes">
+                <div class="etudes-descript" >
+                    <h2 id="etudes-descript-title" >${value['titre']}</h2>
+                    <p id="etudes-descript-texte">${value['description'] | n}</p>
+                </div>
+                <a href="${value['lien']}" id="etudes-descript-button" >${value['lien-texte']}</a>
+            </div>
+            %endfor
+        %endif
+        </div>
     </section>
+
+    <div id="wave-top"></div>
+
 </main>
+
+
+<style>
+.content-wrapper {
+    padding: unset !important;
+    margin-top: 0 !important;
+}
+
+.header-etudes {
+    background-color: #161D26;
+    padding: 85px 12% 35px 12%;
+}
+.container-etudes {
+    max-width: 1200px;
+    margin: auto;
+}
+.header-etudes .vertical-align:nth-child(2n) {
+    flex-direction: row-reverse;
+}
+
+.vertical-align {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    margin: 70px 0 0 0 ;
+    position: relative;
+    border-radius: 15px;
+}
+.img-etudes {
+    border-radius: 10px;
+    box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.2);
+    height: 250px;
+    width: 600px;
+    max-width: 33%;
+    object-fit: cover;
+    object-position: top;
+}
+
+.header-etudes .vertical-align:nth-child(2n) .img-etudes {
+    width: 450px;
+}
+
+.etudes-descript {
+    padding: 10px 45px 40px 45px ;
+    flex: 1;
+}
+#etudes-descript-title, #etudes-descript-title-2 {
+    color :#FF6200;
+} 
+
+#etudes-descript-button {
+    position: absolute;
+    bottom: -20px;
+    right: 25%;
+    background: #FF6200;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: larger;
+}
+.header-etudes .vertical-align:nth-child(2n) #etudes-descript-button {
+    right: 60%;
+}
+
+
+#wave-top {
+    height: 282px;
+    background: url("${static.url('amazon-belgique/images/P4_VAGUES.png')}");
+    background-position: bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+@media (max-width: 750px) {
+
+    
+    .img-etudes {
+        display: none;
+    }
+}
+
+
+</style>
