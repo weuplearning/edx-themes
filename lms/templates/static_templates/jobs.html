@@ -122,10 +122,18 @@ with open(file_path, 'r') as file:
     font-weight: 700;
     font-size: larger;
 }
+#etudes-descript-button:hover {
+    transform: scale(1.02);
+    background: #e45801;
+}
+
 .header-etudes .vertical-align:nth-child(2n) #etudes-descript-button {
     right: 60%;
 }
 
+#etudes-descript-texte {
+    line-height: 1.2;
+}
 
 #wave-top {
     height: 282px;
@@ -133,6 +141,8 @@ with open(file_path, 'r') as file:
     background-position: bottom;
     background-repeat: no-repeat;
     background-size: cover;
+    position: relative;
+    top: -1px;
 }
 
 @media (max-width: 750px) {

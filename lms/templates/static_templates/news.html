@@ -37,9 +37,7 @@ with open(file_path, 'r') as file:
             <div class="news-descript-text" >
                 ${value['description'] | n}
             </div>
-            <span class="news-descript-link">
-                <a href="${value['lien']}" >${value['lien-texte']}</a>
-            </span>
+            <a href="${value['lien']}" class="news-descript-link" >${value['lien-texte']}</a>
         </div>
         %endfor
     %else :
@@ -51,9 +49,7 @@ with open(file_path, 'r') as file:
             <div class="news-descript-text" >
                 ${value['description'] | n}
             </div>
-            <span class="news-descript-link">
-                <a href="${value['lien']}" >${value['lien-texte']}</a>
-            </span>
+            <a href="${value['lien']}" class="news-descript-link" >${value['lien-texte']}</a>
         </div>
         %endfor
     %endif
@@ -120,5 +116,13 @@ with open(file_path, 'r') as file:
     padding: 5px 10px;
     box-shadow: 8px 8px 8px rgba(0,0,0,0.4) ;
 }
+.news-descript-link:hover {
+    transform: scale(1.02);
+    background-color: #e45801;
+}
 
+a:not(.btn), a:visited:not(.btn) {
+    color: white !important;
+    text-decoration: none !important;
+}
 </style>

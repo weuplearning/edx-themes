@@ -39,7 +39,7 @@ window.addEventListener("load", function () {
     switchTrads("descript-part-2", "Vous y trouverez des contenus variés pour compléter votre panoplie d’outils et booster votre entreprise. Vous serez également informé en temps réel de nos évènements à venir !", "Ontdek praktische tools en inspirerende content om je bedrijf een boost te geven, en blijf in realtime op de hoogte van  komende evenementen!");
 
     // webinar    
-    switchTrads("webi-descript-texte", "Retrouver ici les enregistrements de nos évènements en ligne.", "Hier vindt u de opnames van onze online evenementen.");
+    switchTrads("webi-descript-title", "Retrouver ici les enregistrements de nos évènements en ligne.", "Hier vindt u de opnames van onze online evenementen.");
     
     // footer
     switchTrads("footer_link_1", "Mentions légales", "Algemene voorwaarden"); 
