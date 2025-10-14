@@ -171,7 +171,9 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         height: 550px;
         object-fit: fill;
         object-position: left top;
-        z-index: 10;
+        /* z-index: 10; */
+        max-height: 45vh;
+        z-index: 0;
     }
     .logo-section {
         height: 125px;
@@ -190,6 +192,8 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     .course-outline .block-tree .section ol.outline-item .subsection {
         border-top: none !important;
     }
+
+
 
 
 

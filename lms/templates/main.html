@@ -233,6 +233,16 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
   <script type="text/javascript" src="${static.url('js/header/header.js')}"></script>
   <%static:optional_include_mako file="body-extra.html" is_theming_enabled="True" />
   <script type="text/javascript" src="${static.url('js/src/jquery_extend_patch.js')}"></script>
+
+  <script>
+    if(location.href.includes("discussion/forum") === true){
+    var goBackBtn = $("<a class='btn btn-outline-secondary btn-small new-post-btn' href='/courses/course-v1:estia+01+2025/course/'>Revenir au cours</a>");
+    $('.forum-actions .new-post-btn').before(goBackBtn);
+
+    }
+
+  </script>
+
 </body>
 </html>
 

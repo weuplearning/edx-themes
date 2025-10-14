@@ -32,7 +32,6 @@ from openedx.core.djangolib.markup import HTML, Text
         background-color: #FCF7F3;
         min-height: calc(100vh - 123px);
         line-height: 1.5;
-        max-width: 1440px;
         margin: auto;
         box-sizing: border-box;
         overflow: hidden;
@@ -115,17 +114,20 @@ from openedx.core.djangolib.markup import HTML, Text
         box-sizing: border-box;
     }
     #silhouette-area {
-        flex: 1;
-        display: flex;
-        position: relative;
+    margin:0;
+    margin-right: 5rem;
+    width: 25vw;
+    max-width: 25vw;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+
     }
     #silhouette {
-        height: 100%;
-        object-fit: fill;
-        object-position: left top;
-        z-index: 10;
-        position: absolute;
-        left: -200px;
+    margin: 0;
+    width: 25vw;
     }
     #part_1 {
         position: relative;

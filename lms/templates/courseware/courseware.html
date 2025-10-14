@@ -39,8 +39,21 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
   .wrapper-footer {
     background-color: var(--primary) !important;
   }
+
+  .container{
+    width: 80vw !important;
+    max-width: 100vw !important;
+  }
   .container>div {
     box-shadow: -5px -1px 5px rgba(0,0,0,0.1), 5px 4px 5px rgba(0,0,0,0.1) !important;
+  }
+
+  .course-wrapper{
+    margin:0!important;
+  }
+
+  .bookmark-button-wrapper,.bookmarks-list-button{
+    display: none!important;
   }
 </style>
 
@@ -328,3 +341,15 @@ ${HTML(fragment.foot_html())}
 <!--WUL TIME TRACKING-->
 <%include file="/wul_apps/wul_time_tracking.html" />
 
+
+<script>
+  $(document).ready(function() {
+  $(' .tabs.course-tabs li:first a').text("Revenir à l'accueil");
+  $('.tabs.course-tabs li a:contains("Discussion")').text('Forum');
+
+    $('.breadcrumbs .nav-item-course a').text("Accueil");
+
+  
+});
+
+</script>
