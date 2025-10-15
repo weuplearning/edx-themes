@@ -42,7 +42,7 @@ catch(e){window.attachEvent("onload", $buo_f)}
     background: #171D26 ;
     /* background: linear-gradient(90deg,#161D26 , #3D3E41); */
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     height: 150px;
 }
@@ -100,7 +100,6 @@ catch(e){window.attachEvent("onload", $buo_f)}
 
 .language-flags {
     display: flex;
-    gap: 12px;
     align-items: center;
     justify-content: flex-start;
     margin: 10px 30px 0 0;
@@ -174,14 +173,6 @@ button.flag-btn:hover {
     }
 }
 
-/* Bigger screen */
-@media (min-width: 1560px) {
-    .header-left-section {
-        justify-content: space-between;
-        width: 65%;
-    }
-}
-
 
 
 </style>
@@ -235,7 +226,12 @@ button.flag-btn:hover {
                     <span class="line"></span>
                 </div>
 
-                <!-- Display only if connected -->
+
+                
+            </div>
+
+            <div class="header-center-section">   
+                                <!-- Display only if connected -->
                 % if user.is_authenticated:
                 <ul id="dashboard-onglet-list">
                     <li class="header-courses"><a href="/dashboard">${_("Welcome") }</a></li>
@@ -244,22 +240,24 @@ button.flag-btn:hover {
                     <li class="header-courses"><a href="/jobs" id="nav-etudes">Etudes</a></li>
                     <li class="header-courses"><a href="/news" id="nav-actu">Actualités</a></li>
                 </ul>
-                
-            </div>
-            <div>
-                <%include file="navbar-authenticated.html" args="online_help_token=online_help_token"/>
-
             </div>
 
-            <div class="language-flags">
-                <button type="button" class="flag-btn" data-lang="fr" title="Français">
-                    <img src="${static.url('amazon-belgique/images/flags/fr.png')}" alt="Français">
-                </button>
-                <button type="button" class="flag-btn" data-lang="nl-nl" title="Nederlands">
-                    <img src="${static.url('amazon-belgique/images/flags/nl.png')}" alt="Nederlands">
-                </button>
+
+            <div style="display: flex;">
+                <div>
+                    <%include file="navbar-authenticated.html" args="online_help_token=online_help_token"/>
+
+                </div>
+
+                <div class="language-flags">
+                    <button type="button" class="flag-btn" data-lang="fr" title="Français">
+                        <img src="${static.url('amazon-belgique/images/flags/fr.png')}" alt="Français">
+                    </button>
+                    <button type="button" class="flag-btn" data-lang="nl-nl" title="Nederlands">
+                        <img src="${static.url('amazon-belgique/images/flags/nl.png')}" alt="Nederlands">
+                    </button>
+                </div>
             </div>
-            
 
 
                 % else:
