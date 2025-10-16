@@ -93,7 +93,9 @@ with open(file_path, 'r') as file:
 }
 
 /* VIGNETTES */
+
 .vignettes {
+
     display: flex;
     flex-wrap: wrap;
     gap: 80px;
@@ -101,6 +103,7 @@ with open(file_path, 'r') as file:
     margin: 100px 12% 25px 12%;
 }
 .vignette {
+    background-color: white;
     width: 300px;
     box-sizing: border-box;
     /* box-shadow: 2px 3px 6px rgba(0,0,0,0.36); */
@@ -211,7 +214,8 @@ a:not(.btn):hover {
     line-height: 1.4;
 }
 #wave-top {
-    height: 220px;
+    height: 10vh;
+    background-size: cover!important;
     background: url("${static.url('amazon-belgique/images/P3_VAGUES.png')}");
     background-position: bottom;
     background-repeat: no-repeat;
@@ -219,7 +223,8 @@ a:not(.btn):hover {
     top: -1px;
 }
 #wave-bottom {
-    height: 268px;
+    background-size: cover!important;
+    height: 15vh;
     background: url("${static.url('amazon-belgique/images/P3_footer.png')}");
     background-position: top;
     background-repeat: no-repeat;

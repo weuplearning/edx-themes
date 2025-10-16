@@ -1,5 +1,5 @@
 window.addEventListener("load", function () {
-
+    console.log("ADDED LISTENER")
 
     // DEFINE CURRENT LANGUAGE
     function getCookie(name) {
@@ -11,10 +11,20 @@ window.addEventListener("load", function () {
         }
         return undefined;
     }
-    let currentLanguage = getCookie('openedx-language-preference');
 
+    let currentLanguage
+    try{
+        currentLanguage = getCookie('openedx-language-preference');
+    }
+    catch{
+        console.log("could not get openedx cookie")
+    }
+    if(currentLanguage===undefined){
+        currentLanguage = getCookie('django_language');
+    }
 
     function switchTrads(divId, frText, nlText) {
+        console.log(divId)
         const targetDiv = document.getElementById(divId);       
         if (!targetDiv) return; 
 
@@ -28,9 +38,13 @@ window.addEventListener("load", function () {
     }
 
     // header
+    setTimeout(() => {
+    // Your code here
+    console.log('Delayed code after full page load');
     switchTrads("nav-webinaire", "Webinaire BECOM", "BECOM-webinar"); 
     switchTrads("nav-etudes", "Etudes", "Studies"); 
     switchTrads("nav-actu", "Actualités", "Nieuws"); 
+    }, 1000); // delay in milliseconds (1000 = 1 second)
     
     // dashboard
     switchTrads("title-part-1", "Qu'est ce que", "Wat is"); 

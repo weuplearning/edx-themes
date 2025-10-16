@@ -104,7 +104,7 @@
 </style>
 
 
-%if request.path == '/news' :
+%if request.path == '/news':
     <style>
     .text-footer {
         color: white;
@@ -119,6 +119,20 @@
         border-top: solid white 1px;
     }
     </style>
+%elif  request.path == '/login'  or request.path == '/register' : 
+    <style>
+    .text-footer {
+        color: white;
+    }
+
+    .footer_links {
+        color: white !important;
+    }
+    .footerBottom {
+        border-top: solid #171D26 1px;
+    }
+    </style>
+
 %elif request.path == '/dashboard/elearning' or request.path == '/press' : 
     <style>
     #footer {
@@ -139,7 +153,7 @@
 
         <div class="footer-column" >
             <p  id="text-footer-right" class="text-footer text-footer-up" >${_("Un programme initié par")}</p>
-        %if request.path == '/news' :
+        %if request.path == '/news' or request.path == '/login' or request.path == '/register' :
             <a href="https://services.amazon.fr/" target="_blank"><img src="${static.url('amazon-belgique/images/logo_amazon.png')}" class="Right" alt="logo Amazon"></a>
         %else:
             <a href="https://services.amazon.fr/" target="_blank"><img src="${static.url('amazon-belgique/images/logo_amazon_black.png')}" style="height:65px;" alt="logo Amazon"></a>
