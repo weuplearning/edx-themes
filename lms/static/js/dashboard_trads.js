@@ -28,24 +28,36 @@ window.addEventListener("load", function () {
         const targetDiv = document.getElementById(divId);       
         if (!targetDiv) return; 
 
-        if (currentLanguage === "nl-nl" && targetDiv.innerText === frText) {
+        if (currentLanguage === "nl-nl" ) {
             targetDiv.innerText = nlText;
             
-        } else if (targetDiv.innerText === nlText) {
+        } else {
             targetDiv.innerText = frText;
         }
         
     }
 
-    // header
-    setTimeout(() => {
-    // Your code here
-    console.log('Delayed code after full page load');
+    function forceUpdating()
+    {
+        console.log("force")
     switchTrads("nav-webinaire", "Webinaire BECOM", "BECOM-webinar"); 
     switchTrads("nav-etudes", "Etudes", "Studies"); 
     switchTrads("nav-actu", "Actualités", "Nieuws"); 
-    }, 1000); // delay in milliseconds (1000 = 1 second)
     
+    switchTrads("footer_link_1", "Mentions légales", "Algemene voorwaarden"); 
+    switchTrads("footer_link_2", "Politique de confidentialité", "Privacybeleid"); 
+    }
+
+
+
+        // header
+    setTimeout(() => {
+        forceUpdating()
+    }, 500); 
+
+
+
+
     // dashboard
     switchTrads("title-part-1", "Qu'est ce que", "Wat is"); 
     switchTrads("title-part-2", "la E-Academy ?", "de E-Academy ?"); 
@@ -56,7 +68,7 @@ window.addEventListener("load", function () {
     switchTrads("webi-descript-title", "Retrouver ici les enregistrements de nos évènements en ligne.", "Hier vindt u de opnames van onze online evenementen.");
     
     // footer
-    switchTrads("footer_link_1", "Mentions légales", "Algemene voorwaarden"); 
+
 
 
 
@@ -81,6 +93,7 @@ window.addEventListener("load", function () {
 
     // Update footer links
     if (currentLanguage == "nl-nl"  ) {
+
         var link1 = document.getElementById("footer_link_1");
         var link2 = document.getElementById("footer_link_2");
         var link3 = document.getElementById("footer_link_3");
@@ -95,6 +108,13 @@ window.addEventListener("load", function () {
             link1.href = "/nl/wettelijke-vermeldingen/";
             link2.href = "/nl/beleid-inzake-gegevensbescherming/";
             link3.href = "/nl/faq-nl/";
+        } catch (error) {
+            console.log(error);
+        }
+
+        try {
+            link1.innerHTML = "Algemene voorwaarden";
+
         } catch (error) {
             console.log(error);
         }
