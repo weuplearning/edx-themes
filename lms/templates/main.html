@@ -236,10 +236,20 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
 
   <script>
     if(location.href.includes("discussion/forum") === true){
-    var goBackBtn = $("<a class='btn btn-outline-secondary btn-small new-post-btn' href='/courses/course-v1:estia+01+2025/course/'>Revenir au cours</a>");
+    var goBackBtn = $("<a style='margin-right:1em'class='btn btn-outline-secondary btn-small new-post-btn' href='/courses/course-v1:estia+01+2025/course/'>Revenir au cours</a>");
     $('.forum-actions .new-post-btn').before(goBackBtn);
 
     }
+
+
+    $(document).ready(function() {
+    $('a').each(function() {
+      if ($(this).text().trim() === 'Discussion') {
+        $(this).text('Forum');
+      }
+    });
+  });
+
 
   </script>
 
