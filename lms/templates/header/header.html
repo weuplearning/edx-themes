@@ -112,7 +112,7 @@ catch(e){window.attachEvent("onload", $buo_f)}
                         <img src="${static.url('amazon-belgique/images/flags/fr.png')}" alt="Français">
                     </button>
                     <button type="button" class="flag-btn" data-lang="nl-nl" title="Nederlands">
-                        <img src="${static.url('amazon-belgique/images/flags/nl.png')}" alt="Nederlands">
+                        <img src="${static.url('amazon-belgique/images/flags/nl-nl.png')}" alt="Nederlands">
                     </button>
                 </div>
             </div>
@@ -167,6 +167,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const select = document.getElementById('settings-language-value');
     const buttons = document.querySelectorAll('.flag-btn');
 
+    // Fonction utilitaire pour définir le cookie
+    function setLanguageCookie(lang) {
+        const days = 365;
+        const expires = new Date(Date.now() + days * 864e5).toUTCString();
+        document.cookie = 'openedx-language-preference='+lang+'; expires='+expires+'; path=/; Secure; SameSite=Lax';
+    }
+
     buttons.forEach(btn => {
         if (btn.dataset.lang === select.value) {
             btn.classList.add('active');
@@ -178,11 +185,18 @@ document.addEventListener('DOMContentLoaded', function() {
             const lang = this.dataset.lang;
 
             select.value = lang;
+            setLanguageCookie(lang);
+
             select.dispatchEvent(new Event('change'));
 
             buttons.forEach(b => b.classList.remove('active'));
             this.classList.add('active');
         });
+    });
+
+    select.addEventListener('change', function() {
+        const lang = this.value;
+        setLanguageCookie(lang); 
     });
 });
 </script>
