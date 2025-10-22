@@ -37,7 +37,7 @@ with open(file_path, 'r') as file:
             <div class="news-descript-text" >
                 ${value['description'] | n}
             </div>
-            <a href="${value['lien']}" class="news-descript-link" >${value['lien-texte']}</a>
+            <a href="${value['lien']}" class="news-descript-link" target="_blank" >${value['lien-texte']}</a>
         </div>
         %endfor
     %else :
@@ -49,7 +49,7 @@ with open(file_path, 'r') as file:
             <div class="news-descript-text" >
                 ${value['description'] | n}
             </div>
-            <a href="${value['lien']}" class="news-descript-link" >${value['lien-texte']}</a>
+            <a href="${value['lien']}" class="news-descript-link" target="_blank" >${value['lien-texte']}</a>
         </div>
         %endfor
     %endif
@@ -57,76 +57,5 @@ with open(file_path, 'r') as file:
     </section>
 </main>
 
+<link rel="stylesheet" href="${static.url('css/news.css')}">
 
-<style>
-.content-wrapper {
-    padding: unset !important;
-    margin-top: 0 !important;
-}
-
-html,.window-wrap,#main{
-    height: 100%;
-}
-
-#main {
-    background-color: #161D26;
-    padding: 50px 12%;
-    min-height: 100vh;
-}
-.vignettes {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 120px;
-    justify-content: center;
-}
-.vignette {
-    width: 320px;
-    box-sizing: border-box;
-    background-color: white;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    padding-bottom: 40px;
-}
-
-.news-descript-img {
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 320px;
-    width: 320px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: x-large;
-    font-style: italic;
-    font-weight: 800;
-    border-radius: 10px 10px 0 0;
-    box-shadow: 0px 7px 7px rgba(0,0,0,0.3);
-}
-.news-descript-text {
-    padding: 20px;
-    line-height: 1.2;
-}
-
-.news-descript-link {
-    position: absolute;
-    bottom: 15px;
-    right:15px;
-    background-color: #FF6100;
-    color:white;
-    border-radius : 5px;
-    padding: 5px 10px;
-    box-shadow: 8px 8px 8px rgba(0,0,0,0.4) ;
-}
-.news-descript-link:hover {
-    transform: scale(1.02);
-    background-color: #e45801;
-}
-
-a:not(.btn), a:visited:not(.btn) {
-    color: white !important;
-    text-decoration: none !important;
-}
-</style>

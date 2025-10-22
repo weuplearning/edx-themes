@@ -29,9 +29,7 @@ with open(file_path, 'r') as file:
     <section class="header-etudes">
         <div class="container-etudes">
 
-
         %if request.LANGUAGE_CODE == 'nl-nl' :
-
             %for value in data["jobs-nl"] :
             <div class="vertical-align">
                 <img src="/media/microsites/amazon-belgique/fichiers_json/image_ressources/${value['image']}" alt="photo d'études" class="img-etudes">
@@ -58,85 +56,14 @@ with open(file_path, 'r') as file:
     </section>
 
     <div id="wave-top"></div>
-
 </main>
 
 
+<link rel="stylesheet" href="${static.url('css/jobs.css')}">
+
 <style>
-.content-wrapper {
-    padding: unset !important;
-    margin-top: 0 !important;
-}
-
-.header-etudes {
-    background-color: #161D26;
-    padding: 85px 12% 35px 12%;
-}
-.container-etudes {
-    max-width: 1200px;
-    margin: auto;
-}
-.header-etudes .vertical-align:nth-child(2n) {
-    flex-direction: row-reverse;
-}
-
-.vertical-align {
-    display: flex;
-    align-items: center;
-    background-color: white;
-    margin: 70px 0 0 0 ;
-    position: relative;
-    border-radius: 15px;
-}
-.img-etudes {
-    border-radius: 10px;
-    box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.2);
-    height: 250px;
-    width: 600px;
-    max-width: 33%;
-    object-fit: cover;
-    object-position: top;
-}
-
-.header-etudes .vertical-align:nth-child(2n) .img-etudes {
-    width: 450px;
-}
-
-.etudes-descript {
-    padding: 10px 45px 40px 45px ;
-    flex: 1;
-}
-#etudes-descript-title, #etudes-descript-title-2 {
-    color :#FF6200;
-} 
-
-#etudes-descript-button {
-    position: absolute;
-    bottom: -20px;
-    right: 25%;
-    background: #FF6200;
-    color: white;
-    padding: 15px 30px;
-    border-radius: 30px;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: larger;
-}
-#etudes-descript-button:hover {
-    transform: scale(1.02);
-    background: #e45801;
-}
-
-.header-etudes .vertical-align:nth-child(2n) #etudes-descript-button {
-    right: 60%;
-}
-
-#etudes-descript-texte {
-    line-height: 1.2;
-}
-
 #wave-top {
-    height: 282px;
+    height: 18vw;
     background: url("${static.url('amazon-belgique/images/P4_VAGUES.png')}");
     background-position: bottom;
     background-repeat: no-repeat;
@@ -144,14 +71,5 @@ with open(file_path, 'r') as file:
     position: relative;
     top: -1px;
 }
-
-@media (max-width: 750px) {
-
-    
-    .img-etudes {
-        display: none;
-    }
-}
-
 
 </style>

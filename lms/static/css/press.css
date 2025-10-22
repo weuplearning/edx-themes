@@ -1,0 +1,110 @@
+.content-wrapper {
+    padding: unset !important;
+    margin-top: 0 !important;
+    background: linear-gradient(90deg, #F6F3ED, white) ;    
+}
+.vignettes {
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 80px;
+    justify-content: center;
+    margin: 100px 12% 25px 12%;
+}
+.vignette {
+    background-color: white;
+    width: 300px;
+    box-sizing: border-box;
+    /* box-shadow: 2px 3px 6px rgba(0,0,0,0.36); */
+    border: solid 1px grey;
+    border-radius: 10px;
+}
+.vignette-background {
+    height: 190px;
+    background-size: cover;
+    position: relative;
+    border-radius: 10px 10px 0 0;
+}
+.vignette-background > div {
+    font-size: 25px;
+    padding: 25px 20px;
+    line-height: 1.4;
+    color: white;
+    font-style: italic;
+    font-weight: 700;
+}
+.vignette-background > p {
+    color: white;
+    background-color: #161D26;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    width: 50px;
+    font-size: small;
+    position: absolute;
+    border-radius: 50%;
+    bottom: 10px;
+    right: 20px;
+}
+.vignette-background > p > span {
+    font-size: 26px;
+    margin-left: 5px;
+}
+.vignette-details {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    max-height: 350px;
+    background: white;
+    border-radius: 0 0 10px 10px;
+}
+.vignette-details .description {
+    font-size: 15px;
+    line-height: 1.2;
+    text-align: justify;
+}
+
+.vignette-link-button a {
+    color: white;
+}
+.header-webinaire {
+    background-color: #161D26;
+    padding: 0 20%;
+}
+.check-vignette {
+    display: inline-block;
+    width: 50px;
+    height: 30px;
+    align-self: end;
+    background-color: #3D4852;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.check-vignette i {
+    color: #72767B;
+}
+.vignette:visited .check-vignette {
+    background-color: #8AC63F;
+}
+.vignette:visited .check-vignette i {
+    color:white;
+}
+a:not(.btn):hover {
+    text-decoration: none;
+    transform: scale(1.05);
+}
+.title-webinaire h1 {
+    color: #FF6200;
+    text-align: start;
+    margin-bottom: 0 !important;
+    padding-top: 30px;
+}
+.title-webinaire p {
+    color: white;
+    text-align: justify;
+    font-size: 20px;
+    line-height: 1.4;
+}

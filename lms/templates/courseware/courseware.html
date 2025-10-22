@@ -69,51 +69,41 @@ user.profile.save()
 
 <style>
 body.view-in-course .container{
-       max-width: 65vw;
-}
-@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
-  body.view-in-course .container{
-    max-width: 100vw;
-  }
+    max-width: 65vw;
 }
 .window-wrap {
     background-color: #f6f7f7;
 }
-.wrapper-preview-menu,.course-header{
-//    display:none !important;
-}
-.wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary{
+/* .wrapper-preview-menu,.course-header{
+    display:none !important;
+} */
+.wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary, .hd.hd-2.unit-title , div.problem-progress , #content .course-material > .course-tabs {
     display:none !important;
 }
-.hd.hd-2.unit-title{
-    display:none !important;
-}
+
 nav.sequence-list-wrapper .fa.fa-check-circle.check-circle {
     color:#f90 !important;
 }
 button.show.problem-action-btn.btn-default.btn-small{
-   border: 1px solid #f90 !important;
+    border: 1px solid #f90 !important;
 }
 #amazonfreetextcomment button.sequence-nav-button{
-   color: #f90 !important;
-}
-div.problem-progress{
-    display:none !important;
+    color: #f90 !important;
 }
 
-#content .course-material > .course-tabs{
-  display: none;
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+    body.view-in-course .container{
+        max-width: 100vw;
+    }
 }
-
-/* .video-controls {
-  display: none;
-} */
 </style>
+
 <script>
 setInterval(function(){
-  $("div.detailed-solution > p:first-child").each(function(){$(this).html("Explication")});
+    $("div.detailed-solution > p:first-child").each(function(){$(this).html("Explication")});
 },10);
 </script>
+
 </%block>
 
 <%block name="headextra">
@@ -296,9 +286,9 @@ ${HTML(fragment.foot_html())}
     </section>
 
     <section class="courseware-results-wrapper">
-      <div id="loading-message" aria-live="polite" aria-relevant="all"></div>
-      <div id="error-message" aria-live="polite"></div>
-      <div class="courseware-results search-results" data-course-id="${course.id}" data-lang-code="${language_preference}"></div>
+        <div id="loading-message" aria-live="polite" aria-relevant="all"></div>
+        <div id="error-message" aria-live="polite"></div>
+        <div class="courseware-results search-results" data-course-id="${course.id}" data-lang-code="${language_preference}"></div>
     </section>
 
   </div>
@@ -364,31 +354,61 @@ ${HTML(fragment.foot_html())}
 </%static:require_module_async>
 
 
-<!-- get time tracking for video => useless, already saved in wul course enrollment -->
-<!-- <script>
-  let videoTimeStampBeforeUnload = 0
 
-  window.addEventListener('load', function() {
 
-    window.addEventListener("click", function(){
-        if (document.getElementsByClassName("progress-handle").length > 0) {
-          videoTimeStampBeforeUnload = document.getElementsByClassName("progress-handle")[0].attributes[6].value
-          console.log(videoTimeStampBeforeUnload)
+<script>
+
+function update_finished() {
+    var only_certificate_block = document.getElementById('quiz_passed')
+    if (only_certificate_block) {
+        function decodeHtml(html) {
+            var txt = document.createElement("textarea");
+            txt.innerHTML = html;
+            return txt.value;
         }
-      })
+        function convertToJsObject(escapedJson) {
+            const decodedString = decodeHtml(escapedJson);
+            const jsonString1 = decodedString.replace(/'/g, '"');
+            const jsonString2 = jsonString1.replace(/True/g, 'true');
+            const jsonString3 = jsonString2.replace(/False/g, 'false');
+            const jsonString = jsonString3.replace(/None/g, 'null');
+            return JSON.parse(jsonString);
+        }
+        const customFieldsStr = "${custom_fields}";
+        const customFieldsObj = convertToJsObject(customFieldsStr);
+        const courseID = "${course.id}"
+        if (customFieldsObj["finished_courses"]) {
+            console.log('CF')
+        } else {
+            customFieldsObj['finished_courses'] = []
+        }
+        const isPresent = customFieldsObj['finished_courses'].includes(courseID);
+        if (!isPresent) {
+            customFieldsObj['finished_courses'].push(courseID)
+        } else {
+            clearInterval(myInterv)
+        }
+        customFieldsObj["authorized"] = true
+        customFieldsObj["user_id_for_api"] = '${user.id}'
+        const url = '/wul_apps/custom_field_editor/';
+        const data = JSON.stringify(customFieldsObj);
+        const settings = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": $.cookie('csrftoken'),
+            },
+            body: data
+        };
 
-    window.onbeforeunload=function(){
-      console.log("test")
-      if(document.getElementsByClassName("progress-handle").length > 0) {
-        console.log(document.getElementsByClassName("progress-handle")[0].attributes[6].value)
-      } else {
-        console.log(videoTimeStampBeforeUnload)
-      }
-      return "Are you sure to leave this page?";
+        fetch(url, settings)
+            .then(() => clearInterval(myInterv))
+            .catch((error) => console.error('Error:', error));
+
     }
+}
+const myInterv = setInterval( update_finished , 300);
+</script>
 
-  })
-  
-  </script> -->
 
-  <%include file="/wul_apps/wul_time_tracking.html" />
+<%include file="/wul_apps/wul_time_tracking.html" />

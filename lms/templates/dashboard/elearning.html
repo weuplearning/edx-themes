@@ -29,6 +29,8 @@ cert_name_short = settings.CERT_NAME_SHORT
 cert_name_long = settings.CERT_NAME_LONG
 %>
 
+
+
 <%block name="pagetitle">${_("Dashboard")}</%block>
 <%block name="bodyclass">view-dashboard is-authenticated</%block>
 
@@ -115,16 +117,23 @@ cert_name_long = settings.CERT_NAME_LONG
         </%static:require_module>
     % endif
 </%block>
-    
+
+
 <!-- Cyril - Access CF to check finished course similar to ES or IT websites -->
 <%
 custom_fields = {}
 custom_fields = json.loads(user.profile.custom_field)
-already_visited = False
+finished_courses = []
 
-if 'last_visited_course' in custom_fields.keys() :
-  already_visited = True 
+if 'finished_courses' in custom_fields.keys() :
+  finished_courses = custom_fields["finished_courses"]
+
 %>
+
+<script>
+    let list_finished_courses = "${finished_courses}"
+</script>
+
 
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
@@ -223,7 +232,7 @@ if 'last_visited_course' in custom_fields.keys() :
         <h3 id="finished-courses-button" class="header-courses secondary-section">${_("Terminé")}</h3>
     </div>
     
-
+    <div id="finished-courses" style="display: none;"></div>
     <div id="not-last-courses">
         <%
             share_settings = configuration_helpers.get_value(
@@ -294,97 +303,49 @@ if 'last_visited_course' in custom_fields.keys() :
 
 
             <script>
-                // Need API to add progress and remaining time
-                function getData() { 
-                    return $.ajax({
-                        // Courses api
-                        url: "/api/courses/v1/courses/",
-                        success: function(result) {
-                            let courses_list = result['results']
-                            let course
-                            for (let index = 0; index < courses_list.length; index++) {
-                                course = courses_list[index];
-                                if (course["course_id"] == '${enrollment.course_id}') {
-                                    checkIfFinished(course) 
-                                } 
-                            }
-                        }
-                    })
-                }
-                async function start() {
-                    try {
-                        const res = await getData()
-                    } catch(err) {
-                        console.log(err);
-                    }
-                }
+                
                 function checkIfFinished(course) {
-                    $.ajax({
-                        url: "/wul_apps/" + course['course_id'] + "/certificate/ensure",
-                        success: function(result){
-                            if(result.passed) {
-                                const parentElement = document.getElementById('finished-courses')
-                                const elementToMove = document.getElementById('not-last-courses').getElementsByClassName('course-item')
-                                for (let i = 0; i < elementToMove.length; i++) {
-                                    const element = elementToMove[i];
-                                    const elemtn_2_test = document.getElementById('not-last-courses').getElementsByClassName('course')
-                                    if (element.children[0].children[0]['attributes']['aria-labelledby']['value'].indexOf(course['course_id']) != -1) {
-                                        parentElement.prepend(element)
-                                    }
-                                }
-                                setTimeout(() => {
-                                    let lien_attestation = '/wul_apps/' + course['course_id'] + '/certificate/generate_pdf'
-                                    const textAttestationButton = '<a href='+lien_attestation+' target="_blank"><div class="attestationButtonButton"> Attestation</div></a>'
-                                    const attestationButton = document.createElement('div')
-                                    attestationButton.setAttribute('class', 'attestationButton')
 
-                                    let selection = document.querySelectorAll('.course-title')
-                                    for (let i = 0; i < selection.length; i++) {
-                                        const targeted_course = selection[i];
-                                        if (targeted_course.id.indexOf(course['course_id']) != -1) {
-                                            attestationButton.innerHTML = textAttestationButton
-                                            targeted_course.append(attestationButton)
-                                        }
-                                    } 
-                                }, 400)
-                            } else {
-                                getCourseDetails_second(course);
+                    if (list_finished_courses.indexOf(course) != -1){
+
+                        const parentElement = document.getElementById('finished-courses')
+                        const elementToMove = document.getElementById('not-last-courses').getElementsByClassName('course-item')
+
+                        for (let i = 0; i < elementToMove.length; i++) {
+                            const element = elementToMove[i];
+
+                            if (element.children[0].children[0]['attributes']['aria-labelledby']['value'].indexOf(course) != -1) {
+                                parentElement.prepend(element)
                             }
+
                         }
-                    });
+
+                        // bouton attestation
+                        // let lien_attestation = '/wul_apps/' + course + '/certificate/generate_pdf'
+                        // const textAttestationButton = '<a href='+lien_attestation+' target="_blank"><div class="attestationButtonButton"> Attestation</div></a>'
+                        // const attestationButton = document.createElement('div')
+                        // attestationButton.setAttribute('class', 'attestationButton')
+                        // const divToIncrustButton = document.getElementById('course-title-' + course)
+                        // attestationButton.innerHTML = textAttestationButton
+                        // divToIncrustButton.append(attestationButton)
+                
+                    // } else {
+                    //     let effort_value = '${enrollment.course.effort}';                        
+                    //     const allCourses = document.getElementById('not-last-courses').getElementsByClassName('course-item')
+
+                    //     for (let i = 0; i < allCourses.length; i++) {
+                    //         const targetedCourse = allCourses[i];
+
+                    //         if (targetedCourse.children[0].children[0]['attributes']['aria-labelledby']['value'].indexOf(course) != -1) {
+                    //             targetedCourse.querySelector(".effort-value").innerText = effort_value;
+                    //         }
+                    //     }
+                    }
+
                 }
 
-                // Function to get completion and progress details for a given course
-                function getCourseDetails_second(course) {
-                    $.ajax({
-                        url: "/api/courses/v1/blocks/?course_id=" + course['course_id'] + "&username=${user.username}&depth=all&requested_fields=completion",
-                        success: function(result_2) {
+                checkIfFinished('${session_id}')
 
-                            let max_completion = 0
-                            let actual_completion = 0
-                            let completion_ratio = 0
-                            for (const [key, block] of Object.entries(result_2['blocks'])) {
-                                if (block['completion'] || block['completion'] == 0) {
-                                    max_completion += 1
-                                    actual_completion += block['completion']
-                                }
-                            }
-                            if (max_completion != 0) {
-                                completion_ratio = actual_completion / max_completion
-                            }
-                            // Add completion ratio in the right div 
-                            let not_last_courses = document.getElementById('not-last-courses').getElementsByClassName('course-container')
-                            for (let i = 0; i < not_last_courses.length; i++) {
-                                const course_html = not_last_courses[i];
-                                if (course_html.innerHTML.includes(course["course_id"])) {
-                                    course_html.getElementsByClassName("course-jauge")[0].innerText = Math.floor(completion_ratio*100) + ' %'
-                                }
-                            }
-                        }
-                    });
-                }
-
-                start();
             </script>
         % endfor
 
@@ -397,424 +358,32 @@ if 'last_visited_course' in custom_fields.keys() :
         % endif
     </div>
 
-
-    <div id="finished-courses" style="display: none;"></div>
-
     <div id="wave-bottom" ></div>
 </main>
 
 
 
-<!-- Réécrire puis déplacer le CSS en static -->
+
+<!-- custom css -->
+<link rel="stylesheet" href="${static.url('css/elearning.css')}">
+
 <style>
-
-.mobile-nav-item > .tab-nav-link {
-    display: none !important;
-}
-
-/* Global */
-main {
-    background: linear-gradient(90deg, #F6F3ED, white) ;
-}
-.content-wrapper {
-    max-width: none;
-    padding:  0 !important;
-    margin: 0 !important;
-}
-
-.background {
-    width: 100%;
-    background: #171D26;
-    padding: 80px 0 50px 0 ;
-}
-
-.filter-open {
-    display: flex;
-    width: 75%;
-    margin: auto;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-.filter-sectionSection-labels {
-    background: #FF6200; 
-    color: #fff;
-    font: inherit;
-    font-style: italic !important;
-    border: unset;
-    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.4);
-    padding: .5rem 1rem;
-    border-radius: 50px;
-    cursor: pointer;
-    margin: .4rem;
-}
-.filter-sectionSection-labels:hover {
-    filter: brightness(.90);
-}
-.hashtag-filter {
-    color: black;
-}
-input[type="checkbox"] {
-    pointer-events: none;
-    position: absolute;
-    opacity: 0;
-}
-.filter-sectionSection-labels.active {
-    background-color: #44a1b9; 
-}
-
-
 .learning-wave-top {
-    height: 10vh;
-    background-size: cover!important;
     background: url("${static.url('amazon-belgique/images/P2_VAGUES.png')}");
+    height: 9vw;
+    background-size: cover !important;
     background-position: bottom;
     background-repeat: no-repeat;
     position: relative;
     top: -1px;
 }
-
-
-
 #wave-bottom {
-    background-size: cover!important;
-    height: 251px;
     background: url("${static.url('amazon-belgique/images/P2_footer.png')}");
+    background-size: cover !important;
+    height: 15vw;
     background-position: top;
     background-repeat: no-repeat;
 }
-
-
-
-
-
-
-
-
-
-
-.wrapper-course-image{
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    max-height: none !important;
-    width: unset !important;
-    margin: 0 !important;
-}
-.course-item {
-    list-style: none;
-}
-#new-section .wrapper-course-image img, #not-last-courses .course-item img, #not-last-courses .course-item a, #finished-courses .course-item img, #finished-courses .course-item a, #available-courses .course-item img  {
-    width: 100%;
-    object-fit: cover;
-    max-height: 200px;
-    border-radius: 8px 8px 0 0;
-}
-#new-section .wrapper-course-actions {
-    display: flex;
-    justify-content: end;
-    align-items: flex-end;
-    height: 100%;
-    position: absolute;
-}
-.course-title > a {
-    color: black
-} 
-#not-last-courses .course-actions .course-target-link, #finished-courses .course-actions .course-target-link, #available-courses .course-item .cover-image > div, #new-section .course-actions .course-target-link {
-    padding: 4px 28px;
-    font-size: medium;
-    color: linear-gradient(90deg, #F6F3ED, white);
-    background-color: #3B4854;
-    border-radius: 105px;
-    position: absolute;
-    bottom: -180px;
-    left: 30px;
-}
-#not-last-courses .course-actions .course-target-link, #finished-courses .course-actions .course-target-link, #available-courses .course-item .cover-image > div {
-    bottom: 30px;
-    left: 30px;
-    width: unset;
-}
-#new-section .course-jauge {
-    display: block !important;
-    padding: 5px;
-    font-size: 20px;
-    font-weight: 700;
-    color: #F99746
-}
-.course-item .details .course-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    width: 100%;
-}
-.wrapper-course-details , #available-courses .course .course-info {
-    height: 130px;
-    margin-bottom: 50px !important;
-    padding: 25px 30px 0 30px !important;
-}
-#new-section .wrapper-course-image > a {
-    width: 100%;
-}
-
-
-/* Already enrolled courses */
-#not-last-courses-button:hover , #finished-courses-button:hover {
-    cursor: pointer;
-    color: #6F7373;
-}
-#not-last-courses .wrapper-course-details, #finished-courses .wrapper-course-details {
-    height: 59px;
-    margin-bottom: 70px !important;
-    padding: 25px 30px !important; 
-}
-#not-last-courses .course-actions .course-target-link, #finished-courses .course-actions .course-target-link, #available-courses .course-actions .course-target-link {
-    padding: 10px 20px;
-    margin-left: 130px;
-    color: white;
-}
-#not-last-courses .course-container .course-title .course-target-link, #finished-courses .course-container .course-title .course-target-link, #available-courses .course-item .course-title {
-    font-weight: 700;
-    font-size: 23px !important;
-    line-height: 27px;
-}
-.secondary-section {
-    padding: 40px 80px 0 0;
-    font-family: "AmazonEmber" !important;
-    font-weight: 800;
-    font-size: 38px;
-    line-height: 45px;
-    color: #000;
-    display: inline-block;
-}
-
-#not-last-courses, #available-courses, #finished-courses {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 3vh 6vw 6vh 6vw;
-    /* border-bottom: 1px solid grey; */
-    justify-content: center;
-    max-width: 1420px;
-    margin: auto;
-}
-#not-last-courses .course-container, #finished-courses .course-container, #available-courses .course {
-    background-color:white;
-    min-height: 250px;
-    /* margin: 15px calc(14.33vw - 164px); */
-    margin: 15px 27px;
-    width: 300px;
-    border: solid 0.5px #6F7373;
-    border-radius: 8px;
-    position: relative;
-    box-sizing: border-box;
-}
-
-/* Titre du cours */
-#new-section .course-title .course-target-link  {
-    color: #212121; 
-    width: 100%;
-    font-weight: 700;
-    font-size: 24px;
-    line-height: 2.1vw;
-}
-#not-last-courses .course-title .course-target-link, #finished-courses .course-title .course-target-link, #available-courses .course-info .course-name {
-    font-family: "AmazonEmber" !important;
-    font-size: medium;
-    color: black; 
-}
-#not-last-courses .wrapper-course-actions, #finished-courses .wrapper-course-actions, #available-courses .wrapper-course-actions  {
-    display: flex;
-    justify-content: end;
-    align-self: end;  
-}
-#not-last-courses .course-actions, #finished-courses .course-actions, #available-courses .course-actions {
-    margin-bottom: 20px;
-}
-#not-last-courses .course-jauge {
-    display: block !important;
-    padding: 5px;
-    font-size: 14px;
-    font-style: italic;
-    color: #F99746
-}
-#started-or-finished {
-    margin: 65px calc(21.33vw - 160px) 0px calc(21.33vw - 160px);
-    border-bottom: 1px solid;
-    /* padding-bottom: 8px; */
-}
-#started-or-finished > h3 {
-    font-size: 30px;
-    width: 200px;
-    text-align: center;
-    padding: 0 !important;
-}
-
-#not-last-courses h3.course-title , #finished-courses h3.course-title {
-    font-size: 18px !important;
-    line-height: 20px !important;
-    height: 93px;
-}
-.info-date-block-container , .info-date-block-container {
-    font-size: 0.9vw;
-    color: #48515a;
-}
-
-
-
-
-
-/* Availavle courses */
-#available-courses .course-item .course {
-    position:relative;
-    display: flex;
-    flex-direction: column;
-    /* justify-content: flex-end; */
-
-}
-#available-courses .course .course-info {
-    height: 80px;
-}
-#available-courses .localized_datetime {
-    display: none;
-}
-#available-courses .course-item .cover-image {
-    display: flex;
-}
-#available-courses .course-item .cover-image > div:hover{
-    text-decoration: underline;
-}
-
-
-
-/* hide unenroll option */
-.wrapper-action-more {
-    display: none !important;
-}
-
-/* selector style */
-.secondary-section-block{
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    padding: 65px calc(21.33vw - 160px) 0 calc(21.33vw - 160px);
-    background-color: white;
-}
-select {
-    font-size: 16px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;
-    color: #333;
-    box-shadow: 0 1px 1px rgba(0,0,0,0.075) inset;
-    width: 200px;
-    max-width: 100%;
-    margin-right: 20px;
-}
-select:hover, select:focus {
-    border-color: #999;
-    outline: none;
-}
-select option {
-    font-size: 16px;
-    background-color: #fff;
-    color: #333;
-}
-select option:hover {
-    background-color: #eee;
-    color: #333;
-}
-.course-item-hide, #available-courses .course-code, #available-courses .course-organization {
-    display: none;
-}
-.dashboard .main-container .my-courses .course .details .wrapper-course-details .course-info .info-date-block-container{
-    font-size: 16px;
-}
-.course-plan{
-    position: relative;
-    bottom: -170px;
-    left: 200px;
-}
-
-.attestationButton {
-    position: absolute;
-    bottom: 30px;
-    left: 18px;
-}
-.attestationButtonButton {
-    background-color: orange;
-    color: white;
-    font-size: 10px;
-    padding: 8px;
-    border-radius: 9px;
-} 
-
-.header-title {
-    color: #fff;
-    text-align: initial;
-}
-
-.header-text {
-    color: #fff;
-line-height: 30px;
-}
-
-.dashboard{align-items: center;}
-
-.elementor-widget-container{
-    color: transparent;
-}
-
-
-.side-container {
-    text-align: center
-};
-
-.filter-section {
-    padding: 2rem 5rem 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 1rem 0;
-    transition: .15s;
-    font-size: 1rem;
-}
-
-.filter-sectionButton {
-    border: .2rem solid #878e8e; 
-    padding: .5rem .7rem;
-    border-radius: .6rem;
-    cursor: pointer;
-    background: #C9CCCC; 
-    transition: .15s;
-    display: flex;
-}
-
-.filter-sectionButton:hover {
-    filter: brightness(.9);
-}
-
-.filter-sectionButton:active {
-    filter: brightness(.9);
-    transform: scale(.95);
-}
-
-
-@media (max-width: 991.98px) {
-
-    .dashboard .main-container, .dashboard .side-container {
-        padding: 3vh 10vw ;
-    }
-}
-@media (max-width: 500px) {
-
-    
-    .started-or-finished, .filter-section {
-        display: none;
-    }
-}
-
-
-
 </style>
 
 
