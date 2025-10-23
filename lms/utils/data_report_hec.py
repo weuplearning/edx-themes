@@ -94,18 +94,18 @@ courses_structure = {
     # },
     "course-v1:hec-pole-emploi+NEG_1+2025" : [
         "block-v1:hec-pole-emploi+NEG_1+2025+type@video+block@7e4621359ba24e3d83a4fe54c71c47dd",
-
         # Session 1
         "block-v1:hec-pole-emploi+NEG_1+2025+type@problem+block@685b7601be0d491ebead11f173957850",
         "espaceur car le bloc précédent contient 2 réponses",
         "block-v1:hec-pole-emploi+NEG_1+2025+type@video+block@06b3b8fa36954ae29ae550895486fa73",
-        "block-v1:hec-pole-emploi+NEG_1+2025+type@problem+block@01bc47db4ca041938955462ec6d490c5",
-        # "block-v1:hec-pole-emploi+NEG_1+2025+type@conditional+block@7fedffd235634a7f8d3c493ac006d7da",
         "block-v1:hec-pole-emploi+NEG_1+2025+type@scorm+block@825663373a73460bb0c7bc9f9feead19",
         "block-v1:hec-pole-emploi+NEG_1+2025+type@video+block@4c27cb93579e411a9e62d4a8eebe9d08",
         "block-v1:hec-pole-emploi+NEG_1+2025+type@problem+block@6ce2c8d97115492eb18b2020a61afc85",
+
         "block-v1:hec-pole-emploi+NEG_1+2025+type@video+block@478f768fde1c446d90620417879dca66",
         "block-v1:hec-pole-emploi+NEG_1+2025+type@problem+block@732b176b20a64dfb92bd61e4b203585a",
+        # "block-v1:hec-pole-emploi+NEG_1+2025+type@invideoquiz+block@ed7d523977b8495aa79cdf085c2c0bbc",
+
         "block-v1:hec-pole-emploi+NEG_1+2025+type@video+block@0860e52e39c5425cb3a64c04edd38c57",
         "block-v1:hec-pole-emploi+NEG_1+2025+type@problem+block@c6a73372690a4ef3a4b05ac1e8d88b67",
         "block-v1:hec-pole-emploi+NEG_1+2025+type@video+block@900d75ce7588400e98beb7025b12bae5",
@@ -115,14 +115,24 @@ courses_structure = {
         "block-v1:hec-pole-emploi+NEG_1+2025+type@video+block@e6cbb477f25249eb8b92aba139a8745a",
         "block-v1:hec-pole-emploi+NEG_1+2025+type@survey+block@cfca8207bff94103adfc2f7bb6beaa40",
         "espaceur",
-
+        "espaceur",
+        "espaceur",
+        "espaceur",
+        "espaceur",
+        "espaceur",
+        "espaceur",
+        "espaceur",
+        "espaceur",
         # Session 2
         "block-v1:hec-pole-emploi+NEG_1+2025+type@video+block@5a0e70d1eec94f4197f4c5b4459a4559",
         "block-v1:hec-pole-emploi+NEG_1+2025+type@scorm+block@bc27da548b35437cb6988e887f797a6e",
         "block-v1:hec-pole-emploi+NEG_1+2025+type@video+block@05e6336409e0486a8f736532e3ec41a4",
+        "block-v1:hec-pole-emploi+NEG_1+2025+type@problem+block@7dcefa2bef8547d7a5b95aceb575a0a6",
+        "block-v1:hec-pole-emploi+NEG_1+2025+type@problem+block@15b3601c830c453f94c150f63e37e5ad",
+        "block-v1:hec-pole-emploi+NEG_1+2025+type@problem+block@79a8b86323584384be0802f7a39123ea",
+        "block-v1:hec-pole-emploi+NEG_1+2025+type@problem+block@c3b71a3c543645968ffe7cf2c047ff5d",
         "block-v1:hec-pole-emploi+NEG_1+2025+type@video+block@f4fb777804544404ae6023fbef4c747b",
         "block-v1:hec-pole-emploi+NEG_1+2025+type@video+block@9e7bf750d57242faa271a75c41a7efc5",
-
     ],
     # "course-v1:hec-pole-emploi+NEG_2+2025" : {
     #     "block-v1:hec-pole-emploi+NEG_2+2025+type@scorm+block@9f693653691f4b5daa0de77dd18d3e12": "Scorm module"
@@ -144,7 +154,7 @@ key_dict ={
         "685b7601be0d491ebead11f173957850_3_1",
         "685b7601be0d491ebead11f173957850_2_1",
         "block-v1:hec-pole-emploi+NEG_1+2025+type@video+block@06b3b8fa36954ae29ae550895486fa73",
-        "01bc47db4ca041938955462ec6d490c5_2_1",
+        # "01bc47db4ca041938955462ec6d490c5_2_1",
         "block-v1:hec-pole-emploi+NEG_1+2025+type@video+block@4c27cb93579e411a9e62d4a8eebe9d08",
         "6ce2c8d97115492eb18b2020a61afc85_2_1",
         "block-v1:hec-pole-emploi+NEG_1+2025+type@video+block@478f768fde1c446d90620417879dca66",
@@ -171,13 +181,41 @@ key_dict ={
         "block-v1:hec-pole-emploi+NEG_1+2025+type@video+block@f4fb777804544404ae6023fbef4c747b",
         "block-v1:hec-pole-emploi+NEG_1+2025+type@video+block@9e7bf750d57242faa271a75c41a7efc5"
     ]
-
-
 }
 
+translate_answer_dict = {
+    "course-v1:hec-pole-emploi+NEG_1+2025" : {
+        # Premiere offre - quiz
+        "6ce2c8d97115492eb18b2020a61afc85" : {
+            "choice_0" : "Quand vous êtes l'acheteur",
+            "choice_1" : "Quand vous êtes le vendeur",
+            "choice_2" : "Lorsque vous avez peu d'informations sur la valeur de ce que vous négociez",
+            "choice_3" : "Lorsque vous avez collecté beaucoup d'informations sur la valeur de ce que vous négociez",
+            "choice_4" : "Lorsque qu'il y a d'autres offres concurrentes"
+        },
+        # Prix de réserve - quiz
+        "732b176b20a64dfb92bd61e4b203585a" : {
+            "choice_0" : "Je divulgue mon prix de réserve au début de la négociation pour instaurer un climat de confiance",
+            "choice_1" : "Je ne divulgue pas mon prix de réserve",
+            "choice_2" : "Je divulgue mon prix de réserve à la fin de la négociation pour pousser l'autre partie à conclure un accord"
+        },
 
-
-
+        # Zone de négociation - quiz
+        "c6a73372690a4ef3a4b05ac1e8d88b67" : {
+            "choice_0" : "Abandonner la négociation sans conclure d'accord",
+            "choice_1" : "En tant que vendeur, descendre en dessous de votre prix de réserve pour ouvrir la zone de négociation",
+            "choice_2" : "Rendre l'autre partie consciente de la zone de négociation négative et la contourner."
+        },
+        # Le BATNA - quiz
+        "9de12455cd4f43f2b126d98685191f46" : {
+            "choice_0" : "Votre BATNA peut être légèrement différente de votre prix de réserve",
+            "choice_1" : "Votre BATNA fait référence au nombre d’offres alternatives que vous avez.",
+            "choice_2" : "Plus votre BATNA est intéressante, plus vous aurez de pouvoir dans la négociation",
+            "choice_3" : "Il est essential d’essayer d’améliorer vos options alternatives en amont d’une négociation (afin d’augmenter votre BATNA)",
+            "choice_4" : "En révélant votre BATNA à votre interlocuteur, vous augmentez votre levier dans la négociation"
+        }
+    }  
+}
 
 
 
@@ -220,9 +258,9 @@ for course_id in course_ids:
 
 
         # Escape fake email address
-        # if str(user.email).find('cyril.adolf@weuplearning.com')  == -1 :
-        # if user.email.find("@example")!= -1 or user.email.find("@themoocagency") != -1 or user.email.find("@weuplearning")!= -1 or user.email.find("@yopmail")!= -1 or user.email.find("@fake")!= -1:
-            # continue
+        #if str(user.email).find('cyril.adolf@weuplearning.com')  == -1 :
+        if user.email.find("@example")!= -1 or user.email.find("@themoocagency") != -1 or user.email.find("@weuplearning")!= -1 or user.email.find("@fake")!= -1:
+            continue
 
 
         user_data = dict()
@@ -240,6 +278,10 @@ for course_id in course_ids:
         user_row = []
         video_dict = dict()
 
+
+
+
+
         log.info('treating user :')
         log.info(user.email)
 
@@ -253,11 +295,11 @@ for course_id in course_ids:
             user_surveys = StudentModule.objects.filter(student=user, course_id__exact=course_id, module_type="survey").values('state','module_state_key')
 
 
-
             answer_dict = {}
 
 
             for unit in courses_structure[course_id] :
+
 
                 log.info('unit')
                 log.info(unit)
@@ -282,8 +324,49 @@ for course_id in course_ids:
                         log.info('user_problem student_answers')
                         log.info(json_state)
 
+                        log.info(translate_answer_dict[course_id])
+                        block_id = str(user_problem['module_state_key']).split('+block@')[1]
+                        log.info('block_id')
+                        log.info(block_id)
 
-                        if isinstance(json_state['student_answers'] , dict) :
+                        if block_id in translate_answer_dict[course_id] :
+                            for key, value in json_state['student_answers'].items() :
+
+
+                                log.info(value)
+                                if isinstance(value , list) :
+
+                                    allChoices = ''
+                                    for choice in value :
+                                        log.info('choice before translation')
+                                        log.info(choice)
+
+
+                                        if choice in translate_answer_dict[course_id][block_id] :
+                                            translated_value = translate_answer_dict[course_id][block_id][choice]
+                                            log.info('translated_value')
+                                            log.info(translated_value)
+                                            allChoices += translated_value + ' ; '
+
+                                    answer_dict[key] = allChoices
+                                    break
+                                else :
+                                    log.info(key)
+                                    log.info(value)
+                                    log.info(translate_answer_dict[course_id][block_id][value])
+
+                                    answer_dict[key] = translate_answer_dict[course_id][block_id][value]
+                                    break
+
+                            #     if key in translate_answer_dict[course_id][block_id] :
+                            #         translated_value = translate_answer_dict[course_id][block_id][key]
+                            #         log.info('translated_value')
+                            #         log.info(translated_value)
+                            #         answer_dict[key] = str(translated_value)
+                            # break
+
+                            log.info('before if isinstance 370')
+                        elif isinstance(json_state['student_answers'] , dict) :
                             for key, value in json_state['student_answers'].items() :
                                 log.info(key)
                                 answer_dict[key] = str(value)
@@ -295,66 +378,30 @@ for course_id in course_ids:
 
 
 
-
-
-
-
                 if unit.find('video') != -1 :
-
-
                     for user_video in user_videos:
-                        log.info('VIDEO UNIT')
-                        log.info('VIDEO UNIT')
-                        log.info(user_video)
-
                         if str(user_video['module_state_key']) != str(unit) :
                             continue
-
-
                         json_state = json.loads(user_video['state'])
-                        log.info(json_state)
-
                         answer_dict[str(user_video['module_state_key'])] = json_state['saved_video_position']
                         break
 
 
-
-
-
                 if unit.find('survey') != -1 :
-
-
                     for user_survey in user_surveys:
-                        log.info('SURVEY UNIT')
-                        log.info('SURVEY UNIT')
-                        log.info(user_survey)
-
                         if str(user_survey['module_state_key']) != str(unit) :
                             continue
-
                         json_state = json.loads(user_survey['state'])
-                        log.info("json_state survey here")
-                        log.info(json_state)
-
                         if isinstance(json_state['choices'] , dict) :
                             for key, value in json_state['choices'].items() :
-                                log.info(key)
-                                answer_dict[key] = str(value)
+                                if value == 'Y' :
+                                    answer_dict[key] = str("Vrai")
+                                else :
+                                    answer_dict[key] = str("Faux")
                             break
-
 
                         answer_dict[str(user_survey['module_state_key'])] = json_state['completed']
                         break
-
-
-                log.info('unit at the end of the loop')
-                log.info(unit)
-                # log.info(user_problem)
-                # log.info(user_video)
-                # log.info(user_survey)
-
-
-
 
 
         except : 
@@ -379,8 +426,13 @@ for course_id in course_ids:
 
         user_row = [user_data["username"],user_data["email"],user_data["name"],user_data["date_joined"],user_data["last_login"], user_data["global_time_tracking"]]
 
+        log.info('keyDict utility')
         for unit in key_dict[course_id] :
+            log.info('unit keyDict')
+            log.info(unit)
             if unit in answer_dict :
+
+                log.info(answer_dict[unit])
                 user_row.append(answer_dict[unit])
             else :
                 user_row.append('')
@@ -412,7 +464,7 @@ def create_sheet_function(sheet_name, users, workbook):
         "A votre avis 1/2", 
         "A votre avis 2/2", 
         "Le cas: Ancienne papeterie - video",
-        "Le cas: Ancienne papeterie - checkbox",
+        # "Le cas: Ancienne papeterie - checkbox",
         # "Simulation: Ancienne papeterie - scorm", 
         "La première offre - video", 
         "Quiz: La première offre?", 
@@ -516,5 +568,5 @@ for email in emails:
 
 
 # September Test
-# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/hec-pole-emploi/lms/utils/data_report_hec_2.py "cyril.adolf@weuplearning.com"
+# sudo /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/hec-pole-emploi/lms/utils/data_report_hec_2.py "cyril.adolf@weuplearning.com"
 
