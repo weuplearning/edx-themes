@@ -62,15 +62,15 @@ from lms.djangoapps.grades.api import CourseGradeFactory
   % endif
 
       % if request.LANGUAGE_CODE =="nl-nl" and "AZNL" not in str(course_overview.id):
-        <div></div>
+      <div></div>
       % elif request.LANGUAGE_CODE !="nl-nl" and "AZNL" in str(course_overview.id):
       <div></div>
       % else:
       <div class="course-container"
-      % if getattr(course_overview, 'language'):
-        lang="${course_overview.language}"
-      % endif
-    >
+        % if getattr(course_overview, 'language'):
+          lang="${course_overview.language}"
+        % endif
+      >
 <article class="course${mode_class}" aria-labelledby="course-title-${enrollment.course_id}" id="course-card-${course_card_index}" tag="${cert_name_short}">
 <% course_target = reverse(course_home_url_name(course_overview.id), args=[six.text_type(course_overview.id)]) %>
 <section class="details" aria-labelledby="details-heading-${enrollment.course_id}">

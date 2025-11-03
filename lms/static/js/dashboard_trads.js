@@ -1,5 +1,4 @@
 window.addEventListener("load", function () {
-    console.log("ADDED LISTENER")
 
     // DEFINE CURRENT LANGUAGE
     function getCookie(name) {
@@ -29,7 +28,6 @@ window.addEventListener("load", function () {
     }
 
     function switchTrads(divId, frText, nlText) {
-        console.log(divId)
         const targetDiv = document.getElementById(divId);       
         if (!targetDiv) return; 
         if (currentLanguage === "nl-nl" ) {
