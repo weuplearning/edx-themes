@@ -53,6 +53,7 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
 
+
 import logging
 log = logging.getLogger()
 
@@ -76,12 +77,6 @@ for course_id in course_ids :
         all_courses_video_student_module.append(student_module)
 
 
-# Must add the old course data : course-v1:amazon+amazon001+SP
-
-list_of_old_videos = StudentModule.objects.filter(course_id__exact="course-v1:amazon+amazon001+SP", module_type__exact="video").order_by().values('student_id', 'module_state_key', 'state')
-for student_module in list_of_old_videos :
-    all_courses_video_student_module.append(student_module)
-
 
 
 # Set correspondance table
@@ -93,15 +88,12 @@ videos_list = list(idVideoCorrespondance.keys())
 ## Construct data
 users = User.objects.all()
 users_data = dict()
-siret = dict()
 
 # Headers
-headers = ["Username","Email","Nom complet","Region","Siret","Numéro de téléphone","Vendez-vous en ligne","Date de création de compte", "Date de dernière connexion","Temps passé - total","Nombre de cours suivis","Nombre de cours validés","Introduction","Démarrer son activité","Préparer votre transition numérique","Vendre sur son site personnel","Vendre sur un site tiers", "Introductie", "Uw bedrijf starten", "Uw digitale overgang voorbereiden","Verkopen op je eigen website", "Verkopen op een site van derden"]
+headers = ["Username","Email","Full Name","Region","SIRET Number","Phone Number","Do you sell online ?","Account Creation Date", "Last Login Date","Time Spent - Total","Introduction","Démarrer son activité","Préparer votre transition numérique","Vendre sur son site personnel","Vendre sur un site tiers", "Construire cotre image de marque","Augmenter votre trafic","Préparez votre ligistique", "Introductie", "Uw bedrijf starten", "Uw digitale overgang voorbereiden","Verkopen op je eigen website", "Verkopen op een site van derden","Je merkimago opbouwen","Je verkeer verhogen","Je logistiek voorbereiden", 'Total Video Views']
 
-headers.append('Nombre total de vidéo vues')
 
 for name in videos_list:
-    # video_id = name.split("+")[4]
     video_id = name
     if video_id in idVideoCorrespondance :
         dict_content = idVideoCorrespondance.get(video_id, {})
@@ -109,7 +101,7 @@ for name in videos_list:
         str_video_name = dict_content.get('nomDeVideo', 'n/a')
         str_video_course_number = str(dict_content.get('numeroDeCours', 'n/a'))
         str_video_course = dict_content.get('nomDuCours', 'n/a')
-        headers.append("Cours  "+str_video_course_number+" - \""+str_video_course+"\", Chapitre "+str_video_chapter+" : \""+str_video_name+"\"")
+        headers.append("Course  "+str_video_course_number+" - \""+str_video_course+"\", Chapter "+str_video_chapter+" : \""+str_video_name+"\"")
     else :
         headers.append(name.split("+")[4])
 
@@ -133,64 +125,39 @@ def convert_str_to_int(time_str):
 
 
 ### Loop over all_user 
-
-
 for index, user in enumerate(users):
 
-    # uncomment this lines for testing, 
-    # if index == 250:
-    #     break
-
-
     # Escape fake email address
-    if user.email.find("@example")!= -1 or user.email.find("@themoocagency") != -1 or user.email.find("@weuplearning")!= -1 or user.email.find("@yopmail")!= -1 or user.email.find("@amazon")!= -1 or user.email.find("@fake")!= -1:
+    if user.email.find("@example")!= -1 or user.email.find("@themoocagency") != -1 or user.email.find("@weuplearning")!= -1 or user.email.find("@yopmail")!= -1 or user.email.find("@fake")!= -1:
         continue
 
 
-    log.info('treating user :')
     log.info(user.email)
 
 
-    user_data = dict()
+    user_data = {}
 
     user_data["name"] = user.profile.name
+    user_data["id"] = getattr(user, "id", "")
+    user_data["username"] = getattr(user, "username", "")
+    user_data["email"] = getattr(user, "email", "")
+
+    custom_fields = {}
     try:
-        user_data["id"] = user.id
-    except:
-        user_data["id"] = ""
-    try:
-        user_data["username"] = user.username
-    except:
-        user_data["username"] = ""
-    try:
-        user_data["email"] = user.email
-    except:
-        user_data["email"] = ""
-    custom_field = json.loads(user.profile.custom_field)
-    try:
-        user_data["region"] = custom_field["region"]
-    except:
-        user_data["region"] = ""
-    try:
-        user_data["siret"] = custom_field["company"]
-    except:
-        user_data["siret"] = ""
-    try:
-        user_data["phone_number"] = custom_field["phone_number"]
-    except:
-        user_data["phone_number"] = ""
-    try:
-        user_data["online_sales"] = custom_field["online_sales"]
-    except:
-        user_data["online_sales"] = ""
-    try:
-        user_data["date_joined"] = user.date_joined.strftime('%Y-%m-%d %H:%M:%S')
-    except:
-        user_data["date_joined"] = ""
-    try:
-        user_data["last_login"] = user.last_login.strftime('%Y-%m-%d %H:%M:%S')
-    except:
-        user_data["last_login"] = ""
+        custom_fields = json.loads(getattr(user.profile, "custom_field", "{}") or "{}")
+    except json.JSONDecodeError:
+        custom_fields = {}
+
+    user_data["region"] = custom_fields.get("region", "")
+    user_data["siret"] = custom_fields.get("company", "")
+    user_data["phone_number"] = custom_fields.get("phone_number", "")
+    user_data["online_sales"] = custom_fields.get("online_sales", "")
+
+    def format_date(dt):
+        return dt.strftime('%Y-%m-%d %H:%M:%S') if isinstance(dt, datetime.datetime) else ""
+
+    user_data["date_joined"] = format_date(getattr(user, "date_joined", None))
+    user_data["last_login"] = format_date(getattr(user, "last_login", None))
 
 
     user_row = []
@@ -203,7 +170,7 @@ for index, user in enumerate(users):
     ### Grade Data
 
     try:
-        global_time_tracking_cumul = custom_field["total_time_calculated"]
+        global_time_tracking_cumul = custom_fields["total_time_calculated"]
     except:
         global_time_tracking_cumul = 0
 
@@ -214,86 +181,84 @@ for index, user in enumerate(users):
         user_data[course_id] = ''
 
 
-        for enrollment in all_course_enrollment :
+        try :
+            course_key = locator.CourseLocator.from_string(str(course_id))
+            wul_course_enrollment = WulCourseEnrollment.objects.get(course_enrollment_edx__user=user, course_enrollment_edx__course_id=course_key)
 
-            log.info(str(enrollment.course_id))
-            # if str(enrollment.course_id) == "course-v1:amazon+amazon001+SP" :
-            #     continue
+            global_time_tracking_cumul += wul_course_enrollment.global_time_tracking 
+            user_data[course_id] = 'in progress'
 
-
-            if str(course_id) == str(enrollment.course_id) :
-
-                course_key = CourseLocator.from_string(course_id)
-                course = get_course_by_id(course_key)
-
-                user_data["enrolled_to"] += 1
-
-                log.info(course_id)
-                try:
-                    gradesTest = check_best_grade(user, course, force_best_grade=True)
-                    user_data[course_id] = gradesTest.summary['percent']
-
-                    if gradesTest.summary['percent'] >= 0.7 :
-                        user_data["finished_course"] += 1
-                except:
-                    user_data[course_id] = 'Pas noté'
+        except:
+            user_data[course_id] = 'not started'
 
 
-                try:
-                    course_key = locator.CourseLocator.from_string(str(course_id))
-                    wul_course_enrollment = WulCourseEnrollment.objects.get(course_enrollment_edx__user=user, course_enrollment_edx__course_id=course_key)
+        try:
+            if course_id in custom_fields["finished_courses"] :  
+                user_data[course_id] = 'completed'
+        except:
+            pass
 
-                    global_time_tracking = wul_course_enrollment.global_time_tracking
-                    global_time_tracking_cumul += global_time_tracking
-                except:
-                    pass
+        # for enrollment in all_course_enrollment :
+
+        #     if str(course_id) == str(enrollment.course_id) :
+
+        #         course_key = CourseLocator.from_string(course_id)
+        #         course = get_course_by_id(course_key)
+        #         user_data["enrolled_to"] += 1
+
+        #         try:
+        #             gradesTest = check_best_grade(user, course, force_best_grade=True)
+        #             user_data[course_id] = gradesTest.summary['percent']
+
+        #             if gradesTest.summary['percent'] >= 0.7 :
+        #                 user_data["finished_course"] += 1
+        #         except:
+        #             user_data[course_id] = 'Pas noté'
+
+
+        #         try:
+        #             course_key = locator.CourseLocator.from_string(str(course_id))
+        #             wul_course_enrollment = WulCourseEnrollment.objects.get(course_enrollment_edx__user=user, course_enrollment_edx__course_id=course_key)
+
+        #             global_time_tracking = wul_course_enrollment.global_time_tracking
+        #             global_time_tracking_cumul += global_time_tracking
+        #         except:
+        #             pass
 
 
     ### TimeTracking Data
-
-    if global_time_tracking_cumul == 0 :
-        user_data["global_time_tracking"] = 'n/a'
-    else:
-        user_data["global_time_tracking"] = datetime.timedelta(seconds=global_time_tracking_cumul)
+    # if global_time_tracking_cumul == 0 :
+    #     user_data["global_time_tracking"] = 'n/a'
+    # else:
+    user_data["global_time_tracking"] = datetime.timedelta(seconds=global_time_tracking_cumul)
 
 
     ### Video Data 
-
-
     for video in videos_list :
         video_dict[video] = "Non"
 
-    # total_video_seconds = 0
     try:
-
-
         for result in all_courses_video_student_module:
             if(user.id == result["student_id"]):
                 user_data["total_video_views"] += 1
 
+
                 if str(result["module_state_key"]).split("+")[4] in video_dict:
                     user_state = result["state"]
-
                     video_time_tracking = convert_str_to_obj(user_state)
-
                     time_video_time_tracking = convert_str_to_int(video_time_tracking)
-                    # total_video_seconds += time_video_time_tracking
 
                     video_dict[str(result["module_state_key"]).split("+")[4]] = datetime.timedelta(seconds=time_video_time_tracking)
 
-                    # Optimize the loop
-                    all_courses_video_student_module.remove(result)
                 else:
                     print('ERROR {} VIDEO NOT IN THE LIST !'.formet(video_dict[str(result["module_state_key"]).split("+")[4]]))
-
 
     except:
         print(str(user.id)+" : error with watch a video field")
         # user_data["watch_a_video"] = ""
 
 
-
-    user_row = [user_data["username"],user_data["email"],user_data["name"],user_data["region"],user_data["siret"],user_data["phone_number"],user_data['online_sales'],user_data["date_joined"],user_data["last_login"],user_data["global_time_tracking"],user_data["enrolled_to"],user_data["finished_course"]]
+    user_row = [user_data["username"],user_data["email"],user_data["name"],user_data["region"],user_data["siret"],user_data["phone_number"],user_data['online_sales'],user_data["date_joined"],user_data["last_login"],user_data["global_time_tracking"]]
 
     for course_id in course_ids :
         user_row.append(user_data[course_id])
@@ -312,8 +277,6 @@ ordered_users = sorted(users_data.items(), key=lambda x: x[1])
 
 
 ### Print excel file
-
-
 row = 1
 
 sheet = wb.active
@@ -338,8 +301,6 @@ wb.save(filepath)
 
 
 ### Create a new zip file and write the Excel file into it
-
-
 zipname = "rapport_de_notes_e-academy.zip"
 zippath = '/home/ubuntu/amazon_reports/{}'.format(zipname)
 
@@ -353,8 +314,6 @@ html = "<html><head></head><body><p>Bonjour,<br/><br/>Vous trouverez en pièce j
 
 
 ### Send email
-
-
 for email in emails:
 
     part2 = MIMEText(html.encode('utf-8'), 'html', 'utf-8')
@@ -369,7 +328,7 @@ for email in emails:
     # Load your zip file instead of the Excel file
     with open(zippath, 'rb') as f:
         attachment = f.read()
-        
+
     part = MIMEBase('application', 'octet-stream')
     part.set_payload(attachment)
     encoders.encode_base64(part)
@@ -397,4 +356,4 @@ except:
 
 
 
-# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/amazon-belgique/lms/static/utils/grade_report_script_amazon_be.py "cyril.adolf@weuplearning.com" "course-v1:amazon+Introduction+AZ_01;course-v1:amazon+demarrer_activite+AZ_02;course-v1:amazon+Transition_numerique+AZ_03;course-v1:amazon+vendre_site_personnel+AZ_04;course-v1:amazon+vendre_site_tiers+AZ_05;course-v1:amazon+Introduction+AZNL_01;course-v1:amazon+demarrer_activite+AZNL_02;course-v1:amazon+Transition_numerique+AZNL_03;course-v1:amazon+vendre_site_personnel+AZNL_04;course-v1:amazon+vendre_site_tiers+AZNL_05"
+# sudo /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/amazon-belgique/lms/static/utils/grade_report_script_amazon_be.py "cyril.adolf@weuplearning.com" "course-v1:amazon+Introduction+AZ_01;course-v1:amazon+demarrer_activite+AZ_02;course-v1:amazon+Transition_numerique+AZ_03;course-v1:amazon+vendre_site_personnel+AZ_04;course-v1:amazon+vendre_site_tiers+AZ_05;course-v1:amazon+construire_image_marque+AZ_06;course-v1:amazon+augmenter_trafic+AZ_07;course-v1:amazon+preparer_logistique+AZ_08;course-v1:amazon+Introduction+AZNL_01;course-v1:amazon+demarrer_activite+AZNL_02;course-v1:amazon+Transition_numerique+AZNL_03;course-v1:amazon+vendre_site_personnel+AZNL_04;course-v1:amazon+vendre_site_tiers+AZNL_05;course-v1:amazon+je_merkimago_opbouwen+AZNL_06;course-v1:amazon+je_verkeer_verhogen+AZNL_07;course-v1:amazon+je_logistiek_voorbereiden+AZNL_08"
