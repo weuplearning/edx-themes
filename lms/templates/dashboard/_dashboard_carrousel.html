@@ -1,0 +1,177 @@
+<%page expression_filter="h"/>
+<%namespace name='static' file='/static_content.html'/>
+
+<%!
+from django.utils.translation import ugettext as _
+from django.urls import reverse
+from openedx.core.djangolib.markup import HTML, Text
+import json
+import time
+%>
+<%
+time.sleep(1)
+%>
+
+<div class="carousel-container">
+    <div class="prev fa fa-angle-left" onclick="moveSlide(-1)"></div>
+
+    <div class="carousel-viewport">
+        <div class="carousel-slide">
+            <div class="vignette"></div>
+            <div class="vignette"></div>
+            <div class="vignette"></div>
+            <div class="vignette"></div>
+            <div class="vignette"></div>
+        </div>
+    </div>
+
+    <div class="next fa fa-angle-right" onclick="moveSlide(1)"></div>
+</div>
+
+<style>
+.carousel-container {
+    position: relative;
+    height: 100%;
+    width: 85vw;
+    max-width: 1200px;
+    overflow: visible;
+    margin: 70px auto 30px auto;
+    padding: 0 60px; 
+    box-sizing: border-box;
+}
+.carousel-viewport {
+    width: 100%;
+    overflow: hidden; 
+}
+.carousel-slide {
+    display: flex;
+    align-items: center;
+    transition: transform 0.5s ease-in-out;
+    will-change: transform;
+}
+.carousel-slide .vignette {
+    flex: 0 0 31%;
+    box-sizing: border-box;
+    height: 18vw;
+    max-height: 312px;
+    margin: 0px 10px;
+    padding: 20px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center bottom;
+}
+.carousel-slide .vignette:nth-child(1) {
+    background-image: url("${static.url('max-havelaar/images/module_1.png')}");
+    margin-left: 20px;
+}
+.carousel-slide .vignette:nth-child(2) {
+    background-image: url("${static.url('max-havelaar/images/module_2.png')}");
+}
+.carousel-slide .vignette:nth-child(3) {
+    background-image: url("${static.url('max-havelaar/images/module_3.png')}");
+}
+.carousel-slide .vignette:nth-child(4) {
+    background-image: url("${static.url('max-havelaar/images/module_4.png')}");
+}
+.carousel-slide .vignette:nth-child(5) {
+    background-image: url("${static.url('max-havelaar/images/module_5.png')}");
+}
+.carousel-slide .vignette:hover {
+    border: 2px solid black;
+}
+
+.prev, .next {
+    position: absolute;
+    top: 50%;
+    color: black;
+    cursor: pointer;
+    font-size: 75px;
+    transform: translateY(-50%) translateX(50%); 
+}
+.prev { 
+    left: 10px; 
+}
+.next { 
+    right: 10px; 
+}
+.prev:hover, .next:hover {
+    font-size: 80px;
+}
+
+
+
+
+@media screen and (max-width: 768px) {
+    .carousel-container { 
+        padding: 0 30px; 
+    }
+    .prev { 
+        left: 6px; 
+        transform: translateY(-50%) translateX(-30%); 
+    }
+    .next { 
+        right: 6px; 
+        transform: translateY(-50%) translateX(30%); 
+    }
+    .carousel-slide .vignette { 
+        flex: 0 0 40%; 
+    }
+}
+</style>
+
+<script>
+const viewport = document.querySelector('.carousel-viewport');
+const slide = document.querySelector('.carousel-slide');
+let vignettes = Array.from(document.querySelectorAll('.vignette'));
+
+let counter = 0;
+let visibleCount = 3;   // combien de vignettes tiennent dans la viewport
+
+// calculer la taille au démarrage et au redimensionnement
+function updateMeasurements() {
+    if (!vignettes.length) return;
+    const v = vignettes[0];
+    const style = getComputedStyle(v);
+    const marginLeft = parseFloat(style.marginLeft) || 0;
+    const marginRight = parseFloat(style.marginRight) || 0;
+    size = v.offsetWidth + marginLeft + marginRight;
+
+    // // nombre entier de vignettes affichables dans la viewport
+    // visibleCount = Math.max(1, Math.floor(viewport.clientWidth / size));
+
+    // dernier index possible (on décale par vignette)
+    maxCounter = Math.max(0, vignettes.length - visibleCount);
+
+    // clamp du counter si hors bornes après resize
+    if (counter > maxCounter) counter = maxCounter;
+    if (counter < 0) counter = 0;
+
+    // appliquer la translation actuelle
+    slide.style.transform = 'translateX(' + (-size * counter) + 'px)';
+}
+
+// appeler au chargement initial et sur resize
+window.addEventListener('resize', updateMeasurements);
+window.addEventListener('load', () => {
+    // re-lire la liste (si vignettes générées dynamiquement)
+    vignettes = Array.from(document.querySelectorAll('.vignette'));
+    updateMeasurements();
+});
+
+// fonction pour déplacer
+function moveSlide(direction) {
+    if (!vignettes.length) return;
+
+    counter += direction;
+
+    // wrap-around circulaire
+    if (counter < 0) {
+        counter = maxCounter;
+    } else if (counter > maxCounter) {
+        counter = 0;
+    }
+
+    slide.style.transition = 'transform 0.5s ease-in-out';
+    slide.style.transform = 'translateX(' + (-size * counter) + 'px)';
+}
+</script>

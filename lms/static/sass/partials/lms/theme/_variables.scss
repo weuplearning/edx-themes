@@ -1,0 +1,77 @@
+// @import url('https://fonts.googleapis.com"> <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;1,300;1,400;1,500&display=swap');
+
+@font-face {
+    font-family: 'Futura';
+    src: url('/media/fonts/Futura/FuturaBT-Medium.eot');
+    src: url('/media/fonts/Futura/FuturaBT-Medium.eot') format('embedded-opentype'),
+        url('/media/fonts/Futura/FuturaBT-Medium.woff2') format('woff2'),
+        url('/media/fonts/Futura/FuturaBT-Medium.woff') format('woff'),
+        url('/media/fonts/Futura/FuturaBT-Medium.ttf') format('truetype'),
+        url('/media/fonts/Futura/FuturaBT-Medium.svg') format('svg');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Futura';
+    src: url('/media/fonts/Futura/FuturaBT-MediumItalic.eot');
+    src: url('/media/fonts/Futura/FuturaBT-MediumItalic.eot') format('embedded-opentype'),
+        url('/media/fonts/Futura/FuturaBT-MediumItalic.woff2') format('woff2'),
+        url('/media/fonts/Futura/FuturaBT-MediumItalic.woff') format('woff'),
+        url('/media/fonts/Futura/FuturaBT-MediumItalic.ttf') format('truetype'),
+        url('/media/fonts/Futura/FuturaBT-MediumItalic.svg') format('svg');
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+
+
+@font-face {
+    font-family: 'Futura';
+    src: url('/media/fonts/Futura/Futura-Bold.eot');
+    src: url('/media/fonts/Futura/Futura-Bold.eot') format('embedded-opentype'),
+        url('/media/fonts/Futura/Futura-Bold.woff2') format('woff2'),
+        url('/media/fonts/Futura/Futura-Bold.woff') format('woff'),
+        url('/media/fonts/Futura/Futura-Bold.ttf') format('truetype'),
+        url('/media/fonts/Futura/Futura-Bold.svg') format('svg');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Futura';
+    src: url('/media/fonts/Futura/FuturaBT-BoldItalic.eot');
+    src: url('/media/fonts/Futura/FuturaBT-BoldItalic.eot') format('embedded-opentype'),
+        url('/media/fonts/Futura/FuturaBT-BoldItalic.woff2') format('woff2'),
+        url('/media/fonts/Futura/FuturaBT-BoldItalic.woff') format('woff'),
+        url('/media/fonts/Futura/FuturaBT-BoldItalic.ttf') format('truetype'),
+        url('/media/fonts/Futura/FuturaBT-BoldItalic.svg') format('svg');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+
+
+// Theme colors
+$primary:  #000000;
+$secondary:  #F3A32A;
+$theme-colors: (
+  "tertiary": #3364FF
+);
+
+
+// Theme fonts
+$font-family-sans-serif: 'Futura', serif;
+
+$action-primary-bg: $secondary !default;
+$action-primary-shadow: $secondary !default;
+$action-primary-focused-bg: $secondary !default;
+$action-primary-active-bg: $secondary !default;
+$action-primary-active-fg: $secondary !default;
+$action-primary-active-shadow: $secondary !default;
+$action-primary-active-focused-fg: $secondary !default;
+$action-primary-active-focused-shadow: $secondary !default;
+
+@import 'edx-bootstrap/sass/open-edx/theme';
+

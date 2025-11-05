@@ -1,0 +1,176 @@
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.urls import reverse
+
+from openedx.core.djangolib.markup import HTML, Text
+%>
+
+
+<style>
+    /* Main */
+    .horizontal_align, .vertical_align {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .vertical_align {
+        flex-direction: column;
+    }
+    .width_container {
+        max-width: 1200px;
+        margin: auto;
+        text-align: center;
+    }
+    h2 {
+        font-size: 22px;
+        font-weight: 700;
+        margin: 30px auto 50px auto;
+        font-style: italic;
+    }
+    h3, h2 {
+        color:black;
+    }
+    #section_1 h2 {
+        font-size: 25px;
+    } 
+
+
+
+    /* Section 1 */
+    #section_1 {
+        background-color: #F1EDE9;
+        padding: 30px 15px;
+    }
+    #espaceur_1 {
+        width: 13vw;
+        margin: 20px;
+    }
+    .citation_container {
+        justify-content: space-around;
+    }
+    #visuel_1 {
+        width: 50%;
+    }
+    .citation_section_1 {
+        background-image: url("${static.url('canalplus/images/forme_1.png')}");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        height: 17vw;
+        width: 22vw;
+        padding: 10px;
+        margin-right: 25px;
+        text-align: center;
+        line-height: 1.2;
+        font-size: 18px;
+    }
+    .citation_section_1 p {
+        font-style: italic;
+        font-size: 17px;
+    }
+
+    .bold {
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
+    /* Section 2 */
+    #section_2 {
+        padding: 30px;
+    }
+    #photo_1 {
+        width: 90%;
+        margin: auto;
+    }
+
+    /* Section 3 */
+    #section_3 {
+        padding: 0 30px 50px 30px;
+        overflow: hidden;
+    }
+    #traces-area {
+        position: relative;
+        height: 50px;
+    }
+    #trace_bleue {
+        position: absolute;
+        height: 65px;
+        left: -2vw;
+        top: 0px;
+    }
+    #trace_jaune {
+        position: absolute;
+        height: 50px;
+        right: 7vw;
+        top: 1vh;
+    }
+    #trace_orange {
+        position: absolute;
+        height: 15vh;
+        bottom: -12vh;
+        right: -10vw;
+    }
+
+</style>
+
+<main id="main" aria-label="Content" tabindex="-1">
+
+    <section class="home" id="section_1">
+        <div class="width_container vertical_align">
+            <img src="${static.url('canalplus/images/espaceur_1.png')}" alt="ligne bleu" id="espaceur_1">
+            <h3>BIENVENUE DANS VOTRE PARCOURS DE FORMATION</h3>
+            <h2>LES DROITS D'AUTEUR DANS LE CINÉMA EN AFRIQUE</h2>
+            <div class="horizontal_align citation_container">
+                <img src="${static.url('canalplus/images/visuel_1.png')}" alt="visuel section 1" id="visuel_1">
+                <div class="citation_section_1 vertical_align" >
+                    <p>« Le droit d'auteur, c'est ce qui m'a permis de reprendre le contrôle de mon art. Protégez vos œuvres, elles sont votre richesse. »</p>
+                    <span class="bold">AMADOU</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="section_2" class="vertical_align">
+        <div class="width_container">
+            <h2>FORMATION POUR TOUS</h2>
+            <img src="${static.url('canalplus/images/photo_1.png')}" alt="image module de sensibilisation" id="photo_1">
+        </div>
+    </section>
+
+    <section id="section_3" class="vertical_align">
+        <div class="width_container">
+            <h2>FORMATIONS SPÉCIFIQUE PAR PAYS</h2>
+            <!-- Carrousel -->
+            <%include file="dashboard/_dashboard_carrousel.html" />
+            <div id="traces-area">
+                <img src="${static.url('canalplus/images/trace_bleu.png')}" alt="trace bleue" id="trace_bleue">
+                <img src="${static.url('canalplus/images/trace_jaune.png')}" alt="trace jaune" id="trace_jaune">
+                <img src="${static.url('canalplus/images/trace_orange.png')}" alt="trace orange" id="trace_orange">
+            </div>            
+        </div>
+    </section>
+
+</main>
+
+
+
+<%block name="js_extra">
+   <script type="text/javascript">
+      $(window).load(function() {
+         if(getParameterByName('next')) {
+              $('#login').trigger("click");
+         }
+      })
+   </script>
+</%block>
+
+% if show_signup_immediately is not UNDEFINED:
+  ## NOTE: This won't work in production, because anonymous views are cached, so it will
+  ## show either with or without this extra js for 3 minutes at a time.
+<script type="text/javascript">
+  $(window).load(function() {$('#signup_action').trigger("click");});
+</script>
+% endif
