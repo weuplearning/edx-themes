@@ -193,6 +193,23 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         border-top: none !important;
     }
 
+    /* highlight sur les sections */
+    ol.accordion .section:nth-child(2) ol.accordion-panel .accordion:nth-child(1) .outline-button,  
+    ol.accordion .section:nth-child(2) ol.accordion-panel .accordion:nth-child(4) .outline-button,  
+    ol.accordion .section:nth-child(2) ol.accordion-panel .accordion:nth-child(9) .outline-button,  
+    ol.accordion .section:nth-child(2) ol.accordion-panel .accordion:nth-child(16) .outline-button,  
+    ol.accordion .section:nth-child(2) ol.accordion-panel .accordion:nth-child(20) .outline-button
+    {
+        pointer-events: none;
+    }
+    ol.accordion .section:nth-child(2) ol.accordion-panel .accordion:nth-child(1) .outline-button h4, 
+    ol.accordion .section:nth-child(2) ol.accordion-panel .accordion:nth-child(4) .outline-button h4, 
+    ol.accordion .section:nth-child(2) ol.accordion-panel .accordion:nth-child(9) .outline-button h4, 
+    ol.accordion .section:nth-child(2) ol.accordion-panel .accordion:nth-child(16) .outline-button h4, 
+    ol.accordion .section:nth-child(2) ol.accordion-panel .accordion:nth-child(20) .outline-button h4 
+    {
+        font-weight: 700;
+    }
 
 
 
