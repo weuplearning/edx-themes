@@ -188,6 +188,10 @@ course_module_total_lookup = {
   "pn02" : 18
 }
 
+course_module_groups_amount_lookup = {
+  "pi01" : 4,
+  "pn02" : 4
+}
 
 course_prefix_table = {
 "block-v1:umn+test+test+type" : "PF1",
@@ -452,8 +456,9 @@ for student in students:
     notes = students[student]['courses'][course]
     course_total_score = 0.0
     note_counter = 0
+    # fetch average note of module group then average
     for note_entry in notes:
-      if "progression" in note_entry:
+      if "progression" not in note_entry:
         continue
       print(f"e {note_entry}")
       note_counter += 1
@@ -469,9 +474,9 @@ for student in students:
       course_total = 0
     else:
       print(f"::: {course} ")
-      course_total_module_count= course_module_total_lookup[course]
-      print(f' attempting {course_total_score}/{course_total_module_count} ')
-      course_total = course_total_score / course_total_module_count
+      course_total_module_group_count= course_module_groups_amount_lookup[course]
+      print(f' attempting {course_total_score}/{course_total_module_group_count} ')
+      course_total = course_total_score / course_total_module_group_count
       course_total = round(course_total,2)
     
     # now reparse format...
@@ -481,44 +486,6 @@ for student in students:
     students[student]['courses'][course]['course_progression'] = course_total
     
 
-print('#######################################################')
-print('Processing Global student progression')
-
-
-for student in students:
-  continue
-  print(f'-- student {student} --')
-  courses = students[student]['courses']
-  note_counter = 0
-  global_prog = "0%"
-  global_prog_acc = 0
-  for course in courses:
-    course_progression = students[student]['courses'][course]['course_progression']
-    
-    print(f'course progression ({course}):  {course_progression} --')
-    parsed_note = course_progression
-    parsed_note = parsed_note.strip().replace('%', '')
-    parsed_note = parsed_note.replace(',', '.')
-    parsed_note = float(parsed_note)
-    print(f"parsed note as {parsed_note}")
-    global_prog_acc += parsed_note
-    note_counter += 1
-   
-    
-  if((note_counter == 0) or (global_prog_acc == 0.0)):
-    global_prog = "0%"
-  else:
-    print(f' attempting {global_prog_acc}/{note_counter} ')
-    f_global_score = round(global_prog_acc / note_counter,2)
-    
-    # now reparse format...
-    s_global_score = str(f_global_score)
-    s_global_score = s_global_score.replace('.', ',')
-    s_global_score = s_global_score+'%'
-    global_prog = s_global_score
-  students[student]['global_progression'] = global_prog
-  print(f"got {global_prog} ")
-#####################
 
 
 jsonStudents = json.dumps(students, ensure_ascii=False)
