@@ -11,6 +11,9 @@ from openedx.core.djangolib.markup import HTML, Text
 
 <style>
     /* Main */
+    .content-wrapper {
+        max-width: unset !important;
+    }
     .horizontal_align, .vertical_align {
         display: flex;
         justify-content: center;
@@ -24,6 +27,9 @@ from openedx.core.djangolib.markup import HTML, Text
         margin: auto;
         text-align: center;
     }
+    .window-wrap {
+        overflow-x: hidden;
+    }
     h2 {
         font-size: 22px;
         font-weight: 700;
@@ -32,6 +38,7 @@ from openedx.core.djangolib.markup import HTML, Text
     }
     h3, h2 {
         color:black;
+        z-index: 11;
     }
     #section_1 h2 {
         font-size: 25px;
@@ -43,13 +50,17 @@ from openedx.core.djangolib.markup import HTML, Text
     #section_1 {
         background-color: #F1EDE9;
         padding: 30px 15px;
+        width: 100vw;
     }
+
     #espaceur_1 {
         width: 13vw;
         margin: 20px;
     }
     .citation_container {
         justify-content: space-around;
+        max-width: 1200px;
+        width: 80vw;
     }
     #visuel_1 {
         width: 50%;
@@ -61,6 +72,7 @@ from openedx.core.djangolib.markup import HTML, Text
         background-position: center;
         height: 17vw;
         width: 22vw;
+        max-width: 290px;
         padding: 10px;
         margin-right: 25px;
         text-align: center;
@@ -114,11 +126,27 @@ from openedx.core.djangolib.markup import HTML, Text
         right: -10vw;
     }
 
+    @media screen and (max-width: 1000px) {
+        .citation_section_1 {
+            width: unset;
+        }
+        
+    }
+    @media screen and (max-width: 800px) {
+        .citation_container {
+            flex-direction: column;
+        }
+        .citation_section_1 {
+            margin-top: 56px;
+
+        }
+        
+    }
 </style>
 
 <main id="main" aria-label="Content" tabindex="-1">
 
-    <section class="home" id="section_1">
+    <section class="home vertical_align" id="section_1">
         <div class="width_container vertical_align">
             <img src="${static.url('canalplus/images/espaceur_1.png')}" alt="ligne bleu" id="espaceur_1">
             <h3>BIENVENUE DANS VOTRE PARCOURS DE FORMATION</h3>

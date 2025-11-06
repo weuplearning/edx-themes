@@ -50,9 +50,14 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         border-bottom: none !important;
         box-shadow: none !important;
         background-color: #F1EDE9 !important;
+        overflow: unset !important;
+        padding-bottom: unset !important;
+        height: 60px;
     }
     .main-header {
         position: relative;
+        max-width: 1200px;
+        margin: auto;
     }
     .global-header .nav-links .secondary {
         position: relative;
@@ -63,11 +68,15 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         position: absolute;
         right: -47px;
         height: 7vw;
+        max-height: 120px;
         top: -20px;
     }
     /* a tester sur tout le site  */
     #main {
         min-height: calc( 100vh - 137px );
+    }
+    .global-header .nav-links .secondary .dropdown-user-menu .dropdown-item {
+        width: 150px;
     }
 </style>
 
