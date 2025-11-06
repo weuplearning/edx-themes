@@ -56,25 +56,25 @@ time.sleep(1)
     max-height: 312px;
     margin: 0px 10px;
     padding: 20px;
+    border: 2px solid transparent;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center bottom;
 }
 .carousel-slide .vignette:nth-child(1) {
     background-image: url("${static.url('max-havelaar/images/module_1.png')}");
-    margin-left: 20px;
 }
 .carousel-slide .vignette:nth-child(2) {
-    background-image: url("${static.url('max-havelaar/images/module_2.png')}");
+    background-image: url("${static.url('max-havelaar/images/module_1.png')}");
 }
 .carousel-slide .vignette:nth-child(3) {
-    background-image: url("${static.url('max-havelaar/images/module_3.png')}");
+    background-image: url("${static.url('max-havelaar/images/module_1.png')}");
 }
 .carousel-slide .vignette:nth-child(4) {
-    background-image: url("${static.url('max-havelaar/images/module_4.png')}");
+    background-image: url("${static.url('max-havelaar/images/module_1.png')}");
 }
 .carousel-slide .vignette:nth-child(5) {
-    background-image: url("${static.url('max-havelaar/images/module_5.png')}");
+    background-image: url("${static.url('max-havelaar/images/module_1.png')}");
 }
 .carousel-slide .vignette:hover {
     border: 2px solid black;
@@ -99,8 +99,6 @@ time.sleep(1)
 }
 
 
-
-
 @media screen and (max-width: 768px) {
     .carousel-container { 
         padding: 0 30px; 
@@ -114,9 +112,16 @@ time.sleep(1)
         transform: translateY(-50%) translateX(30%); 
     }
     .carousel-slide .vignette { 
-        flex: 0 0 40%; 
+        flex: 0 0 48%;
+        height: 23vh; 
     }
 }
+@media screen and (max-width: 425px) {
+    .carousel-slide .vignette { 
+        flex: 0 0 100%;
+    }
+}
+
 </style>
 
 <script>
@@ -125,11 +130,26 @@ const slide = document.querySelector('.carousel-slide');
 let vignettes = Array.from(document.querySelectorAll('.vignette'));
 
 let counter = 0;
-let visibleCount = 3;   // combien de vignettes tiennent dans la viewport
+let visibleCount = 3;
+let size = 0;
+let maxCounter = 0;
+
+function getVisibleCount() {
+    if (window.matchMedia("(max-width: 425px)").matches) {
+        return 1;
+    } else if (window.matchMedia("(max-width: 768px)").matches) {
+        return 2;
+    } else {
+        return 3;
+    }
+}
 
 // calculer la taille au démarrage et au redimensionnement
 function updateMeasurements() {
     if (!vignettes.length) return;
+
+    visibleCount = getVisibleCount();
+
     const v = vignettes[0];
     const style = getComputedStyle(v);
     const marginLeft = parseFloat(style.marginLeft) || 0;

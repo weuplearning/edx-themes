@@ -177,7 +177,10 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
     --secondary: #F3A32A;
     --tertiary: #3364FF;
   }
-
+  html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
   .content-wrapper {
     padding: 0 !important;
     margin: auto !important;
@@ -186,7 +189,6 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
     font-family: "Futura", serif, sans-serif !important;
     line-height: 1.25;
   }
-
 </style>
 
 
