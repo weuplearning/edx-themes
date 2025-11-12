@@ -98,6 +98,17 @@ input[type="checkbox"] {
   font-size: 18px;
   line-height: 1.3;
 }
+#citation {
+  width: 70%;
+  margin: 88px auto 0px auto;
+  line-height: 1.4;
+  text-align: justify;
+}
+
+#citation-part-2 {
+  text-align: end;
+  font-style: italic;
+}
 
 @media (max-width: 991.98px) {
   .dashboard .main-container, .dashboard .side-container {
