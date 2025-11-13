@@ -47,6 +47,8 @@ window.addEventListener("load", function () {
         switchTrads("citation-part-1", '"Chez Becom, nous croyons que la connaissance est la clé de la croissance. C’est pourquoi nous soutenons des initiatives telles que l’Amazon e-Academy, qui élèvent le niveau du e-commerce belge. Nous mettons à disposition des contenus essentiels tels que des webinaires et des conseils de première ligne, afin que les boutiques en ligne et les commerçants numériques soient mieux armés dans leur parcours digital"', '"Bij Becom geloven we dat kennis de sleutel is tot groei. Daarom steunen we initiatieven zoals de Amazon e-Academy die de Belgische e-commerce naar een hoger niveau tilt. We stellen belangrijke basiscontent zoals webinars en eerstelijnsadvies vrij ter beschikking, zodat webshops en digitale handelaren sterker staan in hun digitale reis."')
         switchTrads("citation-part-2", "- Greet, Directrice générale de Becom", "- Greet, Managing Director Becom")
 
+        // jobs
+        switchTrads("wiki-button", "Vous souhaitez consulter d'autres études ? Devenez membre de Becom et accédez au wiki de Becom", "Wilt u andere studies raadplegen? Word lid van Becom en krijg toegang tot de Becom-wiki")
 
         // webinar    
         switchTrads("webi-descript-title", "Retrouvez ici les enregistrements de nos évènements en ligne.", "Hier vindt u de opnames van onze online evenementen.");
@@ -97,6 +99,14 @@ window.addEventListener("load", function () {
             link2.href = "/nl/beleid-inzake-gegevensbescherming/";
         } catch (error) {
             console.log('footer links not found');
+        }
+
+        // Update jobs link
+        var jobsLink = document.getElementById("wiki-button");
+        try {
+            jobsLink.href = "https://wiki.becom.digital/nl/";
+        } catch (error) {
+            console.log('jobs link not found');
         }
     }
 
