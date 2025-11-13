@@ -103,6 +103,10 @@ input[type="checkbox"] {
   margin: 88px auto 0px auto;
   line-height: 1.4;
   text-align: justify;
+  color: white;
+  padding: 25px;
+  border-radius: 8px;
+  border: #FF6201 1px solid; 
 }
 
 #citation-part-2 {
