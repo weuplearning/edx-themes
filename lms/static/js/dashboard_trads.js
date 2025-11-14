@@ -39,6 +39,16 @@ window.addEventListener("load", function () {
     }
 
     function forceUpdating() {
+
+        // login and register page
+        switchTrads("register-side-title", "Rejoignez une communauté d'entrepreneurs", "Word lid van een gemeenschap van ondernemers");
+        switchTrads("register-side-li-1", "100% gratuit", "100% gratis");
+        switchTrads("register-side-li-2", "Accès libre 7/7", "7/7 vrije toegang");
+        switchTrads("register-side-li-3", "Inscription aux webinaires et événements en quelques clics", "Aanmelden voor webinars en evenementen in slechts een paar klikken");
+        switchTrads("register-side-li-4", "Soyez les premiers à découvrir nos nouvelles formations", "Wees als eerste op de hoogte van onze nieuwe opleidingen");
+        switchTrads("login-side-title", "Ravi de vous revoir", "Leuk u weer te zien");
+
+
         // dashboard
         switchTrads("title-part-1", "Qu'est ce que", "Wat is"); 
         switchTrads("title-part-2", "la E-Academy ?", "de E-Academy ?"); 
@@ -89,26 +99,29 @@ window.addEventListener("load", function () {
     updateButtonText("not-last-courses", 'De cursus hervatten', 'Hervatten', 'Reprendre le cours', 'Reprendre');
 
 
-    // Update footer links
-    if (currentLanguage == "nl-nl"  ) {
-        var link1 = document.getElementById("footer_link_1");
-        var link2 = document.getElementById("footer_link_2");
+    setTimeout(() => {
 
-        try {
-            link1.href = "/nl/wettelijke-vermeldingen/";
-            link2.href = "/nl/beleid-inzake-gegevensbescherming/";
-        } catch (error) {
-            console.log('footer links not found');
-        }
+        // Update footer links
+        if (currentLanguage == "nl-nl"  ) {
+            var link1 = document.getElementById("footer_link_1");
+            var link2 = document.getElementById("footer_link_2");
 
-        // Update jobs link
-        var jobsLink = document.getElementById("wiki-button");
-        try {
-            jobsLink.href = "https://wiki.becom.digital/nl/";
-        } catch (error) {
-            console.log('jobs link not found');
+            try {
+                link1.href = "/nl/wettelijke-vermeldingen/";
+                link2.href = "/nl/beleid-inzake-gegevensbescherming/";
+            } catch (error) {
+                console.log('footer links not found');
+            }
+
+            // Update jobs link
+            var jobsLink = document.getElementById("wiki-button");
+            try {
+                jobsLink.href = "https://wiki.becom.digital/nl/";
+            } catch (error) {
+                console.log('jobs link not found');
+            }
         }
-    }
+    }, 500);
 
 
     setTimeout(() => {
