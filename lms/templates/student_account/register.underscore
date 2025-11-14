@@ -169,13 +169,15 @@ window.addEventListener("load", function () {
     document.getElementById('register_link').addEventListener('click', function(event) {
         event.preventDefault();
         setCookie('openedx-language-preference', 'nl-nl', 365);
-        window.location.href = '/register?course_id=course-v1:amazon+Introduction+AZNL_01&enrollment_action=enroll';
+        setCookie('django_language', 'nl-nl', 365);
+        window.location.href = '/register';
     });
 
     document.getElementById('register_link_nl').addEventListener('click', function(event) {
         event.preventDefault();
         setCookie('openedx-language-preference', 'fr', 365);
-        window.location.href = '/register?course_id=course-v1:amazon+Introduction+AZ_01&enrollment_action=enroll';
+        setCookie('django_language', 'fr', 365);
+        window.location.href = '/register';
     });
 
     var spanCompany = document.querySelector("label[for='register-company'].focus-out .label-text");
