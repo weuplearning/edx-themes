@@ -373,9 +373,8 @@ ${HTML(fragment.foot_html())}
     }
   }
 
-  setTimeout(() => {
+  setInterval(() => {
     collectAndSendScormProgress();
-    setInterval(collectAndSendScormProgress, 30000);
-  }, 5000);
+  }, 1500);
 </script>
 
