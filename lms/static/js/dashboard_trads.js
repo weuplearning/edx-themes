@@ -105,12 +105,22 @@ window.addEventListener("load", function () {
         if (currentLanguage == "nl-nl"  ) {
             var link1 = document.getElementById("footer_link_1");
             var link2 = document.getElementById("footer_link_2");
+            var linkLogo1 = document.getElementById("amazon_link_footer");
+            var linkLogo2 = document.getElementById("becom_link_footer");
 
             try {
                 link1.href = "/nl/wettelijke-vermeldingen/";
                 link2.href = "/nl/beleid-inzake-gegevensbescherming/";
             } catch (error) {
                 console.log('footer links not found');
+            }
+            
+            // link footer logos
+            try {
+                linkLogo1.href = "https://sell.amazon.com.be/nl?mons_sel_locale=nl_BE";
+                linkLogo2.href = "https://becom.digital/nl/";
+            } catch (error) {
+                console.log('footer logo links not found');
             }
 
             // Update jobs link

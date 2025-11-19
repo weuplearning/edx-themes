@@ -65,9 +65,9 @@
                 <p  id="text-footer-right" class="text-footer text-footer-up" >Powered by</p>
                 <!-- <p  id="text-footer-right" class="text-footer text-footer-up" >${_("Un programme initié par")}</p> -->
                 %if request.path == '/news' or request.path == '/login' or request.path == '/register' :
-                <a href="https://services.amazon.fr/" target="_blank"><img src="${static.url('amazon-belgique/images/logo_amazon.png')}" class="Right" alt="logo Amazon"></a>
+                <a href="https://sell.amazon.com.be/?mons_sel_locale=fr_BE" target="_blank" id="amazon_link_footer" ><img src="${static.url('amazon-belgique/images/logo_amazon.png')}" class="Right" alt="logo Amazon"></a>
                 %else:
-                <a href="https://services.amazon.fr/" target="_blank"><img src="${static.url('amazon-belgique/images/logo_amazon_black.png')}" style="height:65px;" alt="logo Amazon"></a>
+                <a href="https://sell.amazon.com.be/?mons_sel_locale=fr_BE" target="_blank" id="amazon_link_footer" ><img src="${static.url('amazon-belgique/images/logo_amazon_black.png')}" style="height:65px;" alt="logo Amazon"></a>
                 %endif
             </div>
 
@@ -75,9 +75,9 @@
                 <p  id="text-footer-right" class="text-footer text-footer-up" >Supported by</p>
                 <!-- <p  id="text-footer-right" class="text-footer text-footer-up" >${_("Un programme initié par")}</p> -->
                 %if request.path == '/news' or request.path == '/login' or request.path == '/register' :
-                <a href="https://services.amazon.fr/" target="_blank"><img src="${static.url('amazon-belgique/images/logo-e-academy-2.png')}" class="Right" alt="logo Amazon"></a>
+                <a href="https://becom.digital/fr/" target="_blank" id="becom_link_footer"><img src="${static.url('amazon-belgique/images/logo-e-academy-2.png')}" class="Right" alt="logo Amazon"></a>
                 %else:
-                <a href="https://services.amazon.fr/" target="_blank"><img src="${static.url('amazon-belgique/images/logo_becom.png')}" style="height:65px;" alt="logo Amazon"></a>
+                <a href="https://becom.digital/fr/" target="_blank" id="becom_link_footer"><img src="${static.url('amazon-belgique/images/logo_becom.png')}" style="height:65px;" alt="logo Amazon"></a>
                 %endif
             </div>
         </div>
