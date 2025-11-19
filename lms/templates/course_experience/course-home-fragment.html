@@ -416,18 +416,25 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
 
                     % for section in course_block_tree.get('children'):
                       <%
-                      total_blocks = 1
-                      completed_blocks = 1
-                      if not section.get('complete'):
-                        total_blocks = 0
-                        completed_blocks = 0
-                        for subsection in section.get('children', []):
+                      completion_ratio = 0
+                      total_blocks = 0
+                      completed_blocks = 0
+  
+                      for subsection in section.get('children', []):
                           for unitchild in subsection.get('children', []):
-                            for blockchild in unitchild.get('children', []):
-                              total_blocks += 1
-                              if blockchild.get('complete'):
-                                completed_blocks += 1
-                      completion_ratio = completed_blocks / total_blocks
+                              for blockchild in unitchild.get('children', []):
+                                  total_blocks += 1
+                                  if blockchild.get('complete'):
+                                      completed_blocks += 1
+
+                      if total_blocks != 0 :
+                          completion_ratio = completed_blocks / total_blocks
+                    
+                      block_course += total_blocks
+                      block_course_completed += completed_blocks
+
+                      
+
                       %>
                         <div class="grade-block">
                             <div class="grade-section-title">
