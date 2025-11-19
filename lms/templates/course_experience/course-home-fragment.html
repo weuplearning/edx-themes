@@ -414,6 +414,12 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
 
                  %if configuration_helpers.get_value('COMPLETION_BASED_DASHBOARD_MONO', False):
 
+                    <%
+                    block_course = 0
+                    block_course_completed = 0
+                    custom_field = json.loads(user.profile.custom_field)
+                    %>
+
                     % for section in course_block_tree.get('children'):
                       <%
                       completion_ratio = 0
