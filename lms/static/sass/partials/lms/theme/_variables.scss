@@ -1,0 +1,76 @@
+
+@font-face {
+    font-family: 'MerriweatherSans';
+    src: url('/media/fonts/MerriweatherSans/MerriweatherSans-Regular.eot');
+    src: url('/media/fonts/MerriweatherSans/MerriweatherSans-Regular.eot') format('embedded-opentype'),
+        url('/media/fonts/MerriweatherSans/MerriweatherSans-Regular.woff2') format('woff2'),
+        url('/media/fonts/MerriweatherSans/MerriweatherSans-Regular.woff') format('woff'),
+        url('/media/fonts/MerriweatherSans/MerriweatherSans-Regular.ttf') format('truetype'),
+        url('/media/fonts/MerriweatherSans/MerriweatherSans-Regular.svg') format('svg');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'MerriweatherSans';
+    src: url('/media/fonts/MerriweatherSans/MerriweatherSans-Italic.eot');
+    src: url('/media/fonts/MerriweatherSans/MerriweatherSans-Italic.eot') format('embedded-opentype'),
+        url('/media/fonts/MerriweatherSans/MerriweatherSans-Italic.woff2') format('woff2'),
+        url('/media/fonts/MerriweatherSans/MerriweatherSans-Italic.woff') format('woff'),
+        url('/media/fonts/MerriweatherSans/MerriweatherSans-Italic.ttf') format('truetype'),
+        url('/media/fonts/MerriweatherSans/MerriweatherSans-Italic.svg') format('svg');
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+
+
+@font-face {
+    font-family: 'MerriweatherSans';
+    src: url('/media/fonts/MerriweatherSans/MerriweatherSans-Bold.eot');
+    src: url('/media/fonts/MerriweatherSans/MerriweatherSans-Bold.eot') format('embedded-opentype'),
+        url('/media/fonts/MerriweatherSans/MerriweatherSans-Bold.woff2') format('woff2'),
+        url('/media/fonts/MerriweatherSans/MerriweatherSans-Bold.woff') format('woff'),
+        url('/media/fonts/MerriweatherSans/MerriweatherSans-Bold.ttf') format('truetype'),
+        url('/media/fonts/MerriweatherSans/MerriweatherSans-Bold.svg') format('svg');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'MerriweatherSans';
+    src: url('/media/fonts/MerriweatherSans/MerriweatherSans-BoldItalic.eot');
+    src: url('/media/fonts/MerriweatherSans/MerriweatherSans-BoldItalic.eot') format('embedded-opentype'),
+        url('/media/fonts/MerriweatherSans/MerriweatherSans-BoldItalic.woff2') format('woff2'),
+        url('/media/fonts/MerriweatherSans/MerriweatherSans-BoldItalic.woff') format('woff'),
+        url('/media/fonts/MerriweatherSans/MerriweatherSans-BoldItalic.ttf') format('truetype'),
+        url('/media/fonts/MerriweatherSans/MerriweatherSans-BoldItalic.svg') format('svg');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+
+
+// Theme colors
+$primary:  #1D2235;
+$secondary:  #D2B350;
+$theme-colors: (
+  "tertiary": #517FE5
+);
+
+
+// Theme fonts
+$font-family-sans-serif: 'MerriweatherSans', serif;
+
+$action-primary-bg: $secondary !default;
+$action-primary-shadow: $secondary !default;
+$action-primary-focused-bg: $secondary !default;
+$action-primary-active-bg: $secondary !default;
+$action-primary-active-fg: $secondary !default;
+$action-primary-active-shadow: $secondary !default;
+$action-primary-active-focused-fg: $secondary !default;
+$action-primary-active-focused-shadow: $secondary !default;
+
+@import 'edx-bootstrap/sass/open-edx/theme';
+
