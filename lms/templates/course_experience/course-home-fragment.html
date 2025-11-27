@@ -28,63 +28,21 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 <link rel="stylesheet" type="text/css" href="${static.url('weup/css/animate-4.1.1.min.css')}" />
 
 <style>
-    header.page-header.has-secondary{
-        background-color: var(--primary);
-        padding-top: 10px !important;
-        padding-bottom: 10px !important;
-        box-shadow: 0 3px 6px rgba(0,0,0,0.16);
-        display: flex;
-        align-items: center;
-    }
-    .page-header-secondary{
-        padding: 25px 0 !important;
-    }
-    button.search-button{
-        margin-left: 5px;
-        background: white !important;
-    }
+
     .global-header .header-logo .course-header, a.help-link, a.subsection-text div.details,a.subsection-text span.icon.fa.fa-pencil-square-o, .wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary, #expand-collapse-outline-all-button {
         display:none !important;
     }
 
-    .course-outline .block-tree .outline-button .fa {
-        color: var(--secondary) !important;
-    }
-    .course-outline .block-tree .outline-button .complete-checkmark {
-        background-color: var(--secondary);
-        border-color: var(--secondary);
-        color: white !important;
-        padding: 2px;
-    }
+    /* message */
     .course-message .message-content .message-header{
         color: var(--secondary) !important;
     }
     .course-message .message-content{
         border: 1px solid var(--secondary) !important;
     }
-    .section-name.accordion-trigger.outline-button    {
-        padding-left: 25px !important;
-        padding-right: 25px !important;
-    }
-
-    .page-content .page-content-secondary {
-        min-width: 80vw;
-        max-width: 1200px;
-        animation: fadeInRight;
-        animation-duration: 0.5s;
-        background-color: white;
-        box-shadow: 0 3px 6px rgba(0,0,0,0.16);
-        flex-direction: column;
-        justify-content: space-between;
-        padding:0;
-        border-radius: 2px;
-        overflow: hidden;
-        margin: 65px auto !important;
-
-    }
 
 
-
+    /* general */
     .page-content-container{
         border:none !important;
     }
@@ -95,17 +53,6 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     button:focus {
         outline: none !important;
     }
-
-    .small-badge {
-        height: 20px;
-        margin: 10px 10px 10px 0;
-    }
-
-    .main-badge{
-        height:40px;
-        margin: 10px 10px 10px 0;
-    }
-
     .page-content {
         padding: 20px 70px;
         flex-direction: column;
@@ -121,7 +68,6 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         top: 20%;
         left: 2%;
     }
-
     #motif-bckg-2 {
         top: 70%;
         left: 82%;
@@ -131,38 +77,6 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     	animation: fadeInLeft;
         animation-duration: 0.5s;
     }
-
-    h2.hd.hd-3.page-title{
-       color:white !important;
-    }
-    .window-wrap, #course-container,#course-outline-block-tree{
-       background: #F4F5F6;
-    }
-    #main, .outline-item.accordion-panel{
-       background: white;
-    }
-
-
-
-    .outline-item {
-        margin-bottom: 20px !important;
-        border-bottom: none !important;
-    }
-
-    .grade-block {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-        background-color: white;
-        margin-left: 25px;
-        flex-grow: 1;
-        z-index: 10;
-        padding: 0 20px;
-        height: 95px;
-    }
-    a.grade-block:hover {
-        text-decoration: none;
-    }
     .horizontal-align {
         display: flex;
         flex-direction: row;
@@ -170,75 +84,13 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         justify-content: flex-start !important;
         width: 100%;
     }
-    
-    #chapter-divison > .horizontal-align {
-        justify-content: space-between;
-    }
 
-    .progress-bar-full {
-        width: 90%;
-        background-color: var(--primary);
-        position: relative;
-        display: flex;
-        flex-direction:row;
-        justify-content: center;
-        align-items: center;
-        height: 20px;
-        overflow: hidden;
-    }
-
-    .progress-bar-grade {
-        background-color: white;
-        position: absolute;
-        height: 50%;
-        top: 5px;
-        left: 10px;
-        border-radius: 2px;
-        animation: fadeInLeft;
-        animation-duration: 1.5s;
-    }
-
-    .grade-value {
-        font-size: large;
-        color: var(--primary);
-        margin: 0 0 0 30px;
-    }
-    #picto-bckg-section {
-        position: relative;
-        display: inline-block;
-        width: 150px;
-        height: 95px;
-    }
-
-    #picto-bckg-index {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 75px;
-        height: 75px;
-    }
-
-    #chapter-divison {
-        border: #343a40 2px solid;
-        background-color: var(--primary);
-        box-shadow: 4px 8px 4px rgba(0,0,97,0.6);
-        padding: 20px 35px;
-        z-index: 2;
-        position: relative;
-    }
-    .chapter-title {
-        text-transform: uppercase;
-        font-weight: bold;
-        letter-spacing: 0.1rem;
-        margin: 0 ;
-    }
-
+    /* Title */
 
 
     .grade-section-title-main {
         width: 70%;
-        padding: 20px 5% 60px 5%;
+        padding: 20px 5% 60px 0;
         color: var(--primary);
         text-transform: uppercase;
         font-size: larger;
@@ -257,7 +109,104 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     }
 
 
-    #share-list {
+    /* Section */
+
+    #chapter-divison {
+        border: #343a40 2px solid;
+        background-color: var(--primary);
+        box-shadow: 4px 8px 4px rgba(0,0,97,0.6);
+        padding: 25px 50px;
+        z-index: 2;
+        position: relative;
+    }
+    #chapter-divison > .horizontal-align {
+        justify-content: space-between;
+    }
+
+    .chapter-title {
+        text-transform: uppercase;
+        font-weight: bold;
+        letter-spacing: 0.1rem;
+        margin: 0 ;
+    }
+    .outline-item {
+        margin-bottom: 20px !important;
+        border-bottom: none !important;
+    }
+
+    #picto-bckg-section {
+        position: relative;
+        display: inline-block;
+        width: 150px;
+        height: 95px;
+    }
+    #picto-bckg-index {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 75px;
+        height: 75px;
+    }
+
+    .grade-block {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        background-color: white;
+        margin-left: 25px;
+        flex-grow: 1;
+        z-index: 10;
+        padding: 0 20px;
+        height: 95px;
+    }
+    a.grade-block:hover {
+        text-decoration: none;
+    }
+
+    .index-section {
+        background-color: #AF7C01;
+        color: white;
+        padding: 5px 10px;
+        margin-right: 15px;
+        font-weight: bold;
+
+    }
+
+    
+
+    /* Jauge */
+    .progress-bar-full {
+        width: 90%;
+        background-color: var(--primary);
+        position: relative;
+        display: flex;
+        flex-direction:row;
+        justify-content: center;
+        align-items: center;
+        height: 20px;
+        overflow: hidden;
+    }
+    .progress-bar-grade {
+        background-color: white;
+        position: absolute;
+        height: 50%;
+        top: 5px;
+        left: 10px;
+        border-radius: 2px;
+        animation: fadeInLeft;
+        animation-duration: 1.5s;
+    }
+    .grade-value {
+        font-size: large;
+        color: var(--primary);
+        margin: 0 0 0 30px;
+    }
+
+
+
+
+    /* #share-list {
         display: flex;
         list-style: none;
         flex-direction: row;
@@ -273,23 +222,10 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         font-size: 40px;
         margin: 0 10px;
         color: #343a40;
-    }
+    } */
 
 
-    .index-section {
-        background-color: #AF7C01;
-        color: white;
-        padding: 5px 10px;
-        margin-right: 15px;
-        font-weight: bold;
 
-    }
-
-
-    #logo_banner {
-        margin: auto 30px;
-        height: 40px;
-    }
 
 
     @media screen and (max-width: 768px) {
@@ -298,9 +234,6 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
             flex-direction: column;
         }
     }
-
-
-
 
 </style>
 
