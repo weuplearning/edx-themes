@@ -64,7 +64,7 @@
     }
     #motif-login {
         position: absolute;
-        top: -7%;
+        top: 0;
         right: 0;
         width: 35vw;
         height: 35vw;
@@ -124,3 +124,11 @@
         </div>
     </main>
 </div>
+
+
+
+%if user.is_authenticated:
+<script>
+    window.location.replace('/dashboard');
+</script>
+% endif

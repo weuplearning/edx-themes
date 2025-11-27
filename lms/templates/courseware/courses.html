@@ -34,11 +34,13 @@
 <main id="main" aria-label="Content" tabindex="-1">
   <section class="find-courses">
     <section class="courses-container">
-      % if course_discovery_enabled:
+
       <div id="discovery-form" role="search" aria-label="course" class="wrapper-search-context">
-        <div id="discovery-message" class="search-status-label"></div>
+        <div id="discovery-message" >
+          LES COURS
+        </div>
       </div>
-      % endif
+
 
       <div class="courses${'' if course_discovery_enabled else ' no-course-discovery'}" role="region" aria-label="${_('List of Courses')}">
         <ul class="courses-listing courses-list">
@@ -68,19 +70,23 @@
     width: 25vw;
     height: 25vw;
     z-index: 1;
-    top: 10%;
-    left: 80%;
+    top: 20%;
+    left: 10%;
   }
 
   #motif-bckg-2 {
-    top: 50%;
-    left: -2%;
+    top: 70%;
+    right: -2%;
   }
   .courses-listing-item {
+    position: relative;
     z-index: 2;
   }
   .find-courses .courses-container {
     padding: 40px 10px 0 0px;
+  }
+  .courses-listing {
+    padding: 0 40px !important;
   }
   .find-courses .courses-container .courses:not(.no-course-discovery) {
     width: 90% !important;

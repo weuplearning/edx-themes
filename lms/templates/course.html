@@ -20,6 +20,8 @@ from six import text_type
         <span class="course-organization">${course.display_org_with_default}</span>
         <span class="course-code">${course.display_number_with_default}</span>
         <span class="course-title">${course.display_name_with_default}</span>
+        <span class="course-effort">${course.effort}</span>
+        <span class="spacer"></span>
       </h2>
       <%
       if course.start is not None:
@@ -50,17 +52,24 @@ from six import text_type
     DateUtilFactory.transform(iterationKey=".localized_datetime");
 </%static:require_module_async>
 
-<script>
 
-  console.log("test course.html");
-  console.log('${course}');
-  console.log('${dir(course)}');
-</script>
 
 <style>
 
   .course-name .course-organization, .course-name .course-code, .course-date {
     display: none !important;
+  }
+  .course-effort {
+    display: inline-block;
+    padding: 2px 6px;
+    background-color: #D0B36A;
+    color: white;
+  }
+  .spacer {
+    display: inline-block;
+    width: 65%;
+    border-bottom: 4px solid var(--primary);
+    margin: 10px 0;
   }
 
 </style>

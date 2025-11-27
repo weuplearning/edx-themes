@@ -24,9 +24,10 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 %>
 
 <%block name="header_extras">
-  <link rel="stylesheet" type="text/css" href="${static.url('paragon/static/paragon.min.css')}" />
-  <link rel="stylesheet" type="text/css" href="${static.url('weup/css/animate-4.1.1.min.css')}" />
-  <style>
+<link rel="stylesheet" type="text/css" href="${static.url('paragon/static/paragon.min.css')}" />
+<link rel="stylesheet" type="text/css" href="${static.url('weup/css/animate-4.1.1.min.css')}" />
+
+<style>
     header.page-header.has-secondary{
         background-color: var(--primary);
         padding-top: 10px !important;
@@ -42,7 +43,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         margin-left: 5px;
         background: white !important;
     }
-    .global-header .header-logo .course-header, a.help-link{
+    .global-header .header-logo .course-header, a.help-link, a.subsection-text div.details,a.subsection-text span.icon.fa.fa-pencil-square-o, .wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary, #expand-collapse-outline-all-button {
         display:none !important;
     }
 
@@ -65,10 +66,8 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         padding-left: 25px !important;
         padding-right: 25px !important;
     }
-     a.subsection-text div.details,a.subsection-text span.icon.fa.fa-pencil-square-o{
-         display:none !important;
-     }
-    .page-content .page-content-secondary{
+
+    .page-content .page-content-secondary {
         min-width: 80vw;
         max-width: 1200px;
         animation: fadeInRight;
@@ -80,7 +79,8 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         padding:0;
         border-radius: 2px;
         overflow: hidden;
-        margin: 0;
+        margin: 65px auto !important;
+
     }
 
 
@@ -91,9 +91,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     .global-header.global-header{
         background: white !important; 
     }
-    h4.subsection-title{
-        font-size: 1rem;
-    }
+
     button:focus {
         outline: none !important;
     }
@@ -108,42 +106,32 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         margin: 10px 10px 10px 0;
     }
 
-    /* .course-outline .block-tree .section .section-name {
-        padding: 20px 0 20px 2px;
-        background-color: var(--primary);
-        margin-bottom: 25px;
-        color: var(--secondary)!important;
-        margin-bottom: 0px !important;
-        margin-top:25px !important;
-        border-radius: 2px;
-    } */
-
-    .page-content-secondary {
-        margin-top:25px !important;
-    }
-    #expand-collapse-outline-all-button {
-        display: none;
-    }
-
     .page-content {
-        padding: 20px;
-        justify-content: space-between;
+        padding: 20px 70px;
+        flex-direction: column;
         min-height: calc( 100vh - 135px );
+        position: relative;
+        background-color: #EBF4FC;
+    }
+    #motif-bckg-1 , #motif-bckg-2 {
+        position: absolute;
+        width: 25vw;
+        height: 25vw;
+        z-index: 1;
+        top: 20%;
+        left: 2%;
     }
 
-    #main{
+    #motif-bckg-2 {
+        top: 70%;
+        left: 82%;
+    }
+
+    #main {
     	animation: fadeInLeft;
         animation-duration: 0.5s;
     }
 
-    .wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary{
-        display:none !important;
-    }
-
-
-    .section-title{
-       color:white !important;
-    }
     h2.hd.hd-3.page-title{
        color:white !important;
     }
@@ -154,65 +142,120 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
        background: white;
     }
 
-    .course-outline .block-tree .section {
-        box-shadow: 0 3px 6px rgba(0,0,0,0.16);
-        margin: 0 !important;
-    }
 
+
+    .outline-item {
+        margin-bottom: 20px !important;
+        border-bottom: none !important;
+    }
 
     .grade-block {
         display: flex;
         flex-direction: column;
+        justify-content: space-evenly;
+        background-color: white;
+        margin-left: 25px;
+        flex-grow: 1;
+        z-index: 10;
+        padding: 0 20px;
+        height: 95px;
+    }
+    a.grade-block:hover {
+        text-decoration: none;
+    }
+    .horizontal-align {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start !important;
+        width: 100%;
+    }
+    
+    #chapter-divison > .horizontal-align {
+        justify-content: space-between;
     }
 
     .progress-bar-full {
-        width: 100%;
-        background-color: rgba(0, 0, 0, 0.2);
+        width: 90%;
+        background-color: var(--primary);
         position: relative;
-        margin-bottom: 20px;
         display: flex;
         flex-direction:row;
         justify-content: center;
         align-items: center;
-        height: 10px;
+        height: 20px;
         overflow: hidden;
-        border-radius:5px;
     }
 
     .progress-bar-grade {
-        background-color:var(--green);
+        background-color: white;
         position: absolute;
-        height: 100%;
-        top:0;
-        left:0;
-        border-radius: 5px;
+        height: 50%;
+        top: 5px;
+        left: 10px;
+        border-radius: 2px;
         animation: fadeInLeft;
         animation-duration: 1.5s;
     }
 
     .grade-value {
-        font-weight: 500;
+        font-size: large;
+        color: var(--primary);
+        margin: 0 0 0 30px;
+    }
+    #picto-bckg-section {
+        position: relative;
+        display: inline-block;
+        width: 150px;
+        height: 95px;
+    }
+
+    #picto-bckg-index {
         position: absolute;
-        right: 0;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 75px;
+        height: 75px;
     }
 
-    #final-grade-progress {
-        height: 15px;
-        border-radius: 7.5px;
-    }
-
-    #final-grade-progress .progress-bar-grade{
-        background-color: var(--secondary);
-        border-radius: 7.5px;
-    }
-
-    .grade-section-title {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        font-weight: 500;
+    #chapter-divison {
+        border: #343a40 2px solid;
+        background-color: var(--primary);
+        box-shadow: 4px 8px 4px rgba(0,0,97,0.6);
+        padding: 20px 35px;
+        z-index: 2;
         position: relative;
     }
+    .chapter-title {
+        text-transform: uppercase;
+        font-weight: bold;
+        letter-spacing: 0.1rem;
+        margin: 0 ;
+    }
+
+
+
+    .grade-section-title-main {
+        width: 70%;
+        padding: 20px 5% 60px 5%;
+        color: var(--primary);
+        text-transform: uppercase;
+        font-size: larger;
+        font-weight: bold;
+        position: relative;
+    }
+    #spacer-title {
+        display: inline-block;
+        height: 10px;
+        width: 30%;
+        box-shadow: 2px 2px 6px rgba(0,0,0,0.6);
+        position: absolute;
+        bottom: 30px;
+        left: -70px;
+        background-color: var(--primary);
+    }
+
 
     #share-list {
         display: flex;
@@ -232,212 +275,64 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         color: #343a40;
     }
 
-    #badges {
-        padding: 0 25px 25px 25px;
+
+    .index-section {
+        background-color: #AF7C01;
+        color: white;
+        padding: 5px 10px;
+        margin-right: 15px;
+        font-weight: bold;
+
     }
 
-    /* .page-content .page-content-secondary h4{
-        padding:15px;
-        color:white;
-        background-color:var(--primary);
-        text-align:center
-    } */
-
-    .grade-section-title .chapter-title{
-        max-width: 80%;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
-    }
 
     #logo_banner {
         margin: auto 30px;
         height: 40px;
     }
 
-    
-    @media screen and (max-width: 1024px) {
-        .page-content .page-content-secondary { 
-            min-width: calc(50% - 15px);
-            max-width: calc(50% - 15px);
-            margin: 0;
-        }
 
-        .page-content .page-content-main { 
-            min-width: calc(50% - 15px);
-            max-width: calc(50% - 15px);
-        }
-    }
-    @media screen and (max-width: 991px) {
-        .page-content .page-content-secondary { 
-            min-width: calc(60% - 15px);
-            max-width: calc(60% - 15px);
-        }
-
-        .page-content .page-content-main { 
-            min-width: calc(40% - 15px);
-            max-width: calc(40% - 15px);
-        }
-
-    }
     @media screen and (max-width: 768px) {
-        .page-content .page-content-secondary { 
-            min-width: 100%;
-            max-width: 100%;
-            margin-left: 0;
-        }
-
-        .page-content .page-content-main { 
-            min-width: 100%;
-            max-width: 100%;
-        }
 
         .page-content {
             flex-direction: column;
         }
-
-        .page-content .page-content-secondary h4{
-            font-size:16px;
-        }
     }
 
-    @media screen and (max-width: 500px) {
-        .grade-section-title {
-            font-size: 12px;
-        }
 
-        .main-badge{
-            height:25px;
-        }
 
-        .small-badge {
-            margin: 0 5px 5px 5px;
-        }
-        h3.section-title{
-            padding-left: 5px !important;
-            font-size: 14px !important;
-        }
-        h4.subsection-title{
-            font-size: 14px !important;
-        }
-    }
 
-    @media screen and (max-width: 500px) {
-        .grade-section-title {
-            font-size: 14px;
-        }
-    }
+</style>
 
-  </style>
-  <script>
-document.title = "Cours | ${HTML(course.display_name_with_default)}";
-  </script>
+
+<script>
+    document.title = "Cours | ${HTML(course.display_name_with_default)}";
+</script>
 
 </%block>
 
 
 <%block name="content">
 <div class="course-view page-content-container" id="course-container">
-    <header class="page-header has-secondary">
-        <div class="page-header-main">
-        </div>
-        <div class="page-header-secondary">
-
-            <div class="form-actions">
-                % if resume_course_url:
-                    <a class="btn btn-secondary action-resume-course" href="${resume_course_url}">
-                        % if has_visited_course:
-                            <span data-action-type="resume">${_("Resume Course")}</span>
-                        % else:
-                            <span data-action-type="start">${_("Start Course")}</span>
-                        % endif
-                    </a>
-                % endif
-            </div>
-        </div>
-    </header>
     <div class="page-content">
 
-        <aside class="page-content-secondary course-sidebar">
-
-            <div class="section" id="badges">
-                    <div class="grade-block">       
-                        <div class="grade-section-title">
-                            %if user_grade.passed:
-                                <img src="${static.url('images/medal_on.svg')}" class="main-badge"/>
-                            %else: 
-                                <img src="${static.url('images/medal_off.svg')}" class="main-badge"/>
-                            %endif
-                            <div style="text-transform: uppercase;">${course.display_name_with_default}</div>
-                            <div class="grade-value">${int(user_grade.percent * 100)}%</div>
-                        </div>
-                        <div class="progress-bar-full" id="final-grade-progress">
-                            <div style="width:${int(user_grade.percent * 100)}%;" class="progress-bar-grade" ></div>
-                            
-                        </div>                    
-                    </div>
-
-                 %if configuration_helpers.get_value('COMPLETION_BASED_DASHBOARD_MONO', False):
-
-                    % for section in course_block_tree.get('children'):
-                      <%
-                      total_blocks = 1
-                      completed_blocks = 1
-                      if not section.get('complete'):
-                        total_blocks = 0
-                        completed_blocks = 0
-                        for subsection in section.get('children', []):
-                          for unitchild in subsection.get('children', []):
-                            for blockchild in unitchild.get('children', []):
-                              total_blocks += 1
-                              if blockchild.get('complete'):
-                                completed_blocks += 1
-                      completion_ratio = completed_blocks / total_blocks
-                      %>
-                        <div class="grade-block">
-                            <div class="grade-section-title">
-                                %if completion_ratio >= 1:
-                                    <img src="${static.url('images/medal_on.svg')}" class="small-badge"/>
-                                %else:
-                                    <img src="${static.url('images/medal_off.svg')}" class="small-badge"/>
-                                %endif
-                                <div class="chapter-title" >${section['display_name']}</div>
-                                <div class="grade-value">${int(completion_ratio * 100)}%</div>
-                            </div>
-                            <div class="progress-bar-full">
-                                <div style="width:${completion_ratio * 100}%;" class="progress-bar-grade"></div>
-                            </div>
-                        </div>
-
-                    %endfor
-                 %else:
+        <img id="motif-bckg-1" src="${static.url('arif/images/motif.svg')}" alt="motif-1">
+        <img id="motif-bckg-2" src="${static.url('arif/images/motif.svg')}" alt="motif-1">
 
 
-                    %for index, chapter in enumerate(user_grade.chapter_grades.keys()):
-                        <div class="grade-block">
-                            <div class="grade-section-title">
-                                %if user_grade.chapter_percentage(chapter) >= 0.7:
-                                    <img src="${static.url('images/medal_on.svg')}" class="small-badge"/>
-                                %else: 
-                                    <img src="${static.url('images/medal_off.svg')}" class="small-badge"/>
-                                %endif
-                                <div class="chapter-title" >${user_grade.chapter_grades[chapter]['display_name']}</div>
-                                <div class="grade-value">${int(user_grade.chapter_percentage(chapter) * 100)}%</div>
-                            </div>
-                            <div class="progress-bar-full">
-                                <div style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade"></div>
-                            </div>                    
-                        </div>
-                    %endfor
+        <div class="grade-section-title-main">
+            <div style="text-transform: uppercase;">${course.display_name_with_default}</div>
+            <span id="spacer-title"></span>
+        </div>
 
-                 %endif
-            </div>
-        </aside>
+        % if outline_fragment:
+            ${HTML(outline_fragment.body_html())}
+        % endif
+
     </div>
-    % if course_sock_fragment:
-        ${HTML(course_sock_fragment.body_html())}
-    % endif
 </div>
+
+
 </%block>
 
 <%static:webpack entry="CourseHome">
