@@ -359,9 +359,38 @@ from common.djangoapps.student.models import CourseEnrollment
     article.course,  section.details, .wrapper-course-image {
         margin: unset !important;
     }
+    .wrapper-course-image {
+        height: 100% !important;
+
+    }
+
+    .course-title {
+        text-transform: uppercase;
+        color: var(--primary);
+        font-weight: bold;
+    }
+    .info-effort {
+        padding: 5px 10px;
+        background-color: var(--secondary);
+        color: white !important;
+    }
+    .wrapper-course-details {
+        padding: 15px !important;
+    }
+    .course-actions > a.course-target-link {
+        border: none !important;
+        color: white !important;
+        font-weight: bold !important;
+        background-color: var(--tertiary) !important;
+    }
 
 
-    .wrapper-course-details .course-info, .wrapper-messages-primary {
+    .course-container {
+        background-color: white;
+        position: relative;
+        z-index: 2;
+    }
+    .wrapper-messages-primary {
         display: none !important;
     }
 </style>

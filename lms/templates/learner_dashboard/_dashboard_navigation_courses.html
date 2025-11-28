@@ -1,0 +1,51 @@
+<%page expression_filter="h"/>
+<%!
+from django.utils.translation import ugettext as _
+%>
+<%namespace name='static' file='../static_content.html'/>
+
+<header class="wrapper-header-courses">
+    <h2 class="header-courses">${_("My Courses")}</h2>
+    <span class="spacer-title"></span>
+    <img id="motif-bckg-1" src="${static.url('arif/images/motif.svg')}" alt="motif-1">
+    <img id="motif-bckg-2" src="${static.url('arif/images/motif.svg')}" alt="motif-1">
+
+</header>
+
+<style>
+    #main {
+        position: relative;
+        background-color: #EBF4FC;
+    }
+    #motif-bckg-1 , #motif-bckg-2 {
+        position: absolute;
+        width: 25vw;
+        height: 25vw;
+        z-index: 1;
+        top: 20%;
+    }
+
+    #motif-bckg-2 {
+        top: 70%;
+        right: -2%;
+    }
+
+    .header-courses {
+        text-transform: uppercase;
+        margin-bottom: 50px;
+        font-size: larger;
+        font-weight: 700;
+        color: #0E2B66;
+    }
+    .spacer-title {
+        position: absolute;
+        top: 75px;
+        left: 0;
+        display: inline-block;
+        border-bottom: 10px solid #0E2B66;
+        margin-top: 20px;
+        width: 30vw;
+        box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+    }
+
+</style>
