@@ -335,6 +335,7 @@ from common.djangoapps.student.models import CourseEnrollment
 <style>
     #main {
         min-height: calc( 100vh - 150px );
+        overflow: hidden;
     }
     .dashboard .main-container {
         padding: 40px !important;
@@ -367,7 +368,9 @@ from common.djangoapps.student.models import CourseEnrollment
     .course-title {
         text-transform: uppercase;
         color: var(--primary);
-        font-weight: bold;
+        font-weight: 900;
+        font-size: 16px;
+        letter-spacing: 1px;
     }
     .info-effort {
         padding: 5px 10px;
@@ -389,6 +392,8 @@ from common.djangoapps.student.models import CourseEnrollment
         background-color: white;
         position: relative;
         z-index: 2;
+        border: unset;
+        height: 315px;
     }
     .wrapper-messages-primary {
         display: none !important;
