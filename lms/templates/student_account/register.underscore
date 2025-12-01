@@ -121,7 +121,7 @@ justify-content: space-between;
     </div>
     <p class="amazon-register-data" style="text-align:justify"><br/><br/>
     Les données personnelles renseignées via ce formulaire seront traitées par Amazon Europe Core SARL et ses sociétés affiliées pour les finalités décrites dans notre 
-    <a href="/privacy" target="_blank">Politique de confidentialité</a> qui vous permet également d’exercer vos droits.
+    <a href="/politique-de-confidentialite/" target="_blank">Politique de confidentialité</a> qui vous permet également d’exercer vos droits.
     </br></p>
 
     <div style="display: flex;justify-content: space-evenly;">
@@ -190,7 +190,6 @@ window.addEventListener("load", function () {
             termsOfServiceLabel.firstElementChild.lastChild.textContent = " de The E-Academy"
     }
 
-
     if (myCookieValue == 'nl-nl' || ParameterLanguage == 'nl') {
 
         spanCompany.innerText = "Onderneming/BTW-nummer (optioneel)"
@@ -250,6 +249,7 @@ window.addEventListener("load", function () {
         const tosLink = document.querySelector('a[href="/tos"][rel="noopener"][target="_blank"]');
         if (tosLink) {
             tosLink.innerText = "de algemene gebruiksvoorwaarden van The E-Academy ";
+            tosLink.href = "/nl/wettelijke-vermeldingen/"; 
         }
 
         if (termsOfServiceLabel && termsOfServiceLabel.firstElementChild) {
@@ -260,7 +260,7 @@ window.addEventListener("load", function () {
 
         const amazonRegisterData = document.querySelector(".amazon-register-data");
         if (amazonRegisterData) {
-            amazonRegisterData.innerText = "De persoonsgegevens die via dit formulier worden verstrekt, zullen worden verwerkt door Amazon Europe Core SARL en de aan haar gelieerde bedrijven voor de doeleinden die worden beschreven in ons Privacybeleid, waarmee u ook uw rechten kunt uitoefenen";
+            amazonRegisterData.innerHTML = "De persoonsgegevens die via dit formulier worden verstrekt, zullen worden verwerkt door Amazon Europe Core SARL en de aan haar gelieerde bedrijven voor de doeleinden die worden beschreven in ons <a href='/nl/beleid-inzake-gegevensbescherming/' target='_blank'>Privacybeleid</a>, waarmee u ook uw rechten kunt uitoefenen";
         }
 
 
@@ -292,7 +292,13 @@ window.addEventListener("load", function () {
                     break;
             }
         }
-    }           
+    } else {
+        const tosLink = document.querySelector('a[href="/tos"][rel="noopener"][target="_blank"]');
+        if (tosLink) {
+            tosLink.href = "/mentions-legales/"; 
+        }
+
+    }        
 });
 setInterval(function(){
   $("label[for=register-honor_code] span.label-text").html("J'accepte d'être contacté par Amazon dans le cadre de l'Accélérateur du Numérique");
