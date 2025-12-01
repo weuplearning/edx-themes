@@ -30,6 +30,14 @@
     text-align: center;
     line-height: 1.4;
   }
+  #spacer {
+    width: 40vw;
+    border-bottom: solid black 1px;
+    padding: 20px 0;
+    display: inline-block;
+    margin: 40px 0;
+  }
+
 </style>
 <%block name="js_extra">
     <%static:require_module module_name="js/student_account/logistration_factory" class_name="LogistrationFactory">
@@ -79,9 +87,9 @@
         <div id="error-message">
 
             Il semble y avoir un souci sur votre compte utilisateur. Veuillez nous excuser pour la gêne occasionnée. 
-            <br>Veuillez signaler votre problème à un <a href="mailto:sysadmin@weuplearning.com">conseiller technique de notre plateforme</a>.
-            
-            <br><br>Vous pouvez vous rediriger vers la plateforme <a href="https://www.emploi-store.fr/">Emploi Store</a> pendant que nous étudions ce problème. <br>
+            <br><br>Veuillez vous assurer de passer par la plateforme <a href="https://www.emploi-store.fr/portail/accueil">Emploi Store</a> comme point d'entrée à cette formation. 
+            <span id="spacer"></span>
+            <br><br>Si l'erreur persiste merci de signaler votre problème à un <a href="mailto:sysadmin@weuplearning.com">conseiller technique de notre plateforme</a>.            
         </div>
     </main>
 </div>
