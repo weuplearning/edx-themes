@@ -3,12 +3,15 @@
   import json
   from django.utils.translation import ugettext as _
   from openedx.core.djangolib.js_utils import js_escaped_string, dump_js_escaped_json
+  from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+
 %>
 <%inherit file="../main.html" />
 <%
   course_discovery_enabled = settings.FEATURES.get('ENABLE_COURSE_DISCOVERY')
-  ecommerce_courses  = settings.FEATURES.get('ECOMMERCE_COURSES')
+  ecommerce_courses  = configuration_helpers.get_value('ECOMMERCE_COURSES') or []
 %>
+
 
 <%namespace name='static' file='../static_content.html'/>
 
