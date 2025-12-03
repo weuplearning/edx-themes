@@ -22,9 +22,7 @@
     .toggle-form, .tip, .tip-input, #login-form  h2 {
         display: none !important;
     }
-    .login-register-content {
-        background: none !important;
-    }
+
 
 
 
@@ -71,18 +69,28 @@
         z-index: 10;
     }
 
+
+    /* REGISTER */
+    .login-register-content {
+        background: none !important;
+    }
+    .login-register {
+        max-width: unset !important;
+    }
     .login-register .form-field {
         display: flex;
         justify-content: space-between;
     }
     .login-register .form-field label {
-        width: 200px;
+        width: 375px;
     }
 
-    /* REGISTER */
     #register-anchor {
         padding: 0 25px;
         min-width: 360px !important;
+    }
+    .login-register .form-field label.focus-out {
+        position: relative;
     }
 
 </style>

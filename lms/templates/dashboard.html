@@ -406,12 +406,15 @@ from common.djangoapps.student.models import CourseEnrollment
         }
 
     }
-    @media screen and (max-width: 760px) {
+    @media screen and (max-width: 770px) {
         li.course-item {
             margin: auto !important;
             width: 70vw;
             max-width: unset;
 
+        }
+        .dashboard .main-container .my-courses .course .details .wrapper-course-image {
+            display: block !important;
         }
 
     }
