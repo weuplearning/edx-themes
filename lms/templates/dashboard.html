@@ -351,7 +351,7 @@ from common.djangoapps.student.models import CourseEnrollment
     /* Course Card */
     li.course-item {
         margin: 20px !important;
-        max-width: calc( 33vw - 63px);
+        max-width: calc( 33vw - 68px);
     }
     .course-container section.details {
         display: flex;
@@ -362,7 +362,8 @@ from common.djangoapps.student.models import CourseEnrollment
     }
     .wrapper-course-image {
         height: 100% !important;
-
+        width: unset !important;
+        max-height: 185px !important;
     }
 
     .course-title {
@@ -386,16 +387,32 @@ from common.djangoapps.student.models import CourseEnrollment
         font-weight: bold !important;
         background-color: var(--tertiary) !important;
     }
-
-
     .course-container {
         background-color: white;
         position: relative;
         z-index: 2;
         border: unset;
-        height: 315px;
+        height: 350px;
     }
     .wrapper-messages-primary {
         display: none !important;
+    }
+
+
+    @media screen and (max-width: 1096px) {
+        li.course-item {
+            margin: 20px !important;
+            max-width: calc( 50vw - 88px);
+        }
+
+    }
+    @media screen and (max-width: 760px) {
+        li.course-item {
+            margin: auto !important;
+            width: 70vw;
+            max-width: unset;
+
+        }
+
     }
 </style>

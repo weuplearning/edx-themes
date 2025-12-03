@@ -7,6 +7,7 @@
 <%inherit file="../main.html" />
 <%
   course_discovery_enabled = settings.FEATURES.get('ENABLE_COURSE_DISCOVERY')
+  free-courses  = settings.FEATURES.get('FREE_COURSES')
 %>
 
 <%namespace name='static' file='../static_content.html'/>
@@ -45,9 +46,11 @@
       <div class="courses${'' if course_discovery_enabled else ' no-course-discovery'}" role="region" aria-label="${_('List of Courses')}">
         <ul class="courses-listing courses-list">
           %for course in courses:
+            %if course in free-courses :
           <li class="courses-listing-item">
             <%include file="../course.html" args="course=course" />
           </li>
+            %endif
           %endfor
         </ul>
       </div>
@@ -75,7 +78,7 @@
   }
 
   #motif-bckg-2 {
-    top: 70%;
+    top: 62%;
     right: -2%;
     left: unset;
   }

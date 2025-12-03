@@ -20,8 +20,8 @@ from six import text_type
         <span class="course-organization">${course.display_org_with_default}</span>
         <span class="course-code">${course.display_number_with_default}</span>
         <span class="course-title">${course.display_name_with_default}</span>
-        <span class="course-effort">${course.effort}</span>
         <span class="spacer"></span>
+        <span class="course-effort">${int((course.effort).split(':')[0])}h</span>
       </h2>
       <%
       if course.start is not None:
@@ -55,21 +55,38 @@ from six import text_type
 
 
 <style>
+  .course {
+    box-shadow: 0 1px 4px 0 rgba(0,117,180,0.4) !important;
+  }
+  .course:hover {
+    box-shadow:  5px 5px 5px rgba(0,0,0,0.5) !important;
+  }
 
+  .course-name {
+    display: flex;
+    flex-direction: column;
+    padding: 0 15px;
+  }
   .course-name .course-organization, .course-name .course-code, .course-date {
     display: none !important;
   }
-  .course-effort {
-    display: inline-block;
-    padding: 2px 6px;
-    background-color: #D0B36A;
-    color: white;
+  .course-title {
+    padding: 0 !important;
+
   }
   .spacer {
     display: inline-block;
     width: 65%;
     border-bottom: 4px solid var(--primary);
     margin: 10px 0;
+  }
+
+  .course-effort {
+    display: inline-block;
+    padding: 2px 6px;
+    background-color: #D0B36A;
+    color: white;
+    width: fit-content;
   }
 
 </style>
