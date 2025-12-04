@@ -10,14 +10,6 @@
 <%inherit file="../main.html" />
 
 <%block name="pagetitle">${_("Sign in or Register")}</%block>
-<style>
-  input[type="submit"], input[type="button"], button, .button {
-    box-shadow: none !important;
-    background-color: var(--primary);
-    background-image: none !important;
-    text-shadow: none !important;
-  }
-</style>
 <%block name="js_extra">
     <%static:require_module module_name="js/student_account/logistration_factory" class_name="LogistrationFactory">
         var options = ${data | n, dump_js_escaped_json};
@@ -48,18 +40,14 @@
         <div id="content-container" class="login-register-content">
             % if enable_enterprise_sidebar:
                 <%include file="enterprise_sidebar.html" />
-                <%
-                    border_class = 'border-left'
-                %>
+                <% border_class = 'border-left' %>
             % else:
-                <%
-                    border_class = ''
-                %>
+                <% border_class = '' %>
             % endif
             <div id="side-login-and-registration-container">
               <img style="max-width: 100%;" src="${static.url('af-brazil/images/af_online_login.gif')}" alt="logotipo do rodapé Alianca Francesa">
-
             </div>
+
             <div id="login-and-registration-container" class="login-register ${border_class}"></div>
         </div>
     </main>
@@ -67,74 +55,70 @@
 </div>
 
 <div class="container-fluid wrapper-footer c-footer" style="background-color: #e1000f;">
-
-    <footer id="footer-openedx" class="grid-container"
-      ## When rendering the footer through the branding API,
-      ## the direction may not be set on the parent element,
-      ## so we set it here.
-      % if bidi:
-        dir=${bidi}
-      % endif
-    >
-      <div class="footer-wrapper">
-        <img style="max-width: 100px;" src="${static.url('af-brazil/images/logo.png')}" alt="logotipo do rodapé Alianca Francesa" >
-        <div class="social-network">
-
-          <a href="https://www.instagram.com/aliancafrancesaonline/">
-            <img src="${static.url('af-brazil/images/instagram.png')}" alt="logotipo do Instagram" >
-          </a>
-          <a href="https://www.facebook.com/aliancafrancesaonline/">
-            <img src="${static.url('af-brazil/images/facebook.png')}" alt="logotipo do Facebook" >
-          </a>
-        </div>
-        <!-- <div class="footer-links-container">
-        <a id="cgu"  class="c-footer-a" href="/cgu">Termos de serviço</a>
-        </div> -->
+  <footer id="footer-openedx" class="grid-container"
+    ## When rendering the footer through the branding API,
+    ## the direction may not be set on the parent element,
+    ## so we set it here.
+    % if bidi:
+      dir=${bidi}
+    % endif
+  >
+    <div class="footer-wrapper">
+      <img style="max-width: 100px;" src="${static.url('af-brazil/images/logo.png')}" alt="logotipo do rodapé Alianca Francesa" >
+      
+      <div class="social-network">
+        <a href="https://www.instagram.com/aliancafrancesaonline/">
+          <img src="${static.url('af-brazil/images/instagram.png')}" alt="logotipo do Instagram" >
+        </a>
+        <a href="https://www.facebook.com/aliancafrancesaonline/">
+          <img src="${static.url('af-brazil/images/facebook.png')}" alt="logotipo do Facebook" >
+        </a>
       </div>
 
-    </footer>
-  
+    </div>
+  </footer>
 </div>
+
 <script>
-function setCookie(name, value, days) {
+  function setCookie(name, value, days) {
     var expires = "";
     if (days) {
-        var date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        expires = "; expires=" + date.toUTCString();
+      var date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      expires = "; expires=" + date.toUTCString();
     }
     document.cookie = name + "=" + (value || "") + expires + "; path=/";
-}
+  }
 
-function getCookie(name) {
+  function getCookie(name) {
     var nameEQ = name + "=";
     var ca = document.cookie.split(';');
     for(var i=0; i < ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+      var c = ca[i];
+      while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
     }
     return null;
-}
+  }
 
-function eraseCookie(name) {   
+  function eraseCookie(name) {   
     document.cookie = name + '=; Max-Age=-99999999;';  
-}
+  }
 
-// Set the "openedx-language-preference" cookie with the value "pt-br" and a two-week lifetime
-setCookie("openedx-language-preference", "pt-br", 14);
+  // Set the "openedx-language-preference" cookie with the value "pt-br" and a two-week lifetime
+  setCookie("openedx-language-preference", "pt-br", 14);
 
-// Check if the page has already been reloaded
-if (!getCookie("pageReloaded")) {
+  // Check if the page has already been reloaded
+  if (!getCookie("pageReloaded")) {
     // Set a temporary cookie to indicate the page has been reloaded
     setCookie("pageReloaded", "true", 1);
 
     // Reload the page
     location.reload();
-} else {
+  } else {
     // Erase the temporary cookie after reloading once
     eraseCookie("pageReloaded");
-}
+  }
 
 </script>
 <script>
@@ -193,112 +177,80 @@ if (!getCookie("pageReloaded")) {
     }
   }, 200);
 
-  // // Update text in error list
-  // setInterval(() => {
-  //   var ulElement = document.getElementsByClassName('error');
+</script>
 
-  //   console.log(ulElement);
-  //   for (let i = 0; i < ulElement.length; i++) {
-  //     const element = ulElement[i];
-  //     // console.log('eeeeee');
-  //     // console.log(element.children);
-  //     // console.log(element.children);
-
-
-  //     // console.log("element.getElementsByTagName('lu')");
-  //     // console.log(element.getElementsByTagName('lu'));
-      
-  //     if (element) {
-  //       var liElements = element.children[1].getElementsByTagName('li');
-  //       console.log("liElements");
-  //       console.log(liElements);
-        
-  //       // Loop through each li element and modify it
-  //       for (var i = 0; i < liElements.length; i++) {
-          
-  //         li_text = liElements[i].textContent
-  //         console.log(li_text);
-  //         console.log(li_text == "Insira seu Senha.");
-  //         if (li_text == "Insira seu Senha.") {
-  //           liElements[i].textContent = "Insira sua senha."
-  //         }
-  //       }
-  //       // liElements[i].textContent = "Modified text " + (i + 1);
-  //     }
-
-  //     // Log the modified li elements
-  //     // console.log(liElements);
-  //   }
-  // }, 1000);
-
+<script>
+  $(window).on('load', function() {
+    document.getElementById('register').getElementsByClassName('email-email')[0].getElementsByClassName('label-text')[0].innerText = "E-mail (use o e-mail utilizado na compra do curso)"
+  })
 </script>
 
 <style>
-
-/* EXTRA STYLE START */
-.window-wrap {
-  background-color: #9d0d17;
-}
-body.view-in-course .wrapper-footer, .login-register .action-primary {
-  background-color: #e1000f;
-  border-radius: 10px;
-}
-#login-and-registration-container, #content-container {
-  background-color: #9d0d17 !important;
-}
-.login-form, .toggle-form, .form-toggle, #login-form h2, #login div, .label-text, .login-help , #register h2, .focus-in > span, .login-register .form-field span.error, .tip-input  {
-  color: white !important;
-}
-label.focus-out > .label-text {
-  color: red !important;
-
-}
-.input-block {
-  /* color: #9d0d17; */
-  border-radius: 8px !important;
-}
-input, select, textarea, textarea:focus, input:focus{
-  color: #9d0d17;
-}
-#register-agency {
-  border-radius: 8px;
-  background: white !important;
-}
-#login-and-registration-container {
-  width: 430px;
-}
-
-#register-username-validation-error, #register-password-validation-error, #register-email-validation-error, #register-name-validation-error  {
-  display: none;
-}
-.login-register-content {
-  margin-top: 0px !important;
-}
-#content {
-  min-height: unset !important;
-  padding: unset !important;
-}
-.social-network img {
-  height: 16px;
-  margin: 0 2px;
-}
-#cgu {
-  margin: unset !important;
-}
-.login-register-content a {
-  color: white !important;
-}
-
-/* EXTRA STYLE END */
-
-  .wrapper-footer .site-nav, .wrapper-footer footer#footer-openedx .colophon .nav-colophon {
-    margin: 0 !important;
+  input[type="submit"], input[type="button"], button, .button {
+    box-shadow: none !important;
+    background-color: var(--primary);
+    background-image: none !important;
+    text-shadow: none !important;
   }
 
-  .wrapper-footer .site-nav .nav-link, .wrapper-footer footer#footer-openedx .colophon .nav-colophon li a {
+  /* EXTRA STYLE START */
+  .window-wrap {
+    background-color: #9d0d17;
+  }
+  body.view-in-course .wrapper-footer, .login-register .action-primary {
+    background-color: #e1000f;
+    border-radius: 10px;
+  }
+  #login-and-registration-container, #content-container {
+    background-color: #9d0d17 !important;
+  }
+  .login-form, .toggle-form, .form-toggle, #login-form h2, #login div, .label-text, .login-help , #register h2, .focus-in > span, .login-register .form-field span.error, .tip-input  {
+    color: white !important;
+  }
+  label.focus-out > .label-text {
+    color: red !important;
+  }
+  .input-block {
+    border-radius: 8px !important;
+  }
+  input, select, textarea, textarea:focus, input:focus{
+    color: #9d0d17;
+  }
+  #register-agency {
+    border-radius: 8px;
+    background: white !important;
+  }
+  #login-and-registration-container {
+    width: 430px;
+  }
+  #register-username-validation-error, #register-password-validation-error, #register-email-validation-error, #register-name-validation-error  {
+    display: none;
+  }
+  .login-register-content {
+    margin-top: 0px !important;
+  }
+  #content {
+    min-height: unset !important;
+    padding: unset !important;
+  }
+  .social-network img {
+    height: 16px;
+    margin: 0 2px;
+  }
+  #cgu {
+    margin: unset !important;
+  }
+  .login-register-content a {
     color: white !important;
   }
 
+  /* EXTRA STYLE END */
+  .wrapper-footer .site-nav, .wrapper-footer footer#footer-openedx .colophon .nav-colophon {
+    margin: 0 !important;
+  }
+  .wrapper-footer .site-nav .nav-link, .wrapper-footer footer#footer-openedx .colophon .nav-colophon li a {
+    color: white !important;
+  }
   #side-login-and-registration-container {
     max-width: 50vw;
   }
@@ -308,16 +260,13 @@ input, select, textarea, textarea:focus, input:focus{
   .c-footer-a{
     color: white!important;
   }
-
-
   .footer-links-container {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     flex-wrap: wrap;
   }
-
-  .footer-links-container a  {
+  .footer-links-container a {
     display: inline-block;
     width: fit-content!important;
     border-bottom: dotted 1px transparent!important;
@@ -325,16 +274,12 @@ input, select, textarea, textarea:focus, input:focus{
     margin-left: 0.5rem;
     margin-right: 0.5rem;
     text-decoration: none!important;
-
   }
-
   .footer-links-container a:hover  {
     color: white!important;
     border-bottom: solid 1px white!important;
     text-decoration: none!important;
   }
-
-
   .footer-wrapper{
     display: flex;
     flex-direction: column;
@@ -344,5 +289,4 @@ input, select, textarea, textarea:focus, input:focus{
   .login-register .form-field select {
     border: unset !important;
   }
-
 </style>
