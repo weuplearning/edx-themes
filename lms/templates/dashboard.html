@@ -331,7 +331,6 @@ from common.djangoapps.student.models import CourseEnrollment
 <%include file="dashboard/_dashboard_entitlement_unenrollment_modal.html"/>
 
 
-
 <style>
     #main {
         min-height: calc( 100vh - 150px );
@@ -339,6 +338,9 @@ from common.djangoapps.student.models import CourseEnrollment
     }
     .dashboard .main-container {
         padding: 40px !important;
+    }
+    .window-wrap {
+        background-color: #EBF4FC;
     }
 
     /* Cards container */
@@ -351,7 +353,8 @@ from common.djangoapps.student.models import CourseEnrollment
     /* Course Card */
     li.course-item {
         margin: 20px !important;
-        max-width: calc( 33vw - 68px);
+        width: calc( 33vw - 68px);
+        max-width: calc(400px - 68px);
     }
     .course-container section.details {
         display: flex;
@@ -361,17 +364,15 @@ from common.djangoapps.student.models import CourseEnrollment
         margin: unset !important;
     }
     .wrapper-course-image {
-        height: 100% !important;
+        height: calc((33vw - 68px) * (9 / 16)) !important;
+        max-height: calc((400px - 68px) * (9 / 16)) !important;
         width: unset !important;
-        max-height: 185px !important;
     }
-
-    .course-title {
+    .course-title > a {
         text-transform: uppercase;
-        color: var(--primary);
-        font-weight: 900;
-        font-size: 16px;
-        letter-spacing: 1px;
+        color: #0E2B66 !important;
+        font-weight: 900 !important;
+        font-size: 16px !important;
     }
     .info-effort {
         padding: 5px 10px;
@@ -392,7 +393,7 @@ from common.djangoapps.student.models import CourseEnrollment
         position: relative;
         z-index: 2;
         border: unset;
-        height: 350px;
+        min-height: 350px;
     }
     .wrapper-messages-primary {
         display: none !important;
@@ -402,7 +403,8 @@ from common.djangoapps.student.models import CourseEnrollment
     @media screen and (max-width: 1096px) {
         li.course-item {
             margin: 20px !important;
-            max-width: calc( 50vw - 88px);
+            width: calc( 50vw - 88px);
+            max-width: unset;
         }
 
     }

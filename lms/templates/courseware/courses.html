@@ -45,14 +45,13 @@
         </div>
       </div>
 
-
       <div class="courses${'' if course_discovery_enabled else ' no-course-discovery'}" role="region" aria-label="${_('List of Courses')}">
         <ul class="courses-listing courses-list">
           %for course in courses:
             %if course not in ecommerce_courses :
-          <li class="courses-listing-item">
-            <%include file="../course.html" args="course=course" />
-          </li>
+            <li class="courses-listing-item">
+              <%include file="../course.html" args="course=course" />
+            </li>
             %endif
           %endfor
         </ul>
@@ -79,7 +78,6 @@
     top: 20%;
     left: 10%;
   }
-
   #motif-bckg-2 {
     top: unset;
     bottom: 0;
@@ -107,5 +105,4 @@
     border-bottom: 10px solid var(--primary);
     width: fit-content;
   }
-
 </style>

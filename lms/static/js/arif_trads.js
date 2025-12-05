@@ -27,6 +27,7 @@ window.addEventListener("load", function () {
         }
     }
 
+
     function switchTrads(divId, frText, enText) {
         const targetDiv = document.getElementById(divId);       
         if (!targetDiv) return; 
@@ -35,8 +36,8 @@ window.addEventListener("load", function () {
         } else {
             targetDiv.innerText = frText;
         }
-        
     }
+
 
     function forceUpdating() {
 

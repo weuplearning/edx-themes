@@ -114,7 +114,7 @@ from lms.djangoapps.experiments.utils import UPSELL_TRACKING_FLAG
         </h3>
         <div class="course-info">
           % if enrollment.course.effort :
-            <span class="info-effort">${enrollment.course.effort.split(':')[0].lstrip("0")}H</span>
+            <span class="info-effort">${enrollment.course.effort.split(':')[0].lstrip("0")}h</span>
           %endif
         </div>
         <div class="wrapper-course-actions">
