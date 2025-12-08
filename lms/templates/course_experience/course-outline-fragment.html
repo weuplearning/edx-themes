@@ -67,20 +67,17 @@ dates_banner_displayed = False
                       %if configuration_helpers.get_value('COMPLETION_BASED_DASHBOARD_MONO', False):
 
                         <%
-                        total_blocks = 1
+                        total_blocks = 0
                         completed_blocks = 0
+                        for subsection in section.get('children', []):
+                            for unitchild in subsection.get('children', []):
+                                for blockchild in unitchild.get('children', []):
+                                    total_blocks += 1
+                                    if blockchild.get('complete'):
+                                        completed_blocks += 1
 
-                        if not section.get('complete'):
-                            total_blocks = 0
-                            completed_blocks = 0
-                            for subsection in section.get('children', []):
-                                for unitchild in subsection.get('children', []):
-                                    for blockchild in unitchild.get('children', []):
-                                        total_blocks += 1
-                                        if blockchild.get('complete'):
-                                            completed_blocks += 1
                         if total_blocks == 0:
-                              completion_ratio = 0
+                            completion_ratio = 0
                         else:
                             completion_ratio = completed_blocks / total_blocks
                         %>
@@ -125,6 +122,9 @@ dates_banner_displayed = False
                 graded = 'graded' if subsection.get('graded') else ''
                 num_graded_problems = subsection.get('num_graded_problems', 0)
                 %>
+                        
+
+                            
                         <li class="subsection accordion ${ 'current' if subsection.get('resume_block') else '' } ${graded} ${scored}">
                             <a
                             % if enable_links:
@@ -140,7 +140,7 @@ dates_banner_displayed = False
                             % endif
                                 <h4 class="subsection-title">${ subsection['display_name'] } </h4>
 
-                            % if completed:
+                            % if subsection.get('complete'):
                                 <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
                                 <span class="sr">${_("Completed")}</span>
                             % endif
