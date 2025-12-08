@@ -18,6 +18,21 @@
 
 
 
+@font-face {
+  font-family: 'Playfair Display';
+  src: url("/media/fonts/Playfair-display/Playfair-display-Bold.ttf");
+  src: url("/media/fonts/Playfair-display/Playfair-display-Bold.otf") format(opentype),
+    url('/media/fonts/Playfair-display/Playfair-display-Bold.woff2') format('woff2'),
+    url('/media/fonts/Playfair-display/Playfair-display-Bold.woff') format('woff'),
+    url('/media/fonts/Playfair-display/Playfair-display-Bold.ttf') format('truetype'),
+    url('/media/fonts/Playfair-display/Playfair-display-Bold.svg') format('svg');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+
 // Theme colors
 $primary:  #00437a;
 $secondary:  #2bb6b7;
