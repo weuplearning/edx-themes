@@ -86,7 +86,6 @@ custom_fields = json.loads(user.profile.custom_field)
   .accordion .chapter-content-container:nth-of-type(2) .menu-item:nth-of-type(16) .accordion-display-name, 
   .accordion .chapter-content-container:nth-of-type(2) .menu-item:nth-of-type(20) .accordion-display-name {
     color:#00437a;
-    font-family: "PT Serif", sans-serif !important;
     font-weight: 800;
     margin : 0 !important;
     font-size: medium;
@@ -433,14 +432,13 @@ function update_completion() {
     }
 
     const url = '/wul_apps/custom_field_editor/';
-    const body = JSON.stringify(data);
     const settings = {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
             "X-CSRFToken": $.cookie('csrftoken'),
         },
-        body: body
+        body: JSON.stringify(data)
     };
 
     fetch(url, settings)
@@ -448,7 +446,45 @@ function update_completion() {
         .catch((error) => console.error('Error:', error));
 
 }
-const myInterv = setInterval( update_completion , 10000);
+
+const sectionDurations = {
+    // Intro
+    "454f328d3d03452fb5640e718a140914": 15,
+    "07d14e3674f849ef9630aabf1a062cde": 10,
+    "a400aefebba64070a36c1bba53e31026": 15,
+    "1f272674469a46f39b839883bd676b87": 25,
+    "446ceb5542b74fcf881786334815b627": 120,
+
+    // module 1
+    "51f07780458b4266a15e04bf7823bb84": 25,
+    "8465ef41877b467983d7d7358b48f053": 15,
+    "362c480163684530b9b6da69b0f39d08": 60,
+    "2192f9dafca246c3a4df6b290c3f32a1": 60,
+    "3b7600ee877e4c01aa4c8503aa4288c4": 420,
+    "804546dd916946089eb7dc30d2a63357": 60,
+    "ef820c0d42e2422196787d52c0ace741": 30,
+    "daf705e5d6a84e1a9951a438e2856234": 40,
+    "9de75e5139c8401591334970d50860e3": 10,
+    "68576c6a60e44c56b377533d4a35dd67": 45,
+    "41d86a4ab418481fa981c115d61022ed": 280,
+    "c4ec540a3fdd46988ae299853fcd89c5": 120,
+    "f25815b3fc4c491ab1542a28e9b01031": 40,
+    "d0909da02193411da14fce2864eb9cf7": 60,
+    "8c39848698be45aea7b4f82f65842db0": 20,
+    "3274b2879fe84054b4d3595f1f31f968": 10,
+
+    // module 2
+};
+
+const currentSectionId = window.location.pathname.split('/')[5];
+
+console.log("currentSectionId");
+console.log(currentSectionId);
+
+const delaySeconds = sectionDurations[currentSectionId] || 10;
+const delayMs = delaySeconds * 1000;
+const myInterv = setInterval(update_completion, delayMs);
+
 </script>
 
 

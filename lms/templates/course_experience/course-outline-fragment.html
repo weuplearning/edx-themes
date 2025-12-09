@@ -29,6 +29,15 @@ dates_banner_displayed = False
 %>
 
 
+<%
+custom_fields = {}
+custom_fields = json.loads(user.profile.custom_field)
+estia_visited_section = []
+
+if 'estia_visited_section' in custom_fields:
+    estia_visited_section = custom_fields['estia_visited_section']
+%>
+
 
 <main role="main" class="course-outline" tabindex="-1">
 
@@ -73,7 +82,7 @@ dates_banner_displayed = False
                             for unitchild in subsection.get('children', []):
                                 for blockchild in unitchild.get('children', []):
                                     total_blocks += 1
-                                    if blockchild.get('complete'):
+                                    if blockchild.get('complete') or blockchild.get('block_id') in estia_visited_section:
                                         completed_blocks += 1
 
                         if total_blocks == 0:
@@ -81,7 +90,8 @@ dates_banner_displayed = False
                         else:
                             completion_ratio = completed_blocks / total_blocks
                         %>
-                      
+
+
                         <div class="progress_bar_and_score">
                           <div class="progress-bar-full">
                               <div style="width:${(completion_ratio * 100)}%;" class="progress-bar-grade "></div>
@@ -140,7 +150,7 @@ dates_banner_displayed = False
                             % endif
                                 <h4 class="subsection-title">${ subsection['display_name'] } </h4>
 
-                            % if subsection.get('complete'):
+                            % if subsection.get('complete') or subsection.get('block_id') in estia_visited_section :
                                 <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
                                 <span class="sr">${_("Completed")}</span>
                             % endif
