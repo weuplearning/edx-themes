@@ -70,6 +70,7 @@
         width: 35vw;
         height: 35vw;
         z-index: 10;
+        max-width: 420px;
     }
 
 
@@ -79,6 +80,8 @@
     }
     .login-register {
         max-width: unset !important;
+        position: relative;
+        z-index: 11;
     }
     .login-register .form-field {
         display: flex;
@@ -96,6 +99,14 @@
         position: relative;
     }
 
+    @media screen and (max-width: 500px) {
+        .login-register .form-field label {
+            width: 250px;
+        }
+        .login-register .form-field input {
+            width: 85%;
+        }
+    }
 </style>
 <%block name="js_extra">
     <%static:require_module module_name="js/student_account/logistration_factory" class_name="LogistrationFactory">
