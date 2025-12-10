@@ -1,3 +1,4 @@
+
 window.addEventListener("load", function () {
 
     // DEFINE CURRENT LANGUAGE
@@ -40,6 +41,8 @@ window.addEventListener("load", function () {
 
 
     function forceUpdating() {
+        // courses
+        switchTrads("discovery-message", "LES COURS", "COURSES"); 
 
         // footer
         switchTrads("footer-link-cgu", "Conditions générales d'utilisation", "General conditions of use"); 
