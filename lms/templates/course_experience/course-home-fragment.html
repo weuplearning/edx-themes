@@ -33,6 +33,9 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         display:none !important;
     }
 
+    .window-wrap {
+        background-color: #EBF4FC !important;
+    }
     /* message */
     .course-message .message-content .message-header{
         color: var(--secondary) !important;
@@ -66,7 +69,8 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         height: 25vw;
         z-index: 1;
         top: 20%;
-        left: 2%;
+        left: -22%;
+        max-height: 340px;
     }
     #motif-bckg-2 {
         top: 70%;
@@ -127,6 +131,9 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     .outline-item {
         margin-bottom: 20px !important;
         border-bottom: none !important;
+    }
+    #picto-bckg-section > img:first-child {
+        width: 150px !important;
     }
     #picto-bckg-section {
         position: relative;
