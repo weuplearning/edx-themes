@@ -43,6 +43,7 @@
         <div id="discovery-message" >
           LES COURS
         </div>
+        <span class="spacer-title"></span>
       </div>
 
       <div class="courses${'' if course_discovery_enabled else ' no-course-discovery'}" role="region" aria-label="${_('List of Courses')}">
@@ -70,7 +71,7 @@
   }
 
   .find-courses {
-    min-height: calc(100vh - 207px);
+    min-height: calc(100vh - 210px);
     background-color: #EBF4FC !important;
     position: relative;
   }
@@ -103,11 +104,24 @@
     width: 90% !important;
     margin: 5% !important;
   }
+  #discovery-form {
+    position: relative;
+    z-index: 2;
+  }
   #discovery-message {
     font-size: larger;
     font-weight: bold;
-    padding: 20px 9vw;
-    border-bottom: 10px solid var(--primary);
+    padding:0 20px 120px 40px;
     width: fit-content;
+  }
+  .spacer-title {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    display: inline-block;
+    border-bottom: 10px solid #0E2B66;
+    margin-top: 20px;
+    width: 30vw;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
   }
 </style>
