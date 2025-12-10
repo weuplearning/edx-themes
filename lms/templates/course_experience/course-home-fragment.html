@@ -104,6 +104,9 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     .section-title, h2.hd.hd-3.page-title{
        color:white !important;
     }
+    .section-title{
+        font-weight: 700!important;
+    }
     .window-wrap, #course-container, #course-outline-block-tree {
        background-color: #FCF7F3;
     }
@@ -261,7 +264,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
             % endif
 
             <!-- COURSE TITLE ADD CONDITION IF MULTI COURSE-->
-            <h1 id="course-title"><span id="course-title-first-line" >Becoming Circular :</span> <br>l'économie circulaire en action</h1>
+            <h1 id="course-title"><span id="course-title-first-line" >Becoming Circular:</span> <br>l'économie circulaire en action</h1>
 
             % if update_message_fragment and not DISABLE_UNIFIED_COURSE_TAB_FLAG.is_enabled(course.id):
                 <div class="section section-update-message">
