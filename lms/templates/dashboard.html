@@ -511,15 +511,19 @@ from common.djangoapps.student.models import CourseEnrollment
     element.addEventListener("click", function() {
 
       const wrapper = element.closest(".wrapper-course-details");
+      console.log(wrapper);
       if (!wrapper) return;
 
       const sectionList = wrapper.querySelector(".json-sections_list");
+      console.log(sectionList);
       if (!sectionList) return;
 
       const arrow = element.querySelector(".arrow-down");
-
+      console.log(arrow);
       const isOpen = sectionList.classList.contains("open");
-
+      console.log(isOpen);
+      
+      
       if (isOpen) {
         arrow.style.transform = "rotate(0deg)";
         sectionList.classList.remove("open");
