@@ -332,6 +332,12 @@ from common.djangoapps.student.models import CourseEnrollment
 
 
 <style>
+
+    /* header*/
+    header .main > .nav-tab {
+        display: none !important;
+    }
+
     #main {
         min-height: calc( 100vh - 150px );
         overflow: hidden;
@@ -344,12 +350,33 @@ from common.djangoapps.student.models import CourseEnrollment
     }
 
     /* Cards container */
+
     ul.listing-courses {
         display: flex;
         flex-wrap: wrap;
     }
 
 
+    .course-button-box {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .course-spacer {
+        border-bottom: solid 3px black;
+        margin: 20px 0;
+        width: 60%;
+    }
+
+    .json-sections_list ul {
+        padding: 10px !important;
+        
+    }
+    .json-sections_list li {
+        list-style: none !important;
+        line-height: 1.3;
+        color: var(--primary);
+    }
     /* Course Card */
     li.course-item {
         margin: 20px !important;
@@ -383,6 +410,10 @@ from common.djangoapps.student.models import CourseEnrollment
     }
     .wrapper-course-details {
         padding: 15px !important;
+        flex-direction: column !important;
+        margin-bottom: 0 !important;
+        border: 1px solid var(--primary);
+        min-height: 250px;
     }
     .course-actions > a.course-target-link {
         border: none !important;
@@ -401,6 +432,55 @@ from common.djangoapps.student.models import CourseEnrollment
         display: none !important;
     }
 
+    .savoir_plus {
+        display: none;
+        cursor: pointer;
+        align-self: center;
+        padding: 10px 5px;
+        font-weight: 700;
+        text-decoration: underline;
+        color: #517FE5;
+        border: #517FE5 solid 1px;
+        border-radius: 6px;
+        box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.5);
+    }
+    .arrow-down {
+        display: inline-block;
+        transition: transform 0.3s ease;
+    }
+    .json-sections_list {
+        display: none;
+        overflow: hidden;
+        max-height: 0;
+        transition: max-height 0.5s ease-out;
+    }
+    .json-sections_list.open {
+        max-height: 500px; 
+    }
+    .json-sections_list li {
+        list-style-type: disc;
+        padding: 5px 0 !important;
+    }
+    .open {
+        display: block;
+        height: 100%;
+    }
+
+
+    .wrapper-action-more {
+        display: none !important; 
+    }
+    .wrapper-course-actions {
+        display: inline-block;
+        max-width: 43%;
+        margin-top: unset !important;
+        margin-right: unset !important;
+    }
+    .wrapper-course-actions .course-target-link {
+        font-size: smaller;
+
+    }
+
 
     @media screen and (max-width: 1096px) {
         li.course-item {
@@ -408,18 +488,83 @@ from common.djangoapps.student.models import CourseEnrollment
             width: calc( 50vw - 88px);
             max-width: unset;
         }
-
     }
+
     @media screen and (max-width: 770px) {
         li.course-item {
             margin: auto !important;
             width: 70vw;
             max-width: unset;
-
         }
         .dashboard .main-container .my-courses .course .details .wrapper-course-image {
             display: block !important;
         }
-
     }
 </style>
+
+
+<script>
+  let savoirPlusElements = document.querySelectorAll(".savoir_plus");
+
+  savoirPlusElements.forEach(function(element) {
+    element.addEventListener("click", function() {
+
+      const arrow = element.getElementsByClassName("arrow-down")[0];
+      const nextDiv = element.previousElementSibling;
+      if (!nextDiv || !nextDiv.classList.contains("json-sections_list")) return;
+      const isOpen = nextDiv.classList.contains("open");
+
+      if (isOpen) {
+        arrow.style.transform = "rotate(0deg)";
+        nextDiv.classList.remove("open");
+        element.style.boxShadow = "0px 1px 8px rgba(0, 0, 0, 0.5)";
+
+        setTimeout(() => {
+          nextDiv.style.display = "none";
+        }, 300);
+      } else {
+        arrow.style.transform = "rotate(180deg)";
+        nextDiv.style.display = "block";
+        element.style.boxShadow = "none";
+
+        setTimeout(() => {
+          nextDiv.classList.add("open");
+        }, 10); 
+      }
+    });
+  });
+</script>
+
+
+%for course in course_enrollments :
+<script>
+  // Fonction pour récupérer les données JSON et insérer les valeurs dans le HTML
+  async function loadCourseOverview() {
+    try {
+      const response = await fetch('/media/microsites/arif/course_overview.json');
+      const data = await response.json();
+
+      for (const [key, value] of Object.entries(data)) {
+        selector_id = 'json-'+key
+
+        if ('${course.course_id}' == key) {
+
+          const target_details = document.getElementById(selector_id)
+          const json_sections_list = value["sections_list"];
+          
+          if (json_sections_list ) {
+            document.getElementById(selector_id).getElementsByClassName('savoir_plus')[0].style.display = 'block';
+            document.getElementById(selector_id).getElementsByClassName('json-sections_list')[0].innerHTML = json_sections_list;
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error loading course overview:', error);
+    }
+  }
+
+  loadCourseOverview();
+</script>
+%endfor
+
+

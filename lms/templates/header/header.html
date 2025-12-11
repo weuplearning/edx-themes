@@ -72,13 +72,28 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                         <img src="${static.url('arif/images/flag_fr.svg')}" alt="Français">
                     </button>
                     <button type="button" class="flag-btn" data-lang="en" title="English">
-                        <img src="${static.url('arif/images/flag_fr.svg')}" alt="English">
+                        <img src="${static.url('arif/images/flag_en.svg')}" alt="English">
                     </button>
                 </div>
             </div>
-
+            
         % else:
-            <%include file="navbar-not-authenticated.html" args="online_help_token=online_help_token"/>
+            <div class="account-header-div">
+
+                
+                <div>
+                    
+                    <%include file="navbar-not-authenticated.html" args="online_help_token=online_help_token"/>
+                </div>
+                <div class="language-flags">
+                    <button type="button" class="flag-btn" data-lang="fr" title="Français">
+                        <img src="${static.url('arif/images/flag_fr.svg')}" alt="Français">
+                    </button>
+                    <button type="button" class="flag-btn" data-lang="en" title="English">
+                        <img src="${static.url('arif/images/flag_en.svg')}" alt="English">
+                    </button>
+                </div>
+            </div>
         % endif
 
 

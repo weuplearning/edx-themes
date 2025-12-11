@@ -25,12 +25,35 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
 
 <style>
   .window-wrap {
-    background: url("${static.url('{}/images/bg_img.png'.format(course.org))}");
-    background-size: contain;
+    background-color: #EBF4FC !important;
   }
   .content-wrapper {
     min-height: calc(100vh - 190px);
   }
+  .bookmark-button-wrapper {
+    display: none !important;
+  }
+
+
+  #motif-bckg-1 , #motif-bckg-2, #motif-bckg-3 {
+    position: absolute;
+    width: 25vw;
+    height: 25vw;
+    z-index: 0;
+    top: 20%;
+    left: 1%;
+    max-width: 350px;
+  }
+  #motif-bckg-2 {
+    top: unset;
+    bottom: 0;
+    right: 4%;
+    left: unset;
+  }
+  /* #motif-bckg-3 {
+    top: 120%;
+    left: 3%;
+  } */
 </style>
 
 % if display_reset_dates_banner:
@@ -139,6 +162,10 @@ ${HTML(fragment.foot_html())}
     lang="${course.language}"
   % endif
   >
+  <img id="motif-bckg-1" src="${static.url('arif/images/motif.svg')}" alt="motif-1">
+  <img id="motif-bckg-2" src="${static.url('arif/images/motif.svg')}" alt="motif-1">
+  <!-- <img id="motif-bckg-3" src="${static.url('arif/images/motif.svg')}" alt="motif-1"> -->
+
   <div class="course-wrapper" role="presentation">
 
 % if disable_accordion is UNDEFINED or not disable_accordion:
@@ -181,31 +208,20 @@ ${HTML(fragment.foot_html())}
 
     </div>
 % endif
+
     <section class="course-content" id="course-content">
         <header class="page-header has-secondary">
             <div class="page-header-main">
                 <nav aria-label="${_('Course')}" class="sr-is-focusable" tabindex="-1">
                     <div class="has-breadcrumbs">
                         <div class="breadcrumbs">
-                            % if not DISABLE_COURSE_OUTLINE_PAGE_FLAG.is_enabled(course.id):
-                                <span class="nav-item nav-item-course">
-                                    <a href="${course_url}">${course_home_page_title(course)}</a>
-                                </span>
-                                <span class="icon fa fa-angle-right" aria-hidden="true"></span>
-                            % endif
-                            % if chapter:
-                                <span class="nav-item nav-item-chapter" data-course-position="${course.position}" data-chapter-position="${chapter.position}">
-                                    <a href="${course_url}#${six.text_type(chapter.location)}">${chapter.display_name_with_default}</a>
-                                </span>
-                                <span class="icon fa fa-angle-right" aria-hidden="true"></span>
-                            % endif
-                            % if section:
-                                <span class="nav-item nav-item-section">
-                                    <a href="${course_url}#${six.text_type(section.location)}">${section.display_name_with_default}</a>
-                                </span>
-                                <span class="icon fa fa-angle-right" aria-hidden="true"></span>
-                            % endif
-                            <span class="nav-item nav-item-sequence">${sequence_title}</span>
+                            <span class="nav-item nav-item-course">
+                                <a href="${course_url}">${course_home_page_title(course)}</a>
+                            </span>
+                            <span class="icon fa fa-angle-right" aria-hidden="true"></span>
+                            <span class="nav-item nav-item-chapter" data-course-position="${course.position}" data-chapter-position="${chapter.position}">
+                                <a href="${course_url}#${six.text_type(chapter.location)}">${chapter.display_name_with_default}</a>
+                            </span>
                         </div>
                     </div>
                 </nav>
