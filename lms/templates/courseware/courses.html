@@ -111,9 +111,9 @@
     z-index: 2;
   }
   #discovery-message {
-    font-size: larger;
+    font-size: xx-large;
     font-weight: bold;
-    padding:0 20px 120px 40px;
+    padding: 0 20px 120px 40px;
     width: fit-content;
   }
   .spacer-title {
@@ -163,8 +163,6 @@
     width: fit-content;
     font-size: small;
   }
-
-
 
   .courses-container .courses .course .course-info {
     height: unset !important;
@@ -216,12 +214,15 @@
     max-height: 0;
     transition: max-height 0.5s ease-out;
     color: var(--primary);
+  }
+  .json-sections_list ul {
     padding: 0 10px !important;
   }
   .json-sections_list li {
     list-style: none !important;
     line-height: 1.3;
     font-size: medium;
+    margin-bottom: 10px !important;
   }
   .json-sections_list.open {
     max-height: 500px; 
@@ -231,33 +232,42 @@
     display: block;
     height: 100%;
   }
+  @media screen and (max-width : 1024px ) {
+    .course-effort {
+      display: none;
+    }
+    .course-button-box {
+      flex-direction: column;
+      gap: 10px;
+    }
+    .courses-container .courses .course .course-info .course-title {
+      height: unset;
+    }
+    .courses-listing-item {
+      width: 48% !important;
+    }
+  }
+  @media screen and (max-width : 1024px ) {
+    .courses-listing-item {
+      width: 100% !important;
+    }
+  }
 </style>
-
-
 
 <script>
   let savoirPlusElements = document.querySelectorAll(".savoir_plus");
-
-  console.log("savoirPlusElements");
-  console.log(savoirPlusElements);
   
   savoirPlusElements.forEach(function(element) {
     element.addEventListener("click", function() {
 
       const wrapper = element.closest(".course-name");
-      // const wrapper = element.closest(".wrapper-course-details");
-      console.log(wrapper);
       if (!wrapper) return;
 
       const sectionList = wrapper.querySelector(".json-sections_list");
-      console.log(sectionList);
       if (!sectionList) return;
 
       const arrow = element.querySelector(".arrow-down");
-      console.log(arrow);
-      const isOpen = sectionList.classList.contains("open");
-      console.log(isOpen);
-      
+      const isOpen = sectionList.classList.contains("open");      
       
       if (isOpen) {
         arrow.style.transform = "rotate(0deg)";
@@ -267,7 +277,6 @@
         setTimeout(() => {
           sectionList.style.display = "none";
         }, 300);
-
       } else {
         arrow.style.transform = "rotate(180deg)";
         sectionList.style.display = "block";
@@ -277,7 +286,6 @@
           sectionList.classList.add("open");
         }, 10);
       }
-
     });
   });
 </script>

@@ -9,25 +9,25 @@ from six import text_type
 
 <article class="course" id="${course.id}" role="region" tag="${course.cert_name_short}"  aria-label="${course.display_name_with_default}">
 
-    <header class="course-image">
-      <img src="${course.course_image_url}" alt="${course.display_name_with_default} ${course.display_number_with_default}" />
-    </header>
+  <header class="course-image">
+    <img src="${course.course_image_url}" alt="${course.display_name_with_default} ${course.display_number_with_default}" />
+  </header>
 
-    <div class="course-info" aria-hidden="true">
-      <h2 class="course-name" id="json-${course.id}" >
+  <div class="course-info" aria-hidden="true">
+    <h2 class="course-name" id="json-${course.id}" >
 
-        <span class="course-title"></span>
-        <span class="course-effort">${int((course.effort).split(':')[0])}h</span>
-        <span class="spacer"></span>
-        <div class="json-sections_list"></div>
+      <span class="course-title"></span>
+      <span class="course-effort">${int((course.effort).split(':')[0])}h</span>
+      <span class="spacer"></span>
+      <div class="json-sections_list"></div>
 
-        <div class="course-button-box">
-          <div class="savoir_plus" id="seeMore">En savoir plus <span class="arrow-down" >▼</span></div>
-          <div><a href="/login?course_id=${course.id}&enrollment_action=enroll" id="start-course">Démarrer</a></div>
-        </div>
+      <div class="course-button-box">
+        <div class="savoir_plus" id="seeMore">En savoir plus <span class="arrow-down" >▼</span></div>
+        <div><a href="/login?course_id=${course.id}&enrollment_action=enroll" id="start-course">Démarrer</a></div>
+      </div>
 
-      </h2>
-    </div>
+    </h2>
+  </div>
 
 </article>
 
@@ -38,9 +38,6 @@ from six import text_type
     try {
       const response = await fetch('/media/microsites/arif/course_overview.json');
       const data = await response.json();
-      console.log("data");
-      console.log(data);
-      
 
       for (const [key, value] of Object.entries(data)) {
         selector_id = 'json-'+key
@@ -49,13 +46,7 @@ from six import text_type
 
           const target_details = document.getElementById(selector_id)
           const json_sections_list = value["sections_list"];
-          const json_title = value["title"];
-
-          console.log("json_sections_list");
-          console.log(json_sections_list);
-          console.log("selector_id");
-          console.log(selector_id);
-          
+          const json_title = value["title"];          
           
           if (json_sections_list) {
             document.getElementById(selector_id).getElementsByClassName('savoir_plus')[0].style.display = 'block';
