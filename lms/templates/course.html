@@ -20,9 +20,7 @@ from six import text_type
     </header>
     <div class="course-info" aria-hidden="true">
       <h2 class="course-name" id="json-${course.id}" >
-        <span class="course-organization">${course.display_org_with_default}</span>
-        <span class="course-code">${course.display_number_with_default}</span>
-        <span class="course-title">${course.display_name_with_default}</span>
+        <span class="course-title"></span>
         <span class="course-effort">${int((course.effort).split(':')[0])}h</span>
         <span class="spacer"></span>
         <div class="json-sections_list"></div>
@@ -87,7 +85,7 @@ from six import text_type
   .course-effort {
     display: inline-block;
     padding: 2px 6px;
-    background-color: #D0B36A;
+    background-color: #AC7C03;
     color: white;
     width: fit-content;
   }
@@ -95,12 +93,61 @@ from six import text_type
     height: auto !important;
   }
 
+  .course {
+    margin-bottom: unset !important;
+  }
+  .course:hover {
+    box-shadow: none !important;
+  }
+  .courses-container .courses .course .course-info {
+    height: unset !important;
+  }
+
+  .course-title > a {
+    text-transform: uppercase;
+    color: #0E2B66 !important;
+    font-weight: 900 !important;
+    font-size: 16px !important;
+    height: 90px;
+    line-height: 1.3;
+    margin-bottom: 10px;
+  }
+
+  .course-button-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+  }
+  .course-button-box div:last-child {
+    color: white;
+    background-color: var(--tertiary);
+    padding: 5px 10px;
+  }
+  .savoir_plus {
+    color: var(--tertiary);
+    cursor: pointer;
+    border: var(--tertiary) 2px solid;
+    border-radius: 5px;
+    padding: 5px 10px;
+    text-align: center;
+  }
+
+  .arrow-down {
+    display: inline-block;
+    transition: transform 0.5s ease;
+  }
 
   .json-sections_list {
     display: none;
     overflow: hidden;
     max-height: 0;
     transition: max-height 0.5s ease-out;
+    color: var(--primary);
+  }
+  .json-sections_list li {
+    list-style: none !important;
+    line-height: 1.3;
   }
   .json-sections_list.open {
     max-height: 500px; 
@@ -135,6 +182,7 @@ from six import text_type
 
           const target_details = document.getElementById(selector_id)
           const json_sections_list = value["sections_list"];
+          const json_title = value["sections_list"];
 
           console.log("json_sections_list");
           console.log(json_sections_list);
@@ -145,6 +193,7 @@ from six import text_type
           if (json_sections_list) {
             document.getElementById(selector_id).getElementsByClassName('savoir_plus')[0].style.display = 'block';
             document.getElementById(selector_id).getElementsByClassName('json-sections_list')[0].innerHTML = json_sections_list;
+            document.getElementById(selector_id).getElementsByClassName('course-title')[0].innerHTML = json_title;
           }
         }
       }
