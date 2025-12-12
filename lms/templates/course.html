@@ -28,8 +28,7 @@ from six import text_type
         <div class="json-sections_list"></div>
 
         <div class="course-button-box">
-          <div class="savoir_plus" id="see-more">En savoir plus ▼</div>
-          <!-- <div class="savoir_plus" id="see-more">En savoir plus <span class="arrow-down" >▼</span></div> -->
+          <div class="savoir_plus" id="seeMore">En savoir plus <span class="arrow-down" >▼</span></div>
           <div><a href="/login?course_id=${course.id}&enrollment_action=enroll" id="start-course">Commencer</a></div>
         </div>
 
@@ -92,7 +91,9 @@ from six import text_type
     color: white;
     width: fit-content;
   }
-
+  .courses-container .courses .course .course-info {
+    height: auto !important;
+  }
 
 
   .json-sections_list {

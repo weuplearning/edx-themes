@@ -124,6 +124,24 @@
     width: 30vw;
     box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
   }
+
+  .course {
+    margin-bottom: unset !important;
+  }
+  .course:hover {
+    box-shadow: none !important;
+  }
+  .courses-container .courses .course .course-info {
+    height: unset !important;
+  }
+  .savoir_plus {
+    color: var(--primary);
+    cursor: pointer;
+    border: var(--primary) 2px solid;
+    border-radius: 5px;
+    padding: 5px 10px;
+    text-align: center;
+  }
 </style>
 
 
@@ -146,14 +164,14 @@
       console.log(sectionList);
       if (!sectionList) return;
 
-      // const arrow = element.querySelector(".arrow-down");
-      // console.log(arrow);
+      const arrow = element.querySelector(".arrow-down");
+      console.log(arrow);
       const isOpen = sectionList.classList.contains("open");
       console.log(isOpen);
       
       
       if (isOpen) {
-        // arrow.style.transform = "rotate(0deg)";
+        arrow.style.transform = "rotate(0deg)";
         sectionList.classList.remove("open");
         element.style.boxShadow = "0px 1px 8px rgba(0, 0, 0, 0.5)";
 
@@ -162,7 +180,7 @@
         }, 300);
 
       } else {
-        // arrow.style.transform = "rotate(180deg)";
+        arrow.style.transform = "rotate(180deg)";
         sectionList.style.display = "block";
         element.style.boxShadow = "none";
 
