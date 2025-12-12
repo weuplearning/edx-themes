@@ -13,10 +13,9 @@ from six import text_type
   <!-- <a href="/login?course_id=${course.id}&enrollment_action=enroll"> -->
 
     <header class="course-image">
-      <div class="cover-image">
-        <img src="${course.course_image_url}" alt="${course.display_name_with_default} ${course.display_number_with_default}" />
-        <div class="learn-more" id="enroll-to-course" aria-hidden="true">Accéder au cours</div>
-      </div>
+      <img src="${course.course_image_url}" alt="${course.display_name_with_default} ${course.display_number_with_default}" />
+      <!-- <div class="cover-image">
+      </div> -->
     </header>
     <div class="course-info" aria-hidden="true">
       <h2 class="course-name" id="json-${course.id}" >
@@ -64,6 +63,10 @@ from six import text_type
   }
   .course:hover {
     box-shadow:  5px 5px 5px rgba(0,0,0,0.5) !important;
+  }
+  .course-image {
+    height: 160px !important;
+    overflow: hidden;
   }
   .course-name {
     display: flex;
@@ -182,7 +185,7 @@ from six import text_type
 
           const target_details = document.getElementById(selector_id)
           const json_sections_list = value["sections_list"];
-          const json_title = value["sections_list"];
+          const json_title = value["title"];
 
           console.log("json_sections_list");
           console.log(json_sections_list);
