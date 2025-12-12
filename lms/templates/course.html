@@ -10,7 +10,7 @@ from six import text_type
 <article class="course" id="${course.id}" role="region" tag="${course.cert_name_short}"  aria-label="${course.display_name_with_default}">
   <!-- <a href="${reverse('about_course', args=[text_type(course.id)])}"> -->
 
-  <a href="/login?course_id=${course.id}&enrollment_action=enroll">
+  <!-- <a href="/login?course_id=${course.id}&enrollment_action=enroll"> -->
 
     <header class="course-image">
       <div class="cover-image">
@@ -19,20 +19,20 @@ from six import text_type
       </div>
     </header>
     <div class="course-info" aria-hidden="true">
-      <h2 class="course-name">
+      <h2 class="course-name" id="json-${course.id}" >
         <span class="course-organization">${course.display_org_with_default}</span>
         <span class="course-code">${course.display_number_with_default}</span>
         <span class="course-title">${course.display_name_with_default}</span>
         <span class="course-effort">${int((course.effort).split(':')[0])}h</span>
         <span class="spacer"></span>
-
         <div class="json-sections_list"></div>
 
         <div class="course-button-box">
-          <div class="savoir_plus" id="see-more">En savoir plus <span class="arrow-down" >▼</span></div>
+          <div class="savoir_plus" id="see-more">En savoir plus ▼</div>
+          <!-- <div class="savoir_plus" id="see-more">En savoir plus <span class="arrow-down" >▼</span></div> -->
           <div><a href="/login?course_id=${course.id}&enrollment_action=enroll" id="start-course">Commencer</a></div>
-
         </div>
+
       </h2>
       <%
       if course.start is not None:
@@ -57,11 +57,8 @@ from six import text_type
         % endif
       </ul>
     </div>
-  </a>
+  <!-- </a> -->
 </article>
-<%static:require_module_async module_name="js/dateutil_factory" class_name="DateUtilFactory">
-    DateUtilFactory.transform(iterationKey=".localized_datetime");
-</%static:require_module_async>
 
 
 <style>
@@ -95,6 +92,26 @@ from six import text_type
     color: white;
     width: fit-content;
   }
+
+
+
+  .json-sections_list {
+    display: none;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.5s ease-out;
+  }
+  .json-sections_list.open {
+    max-height: 500px; 
+  }
+  .json-sections_list li {
+    list-style-type: disc;
+    padding: 5px 0 !important;
+  }
+  .open {
+    display: block;
+    height: 100%;
+  }
 </style>
 
 
@@ -113,7 +130,7 @@ from six import text_type
       for (const [key, value] of Object.entries(data)) {
         selector_id = 'json-'+key
 
-        if ('${course.course_id}' == key) {
+        if ('${course.id}' == key) {
 
           const target_details = document.getElementById(selector_id)
           const json_sections_list = value["sections_list"];
@@ -124,7 +141,7 @@ from six import text_type
           console.log(selector_id);
           
           
-          if (json_sections_list ) {
+          if (json_sections_list) {
             document.getElementById(selector_id).getElementsByClassName('savoir_plus')[0].style.display = 'block';
             document.getElementById(selector_id).getElementsByClassName('json-sections_list')[0].innerHTML = json_sections_list;
           }
@@ -139,49 +156,3 @@ from six import text_type
 </script>
 
 
-
-<script>
-  let savoirPlusElements = document.querySelectorAll(".savoir_plus");
-
-  console.log("savoirPlusElements");
-  console.log(savoirPlusElements);
-  
-  savoirPlusElements.forEach(function(element) {
-    element.addEventListener("click", function() {
-
-      const wrapper = element.closest(".wrapper-course-details");
-      console.log(wrapper);
-      if (!wrapper) return;
-
-      const sectionList = wrapper.querySelector(".json-sections_list");
-      console.log(sectionList);
-      if (!sectionList) return;
-
-      const arrow = element.querySelector(".arrow-down");
-      console.log(arrow);
-      const isOpen = sectionList.classList.contains("open");
-      console.log(isOpen);
-      
-      
-      if (isOpen) {
-        arrow.style.transform = "rotate(0deg)";
-        sectionList.classList.remove("open");
-        element.style.boxShadow = "0px 1px 8px rgba(0, 0, 0, 0.5)";
-
-        setTimeout(() => {
-          sectionList.style.display = "none";
-        }, 300);
-
-      } else {
-        arrow.style.transform = "rotate(180deg)";
-        sectionList.style.display = "block";
-        element.style.boxShadow = "none";
-
-        setTimeout(() => {
-          sectionList.classList.add("open");
-        }, 10);
-      }
-
-    });
-  });
-</script>
