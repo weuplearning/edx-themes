@@ -504,9 +504,53 @@ from common.djangoapps.student.models import CourseEnrollment
 </style>
 
 
+
+
+%for course in course_enrollments :
+<script>
+  // Fonction pour récupérer les données JSON et insérer les valeurs dans le HTML
+  async function loadCourseOverview() {
+    try {
+      const response = await fetch('/media/microsites/arif/course_overview.json');
+      const data = await response.json();
+
+      for (const [key, value] of Object.entries(data)) {
+        selector_id = 'json-'+key
+
+        if ('${course.course_id}' == key) {
+
+          const target_details = document.getElementById(selector_id)
+          const json_sections_list = value["sections_list"];
+
+          console.log("json_sections_list");
+          console.log(json_sections_list);
+          console.log("selector_id");
+          console.log(selector_id);
+          
+          
+          if (json_sections_list ) {
+            document.getElementById(selector_id).getElementsByClassName('savoir_plus')[0].style.display = 'block';
+            document.getElementById(selector_id).getElementsByClassName('json-sections_list')[0].innerHTML = json_sections_list;
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error loading course overview:', error);
+    }
+  }
+
+  loadCourseOverview();
+</script>
+%endfor
+
+
+
 <script>
   let savoirPlusElements = document.querySelectorAll(".savoir_plus");
 
+  console.log("savoirPlusElements");
+  console.log(savoirPlusElements);
+  
   savoirPlusElements.forEach(function(element) {
     element.addEventListener("click", function() {
 
@@ -525,7 +569,7 @@ from common.djangoapps.student.models import CourseEnrollment
       
       
       if (isOpen) {
-        arrow.style.transform = "rotate(0deg)";
+        arrow.style.transform = "rotate(1deg)";
         sectionList.classList.remove("open");
         element.style.boxShadow = "0px 1px 8px rgba(0, 0, 0, 0.5)";
 
@@ -546,37 +590,3 @@ from common.djangoapps.student.models import CourseEnrollment
     });
   });
 </script>
-
-
-%for course in course_enrollments :
-<script>
-  // Fonction pour récupérer les données JSON et insérer les valeurs dans le HTML
-  async function loadCourseOverview() {
-    try {
-      const response = await fetch('/media/microsites/arif/course_overview.json');
-      const data = await response.json();
-
-      for (const [key, value] of Object.entries(data)) {
-        selector_id = 'json-'+key
-
-        if ('${course.course_id}' == key) {
-
-          const target_details = document.getElementById(selector_id)
-          const json_sections_list = value["sections_list"];
-          
-          if (json_sections_list ) {
-            document.getElementById(selector_id).getElementsByClassName('savoir_plus')[0].style.display = 'block';
-            document.getElementById(selector_id).getElementsByClassName('json-sections_list')[0].innerHTML = json_sections_list;
-          }
-        }
-      }
-    } catch (error) {
-      console.error('Error loading course overview:', error);
-    }
-  }
-
-  loadCourseOverview();
-</script>
-%endfor
-
-
