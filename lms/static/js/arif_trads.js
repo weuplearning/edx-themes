@@ -44,7 +44,7 @@ window.addEventListener("load", function () {
         // courses
         switchTrads("discovery-message", "LES COURS", "COURSES"); 
         switchTrads("enroll-to-course", "Accéder au cours", "Access the course"); 
-        switchTrads("start-course", "Commencer", "Start"); 
+        switchTrads("start-course", "Démarrer", "Start"); 
 
         // Dashboard 
         switchTrads("seeMore", "En savoir plus", "See more"); 

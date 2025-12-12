@@ -126,6 +126,107 @@
     width: 30vw;
     box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
   }
+
+  /* VIGNETTE */
+  .course {
+    box-shadow: 0 1px 4px 0 rgba(0,117,180,0.4) !important;
+    margin-bottom: unset !important;
+
+  }
+  .course:hover {
+    box-shadow: none !important;
+  }
+
+  .course-image {
+    height: 160px !important;
+    overflow: hidden;
+  }
+  .course-name {
+    display: flex;
+    flex-direction: column;
+    padding: 0 15px;
+  }
+  .course-name .course-organization, .course-name .course-code, .course-date {
+    display: none !important;
+  }
+  .spacer {
+    display: inline-block;
+    width: 65%;
+    border-bottom: 4px solid var(--primary);
+    margin: 10px 0;
+  }
+  .course-effort {
+    display: inline-block;
+    padding: 2px 6px;
+    background-color: #AC7C03;
+    color: white;
+    width: fit-content;
+    font-size: small;
+  }
+
+
+
+  .courses-container .courses .course .course-info {
+    height: unset !important;
+  }
+  .course-title {
+    text-transform: uppercase;
+    color: #0E2B66 !important;
+    font-weight: 900 !important;
+    font-size: 16px !important;
+    height: 90px;
+    line-height: 1.3;
+    margin-bottom: 10px !important;
+    padding: 0 !important;
+  }
+
+  .course-button-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    font-size: medium;
+  }
+  .course-button-box div:last-child > a {
+    color: white;
+    background-color: var(--tertiary);
+    padding: 5px 10px;
+  }
+  .savoir_plus {
+    color: var(--tertiary);
+    cursor: pointer;
+    border: var(--tertiary) 2px solid;
+    border-radius: 5px;
+    padding: 5px 10px;
+    text-align: center;
+  }
+
+  .arrow-down {
+    display: inline-block;
+    transition: transform 0.5s ease;
+  }
+
+  .json-sections_list {
+    display: none;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.5s ease-out;
+    color: var(--primary);
+    padding: 0 10px !important;
+  }
+  .json-sections_list li {
+    list-style: none !important;
+    line-height: 1.3;
+    font-size: medium;
+  }
+  .json-sections_list.open {
+    max-height: 500px; 
+  }
+
+  .open {
+    display: block;
+    height: 100%;
+  }
 </style>
 
 
