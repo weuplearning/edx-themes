@@ -68,6 +68,11 @@
   #footer-logo-2 {
     width: 125px;
   }
+
+  a.disabled {
+    pointer-events: none;
+    cursor: default;
+  }
 </style>
 
 
@@ -97,6 +102,10 @@
               <img src="${static.url('icope/images/large-LOGO A51.png')}" id="footer-logo-2" class="img-fluid img-logo" alt="icope logo">
               <p class="footerList-italicText">Projet autorisé dans le <br> cadre de l’Article 51</p>
             </li>
+
+            <li class="footerLists">
+              <a href="/help" class="disabled">Accessibilité : Non conforme</a>
+            </li>        
           </ul>
         </nav>
       </div>
