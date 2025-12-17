@@ -136,7 +136,6 @@
   .course:hover {
     box-shadow: none !important;
   }
-
   .course-image {
     height: 160px !important;
     overflow: hidden;
@@ -163,7 +162,6 @@
     width: fit-content;
     font-size: small;
   }
-
   .courses-container .courses .course .course-info {
     height: unset !important;
   }
@@ -177,7 +175,6 @@
     margin-bottom: 10px !important;
     padding: 0 !important;
   }
-
   .course-button-box {
     display: flex;
     justify-content: space-between;
@@ -249,7 +246,18 @@
   }
   @media screen and (max-width : 1024px ) {
     .courses-listing-item {
+      display: flex !important;
+      justify-content: center;
       width: 100% !important;
+    }
+    .courses-container .courses .course {
+      max-width: 470px;
+    }
+    .find-courses .courses-container {
+      padding: 40px 10px;
+    }
+    #discovery-message {
+      padding-bottom: 30px;
     }
   }
 </style>
