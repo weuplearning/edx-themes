@@ -44,8 +44,6 @@ window.addEventListener("load", function () {
         // courses
         switchTrads("discovery-message", "LES COURS", "COURSES"); 
         switchTrads("enroll-to-course", "Accéder au cours", "Access the course"); 
-        switchTrads("start-course", "Démarrer", "Start"); 
-
 
         // footer
         switchTrads("footer-link-cgu", "Conditions générales d'utilisation", "General conditions of use"); 
