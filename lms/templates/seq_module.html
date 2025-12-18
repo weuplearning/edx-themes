@@ -144,8 +144,29 @@
 
 
 <script>
+const previousPagesException = [
+  // Module 1
+  '51f07780458b4266a15e04bf7823bb84',
+  '362c480163684530b9b6da69b0f39d08',
+  'ef820c0d42e2422196787d52c0ace741',
+  'f25815b3fc4c491ab1542a28e9b01031',
+  '3274b2879fe84054b4d3595f1f31f968'
+  // Module 2
+]
+
 document.addEventListener('DOMContentLoaded', () => {
+
+  const previousPage = document.referrer.split('/')[7];
   const seqContent = document.querySelector('#seq_content');
+
+  if (seqContent && seqContent.innerText.trim() === '' && previousPagesException.includes(previousPage)) {
+    const previousButton = document.querySelector('button.sequence-nav-button.button-previous');
+    if (previousButton) {      
+      previousButton.click();
+      return;
+    }
+  }
+
   if (seqContent && seqContent.innerText.trim() === '') {
     const nextButton = document.querySelector('button.sequence-nav-button.button-next');
     if (nextButton) {
