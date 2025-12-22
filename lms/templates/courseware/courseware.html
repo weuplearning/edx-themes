@@ -36,8 +36,9 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
       max-width: none !important;
     }
   }
+
 % if str(course.id) == "course-v1:umn+tp+2024" :
-  .sequence-nav-button, h2.unit-title, .nav-item-sequence, .breadcrumbs>span:nth-child(6) {
+  .sequence-nav-button, h2.unit-title, .nav-item-sequence, .breadcrumbs>span:nth-child(6),.has-breadcrumbs {
     display: none !important;
   }
 % endif 
