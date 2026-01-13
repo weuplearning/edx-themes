@@ -20,6 +20,25 @@
   #register-terms_of_service-optional-label {
     display: none !important;
   }
+
+  #main {
+    background: url("${static.url('estia/images/bg_img.png')}");
+    background-size: contain;
+    background-position-y: bottom;  
+  }
+  #content-container {
+    margin-top: unset !important;
+    background-color: unset !important;
+
+  }
+  #login-and-registration-container {
+    background-color: rgba(255, 255, 255);
+    padding: 2rem 5rem ;
+    border-radius: 8px;
+    margin-top: 1rem;
+  }
+
+
 </style>
 <%block name="js_extra">
     <%static:require_module module_name="js/student_account/logistration_factory" class_name="LogistrationFactory">
@@ -63,3 +82,13 @@
         </div>
     </main>
 </div>
+
+
+<script>
+window.addEventListener('load', () => {
+    var target = document.getElementsByClassName('checkbox-terms_of_service')[0].getElementsByClassName('label-text')[0];
+    
+    target.innerHTML = `J’accepte les <a href="/tos" rel="noopener" target="_blank">Conditions d'utilisation</a> de l’Estia`;
+
+});
+</script>
