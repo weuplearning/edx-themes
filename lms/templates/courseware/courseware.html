@@ -28,8 +28,11 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
     background-image: url("${static.url('max-havelaar/images/background.png')}");
     background-size: cover;
   }
+  body.view-in-course .container {
+    max-width: 70vw !important;
+  }
 
-  .breadcrumbs > span:nth-child(6), .breadcrumbs > span:nth-child(4), .breadcrumbs > span:nth-child(5), .breadcrumbs > span:nth-child(7), .bookmark-button-wrapper {
+  .breadcrumbs > span:nth-child(6), .breadcrumbs > span:nth-child(4), .breadcrumbs > span:nth-child(5), .breadcrumbs > span:nth-child(7), .bookmark-button-wrapper, .sequence-bottom {
     display: none !important;
   }
 </style>
