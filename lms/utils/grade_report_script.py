@@ -42,7 +42,7 @@ log = logging.getLogger()
 emails_to_send = sys.argv[1].split(";")
 
 all_treated_users = []
-headers = ["Email", "Pseudo", "Date d'évaluation (YYYY-mm-dd)", "Durée (hh:mm:ss)", "Statut"]
+headers = ["Email", "Pseudo", "Pays", "Ville", "Activité", "Activité - Si autre", "Année de naissance","Genre", "Date d'évaluation (YYYY-mm-dd)", "Durée (hh:mm:ss)", "Statut"]
 all_treated_users.append(headers)
 
 course_ids = [
@@ -99,6 +99,15 @@ for course_id in course_ids:
 
         user_data.append(user.email) 
         user_data.append(user.username)
+   
+        CF_data = json.loads(user.profile.custom_field)
+        user_data.append(CF_data.get('country', 'n.a.')) 
+        user_data.append(CF_data.get('city', 'n.a.')) 
+        user_data.append(CF_data.get('activity', 'n.a.')) 
+        user_data.append(CF_data.get('activity_other', 'n.a.')) 
+        user_data.append(CF_data.get('birth_year', 'n.a.')) 
+        user_data.append(CF_data.get('gender', 'n.a.')) 
+
 
         course_grade = CourseGradeFactory().update(user, course)
         data = get_best_grade_data(user, course_key, course_id, course_grade)
