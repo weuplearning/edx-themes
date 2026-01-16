@@ -94,10 +94,65 @@ function register_form_displayer_function(){
 }
 </script>
 
+<script>
+(function () {
+
+    function whenElementsReady(callback) {
+        var observer = new MutationObserver(function () {
+            var nameInput = document.getElementById("register-name");
+            var usernameInput = document.getElementById("register-username");
+
+            if (nameInput && usernameInput) {
+                observer.disconnect();
+                callback(nameInput, usernameInput);
+            }
+        });
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    }
+
+    function slugify(text) {
+        return text
+            .toLowerCase()
+            .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/(^-|-$)/g, "");
+    }
+
+    function randomHash(length) {
+        length = length || 6;
+        return Math.random().toString(36).substring(2, 2 + length);
+    }
+
+    whenElementsReady(function (nameInput, usernameInput) {
+
+        function updateUsername() {
+            if (!nameInput.value) {
+                return;
+            }
+
+            var base = slugify(nameInput.value);
+            if (!base) {
+                return;
+            }
+
+            var hash = randomHash();
+            usernameInput.value = (base + "-" + hash).substring(0, 30);
+        }
+
+        nameInput.addEventListener("input", updateUsername);
+    });
+
+})();
+</script>
+
 
 <style>
 /* Hide not required fields:  */
-.checkbox-honor_code, .text-activity_other, #register-terms_of_service-optional-label {
+.checkbox-honor_code, .text-activity_other, #register-terms_of_service-optional-label, .text-username {
     display: none;
 }
 .select-gender {
