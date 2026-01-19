@@ -82,17 +82,21 @@ def get_best_grade_data(user, course_key, course_id, course_grade):
     CF_data = json.loads(user.profile.custom_field)
     CF_field_to_check = 'success_date_' + str(course_id)
 
-    if wul_course_enrollment and wul_course_enrollment.best_grade_date :
-        best_grade_date = str(wul_course_enrollment.best_grade_date).split(' ')[0]
-    elif CF_field_to_check in CF_data:
+
+    if CF_field_to_check in CF_data:
         best_grade_date = CF_data[CF_field_to_check]
+    elif wul_course_enrollment and wul_course_enrollment.best_grade_date :
+        best_grade_date = str(wul_course_enrollment.best_grade_date).split(' ')[0]
+#    if CF_field_to_check in CF_data:
+#        best_grade_date = CF_data[CF_field_to_check]
     else:
         best_grade_date = 'n.a.'
 
     data = {
         'best_grade_date': best_grade_date,
         'global_time_tracking': wul_course_enrollment.global_time_tracking if wul_course_enrollment and wul_course_enrollment.global_time_tracking else 0,
-        'status': 'Validé' if float(course_grade.percent) >= 0.8 else 'Non validé'
+#        'status': 'Validé' if float(course_grade.percent) >= 0.8 else 'Non validé'
+        'status': 'Validé' if best_grade_date != 'n.a.' else 'Non validé'
     }
 
     return data
