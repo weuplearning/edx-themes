@@ -1,0 +1,57 @@
+<%page expression_filter="h"/>
+<%! from django.utils.translation import ugettext as _ %>
+<%inherit file="../main.html" />
+
+<%block name="pagetitle">Mentions légales</%block>
+
+<style>
+    body, h1, h2, h3 {
+        font-family: "Exo 2","Manrope","Quicksand","Sora",sans-serif !important;
+        line-height: 1.6;
+        color: #1a1a1a;
+    }
+    h1 {
+        border-bottom: 2px solid #ddd;
+        padding-bottom: 12px;
+    }
+    h2 {
+        margin-top: 35px;
+        font-weight: 700;
+    }
+    h3 {
+        margin-top: 25px;
+        font-weight: 600;
+        text-decoration: underline;
+    }
+    p {
+        margin: 12px 0;
+    }
+    ul {
+        margin-left: 25px;
+    }
+    .container {
+        max-width: 800px !important;
+        margin: 0 auto;
+        padding: 20px;
+    }
+</style>
+
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="container about">
+        <h1>
+            Mentions légales
+        </h1>
+        <p> <strong>La société éditrice du site mooc.maxhavelaarfrance.org est <a href="https://www.fairtrade.net/maxhavelaarfrance-fr.html">Fairtrade Max Havelaar France</a> </strong> </p>
+        <p></p>
+        
+        <!-- <p><strong>Directeurs de la Publication :</strong>  </p> -->
+        <p><strong>Hébergeur :</strong> OVH, 2 rue Kellermann, 59100 Roubaix </p>
+        <!-- <p>Date de création :</p> -->
+        <p style="font-weight: bold;">Utilisation d'Open edX</p>
+        <p>Notre plateforme utilise le logiciel open source <a href="https://openedx.org/fr/" target="_blank" rel="noopener noreferrer">Open edX</a>, développé et maintenu par la communauté Open edX. Open edX est distribué sous la licence AGPL v3 (Affero General Public License version 3).</p>
+        <p>Conformément aux obligations de cette licence, les éventuelles modifications apportées à la plateforme et accessibles publiquement sont également mises à disposition sous licence AGPL v3.</p>
+        <p>Vous pouvez consulter les détails de cette licence à l'adresse suivante : <a href="https://www.gnu.org/licenses/agpl-3.0.fr.html" target="_blank">https://www.gnu.org/licenses/agpl-3.0.fr.html</a>.</p>
+        <p>Open edX est une marque déposée d'EDX LLC. L'utilisation de ce logiciel ne constitue en aucun cas une affiliation ou un partenariat officiel avec Open edX ou ses développeurs.</p>
+
+    </section>
+</main>
