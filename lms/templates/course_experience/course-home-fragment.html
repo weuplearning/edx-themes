@@ -132,6 +132,9 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         margin-bottom: 20px !important;
         border-bottom: none !important;
     }
+    ol > .outline-item:last-child {
+        margin-bottom: 0px !important;        
+    }
     #picto-bckg-section > img:first-child {
         width: 150px !important;
     }
@@ -173,7 +176,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
     /* Jauge */
     .progress-bar-full {
-        width: 88%;
+        width: 85%;
         background-color: var(--primary);
         position: relative;
         display: flex;
