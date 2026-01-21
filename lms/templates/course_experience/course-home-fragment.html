@@ -388,31 +388,64 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                     completion_ratio = 0
                     total_blocks = 0
                     completed_blocks = 0
+                    sectionName = ""
 
                     for subsection in section.get('children', []):
+                        total_blocks += 1
+
                         for unitchild in subsection.get('children', []):
+
                             for blockchild in unitchild.get('children', []):
-                                total_blocks += 1
                                 if blockchild.get('complete'):
                                     completed_blocks += 1
 
-                    if total_blocks != 0 :
-                        completion_ratio = completed_blocks / total_blocks
-                    
+
+
+                    for i in [0,1,2,3] :
+                        try :
+                            scorm_section_completion = custom_field.get(section.get('children',[])[int(i)]['block_id'], None)
+                        except :
+                            scorm_section_completion = False
+
+
+                        if scorm_section_completion :
+                            total_blocks += 1
+                        if scorm_section_completion and '100' in scorm_section_completion :
+                            completed_blocks += 1
+                            sectionName = section.get('children',[])[int(i)]['display_name']
+
+
+
+
                     block_course += total_blocks
                     block_course_completed += completed_blocks
 
+                    if total_blocks != 0 :
+                        completion_ratio = completed_blocks / total_blocks
 
-                    scorm_section_completion = custom_field.get(section.get('children',[])[0]['block_id'], None)
-                    if scorm_section_completion :
-                        block_course_completed -=1
-                        completion_ratio = 0
-                        
-                    if scorm_section_completion and '100' in scorm_section_completion :
-                        block_course_completed +=1
-                        completion_ratio = 1
                     %>
+
+
+
+                    <script>
+                        console.log("${section['display_name']}");
                         
+                        console.log("${block_course_completed}");
+
+                        console.log('${completed_blocks}');
+                        console.log('${total_blocks}');
+                        
+                        console.log("${completion_ratio}");
+
+                        console.log('${section}');
+                        console.log('${sectionName}');
+                        
+                        
+                    </script>
+
+
+
+
                     <div class="grade-block">
                         <div class="grade-section-title">
                             %if completion_ratio >= 1:
@@ -423,19 +456,23 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
                             <div class="chapter-title" >${section['display_name']}</div>
 
-                            %if scorm_section_completion:
+                            <!-- %if scorm_section_completion:
                                 <div class="grade-value">${int(scorm_section_completion.split("%")[0])}%</div>
                             %else:
                                 <div class="grade-value">${int(completion_ratio * 100)}%</div>
-                            %endif
+                                %endif -->
+                            <div class="grade-value">${int(completion_ratio) * 100}%</div>
+
+
                         </div>
 
                         <div class="progress-bar-full">
-                            %if scorm_section_completion:
+                            <!-- %if scorm_section_completion:
                                 <div style="width:${int(scorm_section_completion.split('%')[0]) }%;" class="progress-bar-grade"></div>
                             %else :
                                 <div style="width:${completion_ratio * 100}%;" class="progress-bar-grade"></div>
-                            %endif
+                            %endif -->
+                            <div style="width:${completion_ratio * 100}%;" class="progress-bar-grade"></div>
                         </div>
                     </div>
 
