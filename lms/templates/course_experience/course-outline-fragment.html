@@ -76,16 +76,7 @@ dates_banner_displayed = False
                     completed = True
 
                 %>
-                        <script>
-                            console.log("----------------");
-
-                            console.log("${subsection}");
-                            console.log("${subsection['display_name']}");
-                            console.log("${subsection['block_id']}");
-                            console.log("${scorm_section_completion}");
-                            
-                        </script>
-                            
+  
                         <li class="subsection accordion ${ 'current' if subsection.get('resume_block') else '' } ${graded} ${scored}">
                             <a
                             % if enable_links:
@@ -176,7 +167,7 @@ dates_banner_displayed = False
                     % endif
                                             </span>
                 % endif
-                                </div> <!-- /details -->
+                                </div> 
                             </a>
                         </li>
             % endfor

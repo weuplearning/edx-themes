@@ -393,12 +393,9 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                     for subsection in section.get('children', []):        
                         for unitchild in subsection.get('children', []):
                             total_blocks += 1
-
                             for blockchild in unitchild.get('children', []):
                                 if blockchild.get('complete'):
                                     completed_blocks += 1
-
-
 
                     total_scorm_completion = 0
                     max_scorm_completion = 0
@@ -420,7 +417,6 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                             completed_blocks += 1
                             sectionName = section.get('children',[])[int(i)]['display_name']
 
-
                     block_course += total_blocks
                     block_course_completed += completed_blocks
 
@@ -430,25 +426,6 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                     if max_scorm_completion != 0 :
                         completion_ratio = total_scorm_completion / max_scorm_completion
                     %>
-
-
-                    <script>
-                        console.log("${section['display_name']}");
-                        
-                        console.log("${block_course_completed}");
-
-                        console.log('${completed_blocks}');
-                        console.log('${total_blocks}');
-                        
-                        console.log("${completion_ratio}");
-
-                        console.log('${section}');
-                        console.log('${sectionName}');
-                        console.log('${scorm_section_completion}');
-                        console.log('${total_scorm_completion}');
-                        console.log('${total_scorm_blocks}');
-                    </script>
-
 
                     <div class="grade-block">
                         <div class="grade-section-title">
@@ -470,37 +447,20 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                 %endfor
 
                 <script>
-                    console.log("block_course_completed: ", ${block_course_completed});
-                    console.log("block_course: ", ${block_course});
-
                     var listeNotes = document.getElementsByClassName('grade-value')
                     var total_notes = 0;
                     var max_total_notes = 0;
 
-                    console.log("listeNotes : ");
-                    console.log(listeNotes);
                     for (let i = 0; i < listeNotes.length; i++) {
                         const element = listeNotes[i];
-
                         const noteText = element.innerText.trim();
-
-                        console.log(noteText);
-                        console.log(noteText.split('%')[0]);
-
                         total_notes += parseInt(noteText.split('%')[0]);
                         max_total_notes += 100;
-                        
                     }
-                    console.log('New completion ');
-                    console.log(total_notes);
-                    console.log(max_total_notes-100);
                     
-                    var scormBasedCompletion = Math.round(total_notes / (max_total_notes - 100));
-                    
-                    // Update completion percentage
-                    var completion = "${(round((block_course_completed/block_course) * 100))}%"
-                    document.getElementById('final-grade-progress').children[0].style.width = completion;
-                    document.getElementById('badges').getElementsByClassName('grade-value')[0].innerHTML = completion;
+                    var scormBasedCompletion = Math.round((total_notes / (max_total_notes - 100))*100);
+                    document.getElementById('final-grade-progress').children[0].style.width = scormBasedCompletion  + '%';
+                    document.getElementById('badges').getElementsByClassName('grade-value')[0].innerHTML = scormBasedCompletion + '%';
                 </script>
 
             </div>
