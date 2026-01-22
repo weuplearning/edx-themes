@@ -369,7 +369,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                             <img src="${static.url('images/medal_off.svg')}" class="main-badge"/>
                         %endif
                         <div style="text-transform: uppercase;">${course.display_name_with_default}</div>
-                        <div class="grade-value"></div>
+                        <div class="grade-value">0%</div>
                     </div>
                     <div class="progress-bar-full" id="final-grade-progress">
                         <div class="progress-bar-grade" ></div>
@@ -390,10 +390,9 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                     completed_blocks = 0
                     sectionName = ""
 
-                    for subsection in section.get('children', []):
-                        total_blocks += 1
-
+                    for subsection in section.get('children', []):        
                         for unitchild in subsection.get('children', []):
+                            total_blocks += 1
 
                             for blockchild in unitchild.get('children', []):
                                 if blockchild.get('complete'):
@@ -462,6 +461,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                             <div class="grade-value">${round(completion_ratio * 100)}%</div>
                         </div>
 
+
                         <div class="progress-bar-full">
                             <div style="width:${completion_ratio * 100}%;" class="progress-bar-grade"></div>
                         </div>
@@ -473,6 +473,30 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                     console.log("block_course_completed: ", ${block_course_completed});
                     console.log("block_course: ", ${block_course});
 
+                    var listeNotes = document.getElementsByClassName('grade-value')
+                    var total_notes = 0;
+                    var max_total_notes = 0;
+
+                    console.log("listeNotes : ");
+                    console.log(listeNotes);
+                    for (let i = 0; i < listeNotes.length; i++) {
+                        const element = listeNotes[i];
+
+                        const noteText = element.innerText.trim();
+
+                        console.log(noteText);
+                        console.log(noteText.split('%')[0]);
+
+                        total_notes += parseInt(noteText.split('%')[0]);
+                        max_total_notes += 100;
+                        
+                    }
+                    console.log('New completion ');
+                    console.log(total_notes);
+                    console.log(max_total_notes-100);
+                    
+                    var scormBasedCompletion = Math.round(total_notes / (max_total_notes - 100));
+                    
                     // Update completion percentage
                     var completion = "${(round((block_course_completed/block_course) * 100))}%"
                     document.getElementById('final-grade-progress').children[0].style.width = completion;
