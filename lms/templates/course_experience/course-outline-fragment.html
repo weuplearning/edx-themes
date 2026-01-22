@@ -46,7 +46,7 @@ dates_banner_displayed = False
             section_is_auto_opened = section.get('resume_block') is True
             scored = 'scored' if section.get('scored', False) else ''
             completed = False
-
+            no_scorm_subsections = ['Bienvenue','Introduction', 'Conclusion et évaluation finale']
 
             %>
                 <li class="outline-item section ${scored}">
@@ -101,10 +101,11 @@ dates_banner_displayed = False
                             % endif
                                 <h4 class="subsection-title">${ subsection['display_name'] } </h4>
 
-                            % if completed:
+                            % if completed or (subsection['display_name'] in no_scorm_subsections and subsection.get('complete')):
                                 <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
                                 <span class="sr">${_("Completed")}</span>
                             % endif
+                            
 
                             % if needs_prereqs:
                                 <div class="details prerequisite">

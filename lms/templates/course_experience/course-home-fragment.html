@@ -402,6 +402,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
 
                     total_scorm_completion = 0
+                    max_scorm_completion = 0
                     total_scorm_blocks = 0
 
                     for i in [0,1,2,3] :
@@ -414,6 +415,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                             total_blocks += 1
                             total_scorm_blocks += 1
                             total_scorm_completion += int(scorm_section_completion.split('%')[0])
+                            max_scorm_completion += 100
 
                         if scorm_section_completion and '100' in scorm_section_completion :
                             completed_blocks += 1
@@ -425,6 +427,9 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
                     if total_blocks != 0 :
                         completion_ratio = completed_blocks / total_blocks
+                    
+                    if max_scorm_completion != 0 :
+                        completion_ratio = total_scorm_completion / max_scorm_completion
                     %>
 
 
