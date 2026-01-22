@@ -39,7 +39,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         padding: 15px 0 !important;
     }
 
-    .global-header .header-logo .course-header, a.help-link, .wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary, a.subsection-text div.details,a.subsection-text span.icon.fa.fa-pencil-square-o, #expand-collapse-outline-all-button{
+    .global-header .header-logo .course-header, a.help-link, .wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary, a.subsection-text div.details,a.subsection-text span.icon.fa.fa-pencil-square-o, #expand-collapse-outline-all-button {
         display:none !important;
     }
 
@@ -401,20 +401,23 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
 
 
+                    total_scorm_completion = 0
+                    total_scorm_blocks = 0
+
                     for i in [0,1,2,3] :
                         try :
                             scorm_section_completion = custom_field.get(section.get('children',[])[int(i)]['block_id'], None)
                         except :
                             scorm_section_completion = False
 
-
                         if scorm_section_completion :
                             total_blocks += 1
+                            total_scorm_blocks += 1
+                            total_scorm_completion += int(scorm_section_completion.split('%')[0])
+
                         if scorm_section_completion and '100' in scorm_section_completion :
                             completed_blocks += 1
                             sectionName = section.get('children',[])[int(i)]['display_name']
-
-
 
 
                     block_course += total_blocks
@@ -422,9 +425,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
                     if total_blocks != 0 :
                         completion_ratio = completed_blocks / total_blocks
-
                     %>
-
 
 
                     <script>
@@ -439,11 +440,10 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
                         console.log('${section}');
                         console.log('${sectionName}');
-                        
-                        
+                        console.log('${scorm_section_completion}');
+                        console.log('${total_scorm_completion}');
+                        console.log('${total_scorm_blocks}');
                     </script>
-
-
 
 
                     <div class="grade-block">
@@ -453,25 +453,11 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                             %else:
                                 <img src="${static.url('images/medal_off.svg')}" class="small-badge"/>
                             %endif
-
                             <div class="chapter-title" >${section['display_name']}</div>
-
-                            <!-- %if scorm_section_completion:
-                                <div class="grade-value">${int(scorm_section_completion.split("%")[0])}%</div>
-                            %else:
-                                <div class="grade-value">${int(completion_ratio * 100)}%</div>
-                                %endif -->
-                            <div class="grade-value">${int(completion_ratio) * 100}%</div>
-
-
+                            <div class="grade-value">${round(completion_ratio * 100)}%</div>
                         </div>
 
                         <div class="progress-bar-full">
-                            <!-- %if scorm_section_completion:
-                                <div style="width:${int(scorm_section_completion.split('%')[0]) }%;" class="progress-bar-grade"></div>
-                            %else :
-                                <div style="width:${completion_ratio * 100}%;" class="progress-bar-grade"></div>
-                            %endif -->
                             <div style="width:${completion_ratio * 100}%;" class="progress-bar-grade"></div>
                         </div>
                     </div>
@@ -487,7 +473,6 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                     document.getElementById('final-grade-progress').children[0].style.width = completion;
                     document.getElementById('badges').getElementsByClassName('grade-value')[0].innerHTML = completion;
                 </script>
-
 
             </div>
         </aside>

@@ -47,15 +47,6 @@ dates_banner_displayed = False
             scored = 'scored' if section.get('scored', False) else ''
             completed = False
 
-            if section.get('complete'):
-                completed = True
-
-            scorm_section_completion = custom_field.get(section.get('children',[])[0]['block_id'], None)
-            if scorm_section_completion :
-                completed = False
-
-            if scorm_section_completion and '100' in scorm_section_completion :
-                completed = True
 
             %>
                 <li class="outline-item section ${scored}">
@@ -65,10 +56,7 @@ dates_banner_displayed = False
                             id="${ section['id'] }">
                         <span class="fa fa-chevron-right ${ 'fa-rotate-90' if section_is_auto_opened else '' }" aria-hidden="true"></span>
                         <h3 class="section-title">${ section['display_name'] }</h3>
-                        % if completed:
-                            <span class="complete-checkmark fa fa-check" aria-hidden="true"></span>
-                            <span class="sr">${_("Completed")}</span>
-                        % endif
+
                     </button>
                     <ol class="outline-item accordion-panel ${ '' if section_is_auto_opened else 'is-hidden' }"
                         id="${ section['id'] }_contents"
@@ -80,7 +68,24 @@ dates_banner_displayed = False
                 scored = 'scored' if subsection.get('scored', False) else ''
                 graded = 'graded' if subsection.get('graded') else ''
                 num_graded_problems = subsection.get('num_graded_problems', 0)
+
+                scorm_section_completion = custom_field.get(subsection['block_id'], None)
+                if scorm_section_completion :
+                    completed = False
+                if scorm_section_completion and '100' in scorm_section_completion :
+                    completed = True
+
                 %>
+                        <script>
+                            console.log("----------------");
+
+                            console.log("${subsection}");
+                            console.log("${subsection['display_name']}");
+                            console.log("${subsection['block_id']}");
+                            console.log("${scorm_section_completion}");
+                            
+                        </script>
+                            
                         <li class="subsection accordion ${ 'current' if subsection.get('resume_block') else '' } ${graded} ${scored}">
                             <a
                             % if enable_links:
