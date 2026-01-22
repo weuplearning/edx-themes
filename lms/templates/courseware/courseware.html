@@ -41,7 +41,9 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
   .openedxscorm_block > p {
     display: none !important;
   }
-
+  .content-wrapper {
+    min-height: calc(100vh - 193px);
+  }
 </style>
 
 % if display_reset_dates_banner:
