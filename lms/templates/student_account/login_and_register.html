@@ -19,8 +19,8 @@
     text-shadow: none !important;
   }
 
-  .plaintext-honor_code{
-      display: none;
+  .plaintext-honor_code, .text-username{
+      display: none !important;
   }
 
   .window-wrap {
@@ -191,25 +191,6 @@ var replaceText = setInterval(() => {
   }
 }, 400);
 
-var replaceTextField = setInterval(() => {
-
-  var textTarget = $('.label-text')
-  test1 = false
-
-  for (let i = 0; i < textTarget.length; i++) {
-    const elem = textTarget[i];
-    if (elem.textContent.indexOf('public') != -1 || elem.textContent.indexOf('Public') != -1) {
-      elem.textContent = 'Pseudo'
-      test1 = true
-    }
-  }
-
-  if (test1) {
-    clearInterval(replaceTextField)
-  }
-
-}, 400);
-
 
 // Update Departement field regarding Region field 
 
@@ -302,4 +283,60 @@ var resetLink = setInterval(() => {
   }
 }, 400);
 
+</script>
+
+<script>
+(function () {
+
+  function whenElementsReady(callback) {
+
+    var observer = new MutationObserver(function () {
+      var nameInput = document.getElementById("register-name");
+      var usernameInput = document.getElementById("register-username");
+
+      if (nameInput && usernameInput) {
+        observer.disconnect();
+        callback(nameInput, usernameInput);
+      }
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+  }
+
+  function slugify(text) {
+    return text
+      .toLowerCase()
+      .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
+  }
+
+  function randomHash(length) {
+    length = length || 6;
+    return Math.random().toString(36).substring(2, 2 + length);
+  }
+
+  whenElementsReady(function (nameInput, usernameInput) {
+
+    function updateUsername() {
+      if (!nameInput.value) {
+        return;
+      }
+
+      var base = slugify(nameInput.value);
+      if (!base) {
+        return;
+      }
+
+      var hash = randomHash();
+      usernameInput.value = (base + "-" + hash).substring(0, 30);
+    }
+
+    nameInput.addEventListener("input", updateUsername);
+  });
+
+})();
 </script>
