@@ -109,6 +109,7 @@
   
   .container_footer_locations_image {
     width: 70vw;
+    max-width: 900px;
   }
 
   .container_footer_links, .container_footer_links_text {
@@ -119,6 +120,15 @@
     margin-top: 10px;
   }
 
+  @media screen and (max-width:767px) {
+      .input-container, .image_people {
+        display: none !important;
+      }
+      .container_footer_socials, .container_footer_links {
+        flex-direction: column;
+        align-items: center;
+      }
+  }
 </style>
 
 
