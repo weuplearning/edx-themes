@@ -35,7 +35,16 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
   .page-header.has-secondary a, .page-header.has-secondary .fa-angle-right {
     color: white !important;
   }
-    
+  @media screen and (max-width:800px) {
+    body.view-in-course .container {
+      max-width: 85vw !important;
+    }
+  }
+  @media screen and (max-width:600px) {
+    body.view-in-course .container {
+      max-width: none !important;
+    }
+  }
 </style>
 
 % if display_reset_dates_banner:

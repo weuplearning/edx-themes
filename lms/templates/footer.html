@@ -68,7 +68,7 @@
   .container_footer_socials{
     display: flex;
     justify-content: space-evenly;
-    width: 1200px;
+    max-width: 1200px;
     align-items: center;
     margin: 1em;
     width: 100%;
@@ -121,13 +121,13 @@
   }
 
   @media screen and (max-width:767px) {
-      .input-container, .image_people {
-        display: none !important;
-      }
-      .container_footer_socials, .container_footer_links {
-        flex-direction: column;
-        align-items: center;
-      }
+    .input-container, .image_people {
+      display: none !important;
+    }
+    .container_footer_socials, .container_footer_links {
+      flex-direction: column;
+      align-items: center;
+    }
   }
 </style>
 
