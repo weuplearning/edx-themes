@@ -87,8 +87,9 @@
 <script>
 window.addEventListener('load', () => {
     var target = document.getElementsByClassName('checkbox-terms_of_service')[0].getElementsByClassName('label-text')[0];
-    
-    target.innerHTML = `J’accepte les <a href="/tos" rel="noopener" target="_blank">Conditions d'utilisation</a> de l’Estia`;
+    target.innerHTML = `J’accepte les <a href="/tos" rel="noopener" target="_blank">Conditions d'utilisation</a> de l’ESTIA`;
 
+    var target2 = document.getElementById('register-anchor').getElementsByClassName('text')[0]
+    target2.innerHTML = `Vous êtes déjà inscrit ?`;
 });
 </script>
