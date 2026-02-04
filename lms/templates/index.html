@@ -10,125 +10,114 @@ from openedx.core.djangolib.markup import HTML, Text
 
 
 <style>
-
-.content-wrapper {
-    padding: 0px !important;
-    margin: 0px auto !important;
-}
-
-.horizontal-align, .vertical-align {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.vertical-align {
-    flex-direction: column;
-    height: 100%;
-}
-.align-right {
-    text-align: right;
-}
-
-.global-header .nav-links .secondary {
-    margin: 24px 40px 0 0 !important;
-}
-
-.main .mobile-nav-item {
-    display: none !important;
-}
-
-.container {
-    padding: 0 !important;
-    max-width: none ;
-    position: relative;
-    width: 100%;
-    min-height: calc(100vh - 153px);
-    background-image: url("${static.url('depot-petrolier-fos/images/background.jpg')}");
-    background-size: cover;
-    background-position-x: center;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-}
-
-
-
-
-.overlay {
-    width: 40% ;
-    min-height: calc(100vh - 153px);
-    background-color: var(--primary); 
-    clip-path: polygon(32% 0, 100% 0, 100% 100%, 0% 100%);
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding-left: 13%;
-    color: white;
-}
-
-.content {
-    max-width: 500px;
-    align-items: flex-end;
-    padding-right: 10%;
-    text-align: end;
-}
-
-h2, h1 {
-    font-family: 'Open Sans', sans-serif;
-    font-weight: bold;
-    font-size: 1.8rem;
-    color : white
-}
-
-h1 {
-    font-size: 4rem;
-}
-
-p {
-    font-size: 0.95rem;
-    line-height: 1.5;
-    margin-bottom: 1rem;
-}
-
-.button {
-    background-image : none;
-    text-shadow: none;
-    background-color: white;
-    color: var(--primary) !important;
-    border: none;
-    font-size: 1rem !important;
-    padding: 19px 31px;
-    font-weight: bold !important;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: background 0.9s ease !important;
-}
-
-.button:hover {
-    color:white !important;
-    text-decoration: none !important;
-}
-
-
-
-footer .nav-item a {
-    color: var(--primary) !important;
-}
-.wrapper-footer {
-    background-color: white !important;
-}
-
-
-@media screen and (max-width: 1024px) {
-    .overlay {
-        width: 50% ;
+    .content-wrapper {
+        padding: 0px !important;
+        margin: 0px auto !important;
     }
-}
-@media screen and (max-width: 768px) {
-    .overlay {
-        width: 75% ;
+    .horizontal-align, .vertical-align {
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
-}
+    .vertical-align {
+        flex-direction: column;
+        height: 100%;
+    }
+    .align-right {
+        text-align: right;
+    }
+    .global-header .nav-links .secondary {
+        margin: 24px 40px 0 0 !important;
+    }
+    .main .mobile-nav-item {
+        display: none !important;
+    }
+    .container {
+        padding: 0 !important;
+        max-width: none ;
+        position: relative;
+        width: 100%;
+        min-height: calc(100vh - 153px);
+        background-image: url("${static.url('depot-petrolier-fos/images/background.jpg')}");
+        background-size: cover;
+        background-position-x: center;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+    .overlay {
+        width: 40% ;
+        min-height: calc(100vh - 153px);
+        background-color: var(--primary); 
+        clip-path: polygon(32% 0, 100% 0, 100% 100%, 0% 100%);
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding-left: 13%;
+        color: white;
+    }
+
+    .content {
+        max-width: 500px;
+        align-items: flex-end;
+        padding-right: 10%;
+        text-align: end;
+    }
+
+    h2, h1 {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: bold;
+        font-size: 1.8rem;
+        color : white
+    }
+
+    h1 {
+        font-size: 4rem;
+    }
+
+    p {
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin-bottom: 1rem;
+    }
+
+    .button {
+        background-image : none;
+        text-shadow: none;
+        background-color: white;
+        color: var(--primary) !important;
+        border: none;
+        font-size: 1rem !important;
+        padding: 19px 31px;
+        font-weight: bold !important;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: background 0.9s ease !important;
+    }
+
+    .button:hover {
+        color:white !important;
+        text-decoration: none !important;
+    }
+
+    footer .nav-item a {
+        color: var(--primary) !important;
+    }
+    .wrapper-footer {
+        background-color: white !important;
+    }
+
+
+    @media screen and (max-width: 1024px) {
+        .overlay {
+            width: 50% ;
+        }
+    }
+    @media screen and (max-width: 768px) {
+        .overlay {
+            width: 75% ;
+        }
+    }
 
 </style>
 
