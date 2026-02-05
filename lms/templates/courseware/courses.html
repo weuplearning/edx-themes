@@ -95,6 +95,9 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        position: relative;
+        overflow: hidden;
+        border-radius: 30px;
     }
     .module-title {
         padding: 10px;
@@ -112,12 +115,13 @@
         padding: 7px 15px;
         color: white;
         font-weight: 800;
+        z-index: 10;
     }
 
     #waveSvg {
         position: absolute;
-        top: 0;
-        left: 20px;
+        transform: rotate(90deg);
+        left: -182px;
     }
     .course-image, .course-date, .course-organization, .course-code {
         display: none !important;
