@@ -25,8 +25,9 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
 %>
 
 <script>
+  var $$level = ""
   if (window.location.pathname.includes("1+2025")) {
-    const $$level = "${json.loads(user.profile.custom_field).get('preparedDiploma', '{}')}";
+    $$level = "${json.loads(user.profile.custom_field).get('preparedDiploma', '{}')}";
   }
 </script>
   
