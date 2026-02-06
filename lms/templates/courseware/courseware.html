@@ -5,6 +5,7 @@
 <%!
 import six
 import waffle
+import json
 
 from django.conf import settings
 from django.urls import reverse
@@ -23,6 +24,12 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
    )
 %>
 
+<script>
+  if (window.location.pathname.includes("1+2025")) {
+    const $$level = "${json.loads(user.profile.custom_field).get('preparedDiploma', '{}')}";
+  }
+</script>
+  
 <style>
   .window-wrap {
     background: url("${static.url('{}/images/bg_img.png'.format(course.org))}");

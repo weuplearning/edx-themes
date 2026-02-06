@@ -24,7 +24,93 @@ self_paced = context.get('self_paced', False)
 relative_dates_flag_is_enabled = RELATIVE_DATES_FLAG.is_enabled(str(course_key))
 is_course_staff = bool(user and course and has_access(user, 'staff', course, course.id))
 dates_banner_displayed = False
+
+custom_fields_dict = json.loads(custom_fields)
+user_preparedDiploma = custom_fields_dict.get('preparedDiploma', '')
+url_contains_target = "1+2025" in request.path
+
+display_form = False
+if not all([user_preparedDiploma, user.is_authenticated]) and url_contains_target :
+    display_form = True
 %>
+
+
+<style>
+.search-form {
+    display: none !important;
+}
+#table_risque {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+#customFieldsForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+#customFieldsForm label {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+#customFieldsForm select {
+    padding: 5px;
+    margin-bottom: 20px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 400px;
+}
+#customFieldsForm button[type="submit"] {
+    background-color: var(--primary);
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+#customFieldsForm button[type="submit"]:hover {
+    background-color: var(--primary);
+}
+
+.disabled-link {
+  pointer-events: none;
+}
+.required_field {
+    color: red;
+}
+</style>
+
+
+% if display_form:
+
+<script>
+    let startButton = document.getElementsByClassName('action-resume-course')
+    startButton[0].classList.add("disabled-link")
+</script>
+<form id="customFieldsForm">
+
+    <img src="${static.url('depot-petrolier-fos/images/table_risque.png')}" alt="table de risque" id="table_risque">
+
+    <label for="preparedDiploma">Catégorie du risque : <span class="required_field">*</span></label>
+    <select id="preparedDiploma" name="preparedDiploma">
+        <option value="high">Risque élevé</option>
+        <option value="moderate">Risque modéré</option>
+        <option value="low">Risque faible</option>
+    </select>
+    <br>
+
+    <p><span class="required_field">*</span> champs obligatoires</p>
+    <button type="submit">Envoyer</button>
+</form>
+
+%else :
+
 <main role="main" class="course-outline" id="main" tabindex="-1">
     <%include file="/dates_banner.html" />
     % if course_sections is not None:
@@ -174,6 +260,7 @@ dates_banner_displayed = False
         </ol>
     % endif
 </main>
+% endif
 
 <%static:require_module_async module_name="js/dateutil_factory" class_name="DateUtilFactory">
     DateUtilFactory.transform('.localized-datetime');
@@ -182,3 +269,36 @@ dates_banner_displayed = False
 <%static:webpack entry="CourseOutline">
     new CourseOutline();
 </%static:webpack>
+
+
+<script>
+    const form = document.getElementById("customFieldsForm");
+
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const preparedDiploma = document.getElementById("preparedDiploma").value;
+
+        const customFields = {
+            preparedDiploma: preparedDiploma,
+            authorized: true,
+        };
+
+        const url = '/wul_apps/custom_field_editor/';
+        const data = JSON.stringify(customFields);
+        const settings = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": $.cookie('csrftoken'),
+            },
+            body: data
+        };
+
+        fetch(url, settings)
+        .then(() => window.location.reload())
+        .catch((error) => console.error('Error:', error));
+
+    });
+
+</script>
