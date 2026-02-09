@@ -28,6 +28,11 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
   var $$level = ""
   if (window.location.pathname.includes("1+2025")) {
     $$level = "${json.loads(user.profile.custom_field).get('preparedDiploma', '{}')}";
+
+    if ($$level == "{}") {
+      window.location.href = "/courses/course-v1:depot-petrolier-fos+1+2025/course/";
+    }
+
   }
 </script>
   
