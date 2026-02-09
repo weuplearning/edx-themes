@@ -282,74 +282,6 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         overflow: hidden;
     }
 
-
-    
-    /* @media screen and (max-width: 1024px) {
-        .page-content .page-content-secondary { 
-            min-width: calc(50% - 15px);
-            max-width: calc(50% - 15px);
-            margin: 0;
-        }
-
-        .page-content .page-content-main { 
-            min-width: calc(50% - 15px);
-            max-width: calc(50% - 15px);
-        }
-    }
-    @media screen and (max-width: 991px) {
-        .page-content .page-content-secondary { 
-            min-width: calc(60% - 15px);
-            max-width: calc(60% - 15px);
-        }
-
-        .page-content .page-content-main { 
-            min-width: calc(40% - 15px);
-            max-width: calc(40% - 15px);
-        }
-
-    } */
-    @media screen and (max-width: 768px) {
-        /* .page-content .page-content-secondary { 
-            min-width: 100%;
-            max-width: 100%;
-            margin-left: 0;
-        } */
-
-        .page-content .page-content-main { 
-            min-width: 100%;
-            max-width: 100%;
-        }
-
-        .page-content {
-            flex-direction: column;
-        }
-
-        /* .page-content .page-content-secondary h4{
-            font-size:16px;
-        } */
-    }
-
-    @media screen and (max-width: 500px) {
-        .grade-section-title {
-            font-size: 12px;
-        }
-
-
-        h3.section-title{
-            padding-left: 5px !important;
-            font-size: 14px !important;
-        }
-        h4.subsection-title{
-            font-size: 14px !important;
-        }
-    }
-
-    @media screen and (max-width: 500px) {
-        .grade-section-title {
-            font-size: 14px;
-        }
-    }
-
     @media screen and (max-width: 1130px) {
         ol.block-tree {
             flex-direction: column;
@@ -370,6 +302,41 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
             padding: 10px 60px !important;
         }
     }
+
+    @media screen and (max-width: 768px) {
+
+
+        .page-content .page-content-main { 
+            min-width: 100%;
+            max-width: 100%;
+        }
+
+        .page-content {
+            flex-direction: column;
+        }
+    }
+
+    @media screen and (max-width: 500px) {
+        .grade-section-title {
+            font-size: 12px;
+        }
+
+        h3.section-title{
+            padding-left: 5px !important;
+            font-size: 14px !important;
+        }
+        h4.subsection-title{
+            font-size: 14px !important;
+        }
+    }
+
+    @media screen and (max-width: 425px) {
+        .vignette-section {
+            display: none !important;
+        }
+    }
+
+
 
   </style>
   <script>
