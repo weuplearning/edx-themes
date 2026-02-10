@@ -25,6 +25,17 @@
   .wrapper-footer li {
     margin-right: 27px !important;
   }
+  .wrapper-footer footer#footer-openedx .colophon {
+    width: 100%;
+  }
+  @media screen and (max-width: 600px) {
+    footer#footer-openedx .colophon .nav-colophon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+  }
 </style>
 
 % if uses_bootstrap:

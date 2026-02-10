@@ -44,6 +44,16 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
   .content-wrapper {
     min-height: calc(100vh - 193px);
   }
+  @media screen and (max-width: 1000px) {
+    body.view-in-course .container {
+      max-width: 90vw !important;
+    }
+  }
+  @media screen and (max-width: 768px) {
+    body.view-in-course .container {
+      max-width: 100vw !important;
+    }
+  }
 </style>
 
 % if display_reset_dates_banner:
