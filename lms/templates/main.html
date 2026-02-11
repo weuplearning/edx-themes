@@ -85,22 +85,6 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
 
   <link rel="icon" type="image/x-icon" href="${static.url('casavo/images/favicon.png')}" />
 
-  <style>
-  .content-wrapper {
-    margin: 0 !important;
-    padding: 0 !important;
-    max-width: none;
-  }
-  :root {
-    --primary : #ff991f;
-    --secondary : #1d1d1b;
-    --secundary : #1D1D1B;
-    --tertiary : #063D39;
-  }
-  #main {
-    min-height: calc(100vh - 161px);
-  }
-  </style>
 
   <%static:css group='style-vendor'/>
   % if '/' in self.attr.main_css:
@@ -162,8 +146,8 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
 
   <meta name="openedx-release-line" content="${RELEASE_LINE}" />
 
-<% ga_acct = static.get_value("GOOGLE_ANALYTICS_ACCOUNT", settings.GOOGLE_ANALYTICS_ACCOUNT) %>
-% if ga_acct:
+  <% ga_acct = static.get_value("GOOGLE_ANALYTICS_ACCOUNT", settings.GOOGLE_ANALYTICS_ACCOUNT) %>
+  % if ga_acct:
     <script type="text/javascript">
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', '${ga_acct | n, js_escaped_string}']);
@@ -175,29 +159,59 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     })();
     </script>
-% endif
+  % endif
 
-<% branch_key = static.get_value("BRANCH_IO_KEY", settings.BRANCH_IO_KEY) %>
-% if branch_key and not is_from_mobile_app:
+  <% branch_key = static.get_value("BRANCH_IO_KEY", settings.BRANCH_IO_KEY) %>
+  % if branch_key and not is_from_mobile_app:
     <script type="text/javascript">
         (function(b,r,a,n,c,h,_,s,d,k){if(!b[n]||!b[n]._q){for(;s<_.length;)c(h,_[s++]);d=r.createElement(a);d.async=1;d.src="https://cdn.branch.io/branch-latest.min.js";k=r.getElementsByTagName(a)[0];k.parentNode.insertBefore(d,k);b[n]=h}})(window,document,"script","branch",function(b,r){b[r]=function(){b._q.push([r,arguments])}},{_q:[],_v:1},"addListener applyCode banner closeBanner creditHistory credits data deepview deepviewCta first getCode init link logout redeem referrals removeListener sendSMS setBranchViewData setIdentity track validateCode".split(" "), 0);
         branch.init('${branch_key | n, js_escaped_string}');
     </script>
-% endif
+  % endif
+
+
+  <!-- COOKIES -->
+  <script type="text/javascript" src="${static.url('js/tarteaucitron.js')}" charset="utf-8"></script>
+  <script>
+    tarteaucitron.init({
+      "privacyUrl": "/privacy",
+      "orientation": "bottom",
+      "groupServices": true,
+      "showAlertSmall": false,
+      "cookieslist": true,
+      "mandatory": true,
+      "highPrivacy": true,
+      "useExternalCss": false,
+      "useExternalJs": false
+    });
+
+    // Youtube videos
+    (tarteaucitron.job = tarteaucitron.job || []).push('youtube');
+
+  </script>
+  <!-- COOKIES -->
+
 
 </head>
 
 <body class="${static.dir_rtl()} <%block name='bodyclass'/> lang_${LANGUAGE_CODE}">
 
-<!-- PIWIK code -->
-<script type="text/javascript">
-(function(window, document, dataLayerName, id) {
-window[dataLayerName]=window[dataLayerName]||[],window[dataLayerName].push({start:(new Date).getTime(),event:"stg.start"});var scripts=document.getElementsByTagName('script')[0],tags=document.createElement('script');
-var qP=[];dataLayerName!=="dataLayer"&&qP.push("data_layer_name="+dataLayerName);var qPString=qP.length>0?("?"+qP.join("&")):"";
-tags.async=!0,tags.src="https://weup.containers.piwik.pro/"+id+".js"+qPString,scripts.parentNode.insertBefore(tags,scripts);
-!function(a,n,i){a[n]=a[n]||{};for(var c=0;c<i.length;c++)!function(i){a[n][i]=a[n][i]||{},a[n][i].api=a[n][i].api||function(){var a=[].slice.call(arguments,0);"string"==typeof a[0]&&window[dataLayerName].push({event:n+"."+i+":"+a[0],parameters:[].slice.call(arguments,1)})}}(i[c])}(window,"ppms",["tm","cm"]);
-})(window, document, 'dataLayer', 'f5893c5e-05a4-4c7c-b7b5-60fa0d555a1a');
-</script>
+  <style>
+  .content-wrapper {
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: none;
+  }
+  :root {
+    --primary : #ff991f;
+    --secondary : #1D1D1B;
+    --secundary : #1D1D1B;
+    --tertiary : #063D39;
+  }
+  #main {
+    min-height: calc(100vh - 161px);
+  }
+  </style>
 
 
 <%static:optional_include_mako file="body-initial.html" is_theming_enabled="True" />
