@@ -7,8 +7,12 @@
     box-shadow: unset !important;
 }
 #tarteaucitronRoot button#tarteaucitronAllAllowed, 
+#tarteaucitronRoot button#tarteaucitronPersonalize2, 
 #tarteaucitronRoot button#tarteaucitronAllDenied, 
+#tarteaucitronRoot button#tarteaucitronAllDenied2, 
 #tarteaucitronRoot #tarteaucitron-group-video button, 
+#tarteaucitronRoot button.tarteaucitronAllow, 
+#tarteaucitronRoot button.tarteaucitronDeny, 
 #tarteaucitronRoot button#tarteaucitronSaveButton {
     color: white !important;
 }
@@ -1003,13 +1007,13 @@ span#tarteaucitronDisclaimerAlert {
 #tarteaucitronRoot .tarteaucitronCross::before {
     content: '\2717';
     display: inline-block;
-    color: #000;
+    color: white;
 }
 
 #tarteaucitronRoot .tarteaucitronCheck::before {
     content: '\2713';
     display: inline-block;
-    color: #000;
+    color: white;
 }
 
 #tarteaucitronRoot .tarteaucitronPlus::before {
