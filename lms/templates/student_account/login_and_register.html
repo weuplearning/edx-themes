@@ -85,11 +85,23 @@
 
 
 <script>
+
+try {
+    var target0 = document.getElementById('register-anchor').getElementsByClassName('text')[0]
+    target0.innerHTML = `Vous êtes déjà inscrit ?`;
+} catch (error) {
+    console.log('page register');
+}
+
+
 window.addEventListener('load', () => {
     var target = document.getElementsByClassName('checkbox-terms_of_service')[0].getElementsByClassName('label-text')[0];
-    target.innerHTML = `J’accepte les <a href="/tos" rel="noopener" target="_blank">Conditions d'utilisation</a> de l’ESTIA`;
+    target.innerHTML = `J’accepte les <a href="/tos" rel="noopener" target="_blank">Conditions d'utilisation</a>`;
 
     var target2 = document.getElementById('register-anchor').getElementsByClassName('text')[0]
     target2.innerHTML = `Vous êtes déjà inscrit ?`;
+
+    var target3 = document.getElementById('login-email-desc')
+    target3.innerHTML = `L'adresse email utilisée lors de votre inscription`;
 });
 </script>
