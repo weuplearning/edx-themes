@@ -84,24 +84,40 @@
 </div>
 
 
+
 <script>
+    function applyChanges() {
+        try {
+            var target1 = document.querySelector('#register-anchor .text');
+            if (target1) {
+                target1.innerHTML = `Vous êtes déjà inscrit ?`;
+            }
 
-try {
-    var target0 = document.getElementById('register-anchor').getElementsByClassName('text')[0]
-    target0.innerHTML = `Vous êtes déjà inscrit ?`;
-} catch (error) {
-    console.log('page register');
-}
+            var target2 = document.querySelector('.checkbox-terms_of_service .label-text');
+            if (target2) {
+                target2.innerHTML = `J’accepte les <a href="/tos" rel="noopener" target="_blank">Conditions d'utilisation</a>`;
+            }
 
+            var target3 = document.getElementById('login-email-desc');
+            if (target3) {
+                target3.innerHTML = `L'adresse email utilisée lors de votre inscription`;
+            }
+        } catch (e) {
+            console.log("Elements pas encore prêts");
+        }
+    }
 
-window.addEventListener('load', () => {
-    var target = document.getElementsByClassName('checkbox-terms_of_service')[0].getElementsByClassName('label-text')[0];
-    target.innerHTML = `J’accepte les <a href="/tos" rel="noopener" target="_blank">Conditions d'utilisation</a>`;
+    /* 1️⃣ Essai immédiat */
+    applyChanges();
 
-    var target2 = document.getElementById('register-anchor').getElementsByClassName('text')[0]
-    target2.innerHTML = `Vous êtes déjà inscrit ?`;
+    /* 2️⃣ Observer les changements du DOM */
+    const observer = new MutationObserver(() => {
+        applyChanges();
+    });
 
-    var target3 = document.getElementById('login-email-desc')
-    target3.innerHTML = `L'adresse email utilisée lors de votre inscription`;
-});
+    /* 3️⃣ Surveiller toute la page */
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
 </script>
