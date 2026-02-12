@@ -95,21 +95,27 @@
 
         let changed = false;
 
-        const target0 = document.querySelector('#register-anchor .text');
-        if (target0 && target0.innerHTML !== "Vous êtes déjà inscrit ?") {
-            target0.innerHTML = "Vous êtes déjà inscrit ?";
+        const target1 = document.querySelector('#register-anchor .text');
+        if (target1 && target1.innerHTML !== "Vous êtes déjà inscrit ?") {
+            target1.innerHTML = "Vous êtes déjà inscrit ?";
             changed = true;
         }
 
-        const target = document.querySelector('.checkbox-terms_of_service .label-text');
-        if (target && !target.innerHTML.includes("Conditions d'utilisation")) {
-            target.innerHTML = `J’accepte les <a href="/tos" rel="noopener" target="_blank">Conditions d'utilisation</a>`;
+        const target2 = document.querySelector('.checkbox-terms_of_service .label-text');
+        if (target2 && !target2.innerHTML.includes("Conditions d'utilisation")) {
+            target2.innerHTML = `J’accepte les <a href="/tos" rel="noopener" target="_blank">Conditions d'utilisation</a>`;
             changed = true;
         }
 
         const target3 = document.getElementById('login-email-desc');
         if (target3 && target3.innerHTML !== "L'adresse email utilisée lors de votre inscription") {
             target3.innerHTML = "L'adresse email utilisée lors de votre inscription";
+            changed = true;
+        }
+
+        const target4 = document.getElementById('password-reset-email-desc');
+        if (target4 && target4.innerHTML !== "L'adresse email utilisée lors de votre inscription") {
+            target4.innerHTML = "L'adresse email utilisée lors de votre inscription";
             changed = true;
         }
 
