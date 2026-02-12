@@ -86,38 +86,56 @@
 
 
 <script>
+(function () {
+
+    let scheduled = false;
+
     function applyChanges() {
-        try {
-            var target1 = document.querySelector('#register-anchor .text');
-            if (target1) {
-                target1.innerHTML = `Vous êtes déjà inscrit ?`;
-            }
+        scheduled = false;
 
-            var target2 = document.querySelector('.checkbox-terms_of_service .label-text');
-            if (target2) {
-                target2.innerHTML = `J’accepte les <a href="/tos" rel="noopener" target="_blank">Conditions d'utilisation</a>`;
-            }
+        let changed = false;
 
-            var target3 = document.getElementById('login-email-desc');
-            if (target3) {
-                target3.innerHTML = `L'adresse email utilisée lors de votre inscription`;
-            }
-        } catch (e) {
-            console.log("Elements pas encore prêts");
+        const target0 = document.querySelector('#register-anchor .text');
+        if (target0 && target0.innerHTML !== "Vous êtes déjà inscrit ?") {
+            target0.innerHTML = "Vous êtes déjà inscrit ?";
+            changed = true;
+        }
+
+        const target = document.querySelector('.checkbox-terms_of_service .label-text');
+        if (target && !target.innerHTML.includes("Conditions d'utilisation")) {
+            target.innerHTML = `J’accepte les <a href="/tos" rel="noopener" target="_blank">Conditions d'utilisation</a>`;
+            changed = true;
+        }
+
+        const target3 = document.getElementById('login-email-desc');
+        if (target3 && target3.innerHTML !== "L'adresse email utilisée lors de votre inscription") {
+            target3.innerHTML = "L'adresse email utilisée lors de votre inscription";
+            changed = true;
+        }
+
+        return changed;
+    }
+
+    function scheduleApply() {
+        if (!scheduled) {
+            scheduled = true;
+            requestAnimationFrame(applyChanges);
         }
     }
 
-    /* 1️⃣ Essai immédiat */
-    applyChanges();
-
-    /* 2️⃣ Observer les changements du DOM */
-    const observer = new MutationObserver(() => {
-        applyChanges();
+    /* 1️⃣ Premier essai après chargement */
+    window.addEventListener("load", () => {
+        setTimeout(applyChanges, 300);
     });
 
-    /* 3️⃣ Surveiller toute la page */
+    /* 2️⃣ Observer DOM (léger, non bloquant) */
+    const observer = new MutationObserver(scheduleApply);
+
     observer.observe(document.body, {
         childList: true,
         subtree: true
     });
+
+})();
 </script>
+
