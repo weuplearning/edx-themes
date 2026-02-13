@@ -80,9 +80,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 <![endif]-->
 % endif
 
-% if settings.FEATURES.get('ENABLE_COOKIE_CONSENT', False) and request.path not in paths_list:
-  <%include file="../widgets/cookie-consent.html" />
-% endif
+
 
 % if header_language_selector_is_enabled():
     <% languages = released_languages() %>
