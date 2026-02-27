@@ -144,6 +144,72 @@
 
 
 <script>
+idUrlExcept = {
+  // module 1
+  "3274b2879fe84054b4d3595f1f31f968" : "/19cdc98ede7747f29fb43b49137eaad3/dbcddfa561f448da959dc8266fe0ebd0/",
+  // module 2
+  "b4b1623ffb044dab9f82a4f1c49bf383" : "/46c760247f344c3eab303aa0c11c71af/f3cc17ae5107449bb0089e5c02a28339/",
+  // module 3
+  "4023165e291e44e0a0587ca59aa17fcf" : "/46c760247f344c3eab303aa0c11c71af/c8354aa80c304bc78417c5e8813e5b38/",
+  "5fbf9eeb9d18490eb2bc14cab4f001bf" : ""
+};
+
+const idUrl = window.location.pathname.split('/')[5];
+console.log("idUrl:", idUrl);
+
+if (!idUrlExcept.hasOwnProperty(idUrl)) {
+    console.log("ID non exceptionnel");
+} else {
+    console.log("ID OK → Active interception");
+    
+    // FONCTION de redirection
+    function handleClicExceptionnel(e) {
+        if (e.target.matches('.sequence-nav-button.button-next, .sequence-nav-button.button-next *')) {
+            console.log('🛑 CLIC INTERCEPTÉ (delegation) !');
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            e.stopPropagation();
+            
+            const baseUrl = window.location.pathname.split('courseware/')[0] + 'courseware';
+            const redirectUrl = baseUrl + idUrlExcept[idUrl] + window.location.search + window.location.hash;
+            console.log("🔄 Redirection:", redirectUrl);
+            window.location.href = redirectUrl;
+            return false;
+        }
+    }
+    
+    // 1. Delegation IMMÉDIATE sur document (bat les handlers enfants)
+    document.addEventListener('click', handleClicExceptionnel, true); // true = capture phase (prioritaire)
+    console.log("✅ Delegation document activée");
+    
+    // 2. Délai pour direct sur bouton (si existe)
+    setTimeout(() => {
+        const bouton = document.querySelector('.sequence-nav-button.button-next');
+        if (bouton) {
+            bouton.addEventListener('click', handleClicExceptionnel, true);
+            bouton.style.border = '3px solid red !important'; // VISUEL DEBUG (retirez après)
+            console.log("✅ Direct bouton renforcé");
+        }
+    }, 100);
+    
+    // 3. MutationObserver : re-attach si Open edX régénère le nav
+    const observer = new MutationObserver(() => {
+        const bouton = document.querySelector('.sequence-nav-button.button-next');
+        if (bouton && !bouton.dataset.intercepted) {
+            bouton.dataset.intercepted = 'true';
+            bouton.addEventListener('click', handleClicExceptionnel, true);
+            console.log("🔄 Re-attachement MutationObserver");
+        }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+    console.log("✅ Observer mutations actif");
+}
+</script>
+
+
+
+
+<script>
 const previousPagesException = [
   // Module 1
   '51f07780458b4266a15e04bf7823bb84',
@@ -172,20 +238,49 @@ const previousPagesException = [
 
 document.addEventListener('DOMContentLoaded', () => {
 
+
+  if (sessionStorage.getItem('autoNavDone') === window.location.href) {
+    sessionStorage.removeItem('autoNavDone');
+    return;
+  }
+
+  if (!document.referrer) return;
+
   const previousPage = document.referrer.split('/')[7];
   const seqContent = document.querySelector('#seq_content');
+  if (!seqContent) return;
 
-  if (seqContent && seqContent.innerText.trim() === '' && previousPagesException.includes(previousPage)) {
-    const previousButton = document.querySelector('button.sequence-nav-button.button-previous');
-    if (previousButton) {      
+  const isEmpty = seqContent.innerText.trim() === '';
+
+
+  // 🔙 PRIORITÉ previous
+  if (isEmpty && previousPagesException.includes(previousPage)) {
+    const previousButton = document.querySelector(
+      'button.sequence-nav-button.button-previous'
+    );
+
+    if (previousButton) {
+      console.log('click previous');
+
+      // 💾 mémorise l’URL actuelle pour éviter boucle
+      sessionStorage.setItem('autoNavDone', window.location.href);
+
       previousButton.click();
       return;
     }
   }
 
-  if (seqContent && seqContent.innerText.trim() === '') {
-    const nextButton = document.querySelector('button.sequence-nav-button.button-next');
+  // ▶️ sinon next
+  if (isEmpty) {
+    const nextButton = document.querySelector(
+      'button.sequence-nav-button.button-next'
+    );
+
     if (nextButton) {
+      console.log('click next');
+
+      sessionStorage.setItem('autoNavDone', window.location.href);
+
       nextButton.click();
     }
   }
