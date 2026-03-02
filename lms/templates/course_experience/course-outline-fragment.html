@@ -34,6 +34,10 @@ dates_banner_displayed = False
             id="chapter-divison"
             aria-labelledby="expand-collapse-outline-all-button"
         >
+
+            <%
+            custom_field = json.loads(user.profile.custom_field)
+            %>
             % for sectionCount, section in enumerate(course_sections):
             <%
             section_is_auto_opened = section.get('resume_block') is True
@@ -41,6 +45,19 @@ dates_banner_displayed = False
             
             subsectionName = section.get('children', [])[0] if section.get('children') else {}
             img_link = 'arif/images/picto_' + str(sectionCount+1) +'.svg'
+
+
+            completed = False
+
+            if section.get('complete'):
+                completed = True
+
+            scorm_section_completion = custom_field.get(section.get('children',[])[0]['block_id'], None)
+            if scorm_section_completion :
+                completed = False
+
+            if scorm_section_completion and '100' in scorm_section_completion :
+                completed = True
 
             %>
 
@@ -80,12 +97,19 @@ dates_banner_displayed = False
                         else:
                             completion_ratio = completed_blocks / total_blocks
                         %>
+
                     
                         <div class="horizontal-align">
                             <div class="progress-bar-full">
-                                <div style="width:calc(${(completion_ratio * 100)}% - 20px );" class="progress-bar-grade"></div>
+                            %if scorm_section_completion:
+                                <div style="width:${int(scorm_section_completion.split('%')[0]) }%;" class="progress-bar-grade"></div>
+                            </div>
+                            <h2 class="grade-value">${int(scorm_section_completion.split('%')[0])} %</h2>
+                            %else :
+                                <div style="width:${completion_ratio * 100}%;" class="progress-bar-grade"></div>
                             </div>
                             <h2 class="grade-value">${int(completion_ratio * 100)} %</h2>
+                            %endif
                         </div>
 
                     </a>
