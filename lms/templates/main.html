@@ -168,6 +168,27 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
     </script>
 % endif
 
+
+  <!-- COOKIES -->
+  <script type="text/javascript" src="${static.url('js/tarteaucitron.js')}" charset="utf-8"></script>
+  <script>
+    tarteaucitron.init({
+      "privacyUrl": "/tos",
+      "orientation": "bottom",
+      "groupServices": true,
+      "showAlertSmall": false,
+      "cookieslist": true,
+      "mandatory": true,
+      "highPrivacy": true,
+      "useExternalCss": false,
+      "useExternalJs": false
+    });
+
+    // Youtube videos
+    (tarteaucitron.job = tarteaucitron.job || []).push('youtube');
+
+  </script>
+  <!-- COOKIES -->
 </head>
 
 
