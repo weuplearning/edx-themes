@@ -102,11 +102,11 @@ dates_banner_displayed = False
                         <div class="horizontal-align">
                             <div class="progress-bar-full">
                             %if scorm_section_completion:
-                                <div style="width:${int(scorm_section_completion.split('%')[0]) }%;" class="progress-bar-grade"></div>
+                                <div style="width:${int(scorm_section_completion.split('%')[0])*0.97}%;" class="progress-bar-grade"></div>
                             </div>
                             <h2 class="grade-value">${int(scorm_section_completion.split('%')[0])} %</h2>
                             %else :
-                                <div style="width:${completion_ratio * 100}%;" class="progress-bar-grade"></div>
+                                <div style="width:${completion_ratio * 97}%;" class="progress-bar-grade"></div>
                             </div>
                             <h2 class="grade-value">${int(completion_ratio * 100)} %</h2>
                             %endif
