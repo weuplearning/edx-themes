@@ -155,54 +155,47 @@ idUrlExcept = {
 };
 
 const idUrl = window.location.pathname.split('/')[5];
-console.log("idUrl:", idUrl);
 
 if (!idUrlExcept.hasOwnProperty(idUrl)) {
-    console.log("ID non exceptionnel");
+  console.log("ID non exceptionnel");
 } else {
-    console.log("ID OK → Active interception");
-    
-    // FONCTION de redirection
-    function handleClicExceptionnel(e) {
-        if (e.target.matches('.sequence-nav-button.button-next, .sequence-nav-button.button-next *')) {
-            console.log('🛑 CLIC INTERCEPTÉ (delegation) !');
-            e.preventDefault();
-            e.stopImmediatePropagation();
-            e.stopPropagation();
-            
-            const baseUrl = window.location.pathname.split('courseware/')[0] + 'courseware';
-            const redirectUrl = baseUrl + idUrlExcept[idUrl] + window.location.search + window.location.hash;
-            console.log("🔄 Redirection:", redirectUrl);
-            window.location.href = redirectUrl;
-            return false;
-        }
+  console.log("ID OK → Active interception");
+  
+  // FONCTION de redirection
+  function handleClicExceptionnel(e) {
+    if (e.target.matches('.sequence-nav-button.button-next, .sequence-nav-button.button-next *')) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      e.stopPropagation();
+      
+      const baseUrl = window.location.pathname.split('courseware/')[0] + 'courseware';
+      const redirectUrl = baseUrl + idUrlExcept[idUrl] + window.location.search + window.location.hash;
+      window.location.href = redirectUrl;
+      return false;
     }
-    
-    // 1. Delegation IMMÉDIATE sur document (bat les handlers enfants)
-    document.addEventListener('click', handleClicExceptionnel, true); // true = capture phase (prioritaire)
-    console.log("✅ Delegation document activée");
-    
-    // 2. Délai pour direct sur bouton (si existe)
-    setTimeout(() => {
-        const bouton = document.querySelector('.sequence-nav-button.button-next');
-        if (bouton) {
-            bouton.addEventListener('click', handleClicExceptionnel, true);
-            bouton.style.border = '3px solid red !important'; // VISUEL DEBUG (retirez après)
-            console.log("✅ Direct bouton renforcé");
-        }
-    }, 100);
-    
-    // 3. MutationObserver : re-attach si Open edX régénère le nav
-    const observer = new MutationObserver(() => {
-        const bouton = document.querySelector('.sequence-nav-button.button-next');
-        if (bouton && !bouton.dataset.intercepted) {
-            bouton.dataset.intercepted = 'true';
-            bouton.addEventListener('click', handleClicExceptionnel, true);
-            console.log("🔄 Re-attachement MutationObserver");
-        }
-    });
-    observer.observe(document.body, { childList: true, subtree: true });
-    console.log("✅ Observer mutations actif");
+  }
+  
+  // 1. Delegation IMMÉDIATE sur document (bat les handlers enfants)
+  document.addEventListener('click', handleClicExceptionnel, true); // true = capture phase (prioritaire)
+  
+  // 2. Délai pour direct sur bouton (si existe)
+  setTimeout(() => {
+    const bouton = document.querySelector('.sequence-nav-button.button-next');
+    if (bouton) {
+      bouton.addEventListener('click', handleClicExceptionnel, true);
+      bouton.style.border = '3px solid red !important'; // VISUEL DEBUG (retirez après)
+    }
+  }, 100);
+  
+  // 3. MutationObserver : re-attach si Open edX régénère le nav
+  const observer = new MutationObserver(() => {
+    const bouton = document.querySelector('.sequence-nav-button.button-next');
+    if (bouton && !bouton.dataset.intercepted) {
+      bouton.dataset.intercepted = 'true';
+      bouton.addEventListener('click', handleClicExceptionnel, true);
+    }
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
 }
 </script>
 
