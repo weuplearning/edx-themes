@@ -36,8 +36,26 @@
     }
 </style>
 
+<script>
+    setTimeout(() => {
+        var select = document.getElementById('settings-language-value');
+        var frSection = document.getElementById("fr-version");
+        var enSection = document.getElementById("en-version");
+
+        if (select.value === 'fr') {
+            frSection.style.display = 'block';
+            enSection.style.display = 'none';
+        } else {
+            frSection.style.display = 'none';
+            enSection.style.display = 'block';
+        }
+
+    }, 100);
+
+
+</script>
 <main id="main" aria-label="Content" tabindex="-1">
-    <section class="container about">
+    <section class="container about" id="fr-version">
 
         
         <h1>Conditions générales d'utilisation</h1>
@@ -211,6 +229,194 @@
         <p>Conformément aux obligations de cette licence, les éventuelles modifications apportées à la plateforme et accessibles publiquement sont également mises à disposition sous licence AGPL v3.</p>
         <p>Vous pouvez consulter les détails de cette licence à l'adresse suivante : <a href="https://www.gnu.org/licenses/agpl-3.0.fr.html" target="_blank">https://www.gnu.org/licenses/agpl-3.0.fr.html</a>.</p>
         <p>Open edX est une marque déposée d'EDX LLC. L'utilisation de ce logiciel ne constitue en aucun cas une affiliation ou un partenariat officiel avec Open edX ou ses développeurs.</p>
+       
         
+
     </section>
+    <section class="container about" id="en-version">
+
+        <h1>Terms of Use</h1>
+        <p><strong>Last update:</strong> January 20, 2026</p>
+
+        <p>
+            We know you pay close attention to the use and sharing of your personal information
+            and thank you for the trust you place in us to process it carefully,
+            confidentially and responsibly.
+            This policy describes our practices for collecting and processing personal information
+            through our website (hereinafter the “Site”).
+        </p>
+
+        <h2>Data Controller</h2>
+        <p>
+            The company publishing the Site (hereinafter “the Company”) is responsible for the processing
+            of personal information collected and processed in connection with the use of the Site,
+            in accordance with applicable data‑protection regulations.
+        </p>
+
+        <h2>What personal information do we collect?</h2>
+        <p>
+            We collect personal information in order to provide, operate and continuously improve
+            the Site and its services.
+        </p>
+
+        <h3>Information you provide to us</h3>
+        <p>
+            We collect and store the information you voluntarily provide to us,
+            notably when creating a user account, registering for services,
+            or contacting us via the Site.
+            Refusing to provide certain information may limit access to some features.
+        </p>
+
+        <h3>Information collected automatically</h3>
+        <p>
+            We automatically collect certain information about your use of the Site,
+            such as your interactions with the contents and services offered.
+            This includes, in particular, the use of cookies and similar technologies.
+        </p>
+        <p>
+            These data may relate to your navigation, your progress through services or modules,
+            as well as technical information about your device or browser.
+        </p>
+
+        <h2>Purposes of processing</h2>
+        <p>
+            We process your personal information for the following purposes:
+        </p>
+        <ul>
+            <li>Provide, operate and improve the Site and its features</li>
+            <li>Analyze performance, correct errors and optimize the user experience</li>
+            <li>Communicate with you, including by electronic means</li>
+            <li>Comply with our legal and regulatory obligations</li>
+            <li>Carry out anonymized statistical analyses</li>
+        </ul>
+
+        <h2>Cookies</h2>
+        <p>
+            We use cookies and similar technologies to measure the Site’s audience,
+            analyze the content viewed and improve its operation.
+            For more information, please see our cookie policy.
+        </p>
+
+        <h2>Sharing of personal information</h2>
+        <p>
+            We do not sell our users’ personal information.
+            Data may be shared only in the following cases:
+        </p>
+
+        <h3>Service providers</h3>
+        <p>
+            We may use third‑party service providers to deliver certain services
+            (such as hosting, maintenance, email delivery or audience measurement).
+            These providers have access only to the information strictly necessary
+            and are contractually required to protect it.
+        </p>
+
+        <h3>Transfer of business</h3>
+        <p>
+            As part of a reorganization, sale or acquisition,
+            user information may be transferred,
+            while remaining subject to this privacy policy.
+        </p>
+
+        <h3>Legal obligations and protection</h3>
+        <p>
+            We may disclose certain information when required by law,
+            or when necessary to protect our rights, our security,
+            or that of our users and partners.
+        </p>
+
+        <h2>Transfers outside the European Economic Area</h2>
+        <p>
+            When data are transferred outside the European Economic Area,
+            we ensure that these transfers are governed by appropriate safeguards,
+            in accordance with applicable regulations.
+        </p>
+
+        <h2>Security of information</h2>
+        <p>
+            We implement appropriate technical and organizational measures
+            to protect your personal information against unauthorized access,
+            loss, alteration or disclosure.
+        </p>
+
+        <p>
+            We recommend that you protect your login credentials
+            and log out after each use on a shared device.
+        </p>
+
+        <h2>Access to your information</h2>
+        <p>
+            You can access certain personal information via your user account,
+            including your account data and your history of service usage.
+        </p>
+
+        <h2>Your rights</h2>
+        <p>
+            In accordance with applicable regulations, you have the following rights in particular:
+        </p>
+        <ul>
+            <li>Right of access to your data</li>
+            <li>Right to rectification and updating</li>
+            <li>Right to erasure</li>
+            <li>Right to restriction or objection to processing</li>
+            <li>Right to data portability</li>
+        </ul>
+
+        <p>
+            To exercise your rights or to ask any questions regarding the protection of your data,
+            you can contact the Company at the contact address indicated on the Site.
+        </p>
+
+        <h2>Retention period</h2>
+        <p>
+            We retain your personal information only for the duration necessary
+            to achieve the purposes described in this policy,
+            or to comply with our legal obligations.
+        </p>
+
+        <h2>Legal basis of processing</h2>
+        <p>
+            Data processing is based in particular on:
+        </p>
+        <ul>
+            <li>Our legitimate interests (improving the Site, communications, analyses)</li>
+            <li>Your consent when required</li>
+            <li>Compliance with legal obligations</li>
+        </ul>
+
+        <h2>Modifications of the policy</h2>
+        <p>
+            As our business evolves, this privacy policy may be updated.
+            We invite you to consult it regularly.
+            Any substantial change will be brought to your attention.
+        </p>
+
+        <br>
+        <br>
+
+        <h1>Legal Notices</h1>
+        <p><strong>The publisher of the site formation.arif.ch is: <a href="https://arif.ch" target="_blank">arif.ch</a></strong></p>
+
+        <p><strong>Hosting provider:</strong> OVH, 2 rue Kellermann, 59100 Roubaix</p>
+
+        <p style="font-weight: bold;">Use of Open edX</p>
+        <p>
+            Our platform uses the open‑source software <a href="https://openedx.org/fr/" target="_blank" rel="noopener noreferrer">Open edX</a>,
+            developed and maintained by the Open edX community.
+            Open edX is distributed under the AGPL v3 (Affero General Public License version 3).
+        </p>
+        <p>
+            In accordance with the obligations of this license, any modifications made to the platform
+            and accessible to the public are also made available under the AGPL v3 license.
+        </p>
+        <p>
+            You can view the details of this license at the following address:
+            <a href="https://www.gnu.org/licenses/agpl-3.0.fr.html" target="_blank">https://www.gnu.org/licenses/agpl-3.0.fr.html</a>.
+        </p>
+        <p>
+            Open edX is a trademark of edX LLC.
+            The use of this software in no way constitutes an affiliation or official partnership with Open edX or its developers.
+        </p>
+    </section>
+
 </main>

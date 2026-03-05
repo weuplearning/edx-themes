@@ -160,6 +160,25 @@
 </script>
 % endif
 
+
+<script>
+    setTimeout(() => {
+        var select = document.getElementById('settings-language-value');
+        var nameLabel = document.getElementsByClassName("text-name")[0].getElementsByClassName('label-text')[0];
+        var birthDateLabel = document.getElementsByClassName("text-birth_date")[0].getElementsByClassName('label-text')[0];
+
+        if (select.value === 'fr') {
+            nameLabel.textContent = "Nom et prénom";
+            birthDateLabel.textContent = "Date de naissance";
+        } else {
+            nameLabel.textContent = "First and last name";
+            birthDateLabel.textContent = "Birth date";
+        }
+
+    }, 100);
+
+</script>
+
 <script>
 (function () {
 
@@ -167,13 +186,11 @@
         var observer = new MutationObserver(function () {
             var nameInput = document.getElementById("register-name");
             var usernameInput = document.getElementById("register-username");
-
             if (nameInput && usernameInput) {
                 observer.disconnect();
                 callback(nameInput, usernameInput);
             }
         });
-
         observer.observe(document.body, {
             childList: true,
             subtree: true
@@ -194,21 +211,17 @@
     }
 
     whenElementsReady(function (nameInput, usernameInput) {
-
         function updateUsername() {
             if (!nameInput.value) {
                 return;
             }
-
             var base = slugify(nameInput.value);
             if (!base) {
                 return;
             }
-
             var hash = randomHash();
             usernameInput.value = (base + "-" + hash).substring(0, 30);
         }
-
         nameInput.addEventListener("input", updateUsername);
     });
 

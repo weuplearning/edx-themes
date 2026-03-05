@@ -49,14 +49,16 @@
       <div class="courses${'' if course_discovery_enabled else ' no-course-discovery'}" role="region" aria-label="${_('List of Courses')}">
         <ul class="courses-listing courses-list">
           %for course in courses:
-            %if course not in ecommerce_courses :
+            %if str(course.id) not in ecommerce_courses and str(course.id).find(user_language) != -1:
             <li class="courses-listing-item">
               <%include file="../course.html" args="course=course" />
             </li>
+
             %endif
           %endfor
         </ul>
       </div>
+
 
     </section>
     <img id="motif-bckg-1" src="${static.url('arif/images/motif.svg')}" alt="motif-1">
@@ -261,6 +263,34 @@
     }
   }
 </style>
+
+<script>
+  // Si Liste vide 
+
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const courseList = document.querySelector(".courses-listing.courses-list");
+    const select = document.getElementById('settings-language-value');
+
+
+    if (courseList && courseList.children.length === 0 && select.value === 'fr') {
+      const message = document.createElement("p");
+      message.textContent = "Aucun cours gratuit n'est disponible pour le moment, vous pouvez vous rendre sur https://arif.ch pour découvrir nos autres formations.";
+      message.style.fontWeight = "bold";
+      message.style.backgroundColor = "white";
+      
+      courseList.parentNode.insertBefore(message, courseList);
+      
+    } else if (courseList && courseList.children.length === 0) {
+      const message = document.createElement("p");
+      message.textContent = "No free courses are currently available, you can visit https://arif.ch to discover our other training courses.";
+      message.style.fontWeight = "bold";
+      message.style.backgroundColor = "white";
+      
+      courseList.parentNode.insertBefore(message, courseList);
+    }
+  });
+</script>
 
 <script>
   let savoirPlusElements = document.querySelectorAll(".savoir_plus");
