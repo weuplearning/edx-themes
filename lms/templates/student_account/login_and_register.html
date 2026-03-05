@@ -166,13 +166,16 @@
         var select = document.getElementById('settings-language-value');
         var nameLabel = document.getElementsByClassName("text-name")[0].getElementsByClassName('label-text')[0];
         var birthDateLabel = document.getElementsByClassName("text-birth_date")[0].getElementsByClassName('label-text')[0];
+        var birthDatePlaceholder = document.getElementById('register-birth_date')
 
         if (select.value === 'fr') {
             nameLabel.textContent = "Nom et prénom";
             birthDateLabel.textContent = "Date de naissance";
+            birthDatePlaceholder.placeholder = "JJ/MM/AAAA";
         } else {
             nameLabel.textContent = "First and last name";
             birthDateLabel.textContent = "Birth date";
+            birthDatePlaceholder.placeholder = "DD/MM/YYYY";
         }
 
     }, 100);
