@@ -8,7 +8,7 @@
         <td>
             <h1>
                 {% filter force_escape %}
-                {% if course_name.find("Loi") != -1 %}
+                {% if "Loi" in course_name %}
                 Vous avez été invité à rejoindre le cours {{ course_name }}
                 {% else %}
                 You have been invited to join the course {{ course_name }}
@@ -18,7 +18,7 @@
 
             <p style="color: rgba(0,0,0,.75);">
                 {% filter force_escape %}
-                {% if course_name.find("Loi") != -1 %}
+                {% if "Loi" in course_name %}
                 Vous avez été invité à rejoindre le cours {{ course_name }} sur {{ site_name }} suite à votre achat sur le site de l'ARIF.
                 {% else %}
                 You have been invited to join the course {{ course_name }} at {{ site_name }} due to your purchase on the ARIF website.
@@ -30,7 +30,7 @@
 
             <p style="color: rgba(0,0,0,.75);">
                 {% filter force_escape %}
-                {% if course_name.find("Loi") != -1 %}
+                {% if "Loi" in course_name %}
                 Veuillez terminer votre inscription et remplir le formulaire d'inscription en vous assurant d'utiliser {{ email_address }} dans le champ Email:
                 {% else %}
                 Please finish your registration and fill out the registration form making sure to use {{ email_address }} in the Email field:
@@ -45,7 +45,7 @@
             <p style="color: rgba(0,0,0,.75);">
 
                 {% filter force_escape %}
-                {% if course_name.find("Loi") != -1 %}
+                {% if "Loi" in course_name %}
                 Une fois votre compte créé et activé, vous pourrez accéder à la formation : {{ course_name }} depuis votre tableau de bord.
                 {% else %}
                 Once you have registered and activated your account, you will be able to access the course: {{ course_name }} on your dashboard.
