@@ -162,23 +162,27 @@
 
 
 <script>
-    setTimeout(() => {
+    var intervalId = setInterval(() => {
         var select = document.getElementById('settings-language-value');
         var nameLabel = document.getElementsByClassName("text-name")[0].getElementsByClassName('label-text')[0];
         var birthDateLabel = document.getElementsByClassName("text-birth_date")[0].getElementsByClassName('label-text')[0];
         var birthDatePlaceholder = document.getElementById('register-birth_date')
+        var tosLabel = document.getElementsByClassName('checkbox-terms_of_service')[0].getElementsByClassName('label-text')[0];
 
         if (select.value === 'fr') {
             nameLabel.textContent = "Nom et prénom";
             birthDateLabel.textContent = "Date de naissance";
             birthDatePlaceholder.placeholder = "JJ/MM/AAAA";
+            tosLabel.innerHTML = "J'accepte les <a href=\"/tos\" rel=\"noopener\" target=\"_blank\">Conditions d'utilisation</a> d'ARIF"
         } else {
             nameLabel.textContent = "First and last name";
             birthDateLabel.textContent = "Birth date";
             birthDatePlaceholder.placeholder = "DD/MM/YYYY";
+            tosLabel.innerHTML = "I agree to the ARIF <a href=\"/tos\" rel=\"noopener\" target=\"_blank\">Terms of Service</a>"
         }
-
-    }, 100);
+        
+        clearInterval(intervalId);
+    }, 200);
 
 </script>
 
