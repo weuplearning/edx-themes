@@ -8,41 +8,33 @@
         <td>
             <h1>
                 {% filter force_escape %}
-                {% blocktrans %}You have been invited to {{ course_name }}{% endblocktrans %}
+                {% if course_name.find("Loi") != -1 %}
+                Vous avez été invité à rejoindre le cours {{ course_name }}
+                {% else %}
+                You have been invited to join the course {{ course_name }}
+                {% endif %}
                 {% endfilter %}
             </h1>
 
             <p style="color: rgba(0,0,0,.75);">
                 {% filter force_escape %}
-                {% blocktrans %}You have been invited to join {{ course_name }} at {{ site_name }} by a member of the course staff.{% endblocktrans %}
+                {% if course_name.find("Loi") != -1 %}
+                Vous avez été invité à rejoindre le cours {{ course_name }} sur {{ site_name }} suite à votre achat sur le site de l'ARIF.
+                {% else %}
+                You have been invited to join the course {{ course_name }} at {{ site_name }} due to your purchase on the ARIF website.
+                {% endif %}
                 {% endfilter %}
                 <br />
             </p>
 
-        {% if is_shib_course %}
-            {% if auto_enroll %}
-                <p style="color: rgba(0,0,0,.75);">
-                    {% filter force_escape %}
-                    {% blocktrans %}To access this course click on the button below and login:{% endblocktrans %}
-                    {% endfilter %}
-                    <br />
-                </p>
 
-                {% include "ace_common/edx_ace/common/return_to_course_cta.html" with course_cta_text=course_name course_cta_url=course_url %}
-            {% elif course_about_url is not None %}
-                <p style="color: rgba(0,0,0,.75);">
-                    {% filter force_escape %}
-                    {% blocktrans %}To access this course visit it and register:{% endblocktrans %}
-                    {% endfilter %}
-                    <br />
-                </p>
-
-                {% include "ace_common/edx_ace/common/return_to_course_cta.html" with course_cta_text=course_name course_cta_url=course_about_url %}
-            {% endif %}
-        {% else %}
             <p style="color: rgba(0,0,0,.75);">
                 {% filter force_escape %}
-                {% blocktrans %}Please finish your registration and fill out the registration form making sure to use {{ email_address }} in the Email field:{% endblocktrans %}
+                {% if course_name.find("Loi") != -1 %}
+                Veuillez terminer votre inscription et remplir le formulaire d'inscription en vous assurant d'utiliser {{ email_address }} dans le champ Email:
+                {% else %}
+                Please finish your registration and fill out the registration form making sure to use {{ email_address }} in the Email field:
+                {% endif %}
                 {% endfilter %}
                 <br />
             </p>
@@ -51,32 +43,23 @@
             {% include "ace_common/edx_ace/common/return_to_course_cta.html" with course_cta_text=button_cta_text course_cta_url=registration_url %}
 
             <p style="color: rgba(0,0,0,.75);">
-                {% if auto_enroll %}
-                    {% filter force_escape %}
-                    {% blocktrans %}Once you have registered and activated your account, you will see {{ course_name }} listed on your dashboard.{% endblocktrans %}
-                    {% endfilter %}
-                {% elif course_about_url is not None %}
-                    {% filter force_escape %}
-                    {% blocktrans %}Once you have registered and activated your account, you will be able to access this course:{% endblocktrans %}
-                    {% endfilter %}
-                    {% include "ace_common/edx_ace/common/return_to_course_cta.html" with course_cta_text=course_name course_cta_url=course_about_url %}
+
+                {% filter force_escape %}
+                {% if course_name.find("Loi") != -1 %}
+                Une fois votre compte créé et activé, vous pourrez accéder à la formation : {{ course_name }} depuis votre tableau de bord.
                 {% else %}
-                    {% filter force_escape %}
-                    {% blocktrans %}You can then enroll in {{ course_name }}.{% endblocktrans %}
-                    {% endfilter %}
+                Once you have registered and activated your account, you will be able to access the course: {{ course_name }} on your dashboard.
                 {% endif %}
+                {% endfilter %}
                 <br />
             </p>
-        {% endif %}
             <p style="color: rgba(0,0,0,.75);">
                 {% filter force_escape %}
                 {% blocktrans %}This email was automatically sent from {{ site_name }} to {{ email_address }}{% endblocktrans %}
                 {% endfilter %}
                 <br />
             </p>
-            <p>
-                Ceci est une modification sur le body.html
-            </p>
+
         </td>
     </tr>
 </table>

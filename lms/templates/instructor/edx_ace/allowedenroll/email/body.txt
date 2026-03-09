@@ -12,4 +12,3 @@
 {% endif %}
 {% endif %}----
 {% blocktrans %}This email was automatically sent from {{ site_name }} to {{ email_address }}{% endblocktrans %}{% endautoescape %}
-Ceci est une modification sur le body.txt
