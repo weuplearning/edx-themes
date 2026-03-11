@@ -35,6 +35,22 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
   .course-index .wrapper-course-modes, .unit-title, .bookmark-button-wrapper {
     display: none !important;
   }
+
+
+  /* overwrite Studio CSS rules */
+  .important-text {
+    color: #F3A32A !important;
+    margin-bottom: none !important;
+    font-size:26px !important;
+    text-decoration: none !important;
+    text-align: center !important;
+  }
+  .italic-text {
+    font-style: italic;
+    color: #1a171c;
+    font-size: 16px;
+    text-align: center !important;
+  }
 </style>
 
 % if display_reset_dates_banner:
