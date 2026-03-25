@@ -251,7 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const isEmpty = seqContent.innerText.trim() === '';
 
 
-  // 🔙 PRIORITÉ previous
+  // 🔙 PRIORITÉ previous 
   if (isEmpty && previousPagesException.includes(previousPage)) {
     const previousButton = document.querySelector(
       'button.sequence-nav-button.button-previous'
@@ -262,7 +262,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // 💾 mémorise l’URL actuelle pour éviter boucle
       sessionStorage.setItem('autoNavDone', window.location.href);
-
       previousButton.click();
       return;
     }
@@ -278,7 +277,6 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log('click next');
 
       sessionStorage.setItem('autoNavDone', window.location.href);
-
       nextButton.click();
     }
   }
