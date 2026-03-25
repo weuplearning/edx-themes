@@ -85,7 +85,12 @@ custom_fields = json.loads(user.profile.custom_field)
   .accordion .chapter-content-container:nth-of-type(4) .menu-item:nth-of-type(16) .accordion-nav,
   .accordion .chapter-content-container:nth-of-type(4) .menu-item:nth-of-type(25) .accordion-nav,
   .accordion .chapter-content-container:nth-of-type(4) .menu-item:nth-of-type(29) .accordion-nav,
-  .accordion .chapter-content-container:nth-of-type(4) .menu-item:nth-of-type(33) .accordion-nav
+  .accordion .chapter-content-container:nth-of-type(4) .menu-item:nth-of-type(33) .accordion-nav,
+  .accordion .chapter-content-container:nth-of-type(5) .menu-item:nth-of-type(1) .accordion-nav,
+  .accordion .chapter-content-container:nth-of-type(5) .menu-item:nth-of-type(6) .accordion-nav,
+  .accordion .chapter-content-container:nth-of-type(5) .menu-item:nth-of-type(11) .accordion-nav,
+  .accordion .chapter-content-container:nth-of-type(5) .menu-item:nth-of-type(18) .accordion-nav,
+  .accordion .chapter-content-container:nth-of-type(5) .menu-item:nth-of-type(23) .accordion-nav
   {
     pointer-events: none;
     cursor: default;
@@ -109,7 +114,12 @@ custom_fields = json.loads(user.profile.custom_field)
   .accordion .chapter-content-container:nth-of-type(4) .menu-item:nth-of-type(16) .accordion-display-name,
   .accordion .chapter-content-container:nth-of-type(4) .menu-item:nth-of-type(25) .accordion-display-name,
   .accordion .chapter-content-container:nth-of-type(4) .menu-item:nth-of-type(29) .accordion-display-name,
-  .accordion .chapter-content-container:nth-of-type(4) .menu-item:nth-of-type(33) .accordion-display-name
+  .accordion .chapter-content-container:nth-of-type(4) .menu-item:nth-of-type(33) .accordion-display-name,
+  .accordion .chapter-content-container:nth-of-type(5) .menu-item:nth-of-type(1) .accordion-display-name,
+  .accordion .chapter-content-container:nth-of-type(5) .menu-item:nth-of-type(6) .accordion-display-name,
+  .accordion .chapter-content-container:nth-of-type(5) .menu-item:nth-of-type(11) .accordion-display-name,
+  .accordion .chapter-content-container:nth-of-type(5) .menu-item:nth-of-type(18) .accordion-display-name,
+  .accordion .chapter-content-container:nth-of-type(5) .menu-item:nth-of-type(23) .accordion-display-name
   {
     color:#00437a;
     font-weight: 800;
@@ -135,10 +145,23 @@ custom_fields = json.loads(user.profile.custom_field)
   .accordion .chapter-content-container:nth-of-type(4) .menu-item:nth-of-type(25) .check-circle,
   .accordion .chapter-content-container:nth-of-type(4) .menu-item:nth-of-type(29) .check-circle,
   .accordion .chapter-content-container:nth-of-type(4) .menu-item:nth-of-type(33) .check-circle,
+  .accordion .chapter-content-container:nth-of-type(5) .menu-item:nth-of-type(1) .check-circle,
+  .accordion .chapter-content-container:nth-of-type(5) .menu-item:nth-of-type(6) .check-circle,
+  .accordion .chapter-content-container:nth-of-type(5) .menu-item:nth-of-type(11) .check-circle,
+  .accordion .chapter-content-container:nth-of-type(5) .menu-item:nth-of-type(18) .check-circle,
+  .accordion .chapter-content-container:nth-of-type(5) .menu-item:nth-of-type(23) .check-circle,
   .sequence-nav, .bookmark-button-wrapper,.bookmarks-list-button, .subtitle {
     display: none !important;
   }
 
+
+
+  
+  @media (max-width: 768px) {
+    .course-index {
+      display: none;
+    }
+  }
 </style>
 
 % if display_reset_dates_banner:
