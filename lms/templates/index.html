@@ -1,999 +1,205 @@
 <%page expression_filter="h"/>
 <%inherit file="main.html" />
 <%namespace name='static' file='static_content.html'/>
-<%namespace file='main.html' import="login_query"/>
 <%!
+import json
 from django.utils.translation import ugettext as _
 from django.urls import reverse
-
+from django.conf import settings
 from openedx.core.djangolib.markup import HTML, Text
 %>
+<%
+with open(settings.REPO_ROOT / "/edx/app/edxapp/edx-themes/icope/lms/templates/homepage_trads.json", "r", encoding="utf-8") as f:
+  texts = json.load(f)
 
-<style>
-  *{
-    transition: 0.3s;
-  }
-  html, body {
-      max-width: 100%;
-      overflow-x: hidden;
-  }
-  .home, #home-video-area  {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  .content-wrapper {
-    max-width: none;
-  }
-  p {
-    color: #475059;
-    font-size: 35px;
-    line-height: 1.5;
-  }
-  li {
-    font-size: 30px;
-    line-height: 2;
-    color: #475059;
-  }
-  .flex {
-    display: flex;
-  }
+current_lang = LANGUAGE_CODE[:2] if LANGUAGE_CODE else "fr"
+lang_texts = texts.get(current_lang, texts.get("fr", {}))
+%>
 
 
-  .horizontal-align {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .vertical-align {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    flex: 1;
-    margin-top: -20px;
-  }
-
-  /* VIOLET-LOGIN AREA */
-
-  #header-logo-1 {
-    width: 180px;
-    margin-right: 5px;
-  }
-  #header-logo-2 {
-    width: 122px;
-  }
-
-  #home-header {
-    background-color: #9186AE;
-    background-size: cover;
-    height: 367px;
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-  }
-  #tournis-1 {
-    position: absolute;
-    top: -42px;
-    left: -130px;
-  }
-  #tournis-2 {
-    position: absolute;
-    bottom: -49px;
-    left: 731px;
-  }
-  #tournis-3 {
-    position: absolute;
-    top: 60px;
-    right: -350px;
-  }
-  .log-button {
-    box-shadow: -10px 10px 7px slategrey;
-    width: 494px;
-    height: 130px;
-    font-size: 35px;
-    font-weight: bold;    
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-    margin: 20px;
-    z-index: 10;
-  }
-  a {
-    color: white;
-    text-decoration: none;
-  }
-  a:hover {
-    text-decoration:none; 
-    cursor:pointer;  
-  }
-  .register-btn-main {
-    background-color: #34A2DA;
-    color: white;
-  }
-  .register-btn-main:hover{
-    filter: brightness(0.9);
-  }
-  .register-btn-main:active{
-    filter: brightness(0.9);
-  }
-  .login-btn-main {
-    background-color: #1F6992;
-  }
-  .login-btn-main:hover{
-    filter: brightness(0.9);
-  }
-  .login-btn-main:hover{
-    filter: brightness(0.9);
-  }
-  .registerButton{
-    color: white;
-  }
-  .registerButtonExtra{
-    cursor: pointer;
-  }
-
-  /* VIDEO AREA */
-  #video-player-area {
-    margin: auto 160px auto 90px;
-    height: 596px;
-    width: 1085px;
-  }
-  #home-video-area  {
-    padding: 30px 0;
-    margin-top: 136px;
-  }
-  #home-video-area  p {
-    text-align: center;
-    font-size: 38px;
-    color: #35A2DA;
-    line-height: normal;
-    padding: 97px 214px
-  }
-
-  /* TRIPLE AREA */
-  #trio-area {
-    font-size: 30px;
-    line-height: normal;
-    height: 746px;
-  }
-  #trio-area > p {
-    font-size: 35px;
-  }
-  #trio-area > .horizontal-align {
-    align-items: flex-start !important;
-    margin-top: 25px;
-  }
-  #trio-area > .horizontal-align p {
-    font-size: 30px;
-    text-align: center;
-    color: #35A2DA;
-    margin: 14px;
-    font-weight: 800;
-    max-width: 605px;
-  }
-  #trio-area > .vertical-align p {
-    font-size: 35px;
-    text-align: center;
-    margin: 75px auto 172px auto;
-    padding: 0 25px;
-    max-width: 1493px;
-  }
-  .rainbow-img {
-    height: 165px;
-    width: 325px;
-  }
-
-
-  /* ORANGE AREA  */
-  #orange-background {
-    background-color: #F2816F;
-    padding: 99px 111px 105px 111px;
-    height: 1760px;
-    width: 100vw;
-    position: relative;
-  }
-  #tournis-4 {
-    position: absolute;
-    top: 250px;
-    left: 0;
-    transform: rotate(180deg);
-    z-index: 1;
-  }
-  #tournis-5 {
-    position: absolute;
-    top: 806px;
-    left: -614px;
-    transform: rotate(180deg);
-    z-index: 1;
-  }
-  #tournis-6 {
-    position: absolute;
-    top: 500px;
-    right: 0;
-    z-index: 1;
-  }
-  #tournis-7 {
-    position: absolute;
-    bottom: 300px;
-    right: -100px;
-    z-index: 1;
-  }
-  .inside-background{
-    background-color: white;
-    max-width: 1696px;
-    z-index: 2;
-  }
-  #left-column-orange-area {
-    width: 66%;
-    min-height: 506px;
-    z-index: 3;
-    font-size: 35px;
-    color: #475059;
-    padding: 140px 75px 90px 140px;
-  }
-  #left-column-orange-area > p:nth-child(1) {
-    font-size: 50px;
-    font-weight: 700;
-    line-height: 1.5;
-  }
-  #left-column-orange-area > p:last-child {
-    font-size: 35px;
-    line-height: 1.5;
-  }
-  #right-column-orange-area {
-    height: 446px;
-    width: 662px;
-    z-index: 3;
-  }
-  .inside-background div:nth-child(2) > p {
-    font-weight: 700;
-    margin-bottom: 30px;
-  }
-  .inside-background div:nth-child(2) > img {
-    height: 720px;
-    width: 1281px; 
-    z-index: 3;
-  }
-  .orange-text{
-    color:#F2816F;
-  }
-  #last-text-orange-area {
-    font-size: 35px;
-    color: #475059;
-    text-align: center;
-    margin: 14px 78px 53px 78px;
-    line-height: 1.4;
-  }
-  .line-orange {
-    width: 27%;
-    border-top: #F2816F 6px solid;
-    margin-bottom: 50px;
-  }
-
-  /* PLAN AREA */
-  #plan-area {
-    margin: 80px;
-  }
-  #plan-area > div:first-child {
-    position: relative;
-    text-align: end;
-    width: 90vw;
-    margin-bottom: 80px;
-  }
-  #plan-area > div:first-child > p {
-    font-size: 50px;
-    margin-bottom: 20px;
-  }
-  #plan-area > div:first-child > div {
-    position: absolute;
-    bottom: 0;
-    right: 200px; 
-  }
-  .line-jaune {
-    width: 200px;
-    border-top: 6px #FFCB60 solid;
-  }
-  #video-player-area-2 {
-    height: 425px;
-    width: 767px;
-  }
-  #title-steps-area {
-    margin: 100px 0 50px 0;
-    position: relative;
-  }
-  #title-steps-area > div{
-    position: absolute;
-    bottom: -8px;
-    left: 10px; 
-  }
-  #step-one-text {
-    width: 88%;
-    height: 40rem;
-    /* background-image: url("${static.url('icope/images/Motif_gris__2.png')}");
-    background-size: contain;
-    background-position: bottom;
-    background-position-x: 713px;
-    background-repeat: no-repeat; */
-  }
-  .stepOneText-img{
-    width: 90rem;
-    float: right;
-    overflow: hidden;
-    margin-right: -56rem;
-    margin-top: -16rem;
-  }
-  .step-div{
-    position: relative;
-    margin-bottom: 50px;
-  }
-  .step-div > p {
-    font-size: 50px;
-    font-weight: bold;
-  }
-  .step-number-img {
-    position: absolute;
-    top: 0px;
-    left: 67px;
-    width: 230px;
-}
-.step-number-img2 {
-    position: absolute;
-    top: 0px;
-    left: 38px;
-    width: 230px;
-}
-  #step-one-list {
-    list-style: none;
-    /* list-style: url("${static.url('icope/images/Puce_rouge.png')}"); */
-    /* list-style: url("${static.url('icope/images/puce_R.png')}"); */
-    line-height: 2;
-    margin: 100px 0 0 75px;
-  }
-  li::marker {
-    margin-right: 25px;
-  }
-  /* step two */
-  #step-two-text {
-    width: 88%;
-    padding: 200px 200px 10px 200px;
-    /* background-image: url("${static.url('icope/images/Image_principal.png')}");
-    background-size: contain;
-    background-position: bottom;
-    background-position-x: -300px;
-    background-repeat: no-repeat; */
-  }
-  .stepTwoText-columns{
-    align-items: unset;
-    margin-top: 10rem;
-  }
-  .stepTwoText-img{
-    width: 100rem;
-    margin-left: -56rem;
-    margin-top: -52rem;
-  }
-  #step-two-list {
-    list-style: url("${static.url('icope/images/Puce_bleu.png')}");
-    line-height: 2;
-    margin: 100px 0 0 75px;
-  }
-  #step-three-list {
-    list-style: url("${static.url('icope/images/Puce_jaune.png')}");
-    line-height: 2;
-    margin: 100px 0 0 75px;
-  }
-
-  /* ----- section - "prefooter" ----- */
-
-  .sectionPreFooter{
-    display: flex;
-    margin-bottom: -0.1rem;
-  }
-  .sectionPreFooter-columns{
-    padding: 2rem;
-  }
-  .sectionPreFooter-column1{
-    width: 50%;
-    background: #35A2DA;
-    background-image: url("/static/icope/images/motif_gris_1.50d34413810e.png"), url("/static/icope/images/motif_gris_1.50d34413810e.png"), url("/static/icope/images/motif_gris_1-2.843c0b262387.png");
-    background-repeat: no-repeat;
-    background-position-x: 2rem, 30rem, 30rem;
-    background-position-y: 14rem, 14rem, -2rem;
-    background-size: 22rem;
-  }
-  .sectionPreFooter-column2{
-    width: 50%;
-    background: #9186AE;
-    background-image: url("/static/icope/images/motif_gris_1-1.d816156016ab.png");
-    background-repeat: no-repeat;
-    background-position: right;
-    background-size: 9rem;
-  }
-  .sectionPreFooter-title{
-    font-weight: bold;
-    font-size: 2.5rem;
-    color: #FFFFFF;
-  }
-  .sectionPreFooter-borderBottom{
-    background: white 0.5rem;
-    width: 19rem;
-    height: 0.35rem;
-    margin: 1rem 0rem;
-    border-radius: 0.5rem;
-  }
-  .sectionPreFooter-text{
-    color: #FFFFFF;
-    font-size: 1.7rem;
-  }
-  .sectionPreFooter-bkgImg-cols{
-    position: absolute;
-    width: 22rem;
-    overflow: hidden;
-    display: none;
-  }
-  .sectionPreFooter-bkgImg1{
-    margin-top: 6rem;
-    /* bottom: 5rem; */
-    /* width: 15rem; */
-    transform: rotate(180deg);
-    left: 26rem;
-  }
-  .sectionPreFooter-bkgImg2{
-    margin-top: -15rem;
-    /* bottom: unset; */
-    left: 26rem;
-  }
-  .sectionPreFooter-bkgImg3{
-    margin-top: 6rem;
-    bottom: unset;
-    left: 1.5rem;
-    transform: rotate(180deg);
-  }
-  .sectionPreFooter-bkgImg4{
-    top: unset;
-    bottom: unset;
-  }
-
-  /* --------------- section map ------------------ */
-  
-  .mapSection{
-    z-index: 3;
-    display: none;
-    opacity: 0;
-    animation: ease-in-out;
-    position: absolute;
-    top: 0rem;
-  }
-  .mapSection-show{
-    transition: 0.3s;
-    display: block;
-    opacity: 1;
-    animation: ease-in-out;
-    width: 100%;
-  }
-  .mapSectionLayer1{
-    background: #35A2DA;
-    padding: 2rem;
-    border-radius: 0.3rem;
-    width: 800px;
-    margin: auto;
-    text-align: center;
-    margin-top: 3rem;
-  }
-  .mapSectionLayer2{
-    background: #FFFFFF;
-    padding: 3rem;
-    border-radius: 0.3rem;
-  }
-  .tempSpace{
-    height: 5rem;
-  }
-  .mapSection-title-block{
-    float: left;
-  }
-  .mapSection-title{
-    font-weight: bold;
-    font-size: 1.5rem;
-  }
-  .mapSection-underlineTitle{
-    height: 0.4rem;
-    background: #F2816F;
-    width: 7rem;
-    margin-bottom: 3rem;
-    margin-top: 0.5rem;
-  }
-  .mapSection-closeButton{
-    float: right;
-    cursor: pointer;
-  }
-  .mapSection-closeButton:hover{
-    transform: rotate(45deg);
-  }
-  .mapSection-closeButton:active{
-    transform: rotate(45deg);
-  }
-  .mapSection-closeButton > img {
-    width: 2rem;
-  }
-  .mapSection-mapGlobale{
-    /* margin: 4rem 0rem; */
-    width: 560px;
-    margin-top: -30px;
-}
-  
-  .mapSection-map-regions{
-    position: relative;
-    /* display: none; */
-  }
-  .mapSection-map-region1 {
-    top: -30.7rem;
-    left: 8.5rem;
-}
-  .mapSection-map-region2 {
-    top: -25.75rem;
-    left: 19.4rem;
-}
-.mapSection-map-region3 {
-    top: -21.25rem;
-    left: 13.16rem;
-}
-.mapSection-map-region4 {
-  top: -26.45rem;
-    left: 26.08rem;
-}
-.mapSection-map-region5 {
-    top: -19.9rem;
-    left: 30.4rem;
-}
-
-
-.mapSection-map-region6 {
-    top: -47.9rem;
-    left: 17.4rem;
-}
-  .mapSection-map-region-texts{
-    position: relative;
-    top: 8rem;
-    color: white;
-    width: 16rem;
-    text-align: center;
-    font-size: 1.3rem;
-    cursor: pointer;
-  }
-  .mapSection-map-region-texts:hover{
-    filter: brightness(0.7);
-  }
-  .mapSection-map-region-texts:active{
-    filter: brightness(0.5);
-  }
-  .mapSection-map-regionImgs{
-    z-index: 1;
-  }
-
-  .mapSection-map-domTom{
-    display: flex;
-    text-align: center;
-    margin-top: -200px;
-    justify-content: center;
-  }
-  .mapSection-map-domTom-items{
-    margin: 0rem 1.5rem;
-    align-self: flex-end;
-    cursor: pointer;
-  }
-  .mapSection-map-domTom-items:hover{
-    filter: opacity(0.8);
-  }
-  .mapSection-map-domTom-items:active{
-    filter: opacity(0.6);
-  }
-  .mapSection-button{
-    padding: 1rem;
-    /* background: #F2816F; */
-    background: #e2e2e2;
-    text-align: center;
-    border-radius: 0.3rem;
-    box-shadow: -0.3rem 0.3rem 0rem #0077b563;
-    font-size: 1.5rem;
-    margin: 1rem 10rem 1rem 10rem;
-    cursor: pointer;
-  }
-  .mapSection-button:hover{
-    filter: brightness(0.9);
-  }
-  .mapSection-button:active{
-    transition: 0.1s;
-    filter: brightness(0.9);
-    transform: translateX(-0.3rem) translateY(0.3rem);
-    box-shadow: 0rem 0rem 0rem #e2e2e2;
-  }
-
-  .outremer_img{
-    width: 60px;
-  }
-  .mapSection-map-domTom-description{
-    font-size: 20px;
-  }
-  #Corse{
-    color: #000;
-  }
-
-  .header-logo {
-    text-align: start;
-    margin-left: 2em;
-  }
-  .global-header {
-
-    padding-bottom: 0;
-   border-bottom: none;
-}
-.horizontal-align {
-
-    margin-right: 2em;
-}
-.register-btn-main, .register-btn-header {
-  cursor: pointer;
-}
-.login-btn-main, .sign-in-btn-header {
-  cursor: pointer;
-} 
-.area-over-logo {
-    margin-top: 0;
-
-}
-#home-video-area p {
-  text-align: center;
-    font-size: 38px;
-    color: #35A2DA;
-    line-height: normal;
-    padding: 97px 214px;
-}
-
-#img-play-button {
-  width: 100px;
-  position: relative;
-  top: 310px;
-}
-
-
-.mapSection-map-world {
-    position: relative;
-    top: 575px;
-    left: -334px;
-}
-
-.list_and_logo{
-  display: flex;
-    align-items: center;
-    margin-bottom: 14px;
-}
-.picto_img{
-  width: 60px;
-    height: 33px;
-    margin-right: 10px;
-}
-.text_logo{
-  font-size: 30px;
-}
-.blue_bold{
-  font-weight: bold;
-}
-</style>
-
-
-  <nav class="nav-links position-header" aria-label=${_("Supplemental Links")}>
-    <div class="secondary">
-      <div class="horizontal-align">
-        <div class="register-btn-header horizontal-align-header">
-          <a  href="/register?course_id=course-v1:icope+Occitanie+2022&enrollment_action=enroll">S'inscrire
-          <!-- <div class="register-btn-header-inside" style='color: white;'>${_("Register")}</div> -->
-        </a>
-        </div>
-        <a  href="/login${login_query()}">
-          <div class="sign-in-btn-header horizontal-align-header">
-            <a  href="/login${login_query()}">Se connecter</a>
-          </div>
-        </a>
-      </div>
-    </div>
-  </nav>
-
-  <div class="area-over-logo">
-    <img src="${static.url('icope/images/Image_principal.png')}" alt="header_big.png">
-  </div>
-  <div class="title-icope">
-    Formation à <br> la démarche Icope <br> de l'Organisation Mondiale de la Santé 
-  </div>
-  
-  <h1 class="header-logo">
-    <a href="/">
-        <img src="${static.url('icope/images/logo_icope.png')}" id="header-logo-1" class="img-fluid img-logo" alt="CHU logo" >
-    </a>
-  </h1>
-
-
+<link rel="stylesheet" href="${static.url('icope/css/index.css')}" type="text/css" media="all" />
 
 <main id="main" aria-label="Content" tabindex="-1">
-
-  <!------------ layer map - begin ------------>
-    <div class="mapSection" id="map">
-      <div class="mapSectionLayer1">
-        <div class="mapSectionLayer2">
-          <div class="mapSection-title-block">
-            <p class="mapSection-title">Je m'inscris :</p>
-            <div class="mapSection-underlineTitle"></div>
-          </div>
-          <div class="mapSection-closeButton">
-            <img src="${static.url('icope/images/asset-croix.svg')}" alt="">
-          </div>
-          <div class="mapSection-map">
-            <div class="mapSection-map-world">
-              <div class="mapSection-map-domTom-items mapSection-regions"  onclick="selectRegion('world')">
-                <img class="outremer_img" src="${static.url('icope/images/globe.png')}" alt="">
-                <p id="world" style="color: #000;" class="mapSection-map-domTom-description">Pays francophones</p>
-              </div>
-            </div>
-              <div class="mapSection-map-france">
-                <img class="mapSection-mapGlobale" src="${static.url('icope/images/map/carte-fr-modif.svg')}" alt="">
-                <div class="mapSection-map-regions mapSection-map-region1"  onclick="selectRegion('Pays_de_la_Loire')">
-                  <p id="Pays_de_la_Loire" class="mapSection-map-region-texts ">Pays de la loire</p>
-                  <!-- <img class="mapSection-map-regionImgs" src="${static.url('icope/images/map/Trace_118.svg')}" alt=""> -->
-                </div>
-                <div class="mapSection-map-regions mapSection-map-region2" onclick="selectRegion('Auvergne_Rhone_Alpes')">
-                  <p id="Auvergne_Rhone_Alpes" class="mapSection-map-region-texts">Auvergne-Rhône-Alpes</p>
-                  <!-- <img class="mapSection-map-regionImgs" src="${static.url('icope/images/map/Trace_119.svg')}" alt=""> -->
-                </div>
-                <div class="mapSection-map-regions mapSection-map-region3" onclick="selectRegion('Occitanie')">
-                  <p id="Occitanie" class="mapSection-map-region-texts">Occitanie</p>
-                  <!-- <img class="mapSection-map-regionImgs" src="${static.url('icope/images/map/Trace_120.svg')}" alt=""> -->
-                </div>
-                <div class="mapSection-map-regions mapSection-map-region4" onclick="selectRegion('PACA')">
-                  <p id="PACA" class="mapSection-map-region-texts" style="width: 150px;">Provence-Alpes-Côte d'Azur</p>
-                  <!-- <img class="mapSection-map-regionImgs" src="${static.url('icope/images/map/Trace_121.svg')}" alt=""> -->
-                </div>
-                <div class="mapSection-map-regions mapSection-map-region5" onclick="selectRegion('Corse')">
-                  <p id="Corse" class="mapSection-map-region-texts">Corse</p>
-                  <!-- <img class="mapSection-map-regionImgs" src="${static.url('icope/images/map/Trace_122.svg')}" alt=""> -->
-                </div>
-                <div class="mapSection-map-regions mapSection-map-region6" onclick="selectRegion('Autre')">
-                  <p id="Autre" class="mapSection-map-region-texts">Autres régions</p>
-                  <!-- <img class="mapSection-map-regionImgs" src="${static.url('icope/images/map/Trace_122.svg')}" alt=""> -->
-                </div>
-              </div>
-              <div class="mapSection-map-domTom">
-                <div class="mapSection-map-domTom-items mapSection-regions" id="region-1" onclick="selectRegion('Guadeloupe')">
-                  <img class="outremer_img" src="${static.url('icope/images/map/Trace_123.svg')}" alt="">
-                  <p id="Guadeloupe" class="mapSection-map-domTom-description">Guadeloupe</p>
-                </div>
-                <div class="mapSection-map-domTom-items mapSection-regions" id="region-2" onclick="selectRegion('Martinique')">
-                  <img class="outremer_img" src="${static.url('icope/images/map/Trace_124.svg')}" alt="">
-                  <p id="Martinique" class="mapSection-map-domTom-description">Martinique</p>
-                </div>
-                <div class="mapSection-map-domTom-items mapSection-regions" id="region-3" onclick="selectRegion('Guyane')">
-                  <img class="outremer_img" src="${static.url('icope/images/map/Trace_125.svg')}" alt="">
-                  <p id="Guyane" class="mapSection-map-domTom-description">Guyane</p>
-                </div>
-                <div class="mapSection-map-domTom-items mapSection-regions" id="region-4" onclick="selectRegion('Reunion')">
-                  <img class="outremer_img" src="${static.url('icope/images/map/Trace_126.svg')}" alt="">
-                  <p id="Reunion" class="mapSection-map-domTom-description">La réunion</p>
-                </div>
-                <div class="mapSection-map-domTom-items mapSection-regions" id="region-5" onclick="selectRegion('Mayotte')">
-                  <img class="outremer_img" src="${static.url('icope/images/map/Groupe_2.svg')}" alt="">
-                  <p id="Mayotte" class="mapSection-map-domTom-description">Mayotte</p>
-                </div>
-              </div>
-          </div>
-          <div class="mapSection-button">
-            <a class="mapSection-buttonLink">Selectionnez votre région</a>
-          </div>
+  
+  <section id="section-1">
+    <div class="horizontal-align">
+      <div id="img-container" >  
+        <img id="patient-aidant" src="${static.url('icope/images/photo_feuille_1.png')}" alt="patient et aidant">
+      </div>
+      <div class="vertical-align right-side" >
+        <h1 class="title">
+          ${lang_texts.get("title", "")}
+        </h1>
+        <div class="horizontal-align logo-div">
+          <img src="${static.url('icope/images/logo_ihu.png')}" alt="logo IHU HealthAge">
+          <img src="${static.url('icope/images/logo.png')}" alt="logo Icope Monitor">
         </div>
       </div>
     </div>
-    <!------------ layer map - end ------------>
 
-    <section class="home">
-      <!-- <%include file="${courses_list}" /> -->
-      <header id="home-header">
-        <img src="${static.url('icope/images/Motif_violet_1.png')}" alt="" id="tournis-1">
-        <img src="${static.url('icope/images/Motif_violet_1.png')}" alt="" id="tournis-2">
-        <img src="${static.url('icope/images/Motif_violet_1.png')}" alt="" id="tournis-3">
+    <div class="horizontal-align">
+      <a class="register-button hp-button" href="/register">
+        ${lang_texts.get("register", "")}
+      </a>
+      <a class="login-button hp-button" href="/login">
+        ${lang_texts.get("login", "")}
+      </a>
+    </div>
+  </section>
 
-        <div class="log-button register-btn-main">
-          
-          <div class="register-btn btn registerButtonExtra"><a class="register-btn btn" href="/register?course_id=course-v1:icope+Occitanie+2022&enrollment_action=enroll">${_("Register")}</a></div>
-          <!-- <a class="register-btn btn" href="">${_("Register")}</a> -->
-        </div>
-      <a href="/login${login_query()}">     
-        <div class="log-button login-btn-main">
-          <a class="sign-in-btn btn" href="/login${login_query()}">Se connecter</a>
-          <!-- <a class="sign-in-btn btn" href="/login${login_query()}">${_("Sign in")}</a> -->
-        </div>
-      </a> 
+  <section id="section-2">
+    <div id="background-leafs">
+      <img src="${static.url('icope/images/feuille_8.png')}" alt="feuille bleu">
+    </div>
 
-      </header>
+    <div class="vertical-align">
 
-      <div id="home-video-area">
-        <!-- <img id="img-play-button" src="${static.url('icope/images/play-button.png')}"> -->
-        <div id="video-player-area">
+      <div class="horizontal-align video-div" >
+        <img src="${static.url('icope/images/perso_4.png')}" alt="couple de personnage">
+        <div class="video-player-area">
           <iframe src="https://player.vimeo.com/video/698527297" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="width:100%;height:100%;" title="trailer"></iframe>
         </div>
-        <div>
-          <p><strong>Découvrez comment permettre aux seniors de préserver leur santé et leur autonomie à travers le programme Icope </strong><br> (Soins intégrés pour les personnes âgées).</p>
-        </div>
       </div>
 
-      <div id="trio-area" class="vertical-align">
-        <p><strong>L'aspect innovant </strong>de ce dispositif est <strong>triple</strong> :</p>
-        <div class="horizontal-align">
-          <div class="vertical-align">
-            <img src="${static.url('icope/images/Motif_gris_3.png')}" alt="" class="rainbow-img">
-            <p class="blue_bold">Rendre les seniors acteurs de leur santé en les incitant à l'auto-surveillance de leurs fonctions.</p>
-          </div>
-          <div class="vertical-align">
-            <img src="${static.url('icope/images/arc_en_ciel_jaune.png')}" alt="" class="rainbow-img">
-            <p class="blue_bold">Utiliser les nouvelles technologies pour l'évaluation et le suivi de leurs fonctions.</p>
-          </div>
-          <div class="vertical-align">
-            <img src="${static.url('icope/images/arc_en_ciel_rouge.png')}" alt="" class="rainbow-img">
-            <p class="blue_bold">Changer les habitudes en proposant une prise de soin basée sur le statut fonctionnel et non sur la pathologie d'organe.</p>
-          </div>
-        </div>
-        <div class="vertical-align" style="margin-top: 50px;">
-          <p>Cette formation comporte des modules généraux et des modules complémentaires qui <strong>s'appuient sur les recommandations de l'OMS élaborées par des experts internationaux</strong> à partir de données robustes de la littérature scientifique.</p>
-        </div>
+      <div class="legend-video">
+        <span><strong>${lang_texts.get("sect-2-legend", "")}</strong></span>
+        <br>
+        <span>${lang_texts.get("sect-2-legend-2", "")}</span>
       </div>
 
-      <div id="orange-background" class="vertical-align">
-        <!-- fond orange -->
-        <img src="${static.url('icope/images/motif_rouge_1.png')}" alt="" id="tournis-4">
-        <img src="${static.url('icope/images/motif_rouge_1.png')}" alt="" id="tournis-5">
-        <img src="${static.url('icope/images/motif_rouge_1.png')}" alt="" id="tournis-6">
-        <img src="${static.url('icope/images/motif_rouge_1.png')}" alt="" id="tournis-7">
-
-        <div class="inside-background">
-
-          <div class="horizontal-align">
-            <div id="left-column-orange-area">
-              <p>Le programme Icope :</p>
-              <div class="line-orange"></div>
-              <p><strong>Le programme Icope </strong>a pour cible <strong>les personnes autonomes de 60 ans et plus,</strong> il est basé sur le dépistage, la surveillance et le suivi de six fonctions essentielles au maintien de l'autonomie : <strong>vue, audition, mémoire, mobilité, état psychologique et nutrition.</strong></p>
-            </div>
-            <img src="${static.url('icope/images/Bulle_illu.png')}" alt="bulle_icope" id="right-column-orange-area">
-          </div>
-          <div class="vertical-align">
-            <p>Ce programme comprend <span class="orange-text">5 étapes</span> :</p>
-            <img src="${static.url('icope/images/Diapositive1.png')}" alt="programme_icope">
-          </div>
-          <div id="last-text-orange-area">
-            <p><strong>Icope</strong> repose sur <strong>les acteurs des soins de premiers recours.</strong> Le plan de soin s'appuie sur les dispositifs de proximité offert par la collectivité et fait intervenir les acteurs locaux du secteur sanitaire mais aussi social et médico-social.</p>
-          </div>
+      <br>
+      <p><strong>${lang_texts.get("sect-2-title-2-part-1", "")}</strong>${lang_texts.get("sect-2-title-2-part-2", "")}<strong>${lang_texts.get("sect-2-title-2-part-3", "")}</strong>:</p>
+      <div class="horizontal-align vignettes-area">
+        <div class="vignette">
+          <p>${lang_texts.get("sect-2-vignette-1", "")}</p>
+        </div>
+        <div class="vignette">
+          <p>${lang_texts.get("sect-2-vignette-2", "")}</p>
+        </div>
+        <div class="vignette">
+          <p>${lang_texts.get("sect-2-vignette-3", "")}</p>
         </div>
       </div>
+      <p class="synthese" >${lang_texts.get("sect-2-vignette-label-part-1", "")}<strong>${lang_texts.get("sect-2-vignette-label-part-2", "")}</strong>${lang_texts.get("sect-2-vignette-label-part-3", "")}</p>
 
-      <!-- PLAN AREA -->
-      <div class="vertical-align" id="plan-area">
-        <div >
-          <p>Plan de formation</p>
-          <div class="line-jaune"></div>
-        </div>
+    </div>
+  </section>
 
-        <div class="horizontal-align">
-          <div class="vertical-align">
-            <p style="max-width: 70%;">
-              Cette formation est constituée de <strong>vidéos d'enseignement et d'apprentissage à la passation d'échelles gériatriques</strong>, de cas cliniques à traiter et de quiz sur les enseignements dispensés.
-            </p>
-            <img src="${static.url('icope/images/Motif_gris_3.png')}" alt="">
-          </div>
-          <div id="video-player-area-2"></div>
-        </div>
+  <section id="section-3">
+    <div class="vertical-align">
+      <h3>${lang_texts.get("sect-3-title", "")}</h3>
+      <p><strong>${lang_texts.get("sect-3-text-part-1", "")}</strong>${lang_texts.get("sect-3-text-part-2", "")}<strong>${lang_texts.get("sect-3-text-part-3", "")}</strong>${lang_texts.get("sect-3-text-part-4", "")}<strong>${lang_texts.get("sect-3-text-part-5", "")}</strong>.</p>
 
-        <div class="vertical-align" id="title-steps-area">
-          <p>La formation est découpée en deux parties :</p>
-          <div class="line-jaune"></div>
-        </div>
+      <h3 id="scheme-title">${lang_texts.get("sect-3-img-title", "")}</h3>
+      <img src="${static.url('icope/images/schema_hp.png')}" alt="schéma des étapes composants la formation">
+      <p class="legend"><strong>${lang_texts.get("sect-3-label-part-1", "")}</strong>${lang_texts.get("sect-3-label-part-2", "")}<strong>${lang_texts.get("sect-3-label-part-3", "")}</strong>${lang_texts.get("sect-3-label-part-4", "")}</p>
+    </div>
+  </section>
 
-        <div id="step-one-text">
-          <div class="step-div">
-            <p>Etape</p>
-            <img src="${static.url('icope/images/Point_1.png')}" alt="1" class="step-number-img">
-          </div>
-          <p>Destinée à des publics divers dont les professionnels de santé.</p>
+  <section id="section-4" class="vertical-align">
+    <div id="title-plan-area">
+      <img src="${static.url('icope/images/feuille_1.png')}" alt="feuille bleue background">
+      <p>${lang_texts.get("sect-4-title", "")}</p>
+    </div>
 
-          <ul id="step-one-list">
-            <li class="list_and_logo"><img src="${static.url('icope/images/puce_R.png')}" alt="redpicto" class="picto_img red_img_picto"><p class="text_logo">Introduction : le vieillissement en bonne santé, comment maintenir les fonctions.</p></li>
-            <!-- <li class="list_and_logo"><img src="${static.url('icope/images/puce_R.png')}" alt="redpicto" class="picto_img red_img_picto"><p class="text_logo">Programme Icope de l'OMS : objectifs et déroulement de l'étape 1 (dépistage)</p></li> -->
-            <li class="list_and_logo"><img src="${static.url('icope/images/puce_R.png')}" alt="redpicto" class="picto_img red_img_picto"><p class="text_logo">Mise en situation : comment réaliser l'étape 1 et points de vigilance.</p></li>
-            <li class="list_and_logo"><img src="${static.url('icope/images/puce_R.png')}" alt="redpicto" class="picto_img red_img_picto"><p class="text_logo">Présentation du programme Icope aux seniors.</p></li>
-            <li class="list_and_logo"><img src="${static.url('icope/images/puce_R.png')}" alt="redpicto" class="picto_img red_img_picto"><p class="text_logo">Contenu des applications numériques pour le dépistage et le suivi.</p></li>
-            <li class="list_and_logo"><img src="${static.url('icope/images/puce_R.png')}" alt="redpicto" class="picto_img red_img_picto"><p class="text_logo">Suivi des fonctions et orientation vers l'étape 2.</p></li>
+    <div class="horizontal-align">
+      <p style="flex:1;">${lang_texts.get("sect-4-aside-part-1", "")}<strong>${lang_texts.get("sect-4-aside-part-2", "")}</strong>${lang_texts.get("sect-4-aside-part-3", "")}</p>
+      <div class="video-player-area">
+        <iframe src="https://player.vimeo.com/video/698527297" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="width:100%;height:100%;" title="trailer"></iframe>
+
+      </div>
+    </div>
+
+    <h3>${lang_texts.get("sect-4-title-2", "")}</h3>
+
+    <div class="vertical-align green-section">
+      <h4>${lang_texts.get("sect-4-step", "")} 
+        <span class="number">
+          <img class="leaf-illustration green" src="${static.url('icope/images/feuille_6.png')}" alt="illustration feuille verte">
+          1
+        </span>
+      </h4>
+      <p>${lang_texts.get("sect-4-step-1-part-1", "")}<strong>${lang_texts.get("sect-4-step-1-part-2", "")}</strong>${lang_texts.get("sect-4-step-1-part-3", "")}</p>
+      <div class="list-area" >
+        <ul>
+          <li>${lang_texts.get("sect-4-step-1-list-1", "")}</li>
+          <li>${lang_texts.get("sect-4-step-1-list-2", "")}</li>
+          <li>${lang_texts.get("sect-4-step-1-list-3", "")}</li>
+          <li>${lang_texts.get("sect-4-step-1-list-4", "")}</li>
+          <li>${lang_texts.get("sect-4-step-1-list-5", "")}</li>
+          <li>${lang_texts.get("sect-4-step-1-list-6", "")}</li>
+        </ul>
+      </div>
+      <img id="character-2" src="${static.url('icope/images/perso_3.png')}" alt="illustration d'un médecin">
+      <img id="yellow-leaf" src="${static.url('icope/images/feuille_3.png')}" alt="illustration feuille">
+    </div>
+
+    <div class="vertical-align blue-section">
+      <h4>${lang_texts.get("sect-4-step", "")} 
+        <span class="number">
+          <img class="leaf-illustration blue" src="${static.url('icope/images/feuille_2.png')}" alt="illustration feuille bleue">
+          2
+        </span>
+      </h4>
+      <p><strong>${lang_texts.get("sect-4-step-2-part-1", "")}</strong>${lang_texts.get("sect-4-step-2-part-2", "")}</p>
+      <div class="horizontal-align" style="width: 100%;gap:4%;">
+        <div class="vertical-align list-area-blue" >
+          <h5>Phase A <br>${lang_texts.get("sect-4-step-2-list-a-title", "")}</h5>
+          <ul>
+            <li>${lang_texts.get("sect-4-step-2-list-a-1", "")}</li>
+            <li>${lang_texts.get("sect-4-step-2-list-a-2", "")}</li>
           </ul>
-          <img class="stepOneText-img" src="${static.url('icope/images/Motif_gris__2.png')}" alt="">
+          
+          <img id="zone-photo" src="${static.url('icope/images/photo_feuille_2.png')}" alt="photo dans les feuilles">
+
         </div>
-
-        <!-- 2 -->
-        <div id="step-two-text">
-          <div class="step-div">
-            <p>Etape</p>
-            <img src="${static.url('icope/images/point_2_vert.png')}" alt="1" class="step-number-img2">
-          </div>
-          <p><strong>Gestion des alertes et évaluation approfondie </strong>destinée aux professionnels de santé.</p>
-
-          <div class="horizontal-align stepTwoText-columns">
-            <div class="step-two-a">
-              <p><strong>Phase <span style="color:#34A2DA">A</span> :</strong> gestion des alertes</p>
-
-              <ul id="step-two-list">
-                <li class="list_and_logo"><img src="${static.url('icope/images/puce_B.png')}" alt="bluepicto" class="picto_img blue_img_picto"><p class="text_logo">Principe de la gestion des aletrtes : arbre décisionnel et vignette clinique</p></li>
-                <li class="list_and_logo"><img src="${static.url('icope/images/puce_B.png')}" alt="bluepicto" class="picto_img blue_img_picto"><p class="text_logo">Cas cliniques sur le dépistage et la gestion des alertes</p></li>
-              </ul>
-            </div>
-            <div class="step-two-b">
-              <p><strong>Phase <span style="color:#FFCB60">B</span> :</strong> évaluation approfondie</p>
-              <ul id="step-three-list">
-                <li class="list_and_logo"><img src="${static.url('icope/images/puce_J.png')}" alt="yellowpicto" class="picto_img yellow_img_picto"><p class="text_logo">Soins intégrés en gériatrie</p></li>
-                <li class="list_and_logo"><img src="${static.url('icope/images/puce_J.png')}" alt="yellowpicto" class="picto_img yellow_img_picto"><p class="text_logo">Évaluation de la mobilité</p></li>
-                <li class="list_and_logo"><img src="${static.url('icope/images/puce_J.png')}" alt="yellowpicto" class="picto_img yellow_img_picto"><p class="text_logo">Évaluation de la nutrition</p></li>
-                <li class="list_and_logo"><img src="${static.url('icope/images/puce_J.png')}" alt="yellowpicto" class="picto_img yellow_img_picto"><p class="text_logo">Évaluation de la cognition</p></li>
-                <li class="list_and_logo"><img src="${static.url('icope/images/puce_J.png')}" alt="yellowpicto" class="picto_img yellow_img_picto"><p class="text_logo">Évaluation de l'état psychologique</p></li>
-                <li class="list_and_logo"><img src="${static.url('icope/images/puce_J.png')}" alt="yellowpicto" class="picto_img yellow_img_picto"><p class="text_logo">Évaluation de la vision</p></li>
-                <li class="list_and_logo"><img src="${static.url('icope/images/puce_J.png')}" alt="yellowpicto" class="picto_img yellow_img_picto"><p class="text_logo">Évaluation d'audition</p></li>
-                <li class="list_and_logo"><img src="${static.url('icope/images/puce_J.png')}" alt="yellowpicto" class="picto_img yellow_img_picto"><p class="text_logo">Évaluation sociale</p></li>
-                <li class="list_and_logo"><img src="${static.url('icope/images/puce_J.png')}" alt="yellowpicto" class="picto_img yellow_img_picto"><p class="text_logo">Aide aux aidants</p></li>
-                <li class="list_and_logo"><img src="${static.url('icope/images/puce_J.png')}" alt="yellowpicto" class="picto_img yellow_img_picto"><p class="text_logo">Initiation à l'entretien motivationnel</p></li>
-                <li class="list_and_logo"><img src="${static.url('icope/images/puce_J.png')}" alt="yellowpicto" class="picto_img yellow_img_picto"><p class="text_logo">Simulation de passation des échelles : SPPB, MNA et MMS</p></li>
-                <li class="list_and_logo"><img src="${static.url('icope/images/puce_J.png')}" alt="yellowpicto" class="picto_img yellow_img_picto"><p class="text_logo">Cas cliniques sur l'ensemble de la formation et corrections commentées</p></li>
-                <li class="list_and_logo"><img src="${static.url('icope/images/puce_J.png')}" alt="yellowpicto" class="picto_img yellow_img_picto"><p class="text_logo">Quiz sur l'ensemble de la formation</p></li>
-              </ul>
-
-            </div>
-          </div>
-
-          <img class="stepTwoText-img" src="${static.url('icope/images/Image_principal.png')}" alt="">
-
+        <div class="vertical-align list-area-blue" >
+          <h5>Phase B <br>${lang_texts.get("sect-4-step-2-list-b-title", "")}</h5>
+          <ul>
+            <li>${lang_texts.get("sect-4-step-2-list-b-1", "")}</li>
+            <li>${lang_texts.get("sect-4-step-2-list-b-2", "")}</li>
+            <li>${lang_texts.get("sect-4-step-2-list-b-3", "")}</li>
+            <li>${lang_texts.get("sect-4-step-2-list-b-4", "")}</li>
+            <li>${lang_texts.get("sect-4-step-2-list-b-5", "")}</li>
+            <li>${lang_texts.get("sect-4-step-2-list-b-6", "")}</li>
+            <li>${lang_texts.get("sect-4-step-2-list-b-7", "")}</li>
+            <li>${lang_texts.get("sect-4-step-2-list-b-8", "")}</li>
+            <li>${lang_texts.get("sect-4-step-2-list-b-9", "")}</li>
+            <li>${lang_texts.get("sect-4-step-2-list-b-10", "")}</li>
+            <li>${lang_texts.get("sect-4-step-2-list-b-11", "")}</li>
+            <li>${lang_texts.get("sect-4-step-2-list-b-12", "")}</li>
+            <li>${lang_texts.get("sect-4-step-2-list-b-13", "")}</li>
+          </ul>
         </div>
       </div>
+    </div>
+  </section>
 
-      <div class="sectionPreFooter">
-        <!-- modalité  -->
-        <div class="sectionPreFooter-columns sectionPreFooter-column1">
-          <div class="sectionPreFooter-innerColumn">
-            <p class="sectionPreFooter-title">Modalités d'accès</p>
-            <div class="sectionPreFooter-borderBottom"></div>
-            <p class="sectionPreFooter-text">
-              Cet enseignement est gratuit, ouvert à tous les professionnels de santé.
-            </p>
-            <img class="sectionPreFooter-bkgImg-cols sectionPreFooter-bkgImg1" src="${static.url('icope/images/motif_gris_1-2.png')}" alt="">
-            <img class="sectionPreFooter-bkgImg-cols sectionPreFooter-bkgImg2" src="${static.url('icope/images/motif_gris_1-2.png')}" alt="">
-            <img class="sectionPreFooter-bkgImg-cols sectionPreFooter-bkgImg3" src="${static.url('icope/images/motif_gris_1-2.png')}" alt="">
-          </div>
-        </div>
-        <!-- qui sommes nous -->
-        <div class="sectionPreFooter-columns sectionPreFooter-column2">
-          <div class="sectionPreFooter-innerColumn">
-            <p class="sectionPreFooter-title">Qui sommes-nous ?</p>
-            <div class="sectionPreFooter-borderBottom"></div>
-            <p class="sectionPreFooter-text">
-              Le Gérontopôle - CHU de Toulouse, centre collaborateur de l’OMS pour la Fragilité, la Recherche Clinique et la Formation en Gériatrie a été chargé par le ministère des solidarités et de la santé d’élaborer une formation au programme Icope dans le cadre de « l’expérimentation nationale article 51 Icope ».
-            </p>
-            <img class="sectionPreFooter-bkgImg-cols sectionPreFooter-bkgImg4" src="${static.url('icope/images/motif_gris_1-1.png')}" alt="">
-          </div>
-        </div>
+  <section id="section-5" class="vertical-align">
+    <img src="${static.url('icope/images/colored_line.png')}" alt="bandeau arc-en-ciel" style="width: 100%;">
+    <div class="horizontal-align">      
+      <div class="vertical-align left-side">
+        <h4>${lang_texts.get("sect-5-side-1-title", "")}</h4>
+        <p>${lang_texts.get("sect-5-side-1-text", "")}</p>
       </div>
+      <div class="vertical-align right-side">
+        <h4>${lang_texts.get("sect-5-side-2-title", "")}</h4>
+        <p>${lang_texts.get("sect-5-side-2-text", "")}</p>
+      </div>
+    </div>
+  </section>
 
-    </section>
 </main>
 
+
 <%block name="js_extra">
-   <script type="text/javascript">
-      $(window).load(function() {
-         if(getParameterByName('next')) {
-              $('#login').trigger("click");
-         }
-      })
-   </script>
+  <script type="text/javascript">
+    $(window).load(function() {
+      if(getParameterByName('next')) {
+        $('#login').trigger("click");
+      }
+    })
+  </script>
 </%block>
 
 % if show_signup_immediately is not UNDEFINED:
@@ -1003,122 +209,3 @@ from openedx.core.djangolib.markup import HTML, Text
   $(window).load(function() {$('#signup_action').trigger("click");});
 </script>
 % endif
-
-<!-- 
-<script src="media/test.js"></script> -->
-<!------------ script map ----------->
-
-<script>
-  
-  // ---------------- map show / hide ----------------------
-
-const registerButton = document.querySelector(".register-btn-main")
-const registerButtonHeader = document.querySelector(".register-btn-header")
-const map = document.querySelector(".mapSection")
-const home = document.querySelector('.home')
-const header = document.querySelector('.global-header')
-const closeButton = document.querySelector('.mapSection-closeButton')
-
-// registerButton.addEventListener('click', ()=>{
-//     console.log('ciblage-ok')
-
-//     home.style.filter = "blur(0.5rem)"
-//     header.style.filter = "blur(0.5rem)"
-//     console.log('filter-ok')
-
-//     map.classList.toggle('mapSection-show')
-//     console.log('map-showing-ok')
-// })
-
-// registerButtonHeader.addEventListener('click', ()=>{
-//     console.log('ciblage-ok')
-
-//     home.style.filter = "blur(0.5rem)"
-//     header.style.filter = "blur(0.5rem)"
-//     console.log('filter-ok')
-
-//     map.classList.toggle('mapSection-show')
-//     console.log('map-showing-ok')
-// })
-
-// closeButton.addEventListener('click', ()=>{
-//   console.log('ciblage-2-ok')
-
-//   home.style.filter = "blur(0rem)"
-//   header.style.filter = "blur(0rem)"
-//   console.log('blur-off')
-
-//   map.classList.toggle('mapSection-show')
-//   console.log('map-hidden')
-// })
-
-const loginButton1 = document.querySelector(".login-btn-main")
-const loginButton2 = document.querySelector(".sign-in-btn-header")
-loginButton1.addEventListener('click', ()=>{
-  window.location = "/login"
-})
-loginButton2.addEventListener('click', ()=>{
-  window.location = "/login"
-})
-
-  // ------------------- map functions ----------------------
-
-  const regions = document.querySelectorAll('.mapSection-regions')
-  const button = document.querySelector('.mapSection-buttonLink')
-
-  regions.forEach((item)=>{
-    item.addEventListener('click', (e)=>{
-      console.log(e)
-      console.log(e.target.id)
-      switch(e.target.id){
-        case "region-1":
-          button.href = "/register?course_id=course-v1:icope+Occitanie+2022&enrollment_action=enroll"
-          break
-        case "region-2":
-          button.href = "https://www.google.fr/"
-          break
-        case "region-3":
-          button.href = ""
-          break
-        default:
-          null
-      }
-    })
-  })
-
-</script>
-
-
-<script>
-
-function restart_color_button(){
-      const all_region_button = document.getElementsByClassName("mapSection-map-region-texts")
-      for (region of all_region_button){
-        region.style.color = "#fff"
-      }
-      const all_region_domtom_button = document.getElementsByClassName("mapSection-map-domTom-description")
-      for (region of all_region_domtom_button){
-        region.style.color = "#000"
-      }
-      
-    }
-
-function selectRegion(region) {
-
-  const redirect_to_occitanie = ['Autre', 'Guadeloupe', 'Martinique', 'Guyane', 'Mayotte', 'Reunion', 'world']
-
-  const button = document.querySelector('.mapSection-buttonLink')
-  const buttonDiv = document.querySelector('.mapSection-button')
-  
-  const selectedText = document.getElementById(region)
-  restart_color_button()
-  selectedText.style.color = "#F2816F"
-
-  buttonDiv.style.background =  "#F2816F"
-  if (redirect_to_occitanie.includes(region)) {
-    region = 'Occitanie'
-  }
-  button.href = "/register?course_id=course-v1%3Aicope%2B" + region + "%2B2022&enrollment_action=enroll"
-  }
-  </script>
-  

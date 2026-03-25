@@ -26,41 +26,37 @@ from openedx.core.djangoapps.user_authn.utils import should_redirect_to_logistra
 %>
 <style>
 
-  a {
-    color: white !important;
-    text-decoration: none !important;
-  }
-  .header_a {
-    color: white !important;
-    text-decoration: none !important;
-  }
-  a:hover {
-    text-decoration:none; 
-    cursor:pointer;  
+  .global-header {
+    padding-top: 10px;
   }
   .register-btn-header {
     background-color: #34A2DA;
-    box-shadow: -10px 10px 7px lightgrey;
-    font-size: 25px;
-    border-radius: 0 0 10px 10px ;
-    margin: 0 10px;
-    height: 68px;
-    width: 190px;
   }
+
   .sign-in-btn-header {
     background-color: #1F6992;
-    box-shadow: -10px 10px 7px lightgrey;
-    font-size: 25px;
-    border-radius: 0 0 10px 10px ;
-    margin: 0 10px;
-    height: 68px;
-    width: 235px;
   }
   .horizontal-align-header {
     display: flex;
     justify-content: center;
     align-items: center;
-
+    padding: 10px 40px;
+    margin: 0 10px;
+    border-radius: 10px ;
+    box-shadow: rgba(180, 209, 233,0.2) -12px 10px 1px;
+    will-change: transform;
+    transition: transform 350ms;
+  }
+  .horizontal-align-header:hover > a {
+    text-decoration: none;
+  }
+  .horizontal-align-header:hover {
+    box-shadow: none ; 
+    transform: translateY(6px);
+  }
+  .header_a {
+    color: white !important;
+    font-size: 19px !important;
   }
   .secondary {
     margin-top: 0 !important;
@@ -90,7 +86,6 @@ from openedx.core.djangoapps.user_authn.utils import should_redirect_to_logistra
 
 </style>
 
-%if request.path is not "/":
 <nav class="nav-links position-header" aria-label=${_("Supplemental Links")}>
 
   <div class="secondary">
@@ -109,5 +104,5 @@ from openedx.core.djangoapps.user_authn.utils import should_redirect_to_logistra
   </div>
 
 </nav>
-%endif
+
 

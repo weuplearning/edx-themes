@@ -1,0 +1,78 @@
+
+<%namespace name='static' file='/static_content.html'/>
+
+<div id="enterprise-content-container" class="enterprise-content">
+    <div class="centered-div">
+
+        <!-- <h1 class="title">
+          Formation à la démarche ICOPE de l’Organisation Mondiale de la Santé
+        </h1> -->
+
+        <img id="character-2" src="${static.url('icope/images/perso_3.png')}" alt="illustration d'un médecin">
+        <img id="feuille-bleue" src="${static.url('icope/images/feuille_8.png')}" alt="feuille bleue">
+
+    </div>
+</div>
+
+<style>
+    /* ENTREPRISE */
+    #content {
+        overflow: hidden;
+        position: relative;
+    }
+    .global-header, .wrapper-footer {
+        position: relative;
+        z-index: 10;
+    }
+    #enterprise-content-container {
+        height: auto;
+        padding: 50px 25px ;
+        flex: 1;
+    }
+    .centered-div {
+        float: unset !important;
+        display: flex;
+        justify-content: center;
+    }
+    .centered-div h1 {
+        position: relative;
+        z-index: 3;
+        width: 80%;
+    }
+    #character-2, #feuille-bleue {
+        position: absolute;
+        bottom: 10%;
+        max-width: 300px;
+        width: 50vw;
+        height: auto;
+        right: 20px;
+
+    }
+    #feuille-bleue {
+        top: -120px;
+        left: -218px;
+        height: 312px;
+        width: 522px;
+        max-width: unset;
+        overflow: hidden;
+        z-index: 2;    
+    }
+
+    @media screen and (max-width: 992px) {
+        #character-2 {
+            display: none;
+        }
+        #enterprise-content-container {
+            display: flex;
+            flex-wrap: wrap;
+            align-content: center;
+        }
+        
+    }
+    @media screen and (max-width: 900px) {
+        #enterprise-content-container, .header-logo {
+            display: none;
+        }
+        
+    }
+</style>
