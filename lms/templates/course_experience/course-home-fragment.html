@@ -113,7 +113,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
     .course-outline .block-tree .section .section-name {
         padding: 20px 0 20px 2px;
-        background-color: var(--tertiary);
+        background-color: var(--primary);
         margin-bottom: 25px;
         color: var(--secondary)!important;
         margin-bottom: 0px !important;
@@ -137,12 +137,10 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     	animation: fadeInLeft;
         animation-duration: 0.5s;
     }
-    .wrapper-preview-menu{
-       //display:none;
+
+    .wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary{
+        display:none !important;
     }
-.wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary{
-    display:none !important;
-}
 
 
     .section-title{
@@ -243,7 +241,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     .page-content .page-content-secondary h4{
         padding:15px;
         color:white;
-        background-color:var(--tertiary);
+        background-color:var(--primary);
         text-align:center
     }
 
@@ -394,7 +392,7 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
             % endif
         </div>
         <aside class="page-content-secondary course-sidebar">
-            <h4>Avez-vous bien retenu ?</h4>
+            <h4>Résultat du quiz final</h4>
             <div class="section" id="badges">
                     <div class="grade-block">       
                         <div class="grade-section-title">
@@ -412,73 +410,7 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
                         </div>                    
                     </div>
 
-                 %if configuration_helpers.get_value('COMPLETION_BASED_DASHBOARD_MONO', False):
 
-                    <%
-                    block_course = 0
-                    block_course_completed = 0
-                    custom_field = json.loads(user.profile.custom_field)
-                    %>
-
-                    % for section in course_block_tree.get('children'):
-                      <%
-                      completion_ratio = 0
-                      total_blocks = 0
-                      completed_blocks = 0
-  
-                      for subsection in section.get('children', []):
-                          for unitchild in subsection.get('children', []):
-                              for blockchild in unitchild.get('children', []):
-                                  total_blocks += 1
-                                  if blockchild.get('complete'):
-                                      completed_blocks += 1
-
-                      if total_blocks != 0 :
-                          completion_ratio = completed_blocks / total_blocks
-                    
-                      block_course += total_blocks
-                      block_course_completed += completed_blocks
-
-                      
-
-                      %>
-                        <div class="grade-block">
-                            <div class="grade-section-title">
-                                %if completion_ratio >= 1:
-                                    <img src="${static.url('images/medal_on.svg')}" class="small-badge"/>
-                                %else:
-                                    <img src="${static.url('images/medal_off.svg')}" class="small-badge"/>
-                                %endif
-                                <div class="chapter-title" >${section['display_name']}</div>
-                                <div class="grade-value">${int(completion_ratio * 100)}%</div>
-                            </div>
-                            <div class="progress-bar-full">
-                                <div style="width:${completion_ratio * 100}%;" class="progress-bar-grade"></div>
-                            </div>
-                        </div>
-
-                    %endfor
-                 %else:
-
-
-                    %for index, chapter in enumerate(user_grade.chapter_grades.keys()):
-                        <div class="grade-block">
-                            <div class="grade-section-title">
-                                %if user_grade.chapter_percentage(chapter) >= 0.7:
-                                    <img src="${static.url('images/medal_on.svg')}" class="small-badge"/>
-                                %else: 
-                                    <img src="${static.url('images/medal_off.svg')}" class="small-badge"/>
-                                %endif
-                                <div class="chapter-title" >${user_grade.chapter_grades[chapter]['display_name']}</div>
-                                <div class="grade-value">${int(user_grade.chapter_percentage(chapter) * 100)}%</div>
-                            </div>
-                            <div class="progress-bar-full">
-                                <div style="width:${int(user_grade.chapter_percentage(chapter) * 100)}%;" class="progress-bar-grade"></div>
-                            </div>                    
-                        </div>
-                    %endfor
-
-                 %endif
             </div>
         </aside>
     </div>

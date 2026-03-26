@@ -37,7 +37,8 @@ from openedx.core.djangolib.markup import HTML, Text
         max-width: none ;
         position: relative;
         width: 100%;
-        min-height: calc(100vh - 153px);
+        height: calc(100vh - 153px);
+        min-height: 600px;
         background-image: url("${static.url('depot-petrolier-fos/images/background.jpg')}");
         background-size: cover;
         background-position-x: center;
@@ -46,8 +47,9 @@ from openedx.core.djangolib.markup import HTML, Text
         justify-content: flex-end;
     }
     .overlay {
-        width: 40% ;
-        min-height: calc(100vh - 153px);
+        width: 50% ;
+        height: calc(100vh - 153px);
+        min-height: 600px;
         background-color: var(--primary); 
         clip-path: polygon(32% 0, 100% 0, 100% 100%, 0% 100%);
         display: flex;
@@ -60,7 +62,7 @@ from openedx.core.djangolib.markup import HTML, Text
     .content {
         max-width: 500px;
         align-items: flex-end;
-        padding-right: 10%;
+        padding: 0 10%;
         text-align: end;
     }
 
@@ -116,6 +118,17 @@ from openedx.core.djangolib.markup import HTML, Text
     @media screen and (max-width: 768px) {
         .overlay {
             width: 75% ;
+            height: 1000px;
+        }
+        .content, .container {
+            height: 1000px;
+        }
+        .overlay h2 {
+            font-size: 1rem;
+        }
+        .overlay h1 {
+            
+            font-size: 2rem;
         }
     }
 
