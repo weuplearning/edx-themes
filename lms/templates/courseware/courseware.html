@@ -174,8 +174,10 @@ custom_fields = json.loads(user.profile.custom_field)
       flex-direction: column !important;
     }
     .encart-text {
-      position: relative;
-      transform: unset;
+      position: relative !important;
+      transform: unset !important;
+      left: unset !important;
+      top: unset !important;
       background-color: skyblue;
       padding: 15px;
       border-radius: 10px;
