@@ -287,8 +287,11 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
             padding-left: 5px !important;
             font-size: 14px !important;
         }
-        #silhouette {
+        #silhouette, .progress-bar-full {
             display: none;
+        }
+        #course-outline-block-tree {
+            width: 100%;
         }
         .course-outline .block-tree .section {
             margin: 0 0 0 20px;
@@ -298,6 +301,9 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         } 
         .logo-section {
             height: 90px;
+        }
+        ol.accordion-panel {
+            width: 80%;
         }
     }
 
