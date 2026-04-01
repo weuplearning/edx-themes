@@ -282,11 +282,22 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
 
 
-
     @media screen and (max-width: 500px) {
         h3.section-title{
             padding-left: 5px !important;
             font-size: 14px !important;
+        }
+        #silhouette {
+            display: none;
+        }
+        .course-outline .block-tree .section {
+            margin: 0 0 0 20px;
+        }
+        .course-outline .block-tree .section .section-name {
+            padding-left: 30px;
+        } 
+        .logo-section {
+            height: 90px;
         }
     }
 

@@ -254,7 +254,24 @@ from openedx.core.djangolib.markup import HTML, Text
             padding: 20px;
         }
     }
-
+    @media screen and (max-width: 768px) {
+        #part_1 {
+            width: 100%;
+        }
+        #part_2 .horizontal-align {
+            flex-direction: column;
+        }
+        .vignette {
+            width: 350px;
+        }
+        #silhouette {
+            display: none;
+        }
+    }
+    @media screen and (max-width:425px) {
+        .vignette {
+            width: 75vw;
+        }    }
 </style>
 
 

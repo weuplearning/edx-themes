@@ -156,10 +156,19 @@ custom_fields = json.loads(user.profile.custom_field)
 
 
 
-  
+  /* responsive */
   @media (max-width: 768px) {
     .course-index {
       display: none;
+    }
+    .container {
+      width: 100vw !important;
+    }
+
+
+    #flex-responsive {
+      display: flex;
+      flex-direction: column;
     }
   }
 </style>
