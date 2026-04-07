@@ -64,7 +64,7 @@
     </main>
 </div>
 
-%if request.path == "/register" :
+%if "register" in request.path:
 <script>
     // Si selector prend la valeur CPAM > on affiche le champs matricule
     // Si le champs est modifié > on le masque à nouveau (et on efface le contenu)
