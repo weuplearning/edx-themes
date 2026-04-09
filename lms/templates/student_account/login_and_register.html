@@ -119,13 +119,13 @@
 
 })();
 
-setTimeout(function() {
+var intervalId = setInterval(function () {
     var namePlaceholder = document.getElementsByClassName("text-name")[0].getElementsByClassName("label-text")[0];
     if (namePlaceholder) {
         namePlaceholder.innerText = "Nom et Prénom";
         namePlaceholder.style.display = "block";
+        clearInterval(intervalId);
     }
-
 }, 200);
 </script>
 
