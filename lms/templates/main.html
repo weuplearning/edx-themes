@@ -173,6 +173,13 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
 % endif
 
 
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://ddec1-0-en-ctp.trendmicro.com:443/wis/clicktime/v1/query?url=https%3a%2f%2fwww.googletagmanager.com%2fgtm.js%3fid%3d%27%2bi%2bdl%3bf.parentNode.insertBefore%28j%2cf%29%3b&umid=59ba5840-6f8a-4db2-a0e1-e312d81f414e&rct=1774968062&auth=15a81e71989097583f8921bc8b5432af8f46ef17-5cefea1d6a3ff40f1b1dc7871ced823e0461c43c
+  })(window,document,'script','dataLayer','GTM-MZZXKZFH');</script>
+  <!-- End Google Tag Manager -->
 
 
   <!-- COOKIES -->
@@ -200,6 +207,11 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
 </head>
 
 <body class="${static.dir_rtl()} <%block name='bodyclass'/> lang_${LANGUAGE_CODE}">
+
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MZZXKZFH"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
 
   <style>
   .content-wrapper {
