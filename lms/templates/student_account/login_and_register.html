@@ -17,6 +17,10 @@
     background-image: none !important;
     text-shadow: none !important;
   }
+    /* Hide not required fields:  */
+    .checkbox-honor_code, .text-activity_other, #register-terms_of_service-optional-label, .text-username, .text-name .label-text {
+        display: none;
+    }
 </style>
 <%block name="js_extra">
     <%static:require_module module_name="js/student_account/logistration_factory" class_name="LogistrationFactory">
@@ -114,13 +118,15 @@
     });
 
 })();
+
+setTimeout(function() {
+    var namePlaceholder = document.getElementsByClassName("text-name")[0].getElementsByClassName("label-text")[0];
+    if (namePlaceholder) {
+        namePlaceholder.innerText = "Nom et Prénom";
+        namePlaceholder.style.display = "block";
+    }
+
+}, 200);
 </script>
 
 
-<style>
-    /* Hide not required fields:  */
-    .checkbox-honor_code, .text-activity_other, #register-terms_of_service-optional-label, .text-username {
-        display: none;
-    }
-
-</style>
