@@ -238,8 +238,14 @@ from openedx.core.djangolib.markup import HTML, Text
 
     /* MEDIA QUERIES */
     @media screen and (max-width: 992px) {
+
         .global-header .header-logo a .logo {
-            display: none;
+            margin-left:unset !important;
+        }
+
+        .global-header .main-header {
+            display: flex;
+            justify-content: center;
         }
         #silhouette {
             background-size: contain;
