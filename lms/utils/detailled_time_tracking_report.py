@@ -62,12 +62,28 @@ for course_id in course_ids:
     course_data = {}
 
     for i in range(len(course_enrollments)):
+        print(f'{i}/{str(len(course_enrollments))}')
         user = course_enrollments[i].user
+
+
+
+
+        # Replace str to get target email faster
+#        if str(user.email) != "celinecoquett@gmail.com"  :
+#            continue
+
+
+
+
+
+
         user_data = {}
         enrollment = course_enrollments[i]
 
         if str(user.email).find('@yopmail') != -1 or str(user.email).find('@weuplearning') != -1 or str(user.email).find('@themoocagency') != -1 :
             continue
+
+
 
 
 
@@ -129,8 +145,24 @@ correspondance_section_tt = {
     "4a22fe0f40e94dfbaf6edd6d1250261c" : "Etape 2 : Evaluation approfondie",
     "ae38e833526c4779909f40ca4e8d24eb" : "Cas clinique",
     "8ee6bd2d4c2a488fab130ad36fe67156" : "Présentation de l'outil de coordination régional",
-    "a6bdc40c399b4c66ad869d216b0dc7ce" : "Conclusion",
+    "a6bdc40c399b4c66ad869d216b0dc7ce" : "Conclusion"
 }
+if 'course-v1:audition-icope+med+01' in course_ids : 
+    correspondance_section_tt = {
+    # audition-icope
+        "f7f3e683f4d74b3f8baa560e5c71f1e8" : "Physiopathologie de l'oreille",
+        "a5981a4c949347c98fe169cb88f59134" : "Du dépistage de la surdité à la décision",
+        "1c97afb70dce4ebaa1c5848df2daae98" : "Environnement des mesures auditives",
+        "2a8fa472c3974e64ad940aff67abcf58" : "Acoumétrie",
+        "01f282202fd547c696adaff0b07d6d08" : "Audiométrie tonale avec assourdissement",
+        "f20382e487fd49ff9cf3d1ade5ddb132" : "Audiométrie vocale dans le silence et corrélation tonale/vocale",
+        "96f431656590437a8e6981d09370e4d3" : "Audiométrie vocale dans le Bruit",
+        "f4e42a79c12f47ba83e287d226474d42" : "Formation à l'otoscopie et à la gestion des difficultés",
+        "d13557ba965f4ad398831929ba361960" : "Orientation thérapeutique",
+        "e832ba93bd90442c8f280e0f4bbd6240" : "Orientation vers la gériatrie",
+        "0c61635589cf4f439babe61c7b62de45" : "Serious Game",
+        "8d5a1a2021cb47f89850178aa0849f35" : "Evaluation finale"
+    }
 
 
 # WRITE EXCEL AND SEND MAILS
@@ -311,5 +343,9 @@ log.info('------------> Finish calculate grades and write xlsx report')
 
 # Prod
 # /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/icope/lms/utils/detailled_time_tracking_report.py 'cyril.adolf@weuplearning.com' "course-v1:icope+Occitanie+2022;course-v1:icope+Centre_Val_de_Loire+2022;course-v1:icope+Corse+2022;course-v1:icope+La_Reunion+2022;course-v1:icope+Auvergne_Rhone_Alpes+2022;course-v1:icope+Pays_de_la_Loire+2022;course-v1:icope+PACA+2022;course-v1:icope+Grand_Est+2022;course-v1:icope+Nouvelle_Aquitaine+2022"
+
+
+# Audition-icope :
+# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/icope/lms/utils/detailled_time_tracking_report.py 'cyril.adolf@weuplearning.com' course-v1:audition-icope+med+01
 
 

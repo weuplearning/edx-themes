@@ -67,7 +67,15 @@ for course_id in course_ids:
     course_data = {}
 
     for i in range(len(course_enrollments)):
+        print(f'{i}/{str(len(course_enrollments))}')
         user = course_enrollments[i].user
+
+
+        # Replace str to get target email faster
+#        if str(user.email) != "":
+#            continue
+
+
         user_data = {}
         enrollment = course_enrollments[i]
 
