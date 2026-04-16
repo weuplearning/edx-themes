@@ -76,6 +76,7 @@ _title = [
     "Découverte du recyclage",
     "SIAE : Du projet à la demande de financement",
     "Travailler dans l'Economie Sociale et Solidaire",
+    "Mixite 2025",
     "Temps passé"
 ]
 
@@ -104,7 +105,8 @@ _id = [
     "course-v1:afpa+corse+2024",
     "course-v1:afpa+recyclage+2024",  # New 20/01/2025
     "course-v1:afpa+dreets+2024", # New 20/01/2025
-    "course-v1:afpa+ess+2024" # New 20/01/2025
+    "course-v1:afpa+ess+2024", # New 20/01/2025
+    "course-v1:afpa+mixite+mixite-2025"
 ]
 
 # blacklist
@@ -133,7 +135,8 @@ prunable_courses_indexes = [
     #32#"course-v1:afpa+corse+2024",
     #33#"course-v1:afpa+recyclage+2024",  # New 20/01/2025
     #34#"course-v1:afpa+dreets+2024", # New 20/01/2025
-    #35#"course-v1:afpa+ess+2024" # New 20/01/2025
+    #35#"course-v1:afpa+ess+2024", # New 20/01/2025
+    #36#"course-v1:afpa+mixite+mixite-2025" 
 ]
 
 
@@ -163,8 +166,7 @@ def prune_old_courses(sheet):
     col_index = 11 # first column with usable data ("oui"/"non")
     maxcol = col_index + (courses_amount-1)
 
-    # any col without "oui"
-    eligible_cols = []
+
     # eligible and contained inside prunable_courses_indexes
     to_delete_cols = []
 
@@ -185,14 +187,11 @@ def prune_old_courses(sheet):
         
         col_index+=1
 
-
     # delete cols, array is reversed to prevent unintentional index offset
     print("Pruning these columns :")
     print(to_delete_cols)
     for col_index in reversed(to_delete_cols):
         sheet.delete_cols(col_index)
-
-
 
 
 
@@ -233,9 +232,7 @@ while i < len(_id) - 1:
    i = i + 1
 
 query = query + '"' + str(_id[len(_id) - 1]) + '"'
-
 query = query + ') GROUP BY a.id;'
-
 
 
 users = User.objects.raw(query)
@@ -244,30 +241,14 @@ i = 1
 print("foreach user")
 for user in users:
 
-    global_time = 0
-
-
-    try:
-        registration_date = user.date_joined.strftime('%d %b %y')
-    except:
-        registration_date = "n/a"
-
-    try:
-        last_login = user.last_login.strftime('%d %b %y')
-    except:
-        last_login = "n/a"
-
+    registration_date = user.date_joined.strftime('%d %b %y') if user.date_joined else "n/a"
+    last_login = user.last_login.strftime('%d %b %y') if user.last_login else "n/a"
 
     _email = user.email
-
-    if ( _email.find('@weuple') != -1 ) :
+    if ( _email.find('@weup') != -1 ) :
         continue
 
-    try:
-        _custom = json.loads(user.custom_field)
-    except:
-        _custom = {}
-
+    _custom = json.loads(user.custom_field) if getattr(user, 'custom_field', None) else {}
 
     if _custom.get('last_name') is not None:
         _last_name = _custom.get('last_name')
@@ -297,21 +278,10 @@ for user in users:
 
         _custom = json.loads(user_profile.custom_field)
 
-        log.info('456')
-        log.info(_custom)
+
         if _custom.get('gender') :
             if _custom['gender'] == 'm' or _custom['gender'] == 'homme' or _custom['gender'] == 'h' :
                 _custom['gender'] = 'Homme' 
-
-        # if _custom['countr']y[0].isupper() :
-        # if _custom.get('country') :
-        #     _custom['country'] = _custom['country'].capitalize()
-        #     if _custom['country'] == 'Fr' :
-        #         _custom['country'] = 'France'
-
-
-        log.info('789')
-        log.info(_custom)
 
 
         user_profile.custom_field = json.dumps(_custom)
@@ -322,7 +292,6 @@ for user in users:
         print('error')
         print(user.email)
         break
-
 
 
     values = [
@@ -369,6 +338,8 @@ for user in users:
         j = j + 1
     i = i + 1
 
+
+    global_time = 0
     for course in course_id:
         global_time += get_course_enrollment(course, user)
 
