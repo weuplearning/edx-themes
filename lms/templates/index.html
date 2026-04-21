@@ -3,7 +3,7 @@
 <%namespace name='static' file='static_content.html'/>
 <%namespace file='main.html' import="login_query"/>
 <%!
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.urls import reverse
 
 from openedx.core.djangolib.markup import HTML, Text
@@ -195,7 +195,7 @@ html {
   position: relative;
 }
 #illu-ter-2 {
-  background-image: url("${static.url('sncf-voyageurs/images/illu_rogne.png')}");
+  background-image: url("${static.url('images/illu_rogne.png')}");
   background-size: cover;
   background-repeat: no-repeat;
   position: absolute;
@@ -321,7 +321,7 @@ html {
 <main id="main" aria-label="Content" tabindex="-1">
 
   <header class="global-header-2 horizontal-align space-between" >
-    <img id="logo-home" class="logo" src="${static.url('sncf-voyageurs/images/logo_secondary.png')}" alt="logo-SNCF"/>
+    <img id="logo-home" class="logo" src="${static.url('images/logo_secondary.png')}" alt="logo-SNCF"/>
 
     <div class="horizontal-align space-between login-btn">
       <div class="mobile-nav-item hidden-mobile nav-item">
@@ -355,9 +355,9 @@ html {
         </div>
 
         <div class="home-page-2 vertical-align space-between">
-          <img src="${static.url('sncf-voyageurs/images/logo_destination_conduite.svg')}" alt="Destination conduite">
+          <img src="${static.url('images/logo_destination_conduite.svg')}" alt="Destination conduite">
           <p>LE MÉTIER DE CONDUCTRICE OU CONDUCTEUR DE TRAIN VOUS INTÉRESSE ?</p>
-          <img src="${static.url('sncf-voyageurs/images/fleche.svg')}" alt="V">
+          <img src="${static.url('images/fleche.svg')}" alt="V">
         </div>
 
       </div>
