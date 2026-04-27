@@ -1,0 +1,109 @@
+<%page expression_filter="h"/>
+<%! from django.utils.translation import ugettext as _ %>
+<%inherit file="../main.html" />
+
+<%block name="pagetitle">${_("Blog")}</%block>
+
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="container about">
+
+        <div class="redirect-btn">
+            <a class="btn btn-secondary action-resume-course" href="/courses/course-v1:estia+01+2025/course/">
+                <span data-action-type="resume">Revenir au cours</span>
+            </a>
+        </div>
+
+
+        <p style="font-size: 18px;margin:80px auto;text-align: center;">Merci à tous les enseignants de l'ESTIA qui ont contribué à l'élaboration de ce MOOC.</p>
+
+        <div class="flex-responsive" >
+            <div style="flex: 0 0 auto;">
+                <img src="https://becomingcircular.estia.fr/asset-v1:estia+01+2025+type@asset+block@Jeremy_Legardeur.png" alt="portrait de Jérémy LEGARDEUR" />
+            </div>
+            <div style="flex: 1;">
+                <p style="color: #1a171c; font-size: 18px;"><strong style="color: #2bb6b7;">Jérémy LEGARDEUR</strong><br>Jérémy Legardeur est professeur au sein de l’école d’ingénieurs ESTIA. <br>Diplômé ingénieur-maître en Génie Mécanique à Montpellier en 1997, d’un DEA en 1998 à Grenoble, docteur en Génie industriel de l’Institut National Polytechnique de Grenoble en 2001.<br> Depuis, c’est avec une approche sociotechnique basée sur la recherche-action dans les entreprises, qu’il s’intéresse au domaine de la conception innovante, notamment pour favoriser l’économie circulaire. Depuis 2017, il est le responsable scientifique de la Chaire BALI (en partenariat avec Decathlon, ERAM, Petit Bateau, Gebetex, Belharra…) sur la circularité dans le domaine du textile.<br> Depuis 2023, il est également le responsable scientifique de la Chaire Circularity for a desirable future dans le domaine du luxe. <br>Il intervient en tant qu’expert pour l’ANR, l’ANRT, pour la Commission européenne ainsi que pour le Parlement européen avec la remise et présentation en 2024 d’un rapport sur le Passeport Digital Produit pour le secteur textile. <br>Il intervient régulièrement en tant que coach et conférencier dans les entreprises et il est également le créateur en 2007 de la manifestation internationale « les 24h de l’innovation® » (www.24h.estia.fr) dont plus de 110 éditions ont été organisées sur 5 continents différents.</p>
+            </div>
+        </div>
+
+
+        <div class="flex-responsive" >
+            <div style="flex: 0 0 auto;">
+                <img src="https://becomingcircular.estia.fr/asset-v1:estia+01+2025+type@asset+block@LIZARRALDE_Iban.jpg" alt="portrait de Iban LIZARRALDE" />
+            </div>
+            <div style="flex: 1;">
+                <p style="color: #1a171c; font-size: 18px;"><strong style="color: #2bb6b7;">Iban LIZARRALDE </strong>
+                <br>Iban Lizarralde est docteur en Systèmes Industriels.<br> Avant de rejoindre l’ESTIA, il a travaillé pendant 6 ans à Airbus Toulouse dans le domaine de la gestion des projets complexes, sujet sur lequel il a réalisé sa thèse de doctorat (CNRS-LAAS) dans le cadre des activités d’ingénierie de conception d’Airbus. Il a également travaillé en Espagne, en Allemagne et en Amérique Latine sur des projets d’ingénierie systémique pour la conception de produits et services complexes.<br> Actuellement, il mène des travaux de recherche dans les domaines de l’éco-conception et de l’économie circulaire, en mobilisant des approches systémiques. Ses recherches portent plus particulièrement sur le développement d’outils et de méthodes innovants visant à optimiser les processus de conception des systèmes techniques, notamment dans le secteur de l’énergie. <br>Il a encadré cinq thèses, dont la dernière en tant que directeur, à la suite de l’obtention de son Autorisation à Diriger une Thèse (ADT) à l’Université de Bordeaux.</p>
+            </div>
+        </div>
+
+        <div  class="flex-responsive" >
+            <div style="flex: 0 0 auto;"><img src="https://becomingcircular.estia.fr/asset-v1:estia+01+2025+type@asset+block@HAMWI_Michael.jpg" alt="portrait de Michael HAMWI" /></div>
+            <div style="flex: 1;">
+                <p style="color: #1a171c; font-size: 18px;"><strong style="color: #2bb6b7;">Michael HAMWI</strong>
+                <br>Issu d’une formation en économie, Michael Hamwi a acquis une expérience intéressante en développement durable lors de ses cinq années chez Henkel.<br>Cette passion pour la durabilité s’est approfondie grâce à un master en gestion de l’éco-innovation, suivi d’un mémoire sur les modèles économiques et la flexibilité énergétique dans le cadre de la transition énergétique.<br> Enseignant-chercheur à l’ESTIA, il travaille actuellement sur des sujets de recherche liés aux outils de l’économie circulaire, aux comportements environnementaux et à la transformation des modèles économiques.</p>
+            </div>
+        </div>
+
+        <div  class="flex-responsive" >
+            <div style="flex: 0 0 auto;"><img src="https://becomingcircular.estia.fr/asset-v1:estia+01+2025+type@asset+block@GELIZE_Maïalen.jpg" alt="portrait de Maïalen GELIZE" /></div>
+            <div style="flex: 1;">
+                <p style="color: #1a171c; font-size: 18px;"><strong style="color: #2bb6b7;">Maïalen GELIZE</strong>
+                <br>Maïalen Gelize est enseignant-chercheur en sciences de gestion qualifiée MCF CNU06. Ses travaux s’inscrivent dans le champ de la gouvernance et de la stratégie des organisations. Sa thèse s'est consacrée à la gestion de projet et la prise en compte de la Complexité selon Edgar Morin. <br>Ses recherches portent actuellement sur les collectifs d'organisation, la recherche-intervention, l'apprentissage organisationnel. <br>Elle dispense également des cours sur la gestion de projet, l’histoire comme l’évolution, les pratiques du management.</p>
+            </div>
+        </div>
+
+        <div  class="flex-responsive" >
+            <div style="flex: 0 0 auto;"><img src="https://becomingcircular.estia.fr/asset-v1:estia+01+2025+type@asset+block@Natalia_VECHIU.jpg" alt="portrait de Natalia VECHIU" /></div>
+            <div style="flex: 1;">
+                <p style="color: #1a171c; font-size: 18px;"><strong style="color: #2bb6b7;">Natalia VECHIU</strong>
+                <br>Forte d’une expérience de 20 ans dans l’enseignement et la recherche, Natalia Vechiu a rejoint l’ESTIA en 2024, après plus de dix ans dans la fonction publique, en tant qu’enseignant-chercheur à l’UPPA, puis maître de conférences à l’Université d’Aix Marseille. Elle a développé un profil pluridisciplinaire riche et solide, alliant économie, gestion de la supply chain et durabilité. <br>Son intérêt pour l’organisation des supply chains au niveau international, en particulier via les investissements directs étrangers et les flux commerciaux, et les enjeux essentiels de la transition socio-écologique l’ont amenée à focaliser ses recherches sur les liens entre ces flux, les infrastructures qui les soutiennent, l’environnement et les politiques publiques environnementales.</p>
+            </div>
+        </div>
+
+    </section>
+</main>
+
+<style>
+    section {
+        margin: 40px auto !important;
+        max-width: 1000px !important;
+        width: 80% !important;
+        margin-bottom: 30px !important;
+    }
+    p {
+        line-height: 1.6em;
+        text-align: justify;
+    }
+
+    .redirect-btn {
+        position: relative;
+    }
+    .redirect-btn a {
+        position: absolute;
+        right: 0;
+        padding: 10px 20px;
+        background-color: #2bb6b7;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+    .flex-responsive {
+        display: flex;
+        align-items: top;
+        gap: 20px;
+        font-family: 'Open sans', serif;
+        margin-bottom: 20px;
+    }
+    .flex-responsive img {
+        width: 160px;
+        height: auto;
+        border-radius: 8px;
+    }
+
+    @media screen and (max-width: 700px) {
+        .flex-responsive {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+</style>
