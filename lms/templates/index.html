@@ -21,7 +21,8 @@ from openedx.core.djangolib.markup import HTML, Text
 
 /* HEADER */
 .global-header {
-  display: none;
+  max-width: 1600px;
+  margin: auto;
 }
 .global-header-2 {
   position: fixed;
@@ -55,12 +56,24 @@ from openedx.core.djangolib.markup import HTML, Text
   padding: 12px;
   border-radius: 8px;
   font-size: 14px;
-  font-size: 2vh;
   font-weight: 700;
   display: block;
   width: 16vw;
   text-align: center;
 }
+
+
+.global-header .nav-links .secondary a.register-btn, .global-header .nav-links .secondary a.sign-in-btn {
+  color: white !important;
+  width: 12vw;
+  max-width: 200px;
+}
+
+.main .mobile-nav-item {
+  display: none !important;
+}
+
+
 
 /* GLOBAL */
 .vertical-align, .horizontal-align {
@@ -97,6 +110,10 @@ html {
 
 
 /* BODY */
+#main {
+  max-width: 1600px;
+  margin: auto;
+}
 .home-page-1 {
   align-self: flex-start;
   margin: 25vh 20px 60px 140px;
@@ -286,6 +303,7 @@ html {
   }
   .btn {
     width: 43vw;
+    max-width: 310px;
   }
   #center-container > div:nth-child(2) > div:first-child  {
     display: none;
@@ -320,20 +338,20 @@ html {
 
 <main id="main" aria-label="Content" tabindex="-1">
 
+<!--
   <header class="global-header-2 horizontal-align space-between" >
     <img id="logo-home" class="logo" src="${static.url('images/logo_secondary.png')}" alt="logo-SNCF"/>
 
     <div class="horizontal-align space-between login-btn">
       <div class="mobile-nav-item hidden-mobile nav-item">
         <a class="register-btn btn" href="/register?course_id=course-v1%3Asncf-voyageurs%2BDC2%2B2024&enrollment_action=enroll">M'INSCRIRE</a>
-        <!-- <a class="register-btn btn" href="/register${login_query()}">M'INSCRIRE</a> -->
       </div>
       <div class="mobile-nav-item hidden-mobile nav-item">
         <a class="sign-in-btn btn" href="/login?course_id=course-v1%3Asncf-voyageurs%2BDC2%2B2024&enrollment_action=enroll">ME&nbspCONNECTER</a>
       </div>
     </div>
-
   </header>
+-->
 
   <section class="home">
     <div>
@@ -478,3 +496,16 @@ html {
   $(window).load(function() {$('#signup_action').trigger("click");});
 </script>
 % endif
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const registerBtn = document.querySelector('.secondary a.register-btn');
+    const signinBtn = document.querySelector('.secondary a.sign-in-btn');
+
+    if (registerBtn) {
+      registerBtn.textContent = "M'INSCRIRE";
+      signinBtn.textContent = "ME CONNECTER" 
+    }
+  });
+</script>
+

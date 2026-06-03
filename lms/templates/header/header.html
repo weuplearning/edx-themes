@@ -44,6 +44,8 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
   </script>
 % endif
 
+<!-- CUSTOM-THEME-MARKER-20260422 -->
+
 <header class="global-header ${'slim' if course else ''}">
     % if use_cookie_banner:
         ${static.renderReact(

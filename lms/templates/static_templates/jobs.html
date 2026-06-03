@@ -358,9 +358,9 @@ svg > g:hover .cls-2 {
     let ui_enabled = false;
 
     // auto get url host
-    const hostname =  window.location.hostname;
-    const ressourceId = '_conduite'
-    const url = hostname + "/wul_apps/get_sncf_jobs" +  ressourceId
+    const hostname =  window.location.origin;
+    const url = hostname + "/wul_apps/get_sncf_jobs/conduite"
+    console.log(url)
 
     let jobs;
 
