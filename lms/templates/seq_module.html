@@ -128,7 +128,7 @@
 
 
   <div id="back-to-dashboard">
-    <a href="${ajax_url.split('/xblock')[0]}/course/">
+    <a href="${ajax_url.split('/xblock')[0]}/course/" >
       Retour au menu principal
     </a>
   </div>
@@ -165,3 +165,14 @@
   }
 
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const toCertificate = document.querySelector('#to-certificate');
+    const backToDashboard = document.querySelector('#back-to-dashboard');
+
+    if (toCertificate && backToDashboard) {
+      backToDashboard.style.display = 'none';
+    }
+  });
+</script>
