@@ -3,11 +3,24 @@
 <%page expression_filter="h"/>
 <%! from django.utils.translation import gettext as _ %>
 <%inherit file="../main.html" />
+<%namespace name='static' file='../static_content.html'/>
 
 <%block name="pagetitle">Page Administrateur</%block>
+
+
+
+% if not user.is_authenticated:
+    <script>
+        window.location.href = 'https://apps.tutor-cyril.weup.in/authn/login?next=%2Fwul_apps%2Fdashboard_datavis';
+    </script>
+% endif
+
 
 
 <script defer="defer" src="/static/custom-theme/react/datavis/static/js/main.f16d3611.js"></script>
 <link href="/static/custom-theme/react/datavis/static/css/main.1e693b74.css" rel="stylesheet">
 <div id="root">   </div>
+
+
+
 
