@@ -15,7 +15,10 @@ from common.djangoapps.third_party_auth import pipeline
 from common.djangoapps.util.date_utils import strftime_localized
 from opaque_keys.edx.keys import CourseKey
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
-from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+
+from lms.djangoapps.grades.course_grade_factory import CourseGradeFactory
+
+from openedx.core.djangoapps.site_configuration import helpers 
 from openedx.core.djangolib.js_utils import dump_js_escaped_json, js_escaped_string
 from openedx.core.djangolib.markup import HTML, Text
 
@@ -180,17 +183,18 @@ if not all([user_profession, user.is_authenticated])  :
   .cover .course-image {
     display: block;
     object-fit: cover;
-    width: 80% !important;
-    margin: 10%;
+    width: 60% !important;
+    margin: 5% 20% 0 20%;
   }
   .course-title {
     font-size: 1.5em;
     margin-top: 10px;
     margin-bottom: 10px;
   }
-  .course-title .course-target-link {
+  .course-title .course-target-link, .icope-course-progress__label {
     font-size: medium;
-    color: black !important;
+    color: #0277B5 !important;
+    font-family: Amaranth,'Open sans' !important;
   }
   .course-actions .course-target-link {
     font-size: small;
@@ -372,7 +376,27 @@ if not all([user_profession, user.is_authenticated])  :
     background-color: #0277B5 !important;
     border: none !important;
   }
+  .icope-course-progress {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .icope-course-progress > .icope-course-progress__track {
+    flex: 1;
+    height: 14px;
+    background-color: white ;
+    margin-right: 18px;
+    position: relative;
+  }
 
+  .icope-course-progress > .icope-course-progress__track > .icope-course-progress__fill {
+    height: 14px;
+    background-color: #78B780;
+    position: absolute;
+  }
+
+  /* bckg */
   .background-feuille {
     position: absolute;
     bottom: -35px;
@@ -538,11 +562,12 @@ if not all([user_profession, user.is_authenticated])  :
           % if len(course_entitlements + course_enrollments) > 0:
             <ul class="listing-courses">
             <%
-                share_settings = configuration_helpers.get_value(
+                share_settings = helpers.get_value(
                     'SOCIAL_SHARING_SETTINGS',
                     getattr(settings, 'SOCIAL_SHARING_SETTINGS', {})
                 )
             %>
+
             % for dashboard_index, enrollment in enumerate(course_entitlements + course_enrollments):
 
 
@@ -552,14 +577,11 @@ if not all([user_profession, user.is_authenticated])  :
                 </script>
               %endif
 
-
-              %if str(enrollment.course_id) not in courses_list :
+              %if str(enrollment.course_id) not in courses_list and "course-v1:icope+Occitanie+2022" not in enumerate(course_entitlements + course_enrollments) :
                 <script>
                   console.log('${enrollment.course_id}');
                 </script>
               %else :
-
-
                 
               <%
                 # Check if the course run is an entitlement and if it has an associated session
@@ -620,6 +642,39 @@ if not all([user_profession, user.is_authenticated])  :
               <%include file='dashboard/_dashboard_course_listing.html' args='course_overview=course_overview, course_card_index=dashboard_index, enrollment=enrollment, is_unfulfilled_entitlement=is_unfulfilled_entitlement, is_fulfilled_entitlement=is_fulfilled_entitlement, entitlement=entitlement, entitlement_session=entitlement_session, entitlement_available_sessions=entitlement_available_sessions, entitlement_expiration_date=entitlement_expiration_date, entitlement_expired_at=entitlement_expired_at, show_courseware_link=show_courseware_link, cert_status=cert_status, can_refund_entitlement=can_refund_entitlement, can_unenroll=can_unenroll, credit_status=credit_status, show_email_settings=show_email_settings, course_mode_info=course_mode_info, is_paid_course=is_paid_course, verification_status=course_verification_status, course_requirements=course_requirements, dashboard_index=dashboard_index, share_settings=share_settings, user=user, related_programs=related_programs, display_course_modes_on_dashboard=display_course_modes_on_dashboard, show_consent_link=show_consent_link, enterprise_customer_name=enterprise_customer_name, resume_button_url=resume_button_url, partner_managed_enrollment=partner_managed_enrollment' />
 
               % endif
+
+              <%
+                course_grade = CourseGradeFactory().read(user, course=CourseOverview.get_from_id(enrollment.course_id))
+                percent = course_grade.percent
+                passed = course_grade.passed
+              %>
+
+
+              <script>
+                console.log("Course ID: ${str(enrollment.course_id) | n}, Percent: ${percent if percent is not None else 0}");
+
+
+                (function () {
+                  var courseId = "${str(enrollment.course_id) | n}";
+                  var percent = ${percent*100 if percent is not None else 0};
+                  percent = Math.max(0, Math.min(100, percent));
+
+                  var title = document.getElementById("course-title-" + courseId);
+                  if (!title || document.getElementById("progress-bar-" + courseId)) return;
+
+                  var progressWrapper = document.createElement("div");
+                  progressWrapper.id = "progress-bar-" + courseId;
+                  progressWrapper.className = "icope-course-progress";
+                  progressWrapper.innerHTML =
+                    '<div class="icope-course-progress__track" aria-hidden="true">' +
+                      '<div class="icope-course-progress__fill" style="width: ' + percent + '%;"></div>' +
+                    '</div>' +
+                    '<div class="icope-course-progress__label">' + percent.toFixed(0) + '%</div>';
+
+                  title.insertAdjacentElement("afterend", progressWrapper);
+                })();
+              </script>
+
             % endfor
             % if show_load_all_courses_link:
                 <br/>
