@@ -366,6 +366,9 @@
     align-self: flex-start;
     font-family: Amaranth;
     }
+    #footer-colored-line {
+        display: none !important;
+    }
 
 
     /* MEDIA */

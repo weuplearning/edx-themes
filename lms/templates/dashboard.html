@@ -31,8 +31,34 @@ from common.djangoapps.student.models import CourseEnrollment
 <%
 custom_fields_dict = json.loads(user.profile.custom_field)
 user_profession = custom_fields_dict.get('profession', '')
-parcours_pro_workers_list = ["Educateur d'activité physique adaptée", "medecin"]
-parcours_pro_courses_list = ["course-v1:icope+Centre_Val_de_Loire+2022", "course-v1:icope+Occitanie+2022"]
+profession_evaluation_approfondie = [
+  "medecin",
+  "pharmacien",
+  "Audioprothésiste",
+  "Opticien-Lunetier",
+  "Assistant médical",
+  "Chirurgien-Dentiste",
+  "Sage-Femme",
+  "Infirmier",
+  "Masseur-Kinésithérapeute",
+  "Pédicure-Podologue",
+  "Technicien orthophoniste",
+  "Orthophoniste",
+  "Orthoptiste",
+  "Psychologue",
+  "Ergothérapeute",
+  "Diététicien",
+  "Psychomotricien",
+  "Manipulateur ERM"
+]
+
+
+courses_list = ["course-v1:icope+e1+2026","course-v1:icope+soins_bucco_dentaires+2024","course-v1:icope+Occitanie+2022"]
+user_is_pro = False
+if user_profession in profession_evaluation_approfondie :
+  courses_list = ["course-v1:icope+gda+2026","course-v1:icope+ea+2026","course-v1:icope+soins_bucco_dentaires+2024","course-v1:icope+Occitanie+2022"]
+  user_is_pro = True
+
 
 display_form = False
 if not all([user_profession, user.is_authenticated])  :
@@ -151,8 +177,9 @@ if not all([user_profession, user.is_authenticated])  :
   .cover .course-image {
     display: block;
     object-fit: cover;
-    height: 100%;
-    width: 100%;
+    height: 90%;
+    width: 90% !important;
+    margin: 5%;
   }
   .course-title {
     font-size: 1.5em;
@@ -179,6 +206,9 @@ if not all([user_profession, user.is_authenticated])  :
   .header-courses {
     display: none !important;
   }
+  .dashboard .main-container .my-courses .listing-courses .course-item .course-container {
+    border: none !important;
+  }
 
   @media screen and (max-width: 950px) {
     .details {
@@ -192,9 +222,13 @@ if not all([user_profession, user.is_authenticated])  :
 /* 2026 */
   /* mainHEADER avec switch */
   #header-not-pro {
-    display: none;
+    display: flex;
     overflow: hidden;
   }
+  #header-pro {
+    display: none;
+  }
+
   .horizontal-align, .vertical-align {
     display: flex;
     justify-content: center;
@@ -213,10 +247,11 @@ if not all([user_profession, user.is_authenticated])  :
     font-size: 28px;
   }
   .header-banner {
-    height: 430px;
+    height: 480px;
     width: 100%;
-    background-image: url("${static.url('icope/images/photo_feuille_1.png')}");
+    background-image: url("${static.url('icope/images/banner_pro.jpg')}");
     background-size: cover;
+    background-position: top;
     z-index: 10;
   }
   .header-banner > div {
@@ -230,10 +265,8 @@ if not all([user_profession, user.is_authenticated])  :
     margin-top: 20px;
   }
   #header-not-pro  .header-banner {
-    height: 400px;
-    width: 100%;
-    background-image: url("${static.url('icope/images/photo_feuille_2.png')}");
-    background-size: contain;
+    background-image: url("${static.url('icope/images/banner_not_pro.jpg')}");
+    background-position: center;
   }
   #header-not-pro .header-banner > div {
     background-color: #FABF60;
@@ -257,6 +290,8 @@ if not all([user_profession, user.is_authenticated])  :
     position: relative;
     z-index: 9;
     font-size: 40px;
+    font-family: Amaranth,'Open sans';
+
   }
 
   /* Form */
@@ -354,6 +389,9 @@ if not all([user_profession, user.is_authenticated])  :
     width: 300px;
   }
 
+
+
+
   @media screen and (max-width: 767px) {
     #my-courses {
       margin: unset;
@@ -432,7 +470,7 @@ if not all([user_profession, user.is_authenticated])  :
   </div>
 </div>
 <div id="header-not-pro" class="vertical-align">
-  <div>
+  <div class="header-text">
     <p>Bienvenue dans la <strong>formation à la démarche ICOPE de l’Organisation mondiale de la Santé</strong>, développée par l’IHU HealthAge. Vous pouvez désormais <strong>choisir votre parcours</strong> ci-dessous, en fonction de votre proﬁl et de votre pratique. Chaque parcours vous permettra d’<strong>acquérir les compétences nécessaires pour mettre en œuvre le programme ICOPE, favoriser le maintien des fonctions essentielles et contribuer à une prise en soin centrée sur l’autonomie des personnes âgées</strong>.</p>
   </div>
   <div class="header-banner">
@@ -453,6 +491,7 @@ if not all([user_profession, user.is_authenticated])  :
   <p id="indication">Merci de renseigner votre profession afin de vous proposer les parcours adaptés. </p>
   <label for="profession">Profession : <span class="required_field">*</span></label>
   <select id="profession" name="profession">
+    <option value="" selected></option>
     <option value="medecin">Médecin</option>
     <option value="pharmacien">Pharmacien</option>
     <option value="Audioprothésiste">Audioprothésiste</option>
@@ -464,12 +503,12 @@ if not all([user_profession, user.is_authenticated])  :
     <option value="Preparateur_en_pharmacie">Préparateur en pharmacie</option>
     <option value="Chirurgien-Dentiste">Chirurgien-Dentiste</option>
     <option value="Sage-Femme">Sage-Femme</option>
-    <option value="Infirmier">Infirmier</option>
-    <option value="IPA">IPA</option>
-    <option value="Cadre_de_Sante_IDE">Cadre de Santé IDE</option>
+    <option value="Infirmier">Infirmier / IPA / Cadre des santé</option>
     <option value="Masseur-Kinésithérapeute">Masseur-Kinésithérapeute</option>
     <option value="Pédicure-Podologue">Pédicure-Podologue</option>
-    <option value="Technicien de laboratoire médical Orthophoniste">Technicien de laboratoire médical Orthophoniste</option>
+    <option value="Technicien de laboratoire">Technicien de laboratoire</option>
+    <option value="Technicien orthophoniste">Technicien orthophoniste</option>
+    <option value="Orthophoniste">Orthophoniste</option>
     <option value="Orthoptiste">Orthoptiste</option>
     <option value="Psychologue">Psychologue</option>
     <option value="Ergothérapeute">Ergothérapeute</option>
@@ -478,7 +517,7 @@ if not all([user_profession, user.is_authenticated])  :
     <option value="Manipulateur ERM">Manipulateur ERM</option>
     <option value="Auxiliaire_de_vie_sociale">Auxiliaire de vie sociale/Aide à domicile</option>
     <option value="Travailleur_social">Travailleur social</option>
-    <option value="ARC-Chef de projet-Chargé de mission">ARC-Chef de projet-Chargé de mission</option>
+    <option value="ARC-Chef de projet-Chargé de mission">ARC - Chef de projet - Chargé de mission</option>
     <option value="Educateur d'activité physique adaptée">Educateur d'activité physique adaptée</option>
     <option value="Autre (précisez)">Autre</option>
   </select>
@@ -498,6 +537,17 @@ if not all([user_profession, user.is_authenticated])  :
           <%include file="learner_dashboard/_dashboard_navigation_courses.html"/>
           % endif
 
+          % if user_is_pro :
+            <style>
+              #header-not-pro {
+                display: none;
+              }
+              #header-pro {
+                display: flex;
+              }
+            </style>
+          % endif
+
           % if len(course_entitlements + course_enrollments) > 0:
             <ul class="listing-courses">
             <%
@@ -509,16 +559,21 @@ if not all([user_profession, user.is_authenticated])  :
             % for dashboard_index, enrollment in enumerate(course_entitlements + course_enrollments):
 
 
-              %if user_profession not in parcours_pro_workers_list and str(enrollment.course_id) in parcours_pro_courses_list :
-                <style>
-                  #header-not-pro {
-                    display: block;
-                  }
-                  #header-pro {
-                    display: none;
-                  }
-                </style>
+              %if str(enrollment.course_id) == "course-v1:icope+Occitanie+2022" :
+                <script>
+                  console.log('${enrollment.course_id}');
+                  alert("Attention, la plateforme ICOPE monitor a récemment été mise à jour, l’ancien parcours ICOPE (Formation Icope) sera fermé au 31 juillet 2026");
+                </script>
+              %endif
+
+
+              %if str(enrollment.course_id) not in courses_list :
+                <script>
+                  console.log('${enrollment.course_id}');
+                </script>
               %else :
+
+
                 
               <%
                 # Check if the course run is an entitlement and if it has an associated session
@@ -578,7 +633,7 @@ if not all([user_profession, user.is_authenticated])  :
               %>
               <%include file='dashboard/_dashboard_course_listing.html' args='course_overview=course_overview, course_card_index=dashboard_index, enrollment=enrollment, is_unfulfilled_entitlement=is_unfulfilled_entitlement, is_fulfilled_entitlement=is_fulfilled_entitlement, entitlement=entitlement, entitlement_session=entitlement_session, entitlement_available_sessions=entitlement_available_sessions, entitlement_expiration_date=entitlement_expiration_date, entitlement_expired_at=entitlement_expired_at, show_courseware_link=show_courseware_link, cert_status=cert_status, can_refund_entitlement=can_refund_entitlement, can_unenroll=can_unenroll, credit_status=credit_status, show_email_settings=show_email_settings, course_mode_info=course_mode_info, is_paid_course=is_paid_course, verification_status=course_verification_status, course_requirements=course_requirements, dashboard_index=dashboard_index, share_settings=share_settings, user=user, related_programs=related_programs, display_course_modes_on_dashboard=display_course_modes_on_dashboard, show_consent_link=show_consent_link, enterprise_customer_name=enterprise_customer_name, resume_button_url=resume_button_url, partner_managed_enrollment=partner_managed_enrollment' />
 
-              %endif
+              % endif
             % endfor
             % if show_load_all_courses_link:
                 <br/>

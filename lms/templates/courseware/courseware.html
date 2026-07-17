@@ -35,6 +35,25 @@ from openedx.features.course_experience import course_home_page_title, DISABLE_C
   body.view-in-course .wrapper-footer {
     margin-top: unset !important;
   }
+  .bookmark-button-wrapper {
+    display: none !important;
+  }
+
+  .window-wrap {
+    background: url("${static.url('icope/images/bckg_courseware.png')}");
+    background-size: cover;
+    background-position-y: bottom;
+  }
+  body.view-in-course .container {
+    max-width: 75% !important;
+    margin: auto;
+  }
+  @media (max-width: 768px) {
+    body.view-in-course .container {
+      max-width: 93% !important;
+    }
+  }
+
 </style>
 
 % if display_reset_dates_banner:
