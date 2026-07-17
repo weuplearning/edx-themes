@@ -137,17 +137,19 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     	animation: fadeInLeft;
         animation-duration: 0.5s;
     }
-
+    .wrapper-preview-menu{
+       display:none;
+    }
     .wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary{
         display:none !important;
     }
 
 
     .section-title{
-       color:white !important;
+       color:black !important;
     }
     h2.hd.hd-3.page-title{
-       color:white !important;
+       color:black !important;
     }
     .window-wrap, #course-container,#course-outline-block-tree{
        background: #F4F5F6;
@@ -182,7 +184,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     }
 
     .progress-bar-grade {
-        background-color:var(--tertiary);
+        background-color:var(--green);
         position: absolute;
         height: 100%;
         top:0;
@@ -240,7 +242,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
     .page-content .page-content-secondary h4{
         padding:15px;
-        color:white;
+        color:black !important;
         background-color:var(--tertiary);
         text-align:center
     }
@@ -340,12 +342,12 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
 
 <%block name="content">
 <div class="course-view page-content-container" id="course-container">
-    <header class="page-header has-secondary">
+    <!-- <header class="page-header has-secondary">
         <div class="page-header-main">
-            <!-- <img id="logo_banner" src="${static.url('{}/images/logo_secondary.png'.format(course.org))}" alt="banner logo"> -->
-        </div>
-        <div class="page-header-secondary">
-            % if False:
+             <img id="logo_banner" src="${static.url('{}/images/logo_secondary.png'.format(course.org))}" alt="banner logo"> 
+        </div> 
+         <div class="page-header-secondary">
+            % if show_search:
                 <div class="page-header-search">
                     <form class="search-form input-group" role="search" action="${reverse('openedx.course_search.course_search_results', args=[course_key])}">
                         <label class="field-label sr-only" for="search" id="search-hint">${_('Search the course')}</label>
@@ -373,8 +375,8 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
                     </a>
                 % endif
             </div>
-        </div>
-    </header>
+        </div> 
+    </header> -->
     <div class="page-content">
         <div class="page-content-main">
             % if offer_banner_fragment:
@@ -431,7 +433,10 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
                               total_blocks += 1
                               if blockchild.get('complete'):
                                 completed_blocks += 1
-                      completion_ratio = completed_blocks / total_blocks
+                      if total_blocks == 0:
+                        pass
+                      else:
+                        completion_ratio = completed_blocks / total_blocks
                       %>
                         <div class="grade-block">
                             <div class="grade-section-title">
@@ -554,4 +559,4 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
         linkCategory: "(none)"
       });
 
-</%static:require_module_async> 
+</%static:require_module_async>
