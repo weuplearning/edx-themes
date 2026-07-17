@@ -13,19 +13,21 @@
 <style>
 
   input[type="submit"], input[type="button"], button, .button {
-    box-shadow: none !important;
-    background-color: var(--primary);
     background-image: none !important;
     text-shadow: none !important;
   }
 
   .plaintext-honor_code, .text-username{
-      display: none !important;
+    display: none !important;
   }
 
-  .window-wrap {
-    background: url("${static.url('icope/images/bg_img.png')}");
+  .section-bkg-wrapper {
+    min-height: calc(100vh - 195.45px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
+
   .login-register .form-field select {
     background: #fff;
   }
@@ -33,25 +35,38 @@
     min-height: 71vh;
     height: auto;
   }
-  #content-container {
-    background: url("${static.url('icope/images/bg_img.png')}");
-    display: flex;
-    flex-direction: column;
+  .login-register-content {
+    background: unset;
+    margin-top: unset;
   }
+  #login-and-registration-container {
+    box-shadow: 0 5px 5px 0 rgba(0,0,0,0.1);
+  }
+
   .toggle-form {
     display: none !important;
   }
   .text-profession_autre {
     display: none;
   }
-  .form-field.select-department{
-    display: none;
-  }
+
   a {
     color: #C2C6CA !important;
   }
   #register-terms_of_service-optional-label {
     display: none;
+  }
+
+  .login-register .action-primary {
+    background-color: var(--primary);
+    box-shadow: #B4D1E9 -8px 8px 1px ;
+    will-change: transform;
+    transition: transform 350ms;
+  }
+  .login-register .action-primary:hover {
+    background-color: #1F6992;
+    box-shadow: none ; 
+    transform: translateY(6px);
   }
 
 </style>
@@ -64,9 +79,7 @@
   }, 1000);
 </script>
 <style>
-  .required-fields > .select-parcours {
-    display: none;
-  }
+
   #bucco-dentaire-msg {
     display: block !important;
     background: #fff;
@@ -82,13 +95,8 @@
     text-decoration: underline !important;
     color: #206892 !important;
   }
-</style>
-%endif
-
-%if request.get_full_path().find('soins_bucco_dentaires') !=  -1 :  
-<style>
-  nav.position-header {
-    display: none;
+  nav.position-header, #enterprise-content-container, .required-fields > .select-parcours {
+    display: none !important;
   }
 </style>
 %endif
@@ -128,16 +136,12 @@
 <div class="section-bkg-wrapper">
     <main id="main" aria-label="Content" tabindex="-1">
         <div id="content-container" class="login-register-content">
-            % if enable_enterprise_sidebar:
-                <%include file="enterprise_sidebar.html" />
-                <%
-                    border_class = 'border-left'
-                %>
-            % else:
-                <%
-                    border_class = ''
-                %>
-            % endif
+
+            <%include file="enterprise_sidebar.html" />
+            <%
+                border_class = 'border-left'
+            %>
+
             <div id="bucco-dentaire-msg" style="display: none;">
               <strong>ATTENTION :</strong> Si vous possédez déjà un compte sur la plateforme icope-formation.com vous pouvez accéder directement à la formation bucco-dentaire en vous <a href="/login?course-v1:icope+soins_bucco_dentaires+2024&enrollment_action=enroll">connectant ici</a>  
             </div>
@@ -185,7 +189,7 @@ var replaceText = setInterval(() => {
     var textTarget = $('#login-email-desc')
     textTarget[0].textContent = textTarget[0].textContent.replace('icope', 'le e-learning.')
     
-    if (textTarget[0].textContent.indexof('icope') == -1) {
+    if (textTarget[0].textContent.indexOf('icope') == -1) {
       clearInterval(replaceText)
     }
   }

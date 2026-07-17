@@ -62,21 +62,30 @@
     margin: 0rem 2.7rem;
     font-size: 16px;
   }
-  #footer-logo-1 {
-    width: 400px;
-  }
+
   #footer-logo-2 {
-    width: 125px;
+    width: 50px;
+    margin-left: 20px;
   }
 
   a.disabled {
     pointer-events: none;
     cursor: default;
   }
+
+    @media screen and (max-width: 767px) {
+      #footer-openedx ul {
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
+
 </style>
 
 
+  <img src="${static.url('icope/images/colored_line.png')}" alt="bandeau arc-en-ciel" style="width: 100%;" id="footer-colored-line" >
   <div class="wrapper wrapper-footer">
+
     <footer id="footer-openedx" class="grid-container"
       ## When rendering the footer through the branding API,
       ## the direction may not be set on the parent element,
@@ -98,9 +107,9 @@
               <a href="/">Programme ICOPE</a>
             </li> -->
             <li class="footerLists footerList-logoAndText ">
-              <img src="${static.url('icope/images/logo_chu_toulouse.jpg')}" id="footer-logo-1" class="img-fluid img-logo" alt="CHU logo" style="margin-top: 26px;">
+              <!-- <img src="${static.url('icope/images/logo_chu_toulouse.jpg')}" id="footer-logo-1" class="img-fluid img-logo" alt="CHU logo" style="margin-top: 26px;"> -->
+              <p class="footerList-italicText">Projet autorisé dans le cadre de l’Article 51</p>
               <img src="${static.url('icope/images/large-LOGO A51.png')}" id="footer-logo-2" class="img-fluid img-logo" alt="icope logo">
-              <p class="footerList-italicText">Projet autorisé dans le <br> cadre de l’Article 51</p>
             </li>
 
             <li class="footerLists">

@@ -44,7 +44,7 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
 <%def name="pagetitle()" />
   <%block name="title">
       <title>
-       ${static.get_page_title_breadcrumbs(self.pagetitle())}
+        Icope Formation
       </title>
   </%block>
 
@@ -85,21 +85,6 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
 
   <link rel="icon" type="image/x-icon" href="${static.url('icope/images/favicon.png')}" />
 
-  <style>
-    
-  @import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Quicksand:wght@300;400;500;600;700&display=swap');
-  
-  .content-wrapper {
-    margin: 0 !important;
-    padding: 0 !important;
-    max-width: none;
-  }
-  .page-content {
-    min-height:calc( 100vh - 191px )
-  }
-
-  </style>
-
 
   <%static:css group='style-vendor'/>
   % if '/' in self.attr.main_css:
@@ -114,8 +99,6 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
   % else:
     <%static:css group='${self.attr.main_css}'/>
   % endif
-  
-
 
   % if disable_courseware_js:
     <%static:js group='base_vendor'/>
@@ -133,10 +116,6 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
   % endif
 
   <script>
-    let test = "${static.url(self.attr.main_css)}"
-    console.log('test')
-    console.log(test)
-
     window.baseUrl = "${settings.STATIC_URL | n, js_escaped_string}";
     (function (require) {
       require.config({
@@ -167,8 +146,8 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
 
   <meta name="openedx-release-line" content="${RELEASE_LINE}" />
 
-<% ga_acct = static.get_value("GOOGLE_ANALYTICS_ACCOUNT", settings.GOOGLE_ANALYTICS_ACCOUNT) %>
-% if ga_acct:
+  <% ga_acct = static.get_value("GOOGLE_ANALYTICS_ACCOUNT", settings.GOOGLE_ANALYTICS_ACCOUNT) %>
+  % if ga_acct:
     <script type="text/javascript">
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', '${ga_acct | n, js_escaped_string}']);
@@ -180,19 +159,66 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     })();
     </script>
-% endif
+  % endif
 
-<% branch_key = static.get_value("BRANCH_IO_KEY", settings.BRANCH_IO_KEY) %>
-% if branch_key and not is_from_mobile_app:
+  <% branch_key = static.get_value("BRANCH_IO_KEY", settings.BRANCH_IO_KEY) %>
+  % if branch_key and not is_from_mobile_app:
     <script type="text/javascript">
         (function(b,r,a,n,c,h,_,s,d,k){if(!b[n]||!b[n]._q){for(;s<_.length;)c(h,_[s++]);d=r.createElement(a);d.async=1;d.src="https://cdn.branch.io/branch-latest.min.js";k=r.getElementsByTagName(a)[0];k.parentNode.insertBefore(d,k);b[n]=h}})(window,document,"script","branch",function(b,r){b[r]=function(){b._q.push([r,arguments])}},{_q:[],_v:1},"addListener applyCode banner closeBanner creditHistory credits data deepview deepviewCta first getCode init link logout redeem referrals removeListener sendSMS setBranchViewData setIdentity track validateCode".split(" "), 0);
         branch.init('${branch_key | n, js_escaped_string}');
     </script>
-% endif
+  % endif
+
+
+  <!-- COOKIES -->
+  <script type="text/javascript" src="${static.url('js/tarteaucitron.js')}" charset="utf-8"></script>
+  <script>
+    tarteaucitron.init({
+      "privacyUrl": "/tos",
+      "orientation": "bottom",
+      "groupServices": true,
+      "showAlertSmall": false,
+      "cookieslist": true,
+      "mandatory": true,
+      "highPrivacy": true,
+      "useExternalCss": false,
+      "useExternalJs": false
+    });
+
+    // Youtube videos
+    (tarteaucitron.job = tarteaucitron.job || []).push('youtube');
+
+  </script>
+  <!-- COOKIES -->
+
 
 </head>
 
 <body class="${static.dir_rtl()} <%block name='bodyclass'/> lang_${LANGUAGE_CODE}">
+
+  <style>
+  .content-wrapper, .window-wrap {
+    margin: 0 auto !important;
+    padding: 0 !important;
+    max-width: 1320px;
+    box-shadow: 0 5px 5px 0 rgba(0,0,0,0.1);
+  }
+  :root {
+    --primary : #41A3DB;
+    --secondary : #EF7E70;
+    --secundary : #EF7E70;
+    --tertiary : #85B87B;
+  }
+  #main {
+    min-height: calc(100vh - 161px);
+    font-family: 'Open Sans', 'Amaranth';
+  }
+  #main h1, #main h2, #main h3 {
+    font-family: 'Amaranth', 'Open Sans', sans-serif !important;
+  }
+
+  </style>
+
 
 <%static:optional_include_mako file="body-initial.html" is_theming_enabled="True" />
 <div id="page-prompt"></div>
