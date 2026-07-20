@@ -16,6 +16,8 @@ from common.djangoapps.util.date_utils import strftime_localized
 from opaque_keys.edx.keys import CourseKey
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 
+from lms.djangoapps.courseware.courses import get_course_by_id
+from opaque_keys.edx.locator import CourseLocator
 from lms.djangoapps.grades.course_grade_factory import CourseGradeFactory
 
 from openedx.core.djangoapps.site_configuration import helpers 
@@ -644,11 +646,18 @@ if not all([user_profession, user.is_authenticated])  :
               % endif
 
               <%
-                course_grade = CourseGradeFactory().read(user, course=CourseOverview.get_from_id(enrollment.course_id))
-                percent = course_grade.percent
-                passed = course_grade.passed
-              %>
+                try :
+                  course_key = CourseLocator.from_string(str(enrollment.course_id))
+                  course = get_course_by_id(course_key)
+                except :
+                  course = "erreur"
 
+                try :
+                  course_grade = CourseGradeFactory().read(user, course=course)
+                  percent = course_grade.percent
+                except : 
+                  percent = "0"
+              %>
 
               <script>
                 console.log("Course ID: ${str(enrollment.course_id) | n}, Percent: ${percent if percent is not None else 0}");
