@@ -21,7 +21,10 @@
 }
 
 
-/* CUSTOM WEUP */
+/* CUSTOM WEUP  - ne pas afficher sur les iframes */
+iframe #tarteaucitronIcon {
+    display: none !important;
+}
 
 
 
