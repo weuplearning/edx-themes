@@ -93,18 +93,36 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
 
 
   <script type="text/javascript" src="${static.url('js/tarteaucitron.js')}" charset="utf-8"></script>
+
+
   <script>
-    tarteaucitron.init({
-      "privacyUrl": "/tos",
-      "orientation": "bottom",
-      "groupServices": true,
-      "showAlertSmall": false,
-      "cookieslist": true,
-      "mandatory": true,
-      "highPrivacy": true,
-      "useExternalCss": false,
-      "useExternalJs": false
-    });
+  (function () {
+    var isTopWindow;
+    try {
+      isTopWindow = window.top === window.self;
+    } catch (e) {
+      isTopWindow = false;
+    }
+    if (!isTopWindow) { return; }
+    if (window.tarteaucitron) { return; }
+
+    var script = document.createElement("script");
+    script.src = "/custom-theme-js/tarteaucitron.js";
+    script.type = 'text/javascript';
+    script.charset = 'utf-8';
+    script.onload = function () {
+      if (!window.tarteaucitron) return;
+      window.tarteaucitron.init({
+        "privacyUrl": "https://tutor-cyril.weup.in/tos",
+        "orientation": "bottom",
+        "groupServices": true,
+        "showAlertSmall": false,
+        "cookieslist": true,
+        "mandatory": true,
+        "highPrivacy": true,
+        "useExternalCss": false,
+        "useExternalJs": false
+      });
 
     // Youtube videos
     (tarteaucitron.job = tarteaucitron.job || []).push('youtube');
@@ -121,7 +139,12 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
 //    (tarteaucitron.job = tarteaucitron.job || []).push('instagram');
 //    (tarteaucitron.job = tarteaucitron.job || []).push('linkedin');
 
+    };
+    document.head.appendChild(script);
+  })();
   </script>
+
+
 
 
 
