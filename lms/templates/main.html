@@ -92,40 +92,6 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
   <script type="text/javascript" src="${static.url(ie11_fix_path)}"></script>
 
 
-  % if request.path == "/tos" or request.path == "" or request.path == "/privacy" or request.path == "/honor" :
-  <script type="text/javascript" src="${static.url('js/tarteaucitron.js')}" charset="utf-8"></script>
-  <script>
-    tarteaucitron.init({
-      "privacyUrl": "https://tutor-cyril.weup.in/tos",
-      "orientation": "bottom",
-      "groupServices": true,
-      "showAlertSmall": false,
-      "cookieslist": true,
-      "mandatory": true,
-      "highPrivacy": true,
-      "useExternalCss": false,
-      "useExternalJs": false
-    });
-
-    // Youtube videos
-    (tarteaucitron.job = tarteaucitron.job || []).push('youtube');
-
-    // Google analytics via gtag.js
-//    tarteaucitron.services.gtag = {
-//      "key": "GA_MEASUREMENT_ID",
-//      "anonymizeIp": true
-//    };
-//    (tarteaucitron.job = tarteaucitron.job || []).push('gtag');
-
-    // Social networks
-//    (tarteaucitron.job = tarteaucitron.job || []).push('facebook');
-//    (tarteaucitron.job = tarteaucitron.job || []).push('instagram');
-//    (tarteaucitron.job = tarteaucitron.job || []).push('linkedin');
-
-  </script>
-  % endif
-
-
 
   <link rel="icon" type="image/x-icon" href="${static.url('images/favicon.png')}" />
   <!-- <link rel="icon" type="image/x-icon" href="${static.url(static.get_value('favicon_path', settings.FAVICON_PATH))}" /> -->
