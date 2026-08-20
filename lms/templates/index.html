@@ -99,8 +99,8 @@ html {
 /* BODY */
 .home-page-1 {
   align-self: flex-start;
-  margin: 25vh 20px 60px 140px;
-  height: 50vh;
+  margin: 15vh 20px 30px 140px;
+  height: 28vh;
   align-items: flex-start;
 }
 .home-page-1 > p:first-child {
@@ -121,7 +121,7 @@ html {
 .home-page-2 {
   height: 33vh;
   font-size: 26px;
-  font-size: 2vw;
+#  font-size: 2vw;
   font-weight: 800;
   padding-bottom: 20px;
 }
@@ -320,6 +320,7 @@ html {
 
 <main id="main" aria-label="Content" tabindex="-1">
 
+
   <header class="global-header-2 horizontal-align space-between" >
     <img id="logo-home" class="logo" src="${static.url('sncf-voyageurs/images/logo_secondary.png')}" alt="logo-SNCF"/>
 
@@ -332,7 +333,6 @@ html {
         <a class="sign-in-btn btn" href="/login?course_id=course-v1%3Asncf-voyageurs%2BDC2%2B2024&enrollment_action=enroll">ME&nbspCONNECTER</a>
       </div>
     </div>
-
   </header>
 
   <section class="home">
@@ -355,6 +355,14 @@ html {
         </div>
 
         <div class="home-page-2 vertical-align space-between">
+
+  <div style="background-color:rgba(249, 15, 15, 0.795); text-align:center; padding: 15px;line-height:1.4;margin-bottom:20px;">
+Le MOOC fait peau neuve !<br>
+Une nouvelle version du MOOC arrive début septembre. À cette occasion, le site sera réinitialisé.<br>
+Nous vous invitons donc à terminer votre parcours avant le 7 septembre, afin de finaliser votre progression avant la mise à jour.<br>
+Merci de votre compréhension, et rendez-vous très bientôt pour découvrir le nouveau MOOC !<br>
+  </div>
+
           <img src="${static.url('sncf-voyageurs/images/logo_destination_conduite.svg')}" alt="Destination conduite">
           <p>LE MÉTIER DE CONDUCTRICE OU CONDUCTEUR DE TRAIN VOUS INTÉRESSE ?</p>
           <img src="${static.url('sncf-voyageurs/images/fleche.svg')}" alt="V">
