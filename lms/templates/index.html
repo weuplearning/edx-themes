@@ -253,7 +253,7 @@ from openedx.core.djangolib.markup import HTML, Text
   }
   .vignette-section-4 p {
     font-size: 1.5rem;
-    line-height: 1.5;
+    line-height: 1.2;
     margin-bottom: 1rem;
   }
 
@@ -319,6 +319,9 @@ from openedx.core.djangolib.markup import HTML, Text
 
   @media screen and (max-width: 800px) {
 
+    #section-1 {
+      justify-content: space-around;
+    }
     .home-page-1 {
       width: 90%;
       font-size: 1.5rem;
@@ -346,12 +349,12 @@ from openedx.core.djangolib.markup import HTML, Text
       min-height: auto;
       margin-bottom: 2rem;
       border-radius: 50px 50px 0 0;
-      padding: 1rem ;
+      padding: 2rem ;
       align-self: center;
+      width: 90%;
     }
     .vignette-section-4:last-child {
       border-radius: 0 0 50px 50px;
-      padding: 2rem 3rem;
     }
   }
 
