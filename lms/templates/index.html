@@ -9,439 +9,461 @@ from django.urls import reverse
 from openedx.core.djangolib.markup import HTML, Text
 %>
 
+<!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> -->
 
 <!-- STYLE  -->
 <!-- https://xd.adobe.com/view/f988e995-7514-4c22-a878-009f239cff37-acdb/variables/ -->
 <style>
-:root {
-  --primary: #048753;
-  --secondary: #ff7853;
-  --ternary : #2d0d33;
-}
-
-/* HEADER */
-.global-header {
-  max-width: 1600px;
-  margin: auto;
-}
-.register-btn {
-  background: var(--primary) !important;
-  color: white;
-}
-.sign-in-btn {
-  color: white;
-  background: var(--secondary) !important;
-}
-.login-btn {
-  padding: 36px;
-  width: 540px;
-}
-.btn {
-  padding: 12px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 700;
-  display: block;
-  width: 230px;
-  text-align: center;
-}
-#top-container .btn {
-  font-size: 16px;
-}
-
-.global-header .nav-links .secondary a.register-btn, .global-header .nav-links .secondary a.sign-in-btn {
-  color: white !important;
-  width: 12vw;
-  max-width: 200px;
-}
-
-.main .mobile-nav-item, .global-header .mobile-menu .hidden-mobile {
-  display: none !important;
-}
-
-
-
-/* GLOBAL */
-.vertical-align, .horizontal-align {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.horizontal-align {
-  flex-direction: row;
-}
-.space-between {
-  justify-content: space-between;
-}
-#top-container {
-  color: white;
-  background-image: url("${static.url('images/baniere.png')}");
-  background-position: center;
-  background-size: cover;
-  height: 100vh;
-}
-.home {
-  background-color: #EDEDED;
-}
-html, body {
-  max-width: 100%;
-}
-html {
-  overflow-x: hidden;
-}
-.cc-grower {
-  display: none !important;
-}
-
-
-/* BODY */
-#main {
-  max-width: 1600px;
-  margin: auto;
-}
-.home-page-1 {
-  align-self: flex-start;
-  margin: 25vh 20px 60px 140px;
-  height: 50vh;
-  align-items: flex-start;
-}
-.home-page-1 > p:first-child {
-  text-transform: uppercase;
-  font-size: xxx-large;
-  line-height: normal;
-}
-.home-page-1 > p:nth-child(2) {
-  font-size: x-large;
-  font-weight: 800;
-}
-.home-page-1 > div {
-  padding-left: 0;
-}
-
-.home-page-2 {
-  height: 33vh;
-  font-size: 26px;
-  font-size: 2vw;
-  font-weight: 800;
-  padding-bottom: 20px;
-}
-.home-page-2 > img:first-child {
-  height: 9vh; 
-}
-.home-page-2 > img:last-child {
-  height: 5vh; 
-}
-
-#center-container-text {
-  text-align: center;
-  font-size: 25px;
-  padding: 50px 102px;
-  line-height: normal;
-}
-.numero {
-  background-color: var(--primary);
-  color: white;
-  font-size: 19px;
-  height: 40px;
-  width: 40px;
-  border-radius: 50%;
-  position: absolute;
-  left: -24px;
-  border: 1px solid white;
-}
-.bulle-numero {
-  background-color: white;
-  padding: 1vh 6vw;
-  height: 6vh;
-  width: 300px;
-  border-radius: 2vh;
-  text-align: center;
-  font-size: 20px;
-  font-size: 2vh;
-  line-height: 1.4;
-}
-
-.numero-relat {
-  position: relative;
-  margin:0 100px 7vh 0;
-}
-.dotted div {
-  border-right: black 3px solid;
-  height: 2.5vh;
-  position: absolute;
-  left: -10px;
+  :root {
+    --primary: #008BCB;
+    --secondary: #45B177;
+    --tertiary : #019BA4;
   }
-#illu-ter {
-  position: relative;
-  height: 500px;
-}
-#illu-ter > div:first-child {
-  /* background-color: aqua; */
-  position: relative;
-  z-index: 2;
-}
 
-#video-home {
-  height: 250px;
-  width: 450px;
-  background-color: white;
-  border: var(--primary) 3px solid;
-}
-
-#center-container {
-  position: relative;
-}
-#illu-ter-2 {
-  background-image: url("${static.url('images/illu_rogne.png')}");
-  background-size: cover;
-  background-repeat: no-repeat;
-  position: absolute;
-  bottom: 0px;
-  right: 0px;
-  height: 500px;
-  width: 500px;
-  clip: rect(1px, 500px, 500px, 0px);
-}
-
-#notif-closure
-{
-  background: var(--secondary) !important;
-  border-radius: 4.5px;
-  text-align: center;
-  font-size: 25px;
-  font-size: 2.3vh;
-  margin: 0.5em 2em;
-  width: 700px;
-  padding: 0em 1em;
-  line-height: normal;
-  margin-bottom: 1em;
-}
-
-
-#notif-closure p:first-child
-{
-  font-size: 3vh;
-  margin: 0;
-  margin-top: 24px;
-  margin-bottom: 12px;
-  font-weight: 700;
-}
-
-#notif-closure p
-{
-  padding: 0;
-  margin: 3.5px 0;
-  color: white;
-}
-
-
-/* FOOTER */
-.wrapper-footer {
-  display: none;
-}
-.wrapper-footer-home {
-  background-color: #1D5659;
-  z-index: 2;
-  height: 9vh;
-  padding: 0 10vw;
-}
-.wrapper-footer-home a {
-  color: white !important;
-  font-size: medium !important;
-  text-decoration: none;
-}
-
-
-
-/* MEDIA */
-@media (min-width: 768px) {  
+  .main .mobile-nav-item, .global-header .mobile-menu .hidden-mobile {
+    display: none !important;
+  }
   .content-wrapper {
+    margin: 0 auto;
     padding: 0 !important;
-    margin-top: 0 !important;
+    max-width: 1600px !important;
+    box-sizing: border-box;
   }
-}
+  h1, h2, h3, h4, p, li, a {
+    font-family: 'Avenir', 'Barlow', sans-serif;
+  }
+  .header-container {
+    margin: 0 auto;
+    padding: 0 15px;
+    max-width: 1600px;
+  }
+  body {
+    line-height: 1.2 !important;
+    box-sizing: border-box;
+  }
 
-@media (max-width: 1200px) {  
-  .home-page-1 {
-    margin: 25vh 20px 60px 14px;
+  /* GLOBAL */
+  .vertical-align, .horizontal-align {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
   }
-  .home-page-1 > p:first-child {
-    font-size: xx-large !important;
+  .horizontal-align {
+    flex-direction: row;
   }
-  .home-page-1 > p:nth-child(2) {
-    font-size: x-large !important;
-    line-height: 1.1;
+  .space-between {
+    justify-content: space-between;
   }
-  .home-page-1 > div {
-    flex-direction: column;
-    padding: 0 0 0 0;
+
+
+/* Section 1 */
+  #section-1 {
+    background-image: url("${static.url('images/bckg-section-1.png')}");
+    background-size: cover;
+    background-position: center;
+    height: 80vh;
+    justify-content: flex-end;
+    padding-bottom: 100px;
   }
-  .home-page-1 > div > div:first-child {
-    margin: 20px;
+  #section-1 > img {
+    width: 160px;
+    margin-bottom: 1rem;
   }
-  .btn {
-    width: 43vw;
-    max-width: 310px;
+  .home-page-1 {
+    background-image: url("${static.url('images/encart-bienvenue.png')}");
+    background-size: cover;
+    background-position: center;
+    align-self: self-start;
+    border-left : 5px solid white;
+    color: white;
+    padding: 1rem;
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    width: 60%;
+    margin-bottom: 5%;
   }
-  #center-container > div:nth-child(2) > div:first-child  {
-    display: none;
+
+  .home-page-1, .home-page-1 p, #section-1 > img {
+    align-self: start;
+    margin-left: 5%;
   }
-  #video-home, #video-home iframe {
-    width: 70vw;
-    height: 40vw;
+  .home-page-1 p {
+    margin-left: 1%;
   }
-  .content-wrapper {
-    margin-top: 0 !important;
-    padding: 0;
+  .home-page-1 .smaller-text {
+    font-size: 2rem;
+    margin-top: 1rem;
+    text-transform: none;
+  }
+  .home-page-2 {
+    margin-top: 4rem;
+    color: white;
+    font-size: 2rem;
+    text-align: center;
+  }
+  .home-page-2 .uppercase-green {
+    text-transform: uppercase;
+    background-color: #008167;
+    padding: 0.2rem 0.5rem;
+    border-radius: 5px;
+  }
+  .home-page-2 .text-blue {
+    background-color: var(--primary);
+    padding: 0.2rem 0.5rem;
+    border-radius: 5px;
+    font-weight: 700;
+  }
+ 
+
+/* Section 2 */
+  #section-2 {
+    margin: 4rem auto;
+  }
+  #illustration-section-2 {
+    max-height: 500px;
+    height: 45vh;
   }
   #center-container-text {
-    padding: 50px 45px;
+    width: 50%;
+    padding: 3rem;
+    color: black;
+    font-family: 'Barlow', sans-serif;
+    line-height: 1.2;
   }
-  #illu-ter-2 {
-    right: -160px
+  #center-container-text h2 {
+    text-transform: uppercase;
+    color: black;
+    font-size: 3.5rem;
+    margin-bottom: 5px;
+    font-weight: 700;
+  }
+  #center-container-text h3 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 3rem;
+  }
+  #center-container-text p {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  #center-container-text p:last-child {
+    font-weight: 700;
   }
 
-  #notif-closure{
-    margin: 0 0.5em;
-    margin-bottom: 1em;
-    text-wrap: wrap;
-    word-wrap: break-word;
-    max-width: 90%;
-  }
-}
 
+/* Section 3 */
+  #section-3 {
+    background-color : var(--primary);
+    padding: 3rem 0;
+  }
+  #section-3-title {
+    color: white;
+    font-size: 3rem;
+    font-weight: 600;
+    margin-bottom: 3rem;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  .vignette-section-3 {
+    width: 26%;
+    height: 500px;
+    margin: 0 2rem;
+    padding: 3rem 2rem;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    background-image: url("${static.url('images/vignette_horloge.png')}");
+    background-size: cover;
+    background-position: center;
+    background-color: transparent;
+    transition: background-image 0.6s ease, transform 0.6s ease, box-shadow 0.6s ease;
+    color: white;
+    font-size: 1.4rem;
+  }
+
+  .vignette-section-3:nth-child(2) {
+    background-image: url("${static.url('images/vignette_loupe.png')}");
+    
+  }
+  .vignette-section-3:nth-child(3) {
+    background-image: url("${static.url('images/vignette_certificat.png')}");
+  }
+  .vignette-section-3:hover {
+    background-image: linear-gradient(transparent 0%, rgba(255, 255, 255, 0.868) 60%), url("${static.url('images/vignette_horloge.png')}");
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
+    cursor: pointer; 
+    color: black;
+  }
+  .vignette-section-3:nth-child(2):hover {
+    background-image: linear-gradient(transparent 0%, rgba(255, 255, 255, 0.868) 60%), url("${static.url('images/vignette_loupe.png')}");
+  }
+  .vignette-section-3:nth-child(3):hover {
+    background-image: linear-gradient(transparent 0%, rgba(255, 255, 255, 0.868) 60%), url("${static.url('images/vignette_certificat.png')}");
+  }
+
+
+/* Section 4 */
+  #section-4 {
+    margin: 4rem auto 0;
+  }
+  .vignette-section-4 {
+    background-color : var(--secondary);
+    color: white;
+    width: 48%;
+    padding: 2rem 4rem ;
+    min-height: 1640px;
+    border-radius: 0 100px 0 0;
+    box-sizing: border-box;
+    align-self: flex-end;
+  }
+  .vignette-section-4:nth-child(2) {
+    background-color : var(--tertiary);
+    border-radius: 100px 0 0 0;
+  }
+  .vignette-section-4 h1, .vignette-section-4 h2, .vignette-section-4 h3, .vignette-section-4 h4 {
+    color: white;
+    font-size: 2rem;
+    font-weight: 400;
+    margin-bottom: 2rem;
+    align-self: flex-start;
+  }
+  .vignette-section-4 h1 {
+    font-size: 2.5rem;
+    font-weight: 500;
+    align-self: center;
+  }
+  .vignette-section-4 h2 {
+    text-transform: uppercase;
+    align-self: flex-start;
+  }
+  .vignette-section-4 h3 {
+    font-size: 1.5rem;
+    font-weight: 500;
+  }
+  .vignette-section-4 h4 {
+    font-style: italic;
+    font-weight: 400;
+    text-align: center;
+    font-size: 1.4rem;
+  }
+  .vignette-section-4 p {
+    font-size: 1.5rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+
+  .vignette-section-4 div {
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: rgba(0 , 0, 0, 0.05);
+    text-transform: italic;
+    border-radius: 10px;
+  }
+  #section-4 ul li {
+    list-style: none;
+    text-transform: none;
+    font-weight: 600;
+    padding-left: 3.5rem;
+    position: relative;
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+  }
+  #section-4 ul li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.15em;
+    width: 1em;
+    height: 1em;
+    background-image: url("${static.url('images/picto_play.png')}");
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  #section-4 ol li {
+    font-weight: 500;
+    padding-left: 0.5rem;
+    font-size: 1.2rem;
+    margin-bottom: 9px;
+  }
+
+  .vignette-section-4 a {
+    text-align: center;
+    background-color: white;
+    color: var(--secondary);
+    font-size: 1.5rem;
+    font-weight: 700;
+    padding: 0.5rem 2rem;
+    border-radius: 5rem !important;
+    margin-top: 2rem;
+    text-transform: uppercase;
+    padding: 1rem 2rem;
+    display: inline-block;
+    max-width: 80%;
+    border: 1px solid white;
+  }
+  .vignette-section-4:nth-child(2) a {
+    color: var(--tertiary);
+  }
+  .vignette-section-4 a:hover {
+    background-color: var(--secondary);
+    color: white;
+  }
+  .vignette-section-4:nth-child(2) a:hover {
+    background-color: var(--tertiary);
+  }
+
+  @media screen and (max-width: 800px) {
+
+    .home-page-1 {
+      width: 90%;
+      font-size: 1.5rem;
+    }
+    .home-page-1 .smaller-text {
+      font-size: 1.2rem;
+    }
+    .home-page-2 {
+      font-size: 1.5rem;
+      margin-top: 0rem;
+    }
+    #section-2 .horizontal-align, #section-3 .horizontal-align, #section-4 .horizontal-align {
+      flex-direction: column;
+    }
+    #center-container-text, .vignette-section-4 {
+      width: 80%;
+      padding: 1rem;
+    }
+    .vignette-section-3 {
+      margin: 1rem;
+      width: 65%;
+      padding: 4rem;
+    }
+    .vignette-section-4 {
+      min-height: auto;
+      margin-bottom: 2rem;
+      border-radius: 50px 50px 0 0;
+      padding: 1rem ;
+      align-self: center;
+    }
+    .vignette-section-4:last-child {
+      border-radius: 0 0 50px 50px;
+      padding: 2rem 3rem;
+    }
+  }
 
 </style>
 <!-- STYLE  -->
 
 <main id="main" aria-label="Content" tabindex="-1">
 
-
-  <section class="home">
-    <div>
-      <div id="top-container" class="vertical-align">
-
-        <div class="vertical-align home-page-1">
-          <p>Bienvenue sur le MOOC <br><strong>destination conduite</strong></p>
-          <p>Un MOOC d'avance sur votre recrutement</p>
-          <div class="horizontal-align login-btn space-between">
-            <div class="mobile-nav-item nav-item">
-              <!-- <a class="register-btn btn" href="/register${login_query()}">M'INSCRIRE</a> -->
-              <a class="register-btn btn" href="/register?course_id=course-v1%3Asncf-voyageurs%2BDC2%2B2024&enrollment_action=enroll">M'INSCRIRE</a>
-            </div>
-
-            <div class="mobile-nav-item nav-item">
-              <a class="sign-in-btn btn" href="/login?course_id=course-v1%3Asncf-voyageurs%2BDC2%2B2024&enrollment_action=enroll">ME&nbspCONNECTER</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="home-page-2 vertical-align space-between">
-          <img src="${static.url('images/logo_destination_conduite.svg')}" alt="Destination conduite">
-          <p style="line-height:normal;" >LE MÉTIER DE CONDUCTRICE OU CONDUCTEUR DE TRAIN VOUS INTÉRESSE ?</p>
-          <img src="${static.url('images/fleche.svg')}" alt="V">
-        </div>
-
-      </div>
-    </div>
-    <div id="center-container" class="vertical-align">
-
-      <div class="horizontal-align">
-        
-        <p id="center-container-text">
-          SNCF vous propose son nouveau MOOC consacré aux métiers de la conduite ! Que vous soyez néophyte ou expert, futur candidat ou simple curieux, ce cours vous enseignera tout ce que vous devez savoir du métier de conductrice ou conducteur de train. <br>Au fil des cinq séquences proposées, nous vous ferons découvrir le monde du ferroviaire : 
-        </p>
-      </div>
-
-      <div class="horizontal-align">
-
-        <div class="vertical-align">
-
-          <div class="horizontal-align numero-relat">
-            <div class="numero vertical-align">
-              1
-            </div>
-            <div class="bulle-numero vertical-align">
-              <p>Intégrez SNCF et son écosystème</p>
-            </div>
-            <div class="dotted">
-              <div style="top : 8vh"></div>
-              <div style="top : 13vh"></div>
-            </div>
-          </div>
-          
-          <div class="horizontal-align numero-relat">
-            <div class="numero vertical-align">
-              2
-            </div>
-            <div class="bulle-numero vertical-align">
-              <p>Découvrez les métiers de la conduite</p>
-            </div>
-            <div class="dotted">
-              <div style="top : 8vh"></div>
-              <div style="top : 13vh"></div>
-            </div>
-          </div>
-
-          <div class="horizontal-align numero-relat">
-            <div class="numero vertical-align">
-              3
-            </div>
-            <div class="bulle-numero vertical-align">
-              <p>Initiez-vous à la réglementation ferroviaire</p>
-            </div>
-            <div class="dotted">
-              <div style="top : 8vh"></div>
-              <div style="top : 13vh"></div>
-            </div>
-          </div>
-
-          <div class="horizontal-align numero-relat">
-            <div class="numero vertical-align">
-              4
-            </div>
-            <div class="bulle-numero vertical-align">
-              <p>Devenez un professionnel de la conduite !</p>
-            </div>
-            <div class="dotted">
-              <div style="top : 8vh"></div>
-              <div style="top : 13vh"></div>
-            </div>
-          </div>
-          <div class="horizontal-align numero-relat">
-            <div class="numero vertical-align">
-              5
-            </div>
-            <div class="bulle-numero vertical-align" style="background-color: #008168; color: white;">
-              <p>Rejoignez le plus beau bureau de France !</p>
-            </div>
-          </div>
-
-        </div>
-
-        <div id="illu-ter">
-          <div class="horizontal-align" id="video-home">
-            <iframe src="https://player.vimeo.com/video/773440122?h=9acfd867ed" width="450px" height="250px" frameborder="0"></iframe>
-          </div>
-        </div>
-        
-      </div>
-      
-      
-      <div id="illu-ter-2"></div>
+  <section id="section-1" class="vertical-align">
+    
+    <img src="${static.url('images/logo_destination_conduite.svg')}" alt="Destination conduite">
+    <div class="vertical-align home-page-1">
+      <p>Bienvenue sur le MOOC <br><strong>destination conduite</strong></p>
+      <p class="smaller-text" >Un MOOC d'avance sur votre recrutement</p>
     </div>
 
+    <div class="home-page-2 vertical-align space-between">
+      <p >LE MÉTIER DE <span class="uppercase-green">CONDUCTRICE OU CONDUCTEURDE TRAIN</span><br>VOUS INTÉRESSE ?</p>
+      <p><span class="text-blue">Nouveauté</span> : choisissez votre parcours de découverte !</p>
+    </div>
 
   </section>
 
-  <footer class="wrapper-footer-home horizontal-align space-between">
-    <a href="/tos">Mentions légales</a>
-    <a href="/privacy">Politique de confidentialité</a>
-    <a href="/honor">Crédits</a>
+  <section id="section-2" class="vertical-align">
 
-  </footer>
+    <div class="horizontal-align">
+
+      <img src="${static.url('images/simbox.png')}" alt="Photo Simbox" id="illustration-section-2">
+
+      <div id="center-container-text">
+        <h2>Bienvenue</h2>
+        <h3>sur le MOOC dédié aux métiers de la conduite des trains SNCF.</h3>
+        <p>Que vous soyez candidat·e, en réflexion ou simplement curieux·se, deux formats vous sont désormais proposés pour découvrir nos métiers à votre rythme :</p>
+        <p><strong>Une découverte métier flash et / ou une découverte métier approfondie</strong></p>
+      </div>
+
+    </div>
+
+  </section>
+
+  <section id="section-3" class="vertical-align">
+
+    <h2 id="section-3-title">Vous ne savez pas par où commencer ?</h2>
+    <div class="horizontal-align">
+
+      <div class="vignette-section-3">
+        <p>Les métiers de la conduite vous intéressent et vous avez quelques minutes?</p>
+        <p><strong>Le parcours découverte métier flash est fait pour vous.</strong></p>
+      </div>
+
+      <div class="vignette-section-3">
+        <p>Vous souhaitez aller plus loin et mieux comprendre l’univers de la conduite ?</p>
+        <p><strong>Le parcours découverte métier approfondie est fait pour vous.</strong></p>
+      </div>
+
+      <div class="vignette-section-3">
+        <p>Vous pouvez aussi <strong>commencer par le format découverte métier flash</strong>, puis prolonger l’expérience avec <strong>le parcours de découverte approfondi</strong>.</p>
+      </div>
+
+    </div>
+
+  </section>
+
+  <section id="section-4">
+    
+    <div class="horizontal-align space-between">
+
+      <div class="vignette-section-4 vertical-align space-between">
+        <h1>Je découvre un métier en quelques minutes</h1>
+        <h2>découverte métier flash</h2>
+        <h3>Un format rapide pour découvrir un métier précis</h3>
+        <p>Vous avez désormais accès à un module de découverte métier flash.</p>
+        <p>En quelques minutes, choisissez le métier qui vous intéresse et découvrez ses missions, son environnement et ses spécificités.</p>
+        <p>Ce parcours est idéal pour vous faire une première idée avant d’aller plus loin dans votre projet.</p>
+
+        <div>
+          <h4>Vous aurez accès aux vidéos métier suivantes :</h4>
+          <ul>
+            <li>Conducteur·rice de train</li>
+            <li>Conducteur·rice de manœuvre</li>
+            <li>Conducteur·rice de tram-train</li>
+          </ul>
+        </div>
+        
+        <a class="btn register-btn" href="/register?course_id=course-v1%3Asncf-voyageurs%2BDC2%2B2024&enrollment_action=enroll">Commencer la découverte métier <span style="font-weight: 900;">flash</span></a>
+      </div>
+
+      <div class="vignette-section-4 vertical-align space-between">
+        <h1>Je pars dans la découverte métier approfondie</h1>
+        <h2>MOOC découverte métier approfondie</h2>
+        <h3>Une expérience complète pour explorer les métiers de la conduite</h3>
+        <p>Vous voulez en savoir plus sur les métiers de la conduite ? Vous avez choisi le module parfait.</p>
+        <p>Cette expérience s’adresse à tous les candidat·e·s et vous enseignera tout ce que vous devez savoir sur les métiers de la conduite des trains.</p>
+        <p>Je vous propose de commencer ensemble l’expérience sans tarder.</p>
+
+        <div>
+          <h4>Vous aurez accès aux 5 séquences suivantes :</h4>
+          <ol>
+            <li>Intégrez SNCF et son écosystème</li>
+            <li>Découvrez les métiers de la conduite</li>
+            <li>Initiez-vous à la réglementation ferroviaire</li>
+            <li>Devenez un professionnel de la conduite !</li>
+            <li>Rejoignez le plus beau bureau de France !</li>
+          </ol>
+        </div>
+        
+        <a class="btn register-btn" href="/register?course_id=course-v1%3Asncf-voyageurs%2BDC2%2B2024&enrollment_action=enroll">Commencer la découverte métier <span style="font-weight: 900;">approfondie</span></a>
+      </div>
+
+    </div>
+  </section>
+
 </main>
 
 
@@ -462,40 +484,4 @@ html {
   $(window).load(function() {$('#signup_action').trigger("click");});
 </script>
 % endif
-
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const registerBtn = document.querySelector('.secondary a.register-btn');
-    const signinBtn = document.querySelector('.secondary a.sign-in-btn');
-
-    const courseId = 'course-v1:sncf-voyageurs+DC2+2024';
-//    const courseHome = '/learning/course/course-v1:sncf-voyageurs+DC2+2024/home';
-
-    if (registerBtn) {
-      registerBtn.textContent = "M'INSCRIRE";
-
-      const registerUrl = new URL(registerBtn.href, window.location.origin);
-      registerUrl.pathname = '/register';
-      registerUrl.searchParams.set('course_id', courseId);
-      registerUrl.searchParams.set('enrollment_action', 'enroll');
-//      registerUrl.searchParams.set('next', courseHome);
-
-      registerBtn.href = registerUrl.pathname + '?' + registerUrl.searchParams.toString();
-    }
-
-    if (signinBtn) {
-      signinBtn.textContent = 'ME CONNECTER';
-
-      const signinUrl = new URL(signinBtn.href, window.location.origin);
-      signinUrl.pathname = '/login';
-      signinUrl.searchParams.set('course_id', courseId);
-      signinUrl.searchParams.set('enrollment_action', 'enroll');
-//      signinUrl.searchParams.set('next', courseHome);
-
-      signinBtn.href = signinUrl.pathname + '?' + signinUrl.searchParams.toString();
-    }
-  });
-</script>
-
 

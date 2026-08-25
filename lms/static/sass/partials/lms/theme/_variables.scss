@@ -13,17 +13,36 @@
 }
 
 
+
+@font-face {
+    font-family: 'Avenir';
+    src: url('../fonts/Avenir/Avenir-Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Avenir';
+    src: url('../fonts/Avenir/Avenir-Black.ttf');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+
 // Theme colors
-$primary:  #1d5659;
-$secondary:  #BBFFBE;
+$primary:  #1C5659;
+$secondary:  #45B077;
 
 $theme-colors: (
-  "tertiary": #2d0d33
+  "tertiary": #009BA4
 );
 
 
 // Theme fonts
-$font-family-sans-serif: 'Barlow';
+$font-family-sans-serif: 'Avenir', 'Barlow', sans-serif;
+
 
 $action-primary-bg: $secondary !default;
 $action-primary-shadow: $secondary !default;
