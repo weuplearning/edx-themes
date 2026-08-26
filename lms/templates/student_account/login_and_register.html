@@ -17,6 +17,66 @@
     background-image: none !important;
     text-shadow: none !important;
   }
+
+  /* aout 2026 */
+  .window-wrap, #login-msg {
+    background-color: #F8FBF0 ;
+  }
+  #main {
+    min-height: calc(100vh - 66px);
+    display: flex;
+    align-items: center;
+  }
+  #content-container {
+    width: unset;
+    background-color: unset;
+    margin: 55px auto;
+  }
+  #login-and-registration-container {
+    padding: 20px 30px;
+    box-shadow: -4px 10px 10px 2px rgba(0,0,0,0.2) ;
+    border-radius: 35px 0 35px 35px ;
+    min-width: 23vw;
+  }
+  #login-form, #register-form {
+    padding-top: 0;
+  }
+  .login-register-content h2 {
+    color: black;
+    font-weight: 900;
+    margin-bottom: 2px;
+  }
+  .login-register .toggle-form {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+  #login-msg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    font-weight: bold;
+    margin-right: 200px;
+  }
+  #login .form-field, #register .form-field {
+    margin: 32px 0;
+  }
+  .non-required-fields .form-field {
+    margin: 13px 0 !important;
+  }
+
+  #login-help {
+    display: block !important;
+  }
+  .login-help, #login-email-desc {
+    display: none !important;
+  }
+
+  button.action {
+    border-radius: 15px 0 15px 15px;
+    padding : 2px 10px !important;
+
+  }
 </style>
 <%block name="js_extra">
     <%static:require_module module_name="js/student_account/logistration_factory" class_name="LogistrationFactory">
@@ -46,17 +106,12 @@
 <div class="section-bkg-wrapper">
     <main id="main" aria-label="Content" tabindex="-1">
         <div id="content-container" class="login-register-content">
-            % if enable_enterprise_sidebar:
-                <%include file="enterprise_sidebar.html" />
-                <%
-                    border_class = 'border-left'
-                %>
-            % else:
-                <%
-                    border_class = ''
-                %>
-            % endif
-            <div id="login-and-registration-container" class="login-register ${border_class}"></div>
+            <div id="login-msg" class="login-register-msg">
+                <p>
+                    Vous revoilà !
+                </p>
+            </div>
+            <div id="login-and-registration-container" class="login-register "></div>
         </div>
     </main>
 </div>
