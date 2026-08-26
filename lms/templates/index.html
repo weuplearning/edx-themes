@@ -9,12 +9,7 @@ from django.urls import reverse
 from openedx.core.djangolib.markup import HTML, Text
 %>
 
-<!-- <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> -->
 
-<!-- STYLE  -->
-<!-- https://xd.adobe.com/view/f988e995-7514-4c22-a878-009f239cff37-acdb/variables/ -->
 <style>
   :root {
     --primary: #008BCB;
@@ -122,7 +117,7 @@ from openedx.core.djangolib.markup import HTML, Text
     border-radius: 5px;
     font-weight: 700;
   }
- 
+
 
 /* Section 2 */
   #section-2 {
@@ -189,6 +184,7 @@ from openedx.core.djangolib.markup import HTML, Text
     transition: background-image 0.6s ease, transform 0.6s ease, box-shadow 0.6s ease;
     color: white;
     font-size: 1.4rem;
+    border-radius: 10px;
   }
 
   .vignette-section-3:nth-child(2) {
@@ -222,7 +218,7 @@ from openedx.core.djangolib.markup import HTML, Text
     color: white;
     width: 48%;
     padding: 2rem 4rem ;
-    min-height: 1640px;
+    min-height: 1240px;
     border-radius: 0 100px 0 0;
     box-sizing: border-box;
     align-self: flex-end;
@@ -322,6 +318,7 @@ from openedx.core.djangolib.markup import HTML, Text
   .vignette-section-4:nth-child(2) a:hover {
     background-color: var(--tertiary);
   }
+
 
   @media screen and (max-width: 800px) {
 
@@ -445,7 +442,7 @@ from openedx.core.djangolib.markup import HTML, Text
           </ul>
         </div>
         
-        <a class="btn register-btn" href="/register?course_id=course-v1%3Asncf-voyageurs%2BDC2%2B2024&enrollment_action=enroll">Commencer la découverte métier <span style="font-weight: 900;">flash</span></a>
+        <a class="btn register-btn" href="/register?course_id=course-v1%3Asncf-voyageurs%2BDC2%2B2024&enrollment_action=enroll">Commencer la découverte métier <span style="font-weight:900;">flash</span></a>
       </div>
 
       <div class="vignette-section-4 vertical-align space-between">
@@ -467,7 +464,7 @@ from openedx.core.djangolib.markup import HTML, Text
           </ol>
         </div>
         
-        <a class="btn register-btn" href="/register?course_id=course-v1%3Asncf-voyageurs%2BDC2%2B2024&enrollment_action=enroll">Commencer la découverte métier <span style="font-weight: 900;">approfondie</span></a>
+        <a class="btn register-btn" href="/register?course_id=course-v1%3Asncf-voyageurs%2BDC2%2B2024&enrollment_action=enroll">Commencer la découverte métier <span style="font-weight:900;">approfondie</span></a>
       </div>
 
     </div>
@@ -477,13 +474,13 @@ from openedx.core.djangolib.markup import HTML, Text
 
 
 <%block name="js_extra">
-   <script type="text/javascript">
-      $(window).load(function() {
-         if(getParameterByName('next')) {
-              $('#login').trigger("click");
-         }
-      })
-   </script>
+  <script type="text/javascript">
+    $(window).load(function() {
+      if(getParameterByName('next')) {
+        $('#login').trigger("click");
+      }
+    })
+  </script>
 </%block>
 
 % if show_signup_immediately is not UNDEFINED:
