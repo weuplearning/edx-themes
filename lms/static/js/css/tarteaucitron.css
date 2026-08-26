@@ -550,7 +550,7 @@ div#tarteaucitronServices {
 #tarteaucitronRoot * {
     box-sizing: initial;
     color: #333;
-    font-family: sans-serif !important;
+    font-family:'Avenir', sans-serif !important;
     font-size: 14px;
     line-height: normal;
     vertical-align: initial;
