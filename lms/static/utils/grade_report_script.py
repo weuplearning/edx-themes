@@ -86,6 +86,22 @@ for course_id in course_ids:
     
     user_data["name"] = user.profile.name
 
+
+
+    try:
+      last_login = user.last_login.strftime("%d/%m/%Y")
+    except:
+      last_login = None
+
+    try:
+      date_joined = user.date_joined.strftime("%d/%m/%Y")
+    except:
+      date_joined = None
+
+
+    user_data["register_date"] = date_joined
+    user_data["last_login"] = last_login
+
     try:
       user_data["Code"] = json.loads(user.profile.custom_field)['postal_code']
     except:
@@ -118,7 +134,7 @@ sheet = wb.active
 sheet.title= 'Rapport de notes'
 filename = '/home/edxtma/csv/{}_grand-reims_grade_report.xlsx'.format(timestr)
 
-headers = ['ID apprenant', 'Email', 'Nom d\'utilisateur' , 'Note finale', 'Code postal', 'Certificat']
+headers = ['ID apprenant', 'Email', 'Nom d\'utilisateur' , 'Note finale', 'Date d\inscription','Date de dernière connexion', 'Code postal', 'Certificat']
 for i, header in enumerate(headers):
   sheet.cell(1, i+1, header)
   sheet.cell(1, i+1).fill = PatternFill("solid", fgColor="59C4C6")
@@ -136,16 +152,21 @@ for k, course_id in all_users_data.items():
 
     percent = str(user['general']['grade']) + '%'
     sheet.cell(j, 4, percent.replace('.',','))
-    sheet.cell(j, 5, user['general']['Code'])
+
+    sheet.cell(j, 5, user['general']['register_date'])
+    sheet.cell(j, 6, user['general']['last_login'])
+
+
+    sheet.cell(j, 7, user['general']['Code'])
 
     if int(percent.split('.')[0]) >= 70 : 
-      sheet.cell(j, 6, 'Oui')
-      sheet.cell(j, 6).fill = PatternFill("solid", fgColor="21ad73")
-      sheet.cell(j, 6).font = Font(b=False, color="FFFFFF")
+      sheet.cell(j, 8, 'Oui')
+      sheet.cell(j, 8).fill = PatternFill("solid", fgColor="21ad73")
+      sheet.cell(j, 8).font = Font(b=False, color="FFFFFF")
     else:
-      sheet.cell(j, 6, 'Non')
-      sheet.cell(j, 6).fill = PatternFill("solid", fgColor="E24729")
-      sheet.cell(j, 6).font = Font(b=False, color="FFFFFF")
+      sheet.cell(j, 8, 'Non')
+      sheet.cell(j, 8).fill = PatternFill("solid", fgColor="E24729")
+      sheet.cell(j, 8).font = Font(b=False, color="FFFFFF")
 
     j += 1
 
