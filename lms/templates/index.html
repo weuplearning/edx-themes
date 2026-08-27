@@ -17,7 +17,7 @@ from openedx.core.djangolib.markup import HTML, Text
     --tertiary : #019BA4;
   }
 
-  .main .mobile-nav-item, .global-header .mobile-menu .hidden-mobile {
+  .main .mobile-nav-item {
     display: none !important;
   }
   .content-wrapper {
@@ -52,7 +52,7 @@ from openedx.core.djangolib.markup import HTML, Text
   .space-between {
     justify-content: space-between;
   }
-  #mobile-menu div:nth-child(1), #mobile-menu div:nth-child(2), .mobile-nav-item .register-btn {
+  #mobile-menu div:nth-child(1), #mobile-menu div:nth-child(2), .mobile-nav-item .register-btn, .theme-toggle-button {
     display: none !important;
   }
   .global-header .nav-links .secondary a.sign-in-btn {
@@ -218,7 +218,7 @@ from openedx.core.djangolib.markup import HTML, Text
     color: white;
     width: 48%;
     padding: 2rem 4rem ;
-    min-height: 1240px;
+    min-height: 1100px;
     border-radius: 0 100px 0 0;
     box-sizing: border-box;
     align-self: flex-end;
@@ -231,12 +231,11 @@ from openedx.core.djangolib.markup import HTML, Text
     color: white;
     font-size: 2rem;
     font-weight: 400;
-    margin-bottom: 2rem;
     align-self: flex-start;
   }
   .vignette-section-4 h1 {
-    font-size: 2.5rem;
-    font-weight: 500;
+    font-size: 2rem;
+    font-weight: bold;
     align-self: center;
   }
   .vignette-section-4 h2 {
@@ -245,18 +244,18 @@ from openedx.core.djangolib.markup import HTML, Text
   }
   .vignette-section-4 h3 {
     font-size: 1.5rem;
-    font-weight: 500;
+    font-weight: bold;
+
   }
   .vignette-section-4 h4 {
     font-style: italic;
     font-weight: 400;
     text-align: center;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
   }
   .vignette-section-4 p {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     line-height: 1.2;
-    margin-bottom: 1rem;
   }
 
   .vignette-section-4 div {
@@ -291,6 +290,7 @@ from openedx.core.djangolib.markup import HTML, Text
     padding-left: 0.5rem;
     font-size: 1.2rem;
     margin-bottom: 9px;
+    font-weight: bold;
   }
 
   .vignette-section-4 a {
@@ -301,9 +301,8 @@ from openedx.core.djangolib.markup import HTML, Text
     font-weight: 700;
     padding: 0.5rem 2rem;
     border-radius: 5rem !important;
-    margin-top: 2rem;
     text-transform: uppercase;
-    padding: 1rem 2rem;
+    padding: 0.5rem 2rem;
     display: inline-block;
     max-width: 80%;
     border: 1px solid white;
