@@ -134,7 +134,7 @@ sheet = wb.active
 sheet.title= 'Rapport de notes'
 filename = '/home/edxtma/csv/{}_grand-reims_grade_report.xlsx'.format(timestr)
 
-headers = ['ID apprenant', 'Email', 'Nom d\'utilisateur' , 'Note finale', 'Date d\inscription','Date de dernière connexion', 'Code postal', 'Certificat']
+headers = ['ID apprenant', 'Email', 'Nom d\'utilisateur' , 'Note finale', 'Date d\'inscription','Date de dernière connexion', 'Code postal', 'Certificat']
 for i, header in enumerate(headers):
   sheet.cell(1, i+1, header)
   sheet.cell(1, i+1).fill = PatternFill("solid", fgColor="59C4C6")
