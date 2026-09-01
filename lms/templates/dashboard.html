@@ -262,55 +262,7 @@ from common.djangoapps.student.models import CourseEnrollment
           % endif
         </div>
       </div>
-      <div class="side-container" role="complementary" aria-label="messages">
-        %if display_sidebar_account_activation_message:
-          <div class="sidebar-notification">
-            <%include file="${static.get_template_path('registration/account_activation_sidebar_notice.html')}" />
-          </div>
-        %endif
 
-        % if settings.FEATURES.get('ENABLE_DASHBOARD_SEARCH'):
-          <div id="dashboard-search-bar" class="search-bar dashboard-search-bar" role="search" aria-label="Dashboard">
-            <form class="search-form">
-              <label for="dashboard-search-input">${_('Search Your Courses')}</label>
-              <div class="search-field-wrapper">
-                <input id="dashboard-search-input" type="text" class="search-field"/>
-                <button type="submit" class="search-button" title="${_('Search')}">
-                  <span class="icon fa fa-search" aria-hidden="true"></span>
-                </button>
-                <button type="button" class="cancel-button" title="${_('Clear search')}">
-                  <span class="icon fa fa-remove" aria-hidden="true"></span>
-                </button>
-              </div>
-            </form>
-          </div>
-          <div id="dashboard-search-results" class="search-results dashboard-search-results"></div>
-        % endif
-
-        <%block name="skip_links">
-          % if settings.FEATURES.get('ENABLE_ANNOUNCEMENTS'):
-            <a id="announcements-skip" class="nav-skip sr-only sr-only-focusable" href="#announcements">${_("Skip to list of announcements")}</a>
-          % endif
-        </%block>
-        % if settings.FEATURES.get('ENABLE_ANNOUNCEMENTS'):
-          <%include file='dashboard/_dashboard_announcements.html' />
-        % endif
-
-        % if display_sidebar_on_dashboard:
-          <div class="profile-sidebar" id="profile-sidebar" role="region" aria-label="Account Status Info">
-            <header class="profile">
-              <h2 class="account-status-title sr">${_("Account Status Info")}: </h2>
-            </header>
-            <div class="user-info">
-              <ul>
-
-                <%include file="${static.get_template_path('dashboard/_dashboard_status_verification.html')}" />
-
-              </ul>
-            </div>
-          </div>
-        % endif
-      </div>
     </div>
 </main>
 
@@ -380,22 +332,72 @@ from common.djangoapps.student.models import CourseEnrollment
 <%include file="dashboard/_dashboard_entitlement_unenrollment_modal.html"/>
 
 <style>
+.info-university, .info-course-id {
+  display: none !important;
+}
+
+.dashboard .main-container .my-courses .course .details .wrapper-course-image {
+  margin-right: unset ;
+  width: unset;
+  max-height: none;
+  overflow: hidden;
+  padding: 25px;
+}
+.dashboard .main-container .my-courses .listing-courses .course-item .course-container {
+  border-radius: 30px 0 30px 30px;
+  border: unset;
+  box-shadow: 4px 4px 20px rgba(0, 0,0, 0.2);
+  background-color: white;  
+}
+.dashboard .main-container .my-courses .course .details .course-actions .wrapper-action-more .action-more {
+  border: none;
+  background-color: unset;
+}
+.wrapper-course-details {
+  padding: 0px 15px !important;
+}
+
+
+
+.dashboard .main-container {
+  padding: 40px 20px;
+}
 .window-wrap .content-wrapper {
   min-height: calc( 100vh - 177px ) !important;
-}
-.window-wrap {
-  background: url("${static.url('afpa/images/bg_img.png')}");
-  background-size: cover;
-}
-.course-container {
-  background-color: white;
+  background: #F9FCF1;
 }
 
 .status-verification.warning{
   background-color: white;
 }
 
-.dashboard .side-container{
-  padding-top: 65px;
+.listing-courses {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 50px;
 }
+
+.listing-courses .course-item {
+  flex: 0 0 calc((100% - 100px) / 3);
+  box-sizing: border-box;
+}
+.course-container section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.course-info {
+  font-size: 10px;
+}
+.course-title a {
+  font-size: 1.3rem;
+}
+.course-title {
+  height: 5rem;
+  overflow: scroll;
+}
+
 </style>

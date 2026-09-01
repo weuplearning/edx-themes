@@ -137,13 +137,10 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     	animation: fadeInLeft;
         animation-duration: 0.5s;
     }
-    .wrapper-preview-menu{
-       //display:none;
-    }
-.wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary{
-    display:none !important;
-}
 
+    .wrapper-preview-menu .view-in-studio, .wrapper-preview-menu a.btn.btn-primary{
+        display:none !important;
+    }
 
     .section-title{
        color:white !important;
@@ -152,7 +149,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
        color:white !important;
     }
     .window-wrap, #course-container,#course-outline-block-tree{
-       background: #F4F5F6;
+        background: #F9FCF1;
     }
     #main, .outline-item.accordion-panel{
        background: white;
@@ -184,7 +181,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     }
 
     .progress-bar-grade {
-        background-color:var(--green);
+        background-color:var(--primary);
         position: absolute;
         height: 100%;
         top:0;
@@ -410,12 +407,12 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
                                 <img src="${static.url('images/medal_off.svg')}" class="main-badge"/>
                             %endif
                             <div style="text-transform: uppercase;">${course.display_name_with_default}</div>
-                            <div class="grade-value">${int(user_grade.percent * 100)}%</div>
+                            <!-- <div class="grade-value">${int(user_grade.percent * 100)}%</div> -->
                         </div>
-                        <div class="progress-bar-full" id="final-grade-progress">
+                        <!-- <div class="progress-bar-full" id="final-grade-progress">
                             <div style="width:${int(user_grade.percent * 100)}%;" class="progress-bar-grade" ></div>
                             
-                        </div>                    
+                        </div> -->
                     </div>
 
                  %if configuration_helpers.get_value('COMPLETION_BASED_DASHBOARD_MONO', False):

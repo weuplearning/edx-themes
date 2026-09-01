@@ -12,59 +12,135 @@
 
 <style>
 .wrapper-footer {
-  background-color: #67b134  !important;
+  background-color: #67b134 !important;
   color: white;
+  padding: 24px 0;
 }
 body.view-in-course .wrapper-footer {
   background-color: gray;
 }
-.wrapper-footer .site-nav, .wrapper-footer footer#footer-openedx .colophon .nav-colophon {
+
+.wrapper-footer .site-nav,
+.wrapper-footer footer#footer-openedx .colophon .nav-colophon {
   margin: 0 !important;
 }
-.wrapper-footer .site-nav .nav-link, .wrapper-footer footer#footer-openedx .colophon .nav-colophon li a {
+
+.wrapper-footer .site-nav .nav-link,
+.wrapper-footer footer#footer-openedx .colophon .nav-colophon li a {
   color: white !important;
 }
-.navbar-nav {
-  width: 100%;
+
+/* Conteneur général : logo + nav sur une seule ligne, qui wrap proprement en mobile */
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
+  padding: 0 5vw;
 }
-.navbar-nav > .nav-item {
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.footer-logo img {
+  height: 40px;
+  width: auto;
+  display: block;
+}
+
+.navbar .navbar-nav {
+  width: auto;
+  flex: 1 1 auto;
+}
+
+/* Espacement moderne entre les liens via gap au lieu de margin en vw */
+.navbar .navbar-nav > .nav-item {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   align-items: center;
-  margin: 0 10vw !important;
-  width: calc( 100% - 20vw ) ;
+  gap: 12px 32px;
+  margin: 0 !important;
+  width: 100%;
 }
-.navbar-nav > .nav-item > a {
-  color : white !important;
+
+.navbar-nav > .nav-item a, .bottom-nav-bar a {
+  color: white !important;
+  text-decoration: none;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
 }
+.navbar-nav > .nav-item > a:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
 @media (min-width: 768px) {
   .col-md-9 {
     flex: 0 0 100% !important;
     max-width: 100% !important;
   }
 }
+
+/* En dessous de 768px : logo au-dessus, liens centrés en dessous */
+@media (max-width: 767px) {
+  .footer-inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .navbar .navbar-nav > .nav-item {
+    justify-content: center;
+  }
+}
 </style>
 
-  <div class="container-fluid wrapper-footer">
-    <footer>
-      <div class="row">
-        <div class="col-md-9">
+<div class="container-fluid wrapper-footer">
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <img src="${static.url('afpa/images/logo.png')}" alt="Logo client">
+      </div>
+
+      <div class="row" style="margin:0; width:auto; flex:1;">
+        <div class="col-md-9" style="padding:0;">
           <nav class="navbar site-nav navbar-expand-sm" aria-label="${_('CGU')}">
             <ul class="navbar-nav">
               <li class="nav-item">
                 <a href="/cgu">Conditions générales d'utilisation</a>
                 <a href="/donnees">Vos données personnelles</a>
                 <a href="/legales">Mentions Légales</a>
-                <a href="/faq">FAQ</a>
-                <a href="/help">Accessibilité: Non conforme</a>
               </li>
             </ul>
           </nav>
         </div>
       </div>
-    </footer>
-  </div>
+
+      <div style="border-bottom: solid 1px white;width:100%;margin:auto;" > </div>
+
+      <div class="row" style="margin:0; width:auto;">
+          <nav class="bottom-nav-bar" >
+            <ul class="navbar-nav">
+              <li class="nav-item" style="margin-bottom: 10px;" >
+                <a href="/faq">FAQ</a>
+              </li>
+              <li class="nav-item">  
+                <a href="/help">Accessibilité : Non conforme</a>
+              </li>
+            </ul>
+          </nav>
+
+      </div>
+    </div>
+  </footer>
+</div>
+
 
 % if include_dependencies:
   <%static:js group='base_vendor'/>

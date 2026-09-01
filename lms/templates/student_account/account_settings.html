@@ -167,6 +167,46 @@ from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_f
     }, 300);
 
 </script>
+
+<script>
+    setTimeout(() => {
+        
+
+        var container = document.querySelector('#account-deletion-container .account-deletion-details');
+
+        if (!container) {
+            console.warn('Bloc de suppression de compte introuvable.');
+            return;
+        }
+
+        // Récupère le bouton existant pour le conserver tel quel
+        var deleteBtn = container.querySelector('#delete-account-btn');
+
+        // Nouveau contenu texte (structure conservée : mêmes classes CSS)
+        var newHTML =
+            '<p class="account-settings-header-subtitle">Nous sommes navrés de vous voir partir !</p>' +
+            '<p class="account-settings-header-subtitle-warning"><strong>Attention : La suppression de votre compte est permanente et irréversible.</strong> Veuillez lire en détail ce qui suit avant de poursuivre. Cette action est irréversible et <strong>vous ne pourrez plus utiliser le même email pour vous réinscrire au site Mooc Afpa.</strong></p>' +
+            '<p class="account-settings-header-subtitle">Remarque : la suppression de votre compte et de vos données personnelles est définitive et irréversible. Une fois votre compte supprimé, vous ne pourrez plus utiliser vos identifiants pour accéder au contenu du site internet Afpa et à vos attestations de suivi. Seuls les badges numériques que vous avez acquis resteront disponibles si vous les avez stockés dans un sac à badge en créant un compte sur Open Badge Passport.</p>';
+
+        // Injecte le nouveau texte
+        container.innerHTML = newHTML;
+
+        // Réinjecte le bouton à la fin du bloc
+        if (deleteBtn) {
+            container.appendChild(deleteBtn);
+        } else {
+            // Si jamais le bouton n'existe plus, on le recrée à l'identique
+            var btn = document.createElement('button');
+            btn.id = 'delete-account-btn';
+            btn.className = 'btn-outline-primary paragon__btn';
+            btn.type = 'button';
+            btn.textContent = 'Supprimer mon compte';
+            container.appendChild(btn);
+        }
+    }, 400);
+
+</script>
+
 <style>
     input.larger {
         height: 30px;
@@ -174,7 +214,7 @@ from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_f
     .u-field-message-help {
         color : black !important;
     }
-    #orders-tab {
+    #orders-tab, #aboutTabSections-tabpanel .section:last-child {
         display: none !important;
     }
 </style>
