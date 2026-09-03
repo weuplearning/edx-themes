@@ -27,15 +27,9 @@ from openpyxl import Workbook
 from openpyxl.styles import PatternFill, Font
 
 
-# from datetime import datetime, date, timedelta
-# from django.utils import timezone
-# from dateutil import tz
-
-
 from opaque_keys.edx.locator import CourseLocator
 from common.djangoapps.student.models import CourseEnrollment
 from lms.djangoapps.courseware.courses import get_course_by_id
-from lms.djangoapps.wul_apps.best_grade.helpers import check_best_grade
 
 
 import smtplib
@@ -53,10 +47,9 @@ emails = sys.argv[1].split(";")
 course_ids = sys.argv[2].split(";")
 
 all_users_data = {}
-
-
 sections_id = {
   "course-v1:arif+lsfin+fr": [
+    "e96db9cf67814538bc5daeb77b3b0942",
     "04c1034316e54202ba25e295fad1ed21",
     "a2f4f7aa8364457ca76766719d805c98",
     "0f9a55284f4d4ae385be87dd177b2bc9",
@@ -65,6 +58,7 @@ sections_id = {
     "4bc6ac548f3a43199e6605c2ca666cc9"
   ],
   "course-v1:arif+lsfin+en": [
+    "e96db9cf67814538bc5daeb77b3b0942",
     "04c1034316e54202ba25e295fad1ed21",
     "a2f4f7aa8364457ca76766719d805c98",
     "0f9a55284f4d4ae385be87dd177b2bc9",
@@ -73,6 +67,8 @@ sections_id = {
     "4bc6ac548f3a43199e6605c2ca666cc9"
   ]
 }
+
+
 
 
 for course_id in course_ids:
@@ -91,10 +87,6 @@ for course_id in course_ids:
     if str(user.email).find('@yopmail') != -1 or str(user.email).find('@weuplearning') != -1 or str(user.email).find('@themoocagency') != -1 :
       continue
 
-    try:
-      user_data["id"] = user.id
-    except:
-      user_data["id"] = 'n.a.'
 
     try:
       user_data["email"] = user.email
@@ -105,7 +97,6 @@ for course_id in course_ids:
         user_data["email"] = 'n.a.'
     
     user_data["name"] = user.profile.name
-
 
 
     try:
@@ -121,12 +112,15 @@ for course_id in course_ids:
 
     user_data["register_date"] = date_joined
     user_data["last_login"] = last_login
-    user_cf = json.loads(user.profile.custom_field) 
-    user_grade = []
 
     # Grade
+    user_cf = json.loads(user.profile.custom_field) 
+    user_grade = []
     for section_id in sections_id[course_id]:
-      user_grade.append(user_cf[section_id])
+      if section_id in user_cf:
+        user_grade.append(user_cf[section_id])
+      else: 
+        user_grade.append('n.a.')
 
     user_data['grade'] = user_grade
 
@@ -146,38 +140,31 @@ sheet = wb.active
 sheet.title= 'Rapport de notes'
 filename = '/home/edxtma/csv/{}_arif_grade_report.xlsx'.format(timestr)
 
-headers = ['ID apprenant', 'Email', 'Nom d\'utilisateur' , 'Note finale', 'Date d\'inscription','Date de dernière connexion', 'Code postal', 'Certificat']
+headers = ['Email', 'Nom d\'utilisateur' , 'Date d\'inscription','Date de dernière connexion', 'Note section 1', 'Note section 2', 'Note section 3', 'Note section 4', 'Note section 5', 'Note section 6', 'Note section 7']
 for i, header in enumerate(headers):
   sheet.cell(1, i+1, header)
   sheet.cell(1, i+1).fill = PatternFill("solid", fgColor="1D2235")
   sheet.cell(1, i+1).font = Font(b=False, color="FFFFFF")
 
 j=2
-
-
 for k, course_id in all_users_data.items():
 
-  sheet.cell(j, 1, course_id)
+  sheet.cell(j, 1, k)
   j+=1
   for key, user in course_id.items():
 
-    sheet.cell(j, 1, user['general']['id'])
-    sheet.cell(j, 2, user['general']['email'])
-    sheet.cell(j, 3, user['general']['name'] )
+    sheet.cell(j, 1, user['general']['email'])
+    sheet.cell(j, 2, user['general']['name'] )
+    sheet.cell(j, 3, user['general']['register_date'])
+    sheet.cell(j, 4, user['general']['last_login'])
 
-
-    sheet.cell(j, 4, user['general']['register_date'])
-    sheet.cell(j, 5, user['general']['last_login'])
-
-    sheet.cell(j, 6, user['general']['grade'][0])
-    sheet.cell(j, 7, user['general']['grade'][1])
-    sheet.cell(j, 8, user['general']['grade'][2])
-    sheet.cell(j, 9, user['general']['grade'][3])
-    sheet.cell(j, 10, user['general']['grade'][4])
-    sheet.cell(j, 11, user['general']['grade'][5])
-
-
-
+    sheet.cell(j, 5, user['general']['grade'][0])
+    sheet.cell(j, 6, user['general']['grade'][1])
+    sheet.cell(j, 7, user['general']['grade'][2])
+    sheet.cell(j, 8, user['general']['grade'][3])
+    sheet.cell(j, 9, user['general']['grade'][4])
+    sheet.cell(j, 10, user['general']['grade'][5])
+    sheet.cell(j, 11, user['general']['grade'][6])
 
     j += 1
 
@@ -224,10 +211,6 @@ for email in emails:
 log.info('------------> Finish calculate grades and write xlsx report')
 
 
-# Qualif
 # /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/arif/lms/utils/grade_report_script.py 'cyril.adolf@weuplearning.com' 'course-v1:arif+lsfin+en;course-v1:arif+lsfin+fr'
 
-
-# Prod
-# /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-themes/arif/lms/utils/grade_report_script.py 'cyril.adolf@weuplearning.com' 'course-v1:arif+lsfin+en;course-v1:arif+lsfin+fr'
 
