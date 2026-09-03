@@ -11,6 +11,10 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 %>
 
 <%
+allowed_users = configuration_helpers.get_value('WUL_DASHBOARD_ACCESS')
+%>
+
+<%
   show_explore_courses = configuration_helpers.get_value('COURSES_ARE_BROWSABLE',settings.FEATURES.get('COURSES_ARE_BROWSABLE'))
   show_sysadmin_dashboard = configuration_helpers.get_value('ENABLE_SYSADMIN_DASHBOARD',settings.FEATURES.get('ENABLE_SYSADMIN_DASHBOARD','')) and user.is_staff
   self.real_user = getattr(user, 'real_user', user)
@@ -60,6 +64,11 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     % endif
   </div>
   <div class="secondary">
+    % if user.email.lower() in allowed_users:
+      <div class="tab-nav-item nav-item">
+        <a class="btn" href="/wul_apps/dashboard/home/">Administration</a>
+      </div>
+    % endif
     <div class="mobile-nav-item hidden-mobile nav-item">
     </div>
     <%include file="user_dropdown.html"/>
