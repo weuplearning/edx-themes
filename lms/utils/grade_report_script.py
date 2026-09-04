@@ -155,7 +155,10 @@ for i, header in enumerate(headers):
 j=2
 for k, course_id in all_users_data.items():
 
+  j+=1
   sheet.cell(j, 1, k)
+  sheet.cell(j, 1).fill = PatternFill("solid", fgColor="1D2235")
+  sheet.cell(j, 1).font = Font(b=False, color="FFFFFF")
   j+=1
   for key, user in course_id.items():
 
