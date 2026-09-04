@@ -125,6 +125,12 @@ for course_id in course_ids:
     user_data['grade'] = user_grade
 
 
+    try :
+        certificate = user_cf["success_date_"+ course_id]
+    except :
+        certificate = ''
+    user_data['certif'] = certificate
+
     data = { "general": user_data }
     course_data[str(user.id)]= data
 
@@ -140,7 +146,7 @@ sheet = wb.active
 sheet.title= 'Rapport de notes'
 filename = '/home/edxtma/csv/{}_arif_grade_report.xlsx'.format(timestr)
 
-headers = ['Email', 'Nom d\'utilisateur' , 'Date d\'inscription','Date de dernière connexion', 'Note section 1', 'Note section 2', 'Note section 3', 'Note section 4', 'Note section 5', 'Note section 6', 'Note section 7']
+headers = ['Email', 'Nom d\'utilisateur' , 'Date d\'inscription','Date de dernière connexion', 'Note section 1', 'Note section 2', 'Note section 3', 'Note section 4', 'Note section 5', 'Note section 6', 'Note section 7', 'Date de validation']
 for i, header in enumerate(headers):
   sheet.cell(1, i+1, header)
   sheet.cell(1, i+1).fill = PatternFill("solid", fgColor="1D2235")
@@ -165,6 +171,8 @@ for k, course_id in all_users_data.items():
     sheet.cell(j, 9, user['general']['grade'][4])
     sheet.cell(j, 10, user['general']['grade'][5])
     sheet.cell(j, 11, user['general']['grade'][6])
+
+    sheet.cell(j, 12, user['general']['certif'])
 
     j += 1
 
