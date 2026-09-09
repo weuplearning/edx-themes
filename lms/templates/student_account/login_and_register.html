@@ -31,10 +31,6 @@
     padding-right: 50px;
   }
 
-  .login-register, .financial-assistance-wrapper .financial-assistance-form{
-    background: none;
-  }
-
   .login-register .form-wrapper, .financial-assistance-wrapper .financial-assistance-form .form-wrapper{
     margin-top: 27vh;
     background-image: url("${static.url('umn/images/encart_blanc_fenetre_connexion.png')}");
@@ -56,6 +52,27 @@
   }
   .toggle-form {
     display: none;
+  }
+
+
+<!-- Fermeture -->
+  .login-register, .financial-assistance-wrapper .financial-assistance-form{
+    background: #fff;
+    margin: 25% 50px;
+  }
+  #login-form-0 {
+    line-height: 1.5;
+    font-size: 24px;
+    text-align: center;
+    padding: 20px;
+    width: 60vw;
+  }
+  .login-register .form-type, .login-register {
+    max-width: unset !important
+  }
+  .login-register {
+    height: 50%;
+    margin-top: 160px;
   }
 
   @media screen and (min-width: 768px) {
@@ -105,7 +122,16 @@
                     border_class = ''
                 %>
             % endif
-            <div id="login-and-registration-container" class="login-register ${border_class}"></div>
+            <div id="login-and-registration-container-0" class="login-register ${border_class}">
+
+               <div class="form-type">
+                   <div id="login-form-0"><strong>Le Passeport Nucléaire évolue.</strong><br>
+Dans le cadre de son intégration à <a href="https://monavenirdanslenucleaire.fr" target="blank" >MonAvenirDansLeNucleaire.fr</a>, le site Passeport Nucléaire est temporairement indisponible.<br>
+Cette courte interruption nous permet de finaliser la mise en place d'une plateforme unique regroupant les modules e-learning, le suivi de parcours et les ressources pédagogiques du dispositif.<br>
+<strong>Le service sera de nouveau accessible très prochainement.</strong><br>
+Merci de votre compréhension et à très bientôt sur <a href="https://monavenirdanslenucleaire.fr" target="blank" >MonAvenirDansLeNucleaire.fr</a> .</div>
+               </div>
+            </div>
         </div>
     </main>
 </div>

@@ -40,6 +40,17 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
 ## templates have access to these functions, and we can import these
 ## into non-inheriting templates via the %namespace tag.
 
+
+
+% if user.is_authenticated :
+    <script type="text/javascript">
+        window.location.href = '/logout';
+    </script>
+% endif
+
+
+
+
 ## this needs to be here to prevent the title from mysteriously appearing in the body, in one case
 <%def name="pagetitle()" />
   <%block name="title">
