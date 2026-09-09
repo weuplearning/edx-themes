@@ -37,6 +37,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
+from email.utils import formatdate, make_msgid
 
 
 import logging
@@ -203,6 +204,8 @@ for email in emails:
   msg['From'] = fromaddr
   msg['To'] = email
   msg['Subject'] = "arif_grade_report"
+  msg["Date"] = formatdate(localtime=True)
+  msg["Message-ID"] = make_msgid(domain="themoocagency.com")
   attachment = _files_values
   part = MIMEBase('application', 'octet-stream')
   part.set_payload(attachment)
