@@ -59,6 +59,50 @@ from six import string_types
 
 <%block name="pagetitle">${course.display_name_with_default}</%block>
 
+
+<style>
+  .course-info header.course-profile .intro-inner-wrapper .intro .main-cta strong, 
+  .course-info header.course-profile .intro-inner-wrapper .intro .main-cta strong:hover:not(:disabled), 
+  .course-info header.course-profile .intro-inner-wrapper .intro .main-cta a.register, 
+  .course-info header.course-profile .intro-inner-wrapper .intro .main-cta a.register:hover:not(:disabled) {
+    border: none !important;
+    box-shadow: none;
+    background-image: none !important;
+    text-shadow: none;
+    border-radius: 15px 0 15px 15px !important;
+    border: 1px solid #67b134 !important;
+  }
+  .course-info header.course-profile, .course-info header.course-profile, .media .hero {
+    border: none !important;
+    box-shadow: none;
+    background: none !important;
+  }
+  .course-info header.course-profile .intro-inner-wrapper {
+    box-shadow: 4px 4px 20px rgba(0, 0,0, 0.2) !important;
+    margin: 20px;
+    border: none;
+  }
+
+  .course-info .details,.details h1, .details h2, .details h3, .details h4, .details h5, .details h6 {
+    font-family: "Avenir", "Barlow" !important;
+  }
+  .details h1 {
+    background-color: #c1da94;
+    min-height: 100px;
+    padding: 10px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    margin-bottom: 60px;
+  }
+
+  .course-info header.course-profile .intro-inner-wrapper .intro .main-cta strong:hover:not(:disabled), .course-info header.course-profile .intro-inner-wrapper .intro .main-cta a.register:hover:not(:disabled) {
+    border-radius: 15px 0 15px 15px !important;
+    border: 1px solid #67b134 !important;
+    background-color: white !important;
+    color: #67b134 !important;
+  }
+</style>
+
 <section class="course-info">
 
   <%block name="course_about_header">
@@ -116,7 +160,7 @@ from six import string_types
               href_class = "register"
           %>
           <a href="${reg_href}" class="${href_class}">
-            ${_("Enroll Now")}
+            Inscrivez-vous 
           </a>
           <div id="register_error"></div>
         %endif
@@ -165,7 +209,7 @@ from six import string_types
 
         <%block name="course_about_important_dates">
         <ol class="important-dates">
-          <li class="important-dates-item"><span class="icon fa fa-info-circle" aria-hidden="true"></span><p class="important-dates-item-title">${_("Course Number")}</p><span class="important-dates-item-text course-number">${course.display_number_with_default}</span></li>
+
           % if not course.start_date_is_still_default:
               <%
                   course_start_date = course.advertised_start or course.start
@@ -183,26 +227,6 @@ from six import string_types
               % endif
             </li>
           % endif
-            ## We plan to ditch end_date (which is not stored in course metadata),
-            ## but for backwards compatibility, show about/end_date blob if it exists.
-            % if course.end:
-                <%
-                    course_end_date = course.end
-                %>
-
-            <li class="important-dates-item">
-                <span class="icon fa fa-calendar" aria-hidden="true"></span>
-                <p class="important-dates-item-title">${_("Classes End")}</p>
-                  % if isinstance(course_end_date, string_types):
-                      <span class="important-dates-item-text final-date">${course_end_date}</span>
-                  % else:
-                    <%
-                        course_date_string = course_end_date.strftime('%Y-%m-%dT%H:%M:%S%z')
-                    %>
-                    <span class="important-dates-item-text final-date localized_datetime" data-format="shortDate" data-datetime="${course_date_string}" data-language="${LANGUAGE_CODE}"></span>
-                  % endif
-            </li>
-            % endif
 
           % if get_course_about_section(request, course, "effort"):
             <li class="important-dates-item"><span class="icon fa fa-pencil" aria-hidden="true"></span><p class="important-dates-item-title">${_("Estimated Effort")}</p><span class="important-dates-item-text effort">${get_course_about_section(request, course, "effort")}</span></li>
@@ -304,6 +328,6 @@ from six import string_types
   // 17526 - quentin - script to redirect the page to the enroll link and then allow the user to create an account to access the course
   courseId = window.location.href.split('courses/')[1].split('/about')[0]
 
-  // the below function is triggered above, line 44
   const autoEnrollRedirection = () => window.location.replace('/register?course_id='+courseId+'&enrollment_action=enroll')
 </script>
+
