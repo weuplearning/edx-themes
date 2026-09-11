@@ -17,7 +17,7 @@ from six import text_type
     ##       or something allowing themes to do whatever they
     ##       want here (and on this whole page, really).
       <%
-        site_domain = static.get_value('site_domain', settings.SITE_NAME)
+        site_domain = 'mooc.afpa.fr'
         site_protocol = 'https' if settings.HTTPS == 'on' else 'http'
         platform_name = static.get_platform_name()
 
