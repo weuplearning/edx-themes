@@ -17,29 +17,29 @@
     background-image: none !important;
     text-shadow: none !important;
   }
-  #register-terms_of_service-optional-label {
+  #register-terms_of_service-optional-label, .text-username {
     display: none !important;
   }
-
   #main {
     background: url("${static.url('estia/images/bg_img.png')}");
     background-size: contain;
-    background-position-y: bottom;  
+    background-position-y: bottom;
+    min-height: calc( 100vh - 142px );
   }
   #content-container {
     margin-top: unset !important;
     background-color: unset !important;
-
   }
   #login-and-registration-container {
     background-color: rgba(255, 255, 255);
     padding: 2rem 5rem ;
     border-radius: 8px;
-    margin-top: 1rem;
+    margin-top: 4rem;
+    box-shadow : 5px 5px 15px rgba(0,0,0,0.2);
   }
-
-
 </style>
+
+
 <%block name="js_extra">
     <%static:require_module module_name="js/student_account/logistration_factory" class_name="LogistrationFactory">
         var options = ${data | n, dump_js_escaped_json};
@@ -88,37 +88,83 @@
 <script>
 (function () {
 
+    const LANG_COOKIE_NAME = 'openedx-language-preference';
+
+    const translations = {
+        fr: {
+            register_already: "Vous êtes déjà inscrit ?",
+            tos_label: `J’accepte les <a href="/tos" rel="noopener" target="_blank">Conditions d'utilisation</a>`,
+            email_desc: "L'adresse email utilisée lors de votre inscription",
+            last_name_label: "Nom",
+            first_name_label: "Prénom"
+        },
+        en: {
+            register_already: "Already registered?",
+            tos_label: `I accept the <a href="/tos" rel="noopener" target="_blank">Terms of Service</a>`,
+            email_desc: "The email address used during your registration",
+            last_name_label: "Last name",
+            first_name_label: "First name"
+        }
+    };
+
+    function getCookie(name) {
+        const match = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+        return match ? decodeURIComponent(match[2]) : null;
+    }
+
+    function setCookie(name, value) {
+        document.cookie = name + '=' + encodeURIComponent(value) + ';path=/;max-age=31536000';
+    }
+
+    function getCurrentLang() {
+        const cookieLang = getCookie(LANG_COOKIE_NAME);
+        return translations[cookieLang] ? cookieLang : 'fr';
+    }
+
     let scheduled = false;
 
     function applyChanges() {
         scheduled = false;
-
+        const t = translations[getCurrentLang()];
         let changed = false;
 
         const target1 = document.querySelector('#register-anchor .text');
-        if (target1 && target1.innerHTML !== "Vous êtes déjà inscrit ?") {
-            target1.innerHTML = "Vous êtes déjà inscrit ?";
+        if (target1 && target1.innerHTML !== t.register_already) {
+            target1.innerHTML = t.register_already;
             changed = true;
         }
 
         const target2 = document.querySelector('.checkbox-terms_of_service .label-text');
-        if (target2 && !target2.innerHTML.includes("Conditions d'utilisation")) {
-            target2.innerHTML = `J’accepte les <a href="/tos" rel="noopener" target="_blank">Conditions d'utilisation</a>`;
+        if (target2 && target2.innerHTML !== t.tos_label) {
+            target2.innerHTML = t.tos_label;
             changed = true;
         }
 
         const target3 = document.getElementById('login-email-desc');
-        if (target3 && target3.innerHTML !== "L'adresse email utilisée lors de votre inscription") {
-            target3.innerHTML = "L'adresse email utilisée lors de votre inscription";
+        if (target3 && target3.innerHTML !== t.email_desc) {
+            target3.innerHTML = t.email_desc;
             changed = true;
         }
 
         const target4 = document.getElementById('password-reset-email-desc');
-        if (target4 && target4.innerHTML !== "L'adresse email utilisée lors de votre inscription") {
-            target4.innerHTML = "L'adresse email utilisée lors de votre inscription";
+        if (target4 && target4.innerHTML !== t.email_desc) {
+            target4.innerHTML = t.email_desc;
             changed = true;
         }
 
+        /* Champs Nom / Prénom */
+        const lastNameLabel = document.querySelector('label[for="register-last_name"] .label-text');
+        if (lastNameLabel && lastNameLabel.innerHTML !== t.last_name_label) {
+            lastNameLabel.innerHTML = t.last_name_label;
+            changed = true;
+        }
+
+        const firstNameLabel = document.querySelector('label[for="register-first_name"] .label-text');
+        if (firstNameLabel && firstNameLabel.innerHTML !== t.first_name_label) {
+            firstNameLabel.innerHTML = t.first_name_label;
+            changed = true;
+        }
+        updateSwitchUI();
         return changed;
     }
 
@@ -129,14 +175,26 @@
         }
     }
 
-    /* 1️⃣ Premier essai après chargement */
+    function switchLang(lang) {
+        setCookie(LANG_COOKIE_NAME, lang);
+        applyChanges();
+    }
+
+    function updateSwitchUI() {
+        const current = getCurrentLang();
+        const btnFr = document.getElementById('lang-switch-fr');
+        const btnEn = document.getElementById('lang-switch-en');
+        if (btnFr) btnFr.classList.toggle('active', current === 'fr');
+        if (btnEn) btnEn.classList.toggle('active', current === 'en');
+    }
+
     window.addEventListener("load", () => {
-        setTimeout(applyChanges, 300);
+        setTimeout(() => {
+            applyChanges();
+        }, 150);
     });
 
-    /* 2️⃣ Observer DOM (léger, non bloquant) */
     const observer = new MutationObserver(scheduleApply);
-
     observer.observe(document.body, {
         childList: true,
         subtree: true
@@ -145,12 +203,6 @@
 })();
 </script>
 
-<!-- Remove username field -->
- <style>
-.text-username {
-    display: none;
-}
-</style>
 <script>
 (function () {
 
@@ -158,13 +210,11 @@
         var observer = new MutationObserver(function () {
             var nameInput = document.getElementById("register-name");
             var usernameInput = document.getElementById("register-username");
-
             if (nameInput && usernameInput) {
                 observer.disconnect();
                 callback(nameInput, usernameInput);
             }
         });
-
         observer.observe(document.body, {
             childList: true,
             subtree: true
@@ -185,21 +235,13 @@
     }
 
     whenElementsReady(function (nameInput, usernameInput) {
-
         function updateUsername() {
-            if (!nameInput.value) {
-                return;
-            }
-
+            if (!nameInput.value) { return; }
             var base = slugify(nameInput.value);
-            if (!base) {
-                return;
-            }
-
+            if (!base) { return; }
             var hash = randomHash();
             usernameInput.value = (base + "-" + hash).substring(0, 30);
         }
-
         nameInput.addEventListener("input", updateUsername);
     });
 

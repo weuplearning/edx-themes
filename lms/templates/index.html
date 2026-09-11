@@ -5,328 +5,91 @@
 from django.utils.translation import ugettext as _
 from django.urls import reverse
 
+import json
 from openedx.core.djangolib.markup import HTML, Text
 %>
 
+
+
+<link rel="stylesheet" href="${static.url('estia/css/index.css')}" type="text/css" media="all" />
 <style>
-    .content-wrapper, body {
-        margin: 0 auto !important;
-        max-width: unset !important;
-    }
-    html {
-        overflow-x: hidden; 
-    }
-    .window-wrap {
-        background-color: var(--tertiary);
-    }
-    #main, p, h1, h2, h3 {
-        line-height: 1.25;
-        font-family: "Open Sans", sans-serif !important;
-    }
 
-    #main {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: stretch; 
-        background-color: #FCF7F3;
-        min-height: calc(100vh - 123px);
-        line-height: 1.5;
-        margin: auto;
-        box-sizing: border-box;
-        overflow: hidden;
-    }
-    .main-header {
-        margin: auto;
-        width: 80%;
-    }
-    .global-header, .main-container  {
-        background-color: #FCF7F3;
-        border: none;
-    }
-    .global-header {
-        padding-bottom: 72px;
-    }
-    .global-header .header-logo a {
-        margin: 15px 0 0 0 ;
-    }
-    .global-header .nav-links .secondary .nav-item, .global-header .nav-links .secondary {
-        margin: 0 !important;
-        padding-top: 12px ;
-    }
-    .global-header .nav-links .secondary .nav-item a {
-        padding: 8px 30px !important;
-        background-color: var(--primary) !important;
-        border: 1px solid var(--primary) !important;
-        color: white !important;
-        border-radius:  0 3px 3px 0;
-        height: 53px;
-        font-size: large;
-        margin-right: -40px;
-    }
-    .global-header .nav-links .secondary .nav-item:first-child a {
-        border-radius: 3px 0 0 3px;
-        margin-right: 10px;
-    }
-    .global-header .nav-links .secondary .nav-item:hover a {
-        background-color: var(--secondary) !important;
-        border: 1px solid var(--secondary) !important;
-    }
-
-    section, .smaller-width {
-        max-width: 1200px;
-        padding: 0 40px;
-        box-sizing: border-box;
-    }
-
-    .vertical-align, .horizontal-align {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .vertical-align {
-        flex-direction: column;
-    }
-    .img-contain {
-        background-size: contain;
-        background-position: center;
-        background-repeat: no-repeat;
-        box-sizing: border-box;
-    }
-    h1 > span, #part_2 h2 {
-        color: var(--secondary);
-        font-weight: 700;
-    }
-    #header {
-        box-sizing: border-box;
-        height: 50vw;
-        background-size: cover;
-        background-position-x: center;
-        padding: 10% 5% 10% 31%;
-    }
-
-    #main-section {
-        flex: 3; 
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-        padding: 40px;
-        box-sizing: border-box;
-    }
-    #silhouette-area {
-        margin:0;
-        margin-right: 5rem;
-        width: 25vw;
-        max-width: 25vw;
-        display: flex;
-        flex-direction: row;
-        align-content: center;
-        justify-content: center;
-        align-items: center;
-
-    }
-    #silhouette {
-        margin: 0;
-        width: 25vw;
-    }
-    #part_1 {
-        position: relative;
-        align-self: flex-start;
-        width: 75%;
-        align-items: flex-start;
-    }
-    #part_1 h1 {
-        text-align: left;
-        margin-bottom: 0;
-        font-size: 40px;
-    }
-    .line {
-        display: block;
-        width: 80%;
-        border-bottom: 1px solid black;
-        margin: 30px 0;
-    }
-    #part_1 h3 {
-        font-size: x-large;
-        margin: 20px 0 ;
-        color: var(--secondary);
-        font-weight: 700;
-    }
-    #part_1 p {
-        line-height: 1.8;
-        font-size: 1.1rem;
-    }
-
-
-    #part_2 > h2{
-        font-weight: 700;
-        font-size: x-large;
-        margin: 55px 0 40px 0;
-    }
-
-    .vignette {
-        border: var(--tertiary) 8px solid;
-        border-radius: 5px;
-        margin: 10px 15px;
-        position: relative;
-        text-align: center;
-        box-shadow: 5px 5px 6px rgba(0, 0, 0, 0.3);
-        min-width: 21%;
-        height: 170px;
-    }
-    .vignette div:first-child {
-        padding: 5px ;
-        background-color:var(--tertiary);
-        font-weight: 900;
-    }
-    .vignette div:nth-child(2) {
-        height: 80%;
-        background-color: white;
-        font-size: large;
-        padding: 0 10px;
-    }
-    .vignette div:last-child {
-        position: absolute;
-        bottom: -36px;
-        left: -33px;
-        z-index: 9;
-    }
-
-
-    #picto_1, #picto_2, #picto_3, #picto_4 {
-        background-image:  url("${static.url('estia/images/module_c10e4695cc6e44218401c0ff9a64dd92.png')}");
-        width: 80px;
-        height: 80px;
-        background-size: contain;
-        background-position: center;
-        background-repeat: no-repeat;
-    }
-    #picto_2 {
-        background-image:  url("${static.url('estia/images/module_19cdc98ede7747f29fb43b49137eaad3.png')}");
-    }
-    #picto_3 {
-        background-image:  url("${static.url('estia/images/module_46c760247f344c3eab303aa0c11c71af.png')}");
-    }
-    #picto_4 {
-        background-image:  url("${static.url('estia/images/module_91f9d6f6521e4109afe672c131a6b773.png')}");
-    }
-    .register-button {
-        background-color: var(--secondary);
-        color: white !important;
-        text-decoration: none;
-        font-size: 1.5em !important;
-        padding: 15px 30px;
-        border-radius: 5px;
-        box-shadow: 5px 5px 6px rgba(0, 0, 0, 0.3);
-        margin: 80px 0 50px 0;
-    }
-    .register-button:hover {
-        background-color: var(--primary);
-        color: white !important;
-        text-decoration: none !important;
-    }
-    .wrapper-footer {
-        box-shadow: none !important;
-        border-top: none !important;
-        max-width: 1920px;
-        padding: 20px 40px;
-        box-sizing: border-box;
-        margin: auto;
-        background-color: var(--tertiary) !important;
-        color: black !important;
-    }
-
-    /* MEDIA QUERIES */
-    @media screen and (max-width: 992px) {
-
-        .global-header .header-logo a .logo {
-            margin-left:unset !important;
-        }
-
-        .global-header .main-header {
-            display: flex;
-            justify-content: center;
-        }
-        #silhouette {
-            background-size: contain;
-            background-position: center top;
-        }
-        #main {
-            flex-direction: column;
-        }
-        #main-section {
-            flex: none;
-            width: 100%;
-            padding: 20px;
-        }
-    }
-    @media screen and (max-width: 768px) {
-        #part_1 {
-            width: 100%;
-        }
-        #part_2 .horizontal-align {
-            flex-direction: column;
-        }
-        .vignette {
-            width: 350px;
-        }
-        #silhouette {
-            display: none;
-        }
-    }
-    @media screen and (max-width:425px) {
-        .vignette {
-            width: 75vw;
-        }    }
+#picto_1, #picto_2, #picto_3, #picto_4 {
+    background-image: url("${static.url('estia/images/module_c10e4695cc6e44218401c0ff9a64dd92.png')}");
+    width: 80px;
+    height: 80px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+#picto_2 {
+    background-image: url("${static.url('estia/images/module_19cdc98ede7747f29fb43b49137eaad3.png')}");
+}
+#picto_3 {
+    background-image: url("${static.url('estia/images/module_46c760247f344c3eab303aa0c11c71af.png')}");
+}
+#picto_4 {
+    background-image: url("${static.url('estia/images/module_91f9d6f6521e4109afe672c131a6b773.png')}");
+}
 </style>
+
+<%
+with open(settings.REPO_ROOT / "/edx/app/edxapp/edx-themes/estia/lms/templates/homepage_trads.json", "r", encoding="utf-8") as f:
+  texts = json.load(f)
+
+requested_lang = request.GET.get("lang")
+default_lang = LANGUAGE_CODE[:2] if LANGUAGE_CODE else "fr"
+current_lang = requested_lang if requested_lang in texts else default_lang
+lang_texts = texts.get(current_lang, texts.get("fr", {}))
+%>
 
 
 <main id="main" class="horizontal-align" aria-label="Content" tabindex="-1">
 
     <section id="main-section" class="vertical-align">
         <div id="part_1" class="vertical-align">
-            <h1><span >Becoming Circular:</span><br>l'économie circulaire en action</h1>
-            <span class="line" ></span>
+            <h1><span>${lang_texts.get("title_brand", "")}</span><br>${lang_texts.get("subtitle", "")}</h1>
+            <span class="line"></span>
 
-            <h3>Envie de comprendre et d'agir pour une économie plus durable ?</h3>
-            <p>À travers ce MOOC, découvrez les <strong>principes</strong> et les <strong>bonnes pratiques</strong> de l'économie circulaire, et apprenez à transformer les modèles actuels.</p>
-            <p>Tout au long du parcours, Léna sera votre guide pour vous accompagner pas à pas et <strong>rendre ces enjeux accessibles et concrets</strong>.</p>
-            <p>Enfin, valide les quiz et <strong>obtiens ton badge en économie circulaire</strong>.</p>
+            <h3>${lang_texts.get("intro_question", "")}</h3>
+            <p>${lang_texts.get("intro_p1", "") | n}</p>
+            <p>${lang_texts.get("intro_p2", "") | n}</p>
+            <p>${lang_texts.get("intro_p3", "") | n}</p>
             <div id="globe"></div>
         </div>
 
         <div id="part_2" class="vertical-align">
-            <h2>Déroulé du parcours de formation</h2>
-            <div class="horizontal-align" >
+            <h2>${lang_texts.get("path_title", "")}</h2>
+            <div class="horizontal-align">
 
                 <div class="vignette">
-                    <div>Module 1</div>
-                    <div class="vertical-align" >
-                        <p>Comprendre les clés de l’économie circulaire</p>
+                    <div>${lang_texts.get("module_1_label", "")}</div>
+                    <div class="vertical-align">
+                        <p>${lang_texts.get("module_1_desc", "")}</p>
                     </div>
                     <div id="picto_1"></div>
                 </div>
-                
+
                 <div class="vignette">
-                    <div>Module 2</div>
-                    <div class="vertical-align" >
-                        <p>Inventer des business models durables</p>
+                    <div>${lang_texts.get("module_2_label", "")}</div>
+                    <div class="vertical-align">
+                        <p>${lang_texts.get("module_2_desc", "")}</p>
                     </div>
                     <div id="picto_2"></div>
                 </div>
 
                 <div class="vignette">
-                    <div>Module 3</div>
-                    <div class="vertical-align" >
-                        <p>Les indicateurs qui comptent</p>
+                    <div>${lang_texts.get("module_3_label", "")}</div>
+                    <div class="vertical-align">
+                        <p>${lang_texts.get("module_3_desc", "")}</p>
                     </div>
                     <div id="picto_3"></div>
                 </div>
 
                 <div class="vignette">
-                    <div>Module 4</div>
-                    <div class="vertical-align" >
-                        <p>Leadership de la circularité : inspirer, mobiliser, transformer</p>
+                    <div>${lang_texts.get("module_4_label", "")}</div>
+                    <div class="vertical-align">
+                        <p>${lang_texts.get("module_4_desc", "")}</p>
                     </div>
                     <div id="picto_4"></div>
                 </div>
@@ -334,18 +97,19 @@ from openedx.core.djangolib.markup import HTML, Text
             </div>
         </div>
 
-        <div class="horizontal-align" >
-            <a href="/register?course_id=course-v1%3Aestia%2B01%2B2025&enrollment_action=enroll" class="register-button" >
-                Je démarre ma formation
+        <div class="horizontal-align">
+            <a href="/register?course_id=course-v1%3Aestia%2B01%2B2025&enrollment_action=enroll" class="register-button">
+                ${lang_texts.get("register_button", "")}
             </a>
         </div>
     </section>
 
     <section id="silhouette-area">
-        <img id="silhouette" src="${static.url('estia/images/silhouette.png')}" alt="silhouette">
+        <img id="silhouette" src="${static.url('estia/images/silhouette.png')}" alt="silhouette_alt" >
     </section>
 
 </main>
+
 
 <%block name="js_extra">
    <script type="text/javascript">

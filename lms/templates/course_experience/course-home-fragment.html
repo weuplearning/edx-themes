@@ -23,6 +23,21 @@ from lms.djangoapps.grades.course_grade import ZeroCourseGrade
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 %>
 
+
+<%
+with open(settings.REPO_ROOT / "/edx/app/edxapp/edx-themes/estia/lms/templates/homepage_trads.json", "r", encoding="utf-8") as f:
+  texts = json.load(f)
+
+requested_lang = request.GET.get("lang")
+default_lang = LANGUAGE_CODE[:2] if LANGUAGE_CODE else "fr"
+current_lang = requested_lang if requested_lang in texts else default_lang
+lang_texts = texts.get(current_lang, texts.get("fr", {}))
+
+request.lang_texts = texts.get(current_lang, texts.get("fr", {}))
+request.current_lang = current_lang
+%>
+
+
 <%block name="header_extras">
   <link rel="stylesheet" type="text/css" href="${static.url('paragon/static/paragon.min.css')}" />
   <link rel="stylesheet" type="text/css" href="${static.url('weup/css/animate-4.1.1.min.css')}" />
@@ -349,7 +364,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
             % endif
 
             <!-- COURSE TITLE ADD CONDITION IF MULTI COURSE-->
-            <h1 id="course-title"><span id="course-title-first-line" >Becoming Circular:</span> <br>l'économie circulaire en action</h1>
+            <h1 id="course-title"><span id="course-title-first-line" >Becoming Circular:</span> <br>${request.lang_texts.get("dashboard_title_2", "")} </h1>
 
             % if update_message_fragment and not DISABLE_UNIFIED_COURSE_TAB_FLAG.is_enabled(course.id):
                 <div class="section section-update-message">

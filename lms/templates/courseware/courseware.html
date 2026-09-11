@@ -28,6 +28,17 @@ custom_fields = {}
 custom_fields = json.loads(user.profile.custom_field)
 %>
 
+<%
+with open(settings.REPO_ROOT / "/edx/app/edxapp/edx-themes/estia/lms/templates/homepage_trads.json", "r", encoding="utf-8") as f:
+  texts = json.load(f)
+
+requested_lang = request.GET.get("lang")
+cookie_lang = request.COOKIES.get("site_lang")
+default_lang = LANGUAGE_CODE[:2] if LANGUAGE_CODE else "fr"
+current_lang = requested_lang if requested_lang in texts else (cookie_lang if cookie_lang in texts else default_lang)
+lang_texts = texts.get(current_lang, texts.get("fr", {}))
+%>
+
 <style>
   .window-wrap {
     background: url("${static.url('{}/images/bg_img.png'.format(course.org))}");
@@ -472,9 +483,10 @@ ${HTML(fragment.foot_html())}
 
 <script>
 $(document).ready(function() {
-    $(' .tabs.course-tabs li:first a').text("Revenir à l'accueil");
-    $('.tabs.course-tabs li a:contains("Discussion")').text('Forum');
-    $('.breadcrumbs .nav-item-course a').text("Accueil");
+    $('.tabs.course-tabs li:first a').text(${ json.dumps(lang_texts.get("nav_home_tab", "")) | n });
+    $('.tabs.course-tabs li a:contains("Discussion")').text(${ json.dumps(lang_texts.get("nav_forum_tab", "")) | n });
+    $('.tabs.course-tabs li a:contains("Mur collaboratif")').text(${ json.dumps(lang_texts.get("nav_collab_tab", "")) | n });
+    $('.breadcrumbs .nav-item-course a').text(${ json.dumps(lang_texts.get("breadcrumb_home", "")) | n });
 });
 </script>
 

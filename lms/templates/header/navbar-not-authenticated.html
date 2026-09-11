@@ -10,7 +10,7 @@ from django.conf import settings
 from django.urls import reverse
 from django.utils.translation import ugettext as _
 from six import text_type
-
+import json
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 
 from openedx.core.djangoapps.user_authn.utils import should_redirect_to_logistration_mircrofrontend
@@ -24,6 +24,16 @@ from openedx.core.djangoapps.user_authn.utils import should_redirect_to_logistra
   allow_public_account_creation = static.get_value('ALLOW_PUBLIC_ACCOUNT_CREATION', settings.FEATURES.get('ALLOW_PUBLIC_ACCOUNT_CREATION'))
   should_redirect_to_logistration_mfe = should_redirect_to_logistration_mircrofrontend()
 %>
+<%
+with open(settings.REPO_ROOT / "/edx/app/edxapp/edx-themes/estia/lms/templates/homepage_trads.json", "r", encoding="utf-8") as f:
+  texts = json.load(f)
+
+requested_lang = request.GET.get("lang")
+default_lang = LANGUAGE_CODE[:2] if LANGUAGE_CODE else "fr"
+current_lang = requested_lang if requested_lang in texts else default_lang
+lang_texts = texts.get(current_lang, texts.get("fr", {}))
+%>
+
 <nav class="nav-links" aria-label=${_("Supplemental Links")}>
   <div class="main">
   % if mktg_site_enabled:
@@ -51,15 +61,21 @@ from openedx.core.djangoapps.user_authn.utils import should_redirect_to_logistra
     <div>
       % if allows_login:
         <div class="mobile-nav-item hidden-mobile nav-item">
-          <a class="sign-in-btn btn" href="/login?course_id=course-v1%3Aestia%2B01%2B2025&enrollment_action=enroll">Se connecter</a>
+          <a class="sign-in-btn btn" href="/login?course_id=course-v1%3Aestia%2B01%2B2025&enrollment_action=enroll">${lang_texts.get("header_login_button", "")}</a>
           <!-- <a class="sign-in-btn btn" href="/login${login_query()}">${_("Sign in")}</a> -->
         </div>
         % if allow_public_account_creation:
           <div class="mobile-nav-item hidden-mobile nav-item">
-            <a class="register-btn btn" href="/register?course_id=course-v1%3Aestia%2B01%2B2025&enrollment_action=enroll">${_("Register")}</a>
+            <a class="register-btn btn" href="/register?course_id=course-v1%3Aestia%2B01%2B2025&enrollment_action=enroll">${lang_texts.get("header_register_button", "")}</a>
           </div>
         % endif
       % endif
     </div>
   </div>
 </nav>
+
+<style>
+  .global-header .nav-links .secondary .nav-item {
+    min-width: 100px;
+  }
+</style>
