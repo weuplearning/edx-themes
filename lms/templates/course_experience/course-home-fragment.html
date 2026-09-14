@@ -421,8 +421,13 @@ document.title = "Cours | ${HTML(course.display_name_with_default)}";
 
                     %for index, section in enumerate(course_block_tree.get('children')):
                         <%
-                        # Note disponible au même index ?
-                        has_grade = index < len(chapter_keys)
+                        try :
+                            chapter = chapter_keys[index]
+                            has_grade = user_grade.chapter_percentage(chapter)
+                        except :
+                            has_grade = False
+
+
 
                         if has_grade:
                             chapter = chapter_keys[index]

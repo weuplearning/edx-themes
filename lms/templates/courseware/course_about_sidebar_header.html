@@ -23,10 +23,9 @@ from six import text_type
 
 
         linkedin_action = u"https://www.linkedin.com/sharing/share-offsite/?url={url}/".format(
-            url=u"{protocol}://www.{domain}{path}".format(
+            url=u"{protocol}://www.{domain}".format(
                 protocol=site_protocol,
-                domain=site_domain,
-                path=reverse('about_course', args=[text_type(course.id)])
+                domain=site_domain
             )
         )
 
