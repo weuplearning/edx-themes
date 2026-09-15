@@ -37,14 +37,17 @@ from common.djangoapps.student.models import CourseEnrollment
 custom_fields_dict = json.loads(user.profile.custom_field)
 user_profession = custom_fields_dict.get('profession', '')
 profession_evaluation_approfondie = [
+  "Médecin",
   "medecin",
+  "Pharmacien",
   "pharmacien",
   "Audioprothésiste",
   "Opticien-Lunetier",
   "Assistant médical",
   "Chirurgien-Dentiste",
   "Sage-Femme",
-  "Infirmier",
+  "Infirmier / IPA / Cadre des santé",
+  "infirmier",
   "Masseur-Kinésithérapeute",
   "Pédicure-Podologue",
   "Technicien orthophoniste",
@@ -55,7 +58,7 @@ profession_evaluation_approfondie = [
   "Diététicien",
   "Psychomotricien",
   "Manipulateur ERM",
-  "coordonnateur"
+  "Coordonnateur de MSP/CPTS"
 ]
 
 
