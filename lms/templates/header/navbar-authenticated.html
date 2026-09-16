@@ -45,7 +45,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
       <div class="mobile-nav-item hidden-mobile nav-item nav-tab">
         <a class="${'active ' if reverse('dashboard') == request.path else ''}tab-nav-link" href="${reverse('dashboard')}"
              aria-current="${'page' if reverse('dashboard') == request.path else 'false'}">
-             Mes parcours
+             My courses
         </a>
       </div>
 
@@ -53,7 +53,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     % if user.email.lower() in have_dashboard_access:
       <div class="mobile-nav-item hidden-mobile nav-item nav-tab">
         <a class="${'active ' if '/wul_apps/dashboard/home' in request.path else ''}tab-nav-link" href="/wul_apps/dashboard/home/" >
-          Administration
+          Admin dashboard
         </a>
       </div>
     % endif

@@ -480,23 +480,25 @@ if not all([user_profession, user.is_authenticated])  :
 </div>
 <div id="header-pro" class="vertical-align">
   <div class="header-text">
-    <p>Bienvenue dans la <strong>formation à la démarche ICOPE de l’Organisation mondiale de la Santé</strong>, développée par l’IHU HealthAge. Vous pouvez désormais <strong>choisir votre parcours</strong> ci-dessous, en fonction de votre proﬁl et de votre pratique. Chaque parcours vous permettra d’<strong>acquérir les compétences nécessaires pour mettre en œuvre le programme ICOPE, favoriser le maintien des fonctions essentielles et contribuer à une prise en soin centrée sur l’autonomie des personnes âgées</strong>.</p>
+    <p>Welcome to the <strong>World Health Organization’s ICOPE approach training</strong>, developed by IHU HealthAge. You can now <strong>choose your learning path</strong> below, based on your profile and professional practice. Each path will enable you to <strong>acquire the skills needed to implement the ICOPE program, help maintain essential functions, and contribute to care focused on the autonomy of older adults</strong>.</p>
+
   </div>
   <div class="header-banner"></div>
   <div class="header-parcours">
     <img src="${static.url('icope/images/feuille_1.png')}" alt="feuille bleue background">
-    <h2>Les parcours</h2>
+    <h2>Courses</h2>
   </div>
 </div>
 <div id="header-not-pro" class="vertical-align">
   <div class="header-text">
-    <p>Bienvenue dans la <strong>formation à la démarche ICOPE de l’Organisation mondiale de la Santé</strong>, développée par l’IHU HealthAge. Vous pouvez désormais <strong>choisir votre parcours</strong> ci-dessous, en fonction de votre proﬁl et de votre pratique. Chaque parcours vous permettra d’<strong>acquérir les compétences nécessaires pour mettre en œuvre le programme ICOPE, favoriser le maintien des fonctions essentielles et contribuer à une prise en soin centrée sur l’autonomie des personnes âgées</strong>.</p>
+    <p>Welcome to the <strong>World Health Organization’s ICOPE approach training</strong>, developed by IHU HealthAge. You can now <strong>choose your learning path</strong> below, based on your profile and professional practice. Each path will enable you to <strong>acquire the skills needed to implement the ICOPE program, help maintain essential functions, and contribute to care focused on the autonomy of older adults</strong>.</p>
+
   </div>
   <div class="header-banner"></div>
   <div class="header-parcours">
     <img src="${static.url('icope/images/feuille_1.png')}" alt="feuille bleue background">
 
-    <h2>Les parcours</h2>
+    <h2>Courses </h2>
   </div>
 </div>
 
@@ -505,42 +507,42 @@ if not all([user_profession, user.is_authenticated])  :
 
 <form id="customFieldsForm">
 
-  <p id="indication">Merci de renseigner votre profession afin de vous proposer les parcours adaptés. </p>
+  <p id="indication">Thank you for providing your profession so we can suggest the most suitable learning paths for you. </p>
   <label for="profession">Profession : <span class="required_field">*</span></label>
   <select id="profession" name="profession">
     <option value="" selected></option>
-    <option value="medecin">Médecin</option>
-    <option value="pharmacien">Pharmacien</option>
-    <option value="Audioprothésiste">Audioprothésiste</option>
-    <option value="Opticien-Lunetier">Opticien-Lunetier</option>
-    <option value="Assistant médical">Assistant médical</option>
-    <option value="Assistant dentaire">Assistant dentaire</option>
-    <option value="Aide-soignant">Aide-soignant</option>
-    <option value="Ambulancier">Ambulancier</option>
-    <option value="Preparateur_en_pharmacie">Préparateur en pharmacie</option>
-    <option value="Chirurgien-Dentiste">Chirurgien-Dentiste</option>
-    <option value="Sage-Femme">Sage-Femme</option>
-    <option value="Infirmier">Infirmier / IPA / Cadre des santé</option>
-    <option value="Masseur-Kinésithérapeute">Masseur-Kinésithérapeute</option>
-    <option value="Pédicure-Podologue">Pédicure-Podologue</option>
-    <option value="Technicien de laboratoire">Technicien de laboratoire</option>
-    <option value="Technicien orthophoniste">Technicien orthophoniste</option>
-    <option value="Orthophoniste">Orthophoniste</option>
-    <option value="Orthoptiste">Orthoptiste</option>
-    <option value="Psychologue">Psychologue</option>
-    <option value="Ergothérapeute">Ergothérapeute</option>
-    <option value="Diététicien">Diététicien</option>
-    <option value="Psychomotricien">Psychomotricien</option>
-    <option value="Manipulateur ERM">Manipulateur ERM</option>
-    <option value="Auxiliaire_de_vie_sociale">Auxiliaire de vie sociale/Aide à domicile</option>
-    <option value="Travailleur_social">Travailleur social</option>
-    <option value="ARC-Chef de projet-Chargé de mission">ARC - Chef de projet - Chargé de mission</option>
-    <option value="Educateur d'activité physique adaptée">Educateur d'activité physique adaptée</option>
-    <option value="Autre (précisez)">Autre</option>
+    <option value="medecin">Doctor</option>
+    <option value="pharmacien">Pharmacist</option>
+    <option value="Audioprothésiste">Hearing Aid Specialist</option>
+    <option value="Opticien-Lunetier">Optician-Optometrist</option>
+    <option value="Assistant médical">Medical Assistant</option>
+    <option value="Assistant dentaire">Dental Assistant</option>
+    <option value="Aide-soignant">Nursing Assistant</option>
+    <option value="Ambulancier">Paramedic</option>
+    <option value="Preparateur_en_pharmacie">Pharmacy Technician</option>
+    <option value="Chirurgien-Dentiste">Dentist</option>
+    <option value="Sage-Femme">Midwife</option>
+    <option value="Infirmier">Nurse / Advanced Practice Nurse / Nurse Manager</option>
+    <option value="Masseur-Kinésithérapeute">Physiotherapist</option>
+    <option value="Pédicure-Podologue">Podiatrist</option>
+    <option value="Technicien de laboratoire">Laboratory Technician</option>
+    <option value="Technicien orthophoniste">Speech Therapy Technician</option>
+    <option value="Orthophoniste">Speech-Language Pathologist</option>
+    <option value="Orthoptiste">Orthoptist</option>
+    <option value="Psychologue">Psychologist</option>
+    <option value="Ergothérapeute">Occupational Therapist</option>
+    <option value="Diététicien">Dietitian</option>
+    <option value="Psychomotricien">Psychomotor Therapist</option>
+    <option value="Manipulateur ERM">Radiologic Technologist</option>
+    <option value="Auxiliaire_de_vie_sociale">Social Care Worker / Home Care Assistant</option>
+    <option value="Travailleur_social">Social Worker</option>
+    <option value="ARC-Chef de projet-Chargé de mission">Clinical Research Associate / Project Manager / Program Officer</option>
+    <option value="Educateur d'activité physique adaptée">Adapted Physical Activity Instructor</option>
+    <option value="Autre (précisez)">Other (please specify)</option>
   </select>
   <br>
-  <p><span class="required_field">*</span> champ obligatoire</p>
-  <button type="submit">Envoyer</button>
+  <p><span class="required_field">*</span> required field</p>
+  <button type="submit">Submit</button>
 
 </form>
 

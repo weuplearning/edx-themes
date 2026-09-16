@@ -1,5 +1,6 @@
 /*jslint browser: true, evil: true */
 /* min ready */
+// https://github.com/AmauriC/tarteaucitron.js
 
 var tarteaucitronScriptsDiscover = document.getElementsByTagName('script'),
     tarteaucitronCurrentScript = document.currentScript instanceof HTMLScriptElement

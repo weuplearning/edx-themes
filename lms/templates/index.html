@@ -9,30 +9,30 @@ from django.conf import settings
 from openedx.core.djangolib.markup import HTML, Text
 %>
 <%
-with open(settings.REPO_ROOT / "/edx/app/edxapp/edx-themes/icope/lms/templates/homepage_trads.json", "r", encoding="utf-8") as f:
+with open(settings.REPO_ROOT / "/edx/app/edxapp/edx-themes/icope-en/lms/templates/homepage_trads.json", "r", encoding="utf-8") as f:
   texts = json.load(f)
 
-current_lang = LANGUAGE_CODE[:2] if LANGUAGE_CODE else "fr"
-lang_texts = texts.get(current_lang, texts.get("fr", {}))
+current_lang = LANGUAGE_CODE[:2] if LANGUAGE_CODE else "en"
+lang_texts = texts.get(current_lang, texts.get("en", {}))
 %>
 
 
-<link rel="stylesheet" href="${static.url('icope/css/index.css')}" type="text/css" media="all" />
+<link rel="stylesheet" href="${static.url('icope-en/css/index.css')}" type="text/css" media="all" />
 
 <main id="main" aria-label="Content" tabindex="-1">
   
   <section id="section-1">
     <div class="horizontal-align">
       <div id="img-container" >  
-        <img id="patient-aidant" src="${static.url('icope/images/photo_feuille_1.png')}" alt="patient et aidant">
+        <img id="patient-aidant" src="${static.url('icope-en/images/photo_feuille_1.png')}" alt="patient et aidant">
       </div>
       <div class="vertical-align right-side" >
         <h1 class="title">
           ${lang_texts.get("title", "")}
         </h1>
         <div class="horizontal-align logo-div">
-          <img src="${static.url('icope/images/logo_ihu.png')}" alt="logo IHU HealthAge">
-          <img src="${static.url('icope/images/logo.png')}" alt="logo Icope Monitor">
+          <img src="${static.url('icope-en/images/logo_ihu.png')}" alt="logo IHU HealthAge">
+          <img src="${static.url('icope-en/images/logo.png')}" alt="logo Icope Monitor">
         </div>
       </div>
     </div>
@@ -49,13 +49,13 @@ lang_texts = texts.get(current_lang, texts.get("fr", {}))
 
   <section id="section-2">
     <div id="background-leafs">
-      <img src="${static.url('icope/images/feuille_8.png')}" alt="feuille bleu">
+      <img src="${static.url('icope-en/images/feuille_8.png')}" alt="feuille bleu">
     </div>
 
     <div class="vertical-align">
 
       <div class="horizontal-align video-div" >
-        <img src="${static.url('icope/images/perso_4.png')}" alt="couple de personnage">
+        <img src="${static.url('icope-en/images/perso_4.png')}" alt="couple de personnage">
         <div class="video-player-area">
           <iframe src="https://player.vimeo.com/video/698527297" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="width:100%;height:100%;" title="trailer"></iframe>
         </div>
@@ -91,14 +91,14 @@ lang_texts = texts.get(current_lang, texts.get("fr", {}))
       <p><strong>${lang_texts.get("sect-3-text-part-1", "")}</strong>${lang_texts.get("sect-3-text-part-2", "")}<strong>${lang_texts.get("sect-3-text-part-3", "")}</strong>${lang_texts.get("sect-3-text-part-4", "")}<strong>${lang_texts.get("sect-3-text-part-5", "")}</strong>.</p>
 
       <h3 id="scheme-title">${lang_texts.get("sect-3-img-title", "")}</h3>
-      <img src="${static.url('icope/images/schema_hp.png')}" alt="schéma des étapes composants la formation">
+      <img src="${static.url('icope-en/images/schema_hp.png')}" alt="schéma des étapes composants la formation">
       <p class="legend"><strong>${lang_texts.get("sect-3-label-part-1", "")}</strong>${lang_texts.get("sect-3-label-part-2", "")}<strong>${lang_texts.get("sect-3-label-part-3", "")}</strong>${lang_texts.get("sect-3-label-part-4", "")}</p>
     </div>
   </section>
 
   <section id="section-4" class="vertical-align">
     <div id="title-plan-area">
-      <img src="${static.url('icope/images/feuille_1.png')}" alt="feuille bleue background">
+      <img src="${static.url('icope-en/images/feuille_1.png')}" alt="feuille bleue background">
       <p>${lang_texts.get("sect-4-title", "")}</p>
     </div>
 
@@ -115,7 +115,7 @@ lang_texts = texts.get(current_lang, texts.get("fr", {}))
     <div class="vertical-align green-section">
       <h4>${lang_texts.get("sect-4-step", "")} 
         <span class="number">
-          <img class="leaf-illustration green" src="${static.url('icope/images/feuille_6.png')}" alt="illustration feuille verte">
+          <img class="leaf-illustration green" src="${static.url('icope-en/images/feuille_6.png')}" alt="illustration feuille verte">
           1
         </span>
       </h4>
@@ -130,14 +130,14 @@ lang_texts = texts.get(current_lang, texts.get("fr", {}))
           <li>${lang_texts.get("sect-4-step-1-list-6", "")}</li>
         </ul>
       </div>
-      <img id="character-2" src="${static.url('icope/images/perso_3.png')}" alt="illustration d'un médecin">
-      <img id="yellow-leaf" src="${static.url('icope/images/feuille_3.png')}" alt="illustration feuille">
+      <img id="character-2" src="${static.url('icope-en/images/perso_3.png')}" alt="illustration d'un médecin">
+      <img id="yellow-leaf" src="${static.url('icope-en/images/feuille_3.png')}" alt="illustration feuille">
     </div>
 
     <div class="vertical-align blue-section">
       <h4>${lang_texts.get("sect-4-step", "")} 
         <span class="number">
-          <img class="leaf-illustration blue" src="${static.url('icope/images/feuille_2.png')}" alt="illustration feuille bleue">
+          <img class="leaf-illustration blue" src="${static.url('icope-en/images/feuille_2.png')}" alt="illustration feuille bleue">
           2
         </span>
       </h4>
@@ -150,7 +150,7 @@ lang_texts = texts.get(current_lang, texts.get("fr", {}))
             <li>${lang_texts.get("sect-4-step-2-list-a-2", "")}</li>
           </ul>
           
-          <img id="zone-photo" src="${static.url('icope/images/photo_feuille_2.png')}" alt="photo dans les feuilles">
+          <img id="zone-photo" src="${static.url('icope-en/images/photo_feuille_2.png')}" alt="photo dans les feuilles">
 
         </div>
         <div class="vertical-align list-area-blue" >
@@ -177,7 +177,7 @@ lang_texts = texts.get(current_lang, texts.get("fr", {}))
   </section>
 
   <section id="section-5" class="vertical-align">
-    <img src="${static.url('icope/images/colored_line.png')}" alt="bandeau arc-en-ciel" style="width: 100%;">
+    <img src="${static.url('icope-en/images/colored_line.png')}" alt="bandeau arc-en-ciel" style="width: 100%;">
     <div class="horizontal-align">      
       <div class="vertical-align left-side">
         <h4>${lang_texts.get("sect-5-side-1-title", "")}</h4>
