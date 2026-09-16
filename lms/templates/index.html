@@ -1,0 +1,95 @@
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%namespace file='main.html' import="login_query"/>
+<%!
+from django.utils.translation import gettext as _
+from django.urls import reverse
+
+from openedx.core.djangolib.markup import HTML, Text
+%>
+
+
+<style>
+  :root {
+    --primary: #008BCB;
+    --secondary: #45B177;
+    --tertiary : #019BA4;
+  }
+
+  .main .mobile-nav-item {
+    display: none !important;
+  }
+  .content-wrapper {
+    margin: 0 auto;
+    padding: 0 !important;
+    max-width: 1600px !important;
+    box-sizing: border-box;
+  }
+  h1, h2, h3, h4, p, li, a {
+    font-family: 'Avenir', 'Barlow', sans-serif;
+  }
+  .header-container {
+    margin: 0 auto;
+    padding: 0 15px;
+    max-width: 1600px;
+  }
+  body {
+    line-height: 1.2 !important;
+    box-sizing: border-box;
+  }
+
+  /* GLOBAL */
+  .vertical-align, .horizontal-align {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .horizontal-align {
+    flex-direction: row;
+  }
+  .space-between {
+    justify-content: space-between;
+  }
+  #mobile-menu div:nth-child(1), #mobile-menu div:nth-child(2), .mobile-nav-item .register-btn, .theme-toggle-button {
+    display: none !important;
+  }
+  .global-header .nav-links .secondary a.sign-in-btn {
+    background-color: var(--primary);
+  }
+
+</style>
+
+
+<main id="main" aria-label="Content" tabindex="-1">
+  <section id="section-1" class="vertical-align">
+    
+    <div class="vertical-align home-page-1">
+      <p>Bienvenue sur le MOOC <br><strong>Test-dev</strong></p>
+      <a class="btn register-btn" href="/register?course_id=course-v1%3Asncf-voyageurs%2BDC2%2B2024&enrollment_action=enroll">s'inscrire au MOOC</a>
+
+    </div>
+
+  </section>
+</main>
+
+
+<%block name="js_extra">
+  <script type="text/javascript">
+    $(window).load(function() {
+      if(getParameterByName('next')) {
+        $('#login').trigger("click");
+      }
+    })
+  </script>
+</%block>
+
+% if show_signup_immediately is not UNDEFINED:
+  ## NOTE: This won't work in production, because anonymous views are cached, so it will
+  ## show either with or without this extra js for 3 minutes at a time.
+<script type="text/javascript">
+  $(window).load(function() {$('#signup_action').trigger("click");});
+</script>
+% endif
+
