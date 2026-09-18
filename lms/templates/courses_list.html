@@ -10,6 +10,14 @@
     pass
 %>
 
+<style>
+  .courses-listing {
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc( (1260px - (4 * 298px)) / 3 );
+  }
+</style>
+
 <section class="courses-container">
   <section class="highlighted-courses">
     % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
@@ -17,11 +25,11 @@
         <ul class="courses-listing">
           ## limiting the course number by using HOMEPAGE_COURSE_MAX as the maximum number of courses
           %for course in sorted_courses[:homepage_course_max]:
-            % if course.id != 'course-v1:afpa+mixite+ademe':
+            % if str(course.id) != "course-v1:afpa+mixite+ademe" :
 
-            <li class="courses-listing-item">
+              <li class="courses-listing-item">
                 <%include file="course.html" args="course=course" />
-            </li>
+              </li>
             % endif
           %endfor
         </ul>
