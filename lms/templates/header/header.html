@@ -73,14 +73,29 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     .flag-btn img {
         width: 36px;
         border-radius: 4px;
+        margin: 0 5px;
+        padding: 2px;
+        transition: all 0.3s ease;
+        cursor: pointer;
     }
-    .flag-btn.active img, #language-settings-form {
-        display: none !important;
+    .flag-btn.active img {
+        transform: translateY(0) scale(1.05);
+        box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
     }
     button.flag-btn:hover {
-        background-color: unset !important;
-        background-image: none !important;
+        border-color: #e0e0e0;
+        transform: translateY(-2px);
+        background-color: unset;
+        background-image: unset;
     }
+    .flag-btn:not(.active) img {
+        opacity: 0.7;
+    }
+    .flag-btn:not(.active):hover img {
+        opacity: 1;
+    }
+    
+
     .account-header-div {
         display: flex;
         align-items: center;
@@ -88,7 +103,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     }
 
     #language-settings-form, .help-link {
-        display: none;
+        display: none !important;
     }
 
     .global-header .header-logo a .logo {
