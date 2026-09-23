@@ -37,24 +37,32 @@ from common.djangoapps.student.models import CourseEnrollment
 custom_fields_dict = json.loads(user.profile.custom_field)
 user_profession = custom_fields_dict.get('profession', '')
 profession_evaluation_approfondie = [
+  "M\u00e9decin",
   "Médecin",
   "medecin",
   "Pharmacien",
   "pharmacien",
+  "Audioproth\u00e9siste",
   "Audioprothésiste",
   "Opticien-Lunetier",
+  "Assistant m\u00e9dical",
   "Assistant médical",
   "Chirurgien-Dentiste",
   "Sage-Femme",
+  "Infirmier / IPA / Cadre des sant\u00e9",
   "Infirmier / IPA / Cadre des santé",
   "infirmier",
+  "Masseur-Kin\u00e9sith\u00e9rapeute",
   "Masseur-Kinésithérapeute",
+  "P\u00e9dicure-Podologue",
   "Pédicure-Podologue",
   "Technicien orthophoniste",
   "Orthophoniste",
   "Orthoptiste",
   "Psychologue",
+  "Ergoth\u00e9rapeute",
   "Ergothérapeute",
+  "Di\u00e9t\u00e9ticien",
   "Diététicien",
   "Psychomotricien",
   "Manipulateur ERM",
@@ -511,9 +519,9 @@ if not all([user_profession, user.is_authenticated])  :
     <option value="" selected></option>
     <option value="medecin">Médecin</option>
     <option value="pharmacien">Pharmacien</option>
-    <option value="Audioprothésiste">Audioprothésiste</option>
+    <option value="Audioproth\u00e9siste">Audioprothésiste</option>
     <option value="Opticien-Lunetier">Opticien-Lunetier</option>
-    <option value="Assistant médical">Assistant médical</option>
+    <option value="Assistant m\u00e9dical">Assistant médical</option>
     <option value="Assistant dentaire">Assistant dentaire</option>
     <option value="Aide-soignant">Aide-soignant</option>
     <option value="Ambulancier">Ambulancier</option>
@@ -521,22 +529,22 @@ if not all([user_profession, user.is_authenticated])  :
     <option value="Chirurgien-Dentiste">Chirurgien-Dentiste</option>
     <option value="Sage-Femme">Sage-Femme</option>
     <option value="Infirmier">Infirmier / IPA / Cadre des santé</option>
-    <option value="Masseur-Kinésithérapeute">Masseur-Kinésithérapeute</option>
-    <option value="Pédicure-Podologue">Pédicure-Podologue</option>
+    <option value="Masseur-Kin\u00e9sith\u00e9rapeute">Masseur-Kinésithérapeute</option>
+    <option value="P\u00e9dicure-Podologue">Pédicure-Podologue</option>
     <option value="Technicien de laboratoire">Technicien de laboratoire</option>
     <option value="Technicien orthophoniste">Technicien orthophoniste</option>
     <option value="Orthophoniste">Orthophoniste</option>
     <option value="Orthoptiste">Orthoptiste</option>
     <option value="Psychologue">Psychologue</option>
-    <option value="Ergothérapeute">Ergothérapeute</option>
-    <option value="Diététicien">Diététicien</option>
+    <option value="Ergoth\u00e9rapeute">Ergothérapeute</option>
+    <option value="Di\u00e9t\u00e9ticien">Diététicien</option>
     <option value="Psychomotricien">Psychomotricien</option>
     <option value="Manipulateur ERM">Manipulateur ERM</option>
     <option value="Auxiliaire_de_vie_sociale">Auxiliaire de vie sociale/Aide à domicile</option>
     <option value="Travailleur_social">Travailleur social</option>
-    <option value="ARC-Chef de projet-Chargé de mission">ARC - Chef de projet - Chargé de mission</option>
-    <option value="Educateur d'activité physique adaptée">Educateur d'activité physique adaptée</option>
-    <option value="Autre (précisez)">Autre</option>
+    <option value="ARC-Chef de projet-Charg\u00e9 de mission">ARC - Chef de projet - Chargé de mission</option>
+    <option value="Educateur d'activit\u00e9 physique adapt\u00e9e">Educateur d'activité physique adaptée</option>
+    <!-- <option value="Autre (précisez)">Autre</option> -->
   </select>
   <br>
   <p><span class="required_field">*</span> champ obligatoire</p>
