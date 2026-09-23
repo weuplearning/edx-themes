@@ -214,7 +214,7 @@ for user_id, user_entry in all_users_data.items():
         j -= spacer
 
         for day, seconds in course_data['tt_daily'].items():
-            if seconds > 20000 :
+            if seconds > 28000 :
                 buggued_tt.append(user_entry['profil']['email'])
 
             sheet.cell(j, i+1, str(day) + " : " + str(round(seconds/60))+" min")
