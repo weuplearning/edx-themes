@@ -60,6 +60,7 @@ from openedx.core.djangoapps.user_authn.utils import should_redirect_to_logistra
   }
   .secondary {
     margin-top: 0 !important;
+    margin-left: 10px !important;
     display: flex;
     justify-content: flex-end;
   }
@@ -84,6 +85,7 @@ from openedx.core.djangoapps.user_authn.utils import should_redirect_to_logistra
   }
 
 
+
 </style>
 
 <nav class="nav-links position-header" aria-label=${_("Supplemental Links")}>
@@ -93,11 +95,11 @@ from openedx.core.djangoapps.user_authn.utils import should_redirect_to_logistra
 
       <div class="register-btn-header horizontal-align-header">
         <!-- <div class="register-btn-header-inside">${_("Register")}</div> -->
-        <a class="header_a" href="/register">${_("Register")}</a>
+        <a class="header_a" href="/register">Sign up</a>
       </div>
 
       <div class="sign-in-btn-header horizontal-align-header">
-        <a class="header_a" href="/login${login_query()}">${_("Sign in")}</a>
+        <a class="header_a" href="/login${login_query()}">Log in</a>
       </div>
 
     </div>

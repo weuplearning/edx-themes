@@ -58,6 +58,45 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         justify-content: center;
     }
 
+    .language-flags {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .flag-header {
+        border: none;
+        background: none;
+        box-shadow: none;
+        cursor: pointer;
+        padding: 0;
+        transition: transform 0.2s ease !important;
+        padding: 10px 5px;
+    }
+    .flag-header img {
+        width: 36px;
+        border-radius: 4px;
+        margin: 0 5px;
+        padding: 2px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    .flag-header.active img {
+        transform: translateY(0) scale(1.05);
+        box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+    }
+    a.flag-header:hover {
+        border-color: #e0e0e0;
+        transform: translateY(-2px);
+        background-color: unset;
+        background-image: unset;
+    }
+    .flag-header:not(.active) img {
+        opacity: 0.7;
+    }
+    .flag-header:not(.active):hover img {
+        opacity: 1;
+    }
+
     @media screen and (max-width: 991px) {
         .global-header {
             height: 85px;
@@ -93,6 +132,16 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
             <span class="line"></span>
             <span class="line"></span>
         </div>
+
+        <div class="language-flags">
+            <a class="flag-header" href="https://icope-formation.com" >
+                <img src="${static.url('icope-en/images/flag_fr.svg')}" alt="Français">
+            </a>
+            <a class="flag-header active" href="/">
+                <img src="${static.url('icope-en/images/flag_en.png')}" alt="English">
+            </a>
+        </div>
+
         % if user.is_authenticated:
             <%include file="navbar-authenticated.html" args="online_help_token=online_help_token"/>
         % else:

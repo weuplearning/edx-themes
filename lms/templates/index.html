@@ -68,7 +68,7 @@ lang_texts = texts.get(current_lang, texts.get("en", {}))
       </div>
 
       <br>
-      <p><strong>${lang_texts.get("sect-2-title-2-part-1", "")}</strong>${lang_texts.get("sect-2-title-2-part-2", "")}<strong>${lang_texts.get("sect-2-title-2-part-3", "")}</strong>:</p>
+      <p><strong>${lang_texts.get("sect-2-title-2-part-1", "")}</strong>${lang_texts.get("sect-2-title-2-part-2", "")}<strong>${lang_texts.get("sect-2-title-2-part-3", "")}</strong></p>
       <div class="horizontal-align vignettes-area">
         <div class="vignette">
           <p>${lang_texts.get("sect-2-vignette-1", "")}</p>
@@ -88,7 +88,7 @@ lang_texts = texts.get(current_lang, texts.get("en", {}))
   <section id="section-3">
     <div class="vertical-align">
       <h3>${lang_texts.get("sect-3-title", "")}</h3>
-      <p><strong>${lang_texts.get("sect-3-text-part-1", "")}</strong>${lang_texts.get("sect-3-text-part-2", "")}<strong>${lang_texts.get("sect-3-text-part-3", "")}</strong>${lang_texts.get("sect-3-text-part-4", "")}<strong>${lang_texts.get("sect-3-text-part-5", "")}</strong>.</p>
+      <p><strong>${lang_texts.get("sect-3-text-part-1", "")}</strong>${lang_texts.get("sect-3-text-part-2", "")}<strong>${lang_texts.get("sect-3-text-part-3", "")}</strong>${lang_texts.get("sect-3-text-part-4", "")}<strong>${lang_texts.get("sect-3-text-part-5", "")}</strong>${lang_texts.get("sect-3-text-part-6", "")}<strong>${lang_texts.get("sect-3-text-part-7", "")}</strong>.</p>
 
       <h3 id="scheme-title">${lang_texts.get("sect-3-img-title", "")}</h3>
       <img src="${static.url('icope-en/images/schema_hp.png')}" alt="schéma des étapes composants la formation">
@@ -143,18 +143,19 @@ lang_texts = texts.get(current_lang, texts.get("en", {}))
       </h4>
       <p><strong>${lang_texts.get("sect-4-step-2-part-1", "")}</strong>${lang_texts.get("sect-4-step-2-part-2", "")}</p>
       <div class="horizontal-align" style="width: 100%;gap:4%;">
-        <div class="vertical-align list-area-blue" >
+        <div class="vertical-align " >
+          <!-- 
           <h5>Phase A <br>${lang_texts.get("sect-4-step-2-list-a-title", "")}</h5>
           <ul>
             <li>${lang_texts.get("sect-4-step-2-list-a-1", "")}</li>
             <li>${lang_texts.get("sect-4-step-2-list-a-2", "")}</li>
           </ul>
-          
+           -->
           <img id="zone-photo" src="${static.url('icope-en/images/photo_feuille_2.png')}" alt="photo dans les feuilles">
 
         </div>
         <div class="vertical-align list-area-blue" >
-          <h5>Phase B <br>${lang_texts.get("sect-4-step-2-list-b-title", "")}</h5>
+          <!-- <h5>Phase B <br>${lang_texts.get("sect-4-step-2-list-b-title", "")}</h5> -->
           <ul>
             <li>${lang_texts.get("sect-4-step-2-list-b-1", "")}</li>
             <li>${lang_texts.get("sect-4-step-2-list-b-2", "")}</li>
@@ -167,9 +168,9 @@ lang_texts = texts.get(current_lang, texts.get("en", {}))
             <li>${lang_texts.get("sect-4-step-2-list-b-9", "")}</li>
             <li>${lang_texts.get("sect-4-step-2-list-b-10", "")}</li>
             <li>${lang_texts.get("sect-4-step-2-list-b-11", "")}</li>
-            <li>${lang_texts.get("sect-4-step-2-list-b-12", "")}</li>
+            <!-- <li>${lang_texts.get("sect-4-step-2-list-b-12", "")}</li>
             <li>${lang_texts.get("sect-4-step-2-list-b-13", "")}</li>
-            <li>${lang_texts.get("sect-4-step-2-list-b-14", "")}</li>
+            <li>${lang_texts.get("sect-4-step-2-list-b-14", "")}</li> -->
           </ul>
         </div>
       </div>
@@ -179,10 +180,11 @@ lang_texts = texts.get(current_lang, texts.get("en", {}))
   <section id="section-5" class="vertical-align">
     <img src="${static.url('icope-en/images/colored_line.png')}" alt="bandeau arc-en-ciel" style="width: 100%;">
     <div class="horizontal-align">      
-      <div class="vertical-align left-side">
+      <!-- <div class="vertical-align left-side">
         <h4>${lang_texts.get("sect-5-side-1-title", "")}</h4>
         <p>${lang_texts.get("sect-5-side-1-text", "")}</p>
-      </div>
+      </div> -->
+      
       <div class="vertical-align right-side">
         <h4>${lang_texts.get("sect-5-side-2-title", "")}</h4>
         <p>${lang_texts.get("sect-5-side-2-text", "")}</p>
