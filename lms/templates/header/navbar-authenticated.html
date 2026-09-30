@@ -68,9 +68,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 </div>
 
 <style>
-
-
-  .global-header .nav-links  {
+  .global-header .nav-links {
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -78,12 +76,10 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
   .global-header .nav-links .secondary .nav-item {
     padding: unset !important;
   }
-
   .global-header .nav-links .main {
     display: flex;
     align-items: center;
   }
-
   .global-header .secondary {
     display: flex;
     align-items: center;
@@ -99,4 +95,13 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
   .svg-user path {
     fill: var(--primary);
   }
+
+
+  @media (min-width: 1401px) {
+    .global-header .nav-links .secondary .dropdown-user-menu {
+      right: calc(80px + (100vw - 1400px) / 2);
+      top: 80px;
+    }
+  }
+
 </style>
