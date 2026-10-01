@@ -56,7 +56,8 @@ from openedx.core.djangolib.markup import HTML, Text
     display: none !important;
   }
   .global-header .nav-links .secondary a.sign-in-btn {
-    background-color: var(--primary);
+    color: var(--primary);
+    background-color: white;
   }
 
 
@@ -75,14 +76,12 @@ from openedx.core.djangolib.markup import HTML, Text
   }
   .home-page-1 {
     background-color: var(--secondary);
-    border-radius: 8px;
+    border-radius: 10px;
     align-self: self-start;
-    border-left : 5px solid white;
     color: white;
     padding: 1rem;
     font-size: 2.5rem;
-    width: 60%;
-    margin-bottom: 5%;
+    width: 42%;
   }
 
   .home-page-1, .home-page-1 p, #section-1 > img {
@@ -104,15 +103,10 @@ from openedx.core.djangolib.markup import HTML, Text
     text-align: center;
   }
   .home-page-2 .uppercase-bordeaux {
-    background-color: var(--secondary);
-    padding: 0.2rem 0.5rem;
-    border-radius: 5px;
-  }
-  .home-page-2 .text-blue {
     background-color: var(--primary);
     padding: 0.2rem 0.5rem;
     border-radius: 5px;
-    font-weight: 700;
+    font-weight:600;
   }
 
 
@@ -121,8 +115,8 @@ from openedx.core.djangolib.markup import HTML, Text
     margin: 4rem auto;
   }
   #illustration-section-2 {
-    max-height: 500px;
-    height: 45vh;
+    max-width: 500px;
+    width: 45vh;
   }
   #center-container-text {
     width: 50%;
@@ -132,28 +126,34 @@ from openedx.core.djangolib.markup import HTML, Text
     line-height: 1.2;
   }
   #center-container-text p {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-  }
-  #center-container-text p:last-child {
-    font-weight: 700;
+    font-size: 1.6rem;
+    margin-bottom: 1.4rem;
+    color: var(--primary);
   }
   .decouverte-btn {
-    background-color: var(--primary)
+    background-color: var(--tertiary)
+    margin: 15px 20px;
+    padding: 20px;
+    border-radius: 20px;
+    text-align: center;
+    color: var(--secondary)
+    font-size: 1.8rem;
   }
+  .btn-approf {
+    background-color: var(--primary);
+    color: white;
+  }
+
 
 /* Section 3 */
   #section-3 {
-    background-color : var(--primary);
     padding: 3rem 0;
   }
   #section-3-title {
-    color: white;
-    font-size: 3rem;
-    font-weight: 600;
+    color: var(--primary);
+    font-size: 2.5rem;
     margin-bottom: 3rem;
     text-align: center;
-    text-transform: uppercase;
   }
   .vignette-section-3 {
     width: 26%;
@@ -167,9 +167,9 @@ from openedx.core.djangolib.markup import HTML, Text
     background-image: url("${static.url('images/sticker_horloge.png')}");
     background-size: cover;
     background-position: center;
-    background-color: transparent;
+    background-color: #ffd2a963;
     transition: background-image 0.6s ease, transform 0.6s ease, box-shadow 0.6s ease;
-    color: white;
+    color: var(--primary);
     font-size: 1.4rem;
     border-radius: 10px;
   }
@@ -201,21 +201,22 @@ from openedx.core.djangolib.markup import HTML, Text
     margin: 4rem auto 0;
   }
   .vignette-section-4 {
-    background-color : var(--secondary);
-    color: white;
+    background-color : var(--tertiary);
+    color: var(--primary);
     width: 48%;
     padding: 3rem ;
     min-height: 1100px;
-    border-radius: 0 100px 0 0;
+    border-radius: 0 20px 0 0;
     box-sizing: border-box;
     align-self: flex-end;
   }
   .vignette-section-4:nth-child(2) {
-    background-color : var(--tertiary);
-    border-radius: 100px 0 0 0;
+    background-color : var(--primary);
+    color: white;
+    border-radius: 20px 0 0 0;
   }
   .vignette-section-4 h1, .vignette-section-4 h2, .vignette-section-4 h3, .vignette-section-4 h4 {
-    color: white;
+#    color: white;
     font-size: 2rem;
     font-weight: 400;
     align-self: flex-start;
@@ -226,7 +227,6 @@ from openedx.core.djangolib.markup import HTML, Text
     align-self: center;
   }
   .vignette-section-4 h2 {
-    text-transform: uppercase;
     align-self: flex-start;
   }
   .vignette-section-4 h3 {
@@ -282,13 +282,11 @@ from openedx.core.djangolib.markup import HTML, Text
 
   .vignette-section-4 a {
     text-align: center;
-    background-color: white;
-    color: var(--secondary);
+    background-color: var(--secondary);
+    color: var(--primary);
     font-size: 1.5rem;
-    font-weight: 700;
     padding: 0.5rem 2rem;
-    border-radius: 5rem !important;
-    text-transform: uppercase;
+    border-radius: 20px ;
     padding: 0.5rem 2rem;
     display: inline-block;
     max-width: 80%;
@@ -355,12 +353,12 @@ from openedx.core.djangolib.markup import HTML, Text
   <section id="section-1" class="vertical-align">
     
     <div class="vertical-align home-page-1">
-      <p>Bienvenue sur le MOOC <br><strong style="color:var(--secondary);" >Destination Conduite</strong></p>
+      <p>Bienvenue sur le MOOC <br><strong style="color:var(--primary);" >Destination Conduite</strong></p>
       <p class="smaller-text" >Version 2026</p>
     </div>
 
     <div class="home-page-2 vertical-align space-between">
-      <p >Le métier de <span class="uppercase-bordeaux">conductrice ou conducteur de train</span><br>VOUS INTÉRESSE ?</p>
+      <p >Le métier de <span class="uppercase-bordeaux">conductrice ou conducteur de train</span><br>vous intéresse ?</p>
     </div>
 
   </section>
@@ -369,7 +367,7 @@ from openedx.core.djangolib.markup import HTML, Text
 
     <div class="horizontal-align">
 
-      <img src="${static.url('images/simbox.png')}" alt="Photo Simbox" id="illustration-section-2">
+      <img src="${static.url('images/diapo.png')}" alt="diaporama commandes" id="illustration-section-2">
 
       <div id="center-container-text">
         <p>Que vous soyez candidat·e, en réflexion ou simplement curieux·se, deux formats vous sont désormais proposés pour découvrir nos métiers à votre rythme :</p>
