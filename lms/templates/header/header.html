@@ -132,7 +132,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
             <span class="line"></span>
             <span class="line"></span>
         </div>
-
+<!-- 
         <div class="language-flags">
             <a class="flag-header" href="https://icope-formation.com" >
                 <img src="${static.url('icope-en/images/flag_fr.svg')}" alt="Français">
@@ -141,7 +141,7 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
                 <img src="${static.url('icope-en/images/flag_en.png')}" alt="English">
             </a>
         </div>
-
+ -->
         % if user.is_authenticated:
             <%include file="navbar-authenticated.html" args="online_help_token=online_help_token"/>
         % else:
