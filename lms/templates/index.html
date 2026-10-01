@@ -12,9 +12,9 @@ from openedx.core.djangolib.markup import HTML, Text
 
 <style>
   :root {
-    --primary: #008BCB;
-    --secondary: #45B177;
-    --tertiary : #019BA4;
+    --primary: #7C1A00;
+    --secondary: #FF6833;
+    --tertiary : #FFD2A9;
   }
 
   .main .mobile-nav-item {
@@ -74,15 +74,13 @@ from openedx.core.djangolib.markup import HTML, Text
     margin-bottom: 1rem;
   }
   .home-page-1 {
-    background-image: url("${static.url('images/encart-bienvenue.png')}");
-    background-size: cover;
-    background-position: center;
+    background-color: var(--secondary);
+    border-radius: 8px;
     align-self: self-start;
     border-left : 5px solid white;
     color: white;
     padding: 1rem;
     font-size: 2.5rem;
-    text-transform: uppercase;
     width: 60%;
     margin-bottom: 5%;
   }
@@ -95,9 +93,9 @@ from openedx.core.djangolib.markup import HTML, Text
     margin-left: 1%;
   }
   .home-page-1 .smaller-text {
-    font-size: 2rem;
+    font-size: 1.4rem;
     margin-top: 1rem;
-    text-transform: none;
+    color: var(--tertiary)
   }
   .home-page-2 {
     margin-top: 4rem;
@@ -105,9 +103,8 @@ from openedx.core.djangolib.markup import HTML, Text
     font-size: 2rem;
     text-align: center;
   }
-  .home-page-2 .uppercase-green {
-    text-transform: uppercase;
-    background-color: #008167;
+  .home-page-2 .uppercase-bordeaux {
+    background-color: var(--secondary);
     padding: 0.2rem 0.5rem;
     border-radius: 5px;
   }
@@ -134,18 +131,6 @@ from openedx.core.djangolib.markup import HTML, Text
     font-family: 'Barlow', sans-serif;
     line-height: 1.2;
   }
-  #center-container-text h2 {
-    text-transform: uppercase;
-    color: black;
-    font-size: 3.5rem;
-    margin-bottom: 5px;
-    font-weight: 700;
-  }
-  #center-container-text h3 {
-    font-size: 2rem;
-    font-weight: 600;
-    margin-bottom: 3rem;
-  }
   #center-container-text p {
     font-size: 2rem;
     margin-bottom: 1rem;
@@ -153,7 +138,9 @@ from openedx.core.djangolib.markup import HTML, Text
   #center-container-text p:last-child {
     font-weight: 700;
   }
-
+  .decouverte-btn {
+    background-color: var(--primary)
+  }
 
 /* Section 3 */
   #section-3 {
@@ -192,7 +179,7 @@ from openedx.core.djangolib.markup import HTML, Text
     
   }
   .vignette-section-3:nth-child(3) {
-    background-image: url("${static.url('images/sticker_certificat.png')}");
+    background-image: url("${static.url('images/sticker_diplome.png')}");
   }
   .vignette-section-3:hover {
     background-image: linear-gradient(transparent 0%, rgba(255, 255, 255, 0.868) 60%), url("${static.url('images/sticker_horloge.png')}");
@@ -205,7 +192,7 @@ from openedx.core.djangolib.markup import HTML, Text
     background-image: linear-gradient(transparent 0%, rgba(255, 255, 255, 0.868) 60%), url("${static.url('images/sticker_loupe.png')}");
   }
   .vignette-section-3:nth-child(3):hover {
-    background-image: linear-gradient(transparent 0%, rgba(255, 255, 255, 0.868) 60%), url("${static.url('images/sticker_certificat.png')}");
+    background-image: linear-gradient(transparent 0%, rgba(255, 255, 255, 0.868) 60%), url("${static.url('images/sticker_diplome.png')}");
   }
 
 
@@ -367,15 +354,13 @@ from openedx.core.djangolib.markup import HTML, Text
 
   <section id="section-1" class="vertical-align">
     
-    <img src="${static.url('images/logo_destination_conduite.svg')}" alt="Destination conduite">
     <div class="vertical-align home-page-1">
-      <p>Bienvenue sur le MOOC <br><strong>destination conduite</strong></p>
-      <p class="smaller-text" >Un MOOC d'avance sur votre recrutement</p>
+      <p>Bienvenue sur le MOOC <br><strong style="color:var(--secondary);" >Destination Conduite</strong></p>
+      <p class="smaller-text" >Version 2026</p>
     </div>
 
     <div class="home-page-2 vertical-align space-between">
-      <p >LE MÉTIER DE <span class="uppercase-green">CONDUCTRICE OU CONDUCTEURDE TRAIN</span><br>VOUS INTÉRESSE ?</p>
-      <p><span class="text-blue">Nouveauté</span> : choisissez votre parcours de découverte !</p>
+      <p >Le métier de <span class="uppercase-bordeaux">conductrice ou conducteur de train</span><br>VOUS INTÉRESSE ?</p>
     </div>
 
   </section>
@@ -387,10 +372,9 @@ from openedx.core.djangolib.markup import HTML, Text
       <img src="${static.url('images/simbox.png')}" alt="Photo Simbox" id="illustration-section-2">
 
       <div id="center-container-text">
-        <h2>Bienvenue</h2>
-        <h3>sur le MOOC dédié aux métiers de la conduite des trains SNCF.</h3>
         <p>Que vous soyez candidat·e, en réflexion ou simplement curieux·se, deux formats vous sont désormais proposés pour découvrir nos métiers à votre rythme :</p>
-        <p><strong>Une découverte métier flash et / ou une découverte métier approfondie</strong></p>
+        <div class="decouverte-btn btn-flash" >Commencer <br>la découverte métier <strong>flash</strong></div>
+        <div class="decouverte-btn btn-approf" >Commencer la découverte métier<br><strong>approfondie</strong></div>
       </div>
 
     </div>
