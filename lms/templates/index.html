@@ -93,8 +93,9 @@ from openedx.core.djangolib.markup import HTML, Text
   }
   .home-page-1 .smaller-text {
     font-size: 1.4rem;
-    margin-top: 1rem;
+    margin-top: 8px;
     color: var(--tertiary)
+    font-style: italic;
   }
   .home-page-2 {
     margin-top: 4rem;
@@ -104,9 +105,10 @@ from openedx.core.djangolib.markup import HTML, Text
   }
   .home-page-2 .uppercase-bordeaux {
     background-color: var(--primary);
-    padding: 0.2rem 0.5rem;
+    padding: 0px 6px;
     border-radius: 5px;
-    font-weight:600;
+    font-weight: 600;
+    line-height: 1.5;
   }
 
 
@@ -115,14 +117,13 @@ from openedx.core.djangolib.markup import HTML, Text
     margin: 4rem auto;
   }
   #illustration-section-2 {
-    max-width: 500px;
-    width: 45vh;
+    max-width: 600px;
+    width: 55vw;
   }
   #center-container-text {
     width: 50%;
     padding: 3rem;
     color: black;
-    font-family: 'Barlow', sans-serif;
     line-height: 1.2;
   }
   #center-container-text p {
@@ -131,13 +132,14 @@ from openedx.core.djangolib.markup import HTML, Text
     color: var(--primary);
   }
   .decouverte-btn {
-    background-color: var(--tertiary)
-    margin: 15px 20px;
+    background-color: var(--tertiary);
+    margin: 2px 20px;
     padding: 20px;
     border-radius: 20px;
     text-align: center;
-    color: var(--secondary)
+    color: var(--secondary);
     font-size: 1.8rem;
+    margin: 20px;
   }
   .btn-approf {
     background-color: var(--primary);
@@ -154,6 +156,7 @@ from openedx.core.djangolib.markup import HTML, Text
     font-size: 2.5rem;
     margin-bottom: 3rem;
     text-align: center;
+    font-weight: bold;
   }
   .vignette-section-3 {
     width: 26%;
@@ -191,7 +194,7 @@ from openedx.core.djangolib.markup import HTML, Text
     display: block;
   }
 
-  .vignette-section-3:hover {
+  .vignette-section-3:nth-child(1):hover, .vignette-section-3:nth-child(2):hover {
     background-image: linear-gradient(transparent 0%, rgba(255, 255, 255, 0.868) 60%), url("${static.url('images/sticker_horloge.png')}");
     transform: translateY(-5px);
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
@@ -201,10 +204,11 @@ from openedx.core.djangolib.markup import HTML, Text
   .vignette-section-3:nth-child(2):hover {
     background-image: linear-gradient(transparent 0%, rgba(255, 255, 255, 0.868) 60%), url("${static.url('images/sticker_loupe.png')}");
   }
+/*
   .vignette-section-3:nth-child(3):hover {
     background-image: linear-gradient(transparent 0%, rgba(255, 255, 255, 0.868) 60%), url("${static.url('images/sticker_diplome.png')}");
   }
-
+*/
 
 /* Section 4 */
   #section-4 {
@@ -226,11 +230,15 @@ from openedx.core.djangolib.markup import HTML, Text
     border-radius: 20px 0 0 0;
   }
   .vignette-section-4 h1, .vignette-section-4 h2, .vignette-section-4 h3, .vignette-section-4 h4 {
-#    color: white;
+    color: var(--primary);
     font-size: 2rem;
     font-weight: 400;
     align-self: flex-start;
   }
+  #section-4 .vignette-section-4:nth-child(2) h1, #section-4 .vignette-section-4:nth-child(2) h2, #section-4 .vignette-section-4:nth-child(2) h3, #section-4 .vignette-section-4:nth-child(2) h4 {
+    color: white;
+  }
+
   .vignette-section-4 h1 {
     font-size: 2rem;
     font-weight: bold;
@@ -300,16 +308,9 @@ from openedx.core.djangolib.markup import HTML, Text
     padding: 0.5rem 2rem;
     display: inline-block;
     max-width: 80%;
-    border: 1px solid white;
-  }
-  .vignette-section-4:nth-child(2) a {
-    color: var(--tertiary);
+    border: 1px var(--secondary) solid;
   }
   .vignette-section-4 a:hover {
-    background-color: var(--secondary);
-    color: white;
-  }
-  .vignette-section-4:nth-child(2) a:hover {
     background-color: var(--tertiary);
   }
 
