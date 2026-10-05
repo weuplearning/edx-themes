@@ -58,6 +58,11 @@ from openedx.core.djangolib.markup import HTML, Text
   .global-header .nav-links .secondary a.sign-in-btn {
     color: var(--primary);
     background-color: white;
+    border: 1px solid var(--primary);
+  }
+  .global-header .nav-links .secondary a.sign-in-btn:hover {
+    color: white;
+    background-color: var(--primary);
   }
 
 
@@ -140,10 +145,21 @@ from openedx.core.djangolib.markup import HTML, Text
     color: var(--secondary);
     font-size: 1.8rem;
     margin: 20px;
+    box-shadow: rgba(0,0,0,0.2) 12px 10px 1px;
+    transition: all 1s ease;
+
   }
   .btn-approf {
     background-color: var(--primary);
     color: white;
+  }
+
+  #center-container-text > a:hover {
+    text-decoration: none !important;
+  }
+  .decouverte-btn:hover {
+    box-shadow: none;
+    transform: translateY(6px);    
   }
 
 
@@ -309,9 +325,13 @@ from openedx.core.djangolib.markup import HTML, Text
     display: inline-block;
     max-width: 80%;
     border: 1px var(--secondary) solid;
+    box-shadow: rgba(0,0,0,0.3) 12px 10px 1px;
+    transition: all 1s ease;
   }
   .vignette-section-4 a:hover {
-    background-color: var(--tertiary);
+    text-decoration: none !important;
+    box-shadow: none;
+    transform: translateY(6px);
   }
 
 
@@ -382,8 +402,8 @@ from openedx.core.djangolib.markup import HTML, Text
 
       <div id="center-container-text">
         <p>Que vous soyez candidat·e, en réflexion ou simplement curieux·se, deux formats vous sont désormais proposés pour découvrir nos métiers à votre rythme :</p>
-        <div class="decouverte-btn btn-flash" >Commencer <br>la découverte métier <strong>flash</strong></div>
-        <div class="decouverte-btn btn-approf" >Commencer la découverte métier<br><strong>approfondie</strong></div>
+        <a href="/register?course_id=course-v1%3Asncf-voyageurs%2BDM1%2B2026&enrollment_action=enroll" ><div class="decouverte-btn btn-flash" >  Commencer <br>la découverte métier <strong>flash</strong></div></a>
+        <a href="/register?course_id=course-v1%3Asncf-voyageurs%2BDC2%2B2024&enrollment_action=enroll" ><div class="decouverte-btn btn-approf" >Commencer la découverte métier<br><strong>approfondie</strong></div></a>
       </div>
 
     </div>
@@ -447,7 +467,7 @@ from openedx.core.djangolib.markup import HTML, Text
           </ul>
         </div>
         
-        <a class="btn register-btn" href="/register?course_id=course-v1%3Asncf-voyageurs%2BDC2%2B2024&enrollment_action=enroll">Commencer la découverte métier <span style="font-weight:900;">flash</span></a>
+        <a class="btn register-btn" href="/register?course_id=course-v1%3Asncf-voyageurs%2BDM1%2B2026&enrollment_action=enroll">Commencer la découverte métier <span style="font-weight:900;">flash</span></a>
       </div>
 
       <div class="vignette-section-4 vertical-align space-between">
