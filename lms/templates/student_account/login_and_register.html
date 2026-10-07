@@ -12,6 +12,11 @@
 <%block name="pagetitle">${_("Sign in or Register")}</%block>
 <style>
 
+  .header_a {
+    font-size: 14px !important;
+  }
+
+
   input[type="submit"], input[type="button"], button, .button {
     background-image: none !important;
     text-shadow: none !important;
@@ -53,9 +58,6 @@
   a {
     color: #C2C6CA !important;
   }
-  #register-terms_of_service-optional-label {
-    display: none;
-  }
 
   .login-register .action-primary {
     background-color: var(--primary);
@@ -67,6 +69,11 @@
     background-color: #1F6992;
     box-shadow: none ; 
     transform: translateY(6px);
+  }
+
+
+  #register-terms_of_service-optional-label, #enterprise-content-container, .required-fields > .select-parcours {
+    display: none !important;
   }
 
 </style>
@@ -153,129 +160,96 @@
 <%include file="${static.get_template_path('../footer.html')}" />
 
 
+
 <script>
+  (function () {
+    'use strict';
 
-// ____________________________________
-// 
-// --------REGISTER FORM UPDATE--------
-// ____________________________________
+    function initProfessionOther() {
+      const professionField = document.getElementById('register-profession');
+      const professionOtherField = document.getElementById('register-profession_other');
 
-// Hide profession fields :
-var alreadyPassed = false
-var functionForm = setInterval(() => {
+      if (!professionField || !professionOtherField) {
+        return false;
+      }
 
-  $("#register-profession").change(function() {
-    var val = $(this).val();
-    if(val === "Autre (précisez)") {
-      $(".text-profession_autre").show();
-    } else {
-      $(".text-profession_autre").hide();
-    }
-  })
-  if (alreadyPassed) {
-    clearInterval(functionForm)
-  }
-  alreadyPassed = true
+      const professionOtherContainer = professionOtherField.closest('.form-field');
 
-}, 700);
+      console.log('professionOtherContainer:', professionOtherContainer);
+      console.log('professionOtherContainer:', professionOtherContainer);
 
+      if (!professionOtherContainer) {
+        return false;
+      }
 
-var replaceText = setInterval(() => {
+      function toggleProfessionOther() {
+        const selectedValue = professionField.value.trim().toLowerCase();
 
-  if (window.location.href.indexOf('login') == -1) {
-    clearInterval(replaceText)
-  } else {
-    
-    var textTarget = $('#login-email-desc')
-    textTarget[0].textContent = textTarget[0].textContent.replace('icope', 'le e-learning.')
-    
-    if (textTarget[0].textContent.indexOf('icope') == -1) {
-      clearInterval(replaceText)
-    }
-  }
-}, 400);
+        console.log('Selected profession value:', selectedValue);
 
+        // Le champ est affiché uniquement lorsque value="Other"
+        const isOther = selectedValue === 'other';
 
-// Update Departement field regarding Region field 
+        professionOtherContainer.style.display = isOther ? '' : 'none';
 
-const table = {
-  "Auvergne-rhone-alpes": ["","Ain","Allier","Ardèche","Cantal","Drôme","Isère","Loire","Haute-loire",'Puy-de-Dôme', 'Rhône', 'Savoie', 'Haute-Savoie'],
-  "bourgogne-franche-comte" : ["","Côte-d'Or", 'Doubs', 'Jura', 'Nièvre','Haute-Saône', 'Saône-et-loire', 'Yonne', 'Territoire de Belfort'],
-  "Bretagne" : ["", "Côtes-d'Armor",'Finistère', 'Ille-et-Vilaine', 'Morbihan'],
-  "Centre-val-de-loire" : ["", 'Cher', 'Eure-et-Loir','Indre','Indre-et-Loire','Loir-et-Cher','Loiret'],
-  "Corse" : ["",'Corse-du-sud', 'Haute-Corse'],
-  "Grand-est" :['','Ardennes', 'Aube', 'Marne', 'Haute-Marne', 'Meurthe-et-Moselle', 'Meuse', 'Moselle', 'Bas-Rhin', 'Haut-Rhin','Vosges'], 
-  "Guadeloupe" : ["","Guadeloupe"],
-  "Guyane" : ["","Guyane"],
-  "Hauts-de-france" : ["",'Aisne', 'Nord', 'Oise', 'Pas-de-Calais', 'Somme'],
-  "Ile-de-france" : ["",'Paris', 'Seine-et-Marne','Yvelines', 'Essone', 'Hauts-de-Seine', 'Seine-Saint-Denis', 'Val-de-Marne', "Val-d'Oise"],
-  "La-reunion" : ["","La Réunion"],
-  "Martinique" : ["",'Martinique'],
-  "Mayotte" : ["","Mayotte"],
-  "Normandie" : ["",'Calvados', 'Eure', 'Manche', 'Orne', 'Seine-Maritime'],
-  "Nouvelle-aquitaine" : ["",'Charente', 'Charente-Maritime', 'Corrèze', 'Creuse', 'Dordogne', 'Gironde', 'Landes', 'Lot-et-Garonne', 'Pyrénées-Atlantiques', 'Deux-Sèvres','Vienne', 'Haute-Vienne'],
-  "Occitanie" : ["",'Arriège','Aude','Aveyron', 'Gard', 'Haute-Garonne','Gers','Hérault','Lot', 'Lozère', 'Hautes-Pyrénées', 'Pyrénées-Orientales','Tarn','Tarn-et-Garonne'],
-  "Pays-de-la-loire" : ["",'Loire-Atlantique', 'Maine-et-Loire', 'Mayenne', 'Sarthe', 'Vendée'],
-  "Provence-alpes-cote-d-azur" : ["",'Alpes-de-Haute-Provence', 'Hautes-Alpes','Alpes-Maritimes','Bouches-du-Rhône','Var','Vaucluse'],
-  "Autre" : ["","Saint-Pierre-et-Miquelon", 'Sainte-Barthélemy', 'Saint-Martin', 'Wallis-et-Futuna', 'Polynésie francaise', 'Nouvelle-Calédonie'],
-}
+        if (!isOther) {
+          professionOtherField.value = '';
 
-function nettoyerValue(text) {
-  text = text
-    .replace(/[éèê]/g, 'e')
-    .replace(/ô/g, 'o')
-    .replace(/î/g, 'i')
-    .replace(/'/g, '_')
-    .replace(/ /g, '__')
-    .toLowerCase();
+          professionOtherField.dispatchEvent(
+            new Event('input', { bubbles: true })
+          );
 
-  return text;
-}
-
-function updateDept() {
-  $('#register-region').change(function(){
-    const sectionDepartment = document.querySelector('.form-field.select-department')
-    const regionSelectorValue = document.getElementById('register-region').value
-
-    if (document.getElementById('register-region').value != '') {
-      document.getElementsByClassName('select-department')[0].style.display = 'block' 
-      sectionDepartment.style.display='block'
-      $('#register-department').empty()
-
-      for (const region in table) {
-        if (region == document.getElementById('register-region').value) {
-          for (const departement of table[region]) {
-
-            $('#register-department').append("<option value='"+ nettoyerValue(departement) + "'>" + departement + "</option>");
-
-          }
+          professionOtherField.dispatchEvent(
+            new Event('change', { bubbles: true })
+          );
         }
       }
-    } else if (document.getElementById('register-region').value == '') {
 
-      document.getElementsByClassName('select-department')[0].style.display = 'none' 
-      sectionDepartment.style.display='none'
+      // État initial : le champ est masqué ou affiché selon la valeur existante
+      toggleProfessionOther();
 
-    } else {
-      console.log('🤔 something is not working with hidding department section script');
+      // Mise à jour lors d'un changement de sélection
+      professionField.addEventListener('change', toggleProfessionOther);
+
+      return true;
     }
-  })
-}
 
-const functionToRegion = setTimeout(() => {
-  updateDept();
-}, 3000);
+    function waitForProfessionForm(maxAttempts = 50, delayMs = 100) {
+      let attempts = 0;
+
+      const interval = setInterval(function () {
+        attempts++;
+
+        if (initProfessionOther()) {
+          clearInterval(interval);
+          return;
+        }
+
+        if (attempts >= maxAttempts) {
+          clearInterval(interval);
+          console.warn(
+            'Les champs Profession et Profession if other sont introuvables.'
+          );
+        }
+      }, delayMs);
+    }
+
+    function start() {
+      waitForProfessionForm(50, 100);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', start);
+    } else {
+      start();
+    }
+  })();
+</script>
 
 
 
-window.setTimeout(()=>{
 
-  if (document.querySelector('#register-name-required-label')) {
-    document.querySelector('#register-name-required-label').previousElementSibling.textContent = 'Nom complet (Prénom + Nom)'
-  }
- 
-}, 500)
-
+<script>
 // Reset password feature
 var resetLink = setInterval(() => {
 
