@@ -77,6 +77,7 @@ _title = [
     "SIAE : Du projet à la demande de financement",
     "Travailler dans l'Economie Sociale et Solidaire",
     "Mixite 2025",
+    "L'IA décryptée",
     "Temps passé"
 ]
 
@@ -106,7 +107,8 @@ _id = [
     "course-v1:afpa+recyclage+2024",  # New 20/01/2025
     "course-v1:afpa+dreets+2024", # New 20/01/2025
     "course-v1:afpa+ess+2024", # New 20/01/2025
-    "course-v1:afpa+mixite+mixite-2025"
+    "course-v1:afpa+mixite+mixite-2025",
+    "course-v1:afpa+IA+2026" # New 08/10/2026
 ]
 
 # blacklist
@@ -136,7 +138,8 @@ prunable_courses_indexes = [
     #33#"course-v1:afpa+recyclage+2024",  # New 20/01/2025
     #34#"course-v1:afpa+dreets+2024", # New 20/01/2025
     #35#"course-v1:afpa+ess+2024", # New 20/01/2025
-    #36#"course-v1:afpa+mixite+mixite-2025" 
+    #36#"course-v1:afpa+mixite+mixite-2025", 
+    #37#"course-v1:afpa+IA+2026" # New 08/10/2026
 ]
 
 
