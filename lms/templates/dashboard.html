@@ -33,47 +33,11 @@ from common.djangoapps.student.models import CourseEnrollment
 %>
 
 
-<%
-custom_fields_dict = json.loads(user.profile.custom_field)
-user_profession = custom_fields_dict.get('profession', '')
-profession_evaluation_approfondie = [
-  "Médecin",
-  "medecin",
-  "Pharmacien",
-  "pharmacien",
-  "Audioprothésiste",
-  "Opticien-Lunetier",
-  "Assistant médical",
-  "Chirurgien-Dentiste",
-  "Sage-Femme",
-  "Infirmier / IPA / Cadre des santé",
-  "infirmier",
-  "Masseur-Kinésithérapeute",
-  "Pédicure-Podologue",
-  "Technicien orthophoniste",
-  "Orthophoniste",
-  "Orthoptiste",
-  "Psychologue",
-  "Ergothérapeute",
-  "Diététicien",
-  "Psychomotricien",
-  "Manipulateur ERM",
-  "Coordonnateur de MSP/CPTS"
-]
 
 
-courses_list = ["course-v1:icope+e1+2026","course-v1:icope+soins_bucco_dentaires+2024","course-v1:icope+Occitanie+2022"]
-user_is_pro = False
-if user_profession in profession_evaluation_approfondie :
-  courses_list = ["course-v1:icope+e1+2026","course-v1:icope+gda+2026","course-v1:icope+ea+2026","course-v1:icope+soins_bucco_dentaires+2024","course-v1:icope+Occitanie+2022"]
-  user_is_pro = True
-
-
-display_form = False
-if not all([user_profession, user.is_authenticated])  :
-  display_form = True
-%>
-
+<script>
+  window.location.replace('/courses/course-v1:icope_en+1+2026/course/');
+</script>
 
 
 <%block name="pagetitle">${_("Dashboard")}</%block>
@@ -295,50 +259,6 @@ if not all([user_profession, user.is_authenticated])  :
 
   }
 
-  /* Form */
-  .content-wrapper {
-    min-height: calc(100vh - 317px);
-    overflow: hidden;
-  }
-  #customFieldsForm {
-    display: flex;
-    flex-direction: column;
-  }
-  #customFieldsForm #indication {
-    font-weight: bold;
-    margin: 20px 0 40px;
-  }
-  #customFieldsForm select {
-    width: 350px;
-  }
-  #customFieldsForm, #customFieldsForm button {
-    margin: 30px 10px;
-    text-shadow: none;
-    background-image: none;
-    border: none;
-  }
-  .required_field {
-    color: red;
-  }
-  #customFieldsForm button {
-    box-shadow: #B4D1E9 -12px 10px 1px;
-    padding: 15px 30px;
-    margin: 80px 10px 30px;
-    width: 25%;
-    align-self: center;
-    will-change: transform;
-    transition: transform 350ms;
-  }
-  #customFieldsForm button:hover {
-    background-color: var(--secondary);
-    background-image: none;
-    text-decoration: none !important;
-    box-shadow: none ; 
-    transform: translateY(4px);
-  }
-  #customFieldsForm p {
-    margin: 10px 6px;
-  }
 
   /* Vignette */
   #my-courses {
@@ -503,50 +423,6 @@ if not all([user_profession, user.is_authenticated])  :
 </div>
 
 
-% if display_form :
-
-<form id="customFieldsForm">
-
-  <p id="indication">Thank you for providing your profession so we can suggest the most suitable learning paths for you. </p>
-  <label for="profession">Profession : <span class="required_field">*</span></label>
-  <select id="profession" name="profession">
-    <option value="" selected></option>
-    <option value="medecin">Doctor</option>
-    <option value="pharmacien">Pharmacist</option>
-    <option value="Audioprothésiste">Hearing Aid Specialist</option>
-    <option value="Opticien-Lunetier">Optician-Optometrist</option>
-    <option value="Assistant médical">Medical Assistant</option>
-    <option value="Assistant dentaire">Dental Assistant</option>
-    <option value="Aide-soignant">Nursing Assistant</option>
-    <option value="Ambulancier">Paramedic</option>
-    <option value="Preparateur_en_pharmacie">Pharmacy Technician</option>
-    <option value="Chirurgien-Dentiste">Dentist</option>
-    <option value="Sage-Femme">Midwife</option>
-    <option value="Infirmier">Nurse / Advanced Practice Nurse / Nurse Manager</option>
-    <option value="Masseur-Kinésithérapeute">Physiotherapist</option>
-    <option value="Pédicure-Podologue">Podiatrist</option>
-    <option value="Technicien de laboratoire">Laboratory Technician</option>
-    <option value="Technicien orthophoniste">Speech Therapy Technician</option>
-    <option value="Orthophoniste">Speech-Language Pathologist</option>
-    <option value="Orthoptiste">Orthoptist</option>
-    <option value="Psychologue">Psychologist</option>
-    <option value="Ergothérapeute">Occupational Therapist</option>
-    <option value="Diététicien">Dietitian</option>
-    <option value="Psychomotricien">Psychomotor Therapist</option>
-    <option value="Manipulateur ERM">Radiologic Technologist</option>
-    <option value="Auxiliaire_de_vie_sociale">Social Care Worker / Home Care Assistant</option>
-    <option value="Travailleur_social">Social Worker</option>
-    <option value="ARC-Chef de projet-Chargé de mission">Clinical Research Associate / Project Manager / Program Officer</option>
-    <option value="Educateur d'activité physique adaptée">Adapted Physical Activity Instructor</option>
-    <option value="Autre (précisez)">Other (please specify)</option>
-  </select>
-  <br>
-  <p><span class="required_field">*</span> required field</p>
-  <button type="submit">Submit</button>
-
-</form>
-
-%else :
 
 <main id="main" aria-label="Content" tabindex="-1">
     <div class="dashboard" id="dashboard-main">
@@ -742,7 +618,6 @@ if not all([user_profession, user.is_authenticated])  :
     <img class="background-feuille" src="${static.url('icope/images/feuille_10.png')}" alt="feuille bleue background">
 
   </main>
-%endif
 
 
 
@@ -812,34 +687,3 @@ if not all([user_profession, user.is_authenticated])  :
 <%include file="dashboard/_dashboard_entitlement_unenrollment_modal.html"/>
 
 
-
-<script>
-  const form = document.getElementById("customFieldsForm");
-
-  form.addEventListener("submit", function(event) {
-    event.preventDefault();
-
-    const profession = document.getElementById("profession").value;
-
-    const customFields = {
-      profession: profession,
-      authorized: true,
-    };
-
-    const url = '/wul_apps/custom_field_editor/';
-    const data = JSON.stringify(customFields);
-    const settings = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRFToken": $.cookie('csrftoken'),
-      },
-      body: data
-    };
-
-    fetch(url, settings)
-    .then(() => window.location.reload())
-    .catch((error) => console.error('Error:', error));
-
-  });
-</script>
