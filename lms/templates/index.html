@@ -516,3 +516,13 @@ from openedx.core.djangolib.markup import HTML, Text
 </script>
 % endif
 
+
+<script>
+  const interval = setInterval(() => {
+    const button = document.querySelector('nav.nav-links a.sign-in-btn');
+    if (button) {
+      button.href = '/login?course_id=course-v1%3Asncf-voyageurs%2BDM1%2B2026&enrollment_action=enroll';
+      clearInterval(interval);
+    }
+  }, 200);
+</srcipt>
