@@ -77,6 +77,10 @@ if user_profession in profession_evaluation_approfondie :
   user_is_pro = True
 
 
+courses_list = ["course-v1:icope+e1+2026","course-v1:icope+gda+2026","course-v1:icope+ea+2026","course-v1:icope+soins_bucco_dentaires+2024"]
+user_is_pro = True
+
+
 display_form = False
 if not all([user_profession, user.is_authenticated])  :
   display_form = True
@@ -584,12 +588,6 @@ if not all([user_profession, user.is_authenticated])  :
 
             % for dashboard_index, enrollment in enumerate(course_entitlements + course_enrollments):
 
-
-              %if str(enrollment.course_id) == "course-v1:icope+Occitanie+2022" :
-                <script>
-                  alert("Attention, la plateforme ICOPE monitor a récemment été mise à jour, l’ancien parcours ICOPE (Formation Icope) sera fermé au 30 septembre 2026");
-                </script>
-              %endif
 
               %if str(enrollment.course_id) not in courses_list and "course-v1:icope+Occitanie+2022" not in enumerate(course_entitlements + course_enrollments) :
                 <script>
