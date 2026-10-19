@@ -12,7 +12,7 @@ from openedx.core.djangolib.markup import HTML, Text
 with open(settings.REPO_ROOT / "/edx/app/edxapp/edx-themes/icope/lms/templates/homepage_trads.json", "r", encoding="utf-8") as f:
   texts = json.load(f)
 
-current_lang = LANGUAGE_CODE[:2] if LANGUAGE_CODE else "fr"
+current_lang = "fr"
 lang_texts = texts.get(current_lang, texts.get("fr", {}))
 %>
 

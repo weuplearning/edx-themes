@@ -76,6 +76,11 @@ for course_id in course_ids:
             detailled_time_tracking = {}
 
 
+        if daily_time_tracking == {} :
+            log.info('empty TT')
+            continue
+
+
         user_id = str(user.id)
 
         if user_id not in all_users_data:
