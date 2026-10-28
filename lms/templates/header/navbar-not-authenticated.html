@@ -61,12 +61,12 @@ lang_texts = texts.get(current_lang, texts.get("fr", {}))
     <div>
       % if allows_login:
         <div class="mobile-nav-item hidden-mobile nav-item">
-          <a class="sign-in-btn btn" href="/login?course_id=course-v1%3Aestia%2B01%2B2025&enrollment_action=enroll">${lang_texts.get("header_login_button", "")}</a>
+          <a class="sign-in-btn btn" href="/login?course_id=${lang_texts.get("course_id", "course-v1%3Aestia%2B01%2B2025")}&enrollment_action=enroll">${lang_texts.get("header_login_button", "")}</a>
           <!-- <a class="sign-in-btn btn" href="/login${login_query()}">${_("Sign in")}</a> -->
         </div>
         % if allow_public_account_creation:
           <div class="mobile-nav-item hidden-mobile nav-item">
-            <a class="register-btn btn" href="/register?course_id=course-v1%3Aestia%2B01%2B2025&enrollment_action=enroll">${lang_texts.get("header_register_button", "")}</a>
+            <a class="register-btn btn" href="/register?course_id=${lang_texts.get("course_id", "course-v1%3Aestia%2B01%2B2025")}&enrollment_action=enroll">${lang_texts.get("header_register_button", "")}</a>
           </div>
         % endif
       % endif
