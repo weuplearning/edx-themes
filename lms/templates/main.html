@@ -280,22 +280,25 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
   <script type="text/javascript" src="${static.url('js/src/jquery_extend_patch.js')}"></script>
 
   <script>
-    if(location.href.includes("discussion/forum") === true){
-    var goBackBtn = $("<a style='margin-right:1em'class='btn btn-outline-secondary btn-small new-post-btn' href='/courses/course-v1:estia+01+2025/course/'>Revenir au cours</a>");
-    $('.forum-actions .new-post-btn').before(goBackBtn);
+  if(location.href.includes("discussion/forum") === true){
 
+    var lang = "${LANGUAGE_CODE}"
+    var goBackBtn = $("<a style='margin-right:1em'class='btn btn-outline-secondary btn-small new-post-btn' href='/courses/course-v1:estia+en+2026/course/'>Go back to course</a>");
+
+    if (lang == 'fr') {
+      goBackBtn = $("<a style='margin-right:1em'class='btn btn-outline-secondary btn-small new-post-btn' href='/courses/course-v1:estia+01+2025/course/'>Revenir au cours</a>");
     }
 
+    $('.forum-actions .new-post-btn').before(goBackBtn);
+  }
 
-    $(document).ready(function() {
+  $(document).ready(function() {
     $('a').each(function() {
       if ($(this).text().trim() === 'Discussion') {
         $(this).text('Forum');
       }
     });
   });
-
-
   </script>
 
 </body>
