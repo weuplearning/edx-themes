@@ -98,7 +98,7 @@ lang_texts = texts.get(current_lang, texts.get("fr", {}))
         </div>
 
         <div class="horizontal-align">
-            <a href="/register?course_id=course-v1%3Aestia%2B01%2B2025&enrollment_action=enroll" class="register-button">
+            <a href="/register?course_id=${lang_texts.get("course_id", "course-v1%3Aestia%2B01%2B2025")}&enrollment_action=enroll" class="register-button">
                 ${lang_texts.get("register_button", "")}
             </a>
         </div>
