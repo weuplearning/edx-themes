@@ -42,8 +42,16 @@ def url_class(is_active):
       Mur collaboratif
     </a>
   </li>
+% if LANGUAGE_CODE == 'fr':
   <li class="tab">
     <a href="/blog" class="${tab_class}">
       Équipe pédagogique
     </a>
   </li>
+% else :
+  <li class="tab">
+    <a href="/honor" class="${tab_class}">
+      Teaching Staff
+    </a>
+  </li>
+% endif

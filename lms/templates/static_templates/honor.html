@@ -1,0 +1,108 @@
+<%page expression_filter="h"/>
+<%! from django.utils.translation import ugettext as _ %>
+<%inherit file="../main.html" />
+
+<%block name="pagetitle">${_("Honor")}</%block>
+
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="container about">
+
+        <div class="redirect-btn">
+            <a class="btn btn-secondary action-resume-course" href="/courses/course-v1:estia+en+2026/course/">
+                <span data-action-type="resume">Back to Course</span>
+            </a>
+        </div>
+
+        <p style="font-size: 18px;margin:80px auto;text-align: center;">Thank you to all the lecturers at ESTIA who have contributed to the development of this MOOC.</p>
+
+        <div class="flex-responsive" >
+            <div style="flex: 0 0 auto;">
+                <img src="https://becomingcircular.estia.fr/asset-v1:estia+01+2025+type@asset+block@Jeremy_Legardeur.png" alt="portrait de Jérémy LEGARDEUR" />
+            </div>
+            <div style="flex: 1;">
+                <p style="color: #1a171c; font-size: 18px;"><strong style="color: #2bb6b7;">Jérémy LEGARDEUR</strong><br>Jérémy Legardeur is a professor at the ESTIA engineering school. <br>He graduated with a Master’s degree in Mechanical Engineering from Montpellier in 1997, obtained a DEA (postgraduate diploma) in Grenoble in 1998, and was awarded a PhD in Industrial Engineering from the Institut National Polytechnique de Grenoble in 2001.<br>Since then, adopting a socio-technical approach based on action research within companies, he has focused on the field of innovative design, particularly with a view to promoting the circular economy. Since 2017, he has been the scientific director of the BALI Chair (in partnership with Decathlon, ERAM, Petit Bateau, Gebetex, Belharra, etc.) on circularity in the textile sector.<br>Since 2023, he has also been the scientific director of the ‘Circularity for a Desirable Future’ Chair in the luxury sector.<br>He acts as an expert for the ANR, the ANRT, the European Commission and the European Parliament, having submitted and presented a report in 2024 on the Digital Product Passport for the textile sector.<br>He regularly works as a coach and speaker in companies and was also the founder, in 2007, of the international event ‘Les 24h de l’innovation®’ (<a href='https://24h.estia.fr' target='_blank'>www.24h.estia.fr</a>), of which more than 110 editions have been organised across five different continents.</p>
+            </div>
+        </div>
+
+
+        <div class="flex-responsive" >
+            <div style="flex: 0 0 auto;">
+                <img src="https://becomingcircular.estia.fr/asset-v1:estia+01+2025+type@asset+block@LIZARRALDE_Iban.jpg" alt="portrait de Iban LIZARRALDE" />
+            </div>
+            <div style="flex: 1;">
+                <p style="color: #1a171c; font-size: 18px;"><strong style="color: #2bb6b7;">Iban LIZARRALDE </strong>
+                <br>Iban Lizarralde holds a PhD in Industrial Systems.<br>Before joining ESTIA, he worked for six years at Airbus Toulouse in the field of complex project management, the subject on which he completed his PhD thesis (CNRS-LAAS) as part of Airbus’s design engineering activities. He has also worked in Spain, Germany and Latin America on systems engineering projects for the design of complex products and services. <br>He is currently conducting research in the fields of eco-design and the circular economy, utilising systems-based approaches. His research focuses in particular on the development of innovative tools and methods aimed at optimising the design processes of technical systems, particularly in the energy sector. <br>He has supervised five PhD theses, the most recent of which he supervised as principal supervisor, following the award of his Authorisation to Supervise a PhD Thesis (ADT) at the University of Bordeaux.</p>
+            </div>
+        </div>
+
+        <div  class="flex-responsive" >
+            <div style="flex: 0 0 auto;"><img src="https://becomingcircular.estia.fr/asset-v1:estia+01+2025+type@asset+block@HAMWI_Michael.jpg" alt="portrait de Michael HAMWI" /></div>
+            <div style="flex: 1;">
+                <p style="color: #1a171c; font-size: 18px;"><strong style="color: #2bb6b7;">Michael HAMWI</strong>
+                <br>With a background in economics, Michael Hamwi gained valuable experience in sustainable development during his five years at Henkel. <br>This passion for sustainability was further developed through a Master’s degree in eco-innovation management, followed by a dissertation on economic models and energy flexibility in the context of the energy transition. <br>As a lecturer and researcher at ESTIA, he is currently working on research topics related to circular economy tools, environmental behaviour and the transformation of economic models.</p>
+            </div>
+        </div>
+
+        <div  class="flex-responsive" >
+            <div style="flex: 0 0 auto;"><img src="https://becomingcircular.estia.fr/asset-v1:estia+01+2025+type@asset+block@GELIZE_Maïalen.jpg" alt="portrait de Maïalen GELIZE" /></div>
+            <div style="flex: 1;">
+                <p style="color: #1a171c; font-size: 18px;"><strong style="color: #2bb6b7;">Maïalen GELIZE</strong>
+                <br>Maïalen Gelize is a lecturer and researcher in management sciences, holding the MCF CNU06 qualification. Her work falls within the field of organisational governance and strategy. Her PhD thesis focused on project management and the consideration of complexity according to Edgar Morin. <br>Her current research focuses on organisational collectives, action research and organisational learning. <br>She also teaches courses on project management, the history and evolution of management, and management practices.</p>
+            </div>
+        </div>
+<!--
+        <div  class="flex-responsive" >
+            <div style="flex: 0 0 auto;"><img src="https://becomingcircular.estia.fr/asset-v1:estia+01+2025+type@asset+block@Natalia_VECHIU.jpg" alt="portrait de Natalia VECHIU" /></div>
+            <div style="flex: 1;">
+                <p style="color: #1a171c; font-size: 18px;"><strong style="color: #2bb6b7;">Natalia VECHIU</strong>
+                <br>Forte d’une expérience de 20 ans dans l’enseignement et la recherche, Natalia Vechiu a rejoint l’ESTIA en 2024, après plus de dix ans dans la fonction publique, en tant qu’enseignant-chercheur à l’UPPA, puis maître de conférences à l’Université d’Aix Marseille. Elle a développé un profil pluridisciplinaire riche et solide, alliant économie, gestion de la supply chain et durabilité. <br>Son intérêt pour l’organisation des supply chains au niveau international, en particulier via les investissements directs étrangers et les flux commerciaux, et les enjeux essentiels de la transition socio-écologique l’ont amenée à focaliser ses recherches sur les liens entre ces flux, les infrastructures qui les soutiennent, l’environnement et les politiques publiques environnementales.</p>
+            </div>
+        </div>
+-->
+    </section>
+</main>
+
+<style>
+    section {
+        margin: 40px auto !important;
+        max-width: 1000px !important;
+        width: 80% !important;
+        margin-bottom: 30px !important;
+    }
+    p {
+        line-height: 1.6em;
+        text-align: justify;
+    }
+
+    .redirect-btn {
+        position: relative;
+    }
+    .redirect-btn a {
+        position: absolute;
+        right: 0;
+        padding: 10px 20px;
+        background-color: #2bb6b7;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+    .flex-responsive {
+        display: flex;
+        align-items: top;
+        gap: 20px;
+        font-family: 'Open sans', serif;
+        margin-bottom: 20px;
+    }
+    .flex-responsive img {
+        width: 160px;
+        height: auto;
+        border-radius: 8px;
+    }
+
+    @media screen and (max-width: 700px) {
+        .flex-responsive {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+</style>
