@@ -140,6 +140,25 @@
     
     var updateRegisterForm = setInterval(() => {
 
+        // Fullname field
+        if (window.location.pathname.indexOf('/login') == -1) {
+            document.getElementsByClassName("label-text")[0].innerHTML = "Prénom / Nom";
+        } else {
+            clearInterval(updateRegisterForm)
+        }
+
+        // fullname indication
+        if(document.getElementById("fullnameTextInfo") === null){
+            const usernameField = document.getElementsByClassName("form-field text-username")[0];
+            const registerFieldsParentNode = document.getElementsByClassName('required-fields')[0];
+            let stringInfoFullname = document.createElement('div');
+            stringInfoFullname.className = 'fullnameTextInfo';
+            stringInfoFullname.id = 'fullnameTextInfo';
+            let text = document.createTextNode('Ceci figurera sur toute attestation que vous obtiendrez.')
+            stringInfoFullname.appendChild(text);
+            registerFieldsParentNode.insertBefore(stringInfoFullname, usernameField);
+        }
+
         // username field
         if (window.location.pathname.indexOf('/login') == -1) {
             document.getElementsByClassName("label-text")[1].innerHTML = "Nom d'utilisateur public (pseudo)";
@@ -148,7 +167,7 @@
         }
 
 
-        // fullname indications
+        // username indications
         if(document.getElementById("usernameTextInfo") === null){
             const emailField = document.getElementsByClassName("form-field email-email")[0];
             const registerFieldsParentNode = document.getElementsByClassName('required-fields')[0];
