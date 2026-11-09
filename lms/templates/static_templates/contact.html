@@ -1,20 +1,40 @@
 <%page expression_filter="h"/>
 <%! from django.utils.translation import ugettext as _ %>
+<%!
+import json
+from django.conf import settings
+
+def get_lang_texts(request, language_code):
+    """Même logique que navbar-not-authenticated (Estia) :
+    ?lang=xx dans l'URL > LANGUAGE_CODE de la plateforme > 'fr'."""
+    with open(settings.REPO_ROOT / "/edx/app/edxapp/edx-themes/vinducentreloire/lms/templates/trads.json", "r", encoding="utf-8") as f:
+        texts = json.load(f)
+
+    requested_lang = request.GET.get("lang")
+    default_lang = language_code[:2] if language_code else "fr"
+    current_lang = requested_lang if requested_lang in texts else default_lang
+    return current_lang, texts.get(current_lang, texts.get("fr", {}))
+%>
 <%inherit file="../main.html" />
 
-<%block name="pagetitle">${_("Contact")}</%block>
+<%block name="pagetitle">${get_lang_texts(request, LANGUAGE_CODE)[1].get("contact_title", "")}</%block>
+
+<%
+current_lang, lang_texts = get_lang_texts(request, LANGUAGE_CODE)
+t = lang_texts.get
+%>
 
 <main id="main" aria-label="Content" tabindex="-1">
     <section class="container about">
         <h1>
-            Contact
+            ${t("contact_title", "")}
         </h1>
         <p>
 
-            BIVC - Bureau Interprofessionnel des Vins du Centre <br>
-            9, route de Chavignol - F-18300 Sancerre <br>
-            Tél. 02 48 78 51 07  <br>
-            Ce site respecte le droit d'auteur. Tous les droits des auteurs des œuvres protégées reproduites et communiquées sur ce site, sont réservés. Sauf autorisation, toute utilisation des œuvres autres que la reproduction et la consultation individuelles et privées sont interdites : www.sesam.org
+            ${t("bivc_name", "")} <br>
+            ${t("bivc_address", "")} <br>
+            ${t("bivc_phone", "")}  <br>
+            ${t("contact_copyright", "")}
 
 
         </p>

@@ -1,14 +1,31 @@
 ## mako
 <%page expression_filter="h"/>
 <%!
-  from django.urls import reverse
-  from django.utils.translation import ugettext as _
-  from lms.djangoapps.branding.api import get_footer
-  from openedx.core.djangoapps.lang_pref.api import footer_language_selector_is_enabled
+from django.urls import reverse
+from django.utils.translation import ugettext as _
+from lms.djangoapps.branding.api import get_footer
+from openedx.core.djangoapps.lang_pref.api import footer_language_selector_is_enabled
+import json
+from django.conf import settings
+
+def get_lang_texts(request, language_code):
+    """Même logique que navbar-not-authenticated (Estia) :
+    ?lang=xx dans l'URL > LANGUAGE_CODE de la plateforme > 'fr'."""
+    with open(settings.REPO_ROOT / "/edx/app/edxapp/edx-themes/vinducentreloire/lms/templates/trads.json", "r", encoding="utf-8") as f:
+        texts = json.load(f)
+
+    requested_lang = request.GET.get("lang") if hasattr(request, "GET") else None
+    default_lang = language_code[:2] if isinstance(language_code, str) and language_code else "fr"
+    current_lang = requested_lang if requested_lang in texts else default_lang
+    return current_lang, texts.get(current_lang, texts.get("fr", {}))
 %>
 <% footer = get_footer(is_secure=is_secure) %>
 <% icp_license_info = getattr(settings, 'ICP_LICENSE_INFO', {})%>
 <%namespace name='static' file='static_content.html'/>
+<%
+current_lang, lang_texts = get_lang_texts(request, LANGUAGE_CODE)
+t = lang_texts.get
+%>
 
 
 <style>
@@ -141,8 +158,8 @@
   <div class="container_footer_socials">
 
     <div class="input-container">
-      <div for="" class="container_footer_socials_email_label" >Pour suivre l’actualité des Vins du Centre-Loire, inscrivez-vous à la newsletter</div>
-      <input id="input-newsletter" class="container_footer_socials_email" type="text" placeholder="       Entrez votre mail">
+      <div for="" class="container_footer_socials_email_label" >${t("footer_newsletter_label", "")}</div>
+      <input id="input-newsletter" class="container_footer_socials_email" type="text" placeholder="       ${t("footer_newsletter_placeholder", "")}">
       <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>
 
       <!-- <button type="button" onclick="sendNewsletterEmail()" ><i class="fa fa-chevron-right"></i></button>
@@ -178,7 +195,7 @@
     </div>
 
     <a href="https://www.vins-centre-loire.com/fr/1/12/qui-sommes-nous.html" class="who-are-we">
-      Qui sommes-nous ?
+      ${t("footer_who_are_we", "")}
     </a>
 
   </div>
@@ -186,16 +203,16 @@
   <img class="container_footer_locations_image" src="${static.url('vinducentreloire/images/logo_footer.png')}" alt="vin centre et loire" id="vcl-logo"/>
 
   <div class="container_footer_links">
-    <a href="/tos" target="_blank">
-      <p class="container_footer_links_text">Conditions générales</p>
+    <a href="/tos?lang=${current_lang}" target="_blank">
+      <p class="container_footer_links_text">${t("footer_link_tos", "")}</p>
     </a>
     <p class="container_footer_links_text text_underscore">_</p>
-    <a href="/honor" target="_blank">
-      <p class="container_footer_links_text">Crédits</p>
+    <a href="/honor?lang=${current_lang}" target="_blank">
+      <p class="container_footer_links_text">${t("footer_link_credits", "")}</p>
     </a>
     <p class="container_footer_links_text text_underscore">_</p>
     <a href="https://www.vins-centre-loire.com/fr/1/3/contactez-nous.html" target="_blank">
-      <p class="container_footer_links_text">Contact</p>
+      <p class="container_footer_links_text">${t("footer_link_contact", "")}</p>
     </a>
   </div>
 </div>
@@ -315,7 +332,7 @@ inputElement.addEventListener('input', function() {
 
 <script>
 function goNewsletter() {
-  if (confirm("L'inscription n'est pas possible depuis cette page.\n\nVoulez-vous ouvrir la page officielle pour vous inscrire ?")) {
+  if (confirm(${json.dumps(t("footer_newsletter_confirm", ""), ensure_ascii=False) | n})) {
     window.open("https://www.vins-centre-loire.com/fr/", "_blank");
   }
 }

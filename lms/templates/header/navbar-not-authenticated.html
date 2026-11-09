@@ -15,6 +15,21 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
 from openedx.core.djangoapps.user_authn.utils import should_redirect_to_logistration_mircrofrontend
 %>
+<%!
+import json
+from django.conf import settings
+
+def get_lang_texts(request, language_code):
+    """Même logique que navbar-not-authenticated (Estia) :
+    ?lang=xx dans l'URL > LANGUAGE_CODE de la plateforme > 'fr'."""
+    with open(settings.REPO_ROOT / "/edx/app/edxapp/edx-themes/vinducentreloire/lms/templates/trads.json", "r", encoding="utf-8") as f:
+        texts = json.load(f)
+
+    requested_lang = request.GET.get("lang")
+    default_lang = language_code[:2] if language_code else "fr"
+    current_lang = requested_lang if requested_lang in texts else default_lang
+    return current_lang, texts.get(current_lang, texts.get("fr", {}))
+%>
 
 <%
   mktg_site_enabled = static.get_value('ENABLE_MKTG_SITE', settings.FEATURES.get('ENABLE_MKTG_SITE', False))
@@ -23,6 +38,10 @@ from openedx.core.djangoapps.user_authn.utils import should_redirect_to_logistra
   can_discover_courses = configuration_helpers.get_value('ENABLE_COURSE_DISCOVERY',settings.FEATURES.get('ENABLE_COURSE_DISCOVERY'))
   allow_public_account_creation = static.get_value('ALLOW_PUBLIC_ACCOUNT_CREATION', settings.FEATURES.get('ALLOW_PUBLIC_ACCOUNT_CREATION'))
   should_redirect_to_logistration_mfe = should_redirect_to_logistration_mircrofrontend()
+%>
+<%
+current_lang, lang_texts = get_lang_texts(request, LANGUAGE_CODE)
+t = lang_texts.get
 %>
 <nav class="nav-links" aria-label=${_("Supplemental Links")}>
   <div class="main">
@@ -50,8 +69,12 @@ from openedx.core.djangoapps.user_authn.utils import should_redirect_to_logistra
   <div class="secondary">
 
     <div class="container_lang">
-      <img class="container_lang_flag" src="${static.url('vinducentreloire/images/flag_uk.png')}" alt="lang_uk">
-      <img class="container_lang_flag" src="${static.url('vinducentreloire/images/flag_fr.png')}" alt="lang_fr">
+      <a class="container_lang_link${' active' if current_lang == 'en' else ''}" href="?lang=en" hreflang="en" lang="en" title="${t('nav_lang_en', '')}">
+        <img class="container_lang_flag" src="${static.url('vinducentreloire/images/flag_uk.png')}" alt="${t('nav_lang_en', '')}">
+      </a>
+      <a class="container_lang_link${' active' if current_lang == 'fr' else ''}" href="?lang=fr" hreflang="fr" lang="fr" title="${t('nav_lang_fr', '')}">
+        <img class="container_lang_flag" src="${static.url('vinducentreloire/images/flag_fr.png')}" alt="${t('nav_lang_fr', '')}">
+      </a>
       <!-- <img class="container_lang_tampon" src="${static.url('vinducentreloire/images/logo tampon.png')}" alt="tampon"> -->
     </div>
 
@@ -65,6 +88,16 @@ from openedx.core.djangoapps.user_authn.utils import should_redirect_to_logistra
     height: 100%;
   }
 
+
+  .container_lang_link{
+    display: flex;
+    opacity: 0.5;
+    transition: opacity 0.2s ease;
+  }
+  .container_lang_link.active,
+  .container_lang_link:hover{
+    opacity: 1;
+  }
 
   .container_lang{
     display: flex;

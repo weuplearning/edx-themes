@@ -8,6 +8,7 @@
 from django.urls import reverse
 from django.utils.translation import ugettext as _
 import waffle
+import json
 
 from lms.djangoapps.ccx.overrides import get_current_ccx
 from openedx.core.djangolib.markup import HTML, Text
@@ -65,6 +66,16 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         % else:
             <%include file="navbar-not-authenticated.html" args="online_help_token=online_help_token"/>
         % endif
+
+        <div class="language-flags">
+            <button type="button" class="flag-btn" data-lang="fr" title="Français">
+                <img src="${static.url('vinducentreloire/images/flag_fr.png')}" alt="Français">
+            </button>
+            <button type="button" class="flag-btn" data-lang="en" title="English">
+                <img src="${static.url('vinducentreloire/images/flag_uk.png')}" alt="English">
+            </button>
+        </div>
+
     </div>
     <div class="mobile-menu hidden" aria-label=${_("More Options")} role="menu" id="mobile-menu"></div>
 </header>
@@ -82,31 +93,100 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 
 
 
-% if header_language_selector_is_enabled():
-    <% languages = released_languages() %>
-    % if len(languages) > 1:
-        <form action="/i18n/setlang/" method="post" class="settings-language-form" id="language-settings-form">
-            <input type="hidden" id="csrf_token" name="csrfmiddlewaretoken" value="${csrf_token}">
-            % if user.is_authenticated:
-                <input title="preference api" type="hidden" class="url-endpoint" value="${reverse('preferences_api', kwargs={'username': user.username})}" data-user-is-authenticated="true">
-            % else:
-                <input title="session update url" type="hidden" class="url-endpoint" value="${reverse('session_language')}" data-user-is-authenticated="false">
-            % endif
-            <label><span class="sr">${_("Choose Language")}</span>
-            <select class="input select language-selector" id="settings-language-value" name="language">
-                % for language in languages:
-                    % if language[0] == LANGUAGE_CODE:
-                        <option value="${language[0]}" selected="selected">${language[1]}</option>
-                    % else:
-                        <option value="${language[0]}" >${language[1]}</option>
-                    % endif
-                % endfor
-            </select>
-            </label>
-        </form>
-    % endif
+<% languages = released_languages() %>
+% if len(languages) > 1:
+    <form action="/i18n/setlang/" method="post" class="settings-language-form" id="language-settings-form">
+        <input type="hidden" id="csrf_token" name="csrfmiddlewaretoken" value="${csrf_token}">
+        % if user.is_authenticated:
+            <input title="preference api" type="hidden" class="url-endpoint" value="${reverse('preferences_api', kwargs={'username': user.username})}" data-user-is-authenticated="true">
+        % else:
+            <input title="session update url" type="hidden" class="url-endpoint" value="${reverse('session_language')}" data-user-is-authenticated="false">
+        % endif
+        <label><span class="sr">${_("Choose Language")}</span>
+        <select class="input select language-selector" id="settings-language-value" name="language">
+            % for language in languages:
+                % if language[0] == LANGUAGE_CODE:
+                    <option value="${language[0]}" selected="selected">${language[1]}</option>
+                % else:
+                    <option value="${language[0]}" >${language[1]}</option>
+                % endif
+            % endfor
+        </select>
+        </label>
+    </form>
 % endif
 
+
+
+<style>
+
+    /* drapeaux */
+    #avatar {
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+    }
+    .language-flags {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        margin: 25px 35px 0 0;
+        float: right;
+    }
+    .flag-btn {
+        border: none;
+        background: none;
+        box-shadow: none;
+        cursor: pointer;
+        padding: 0;
+        transition: transform 0.2s ease;
+    }
+    .flag-btn img {
+        width: 36px;
+        border-radius: 4px;
+        margin: 0 5px;
+        padding: 2px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    .flag-btn.active img {
+        transform: translateY(0) scale(1.05);
+        box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+    }
+    button.flag-btn:hover {
+        border-color: #e0e0e0;
+        transform: translateY(-2px);
+        background-color: unset;
+        background-image: unset;
+    }
+    .flag-btn:not(.active) img {
+        opacity: 0.7;
+    }
+    .flag-btn:not(.active):hover img {
+        opacity: 1;
+    }
+    
+
+    .account-header-div {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+
+    #language-settings-form, .help-link {
+        display: none !important;
+    }
+
+    .global-header .header-logo a .logo {
+        height: 60px !important;
+    }
+    
+    @media (max-width: 991.98px) {
+        .global-header .hamburger-menu {
+            left: 3px !important;
+        }
+    }
+</style>
 
 <style>
 
@@ -153,3 +233,44 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
   }
 
 </style>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const select = document.getElementById('settings-language-value');
+    const buttons = document.querySelectorAll('.flag-btn');
+
+    // Fonction utilitaire pour définir le cookie
+    function setLanguageCookie(lang) {
+        const days = 365;
+        const expires = new Date(Date.now() + days * 864e5).toUTCString();
+        document.cookie = 'openedx-language-preference='+lang+'; expires='+expires+'; path=/; Secure; SameSite=Lax';
+    }
+
+    buttons.forEach(btn => {
+        if (btn.dataset.lang === select.value) {
+            btn.classList.add('active');
+        }
+    });
+
+    buttons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const lang = this.dataset.lang;
+
+            select.value = lang;
+            setLanguageCookie(lang);
+
+            select.dispatchEvent(new Event('change'));
+
+            buttons.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+
+    select.addEventListener('change', function() {
+        const lang = this.value;
+        setLanguageCookie(lang);
+    });
+});
+</script>
+

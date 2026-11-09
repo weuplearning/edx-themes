@@ -7,6 +7,26 @@ from django.urls import reverse
 
 from openedx.core.djangolib.markup import HTML, Text
 %>
+<%!
+import json
+from django.conf import settings
+
+def get_lang_texts(request, language_code):
+    """Même logique que navbar-not-authenticated (Estia) :
+    ?lang=xx dans l'URL > LANGUAGE_CODE de la plateforme > 'fr'."""
+    with open(settings.REPO_ROOT / "/edx/app/edxapp/edx-themes/vinducentreloire/lms/templates/trads.json", "r", encoding="utf-8") as f:
+        texts = json.load(f)
+
+    requested_lang = request.GET.get("lang")
+    default_lang = language_code[:2] if language_code else "fr"
+    current_lang = requested_lang if requested_lang in texts else default_lang
+    return current_lang, texts.get(current_lang, texts.get("fr", {}))
+%>
+
+<%
+current_lang, lang_texts = get_lang_texts(request, LANGUAGE_CODE)
+t = lang_texts.get
+%>
 
 
 
@@ -487,8 +507,8 @@ from openedx.core.djangolib.markup import HTML, Text
         <div class="tooltip" style="top:69px;left:140px">
           <img src="${static.url('vinducentreloire/images/main.png')}" alt="logo main" />
           <div class="tooltip-text">
-            <span class="tooltip-title">LA MAIN</span>
-            <span class="tooltip-info">La transmission du savoir-faire</span>
+            <span class="tooltip-title">${t("home_tooltip_main_title", "")}</span>
+            <span class="tooltip-info">${t("home_tooltip_main_info", "")}</span>
           </div>
         </div>
       </div>
@@ -498,8 +518,8 @@ from openedx.core.djangolib.markup import HTML, Text
         <div class="tooltip" style="top:132px;left:122px;min-width:320px">
           <img src="${static.url('vinducentreloire/images/poisson.png')}" alt="">
           <div class="tooltip-text">
-            <span class="tooltip-title">le poisson </span>
-            <span class="tooltip-info">La fraîcheur, la vivacité</span>
+            <span class="tooltip-title">${t("home_tooltip_fish_title", "")}</span>
+            <span class="tooltip-info">${t("home_tooltip_fish_info", "")}</span>
           </div>
         </div>
       </div>
@@ -509,8 +529,8 @@ from openedx.core.djangolib.markup import HTML, Text
         <img class="detailled-image" src="${static.url('vinducentreloire/images/lune.png')}" alt="logo lune" id="detailled-logo-lune" />
         <div class="tooltip" style="top:230px;left:93px"><img src="${static.url('vinducentreloire/images/lune.png')}" alt="">
           <div class="tooltip-text">
-            <span class="tooltip-title">la lune</span>
-            <span class="tooltip-info">Le cycle de la nature </span>
+            <span class="tooltip-title">${t("home_tooltip_moon_title", "")}</span>
+            <span class="tooltip-info">${t("home_tooltip_moon_info", "")}</span>
           </div>
         </div>
       </div>
@@ -519,8 +539,8 @@ from openedx.core.djangolib.markup import HTML, Text
         <img class="detailled-image" src="${static.url('vinducentreloire/images/coeur.png')}" alt="logo coeur" id="detailled-logo-coeur" />
         <div class="tooltip" style="top:210px;left:132px"><img src="${static.url('vinducentreloire/images/coeur.png')}" alt="">
           <div class="tooltip-text">
-            <span class="tooltip-title">le coeur </span>
-            <span class="tooltip-info">L'esprit de famille</span>
+            <span class="tooltip-title">${t("home_tooltip_heart_title", "")}</span>
+            <span class="tooltip-info">${t("home_tooltip_heart_info", "")}</span>
           </div>
         </div>
       </div>
@@ -530,8 +550,8 @@ from openedx.core.djangolib.markup import HTML, Text
         <div class="tooltip" style="top:260px;left:203px;min-width:320px;">
           <img src="${static.url('vinducentreloire/images/coquillage.png')}" alt="">
           <div class="tooltip-text">
-            <span class="tooltip-title">l'ammonite</span>
-            <span class="tooltip-info">L'histoire des terroirs, la minéralité, la typicité et la limpidité des vins</span>
+            <span class="tooltip-title">${t("home_tooltip_ammonite_title", "")}</span>
+            <span class="tooltip-info">${t("home_tooltip_ammonite_info", "")}</span>
           </div>
         </div>
       </div>
@@ -540,8 +560,8 @@ from openedx.core.djangolib.markup import HTML, Text
         <img class="detailled-image" src="${static.url('vinducentreloire/images/bouteille_fonce.png')}" alt="logo bouteille_fonce" id="detailled-logo-bouteille_fonce" />
         <div class="tooltip" style="top:181px;left:225px"><img src="${static.url('vinducentreloire/images/bouteille_fonce.png')}" alt="">
           <div class="tooltip-text">
-            <span class="tooltip-title">la bouteille </span>
-            <span class="tooltip-info">Le caractère des vins</span>
+            <span class="tooltip-title">${t("home_tooltip_bottle_title", "")}</span>
+            <span class="tooltip-info">${t("home_tooltip_bottle_info", "")}</span>
           </div>
         </div>
       </div>
@@ -550,8 +570,8 @@ from openedx.core.djangolib.markup import HTML, Text
         <img class="detailled-image" src="${static.url('vinducentreloire/images/pattes.png')}" alt="logo pattes" id="detailled-logo-pattes" />
         <div class="tooltip" style="top:245px;left:260px"><img src="${static.url('vinducentreloire/images/pattes.png')}" alt="">
           <div class="tooltip-text">
-            <span class="tooltip-title">L'oiseau </span>
-            <span class="tooltip-info">La liberté, l'esprit sauvage</span>
+            <span class="tooltip-title">${t("home_tooltip_bird_title", "")}</span>
+            <span class="tooltip-info">${t("home_tooltip_bird_info", "")}</span>
           </div>
         </div>
       </div>
@@ -560,8 +580,8 @@ from openedx.core.djangolib.markup import HTML, Text
         <img class="detailled-image" src="${static.url('vinducentreloire/images/feuille.png')}" alt="logo feuille" id="detailled-logo-feuille" />
         <div class="tooltip" style="top:170px;left:280px"><img src="${static.url('vinducentreloire/images/feuille.png')}" alt="">
           <div class="tooltip-text">
-            <span class="tooltip-title">la feuille</span>
-            <span class="tooltip-info">La naturalité</span>
+            <span class="tooltip-title">${t("home_tooltip_leaf_title", "")}</span>
+            <span class="tooltip-info">${t("home_tooltip_leaf_info", "")}</span>
           </div>
         </div>
       </div>
@@ -571,8 +591,8 @@ from openedx.core.djangolib.markup import HTML, Text
         <img class="detailled-image" src="${static.url('vinducentreloire/images/raisin.png')}" alt="logo raisin" id="detailled-logo-raisin" />
         <div class="tooltip" style="top:100px;left:282px"><img src="${static.url('vinducentreloire/images/raisin.png')}" alt="">
           <div class="tooltip-text">
-            <span class="tooltip-title">Le raisin </span>
-            <span class="tooltip-info">La pureté des cépages</span>
+            <span class="tooltip-title">${t("home_tooltip_grape_title", "")}</span>
+            <span class="tooltip-info">${t("home_tooltip_grape_info", "")}</span>
           </div>
         </div>
       </div>
@@ -581,19 +601,19 @@ from openedx.core.djangolib.markup import HTML, Text
 
     </div>
     <h1 class="container_banner_title">
-      Vins du <br><span style="font-size: 60px;" >Centre-Loire</span> 
+      ${t("home_banner_title_1", "")} <br><span style="font-size: 60px;" >${t("home_banner_title_2", "")}</span> 
     </h1>
     <div class="container_banner__buttons">
       <div class="container_banner__buttons__button button_register">
         <a style="color: white" href="/register?next=%2F">
           <!-- <span class="container_banner__buttons__button__link"></span> -->
-          Inscription
+          ${t("home_register", "")}
         </a>
       </div>
       <div class="container_banner__buttons__button button_login">
         <a style="color: white" href="/login">
           <!-- <span class="container_banner__buttons__button__link"></span> -->
-          connexion
+          ${t("home_login", "")}
         </a>
       </div>
     </div>
@@ -601,27 +621,27 @@ from openedx.core.djangolib.markup import HTML, Text
 
   <div class="container_welcome">
     <h2 class="container_welcome_title">
-      Bienvenue sur le <span class="container_welcome__span">Mooc<br>vins du centre-loire</span>
+      ${t("home_welcome_title", "")} <span class="container_welcome__span">${t("home_welcome_mooc", "")}<br>${t("home_welcome_name", "")}</span>
     </h2>
     <img class="container_welcome__image" src="${static.url('vinducentreloire/images/vague.png')}" alt="vague" id="vague-logo"/>
     <h3 class="container_welcome_subtitle">
-      Présentation de <span class="container_welcome__span">l'expérience</span>
+      ${t("home_presentation_title", "")} <span class="container_welcome__span">${t("home_presentation_highlight", "")}</span>
     </h3>
   </div>
 
   <div class="container_introduction">
     <div class="container_introduction_bloc_left">
       <p class="container_introduction_bloc_left_paragraph">
-        Les vins du Centre-Loire vous invitent à partir à la rencontre de leur vignoble au travers d’une expérience ludique, dynamique et immersive : le MOOC Vins du Centre-Loire. 
+        ${t("home_intro_p1", "")}
       </p>
       <p class="container_introduction_bloc_left_paragraph">
-        Développé par le Bureau Interprofessionnel des Vins du Centre-Loire, ce MOOC a été imaginé et conçu comme un véritable outil pédagogique qui vous permettra d’acquérir de solides connaissances sur les vins du Centre-Loire. 
+        ${t("home_intro_p2", "")}
       </p>
       <p class="container_introduction_bloc_left_paragraph">
-        Avec le mitan de la Loire comme terrain de jeu, découvrez les valeurs fondatrices et les éléments qui façonnent l’identité des vins de notre vignoble au travers de 4 modules thématiques rythmés par de courtes vidéos interactives, des infographies, des interviews, des quizz…
+        ${t("home_intro_p3", "")}
       </p>
       <p class="container_introduction_bloc_left_paragraph">
-        Fraîcheur et convivialité vous accompagneront tout au long de ce programme qui s’annonce riche et complet ! 
+        ${t("home_intro_p4", "")}
       </p>
     </div>
     
@@ -633,96 +653,97 @@ from openedx.core.djangolib.markup import HTML, Text
 
   </div>
 
-  <h2 id="title-mooc-content" >Découvrir le contenu du MOOC</h2>
+  <h2 id="title-mooc-content" >${t("home_content_title", "")}</h2>
 
   <div class="container_carrousel swiper">
 
     <div class="container_carrousel_cards swiper-wrapper">
       <div class="container_carrousel_entry swiper-slide slide1">
         <img class="container_carrousel_image" src="${static.url('vinducentreloire/images/fbc403c079c14cb3acb90676ce65c7d8.png')}" alt="picto chapter 1"/>
-        <h2 class="container_carrousel_name">MODULE 1 : A LA RENCONTRE DES VINS DU CENTRE-LOIRE</h2>
+        <h2 class="container_carrousel_name">${t("home_module_1_title", "")}</h2>
         <ul class="container_carrousel_text">
-          <li>Situation géographique</li>
-          <li>Histoire géologique et terroirs</li>
-          <li>Les cépages du Centre-Loire</li>
-          <li>La famille des appellations du Centre-Loire</li>
+% for item in lang_texts.get("home_module_1_items", []):
+          <li>${item}</li>
+% endfor
         </ul>
-        <p class="container_carrousel_time">70 minutes</p>
+        <p class="container_carrousel_time">${t("home_module_1_duration", "")}</p>
       </div>
       <div class="container_carrousel_entry swiper-slide slide2">
         <img class="container_carrousel_image" src="${static.url('vinducentreloire/images/7e45b8a8c74e4441b364c25e7c64d913.png')}" alt="picto chapter 2"/>
-        <h2 class="container_carrousel_name">MODULE 2 : LE SAVOIR-FAIRE VIGNERON</h2>
+        <h2 class="container_carrousel_name">${t("home_module_2_title", "")}</h2>
         <ul class="container_carrousel_text">
-          <li>La vinification en Centre-Loire</li>
-          <li>La transmission du modèle d'artisan vigneron </li>
+% for item in lang_texts.get("home_module_2_items", []):
+          <li>${item}</li>
+% endfor
         </ul>
-        <p class="container_carrousel_time">50 minutes</p>
+        <p class="container_carrousel_time">${t("home_module_2_duration", "")}</p>
       </div>
       <div class="container_carrousel_entry swiper-slide slide3">
         <img class="container_carrousel_image" src="${static.url('vinducentreloire/images/fb2dd43b97d4492388c9223fb892512b.png')}" alt="picto chapter 3"/>
-        <h2 class="container_carrousel_name">MODULE 3 : DE LA CAVE A LA DÉGUSTATION</h2>
+        <h2 class="container_carrousel_name">${t("home_module_3_title", "")}</h2>
         <ul class="container_carrousel_text">
-          <li>Les vins du Centre-Loire : entre France et Export</li>
-          <li>Le savoir-faire autour d'un verre</li>
+% for item in lang_texts.get("home_module_3_items", []):
+          <li>${item}</li>
+% endfor
         </ul>
-        <p class="container_carrousel_time">50 minutes</p>
+        <p class="container_carrousel_time">${t("home_module_3_duration", "")}</p>
       </div>
       <div class="container_carrousel_entry swiper-slide slide2">
         <img class="container_carrousel_image" src="${static.url('vinducentreloire/images/c2027ff570fb4f10bbf24e61c2ca0453.png')}" alt="picto chapter 4"/>
-        <h2 class="container_carrousel_name">MODULE 4 : UN VIGNOBLE TOURNÉ VERS L’AVENIR</h2>
+        <h2 class="container_carrousel_name">${t("home_module_4_title", "")}</h2>
         <ul class="container_carrousel_text">
-          <li>L'engagement environnemental du vignoble du Centre-Loire</li>
-          <li>Le Plan de filière : Horizon 2030</li>
-          <li>La technique au service du vignoble</li>
+% for item in lang_texts.get("home_module_4_items", []):
+          <li>${item}</li>
+% endfor
         </ul>
-        <p class="container_carrousel_time">70 minutes</p>
+        <p class="container_carrousel_time">${t("home_module_4_duration", "")}</p>
       </div>
     </div>
 
   </div>
 
   <!-- <h3 id="info-duree-cours" >D’une durée totale de 4 heures, ce MOOC est gratuit et accessible à tous, en français et en anglais.</h3> -->
-  <h3 id="info-duree-cours" >D’une durée totale de 4 heures, ce MOOC est gratuit et accessible à tous.</h3>
+  <h3 id="info-duree-cours" >${t("home_duration", "")}</h3>
 
   <div class="container_register">
     <div class="container_register__buttons__register">
       <a style="color: white" href="/register?next=%2F">
         <!-- <span class="container_banner__buttons__button__link"></span> -->
-        S'inscrire au MOOC
+        ${t("home_register_mooc", "")}
       </a>
     </div>
   </div>
 
-  <h2 id="title-mooc-content" >MOOC, qu’est ce que c’est ?</h2>
+  <h2 id="title-mooc-content" >${t("home_mooc_title", "")}</h2>
 
   <div class="container_mooc">
     <div class="container_mooc_card">
       <div class="container_mooc_img">
         <img class="container_mooc_card_image_people" src="${static.url('vinducentreloire/images/Picto_people_1.png')}" alt="picto people"/>
       </div>
-      <h3 class="container_mooc_card_title">Massive</h3>
-      <p class="container_mooc_card_text">Nombre illimité d'apprenants, connectés au même moment, avec la possibilité d'échanger des idées en ligne.</p>
+      <h3 class="container_mooc_card_title">${t("home_mooc_massive_title", "")}</h3>
+      <p class="container_mooc_card_text">${t("home_mooc_massive_text", "")}</p>
     </div>
     <div class="container_mooc_card">
       <div class="container_mooc_img">
           <img class="container_mooc_card_image_cadenas" src="${static.url('vinducentreloire/images/Picto_cadena_1.png')}" alt="picto cadenas"/>
       </div>
-      <h3 class="container_mooc_card_title">Open</h3>
-      <p class="container_mooc_card_text">Accès ouvert aux ressources</p>
+      <h3 class="container_mooc_card_title">${t("home_mooc_open_title", "")}</h3>
+      <p class="container_mooc_card_text">${t("home_mooc_open_text", "")}</p>
     </div>
     <div class="container_mooc_card">
       <div>
         <img class="container_mooc_card_image_web" src="${static.url('vinducentreloire/images/Picto_web_1.png')}" alt="picto web"/>
       </div class="container_mooc_img">
-      <h3 class="container_mooc_card_title">Online</h3>
-      <p class="container_mooc_card_text">Disponible en ligne, partout, tout le temps</p>
+      <h3 class="container_mooc_card_title">${t("home_mooc_online_title", "")}</h3>
+      <p class="container_mooc_card_text">${t("home_mooc_online_text", "")}</p>
     </div>
     <div class="container_mooc_card">
       <div class="container_mooc_img">
         <img class="container_mooc_card_image_cours" src="${static.url('vinducentreloire/images/Picto_cours_1.png')}" alt="picto cours"/>
       </div>
-      <h3 class="container_mooc_card_title">Course</h3>
-      <p class="container_mooc_card_text">Un nouvel outil d'apprentissage pour obtenir une meilleure compréhesion des Vins du Centre-Loire</p>
+      <h3 class="container_mooc_card_title">${t("home_mooc_course_title", "")}</h3>
+      <p class="container_mooc_card_text">${t("home_mooc_course_text", "")}</p>
     </div>
 
   </div>
